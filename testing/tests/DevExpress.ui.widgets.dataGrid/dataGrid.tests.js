@@ -1193,10 +1193,10 @@ QUnit.test("Resize columns", function(assert) {
     // assert
     headersCols = $(".dx-datagrid-headers" + " col");
     rowsCols = $(".dx-datagrid-rowsview col");
-    assert.equal($(headersCols[1]).css("width"), "150px", "width of two column - headers view");
-    assert.equal($(headersCols[2]).css("width"), "50px", "width of three column - headers view");
-    assert.equal($(rowsCols[1]).css("width"), "150px", "width of two column - rows view");
-    assert.equal($(rowsCols[2]).css("width"), "50px", "width of three column - rows view");
+    assert.cellDimensionEqual($(headersCols[1]).css("width"), "150px", "width of two column - headers view");
+    assert.cellDimensionEqual($(headersCols[2]).css("width"), "50px", "width of three column - headers view");
+    assert.cellDimensionEqual($(rowsCols[1]).css("width"), "150px", "width of two column - rows view");
+    assert.cellDimensionEqual($(rowsCols[2]).css("width"), "50px", "width of three column - rows view");
 });
 
 // T571282
@@ -1557,7 +1557,7 @@ QUnit.test("Resize columns and move column to another position in virtual scroll
     for(var i = 0; i < colGroups.length; i++) {
         headersCols = colGroups.eq(i).find("col");
 
-        assert.strictEqual(headersCols[0].style.width, "80px");
+        assert.cellDimensionEqual(headersCols[0].style.width, "80px");
         assert.strictEqual(headersCols[1].style.width, "");
         assert.strictEqual(headersCols[2].style.width, "120px");
         assert.strictEqual(headersCols[3].style.width, "");
@@ -3515,8 +3515,8 @@ QUnit.test("columns width when all columns have width and scrolling mode is virt
     var $dataGridTables = $dataGrid.find(".dx-datagrid-table");
     // assert
     assert.equal($dataGridTables.length, 2);
-    assert.equal($dataGridTables.eq(0).find(".dx-row").first().find("td").last().outerWidth(), 700);
-    assert.equal($dataGridTables.eq(1).find(".dx-row").first().find("td").last().outerWidth(), 700);
+    assert.cellDimensionEqual($dataGridTables.eq(0).find(".dx-row").first().find("td").last().outerWidth(), 700);
+    assert.cellDimensionEqual($dataGridTables.eq(1).find(".dx-row").first().find("td").last().outerWidth(), 700);
 });
 
 // T422575, T411642
@@ -3567,9 +3567,9 @@ QUnit.test("column widths should be synchronized when scrolling mode is virtual 
     // assert
     assert.equal(contentReadyCallCount, 1);
     assert.equal($dataGridTables.length, 2);
-    assert.equal($dataGridTables.eq(0).find(".dx-row").first().find("td").eq(0).outerWidth(), $dataGridTables.eq(1).find(".dx-row").first().find("td").eq(0).outerWidth());
+    assert.cellDimensionEqual($dataGridTables.eq(0).find(".dx-row").first().find("td").eq(0).outerWidth(), $dataGridTables.eq(1).find(".dx-row").first().find("td").eq(0).outerWidth());
 
-    assert.equal($dataGridTables.eq(0).find(".dx-row").first().find("td").eq(1).outerWidth(), $dataGridTables.eq(1).find(".dx-row").first().find("td").eq(1).outerWidth());
+    assert.cellDimensionEqual($dataGridTables.eq(0).find(".dx-row").first().find("td").eq(1).outerWidth(), $dataGridTables.eq(1).find(".dx-row").first().find("td").eq(1).outerWidth());
 
     clock.restore();
 });
@@ -3607,7 +3607,7 @@ QUnit.test("columns width when all columns have width and scrolling mode is virt
 
     // assert
     assert.equal($dataGridTables.length, 2);
-    assert.equal($dataGridTables.eq(0).find(".dx-row").first().find("td").last().outerWidth(), 100);
+    assert.cellDimensionEqual($dataGridTables.eq(0).find(".dx-row").first().find("td").last().outerWidth(), 100);
     assert.equal($dataGridTables.eq(1).find(".dx-data-row").first().find("td").last().outerWidth(), 100);
 });
 
@@ -3633,7 +3633,7 @@ QUnit.test("columns width when all columns have width and dataGrid width auto", 
 
     // assert
     assert.equal($dataGrid.width(), 200);
-    assert.equal($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50);
+    assert.cellDimensionEqual($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50);
 
     // act
     $("#container").width(100);
@@ -3689,8 +3689,8 @@ QUnit.test("last column with disabled allowResizing should not change width if a
     });
 
     // assert
-    assert.equal($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50, "last column have correct width");
-    assert.equal($dataGrid.find(".dx-row").first().find("td").last().prev().outerWidth(), 250, "previuos last column have correct width");
+    assert.cellDimensionEqual($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50, "last column have correct width");
+    assert.cellDimensionEqual($dataGrid.find(".dx-row").first().find("td").last().prev().outerWidth(), 250, "previuos last column have correct width");
 });
 
 // T643192
@@ -3709,7 +3709,7 @@ QUnit.test("fixed column should have correct width if all columns with disabled 
     // assert
     var $firstRow = $dataGrid.dxDataGrid("instance").getRowElement(0);
     assert.equal($dataGrid.outerWidth(), 150, "grid width");
-    assert.equal($($firstRow[0]).children().first().outerWidth(), 50, "first cell in main table have correct width");
+    assert.cellDimensionEqual($($firstRow[0]).children().first().outerWidth(), 50, "first cell in main table have correct width");
     assert.equal($($firstRow[1]).children().first().outerWidth(), 50, "first cell in fixed table have correct width");
 });
 
@@ -3759,7 +3759,7 @@ QUnit.test("columns width when all columns have width and dataGrid width auto an
 
     // assert
     assert.equal($dataGrid.width(), 202);
-    assert.equal($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50);
+    assert.cellDimensionEqual($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50);
 });
 
 // T154611
@@ -3779,7 +3779,7 @@ QUnit.test("max-width style property must be work for grid", function(assert) {
 
     // assert
     assert.equal($dataGrid.width(), 200);
-    assert.equal($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50);
+    assert.cellDimensionEqual($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 50);
 
     // act
     $("#container").width(100);
@@ -3827,7 +3827,7 @@ QUnit.test("columns width when all columns have width, one column width in perce
 
     // assert
     assert.equal($dataGrid.width(), 400);
-    assert.equal($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 200);
+    assert.cellDimensionEqual($dataGrid.find(".dx-row").first().find("td").last().outerWidth(), 200);
 
     // act
     $("#container").width(200);
@@ -9862,8 +9862,8 @@ QUnit.test("Check table params without columnWidth auto", function(assert) {
 
     var cells = $("#dataGrid").find(".dx-datagrid-headers").find("td");
 
-    assert.strictEqual($(cells[0]).outerWidth(), 175, "valid cell width");
-    assert.strictEqual($(cells[1]).outerWidth(), 175, "valid cell width");
+    assert.cellDimensionEqual($(cells[0]).outerWidth(), 175, "valid cell width");
+    assert.cellDimensionEqual($(cells[1]).outerWidth(), 175, "valid cell width");
 });
 
 QUnit.test("Check table params with columnWidth auto", function(assert) {
@@ -9972,8 +9972,8 @@ QUnit.test("Check table params with set width", function(assert) {
         columnAutoWidth: true
     });
 
-    assert.strictEqual($($("#dataGrid").find(".dx-datagrid-headers").find("td")[0]).outerWidth(), 120, "valid cell width");
-    assert.strictEqual($($("#dataGrid").find(".dx-datagrid-headers").find("td")[1]).outerWidth(), 230, "valid cell width");
+    assert.cellDimensionEqual($($("#dataGrid").find(".dx-datagrid-headers").find("td")[0]).outerWidth(), 120, "valid cell width");
+    assert.cellDimensionEqual($($("#dataGrid").find(".dx-datagrid-headers").find("td")[1]).outerWidth(), 230, "valid cell width");
 });
 
 // T113233
@@ -9992,7 +9992,7 @@ QUnit.test("Check cell width paddings", function(assert) {
         columnAutoWidth: true
     });
     var $cells = $("#dataGrid").find(".dx-datagrid-headers").find("td");
-    assert.strictEqual($cells.eq(0).outerWidth(), 400, "valid cell width");
+    assert.cellDimensionEqual($cells.eq(0).outerWidth(), 400, "valid cell width");
 
     var emptyCellWidth = $cells.eq(1).outerWidth();
     assert.ok(emptyCellWidth >= 7 && emptyCellWidth < 20, "empty cell width with paddings");

@@ -1120,7 +1120,7 @@ QUnit.test("Resize column when hidden columns are located in the middle ", funct
     assert.equal($cols.get(0).style.width, "160px", "1 column width");
     assert.ok(checkAdaptiveWidth($cols.get(1).style.width), "2 column width");
     assert.ok(checkAdaptiveWidth($cols.get(2).style.width), "3 column width");
-    assert.equal($cols.get(3).style.width, "40px", "4 column width");
+    assert.cellDimensionEqual($cols.get(3).style.width, "40px", "4 column width");
 });
 
 QUnit.test("Export a hidden columns with bestFitWidth option", function(assert) {

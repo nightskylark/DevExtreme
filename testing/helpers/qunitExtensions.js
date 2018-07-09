@@ -24,6 +24,26 @@
         });
     };
 
+    // NOTE: Allows a discrepancy in cell sizes up to 1 pixel in IE for jQuery considering the issue https://github.com/jquery/jquery/issues/4044
+    var IE_REGEX = /Trident.*rv\:11\./;
+    var ISSUE_EPSILON = 1.1;
+    QUnit.assert.cellDimensionRoughEqual = function(actual, expected, epsilon, message) {
+        if(!QUnit.urlParams["nojquery"] && window.navigator.userAgent.match(IE_REGEX)) {
+            QUnit.assert.roughEqual(parseInt(actual), parseInt(expected), ISSUE_EPSILON + epsilon, message);
+            return;
+        }
+
+        if(epsilon) {
+            QUnit.assert.roughEqual.apply(this, arguments);
+        } else {
+            QUnit.assert.equal(actual, expected, message);
+        }
+    };
+
+    QUnit.assert.cellDimensionEqual = function(actual, expected, message) {
+        QUnit.assert.cellDimensionRoughEqual(actual, expected, 0, message);
+    };
+
     QUnit.assert.assertPerformance = function(action, limit) {
         var start = new Date();
         action();

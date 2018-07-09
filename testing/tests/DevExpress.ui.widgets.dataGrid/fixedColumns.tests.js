@@ -1191,9 +1191,9 @@ QUnit.test("Synchronize rows for fixed table with master detail", function(asser
 
     assert.equal($table.find("tbody > tr").length, 4, "count rows");
     assert.equal($fixTable.find("tbody > tr").length, 4, "count fixed rows");
-    assert.ok($table.find("tbody > tr").first().outerHeight() === $fixTable.find("tbody > tr").first().outerHeight(), "height first row");
+    assert.cellDimensionEqual($table.find("tbody > tr").first().outerHeight(), $fixTable.find("tbody > tr").first().outerHeight(), "height first row");
     assert.ok($table.find("tbody > tr").eq(1).outerHeight() === $fixTable.find("tbody > tr").eq(1).outerHeight(), "height second row");
-    assert.roughEqual($table.find("tbody > tr").eq(2).outerHeight(), $fixTable.find("tbody > tr").eq(2).outerHeight(), 0.1, "height third row");
+    assert.cellDimensionRoughEqual($table.find("tbody > tr").eq(2).outerHeight(), $fixTable.find("tbody > tr").eq(2).outerHeight(), 0.1, "height third row");
 });
 
 QUnit.test("Synchronize rows with floating-point height", function(assert) {
@@ -2115,7 +2115,7 @@ QUnit.test('Reordering -  get points by columns for columns fixed to the right',
     assert.deepEqual(pointsByColumns[2], { columnIndex: 6, index: 6, x: -9075, y: -10000 }, 'third point');
 });
 
-QUnit.test('Reordering -  get points by columns for children of the band column fixed to the left', function(assert) {
+QUnit.test('Reordering - get points by columns for children of the band column fixed to the left', function(assert) {
     // arrange
     var that = this,
         visibleColumns,
