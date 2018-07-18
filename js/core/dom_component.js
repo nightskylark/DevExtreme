@@ -107,6 +107,9 @@ var DOMComponent = Component.inherit({
     _init: function() {
         this.callBase();
         this._attachWindowResizeCallback();
+        this.constructor.plugins.forEach(plugin => {
+            plugin.init(this);
+        });
     },
 
     _setOptionsByDevice: function(instanceCustomRules) {
@@ -258,6 +261,10 @@ var DOMComponent = Component.inherit({
     },
 
     _dispose: function() {
+        this.constructor.plugins.forEach(plugin => {
+            plugin.dispose(this);
+        });
+
         this.callBase();
         this._clean();
         this._detachWindowResizeCallback();
@@ -464,5 +471,6 @@ DOMComponent.defaultOptions = function(rule) {
     this._classCustomRules.push(rule);
 };
 
+DOMComponent.plugins = [];
 
 module.exports = DOMComponent;
