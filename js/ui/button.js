@@ -7,7 +7,7 @@ let ValidationMixin = require("./validation/validation_mixin");
 
 let Button = ButtonCore.inherit().include(ValidationMixin);
 
-Button.addPlugin(new ButtonTemplatePlugin());
+Button.addPlugin(ButtonTemplatePlugin);
 
 registerComponent("dxButton", Button);
 

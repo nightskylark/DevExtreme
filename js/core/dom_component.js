@@ -467,9 +467,21 @@ DOMComponent.defaultOptions = function(rule) {
     this._classCustomRules.push(rule);
 };
 
-DOMComponent.addPlugin = function(plugin) {
+DOMComponent.addPlugin = function(Plugin) {
+    this._pluginClasses = this._pluginClasses || [];
     this._plugins = this._plugins || [];
-    this._plugins.push(plugin);
+    this._pluginClasses.push(Plugin);
+    this._plugins.push(new Plugin());
+};
+
+let originalInherit = DOMComponent.inherit;
+
+DOMComponent.inherit = function() {
+    let NewClass = originalInherit.apply(this, arguments);
+
+    NewClass._plugins = (this._pluginClasses || []).map(Plugin => new Plugin());
+
+    return NewClass;
 };
 
 [ "init", "dispose" ].forEach(method => {

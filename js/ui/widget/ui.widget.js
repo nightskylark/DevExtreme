@@ -13,6 +13,6 @@ var WidgetCore = require("./ui.widget_core"),
 
 var Widget = WidgetCore.inherit();
 
-Widget.addPlugin(new TemplatePlugin());
+Widget.addPlugin(TemplatePlugin);
 
 module.exports = Widget;
