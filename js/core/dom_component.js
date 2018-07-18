@@ -105,11 +105,12 @@ var DOMComponent = Component.inherit({
     _dimensionChanged: abstract,
 
     _init: function() {
-        this.constructor.initPlugins({
+        let pluginsData = this.constructor.initPlugins({
             option: this.option.bind(this),
             $element: this.$element.bind(this),
             instance: this
         });
+        extend(this, pluginsData.methods);
 
         this.callBase();
         this._attachWindowResizeCallback();
@@ -491,9 +492,11 @@ DOMComponent.inherit = function() {
 
 [ "init", "dispose" ].forEach(method => {
     DOMComponent[`${method}Plugins`] = function() {
+        let result = {};
         this._plugins && this._plugins.forEach(plugin => {
-            plugin[method].apply(plugin, arguments);
+            extend(result, plugin[method].apply(plugin, arguments));
         });
+        return result;
     };
 });
 

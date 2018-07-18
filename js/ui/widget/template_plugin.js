@@ -24,17 +24,21 @@ class TemplatePlugin {
         this._tempTemplates = [];
         this._defaultTemplates = {};
 
-        instanceGate.instance._addDefaultTemplate = function(templateName, template) {
-            this._defaultTemplates[templateName] = template;
-        }.bind(this);
+        return {
+            methods: {
+                _addDefaultTemplate: function(templateName, template) {
+                    this._defaultTemplates[templateName] = template;
+                }.bind(this),
 
-        // NOTE: please, do not use this crap
-        instanceGate.instance._getDefaultTemplate = function(templateName) {
-            return this._defaultTemplates[templateName];
-        }.bind(this);
+                // NOTE: please, do not use this crap
+                _getDefaultTemplate: function(templateName) {
+                    return this._defaultTemplates[templateName];
+                }.bind(this),
 
-        instanceGate.instance._getTemplate = this.getTemplate.bind(this);
-        instanceGate.instance._getTemplateByOption = this.getTemplateByOption.bind(this);
+                _getTemplate: this.getTemplate.bind(this),
+                _getTemplateByOption: this.getTemplateByOption.bind(this)
+            }
+        };
     }
 
     _extractTemplates() {
