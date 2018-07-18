@@ -11,13 +11,8 @@ var WidgetCore = require("./ui.widget_core"),
 */
 
 
-var Widget = WidgetCore.inherit({
-    _init: function() {
-        this._defaultTemplates = {};
-        this.callBase();
-    }
-});
+var Widget = WidgetCore.inherit();
 
-Widget.plugins.push(new TemplatePlugin());
+Widget.addPlugin(new TemplatePlugin());
 
 module.exports = Widget;

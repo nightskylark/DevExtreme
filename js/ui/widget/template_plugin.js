@@ -22,7 +22,7 @@ class TemplatePlugin {
         this._extractTemplates();
 
         this._tempTemplates = [];
-        instance._defaultTemplates = {};
+        instance._defaultTemplates = instance._defaultTemplates || {};
         instance._getTemplate = this.getTemplate.bind(this);
         instance._getTemplateByOption = this.getTemplateByOption.bind(this);
     }
@@ -81,7 +81,7 @@ class TemplatePlugin {
     getTemplate(templateSource) {
         if(typeUtils.isFunction(templateSource)) {
             return new FunctionTemplate(function(options) {
-                var templateSourceResult = templateSource.apply(this, this._getNormalizedTemplateArgs(options));
+                var templateSourceResult = templateSource.apply(this.instance, this._getNormalizedTemplateArgs(options));
 
                 if(!typeUtils.isDefined(templateSourceResult)) {
                     return new EmptyTemplate();
