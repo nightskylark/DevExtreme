@@ -626,7 +626,7 @@ var ListBase = CollectionWidget.inherit({
     _initTemplates: function() {
         this.callBase();
 
-        this._defaultTemplates["group"] = new BindableTemplate(function($container, data) {
+        this._addDefaultTemplate("group", new BindableTemplate(function($container, data) {
             if(typeUtils.isPlainObject(data)) {
                 if(data.key) {
                     $container.text(data.key);
@@ -634,7 +634,7 @@ var ListBase = CollectionWidget.inherit({
             } else {
                 $container.text(String(data));
             }
-        }, ["key"], this.option("integrationOptions.watchMethod"));
+        }, ["key"], this.option("integrationOptions.watchMethod")));
     },
 
     _updateLoadingState: function(tryLoadMore) {

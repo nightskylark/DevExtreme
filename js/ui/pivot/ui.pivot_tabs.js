@@ -165,11 +165,11 @@ var PivotTabs = CollectionWidget.inherit({
     _initTemplates: function() {
         this.callBase();
 
-        this._defaultTemplates["item"] = new BindableTemplate(function($container, data) {
+        this._addDefaultTemplate("item", new BindableTemplate(function($container, data) {
             var text = (data && data.title) ? data.title : String(data);
             $container.empty();
             $container.append($("<span>").text(text));
-        }, ["title"], this.option("integrationOptions.watchMethod"));
+        }, ["title"], this.option("integrationOptions.watchMethod")));
     },
 
     _render: function() {

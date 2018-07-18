@@ -481,7 +481,7 @@ var TagBox = SelectBox.inherit({
     _initDynamicTemplates: function() {
         this.callBase();
 
-        this._defaultTemplates["tag"] = new BindableTemplate(function($container, data) {
+        this._addDefaultTemplate("tag", new BindableTemplate(function($container, data) {
 
             var $tagContent = $("<div>").addClass(TAGBOX_TAG_CONTENT_CLASS);
 
@@ -496,7 +496,7 @@ var TagBox = SelectBox.inherit({
             $container.append($tagContent);
         }.bind(this), ["text"], this.option("integrationOptions.watchMethod"), {
             "text": this._displayGetter
-        });
+        }));
     },
 
     _toggleSubmitElement: function(enabled) {

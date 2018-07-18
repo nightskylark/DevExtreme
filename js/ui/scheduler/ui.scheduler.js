@@ -1487,15 +1487,15 @@ var Scheduler = Widget.inherit({
         this.callBase();
         this._initAppointmentTemplate();
 
-        this._defaultTemplates["appointmentTooltip"] = new EmptyTemplate(this);
-        this._defaultTemplates["appointmentPopup"] = new EmptyTemplate(this);
-        this._defaultTemplates["dropDownAppointment"] = new EmptyTemplate(this);
+        this._addDefaultTemplate("appointmentTooltip", new EmptyTemplate(this));
+        this._addDefaultTemplate("appointmentPopup", new EmptyTemplate(this));
+        this._addDefaultTemplate("dropDownAppointment", new EmptyTemplate(this));
     },
 
     _initAppointmentTemplate: function() {
         var that = this;
 
-        this._defaultTemplates["item"] = new BindableTemplate(function($container, data, model) {
+        this._addDefaultTemplate("item", new BindableTemplate(function($container, data, model) {
             var appointmentsInst = that.getAppointmentsInstance();
             appointmentsInst._renderAppointmentTemplate.call(appointmentsInst, $container, data, model);
         }, [
@@ -1509,7 +1509,7 @@ var Scheduler = Widget.inherit({
             "endDateTimeZone": this._dataAccessors.getter["endDateTimeZone"],
             "allDay": this._dataAccessors.getter["allDay"],
             "recurrenceRule": this._dataAccessors.getter["recurrenceRule"]
-        });
+        }));
     },
 
     _combineDataAccessors: function() {
@@ -2100,12 +2100,12 @@ var Scheduler = Widget.inherit({
     _initDynamicPopupTemplate: function(appointmentData, processTimeZone) {
         var that = this;
 
-        this._defaultTemplates["appointmentPopup"] = new FunctionTemplate(function(options) {
+        this._addDefaultTemplate("appointmentPopup", new FunctionTemplate(function(options) {
             var $popupContent = that._popupContent(appointmentData, processTimeZone);
             $(options.container).append($popupContent);
 
             return $(options.container);
-        });
+        }));
     },
 
     _popupConfig: function(appointmentData) {

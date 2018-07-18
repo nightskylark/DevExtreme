@@ -89,8 +89,8 @@ var ToolbarBase = CollectionWidget.inherit({
             });
         }.bind(this), ["text", "html", "widget", "options"], this.option("integrationOptions.watchMethod"));
 
-        this._defaultTemplates["item"] = template;
-        this._defaultTemplates["menuItem"] = template;
+        this._addDefaultTemplate("item", template);
+        this._addDefaultTemplate("menuItem", template);
     },
 
     _getDefaultOptions: function() {

@@ -174,8 +174,8 @@ var SlideOutView = Widget.inherit({
     _initTemplates: function() {
         this.callBase();
 
-        this._defaultTemplates["menu"] = new EmptyTemplate(this);
-        this._defaultTemplates["content"] = new EmptyTemplate(this);
+        this._addDefaultTemplate("menu", new EmptyTemplate(this));
+        this._addDefaultTemplate("content", new EmptyTemplate(this));
     },
 
     _initMarkup: function() {

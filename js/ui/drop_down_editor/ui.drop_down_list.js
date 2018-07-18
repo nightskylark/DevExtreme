@@ -322,7 +322,7 @@ var DropDownList = DropDownEditor.inherit({
     _initTemplates: function() {
         this.callBase();
 
-        this._defaultTemplates["item"] = new ChildDefaultTemplate("item", this);
+        this._addDefaultTemplate("item", new ChildDefaultTemplate("item", this));
     },
 
     _saveFocusOnWidget: function(e) {

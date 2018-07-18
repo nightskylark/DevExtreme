@@ -202,7 +202,7 @@ var Toolbar = ToolbarBase.inherit({
     _initTemplates: function() {
         this.callBase();
 
-        this._defaultTemplates["actionSheetItem"] = new ChildDefaultTemplate("item", this);
+        this._addDefaultTemplate("actionSheetItem", new ChildDefaultTemplate("item", this));
     },
 
     _initMarkup: function() {

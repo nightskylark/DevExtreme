@@ -268,13 +268,13 @@ var CollectionWidget = Widget.inherit({
 
         this.callBase();
 
-        this._defaultTemplates["item"] = new BindableTemplate((function($container, data) {
+        this._addDefaultTemplate("item", new BindableTemplate((function($container, data) {
             if(isPlainObject(data)) {
                 this._prepareDefaultItemTemplate(data, $container);
             } else {
                 $container.text(String(data));
             }
-        }).bind(this), ["text", "html"], this.option("integrationOptions.watchMethod"));
+        }).bind(this), ["text", "html"], this.option("integrationOptions.watchMethod")));
     },
 
     _prepareDefaultItemTemplate: function(data, $container) {

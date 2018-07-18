@@ -200,7 +200,7 @@ var Accordion = CollectionWidget.inherit({
         * @name dxAccordionItemTemplate.icon
         * @type String
         */
-        this._defaultTemplates["title"] = new BindableTemplate(function($container, data) {
+        this._addDefaultTemplate("title", new BindableTemplate(function($container, data) {
             var $templateContainer = $("<div>")
                     .addClass(ACCORDION_ITEM_TITLE_CAPTION_CLASS)
                     .appendTo($container);
@@ -213,7 +213,7 @@ var Accordion = CollectionWidget.inherit({
             } else {
                 $templateContainer.text(String(data));
             }
-        }, ["title", "icon"], this.option("integrationOptions.watchMethod"));
+        }, ["title", "icon"], this.option("integrationOptions.watchMethod")));
     },
 
     _initMarkup: function() {

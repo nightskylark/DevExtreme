@@ -205,12 +205,12 @@ var DataExpressionMixin = extend(DataHelperMixin, {
 
     _initDynamicTemplates: function() {
         if(this._displayGetterExpr()) {
-            this._originalItemTemplate = this._defaultTemplates["item"];
-            this._defaultTemplates["item"] = new FunctionTemplate((function(options) {
+            this._originalItemTemplate = this._getDefaultTemplate("item");
+            this._addDefaultTemplate("item", new FunctionTemplate((function(options) {
                 return $('<div>').text(this._displayGetter(options.model)).html();
-            }).bind(this));
+            }).bind(this)));
         } else if(this._originalItemTemplate) {
-            this._defaultTemplates["item"] = this._originalItemTemplate;
+            this._addDefaultTemplate("item", this._originalItemTemplate);
         }
     },
 

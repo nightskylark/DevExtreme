@@ -182,13 +182,13 @@ var ButtonCore = WidgetCore.inherit({
     _initTemplates: function() {
         this.callBase();
 
-        this._defaultTemplates["content"] = new FunctionTemplate(function(options) {
+        this._addDefaultTemplate("content", new FunctionTemplate(function(options) {
             var data = options.model,
                 $iconElement = iconUtils.getImageContainer(data && data.icon),
                 $textContainer = data && data.text ? $("<span>").text(data.text).addClass(BUTTON_TEXT_CLASS) : undefined;
 
             $(options.container).append($iconElement).append($textContainer);
-        }, this);
+        }, this));
     },
 
     _initMarkup: function() {

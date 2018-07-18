@@ -226,8 +226,8 @@ var Pivot = CollectionWidget.inherit({
         * @name dxPivotItemTemplate.title
         * @type String
         */
-        this._defaultTemplates["content"] = new EmptyTemplate();
-        this._defaultTemplates["title"] = new ChildDefaultTemplate("item", this);
+        this._addDefaultTemplate("content", new EmptyTemplate());
+        this._addDefaultTemplate("title", new ChildDefaultTemplate("item", this));
     },
 
     _dimensionChanged: function() {

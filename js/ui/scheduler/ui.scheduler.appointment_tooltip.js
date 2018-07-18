@@ -71,13 +71,13 @@ var appointmentTooltip = {
     _initDynamicTemplate: function(appointmentData, singleAppointmentData, $appointment) {
         var that = this;
 
-        this.instance._defaultTemplates["appointmentTooltip"] = new FunctionTemplate(function(options) {
+        this.instance._addDefaultTemplate("appointmentTooltip", new FunctionTemplate(function(options) {
             var $container = $(options.container),
                 $tooltip = that._tooltipContent(appointmentData, singleAppointmentData, $appointment);
             $tooltip.addClass($container.attr("class"));
             $container.replaceWith($tooltip);
             return $container;
-        });
+        }));
     },
 
     _tooltipContent: function(appointmentData, singleAppointmentData, $appointment) {

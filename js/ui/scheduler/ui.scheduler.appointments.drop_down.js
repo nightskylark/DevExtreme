@@ -262,9 +262,9 @@ var dropDownAppointments = Class.inherit({
     _initDynamicTemplate: function(items) {
         var that = this;
 
-        this.instance._defaultTemplates["dropDownAppointment"] = new FunctionTemplate(function(options) {
+        this.instance._addDefaultTemplate("dropDownAppointment", new FunctionTemplate(function(options) {
             return that._createDropDownAppointmentTemplate(options.model, $(options.container), items.colors[options.index]);
-        });
+        }));
     },
 
     _createDropDownAppointmentTemplate: function(appointmentData, appointmentElement, color) {

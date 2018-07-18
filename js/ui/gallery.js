@@ -273,7 +273,7 @@ var Gallery = CollectionWidget.inherit({
         * @inheritdoc
         */
 
-        this._defaultTemplates["item"] = new BindableTemplate((function($container, data) {
+        this._addDefaultTemplate("item", new BindableTemplate((function($container, data) {
             var $img = $('<img>').addClass(GALLERY_IMAGE_CLASS);
 
             if(typeUtils.isPlainObject(data)) {
@@ -286,7 +286,7 @@ var Gallery = CollectionWidget.inherit({
             } else {
                 $img.attr('src', String(data)).appendTo($container);
             }
-        }).bind(this), ["imageSrc", "imageAlt", "text", "html"], this.option("integrationOptions.watchMethod"));
+        }).bind(this), ["imageSrc", "imageAlt", "text", "html"], this.option("integrationOptions.watchMethod")));
     },
 
     _dataSourceOptions: function() {

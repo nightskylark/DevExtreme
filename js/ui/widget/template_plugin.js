@@ -22,7 +22,16 @@ class TemplatePlugin {
         this._extractTemplates();
 
         this._tempTemplates = [];
-        instance._defaultTemplates = instance._defaultTemplates || {};
+        this._defaultTemplates = {};
+        instance._addDefaultTemplate = function(templateName, template) {
+            this._defaultTemplates[templateName] = template;
+        }.bind(this);
+
+        // NOTE: please, do not use this crap
+        instance._getDefaultTemplate = function(templateName) {
+            return this._defaultTemplates[templateName];
+        }.bind(this);
+
         instance._getTemplate = this.getTemplate.bind(this);
         instance._getTemplateByOption = this.getTemplateByOption.bind(this);
     }
@@ -127,7 +136,7 @@ class TemplatePlugin {
         }
 
         if(templateSource instanceof ChildDefaultTemplate) {
-            return this.instance._defaultTemplates[templateSource.name];
+            return this._defaultTemplates[templateSource.name];
         }
 
         // TODO: templateSource.render is needed for angular2 integration. Try to remove it after supporting TypeScript modules.
@@ -147,8 +156,7 @@ class TemplatePlugin {
                 return userTemplate;
             }
 
-            // TODO: _defaultTemplates
-            var dynamicTemplate = this.instance._defaultTemplates[templateSource];
+            var dynamicTemplate = this._defaultTemplates[templateSource];
             if(dynamicTemplate) {
                 return dynamicTemplate;
             }
