@@ -17,28 +17,29 @@ class TemplatePlugin {
 
     // INIT
 
-    init(instance) {
-        this.instance = instance;
+    init(instanceGate) {
+        this.instanceGate = instanceGate;
         this._extractTemplates();
 
         this._tempTemplates = [];
         this._defaultTemplates = {};
-        instance._addDefaultTemplate = function(templateName, template) {
+
+        instanceGate.instance._addDefaultTemplate = function(templateName, template) {
             this._defaultTemplates[templateName] = template;
         }.bind(this);
 
         // NOTE: please, do not use this crap
-        instance._getDefaultTemplate = function(templateName) {
+        instanceGate.instance._getDefaultTemplate = function(templateName) {
             return this._defaultTemplates[templateName];
         }.bind(this);
 
-        instance._getTemplate = this.getTemplate.bind(this);
-        instance._getTemplateByOption = this.getTemplateByOption.bind(this);
+        instanceGate.instance._getTemplate = this.getTemplate.bind(this);
+        instanceGate.instance._getTemplateByOption = this.getTemplateByOption.bind(this);
     }
 
     _extractTemplates() {
-        var templates = this.instance.option("integrationOptions.templates"),
-            templateElements = this.instance.$element().contents().filter(TEMPLATE_SELECTOR);
+        var templates = this.instanceGate.option("integrationOptions.templates"),
+            templateElements = this.instanceGate.$element().contents().filter(TEMPLATE_SELECTOR);
 
         var templatesMap = {};
 
@@ -82,7 +83,7 @@ class TemplatePlugin {
 
     _createTemplate(templateSource) {
         templateSource = typeof templateSource === "string" ? domUtils.normalizeTemplateElement(templateSource) : templateSource;
-        return this.instance.option("integrationOptions.createTemplate")(templateSource);
+        return this.instanceGate.option("integrationOptions.createTemplate")(templateSource);
     }
 
     // GET TEMPLATE
@@ -151,7 +152,7 @@ class TemplatePlugin {
         }
 
         if(typeof templateSource === "string") {
-            var userTemplate = this.instance.option("integrationOptions.templates")[templateSource];
+            var userTemplate = this.instanceGate.option("integrationOptions.templates")[templateSource];
             if(userTemplate) {
                 return userTemplate;
             }
@@ -171,7 +172,6 @@ class TemplatePlugin {
             return (typeUtils.isRenderer(templateSource) && templateSource[0]) || templateSource;
         };
 
-        // TODO: _tempTemplates
         var cachedTemplate = this._tempTemplates.filter(function(t) {
             templateSource = templateKey(templateSource);
             return t.source === templateSource;
@@ -186,12 +186,12 @@ class TemplatePlugin {
     // TEMPLATE BY OPTION
 
     getTemplateByOption(optionName) {
-        return this.getTemplate(this.instance.option(optionName));
+        return this.getTemplate(this.instanceGate.option(optionName));
     }
 
     // DISPOSE
 
-    dispose(instance) {
+    dispose() {
         this._tempTemplates.forEach(function(t) {
             t.template.dispose && t.template.dispose();
         });

@@ -105,9 +105,14 @@ var DOMComponent = Component.inherit({
     _dimensionChanged: abstract,
 
     _init: function() {
+        this.constructor.initPlugins({
+            option: this.option.bind(this),
+            $element: this.$element.bind(this),
+            instance: this
+        });
+
         this.callBase();
         this._attachWindowResizeCallback();
-        this.constructor.initPlugins(this);
     },
 
     _setOptionsByDevice: function(instanceCustomRules) {
@@ -259,7 +264,7 @@ var DOMComponent = Component.inherit({
     },
 
     _dispose: function() {
-        this.constructor.disposePlugins(this);
+        this.constructor.disposePlugins();
 
         this.callBase();
         this._clean();
