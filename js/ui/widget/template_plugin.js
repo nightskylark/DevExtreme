@@ -35,8 +35,7 @@ class TemplatePlugin {
                     return this._defaultTemplates[templateName];
                 }.bind(this),
 
-                _getTemplate: this.getTemplate.bind(this),
-                _getTemplateByOption: this.getTemplateByOption.bind(this)
+                _getTemplate: this.getTemplate.bind(this)
             }
         };
     }
@@ -95,7 +94,7 @@ class TemplatePlugin {
     getTemplate(templateSource) {
         if(typeUtils.isFunction(templateSource)) {
             return new FunctionTemplate(function(options) {
-                var templateSourceResult = templateSource.apply(this.instance, this._getNormalizedTemplateArgs(options));
+                var templateSourceResult = templateSource.apply(this, this._getNormalizedTemplateArgs(options));
 
                 if(!typeUtils.isDefined(templateSourceResult)) {
                     return new EmptyTemplate();
@@ -185,12 +184,6 @@ class TemplatePlugin {
         var template = this._createTemplate(templateSource);
         this._tempTemplates.push({ template: template, source: templateKey(templateSource) });
         return template;
-    }
-
-    // TEMPLATE BY OPTION
-
-    getTemplateByOption(optionName) {
-        return this.getTemplate(this.instanceGate.option(optionName));
     }
 
     // DISPOSE

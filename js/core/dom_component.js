@@ -107,8 +107,7 @@ var DOMComponent = Component.inherit({
     _init: function() {
         let pluginsData = this.constructor.initPlugins({
             option: this.option.bind(this),
-            $element: this.$element.bind(this),
-            instance: this
+            $element: this.$element.bind(this)
         });
         extend(this, pluginsData.methods);
 
