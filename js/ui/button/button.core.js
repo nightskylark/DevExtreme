@@ -241,7 +241,7 @@ var ButtonCore = WidgetCore.inherit({
     },
 
     _updateContent: function() {
-        var $element = this.$element(),
+        const $element = this.$element(),
             data = this._getContentData();
 
         if(this._$content) {
@@ -256,10 +256,12 @@ var ButtonCore = WidgetCore.inherit({
             .toggleClass(BUTTON_HAS_ICON_CLASS, !!data.icon)
             .toggleClass(BUTTON_HAS_TEXT_CLASS, !!data.text);
 
-        var template = this._getTemplateByOption("template"),
+        const transclude = this._getAnonymousTemplateName() === this.option("template"),
+            template = this._getTemplateByOption("template"),
             $result = $(template.render({
                 model: data,
-                container: domUtils.getPublicElement(this._$content)
+                container: domUtils.getPublicElement(this._$content),
+                transclude
             }));
 
         if($result.hasClass(TEMPLATE_WRAPPER_CLASS)) {
