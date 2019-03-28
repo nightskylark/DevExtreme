@@ -1,7 +1,9 @@
 var $ = require("../../core/renderer");
 var dateSerialization = require("../../core/utils/date_serialization");
-var isDate = require("../../core/utils/type").isDate;
-var each = require("../../core/utils/iterator").each;
+import typeUtils from "../../core/utils/type";
+var isDate = typeUtils.isDate;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var dateLocalization = require("../../localization/date");
 
 // TODO: move to dx.utils

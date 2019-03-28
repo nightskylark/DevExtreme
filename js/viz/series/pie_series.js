@@ -1,10 +1,14 @@
 // there are pie, doughnut
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 
-var each = require("../../core/utils/iterator").each;
+import consoleUtils from "../../core/utils/console";
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var scatterSeries = require("./scatter_series");
 var vizUtils = require("../core/utils");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var chartScatterSeries = scatterSeries.chart;
 var barSeries = require("./bar_series").chart.bar;
 var _extend = extend;
@@ -230,7 +234,7 @@ exports.pie = _extend({}, barSeries, {
 
     correctPosition: function(correction, canvas) {
         ///#DEBUG
-        var debug = require("../../core/utils/console").debug;
+        var debug = consoleUtils.debug;
         debug.assert(correction, "correction was not passed");
         debug.assertParam(correction.centerX, "correction.centerX was not passed");
         debug.assertParam(correction.centerY, "correction.centerY was not passed");

@@ -1,5 +1,6 @@
 var $ = require("../../core/renderer");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var Widget = require("../widget/ui.widget");
 var Button = require("../button");
 var CALENDAR_NAVIGATOR_CLASS = "dx-calendar-navigator";

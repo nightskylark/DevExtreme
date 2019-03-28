@@ -1,9 +1,13 @@
 var $ = require("../core/renderer");
 var dependencyInjector = require("../core/utils/dependency_injector");
-var extend = require("../core/utils/extend").extend;
-var each = require("../core/utils/iterator").each;
-var stringFormat = require("../core/utils/string").format;
-var humanize = require("../core/utils/inflector").humanize;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../core/utils/iterator";
+var each = iteratorUtils.each;
+import stringUtils from "../core/utils/string";
+var stringFormat = stringUtils.format;
+import inflectorUtils from "../core/utils/inflector";
+var humanize = inflectorUtils.humanize;
 var coreLocalization = require("./core");
 
 require("./core");

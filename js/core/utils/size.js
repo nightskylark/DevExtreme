@@ -1,4 +1,5 @@
-var window = require("../../core/utils/window").getWindow();
+import windowUtils from "../../core/utils/window";
+var window = windowUtils.getWindow();
 var typeUtils = require("../utils/type");
 
 var SPECIAL_HEIGHT_VALUES = ["auto", "none", "inherit", "initial"];

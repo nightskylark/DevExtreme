@@ -6,6 +6,7 @@ import title from "../core/title";
 import { clone } from "../../core/utils/object";
 import { noop } from "../../core/utils/common";
 
+import consoleUtils from "../../core/utils/console";
 var _Number = Number;
 var _math = Math;
 var _round = _math.round;
@@ -114,7 +115,7 @@ function parseOptions(options, textField) {
     if(!options) return null;
 
     ///#DEBUG
-    var debug = require("../../core/utils/console").debug;
+    var debug = consoleUtils.debug;
     debug.assertParam(options.visible, "Visibility was not passed");
     debug.assertParam(options.markerSize, "markerSize was not passed");
     debug.assertParam(options.font.color, "fontColor was not passed");

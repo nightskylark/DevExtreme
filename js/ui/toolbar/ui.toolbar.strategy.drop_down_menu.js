@@ -1,4 +1,5 @@
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var ToolbarStrategy = require("./ui.toolbar.strategy");
 var ToolbarMenu = require("./ui.toolbar.menu");
 var DropDownMenu = require("../drop_down_menu");

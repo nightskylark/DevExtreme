@@ -1,4 +1,5 @@
-var escapeRegExp = require("../../core/utils/common").escapeRegExp;
+import commonUtils from "../../core/utils/common";
+var escapeRegExp = commonUtils.escapeRegExp;
 
 var FORMAT_TYPES = {
     "3": "abbreviated",

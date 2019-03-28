@@ -1,5 +1,6 @@
 var LayoutElementModule = require("../core/layout_element");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 
 function HeaderBlock() { }
 

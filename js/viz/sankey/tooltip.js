@@ -1,5 +1,7 @@
-var _extend = require("../../core/utils/extend").extend;
-var isFunction = require("../../core/utils/type").isFunction;
+import extendUtils from "../../core/utils/extend";
+var _extend = extendUtils.extend;
+import typeUtils from "../../core/utils/type";
+var isFunction = typeUtils.isFunction;
 
 var defaultCustomizeLinkTooltip = function(info) {
     return { html: `<strong>${info.source} > ${info.target}</strong><br/>Weight: ${info.weight}` };

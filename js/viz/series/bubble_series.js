@@ -4,11 +4,14 @@ var areaSeries = require("./area_series").chart.area;
 var barSeries = require("./bar_series");
 var chartBarSeries = barSeries.chart.bar;
 var polarBarSeries = barSeries.polar.bar;
-var extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var _extend = extend;
 var _each = each;
-var _noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var _noop = commonUtils.noop;
 
 exports.chart = {};
 exports.chart.bubble = _extend({}, scatterSeries, {

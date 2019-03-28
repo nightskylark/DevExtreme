@@ -1,6 +1,8 @@
 var devices = require("../../core/devices");
-var extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var BaseStrategy = require("./base");
 
 var eventMap = {

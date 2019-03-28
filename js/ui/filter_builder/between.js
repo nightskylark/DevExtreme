@@ -1,5 +1,6 @@
 var $ = require("../../core/renderer");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var FILTER_BUILDER_RANGE_CLASS = "dx-filterbuilder-range";
 var FILTER_BUILDER_RANGE_START_CLASS = FILTER_BUILDER_RANGE_CLASS + "-start";
 var FILTER_BUILDER_RANGE_END_CLASS = FILTER_BUILDER_RANGE_CLASS + "-end";

@@ -1,4 +1,5 @@
-var each = require("../../core/utils/iterator").each;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var readyCallbacks = require("../../core/utils/ready_callbacks");
 var domAdapter = require("../../core/dom_adapter");
 

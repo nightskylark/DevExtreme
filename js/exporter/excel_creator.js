@@ -1,7 +1,9 @@
 var Class = require("../core/class"); // Calibri font with 11pt size
-var window = require("../core/utils/window").getWindow();
+import windowUtils from "../core/utils/window";
+var window = windowUtils.getWindow();
 var typeUtils = require("../core/utils/type");
-var extend = require("../core/utils/extend").extend;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
 var errors = require("../ui/widget/ui.errors");
 var stringUtils = require("../core/utils/string");
 var JSZip = require("jszip");

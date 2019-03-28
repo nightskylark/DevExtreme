@@ -1,5 +1,6 @@
 var registerComponent = require("../core/component_registrator");
-var extend = require("../core/utils/extend").extend;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
 var NavBarItem = require("./nav_bar/item");
 var Tabs = require("./tabs");
 var NAVBAR_CLASS = "dx-navbar";

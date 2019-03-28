@@ -1,7 +1,8 @@
 // there are area, steparea, stackedarea, fullstackedarea, splinearea
 var objectUtils = require("../../core/utils/object");
 
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var scatterSeries = require("./scatter_series").chart;
 var lineSeries = require("./line_series");
 var chartLineSeries = lineSeries.chart.line;

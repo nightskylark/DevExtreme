@@ -1,5 +1,6 @@
 var _format = require("../axes/smart_formatter").smartFormatter;
-var isFunction = require("../../core/utils/type").isFunction;
+import typeUtils from "../../core/utils/type";
+var isFunction = typeUtils.isFunction;
 var HEIGHT_COMPACT_MODE = 24;
 var POINTER_SIZE = 4;
 var EMPTY_SLIDER_MARKER_TEXT = ". . .";

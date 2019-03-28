@@ -1,6 +1,8 @@
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var dateSerialization = require("../../core/utils/date_serialization");
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 
 var parsers = {
     string: function(val) {

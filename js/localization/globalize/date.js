@@ -563,8 +563,10 @@ var ACCEPTABLE_JSON_FORMAT_PROPERTIES = ["skeleton", "date", "time", "datetime",
 
 var Globalize = require("globalize");
 var dateLocalization = require("../date");
-var isObject = require("../../core/utils/type").isObject;
-var inArray = require("../../core/utils/array").inArray;
+import typeUtils from "../../core/utils/type";
+var isObject = typeUtils.isObject;
+import arrayUtils from "../../core/utils/array";
+var inArray = arrayUtils.inArray;
 var iteratorUtils = require("../../core/utils/iterator");
 
 if(Globalize && Globalize.formatDate) {

@@ -1,7 +1,8 @@
 /* global Debug*/
 var errors = require("../core/errors");
 
-var window = require("../core/utils/window").getWindow();
+import windowUtils from "../core/utils/window";
+var window = windowUtils.getWindow();
 var proxyUrlFormatter = require("./proxy_url_formatter");
 var IS_WINJS_ORIGIN;
 var IS_LOCAL_ORIGIN;

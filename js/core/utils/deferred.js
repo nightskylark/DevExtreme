@@ -1,7 +1,8 @@
 var typeUtils = require("../utils/type");
 var isPromise = typeUtils.isPromise;
 var isDeferred = typeUtils.isDeferred;
-var extend = require("../utils/extend").extend;
+import extendUtils from "../utils/extend";
+var extend = extendUtils.extend;
 var Callbacks = require("../utils/callbacks");
 
 var deferredConfig = [{

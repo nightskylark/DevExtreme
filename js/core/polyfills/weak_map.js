@@ -1,5 +1,6 @@
 /* global WeakMap */
-var inArray = require("../../core/utils/array").inArray;
+import arrayUtils from "../../core/utils/array";
+var inArray = arrayUtils.inArray;
 
 var windowUtils = require("../../core/utils/window");
 var weakMap = windowUtils.hasWindow() ? windowUtils.getWindow().WeakMap : WeakMap;

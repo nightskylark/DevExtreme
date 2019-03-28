@@ -1,5 +1,6 @@
 var $ = require("../../core/renderer");
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 var browser = require("../../core/utils/browser");
 var domAdapter = require("../../core/dom_adapter");
 

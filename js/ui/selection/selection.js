@@ -1,10 +1,14 @@
 var Class = require("../../core/class");
 var deferredStrategy = require("./selection.strategy.deferred");
 var standardStrategy = require("./selection.strategy.standard");
-var extend = require("../../core/utils/extend").extend;
-var noop = require("../../core/utils/common").noop;
-var isDefined = require("../../core/utils/type").isDefined;
-var Deferred = require("../../core/utils/deferred").Deferred;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 
 module.exports = Class.inherit({
     ctor: function(options) {

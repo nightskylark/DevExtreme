@@ -1,4 +1,5 @@
-var each = require("../../core/utils/iterator").each;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var BaseSparkline = require("./base_sparkline");
 var TARGET_MIN_Y = 0.02;
 var TARGET_MAX_Y = 0.98;

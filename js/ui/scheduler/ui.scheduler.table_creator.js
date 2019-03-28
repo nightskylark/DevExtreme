@@ -2,7 +2,8 @@ var $ = require("../../core/renderer");
 var domAdapter = require("../../core/dom_adapter");
 var dataUtils = require("../../core/element_data");
 var typeUtils = require("../../core/utils/type");
-var getPublicElement = require("../../core/utils/dom").getPublicElement;
+import domUtils from "../../core/utils/dom";
+var getPublicElement = domUtils.getPublicElement;
 
 var ROW_SELECTOR = "tr";
 

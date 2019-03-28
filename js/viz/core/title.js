@@ -1,6 +1,8 @@
 var _Number = Number;
-var _isString = require("../../core/utils/type").isString;
-var extend = require("../../core/utils/extend").extend;
+import typeUtils from "../../core/utils/type";
+var _isString = typeUtils.isString;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var _patchFontOptions = require("./utils").patchFontOptions;
 var parseHorizontalAlignment = require("./utils").enumParser(["left", "center", "right"]);
 var parseVerticalAlignment = require("./utils").enumParser(["top", "bottom"]);

@@ -1,7 +1,8 @@
 /* global document, Node */
 
 var injector = require("./utils/dependency_injector");
-var noop = require("./utils/common").noop;
+import commonUtils from "./utils/common";
+var noop = commonUtils.noop;
 
 var nativeDOMAdapterStrategy = {
     querySelectorAll: function(element, selector) {

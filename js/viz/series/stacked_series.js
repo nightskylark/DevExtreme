@@ -1,8 +1,11 @@
 // there stackedline, fullstackedline, stackedbar, fullstackedbar, stackedarea, fullstackedarea
-var _noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var _noop = commonUtils.noop;
 
-var _extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
+import extendUtils from "../../core/utils/extend";
+var _extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var areaSeries = require("./area_series").chart;
 var chartAreaSeries = areaSeries.area;
 var barSeries = require("./bar_series");

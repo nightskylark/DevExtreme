@@ -1,4 +1,5 @@
-var _isFunction = require("../../core/utils/type").isFunction;
+import typeUtils from "../../core/utils/type";
+var _isFunction = typeUtils.isFunction;
 var _normalizeEnum = require("../core/utils").normalizeEnum;
 var _round = Math.round;
 var algorithms = {};

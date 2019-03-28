@@ -3,7 +3,8 @@ var TemplateBase = require("./ui.template_base");
 var eventsEngine = require("../../events/core/events_engine");
 var removeEvent = require("../../core/remove_event");
 var iteratorUtils = require("../../core/utils/iterator");
-var isPrimitive = require("../../core/utils/type").isPrimitive;
+import typeUtils from "../../core/utils/type";
+var isPrimitive = typeUtils.isPrimitive;
 
 var watchChanges = (function() {
 

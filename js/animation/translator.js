@@ -1,5 +1,6 @@
 var dataUtils = require("../core/element_data");
-var type = require("../core/utils/type").type;
+import typeUtils from "../core/utils/type";
+var type = typeUtils.type;
 var TRANSLATOR_DATA_KEY = "dxTranslator";
 var TRANSFORM_MATRIX_REGEX = /matrix(3d)?\((.+?)\)/;
 var TRANSLATE_REGEX = /translate(?:3d)?\((.+?)\)/;

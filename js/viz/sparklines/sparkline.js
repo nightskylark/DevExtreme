@@ -28,7 +28,8 @@ var _isFinite = isFinite;
 var vizUtils = require("../core/utils");
 var _map = vizUtils.map;
 var _normalizeEnum = vizUtils.normalizeEnum;
-var _isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var _isDefined = typeUtils.isDefined;
 var _Number = Number;
 var _String = String;
 

@@ -1,13 +1,18 @@
-var isNumeric = require("../../core/utils/type").isNumeric;
-var extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isNumeric = typeUtils.isNumeric;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+import consoleUtils from "../../core/utils/console";
+var each = iteratorUtils.each;
+var isDefined = typeUtils.isDefined;
 var _math = Math;
 var _round = _math.round;
 var _abs = _math.abs;
 var _pow = _math.pow;
 var _each = each;
-var _noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var _noop = commonUtils.noop;
 var vizUtils = require("./utils");
 var DEFAULT_BAR_GROUP_PADDING = 0.3;
 var _normalizeEnum = vizUtils.normalizeEnum;
@@ -377,7 +382,7 @@ function adjustBubbleSeriesDimensions() {
 
 function SeriesFamily(options) {
     ///#DEBUG
-    var debug = require("../../core/utils/console").debug;
+    var debug = consoleUtils.debug;
     debug.assert(options.type, "type was not passed or empty");
     ///#ENDDEBUG
 

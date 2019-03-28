@@ -1,5 +1,7 @@
-var isDefined = require("../../core/utils/type").isDefined;
-var extend = require("../../core/utils/extend").extend;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 
 function getPathStyle(options) {
     return { stroke: options.color, "stroke-width": options.width, "stroke-opacity": options.opacity, opacity: 1 };

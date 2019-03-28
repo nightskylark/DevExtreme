@@ -1,7 +1,8 @@
 import { COLOR_MODE_GRADIENT, COLOR_MODE_SOURCE, COLOR_MODE_TARGET } from './constants';
 
 var states = ["normal", "adjacentNodeHover", "hover"];
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 
 function compileAttrs(color, itemOptions, itemBaseOptions, gradient) {
     let border = itemOptions.border;

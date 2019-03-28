@@ -1,4 +1,5 @@
-var extend = require("../../../core/utils/extend").extend;
+import extendUtils from "../../../core/utils/extend";
+var extend = extendUtils.extend;
 var _extend = extend;
 var _math = Math;
 var _floor = _math.floor;

@@ -1,5 +1,6 @@
 var states = ["normal", "hover"];
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 
 function compileAttrs(color, itemOptions, itemBaseOptions) {
     let border = itemOptions.border;

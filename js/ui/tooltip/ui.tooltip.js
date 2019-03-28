@@ -1,7 +1,9 @@
 var $ = require("../../core/renderer");
 var Tooltip = require("./tooltip");
-var extend = require("../../core/utils/extend").extend;
-var Deferred = require("../../core/utils/deferred").Deferred;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 var viewPortUtils = require("../../core/utils/view_port");
 
 var tooltip = null;

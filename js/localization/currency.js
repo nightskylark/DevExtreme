@@ -1,4 +1,5 @@
-var extend = require("../core/utils/extend").extend;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
 var numberLocalization = require("./number");
 
 numberLocalization.inject({

@@ -1,9 +1,11 @@
 var $ = require("../../core/renderer");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var messageLocalization = require("../../localization/message");
 var TextBox = require("../text_box");
 var errors = require("../widget/ui.errors");
-var Deferred = require("../../core/utils/deferred").Deferred;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 
 /**
 * @name SearchBoxMixin

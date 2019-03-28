@@ -1,4 +1,5 @@
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var DataHelperMixin = require("../../data_helper");
 var postCtor = DataHelperMixin.postCtor;
 var name;

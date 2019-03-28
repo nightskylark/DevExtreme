@@ -1,4 +1,5 @@
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 var config = require("../../core/config");
 var odataUtils = require("./utils");
 var proxyUrlFormatter = require("../proxy_url_formatter");

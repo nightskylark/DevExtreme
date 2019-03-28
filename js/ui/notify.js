@@ -1,8 +1,10 @@
 var $ = require("../core/renderer");
 var Action = require("../core/action");
 var viewPortUtils = require("../core/utils/view_port");
-var extend = require("../core/utils/extend").extend;
-var isPlainObject = require("../core/utils/type").isPlainObject;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
+import typeUtils from "../core/utils/type";
+var isPlainObject = typeUtils.isPlainObject;
 var Toast = require("./toast");
 
 

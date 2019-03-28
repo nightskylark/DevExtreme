@@ -1,19 +1,24 @@
 var $ = require("../core/renderer");
 var eventsEngine = require("../events/core/events_engine");
 var Promise = require("../core/polyfills/promise");
-var fromPromise = require("../core/utils/deferred").fromPromise;
+import deferredUtils from "../core/utils/deferred";
+var fromPromise = deferredUtils.fromPromise;
 var registerComponent = require("../core/component_registrator");
 var errors = require("./widget/ui.errors");
 var devices = require("../core/devices");
 var Widget = require("./widget/ui.widget");
 var inflector = require("../core/utils/inflector");
-var each = require("../core/utils/iterator").each;
-var extend = require("../core/utils/extend").extend;
-var inArray = require("../core/utils/array").inArray;
-var isNumeric = require("../core/utils/type").isNumeric;
+import iteratorUtils from "../core/utils/iterator";
+var each = iteratorUtils.each;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
+import arrayUtils from "../core/utils/array";
+var inArray = arrayUtils.inArray;
+import typeUtils from "../core/utils/type";
+var isNumeric = typeUtils.isNumeric;
 var eventUtils = require("../events/utils");
 var pointerEvents = require("../events/pointer");
-var wrapToArray = require("../core/utils/array").wrapToArray;
+var wrapToArray = arrayUtils.wrapToArray;
 
 // NOTE external urls must have protocol explicitly specified (because inside Cordova package the protocol is "file:")
 

@@ -1,5 +1,7 @@
-var isDefined = require("../../core/utils/type").isDefined;
-var adjust = require("../../core/utils/math").adjust;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
+import mathUtils from "../../core/utils/math";
+var adjust = mathUtils.adjust;
 var round = Math.round;
 
 function getValue(value) { return value; }

@@ -1,6 +1,9 @@
-var grep = require("../core/utils/common").grep;
-var extend = require("../core/utils/extend").extend;
-var each = require("../core/utils/iterator").each;
+import commonUtils from "../core/utils/common";
+var grep = commonUtils.grep;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../core/utils/iterator";
+var each = iteratorUtils.each;
 var arrayQuery = require("./array_query");
 var normalizeSortingInfo = require("./utils").normalizeSortingInfo;
 

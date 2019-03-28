@@ -1,4 +1,5 @@
-var extend = require("../../../core/utils/extend").extend;
+import extendUtils from "../../../core/utils/extend";
+var extend = extendUtils.extend;
 var symbolPoint = require("./symbol_point");
 var _extend = extend;
 var _round = Math.round;
@@ -9,7 +10,8 @@ var _abs = Math.abs;
 var vizUtils = require("../../core/utils");
 var _normalizeAngle = vizUtils.normalizeAngle;
 var _getCosAndSin = vizUtils.getCosAndSin;
-var _isDefined = require("../../../core/utils/type").isDefined;
+import typeUtils from "../../../core/utils/type";
+var _isDefined = typeUtils.isDefined;
 var getVerticallyShiftedAngularCoords = vizUtils.getVerticallyShiftedAngularCoords;
 var RADIAL_LABEL_INDENT = require("../../components/consts").radialLabelIndent;
 

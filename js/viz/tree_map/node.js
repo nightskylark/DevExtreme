@@ -1,4 +1,5 @@
-var _extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var _extend = extendUtils.extend;
 
 function Node() { }
 

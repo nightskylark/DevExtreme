@@ -3,7 +3,8 @@ var nodeProto = require("./node").prototype;
 var handlers = proto._handlers;
 var _calculateState = handlers.calculateState;
 var _buildState = nodeProto._buildState;
-var _extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var _extend = extendUtils.extend;
 
 handlers.calculateState = function(options) {
     var states = { 0: _calculateState(options) };

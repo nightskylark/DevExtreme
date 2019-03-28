@@ -1,5 +1,6 @@
 var jQuery = require("jquery");
-var compareVersions = require("../core/utils/version").compare;
+import versionUtils from "../core/utils/version";
+var compareVersions = versionUtils.compare;
 var errors = require("../core/utils/error");
 var useJQuery = require("./jquery/use_jquery")();
 

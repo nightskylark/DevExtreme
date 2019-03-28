@@ -1,4 +1,5 @@
-var _extend = require("../../../core/utils/extend").extend;
+import extendUtils from "../../../core/utils/extend";
+var _extend = extendUtils.extend;
 var symbolPoint = require("./symbol_point");
 var barPoint = require("./bar_point");
 var _math = Math;

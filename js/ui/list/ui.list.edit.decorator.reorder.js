@@ -1,5 +1,6 @@
 var $ = require("../../core/renderer");
-var each = require("../../core/utils/iterator").each;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var eventsEngine = require("../../events/core/events_engine");
 var translator = require("../../animation/translator");
 var fx = require("../../animation/fx");

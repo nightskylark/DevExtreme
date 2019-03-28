@@ -1,4 +1,5 @@
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 
 function getCoords(figureCoords, renderer) {
     var offset = renderer.getRootOffset();

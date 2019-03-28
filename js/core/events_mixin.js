@@ -1,6 +1,8 @@
 var DefaultEventsStrategy = require("./events_strategy");
-var each = require("./utils/iterator").each;
-var isPlainObject = require("./utils/type").isPlainObject;
+import iteratorUtils from "./utils/iterator";
+var each = iteratorUtils.each;
+import typeUtils from "./utils/type";
+var isPlainObject = typeUtils.isPlainObject;
 
 /**
  * @name EventsMixin

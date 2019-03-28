@@ -2,10 +2,13 @@
 var scatterSeries = require("./scatter_series").chart;
 
 var barSeries = require("./bar_series").chart.bar;
-var _extend = require("../../core/utils/extend").extend;
-var _isDefined = require("../../core/utils/type").isDefined;
+import extendUtils from "../../core/utils/extend";
+var _extend = extendUtils.extend;
+import typeUtils from "../../core/utils/type";
+var _isDefined = typeUtils.isDefined;
 var _normalizeEnum = require("../core/utils").normalizeEnum;
-var _noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var _noop = commonUtils.noop;
 var DEFAULT_FINANCIAL_POINT_SIZE = 10;
 
 exports.stock = _extend({}, scatterSeries, {

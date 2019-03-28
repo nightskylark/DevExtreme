@@ -1,4 +1,5 @@
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var _round = Math.round;
 var objectUtils = require("../../core/utils/object");
 

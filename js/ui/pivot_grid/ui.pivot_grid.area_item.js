@@ -1,8 +1,11 @@
 var $ = require("../../core/renderer");
 var Class = require("../../core/class");
-var getPublicElement = require("../../core/utils/dom").getPublicElement;
-var extend = require("../../core/utils/extend").extend;
-var isDefined = require("../../core/utils/type").isDefined;
+import domUtils from "../../core/utils/dom";
+var getPublicElement = domUtils.getPublicElement;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 
 var PIVOTGRID_EXPAND_CLASS = "dx-expand";
 

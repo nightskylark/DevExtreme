@@ -1,5 +1,7 @@
-var extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var Range = require("./range").Range;
 var categoryTranslator = require("./category_translator");
 var intervalTranslator = require("./interval_translator");
@@ -10,11 +12,13 @@ var typeUtils = require("../../core/utils/type");
 var getLog = vizUtils.getLog;
 var getPower = vizUtils.getPower;
 var isDefined = typeUtils.isDefined;
-var adjust = require("../../core/utils/math").adjust;
+import mathUtils from "../../core/utils/math";
+var adjust = mathUtils.adjust;
 var _abs = Math.abs;
 var CANVAS_PROP = ["width", "height", "left", "top", "bottom", "right"];
 var _Translator2d;
-var addInterval = require("../../core/utils/date").addInterval;
+import dateUtils from "../../core/utils/date";
+var addInterval = dateUtils.addInterval;
 
 const dummyTranslator = {
     to(value) {

@@ -1,5 +1,6 @@
 var Promise = require("../../core/polyfills/promise");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var iteratorUtils = require("../../core/utils/iterator");
 var Provider = require("./provider");
 var abstract = Provider.abstract;

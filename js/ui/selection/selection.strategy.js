@@ -3,7 +3,8 @@ var commonUtils = require("../../core/utils/common");
 var typeUtils = require("../../core/utils/type");
 var getKeyHash = commonUtils.getKeyHash;
 var Class = require("../../core/class");
-var Deferred = require("../../core/utils/deferred").Deferred;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 
 module.exports = Class.inherit({
     ctor: function(options) {

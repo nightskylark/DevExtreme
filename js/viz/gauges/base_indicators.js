@@ -1,5 +1,7 @@
-var noop = require("../../core/utils/common").noop;
-var each = require("../../core/utils/iterator").each;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var _isFinite = isFinite;
 var _Number = Number;
 var _round = Math.round;
@@ -7,7 +9,8 @@ var baseGaugeModule = require("./base_gauge");
 var _formatValue = baseGaugeModule.formatValue;
 var _getSampleText = baseGaugeModule.getSampleText;
 var _patchFontOptions = require("../core/utils").patchFontOptions;
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var Class = require("../../core/class");
 
 var BaseElement = Class.inherit({

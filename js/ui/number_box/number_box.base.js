@@ -3,14 +3,17 @@ var domAdapter = require("../../core/dom_adapter");
 var eventsEngine = require("../../events/core/events_engine");
 var commonUtils = require("../../core/utils/common");
 var mathUtils = require("../../core/utils/math");
-var extend = require("../../core/utils/extend").extend;
-var inArray = require("../../core/utils/array").inArray;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import arrayUtils from "../../core/utils/array";
+var inArray = arrayUtils.inArray;
 var devices = require("../../core/devices");
 var TextEditor = require("../text_box/ui.text_editor");
 var eventUtils = require("../../events/utils");
 var SpinButtons = require("./number_box.spins").default;
 var messageLocalization = require("../../localization/message");
-var Deferred = require("../../core/utils/deferred").Deferred;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 
 var math = Math;
 

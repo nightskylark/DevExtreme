@@ -1,4 +1,5 @@
-var inArray = require("../core/utils/array").inArray;
+import arrayUtils from "../core/utils/array";
+var inArray = arrayUtils.inArray;
 
 var hideCallback = (function() {
     var callbacks = [];

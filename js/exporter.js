@@ -3,7 +3,8 @@ var excelCreator = require("./exporter/excel_creator");
 var imageCreator = require("./exporter/image_creator");
 var svgCreator = require("./exporter/svg_creator");
 var exportDataGrid = require("./exporter/exceljs/exportDataGrid");
-var _isFunction = require("./core/utils/type").isFunction;
+import typeUtils from "./core/utils/type";
+var _isFunction = typeUtils.isFunction;
 
 exports.export = function(data, options, getData) {
     if(!data) {

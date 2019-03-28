@@ -5,7 +5,8 @@ var _getColorizer = require("./colorizing").getColorizer;
 var _patchFontOptions = require("../core/utils").patchFontOptions;
 var _buildRectAppearance = common.buildRectAppearance;
 var _buildTextAppearance = common.buildTextAppearance;
-var _noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var _noop = commonUtils.noop;
 var _max = Math.max;
 
 var directions = {

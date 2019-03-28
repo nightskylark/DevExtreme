@@ -1,5 +1,7 @@
-var fitIntoRange = require("../../core/utils/math").fitIntoRange;
-var escapeRegExp = require("../../core/utils/common").escapeRegExp;
+import mathUtils from "../../core/utils/math";
+var fitIntoRange = mathUtils.fitIntoRange;
+import commonUtils from "../../core/utils/common";
+var escapeRegExp = commonUtils.escapeRegExp;
 var number = require("../../localization/number");
 
 var getCaretBoundaries = function(text, format) {

@@ -1,7 +1,8 @@
 var proto = require("./funnel").prototype;
 var Tracker = require("../components/tracker").Tracker;
 var DATA_KEY_BASE = "__funnel_data_";
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 var dataKeyModifier = 0;
 
 proto._eventsMap.onItemClick = { name: "itemClick" };

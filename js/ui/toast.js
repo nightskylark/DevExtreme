@@ -3,14 +3,18 @@
 
 var $ = require("../core/renderer");
 
-var window = require("../core/utils/window").getWindow();
+import windowUtils from "../core/utils/window";
+var window = windowUtils.getWindow();
 var domAdapter = require("../core/dom_adapter");
 var eventsEngine = require("../events/core/events_engine");
-var ready = require("../core/utils/ready_callbacks").add;
+import readyCallbacksUtils from "../core/utils/ready_callbacks";
+var ready = readyCallbacksUtils.add;
 var commonUtils = require("../core/utils/common");
 var typeUtils = require("../core/utils/type");
-var extend = require("../core/utils/extend").extend;
-var inArray = require("../core/utils/array").inArray;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
+import arrayUtils from "../core/utils/array";
+var inArray = arrayUtils.inArray;
 var pointerEvents = require("../events/pointer");
 var registerComponent = require("../core/component_registrator");
 var Overlay = require("./overlay");

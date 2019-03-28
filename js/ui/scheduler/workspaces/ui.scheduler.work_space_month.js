@@ -1,5 +1,6 @@
 var $ = require("../../../core/renderer");
-var noop = require("../../../core/utils/common").noop;
+import commonUtils from "../../../core/utils/common";
+var noop = commonUtils.noop;
 var registerComponent = require("../../../core/component_registrator");
 var SchedulerWorkSpace = require("./ui.scheduler.work_space.indicator");
 var dateUtils = require("../../../core/utils/date");

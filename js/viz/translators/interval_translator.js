@@ -5,7 +5,8 @@ var dateUtils = require("../../core/utils/date");
 var addInterval = dateUtils.addInterval;
 var dateToMilliseconds = dateUtils.dateToMilliseconds;
 var floor = Math.floor;
-var adjust = require("../../core/utils/math").adjust;
+import mathUtils from "../../core/utils/math";
+var adjust = mathUtils.adjust;
 
 module.exports = {
     _intervalize: function(value, interval) {

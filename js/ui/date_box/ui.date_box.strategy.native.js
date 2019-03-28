@@ -1,7 +1,9 @@
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var DateBoxStrategy = require("./ui.date_box.strategy");
 var support = require("../../core/utils/support");
-var inArray = require("../../core/utils/array").inArray;
+import arrayUtils from "../../core/utils/array";
+var inArray = arrayUtils.inArray;
 var dateUtils = require("./ui.date_utils");
 var dateSerialization = require("../../core/utils/date_serialization");
 

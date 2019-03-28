@@ -1,5 +1,6 @@
 var ko = require("knockout");
-var compareVersion = require("../../core/utils/version").compare;
+import versionUtils from "../../core/utils/version";
+var compareVersion = versionUtils.compare;
 var strategyChanging = require("../../core/element_data").strategyChanging;
 
 var patchCleanData = function(jQuery) {

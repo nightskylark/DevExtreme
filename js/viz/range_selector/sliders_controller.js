@@ -1,4 +1,5 @@
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var commonModule = require("./common");
 var animationSettings = commonModule.utils.animationSettings;
 var emptySliderMarkerText = commonModule.consts.emptySliderMarkerText;
@@ -7,7 +8,8 @@ var _normalizeEnum = require("../core/utils").normalizeEnum;
 var typeUtils = require("../../core/utils/type");
 var isNumeric = typeUtils.isNumeric;
 var vizUtils = require("../core/utils");
-var adjust = require("../../core/utils/math").adjust;
+import mathUtils from "../../core/utils/math";
+var adjust = mathUtils.adjust;
 
 function buildRectPoints(left, top, right, bottom) {
     return [left, top, right, top, right, bottom, left, bottom];

@@ -2,17 +2,22 @@
 
 var $ = require("../../core/renderer");
 
-var window = require("../../core/utils/window").getWindow();
-var noop = require("../../core/utils/common").noop;
+import windowUtils from "../../core/utils/window";
+var window = windowUtils.getWindow();
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var devices = require("../../core/devices");
 var Promise = require("../../core/polyfills/promise");
-var extend = require("../../core/utils/extend").extend;
-var map = require("../../core/utils/iterator").map;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var map = iteratorUtils.map;
 var DynamicProvider = require("./provider.dynamic");
 var errors = require("../widget/ui.errors");
 var Color = require("../../color");
 var ajax = require("../../core/utils/ajax");
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 var GOOGLE_MAP_READY = "_googleScriptReady";
 var GOOGLE_URL = "https://maps.googleapis.com/maps/api/js?callback=" + GOOGLE_MAP_READY;
 

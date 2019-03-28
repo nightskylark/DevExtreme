@@ -1,7 +1,10 @@
 var errors = require("../../core/errors");
-var extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
-var inArray = require("../../core/utils/array").inArray;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
+import arrayUtils from "../../core/utils/array";
+var inArray = arrayUtils.inArray;
 var dateUtils = require("../../core/utils/date");
 
 var toMs = dateUtils.dateToMilliseconds;

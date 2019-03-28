@@ -2,7 +2,8 @@ var translator = require("../../animation/translator");
 var fx = require("../../animation/fx");
 var registerDecorator = require("./ui.list.edit.decorator_registry").register;
 var EditDecorator = require("./ui.list.edit.decorator");
-var Deferred = require("../../core/utils/deferred").Deferred;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 
 
 registerDecorator(

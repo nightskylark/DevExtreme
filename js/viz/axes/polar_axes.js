@@ -1,6 +1,8 @@
 var vizUtils = require("../core/utils");
-var isDefined = require("../../core/utils/type").isDefined;
-var extend = require("../../core/utils/extend").extend;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var constants = require("./axes_constants");
 var circularAxes;
 var xyAxesLinear = require("./xy_axes").linear;
@@ -12,7 +14,8 @@ var _abs = _math.abs;
 var _round = _math.round;
 var convertPolarToXY = vizUtils.convertPolarToXY;
 var _extend = extend;
-var _noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var _noop = commonUtils.noop;
 var HALF_PI_ANGLE = 90;
 
 function getPolarQuarter(angle) {

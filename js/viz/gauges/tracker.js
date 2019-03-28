@@ -1,14 +1,16 @@
 var eventsEngine = require("../../events/core/events_engine");
 var Class = require("../../core/class");
 var domAdapter = require("../../core/dom_adapter");
-var ready = require("../../core/utils/ready_callbacks").add;
+import readyCallbacksUtils from "../../core/utils/ready_callbacks";
+var ready = readyCallbacksUtils.add;
 var wheelEvent = require("../../events/core/wheel");
+import consoleUtils from "../../core/utils/console";
 var TOOLTIP_HIDE_DELAY = 100;
 
 var Tracker = Class.inherit({
     ctor: function(parameters) {
         ///#DEBUG
-        var debug = require("../../core/utils/console").debug;
+        var debug = consoleUtils.debug;
         debug.assertParam(parameters, 'parameters');
         debug.assertParam(parameters.renderer, 'parameters.renderer');
         debug.assertParam(parameters.container, 'parameters.container');

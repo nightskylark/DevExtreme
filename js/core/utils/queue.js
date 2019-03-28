@@ -1,5 +1,6 @@
 var errors = require("../errors");
-var when = require("../../core/utils/deferred").when;
+import deferredUtils from "../../core/utils/deferred";
+var when = deferredUtils.when;
 
 function createQueue(discardPendingTasks) {
     var _tasks = [];

@@ -1,10 +1,12 @@
-var noop = require("../../../core/utils/common").noop;
+import commonUtils from "../../../core/utils/common";
+var noop = commonUtils.noop;
 var Class = require("../../../core/class");
-var extend = require("../../../core/utils/extend").extend;
+import extendUtils from "../../../core/utils/extend";
+var extend = extendUtils.extend;
 var errors = require("../../widget/ui.errors");
 var dateUtils = require("../../../core/utils/date");
-var isNumeric = require("../../../core/utils/type").isNumeric;
-var typeUtils = require("../../../core/utils/type");
+import typeUtils from "../../../core/utils/type";
+var isNumeric = typeUtils.isNumeric;
 var themes = require("../../themes");
 
 var toMs = dateUtils.dateToMilliseconds;

@@ -1,4 +1,5 @@
-var each = require("../../core/utils/iterator").each;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var Class = require("../../core/class");
 var EventsMixin = require("../../core/events_mixin");
 var ValidationEngine = require("../../ui/validation_engine");

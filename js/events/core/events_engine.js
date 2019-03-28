@@ -1,5 +1,6 @@
 var registerEventCallbacks = require("./event_registrator_callbacks");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var domAdapter = require("../../core/dom_adapter");
 var windowUtils = require("../../core/utils/window");
 var window = windowUtils.getWindow();

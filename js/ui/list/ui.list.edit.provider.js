@@ -1,8 +1,11 @@
 var $ = require("../../core/renderer");
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var Class = require("../../core/class");
-var extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var errors = require("../widget/ui.errors");
 var decoratorRegistry = require("./ui.list.edit.decorator_registry");
 

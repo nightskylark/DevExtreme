@@ -1,14 +1,18 @@
 var $ = require("../../core/renderer");
 var dataCoreUtils = require("../../core/utils/data");
-var extend = require("../../core/utils/extend").extend;
-var each = require("../../core/utils/iterator").each;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var devices = require("../../core/devices");
 var iconUtils = require("../../core/utils/icon");
 var HierarchicalDataAdapter = require("./ui.data_adapter");
 var CollectionWidget = require("../collection/ui.collection_widget.edit");
 var BindableTemplate = require("../widget/bindable_template");
-var isFunction = require("../../core/utils/type").isFunction;
-var noop = require("../../core/utils/common").noop;
+import typeUtils from "../../core/utils/type";
+var isFunction = typeUtils.isFunction;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 
 var DISABLED_STATE_CLASS = "dx-state-disabled";
 

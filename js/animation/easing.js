@@ -1,4 +1,5 @@
-var isFunction = require("../core/utils/type").isFunction;
+import typeUtils from "../core/utils/type";
+var isFunction = typeUtils.isFunction;
 var CSS_TRANSITION_EASING_REGEX = /cubic-bezier\((\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\)/;
 
 var TransitionTimingFuncMap = {

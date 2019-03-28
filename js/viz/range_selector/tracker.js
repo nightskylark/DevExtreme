@@ -1,9 +1,12 @@
 var eventsEngine = require("../../events/core/events_engine");
 var pointerEvents = require("../../events/pointer");
-var window = require("../../core/utils/window").getWindow();
+import windowUtils from "../../core/utils/window";
+var window = windowUtils.getWindow();
 var domAdapter = require("../../core/dom_adapter");
-var each = require("../../core/utils/iterator").each;
-var msPointerEnabled = require("../../core/utils/support").pointer;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
+import supportUtils from "../../core/utils/support";
+var msPointerEnabled = supportUtils.pointer;
 var MIN_MANUAL_SELECTING_WIDTH = 10;
 
 function isLeftButtonPressed(event) {

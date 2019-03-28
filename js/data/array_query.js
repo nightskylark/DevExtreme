@@ -1,9 +1,11 @@
 var Class = require("../core/class");
 var typeUtils = require("../core/utils/type");
 var iteratorUtils = require("../core/utils/iterator");
-var compileGetter = require("../core/utils/data").compileGetter;
-var toComparable = require("../core/utils/data").toComparable;
-var Deferred = require("../core/utils/deferred").Deferred;
+import coreDataUtils from "../core/utils/data";
+var compileGetter = coreDataUtils.compileGetter;
+var toComparable = coreDataUtils.toComparable;
+import deferredUtils from "../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 var errorsModule = require("./errors");
 var dataUtils = require("./utils");
 

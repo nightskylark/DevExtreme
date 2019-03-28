@@ -1,6 +1,8 @@
 var Callbacks = require("./utils/callbacks");
-var isFunction = require("./utils/type").isFunction;
-var each = require("./utils/iterator").each;
+import typeUtils from "./utils/type";
+var isFunction = typeUtils.isFunction;
+import iteratorUtils from "./utils/iterator";
+var each = iteratorUtils.each;
 var Class = require("./class");
 
 module.exports = Class.inherit({

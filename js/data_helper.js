@@ -1,5 +1,6 @@
 var DataSource = require("./data/data_source/data_source").DataSource;
-var extend = require("./core/utils/extend").extend;
+import extendUtils from "./core/utils/extend";
+var extend = extendUtils.extend;
 var normalizeDataSourceOptions = require("./data/data_source/data_source").normalizeDataSourceOptions;
 var DATA_SOURCE_OPTIONS_METHOD = "_dataSourceOptions";
 var DATA_SOURCE_CHANGED_METHOD = "_dataSourceChangedHandler";

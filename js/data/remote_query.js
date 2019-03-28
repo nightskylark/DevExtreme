@@ -1,8 +1,11 @@
 var queryAdapters = require("./query_adapters");
 var errorsModule = require("./errors");
-var each = require("../core/utils/iterator").each;
-var isFunction = require("../core/utils/type").isFunction;
-var Deferred = require("../core/utils/deferred").Deferred;
+import iteratorUtils from "../core/utils/iterator";
+var each = iteratorUtils.each;
+import typeUtils from "../core/utils/type";
+var isFunction = typeUtils.isFunction;
+import deferredUtils from "../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 var arrayQueryImpl = require("./array_query");
 
 var remoteQueryImpl = function(url, queryOptions, tasks) {

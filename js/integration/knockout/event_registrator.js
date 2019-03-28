@@ -1,7 +1,8 @@
 var $ = require("../../core/renderer");
 var eventsEngine = require("../../events/core/events_engine");
 var ko = require("knockout");
-var isPlainObject = require("../../core/utils/type").isPlainObject;
+import typeUtils from "../../core/utils/type";
+var isPlainObject = typeUtils.isPlainObject;
 var eventRegistratorCallbacks = require("../../events/core/event_registrator_callbacks");
 var eventUtils = require("../../events/utils");
 

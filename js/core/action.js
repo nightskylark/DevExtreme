@@ -1,8 +1,10 @@
 var $ = require("./renderer");
 var config = require("./config");
-var window = require("./utils/window").getWindow();
+import windowUtils from "./utils/window";
+var window = windowUtils.getWindow();
 var typeUtils = require("./utils/type");
-var each = require("./utils/iterator").each;
+import iteratorUtils from "./utils/iterator";
+var each = iteratorUtils.each;
 var Class = require("./class");
 var errors = require("./errors");
 

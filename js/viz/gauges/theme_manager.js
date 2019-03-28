@@ -1,4 +1,5 @@
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var _extend = extend;
 var BaseThemeManager = require("../core/base_theme_manager").BaseThemeManager;
 

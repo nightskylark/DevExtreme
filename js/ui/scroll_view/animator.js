@@ -1,4 +1,5 @@
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var Class = require("../../core/class");
 var abstract = Class.abstract;
 var animationFrame = require("../../animation/frame");

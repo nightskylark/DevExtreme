@@ -1,14 +1,18 @@
 var Class = require("../core/class");
 var abstract = Class.abstract;
 var EventsMixin = require("../core/events_mixin");
-var each = require("../core/utils/iterator").each;
+import iteratorUtils from "../core/utils/iterator";
+var each = iteratorUtils.each;
 var errorsModule = require("./errors");
 var dataUtils = require("./utils");
-var compileGetter = require("../core/utils/data").compileGetter;
+import coreDataUtils from "../core/utils/data";
+var compileGetter = coreDataUtils.compileGetter;
 var storeHelper = require("./store_helper");
 var queryByOptions = storeHelper.queryByOptions;
-var Deferred = require("../core/utils/deferred").Deferred;
-var noop = require("../core/utils/common").noop;
+import deferredUtils from "../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
+import commonUtils from "../core/utils/common";
+var noop = commonUtils.noop;
 var storeImpl = {};
 
 /**

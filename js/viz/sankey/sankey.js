@@ -1,6 +1,7 @@
 import { COLOR_MODE_GRADIENT, COLOR_MODE_SOURCE, COLOR_MODE_TARGET } from './constants';
 
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var Node = require("./node_item");
 var Link = require("./link_item");
 var defaultLayoutBuilder = require("./layout");

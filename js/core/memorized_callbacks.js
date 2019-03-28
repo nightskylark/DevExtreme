@@ -1,4 +1,5 @@
-var each = require("../core/utils/iterator").each;
+import iteratorUtils from "../core/utils/iterator";
+var each = iteratorUtils.each;
 var Callbacks = require("./utils/callbacks");
 
 var MemorizedCallbacks = function() {

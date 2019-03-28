@@ -1,10 +1,13 @@
 var $ = require("../core/renderer");
-var noop = require("../core/utils/common").noop;
+import commonUtils from "../core/utils/common";
+var noop = commonUtils.noop;
 var registerComponent = require("../core/component_registrator");
-var extend = require("../core/utils/extend").extend;
+import extendUtils from "../core/utils/extend";
+var extend = extendUtils.extend;
 var DropDownList = require("./drop_down_editor/ui.drop_down_list");
 var themes = require("./themes");
-var Deferred = require("../core/utils/deferred").Deferred;
+import deferredUtils from "../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 var AUTOCOMPLETE_CLASS = "dx-autocomplete";
 var AUTOCOMPLETE_POPUP_WRAPPER_CLASS = "dx-autocomplete-popup-wrapper";
 

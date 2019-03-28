@@ -1,5 +1,6 @@
 var states = ["normal", "hover", "selection", "selection"];
-var isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var isDefined = typeUtils.isDefined;
 
 function parseStyles(color, style, baseStyle) {
     var border = style.border;

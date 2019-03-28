@@ -1,6 +1,7 @@
 var proto = require("./tree_map.base").prototype;
 var nodeProto = require("./node").prototype;
-var _extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var _extend = extendUtils.extend;
 
 proto._eventsMap.onNodesInitialized = { name: "nodesInitialized" };
 proto._eventsMap.onNodesRendering = { name: "nodesRendering" };

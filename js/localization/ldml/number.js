@@ -1,4 +1,5 @@
-var fitIntoRange = require("../../core/utils/math").fitIntoRange;
+import mathUtils from "../../core/utils/math";
+var fitIntoRange = mathUtils.fitIntoRange;
 
 var DEFAULT_CONFIG = { thousandsSeparator: ",", decimalSeparator: "." };
 var ESCAPING_CHAR = "'";

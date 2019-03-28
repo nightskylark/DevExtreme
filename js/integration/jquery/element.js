@@ -1,4 +1,5 @@
-var setPublicElementWrapper = require("../../core/utils/dom").setPublicElementWrapper;
+import domUtils from "../../core/utils/dom";
+var setPublicElementWrapper = domUtils.setPublicElementWrapper;
 var useJQuery = require("./use_jquery")();
 
 var getPublicElement = function($element) {

@@ -1,10 +1,13 @@
 // there are rangebar, rangearea
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 
 var _extend = extend;
-var _isDefined = require("../../core/utils/type").isDefined;
+import typeUtils from "../../core/utils/type";
+var _isDefined = typeUtils.isDefined;
 var _map = require("../core/utils").map;
-var _noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var _noop = commonUtils.noop;
 var scatterSeries = require("./scatter_series").chart;
 var barSeries = require("./bar_series").chart.bar;
 var areaSeries = require("./area_series").chart.area;

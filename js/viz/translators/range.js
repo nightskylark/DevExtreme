@@ -1,5 +1,6 @@
 var typeUtils = require("../../core/utils/type");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var _isDefined = typeUtils.isDefined;
 var _isDate = typeUtils.isDate;
 var _isFunction = typeUtils.isFunction;

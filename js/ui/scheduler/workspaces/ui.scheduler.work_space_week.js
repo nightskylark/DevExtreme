@@ -2,7 +2,8 @@ var $ = require("../../../core/renderer");
 var registerComponent = require("../../../core/component_registrator");
 var dateUtils = require("../../../core/utils/date");
 var dateLocalization = require("../../../localization/date");
-var each = require("../../../core/utils/iterator").each;
+import iteratorUtils from "../../../core/utils/iterator";
+var each = iteratorUtils.each;
 var SchedulerWorkSpace = require("./ui.scheduler.work_space.indicator");
 
 var WEEK_CLASS = "dx-scheduler-work-space-week";

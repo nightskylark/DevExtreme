@@ -1,7 +1,11 @@
-var noop = require("../core/utils/common").noop;
-var _extend = require("../core/utils/extend").extend;
-var inArray = require("../core/utils/array").inArray;
-var each = require("../core/utils/iterator").each;
+import commonUtils from "../core/utils/common";
+var noop = commonUtils.noop;
+import extendUtils from "../core/utils/extend";
+var _extend = extendUtils.extend;
+import arrayUtils from "../core/utils/array";
+var inArray = arrayUtils.inArray;
+import iteratorUtils from "../core/utils/iterator";
+var each = iteratorUtils.each;
 var registerComponent = require("../core/component_registrator");
 var vizUtils = require("./core/utils");
 var typeUtils = require("../core/utils/type");
@@ -24,7 +28,7 @@ var DEFAULT_PANES = [{
 var _map = vizUtils.map;
 var _each = each;
 var _isArray = Array.isArray;
-var _isDefined = require("../core/utils/type").isDefined;
+var _isDefined = typeUtils.isDefined;
 
 function getFirstAxisNameForPane(axes, paneName, defaultPane) {
     var result;

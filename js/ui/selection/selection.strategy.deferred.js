@@ -2,7 +2,8 @@ var typeUtils = require("../../core/utils/type");
 var SelectionStrategy = require("./selection.strategy");
 var errors = require("../widget/ui.errors");
 var dataQuery = require("../../data/query");
-var Deferred = require("../../core/utils/deferred").Deferred;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 
 module.exports = SelectionStrategy.inherit({
 

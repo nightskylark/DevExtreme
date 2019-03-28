@@ -1,6 +1,8 @@
 var Component = require("../../core/component");
-var each = require("../../core/utils/iterator").each;
-var extend = require("../../core/utils/extend").extend;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var devices = require("../../core/devices");
 var fx = require("../fx");
 

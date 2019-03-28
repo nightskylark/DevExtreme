@@ -1,7 +1,8 @@
 var tiling = require("./tiling");
 var dynamicSlope = require("./tiling.funnel");
 var dynamicHeight = require("./tiling.pyramid");
-var noop = require("../../core/utils/common").noop;
+import commonUtils from "../../core/utils/common";
+var noop = commonUtils.noop;
 var Item = require("./item");
 var NODES_CREATE_CHANGE = "NODES_CREATE";
 

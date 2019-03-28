@@ -1,7 +1,9 @@
 var $ = require("../../core/renderer");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var pivotUtils = require("./ui.pivot_grid.utils");
-var each = require("../../core/utils/iterator").each;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var foreachTree = pivotUtils.foreachTree;
 
 var FORMAT_DICTIONARY = {

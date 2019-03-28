@@ -1,7 +1,8 @@
 var jQuery = require("jquery");
 var deferredUtils = require("../../core/utils/deferred");
 var useJQuery = require("./use_jquery")();
-var compareVersion = require("../../core/utils/version").compare;
+import versionUtils from "../../core/utils/version";
+var compareVersion = versionUtils.compare;
 
 if(useJQuery) {
     var Deferred = jQuery.Deferred;

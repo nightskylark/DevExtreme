@@ -2,11 +2,13 @@ var variableWrapper = require("../../core/utils/variable_wrapper");
 var dataCoreUtils = require("../../core/utils/data");
 var commonUtils = require("../../core/utils/common");
 var typeUtils = require("../../core/utils/type");
-var extend = require("../../core/utils/extend").extend;
+import extendUtils from "../../core/utils/extend";
+var extend = extendUtils.extend;
 var DataHelperMixin = require("../../data_helper");
 var DataSourceModule = require("../../data/data_source/data_source");
 var ArrayStore = require("../../data/array_store");
-var Deferred = require("../../core/utils/deferred").Deferred;
+import deferredUtils from "../../core/utils/deferred";
+var Deferred = deferredUtils.Deferred;
 
 /**
 * @name DataExpressionMixin

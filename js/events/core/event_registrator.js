@@ -1,4 +1,5 @@
-var each = require("../../core/utils/iterator").each;
+import iteratorUtils from "../../core/utils/iterator";
+var each = iteratorUtils.each;
 var callbacks = require("./event_registrator_callbacks");
 
 var registerEvent = function(name, eventObject) {

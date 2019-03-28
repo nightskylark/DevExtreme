@@ -1,6 +1,8 @@
-var noop = require("../../../core/utils/common").noop;
+import commonUtils from "../../../core/utils/common";
+var noop = commonUtils.noop;
 var dateUtils = require("../../../core/utils/date");
-var each = require("../../../core/utils/iterator").each;
+import iteratorUtils from "../../../core/utils/iterator";
+var each = iteratorUtils.each;
 var arrayUtils = require("../../../core/utils/array");
 var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base");
 
