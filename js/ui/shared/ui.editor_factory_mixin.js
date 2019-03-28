@@ -14,7 +14,8 @@ var devices = require("../../core/devices");
 import domUtils from "../../core/utils/dom";
 var getPublicElement = domUtils.getPublicElement;
 var normalizeDataSourceOptions = require("../../data/data_source/data_source").normalizeDataSourceOptions;
-var normalizeKeyName = require("../../events/utils").normalizeKeyName;
+import utilsModule from "../../events/utils";
+var normalizeKeyName = utilsModule.normalizeKeyName;
 
 require("../text_box");
 require("../number_box");

@@ -1,5 +1,6 @@
 var config = require("../config");
-var getLDMLFormatter = require("../../localization/ldml/date.formatter").getFormatter;
+import dateFormatterModule from "../../localization/ldml/date.formatter";
+var getLDMLFormatter = dateFormatterModule.getFormatter;
 var defaultDateNames = require("../../localization/default_date_names");
 var typeUtils = require("./type");
 var isString = typeUtils.isString;

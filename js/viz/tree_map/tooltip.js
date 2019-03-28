@@ -1,5 +1,6 @@
 var proto = require("./tree_map.base").prototype;
-var expand = require("../core/helpers").expand;
+import helpersModule from "../core/helpers";
+var expand = helpersModule.expand;
 
 require("./api");
 

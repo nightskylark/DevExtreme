@@ -1,4 +1,5 @@
-var logger = require("./console").logger;
+import consoleModule from "./console";
+var logger = consoleModule.logger;
 var dependencyInjector = require("./dependency_injector");
 
 module.exports = dependencyInjector({

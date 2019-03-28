@@ -1,7 +1,10 @@
 var proto = require("./tree_map.base").prototype;
-var Tracker = require("../components/tracker").Tracker;
-var expand = require("../core/helpers").expand;
-var _parseScalar = require("../core/utils").parseScalar;
+import trackerModule from "../components/tracker";
+var Tracker = trackerModule.Tracker;
+import helpersModule from "../core/helpers";
+var expand = helpersModule.expand;
+import utilsModule from "../core/utils";
+var _parseScalar = utilsModule.parseScalar;
 var DATA_KEY_BASE = "__treemap_data_";
 var dataKeyModifier = 0;
 

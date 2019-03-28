@@ -1,5 +1,7 @@
-var isDefined = require("./type").isDefined;
-var each = require("./iterator").each;
+import typeModule from "./type";
+var isDefined = typeModule.isDefined;
+import iteratorModule from "./iterator";
+var each = iteratorModule.each;
 var objectUtils = require("./object");
 var config = require("../config");
 

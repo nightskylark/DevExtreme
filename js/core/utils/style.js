@@ -1,4 +1,5 @@
-var camelize = require("./inflector").camelize;
+import inflectorModule from "./inflector";
+var camelize = inflectorModule.camelize;
 var callOnce = require("./call_once");
 var typeUtils = require("./type");
 var domAdapter = require("../dom_adapter");

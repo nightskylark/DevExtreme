@@ -1,5 +1,6 @@
 var _Number = Number;
-var _getAppropriateFormat = require("../core/utils").getAppropriateFormat;
+import utilsModule from "../core/utils";
+var _getAppropriateFormat = utilsModule.getAppropriateFormat;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 var translator1DModule = require("../translators/translator1d");

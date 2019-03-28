@@ -12,7 +12,8 @@ import commonUtils from "../../core/utils/common";
 var grep = commonUtils.grep;
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
-var errors = require("../errors").errors;
+import errorsModule from "../errors";
+var errors = errorsModule.errors;
 var dataUtils = require("../utils");
 
 var GUID_REGEX = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/;

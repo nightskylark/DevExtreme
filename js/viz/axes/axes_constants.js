@@ -1,4 +1,5 @@
-var _map = require("../core/utils").map;
+import utilsModule from "../core/utils";
+var _map = utilsModule.map;
 
 module.exports = {
     logarithmic: "logarithmic",

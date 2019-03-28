@@ -1,5 +1,7 @@
-var proto = require("./sankey").prototype;
-var Tracker = require("../components/tracker").Tracker;
+import sankeyModule from "./sankey";
+var proto = sankeyModule.prototype;
+import trackerModule from "../components/tracker";
+var Tracker = trackerModule.Tracker;
 var DATA_KEY_BASE = "__sankey_data_";
 var dataKeyModifier = 0;
 

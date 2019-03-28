@@ -8,10 +8,12 @@ import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 var objectUtils = require("../../core/utils/object");
 var dxBaseGauge = require("./base_gauge").dxBaseGauge;
-var dxGauge = require("./common").dxGauge;
-var _normalizeEnum = require("../core/utils").normalizeEnum;
+import commonModule from "./common";
+var dxGauge = commonModule.dxGauge;
+import utilsModule from "../core/utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 var linearIndicatorsModule = require("./linear_indicators");
-var createIndicatorCreator = require("./common").createIndicatorCreator;
+var createIndicatorCreator = commonModule.createIndicatorCreator;
 var LinearRangeContainer = require("./linear_range_container");
 
 var dxLinearGauge = dxGauge.inherit({

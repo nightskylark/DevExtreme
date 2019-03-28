@@ -3,9 +3,10 @@ import typeUtils from "../../core/utils/type";
 var _isString = typeUtils.isString;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var _patchFontOptions = require("./utils").patchFontOptions;
-var parseHorizontalAlignment = require("./utils").enumParser(["left", "center", "right"]);
-var parseVerticalAlignment = require("./utils").enumParser(["top", "bottom"]);
+import utilsModule from "./utils";
+var _patchFontOptions = utilsModule.patchFontOptions;
+var parseHorizontalAlignment = utilsModule.enumParser(["left", "center", "right"]);
+var parseVerticalAlignment = utilsModule.enumParser(["top", "bottom"]);
 var DEFAULT_MARGIN = 10;
 var DEFAULT_GAP = 3;
 

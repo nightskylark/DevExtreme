@@ -1,4 +1,5 @@
-var _patchFontOptions = require("../core/utils").patchFontOptions;
+import utilsModule from "../core/utils";
+var _patchFontOptions = utilsModule.patchFontOptions;
 
 exports.buildRectAppearance = function(option) {
     var border = option.border || {};

@@ -1,7 +1,11 @@
+import extendModule from "./extend";
+import typeModule from "./type";
+import iteratorModule from "./iterator";
+
 module.exports = function(object) {
-    var extend = require("./extend").extend;
-    var isFunction = require("./type").isFunction;
-    var each = require("./iterator").each;
+    var extend = extendModule.extend;
+    var isFunction = typeModule.isFunction;
+    var each = iteratorModule.each;
     var Class = require("../class");
     var BaseClass = Class.inherit(object);
     var InjectedClass = BaseClass;

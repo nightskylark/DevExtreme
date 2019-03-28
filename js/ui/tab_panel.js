@@ -6,7 +6,7 @@ var devices = require("../core/devices");
 var registerComponent = require("../core/component_registrator");
 var MultiView = require("./multi_view");
 var Tabs = require("./tabs");
-var TabPanelItem = require("./tab_panel/item").default;
+import TabPanelItem from "./tab_panel/item";
 var iconUtils = require("../core/utils/icon");
 import domUtils from "../core/utils/dom";
 var getPublicElement = domUtils.getPublicElement;

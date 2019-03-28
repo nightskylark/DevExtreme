@@ -1,5 +1,6 @@
 var states = ["normal", "hover"];
 import typeUtils from "../../core/utils/type";
+import utilsModule from "../core/utils";
 var isDefined = typeUtils.isDefined;
 
 function compileAttrs(color, itemOptions, itemBaseOptions) {
@@ -21,7 +22,7 @@ function compileAttrs(color, itemOptions, itemBaseOptions) {
 }
 
 function compileLabelAttrs(labelOptions, filter, node) {
-    var _patchFontOptions = require("../core/utils").patchFontOptions;
+    var _patchFontOptions = utilsModule.patchFontOptions;
 
     if(labelOptions.useNodeColors) {
         labelOptions.font.color = node.color;

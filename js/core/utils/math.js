@@ -1,4 +1,5 @@
-var isExponential = require("./type").isExponential;
+import typeModule from "./type";
+var isExponential = typeModule.isExponential;
 
 var sign = function(value) {
     if(value === 0) {

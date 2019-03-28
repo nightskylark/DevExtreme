@@ -6,7 +6,8 @@ var extend = extendUtils.extend;
 var BaseThemeManager = require("../core/base_theme_manager").BaseThemeManager;
 var _isString = typeUtils.isString;
 var _isDefined = typeUtils.isDefined;
-var _normalizeEnum = require("../core/utils").normalizeEnum;
+import utilsModule from "../core/utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 
 var ThemeManager = BaseThemeManager.inherit((function() {
     var ctor = function(params) {

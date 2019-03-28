@@ -1,4 +1,5 @@
-var locale = require("./core").locale;
+import coreModule from "./core";
+var locale = coreModule.locale;
 
 var LANGUAGE_CODES = {
     "ar": 1,

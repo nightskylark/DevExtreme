@@ -6,7 +6,8 @@ var extend = extendUtils.extend;
 var queryAdapters = require("../query_adapters");
 var odataUtils = require("./utils");
 var serializePropName = odataUtils.serializePropName;
-var errors = require("../errors").errors;
+import errorsModule from "../errors";
+var errors = errorsModule.errors;
 var dataUtils = require("../utils");
 var isFunction = typeUtils.isFunction;
 

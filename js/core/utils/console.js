@@ -1,7 +1,8 @@
 /* global console */
 /* eslint no-console: off */
 
-var isFunction = require("./type").isFunction;
+import typeModule from "./type";
+var isFunction = typeModule.isFunction;
 
 var noop = function() {};
 var getConsoleMethod = function(method) {

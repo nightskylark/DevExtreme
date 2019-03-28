@@ -1,5 +1,6 @@
 var proto = require("./tree_map.base").prototype;
-var nodeProto = require("./node").prototype;
+import nodeModule from "./node";
+var nodeProto = nodeModule.prototype;
 var handlers = proto._handlers;
 var _calculateState = handlers.calculateState;
 var _buildState = nodeProto._buildState;

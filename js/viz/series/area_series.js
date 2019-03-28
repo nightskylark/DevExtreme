@@ -7,7 +7,8 @@ var scatterSeries = require("./scatter_series").chart;
 var lineSeries = require("./line_series");
 var chartLineSeries = lineSeries.chart.line;
 var polarLineSeries = lineSeries.polar.line;
-var _map = require("../core/utils").map;
+import utilsModule from "../core/utils";
+var _map = utilsModule.map;
 var _extend = extend;
 var calculateBezierPoints = lineSeries.chart["spline"]._calculateBezierPoints;
 

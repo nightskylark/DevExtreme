@@ -1,4 +1,5 @@
-var _createColorCodeGetter = require("./colorizing").createColorCodeGetter;
+import colorizingModule from "./colorizing";
+var _createColorCodeGetter = colorizingModule.createColorCodeGetter;
 var _min = Math.min;
 var _max = Math.max;
 

@@ -13,7 +13,8 @@ var _getCosAndSin = vizUtils.getCosAndSin;
 import typeUtils from "../../../core/utils/type";
 var _isDefined = typeUtils.isDefined;
 var getVerticallyShiftedAngularCoords = vizUtils.getVerticallyShiftedAngularCoords;
-var RADIAL_LABEL_INDENT = require("../../components/consts").radialLabelIndent;
+import constsModule from "../../components/consts";
+var RADIAL_LABEL_INDENT = constsModule.radialLabelIndent;
 
 module.exports = _extend({}, symbolPoint, {
     _updateData: function(data, argumentChanged) {

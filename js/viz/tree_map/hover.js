@@ -1,8 +1,11 @@
 var proto = require("./tree_map.base").prototype;
-var nodeProto = require("./node").prototype;
-var expand = require("../core/helpers").expand;
+import nodeModule from "./node";
+var nodeProto = nodeModule.prototype;
+import helpersModule from "../core/helpers";
+var expand = helpersModule.expand;
 var common = require("./common");
-var _parseScalar = require("../core/utils").parseScalar;
+import utilsModule from "../core/utils";
+var _parseScalar = utilsModule.parseScalar;
 var _buildRectAppearance = common.buildRectAppearance;
 var STATE_CODE = 1;
 

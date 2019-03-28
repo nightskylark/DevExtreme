@@ -1,7 +1,8 @@
 var BaseRangeContainer = require("./base_range_container");
 var _Number = Number;
 var _max = Math.max;
-var _normalizeEnum = require("../core/utils").normalizeEnum;
+import utilsModule from "../core/utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 
 var LinearRangeContainer = BaseRangeContainer.inherit({
     _processOptions: function() {

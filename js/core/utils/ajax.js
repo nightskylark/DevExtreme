@@ -1,10 +1,13 @@
-var Deferred = require("./deferred").Deferred;
+import deferredModule from "./deferred";
+var Deferred = deferredModule.Deferred;
 var domAdapter = require("../../core/dom_adapter");
 var httpRequest = require("../../core/http_request");
 var windowUtils = require("../../core/utils/window");
 var window = windowUtils.getWindow();
-var extendFromObject = require("./extend").extendFromObject;
-var isDefined = require("./type").isDefined;
+import extendModule from "./extend";
+var extendFromObject = extendModule.extendFromObject;
+import typeModule from "./type";
+var isDefined = typeModule.isDefined;
 var Promise = require("../polyfills/promise");
 var injector = require("./dependency_injector");
 

@@ -2,7 +2,8 @@ var typeUtils = require("../core/utils/type");
 var stringUtils = require("../core/utils/string");
 var numberFormatter = require("../localization/number");
 var dateLocalization = require("../localization/date");
-var getDateLDMLFormat = require("../localization/ldml/date.format").getFormat;
+import dateFormatModule from "../localization/ldml/date.format";
+var getDateLDMLFormat = dateFormatModule.getFormat;
 var getLanguageID = require("../localization/language_codes").getLanguageId;
 
 var UNSUPPORTED_FORMAT_MAPPING = {

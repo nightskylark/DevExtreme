@@ -1,4 +1,5 @@
-var map = require("./iterator").map;
+import iteratorModule from "./iterator";
+var map = iteratorModule.map;
 
 var _normalize = function(text) {
     if(text === undefined || text === null) {

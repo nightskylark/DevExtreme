@@ -1,4 +1,5 @@
-var isPlainObject = require("./type").isPlainObject;
+import typeModule from "./type";
+var isPlainObject = typeModule.isPlainObject;
 
 var extendFromObject = function(target, source, overrideExistingValues) {
     target = target || {};

@@ -4,7 +4,8 @@ var ko = require("knockout");
 var typeUtils = require("../../core/utils/type");
 var TemplateBase = require("../../ui/widget/ui.template_base");
 var domUtils = require("../../core/utils/dom");
-var getClosestNodeWithContext = require("./utils").getClosestNodeWithContext;
+import utilsModule from "./utils";
+var getClosestNodeWithContext = utilsModule.getClosestNodeWithContext;
 
 var getParentContext = function(data) {
     var parentNode = domAdapter.createElement("div");

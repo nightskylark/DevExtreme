@@ -1,4 +1,5 @@
-var _normalizeEnum = require("../core/utils").normalizeEnum;
+import utilsModule from "../core/utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 var algorithms = {};
 var defaultAlgorithm;
 

@@ -1,6 +1,8 @@
-var patchFontOptions = require("../core/utils").patchFontOptions;
+import utilsModule from "../core/utils";
+var patchFontOptions = utilsModule.patchFontOptions;
 var SLIDER_MARKER_UPDATE_DELAY = 75;
-var POINTER_SIZE = require("./common").consts.pointerSize;
+import commonModule from "./common";
+var POINTER_SIZE = commonModule.consts.pointerSize;
 
 function SliderMarker(renderer, root, isLeftPointer) {
     var that = this;

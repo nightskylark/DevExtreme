@@ -1,4 +1,5 @@
-var inArray = require("./array").inArray;
+import arrayModule from "./array";
+var inArray = arrayModule.inArray;
 var domAdapter = require("../dom_adapter");
 var callOnce = require("./call_once");
 var windowUtils = require("./window");

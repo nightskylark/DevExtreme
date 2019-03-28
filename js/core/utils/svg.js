@@ -1,5 +1,6 @@
 var domAdapter = require("../../core/dom_adapter");
-var window = require("./window").getWindow();
+import windowModule from "./window";
+var window = windowModule.getWindow();
 var $ = require("../../core/renderer");
 
 function getMarkup(element, backgroundColor) {

@@ -1,4 +1,5 @@
-var _patchFontOptions = require("./utils").patchFontOptions;
+import utilsModule from "./utils";
+var _patchFontOptions = utilsModule.patchFontOptions;
 var STATE_HIDDEN = 0;
 var STATE_SHOWN = 1;
 var ANIMATION_EASING = "linear";

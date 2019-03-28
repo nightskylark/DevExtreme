@@ -4,7 +4,8 @@ var windowUtils = require("../core/utils/window");
 var window = windowUtils.getWindow();
 var Class = require("../core/class");
 var abstract = Class.abstract;
-var errors = require("./errors").errors;
+import errorsModule from "./errors";
+var errors = errorsModule.errors;
 var ArrayStore = require("./array_store");
 
 var LocalStoreBackend = Class.inherit({

@@ -1,5 +1,6 @@
 var proto = require("./tree_map.base").prototype;
-var nodeProto = require("./node").prototype;
+import nodeModule from "./node";
+var nodeProto = nodeModule.prototype;
 import extendUtils from "../../core/utils/extend";
 var _extend = extendUtils.extend;
 

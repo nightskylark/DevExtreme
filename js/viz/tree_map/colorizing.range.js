@@ -1,4 +1,5 @@
-var _createColorCodeGetter = require("./colorizing").createColorCodeGetter;
+import colorizingModule from "./colorizing";
+var _createColorCodeGetter = colorizingModule.createColorCodeGetter;
 
 function getPaletteIndex(value, items) {
     var start = 0;

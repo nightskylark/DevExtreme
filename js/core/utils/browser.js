@@ -1,4 +1,5 @@
-var extend = require("./extend").extend;
+import extendModule from "./extend";
+var extend = extendModule.extend;
 var windowUtils = require("./window");
 var navigator = windowUtils.getNavigator();
 var webkitRegExp = /(webkit)[ /]([\w.]+)/;

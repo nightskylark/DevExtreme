@@ -1,4 +1,5 @@
-var _normalizeEnum = require("./utils").normalizeEnum;
+import utilsModule from "./utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 var _min = Math.min;
 var _max = Math.max;
 var ALIGN_START = 0;

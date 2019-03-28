@@ -1,6 +1,7 @@
 import typeUtils from "../../core/utils/type";
 var _isFunction = typeUtils.isFunction;
-var _normalizeEnum = require("../core/utils").normalizeEnum;
+import utilsModule from "../core/utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 var _round = Math.round;
 var algorithms = {};
 var defaultAlgorithm;

@@ -1,4 +1,5 @@
-var extend = require("./extend").extend;
+import extendModule from "./extend";
+var extend = extendModule.extend;
 var consoleUtils = require("./console");
 var stringUtils = require("./string");
 var version = require("../version");

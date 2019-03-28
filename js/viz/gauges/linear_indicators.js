@@ -3,7 +3,8 @@ var BaseIndicator = baseIndicatorsModule.BaseIndicator;
 var BaseTextCloudMarker = baseIndicatorsModule.BaseTextCloudMarker;
 var BaseRangeBar = baseIndicatorsModule.BaseRangeBar;
 var _Number = Number;
-var _normalizeEnum = require("../core/utils").normalizeEnum;
+import utilsModule from "../core/utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 
 var SimpleIndicator = BaseIndicator.inherit({
     _move: function() {

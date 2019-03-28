@@ -5,7 +5,8 @@ var extend = extendUtils.extend;
 import iteratorUtils from "../core/utils/iterator";
 var each = iteratorUtils.each;
 var arrayQuery = require("./array_query");
-var normalizeSortingInfo = require("./utils").normalizeSortingInfo;
+import utilsModule from "./utils";
+var normalizeSortingInfo = utilsModule.normalizeSortingInfo;
 
 function multiLevelGroup(query, groupInfo) {
     query = query.groupBy(groupInfo[0].selector);

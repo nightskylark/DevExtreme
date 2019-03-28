@@ -1,4 +1,5 @@
-var _parseScalar = require("../core/utils").parseScalar;
+import utilsModule from "../core/utils";
+var _parseScalar = utilsModule.parseScalar;
 var projectionModule = require("./projection.main");
 var controlBarModule = require("./control_bar");
 var gestureHandlerModule = require("./gesture_handler");

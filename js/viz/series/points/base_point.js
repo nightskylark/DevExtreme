@@ -1,5 +1,6 @@
 var mixins = {};
-var statesConsts = require("../../components/consts").states;
+import constsModule from "../../components/consts";
+var statesConsts = constsModule.states;
 var symbolPoint = require("./symbol_point");
 var barPoint = require("./bar_point");
 var bubblePoint = require("./bubble_point");
@@ -9,7 +10,8 @@ var rangeBarPoint = require("./range_bar_point");
 var candlestickPoint = require("./candlestick_point");
 var stockPoint = require("./stock_point");
 var polarPoints = require("./polar_point");
-var _normalizeEnum = require("../../core/utils").normalizeEnum;
+import utilsModule from "../../core/utils";
+var _normalizeEnum = utilsModule.normalizeEnum;
 import extendUtils from "../../../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../../../core/utils/iterator";

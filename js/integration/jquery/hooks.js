@@ -6,7 +6,8 @@ import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
 import typeUtils from "../../core/utils/type";
 var isNumeric = typeUtils.isNumeric;
-var setEventFixMethod = require("../../events/utils").setEventFixMethod;
+import utilsModule from "../../events/utils";
+var setEventFixMethod = utilsModule.setEventFixMethod;
 var registerEvent = require("../../events/core/event_registrator");
 var hookTouchProps = require("../../events/core/hook_touch_props");
 
