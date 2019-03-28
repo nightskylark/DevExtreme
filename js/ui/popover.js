@@ -1,119 +1,122 @@
-var $ = require("../core/renderer"),
-    windowUtils = require("../core/utils/window"),
-    window = windowUtils.getWindow(),
-    domAdapter = require("../core/dom_adapter"),
-    eventsEngine = require("../events/core/events_engine"),
-    registerComponent = require("../core/component_registrator"),
-    commonUtils = require("../core/utils/common"),
-    extend = require("../core/utils/extend").extend,
-    translator = require("../animation/translator"),
-    positionUtils = require("../animation/position"),
-    typeUtils = require("../core/utils/type"),
-    mathUtils = require("../core/utils/math"),
-    eventUtils = require("../events/utils"),
-    Popup = require("./popup");
+var $ = require("../core/renderer");
+var windowUtils = require("../core/utils/window");
+var window = windowUtils.getWindow();
+var domAdapter = require("../core/dom_adapter");
+var eventsEngine = require("../events/core/events_engine");
+var registerComponent = require("../core/component_registrator");
+var commonUtils = require("../core/utils/common");
+var extend = require("../core/utils/extend").extend;
+var translator = require("../animation/translator");
+var positionUtils = require("../animation/position");
+var typeUtils = require("../core/utils/type");
+var mathUtils = require("../core/utils/math");
+var eventUtils = require("../events/utils");
+var Popup = require("./popup");
+var POPOVER_CLASS = "dx-popover";
+var POPOVER_WRAPPER_CLASS = "dx-popover-wrapper";
+var POPOVER_ARROW_CLASS = "dx-popover-arrow";
+var POPOVER_WITHOUT_TITLE_CLASS = "dx-popover-without-title";
 
-var POPOVER_CLASS = "dx-popover",
-    POPOVER_WRAPPER_CLASS = "dx-popover-wrapper",
-    POPOVER_ARROW_CLASS = "dx-popover-arrow",
-    POPOVER_WITHOUT_TITLE_CLASS = "dx-popover-without-title",
+var POSITION_FLIP_MAP = {
+    "left": "right",
+    "top": "bottom",
+    "right": "left",
+    "bottom": "top",
+    "center": "center"
+};
 
-    POSITION_FLIP_MAP = {
-        "left": "right",
-        "top": "bottom",
-        "right": "left",
-        "bottom": "top",
-        "center": "center"
-    },
+var WEIGHT_OF_SIDES = {
+    "left": -1,
+    "top": -1,
+    "center": 0,
+    "right": 1,
+    "bottom": 1
+};
 
-    WEIGHT_OF_SIDES = {
-        "left": -1,
-        "top": -1,
-        "center": 0,
-        "right": 1,
-        "bottom": 1
-    },
+var POSITION_ALIASES = {
+    // NOTE: public API
+    "top": { my: "bottom center", at: "top center", collision: "fit flip" },
+    "bottom": { my: "top center", at: "bottom center", collision: "fit flip" },
+    "right": { my: "left center", at: "right center", collision: "flip fit" },
+    "left": { my: "right center", at: "left center", collision: "flip fit" }
+};
 
-    POSITION_ALIASES = {
-        // NOTE: public API
-        "top": { my: "bottom center", at: "top center", collision: "fit flip" },
-        "bottom": { my: "top center", at: "bottom center", collision: "fit flip" },
-        "right": { my: "left center", at: "right center", collision: "flip fit" },
-        "left": { my: "right center", at: "left center", collision: "flip fit" }
-    },
+var SIDE_BORDER_WIDTH_STYLES = {
+    "left": "borderLeftWidth",
+    "top": "borderTopWidth",
+    "right": "borderRightWidth",
+    "bottom": "borderBottomWidth"
+};
 
-    SIDE_BORDER_WIDTH_STYLES = {
-        "left": "borderLeftWidth",
-        "top": "borderTopWidth",
-        "right": "borderRightWidth",
-        "bottom": "borderBottomWidth"
-    },
+var getEventName = function(that, optionName) {
+    var optionValue = that.option(optionName);
 
-    getEventName = function(that, optionName) {
-        var optionValue = that.option(optionName);
+    return getEventNameByOption(optionValue);
+};
 
-        return getEventNameByOption(optionValue);
-    },
-    getEventNameByOption = function(optionValue) {
-        return typeUtils.isObject(optionValue) ? optionValue.name : optionValue;
-    },
-    getEventDelay = function(that, optionName) {
-        var optionValue = that.option(optionName);
+var getEventNameByOption = function(optionValue) {
+    return typeUtils.isObject(optionValue) ? optionValue.name : optionValue;
+};
 
-        return typeUtils.isObject(optionValue) && optionValue.delay;
-    },
-    attachEvent = function(that, name) {
-        var delay,
-            action,
-            handler,
-            eventName,
-            target = that.option("target"),
-            event = getEventName(that, name + "Event");
+var getEventDelay = function(that, optionName) {
+    var optionValue = that.option(optionName);
 
-        if(!event || that.option("disabled")) {
-            return;
-        }
+    return typeUtils.isObject(optionValue) && optionValue.delay;
+};
 
-        eventName = eventUtils.addNamespace(event, that.NAME);
-        action = that._createAction((function() {
-            delay = getEventDelay(that, name + "Event");
-            this._clearEventTimeout(name === "hide");
-            if(delay) {
-                this._timeouts[name] = setTimeout(function() {
-                    that[name]();
-                }, delay);
-            } else {
+var attachEvent = function(that, name) {
+    var delay,
+        action,
+        handler,
+        eventName,
+        target = that.option("target"),
+        event = getEventName(that, name + "Event");
+
+    if(!event || that.option("disabled")) {
+        return;
+    }
+
+    eventName = eventUtils.addNamespace(event, that.NAME);
+    action = that._createAction((function() {
+        delay = getEventDelay(that, name + "Event");
+        this._clearEventTimeout(name === "hide");
+        if(delay) {
+            this._timeouts[name] = setTimeout(function() {
                 that[name]();
-            }
-        }).bind(that), { validatingTargetName: "target" });
-
-        handler = function(e) {
-            action({ event: e, target: $(e.currentTarget) });
-        };
-
-        if(target.jquery || target.nodeType || typeUtils.isWindow(target)) {
-            that["_" + name + "EventHandler"] = undefined;
-            eventsEngine.on(target, eventName, handler);
+            }, delay);
         } else {
-            that["_" + name + "EventHandler"] = handler;
-            eventsEngine.on(domAdapter.getDocument(), eventName, target, handler);
+            that[name]();
         }
-    },
-    detachEvent = function(that, target, name, event) {
-        var eventName = event || getEventName(that, name + "Event");
+    }).bind(that), { validatingTargetName: "target" });
 
-        if(!eventName) {
-            return;
-        }
-
-        eventName = eventUtils.addNamespace(eventName, that.NAME);
-
-        if(that["_" + name + "EventHandler"]) {
-            eventsEngine.off(domAdapter.getDocument(), eventName, target, that["_" + name + "EventHandler"]);
-        } else {
-            eventsEngine.off($(target), eventName);
-        }
+    handler = function(e) {
+        action({ event: e, target: $(e.currentTarget) });
     };
+
+    if(target.jquery || target.nodeType || typeUtils.isWindow(target)) {
+        that["_" + name + "EventHandler"] = undefined;
+        eventsEngine.on(target, eventName, handler);
+    } else {
+        that["_" + name + "EventHandler"] = handler;
+        eventsEngine.on(domAdapter.getDocument(), eventName, target, handler);
+    }
+};
+
+var detachEvent = function(that, target, name, event) {
+    var eventName = event || getEventName(that, name + "Event");
+
+    if(!eventName) {
+        return;
+    }
+
+    eventName = eventUtils.addNamespace(eventName, that.NAME);
+
+    if(that["_" + name + "EventHandler"]) {
+        eventsEngine.off(domAdapter.getDocument(), eventName, target, that["_" + name + "EventHandler"]);
+    } else {
+        eventsEngine.off($(target), eventName);
+    }
+};
 
 /**
  * @name dxPopover
@@ -440,8 +443,8 @@ var Popover = Popup.inherit({
         }
 
         if((containerLocation.v.oversize > 0) && this._isVerticalSide() && !containerLocation.v.fit) {
-            var newOverlayContentHeight = this._$content.height() - containerLocation.v.oversize,
-                newPopupContentHeight = this._$popupContent.height() - containerLocation.v.oversize;
+            var newOverlayContentHeight = this._$content.height() - containerLocation.v.oversize;
+            var newPopupContentHeight = this._$popupContent.height() - containerLocation.v.oversize;
 
             this._$content.height(newOverlayContentHeight);
             this._$popupContent.height(newPopupContentHeight);
@@ -577,12 +580,11 @@ var Popover = Popup.inherit({
     },
 
     _getDisplaySide: function(position) {
-        var my = positionUtils.setup.normalizeAlign(position.my),
-            at = positionUtils.setup.normalizeAlign(position.at);
-
-        var weightSign = WEIGHT_OF_SIDES[my.h] === WEIGHT_OF_SIDES[at.h] && WEIGHT_OF_SIDES[my.v] === WEIGHT_OF_SIDES[at.v] ? -1 : 1,
-            horizontalWeight = Math.abs(WEIGHT_OF_SIDES[my.h] - weightSign * WEIGHT_OF_SIDES[at.h]),
-            verticalWeight = Math.abs(WEIGHT_OF_SIDES[my.v] - weightSign * WEIGHT_OF_SIDES[at.v]);
+        var my = positionUtils.setup.normalizeAlign(position.my);
+        var at = positionUtils.setup.normalizeAlign(position.at);
+        var weightSign = WEIGHT_OF_SIDES[my.h] === WEIGHT_OF_SIDES[at.h] && WEIGHT_OF_SIDES[my.v] === WEIGHT_OF_SIDES[at.v] ? -1 : 1;
+        var horizontalWeight = Math.abs(WEIGHT_OF_SIDES[my.h] - weightSign * WEIGHT_OF_SIDES[at.h]);
+        var verticalWeight = Math.abs(WEIGHT_OF_SIDES[my.v] - weightSign * WEIGHT_OF_SIDES[at.v]);
 
         return horizontalWeight > verticalWeight ? at.h : at.v;
     },
@@ -630,8 +632,8 @@ var Popover = Popup.inherit({
                 break;
             case "showEvent":
             case "hideEvent":
-                var name = args.name.substring(0, 4),
-                    event = getEventNameByOption(args.previousValue);
+                var name = args.name.substring(0, 4);
+                var event = getEventNameByOption(args.previousValue);
 
                 this.hide();
                 detachEvent(this, this.option("target"), name, event);

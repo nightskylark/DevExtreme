@@ -1,9 +1,9 @@
-var Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    typeUtils = require("../../core/utils/type"),
-    noop = require("../../core/utils/common").noop,
-    isFunction = typeUtils.isFunction;
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var typeUtils = require("../../core/utils/type");
+var noop = require("../../core/utils/common").noop;
+var isFunction = typeUtils.isFunction;
 
 var EMPTY_CHAR = " ";
 

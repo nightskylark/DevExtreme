@@ -4,10 +4,10 @@ import { grep } from "../../core/utils/common";
 import { each } from "../../core/utils/iterator";
 import { isDefined } from "../../core/utils/type";
 
-var MASTER_DETAIL_CELL_CLASS = "dx-master-detail-cell",
-    MASTER_DETAIL_ROW_CLASS = "dx-master-detail-row",
-    CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled",
-    ROW_LINES_CLASS = "dx-row-lines";
+var MASTER_DETAIL_CELL_CLASS = "dx-master-detail-cell";
+var MASTER_DETAIL_ROW_CLASS = "dx-master-detail-row";
+var CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled";
+var ROW_LINES_CLASS = "dx-row-lines";
 
 
 module.exports = {
@@ -94,8 +94,8 @@ module.exports = {
                         }
                     },
                     isRowExpanded: function(key) {
-                        var that = this,
-                            expandIndex = gridCoreUtils.getIndexByKey(key, that._expandedItems);
+                        var that = this;
+                        var expandIndex = gridCoreUtils.getIndexByKey(key, that._expandedItems);
 
                         if(Array.isArray(key)) {
                             return that.callBase.apply(that, arguments);
@@ -109,9 +109,9 @@ module.exports = {
                         return [rowIndex, rowIndex + 1];
                     },
                     _changeRowExpandCore: function(key) {
-                        var that = this,
-                            expandIndex,
-                            editingController;
+                        var that = this;
+                        var expandIndex;
+                        var editingController;
 
                         if(Array.isArray(key)) {
                             return that.callBase.apply(that, arguments);
@@ -137,8 +137,8 @@ module.exports = {
                         }
                     },
                     _processDataItem: function(data, options) {
-                        var that = this,
-                            dataItem = that.callBase.apply(that, arguments);
+                        var that = this;
+                        var dataItem = that.callBase.apply(that, arguments);
 
                         dataItem.isExpanded = that.isRowExpanded(dataItem.key);
 
@@ -157,9 +157,9 @@ module.exports = {
                         return dataItem;
                     },
                     _processItems: function(items, changeType) {
-                        var that = this,
-                            expandIndex,
-                            result = [];
+                        var that = this;
+                        var expandIndex;
+                        var result = [];
 
                         items = that.callBase.apply(that, arguments);
 
@@ -189,11 +189,11 @@ module.exports = {
                         return result;
                     },
                     optionChanged: function(args) {
-                        var that = this,
-                            value,
-                            previousValue,
-                            isEnabledChanged,
-                            isAutoExpandAllChanged;
+                        var that = this;
+                        var value;
+                        var previousValue;
+                        var isEnabledChanged;
+                        var isAutoExpandAllChanged;
 
                         if(args.name === "masterDetail") {
                             args.name = "dataSource";
@@ -227,11 +227,11 @@ module.exports = {
             rowsView: (function() {
                 return {
                     _getCellTemplate: function(options) {
-                        var that = this,
-                            column = options.column,
-                            editingController = that.getController("editing"),
-                            isEditRow = editingController && editingController.isEditRow(options.rowIndex),
-                            template;
+                        var that = this;
+                        var column = options.column;
+                        var editingController = that.getController("editing");
+                        var isEditRow = editingController && editingController.isEditRow(options.rowIndex);
+                        var template;
 
                         if(column.command === "detail" && !isEditRow) {
                             template = that.option("masterDetail.template") || { allowRenderToDetachedContainer: false, render: that._getDefaultTemplate(column) };
@@ -243,8 +243,8 @@ module.exports = {
                     },
 
                     _cellPrepared: function($cell, options) {
-                        var that = this,
-                            component = that.component;
+                        var that = this;
+                        var component = that.component;
 
                         that.callBase.apply(that, arguments);
 
@@ -289,9 +289,9 @@ module.exports = {
                     },
 
                     _renderCells: function($row, options) {
-                        var row = options.row,
-                            $detailCell,
-                            visibleColumns = this._columnsController.getVisibleColumns();
+                        var row = options.row;
+                        var $detailCell;
+                        var visibleColumns = this._columnsController.getVisibleColumns();
 
                         if(row.rowType && this._isDetailRow(row)) {
                             $detailCell = this._renderCell($row, {

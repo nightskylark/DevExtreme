@@ -1,21 +1,20 @@
-var extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    Range = require("./range").Range,
-    categoryTranslator = require("./category_translator"),
-    intervalTranslator = require("./interval_translator"),
-    datetimeTranslator = require("./datetime_translator"),
-    logarithmicTranslator = require("./logarithmic_translator"),
-    vizUtils = require("../core/utils"),
-    typeUtils = require("../../core/utils/type"),
-    getLog = vizUtils.getLog,
-    getPower = vizUtils.getPower,
-    isDefined = typeUtils.isDefined,
-    adjust = require("../../core/utils/math").adjust,
-    _abs = Math.abs,
-    CANVAS_PROP = ["width", "height", "left", "top", "bottom", "right"],
-    _Translator2d,
-
-    addInterval = require("../../core/utils/date").addInterval;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var Range = require("./range").Range;
+var categoryTranslator = require("./category_translator");
+var intervalTranslator = require("./interval_translator");
+var datetimeTranslator = require("./datetime_translator");
+var logarithmicTranslator = require("./logarithmic_translator");
+var vizUtils = require("../core/utils");
+var typeUtils = require("../../core/utils/type");
+var getLog = vizUtils.getLog;
+var getPower = vizUtils.getPower;
+var isDefined = typeUtils.isDefined;
+var adjust = require("../../core/utils/math").adjust;
+var _abs = Math.abs;
+var CANVAS_PROP = ["width", "height", "left", "top", "bottom", "right"];
+var _Translator2d;
+var addInterval = require("../../core/utils/date").addInterval;
 
 const dummyTranslator = {
     to(value) {
@@ -60,14 +59,15 @@ function prepareBreaks(breaks, range) {
             return getLog(value, range.base);
         } : function(value) {
             return value;
-        },
-        array = [],
-        br,
-        transformFrom,
-        transformTo,
-        i,
-        length = breaks.length,
-        sum = 0;
+        };
+
+    var array = [];
+    var br;
+    var transformFrom;
+    var transformTo;
+    var i;
+    var length = breaks.length;
+    var sum = 0;
 
     for(i = 0; i < length; i++) {
         br = breaks[i];
@@ -147,14 +147,15 @@ _Translator2d.prototype = {
     constructor: _Translator2d,
     reinit: function() {
         // TODO: parseInt canvas
-        var that = this,
-            options = that._options,
-            range = that._businessRange,
-            categories = range.categories || [],
-            script = {},
-            canvasOptions = that._prepareCanvasOptions(),
-            visibleCategories = vizUtils.getCategoriesInfo(categories, range.minVisible, range.maxVisible).categories,
-            categoriesLength = visibleCategories.length;
+        var that = this;
+
+        var options = that._options;
+        var range = that._businessRange;
+        var categories = range.categories || [];
+        var script = {};
+        var canvasOptions = that._prepareCanvasOptions();
+        var visibleCategories = vizUtils.getCategoriesInfo(categories, range.minVisible, range.maxVisible).categories;
+        var categoriesLength = visibleCategories.length;
 
         if(range.isEmpty()) {
             script = dummyTranslator;
@@ -200,12 +201,12 @@ _Translator2d.prototype = {
     },
 
     _translateBreaks: function() {
-        var breaks = this._breaks,
-            size = this._options.breaksSize,
-            i,
-            b,
-            end,
-            length;
+        var breaks = this._breaks;
+        var size = this._options.breaksSize;
+        var i;
+        var b;
+        var end;
+        var length;
         if(breaks === undefined) {
             return;
         }
@@ -218,12 +219,12 @@ _Translator2d.prototype = {
     },
 
     _checkValueAboutBreaks: function(breaks, pos, start, end, methods) {
-        var i,
-            length,
-            prop = { length: 0, breaksSize: undefined, inBreak: false },
-            br,
-            prevBreak,
-            lastBreak = breaks[breaks.length - 1];
+        var i;
+        var length;
+        var prop = { length: 0, breaksSize: undefined, inBreak: false };
+        var br;
+        var prevBreak;
+        var lastBreak = breaks[breaks.length - 1];
 
         if(methods.isStartSide(pos, breaks, start, end)) {
             return prop;
@@ -296,8 +297,8 @@ _Translator2d.prototype = {
     },
 
     updateBusinessRange: function(businessRange) {
-        var that = this,
-            breaks = businessRange.breaks || [];
+        var that = this;
+        var breaks = businessRange.breaks || [];
 
         that._businessRange = validateBusinessRange(businessRange);
 
@@ -380,8 +381,8 @@ _Translator2d.prototype = {
     },
 
     getMinBarSize: function(minBarSize) {
-        var visibleArea = this.getCanvasVisibleArea(),
-            minValue = this.from(visibleArea.min + minBarSize);
+        var visibleArea = this.getCanvasVisibleArea();
+        var minValue = this.from(visibleArea.min + minBarSize);
 
         return _abs(this.from(visibleArea.min) - (!isDefined(minValue) ? this.from(visibleArea.max) : minValue));
     },
@@ -519,9 +520,9 @@ _Translator2d.prototype = {
     },
 
     getCorrectValue: function(value, direction) {
-        var that = this,
-            breaks = that._breaks,
-            prop;
+        var that = this;
+        var breaks = that._breaks;
+        var prop;
 
         value = that._fromValue(value);
 
@@ -547,11 +548,11 @@ _Translator2d.prototype = {
         }
 
         bp = this._fromValue(bp);
-        var that = this,
-            canvasOptions = that._canvasOptions,
-            breaks = that._breaks,
-            prop = { length: 0 },
-            commonBreakSize = 0;
+        var that = this;
+        var canvasOptions = that._canvasOptions;
+        var breaks = that._breaks;
+        var prop = { length: 0 };
+        var commonBreakSize = 0;
 
         if(breaks !== undefined) {
             prop = that._checkValueAboutBreaks(breaks, bp, "trFrom", "trTo", that._checkingMethodsAboutBreaks[0]);
@@ -571,12 +572,12 @@ _Translator2d.prototype = {
     },
 
     from: function(pos, direction) {
-        var that = this,
-            breaks = that._breaks,
-            prop = { length: 0 },
-            canvasOptions = that._canvasOptions,
-            startPoint = canvasOptions.startPoint,
-            commonBreakSize = 0;
+        var that = this;
+        var breaks = that._breaks;
+        var prop = { length: 0 };
+        var canvasOptions = that._canvasOptions;
+        var startPoint = canvasOptions.startPoint;
+        var commonBreakSize = 0;
 
         if(breaks !== undefined) {
             prop = that._checkValueAboutBreaks(breaks, pos, "start", "end", that._checkingMethodsAboutBreaks[1]);

@@ -1,20 +1,20 @@
 /* global google */
 
-var $ = require("../../core/renderer"),
-    window = require("../../core/utils/window").getWindow(),
-    noop = require("../../core/utils/common").noop,
-    devices = require("../../core/devices"),
-    Promise = require("../../core/polyfills/promise"),
-    extend = require("../../core/utils/extend").extend,
-    map = require("../../core/utils/iterator").map,
-    DynamicProvider = require("./provider.dynamic"),
-    errors = require("../widget/ui.errors"),
-    Color = require("../../color"),
-    ajax = require("../../core/utils/ajax"),
-    isDefined = require("../../core/utils/type").isDefined;
+var $ = require("../../core/renderer");
 
-var GOOGLE_MAP_READY = "_googleScriptReady",
-    GOOGLE_URL = "https://maps.googleapis.com/maps/api/js?callback=" + GOOGLE_MAP_READY;
+var window = require("../../core/utils/window").getWindow();
+var noop = require("../../core/utils/common").noop;
+var devices = require("../../core/devices");
+var Promise = require("../../core/polyfills/promise");
+var extend = require("../../core/utils/extend").extend;
+var map = require("../../core/utils/iterator").map;
+var DynamicProvider = require("./provider.dynamic");
+var errors = require("../widget/ui.errors");
+var Color = require("../../color");
+var ajax = require("../../core/utils/ajax");
+var isDefined = require("../../core/utils/type").isDefined;
+var GOOGLE_MAP_READY = "_googleScriptReady";
+var GOOGLE_URL = "https://maps.googleapis.com/maps/api/js?callback=" + GOOGLE_MAP_READY;
 
 var CustomMarker;
 
@@ -303,8 +303,8 @@ var GoogleProvider = DynamicProvider.inherit({
             var infoWindow = this._renderTooltip(marker, options.tooltip);
             var listener;
             if(options.onClick || options.tooltip) {
-                var markerClickAction = this._mapWidget._createAction(options.onClick || noop),
-                    markerNormalizedLocation = this._normalizeLocation(location);
+                var markerClickAction = this._mapWidget._createAction(options.onClick || noop);
+                var markerNormalizedLocation = this._normalizeLocation(location);
 
                 listener = google.maps.event.addListener(marker, "click", function() {
                     markerClickAction({
@@ -354,11 +354,12 @@ var GoogleProvider = DynamicProvider.inherit({
             return this._resolveLocation(point);
         }.bind(this))).then(function(locations) {
             return new Promise(function(resolve) {
-                var origin = locations.shift(),
-                    destination = locations.pop(),
-                    waypoints = map(locations, function(location) {
-                        return { location: location, stopover: true };
-                    });
+                var origin = locations.shift();
+                var destination = locations.pop();
+
+                var waypoints = map(locations, function(location) {
+                    return { location: location, stopover: true };
+                });
 
                 var request = {
                     origin: origin,
@@ -370,21 +371,22 @@ var GoogleProvider = DynamicProvider.inherit({
 
                 new google.maps.DirectionsService().route(request, function(response, status) {
                     if(status === google.maps.DirectionsStatus.OK) {
-                        var color = new Color(options.color || this._defaultRouteColor()).toHex(),
-                            directionOptions = {
-                                directions: response,
-                                map: this._map,
-                                suppressMarkers: true,
-                                preserveViewport: true,
-                                polylineOptions: {
-                                    strokeWeight: options.weight || this._defaultRouteWeight(),
-                                    strokeOpacity: options.opacity || this._defaultRouteOpacity(),
-                                    strokeColor: color
-                                }
-                            };
+                        var color = new Color(options.color || this._defaultRouteColor()).toHex();
 
-                        var route = new google.maps.DirectionsRenderer(directionOptions),
-                            bounds = response.routes[0].bounds;
+                        var directionOptions = {
+                            directions: response,
+                            map: this._map,
+                            suppressMarkers: true,
+                            preserveViewport: true,
+                            polylineOptions: {
+                                strokeWeight: options.weight || this._defaultRouteWeight(),
+                                strokeOpacity: options.opacity || this._defaultRouteOpacity(),
+                                strokeColor: color
+                            }
+                        };
+
+                        var route = new google.maps.DirectionsRenderer(directionOptions);
+                        var bounds = response.routes[0].bounds;
 
                         resolve({
                             instance: route,

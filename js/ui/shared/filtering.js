@@ -1,9 +1,8 @@
-var typeUtils = require("../../core/utils/type"),
-    inArray = require("../../core/utils/array").inArray,
-    iteratorUtils = require("../../core/utils/iterator");
-
-var DEFAULT_DATE_INTERVAL = ["year", "month", "day"],
-    DEFAULT_DATETIME_INTERVAL = ["year", "month", "day", "hour", "minute"];
+var typeUtils = require("../../core/utils/type");
+var inArray = require("../../core/utils/array").inArray;
+var iteratorUtils = require("../../core/utils/iterator");
+var DEFAULT_DATE_INTERVAL = ["year", "month", "day"];
+var DEFAULT_DATETIME_INTERVAL = ["year", "month", "day", "hour", "minute"];
 
 module.exports = (function() {
     var getFilterSelector = function(column, target) {
@@ -32,11 +31,11 @@ module.exports = (function() {
     };
 
     var getFilterExpressionByRange = function(filterValue, target) {
-        var column = this,
-            endFilterValue,
-            startFilterExpression,
-            endFilterExpression,
-            selector = getFilterSelector(column, target);
+        var column = this;
+        var endFilterValue;
+        var startFilterExpression;
+        var endFilterExpression;
+        var selector = getFilterSelector(column, target);
 
         if(Array.isArray(filterValue) && typeUtils.isDefined(filterValue[0]) && typeUtils.isDefined(filterValue[1])) {
             startFilterExpression = [selector, ">=", filterValue[0]];
@@ -55,12 +54,12 @@ module.exports = (function() {
     };
 
     var getFilterExpressionForDate = function(filterValue, selectedFilterOperation, target) {
-        var column = this,
-            dateStart,
-            dateEnd,
-            dateInterval,
-            values = getDateValues(filterValue),
-            selector = getFilterSelector(column, target);
+        var column = this;
+        var dateStart;
+        var dateEnd;
+        var dateInterval;
+        var values = getDateValues(filterValue);
+        var selector = getFilterSelector(column, target);
 
         if(target === "headerFilter") {
             dateInterval = module.exports.getGroupInterval(column)[values.length - 1];
@@ -115,16 +114,16 @@ module.exports = (function() {
     };
 
     var getFilterExpressionForNumber = function(filterValue, selectedFilterOperation, target) {
-        var column = this,
-            selector = getFilterSelector(column, target),
-            groupInterval = module.exports.getGroupInterval(column);
+        var column = this;
+        var selector = getFilterSelector(column, target);
+        var groupInterval = module.exports.getGroupInterval(column);
 
         if(target === "headerFilter" && groupInterval && typeUtils.isDefined(filterValue)) {
-            var values = ("" + filterValue).split("/"),
-                value = Number(values[values.length - 1]),
-                interval,
-                startFilterValue,
-                endFilterValue;
+            var values = ("" + filterValue).split("/");
+            var value = Number(values[values.length - 1]);
+            var interval;
+            var startFilterValue;
+            var endFilterValue;
 
             interval = groupInterval[values.length - 1];
             startFilterValue = [selector, ">=", value];
@@ -138,11 +137,11 @@ module.exports = (function() {
 
     return {
         defaultCalculateFilterExpression: function(filterValue, selectedFilterOperation, target) {
-            var column = this,
-                selector = getFilterSelector(column, target),
-                isSearchByDisplayValue = column.calculateDisplayValue && target === "search",
-                dataType = isSearchByDisplayValue && column.lookup && column.lookup.dataType || column.dataType,
-                filter = null;
+            var column = this;
+            var selector = getFilterSelector(column, target);
+            var isSearchByDisplayValue = column.calculateDisplayValue && target === "search";
+            var dataType = isSearchByDisplayValue && column.lookup && column.lookup.dataType || column.dataType;
+            var filter = null;
 
             if((target === "headerFilter" || target === "filterBuilder") && filterValue === null) {
                 filter = [selector, selectedFilterOperation || "=", null];
@@ -165,11 +164,11 @@ module.exports = (function() {
         },
 
         getGroupInterval: function(column) {
-            var index,
-                result = [],
-                dateIntervals = ["year", "month", "day", "hour", "minute", "second"],
-                groupInterval = column.headerFilter && column.headerFilter.groupInterval,
-                interval = groupInterval === "quarter" ? "month" : groupInterval;
+            var index;
+            var result = [];
+            var dateIntervals = ["year", "month", "day", "hour", "minute", "second"];
+            var groupInterval = column.headerFilter && column.headerFilter.groupInterval;
+            var interval = groupInterval === "quarter" ? "month" : groupInterval;
 
             if(isDateType(column.dataType) && groupInterval !== null) {
                 result = column.dataType === "datetime" ? DEFAULT_DATETIME_INTERVAL : DEFAULT_DATE_INTERVAL;

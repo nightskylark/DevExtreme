@@ -1,10 +1,10 @@
-var inArray = require("./array").inArray,
-    domAdapter = require("../dom_adapter"),
-    callOnce = require("./call_once"),
-    windowUtils = require("./window"),
-    navigator = windowUtils.getNavigator(),
-    devices = require("../devices"),
-    styleUtils = require("./style");
+var inArray = require("./array").inArray;
+var domAdapter = require("../dom_adapter");
+var callOnce = require("./call_once");
+var windowUtils = require("./window");
+var navigator = windowUtils.getNavigator();
+var devices = require("../devices");
+var styleUtils = require("./style");
 
 var transitionEndEventNames = {
     'webkitTransition': 'webkitTransitionEnd',
@@ -19,11 +19,11 @@ var supportProp = function(prop) {
 };
 
 var isNativeScrollingSupported = function() {
-    var realDevice = devices.real(),
-        realPlatform = realDevice.platform,
-        realVersion = realDevice.version,
-        isObsoleteAndroid = (realVersion && realVersion[0] < 4 && realPlatform === "android"),
-        isNativeScrollDevice = !isObsoleteAndroid && inArray(realPlatform, ["ios", "android", "win"]) > -1 || realDevice.mac;
+    var realDevice = devices.real();
+    var realPlatform = realDevice.platform;
+    var realVersion = realDevice.version;
+    var isObsoleteAndroid = (realVersion && realVersion[0] < 4 && realPlatform === "android");
+    var isNativeScrollDevice = !isObsoleteAndroid && inArray(realPlatform, ["ios", "android", "win"]) > -1 || realDevice.mac;
 
     return isNativeScrollDevice;
 };

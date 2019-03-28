@@ -1,9 +1,9 @@
-var dataQuery = require("../../data/query"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    getKeyHash = commonUtils.getKeyHash,
-    Class = require("../../core/class"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var dataQuery = require("../../data/query");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var getKeyHash = commonUtils.getKeyHash;
+var Class = require("../../core/class");
+var Deferred = require("../../core/utils/deferred").Deferred;
 
 module.exports = Class.inherit({
     ctor: function(options) {
@@ -26,13 +26,13 @@ module.exports = Class.inherit({
     },
 
     onSelectionChanged: function() {
-        var addedItemKeys = this.options.addedItemKeys,
-            removedItemKeys = this.options.removedItemKeys,
-            addedItems = this.options.addedItems,
-            removedItems = this.options.removedItems,
-            selectedItems = this.options.selectedItems,
-            selectedItemKeys = this.options.selectedItemKeys,
-            onSelectionChanged = this.options.onSelectionChanged || commonUtils.noop;
+        var addedItemKeys = this.options.addedItemKeys;
+        var removedItemKeys = this.options.removedItemKeys;
+        var addedItems = this.options.addedItems;
+        var removedItems = this.options.removedItems;
+        var selectedItems = this.options.selectedItems;
+        var selectedItemKeys = this.options.selectedItemKeys;
+        var onSelectionChanged = this.options.onSelectionChanged || commonUtils.noop;
 
         this._clearItemKeys();
         onSelectionChanged({
@@ -64,13 +64,14 @@ module.exports = Class.inherit({
     },
 
     _loadFilteredData: function(remoteFilter, localFilter, select) {
-        var filterLength = encodeURI(JSON.stringify(remoteFilter)).length,
-            needLoadAllData = this.options.maxFilterLengthInRequest && (filterLength > this.options.maxFilterLengthInRequest),
-            deferred = new Deferred(),
-            loadOptions = {
-                filter: needLoadAllData ? undefined : remoteFilter,
-                select: needLoadAllData ? this.options.dataFields() : select || this.options.dataFields()
-            };
+        var filterLength = encodeURI(JSON.stringify(remoteFilter)).length;
+        var needLoadAllData = this.options.maxFilterLengthInRequest && (filterLength > this.options.maxFilterLengthInRequest);
+        var deferred = new Deferred();
+
+        var loadOptions = {
+            filter: needLoadAllData ? undefined : remoteFilter,
+            select: needLoadAllData ? this.options.dataFields() : select || this.options.dataFields()
+        };
 
         if(remoteFilter && remoteFilter.length === 0) {
             deferred.resolve([]);
@@ -117,9 +118,9 @@ module.exports = Class.inherit({
     },
 
     _getFullSelectAllState: function() {
-        var items = this.options.plainItems(),
-            dataFilter = this.options.filter(),
-            selectedItems = this.options.selectedItems;
+        var items = this.options.plainItems();
+        var dataFilter = this.options.filter();
+        var selectedItems = this.options.selectedItems;
 
         if(dataFilter) {
             selectedItems = dataQuery(selectedItems).filter(dataFilter).toArray();
@@ -138,14 +139,14 @@ module.exports = Class.inherit({
     },
 
     _getVisibleSelectAllState: function() {
-        var items = this.options.plainItems(),
-            hasSelectedItems = false,
-            hasUnselectedItems = false;
+        var items = this.options.plainItems();
+        var hasSelectedItems = false;
+        var hasUnselectedItems = false;
 
         for(var i = 0; i < items.length; i++) {
-            var item = items[i],
-                itemData = this.options.getItemData(item),
-                key = this.options.keyOf(itemData);
+            var item = items[i];
+            var itemData = this.options.getItemData(item);
+            var key = this.options.keyOf(itemData);
 
             if(this.options.isSelectableItem(item)) {
                 if(this.isItemKeySelected(key)) {

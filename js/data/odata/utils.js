@@ -1,17 +1,16 @@
-var Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    typeUtils = require("../../core/utils/type"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    each = require("../../core/utils/iterator").each,
-    ajax = require("../../core/utils/ajax"),
-    Guid = require("../../core/guid"),
-    isDefined = typeUtils.isDefined,
-    isPlainObject = typeUtils.isPlainObject,
-    grep = require("../../core/utils/common").grep,
-    Deferred = require("../../core/utils/deferred").Deferred,
-
-    errors = require("../errors").errors,
-    dataUtils = require("../utils");
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var typeUtils = require("../../core/utils/type");
+var iteratorUtils = require("../../core/utils/iterator");
+var each = require("../../core/utils/iterator").each;
+var ajax = require("../../core/utils/ajax");
+var Guid = require("../../core/guid");
+var isDefined = typeUtils.isDefined;
+var isPlainObject = typeUtils.isPlainObject;
+var grep = require("../../core/utils/common").grep;
+var Deferred = require("../../core/utils/deferred").Deferred;
+var errors = require("../errors").errors;
+var dataUtils = require("../utils");
 
 var GUID_REGEX = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/;
 
@@ -74,10 +73,10 @@ function formatISO8601(date, skipZeroTime, skipTimezone) {
 }
 
 function parseISO8601(isoString) {
-    var result = new Date(new Date(0).getTimezoneOffset() * 60 * 1000),
-        chunks = isoString.replace("Z", "").split("T"),
-        date = /(\d{4})-(\d{2})-(\d{2})/.exec(chunks[0]),
-        time = /(\d{2}):(\d{2}):(\d{2})\.?(\d{0,7})?/.exec(chunks[1]);
+    var result = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+    var chunks = isoString.replace("Z", "").split("T");
+    var date = /(\d{4})-(\d{2})-(\d{2})/.exec(chunks[0]);
+    var time = /(\d{2}):(\d{2}):(\d{2})\.?(\d{0,7})?/.exec(chunks[1]);
 
     result.setFullYear(Number(date[1]));
     result.setMonth(Number(date[2]) - 1);
@@ -159,14 +158,14 @@ var ajaxOptionsForRequest = function(protocolVersion, request, options) {
         beforeSend(request);
     }
 
-    var method = (request.method || "get").toLowerCase(),
-        isGet = method === "get",
-        useJsonp = isGet && options.jsonp,
-        params = extend({}, request.params),
-        ajaxData = isGet ? params : formatPayload(request.payload),
-        qs = !isGet && param(params),
-        url = request.url,
-        contentType = !isGet && JSON_VERBOSE_MIME_TYPE;
+    var method = (request.method || "get").toLowerCase();
+    var isGet = method === "get";
+    var useJsonp = isGet && options.jsonp;
+    var params = extend({}, request.params);
+    var ajaxData = isGet ? params : formatPayload(request.payload);
+    var qs = !isGet && param(params);
+    var url = request.url;
+    var contentType = !isGet && JSON_VERBOSE_MIME_TYPE;
 
     if(qs) {
         url += (url.indexOf("?") > -1 ? "&" : "?") + qs;
@@ -224,12 +223,13 @@ var sendRequest = function(protocolVersion, request, options) {
         var transformOptions = {
                 deserializeDates: options.deserializeDates,
                 fieldTypes: options.fieldTypes
-            },
-            tuple = interpretJsonFormat(obj, textStatus, transformOptions, ajaxOptions),
-            error = tuple.error,
-            data = tuple.data,
-            nextUrl = tuple.nextUrl,
-            extra;
+            };
+
+        var tuple = interpretJsonFormat(obj, textStatus, transformOptions, ajaxOptions);
+        var error = tuple.error;
+        var data = tuple.data;
+        var nextUrl = tuple.nextUrl;
+        var extra;
 
         if(error) {
             if(error.message !== dataUtils.XHR_ERROR_UNLOAD) {
@@ -266,8 +266,8 @@ var sendRequest = function(protocolVersion, request, options) {
 };
 
 var formatDotNetError = function(errorObj) {
-    var message,
-        currentError = errorObj;
+    var message;
+    var currentError = errorObj;
 
     if("message" in errorObj) {
         if(errorObj.message.value) {
@@ -291,12 +291,13 @@ var errorFromResponse = function(obj, textStatus, ajaxOptions) {
         return null; // workaround for http://bugs.jquery.com/ticket/13292
     }
 
-    var message = "Unknown error",
-        response = obj,
-        httpStatus = 200,
-        errorData = {
-            requestOptions: ajaxOptions
-        };
+    var message = "Unknown error";
+    var response = obj;
+    var httpStatus = 200;
+
+    var errorData = {
+        requestOptions: ajaxOptions
+    };
 
     if(textStatus !== "success") {
         httpStatus = obj.status;
@@ -335,8 +336,8 @@ var errorFromResponse = function(obj, textStatus, ajaxOptions) {
 };
 
 var interpretJsonFormat = function(obj, textStatus, transformOptions, ajaxOptions) {
-    var error = errorFromResponse(obj, textStatus, ajaxOptions),
-        value;
+    var error = errorFromResponse(obj, textStatus, ajaxOptions);
+    var value;
 
     if(error) {
         return { error: error };
@@ -429,8 +430,8 @@ var transformTypes = function(obj, options) {
 
             transformTypes(obj[key], options);
         } else if(typeof value === "string") {
-            var fieldTypes = options.fieldTypes,
-                canBeGuid = !fieldTypes || fieldTypes[key] !== "String";
+            var fieldTypes = options.fieldTypes;
+            var canBeGuid = !fieldTypes || fieldTypes[key] !== "String";
 
             if(canBeGuid && GUID_REGEX.test(value)) {
                 obj[key] = new Guid(value);
@@ -617,9 +618,9 @@ var generateExpand = function(oDataVersion, expand, select) {
     var generatorV4 = function() {
         var format = function(hash) {
             var formatCore = function(hash) {
-                var result = "",
-                    selectValue = [],
-                    expandValue = [];
+                var result = "";
+                var selectValue = [];
+                var expandValue = [];
 
                 iteratorUtils.each(hash, function(key, value) {
                     if(Array.isArray(value)) {

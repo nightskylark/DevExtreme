@@ -1,9 +1,9 @@
-var $ = require("../../core/renderer"),
-    extend = require("../../core/utils/extend").extend,
-    messageLocalization = require("../../localization/message"),
-    TextBox = require("../text_box"),
-    errors = require("../widget/ui.errors"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var $ = require("../../core/renderer");
+var extend = require("../../core/utils/extend").extend;
+var messageLocalization = require("../../localization/message");
+var TextBox = require("../text_box");
+var errors = require("../widget/ui.errors");
+var Deferred = require("../../core/utils/deferred").Deferred;
 
 /**
 * @name SearchBoxMixin
@@ -64,11 +64,11 @@ module.exports = {
     },
 
     _renderSearch: function() {
-        var editorOptions,
-            $element = this.$element(),
-            searchEnabled = this.option("searchEnabled"),
-            searchBoxClassName = this._addWidgetPrefix("search"),
-            rootElementClassName = this._addWidgetPrefix("with-search");
+        var editorOptions;
+        var $element = this.$element();
+        var searchEnabled = this.option("searchEnabled");
+        var searchBoxClassName = this._addWidgetPrefix("search");
+        var rootElementClassName = this._addWidgetPrefix("with-search");
 
         if(!searchEnabled) {
             $element.removeClass(rootElementClassName);
@@ -94,8 +94,8 @@ module.exports = {
     },
 
     _getSearchEditorOptions: function() {
-        var that = this,
-            userEditorOptions = that.option("searchEditorOptions");
+        var that = this;
+        var userEditorOptions = that.option("searchEditorOptions");
 
         return extend({
             mode: "search",

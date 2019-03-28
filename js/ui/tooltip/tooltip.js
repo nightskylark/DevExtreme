@@ -1,10 +1,10 @@
-var $ = require("../../core/renderer"),
-    Guid = require("../../core/guid"),
-    registerComponent = require("../../core/component_registrator"),
-    extend = require("../../core/utils/extend").extend,
-    Popover = require("../popover"),
-    TOOLTIP_CLASS = "dx-tooltip",
-    TOOLTIP_WRAPPER_CLASS = "dx-tooltip-wrapper";
+var $ = require("../../core/renderer");
+var Guid = require("../../core/guid");
+var registerComponent = require("../../core/component_registrator");
+var extend = require("../../core/utils/extend").extend;
+var Popover = require("../popover");
+var TOOLTIP_CLASS = "dx-tooltip";
+var TOOLTIP_WRAPPER_CLASS = "dx-tooltip-wrapper";
 
 var Tooltip = Popover.inherit({
     _getDefaultOptions: function() {
@@ -76,8 +76,8 @@ var Tooltip = Popover.inherit({
     },
 
     _toggleAriaDescription: function(showing) {
-        var $target = $(this.option("target")),
-            label = showing ? this._contentId : undefined;
+        var $target = $(this.option("target"));
+        var label = showing ? this._contentId : undefined;
 
         this.setAria("describedby", label, $target);
     }

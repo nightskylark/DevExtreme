@@ -1,13 +1,12 @@
-var DataSource = require("./data/data_source/data_source").DataSource,
-    extend = require("./core/utils/extend").extend,
-    normalizeDataSourceOptions = require("./data/data_source/data_source").normalizeDataSourceOptions;
-
-var DATA_SOURCE_OPTIONS_METHOD = "_dataSourceOptions",
-    DATA_SOURCE_CHANGED_METHOD = "_dataSourceChangedHandler",
-    DATA_SOURCE_LOAD_ERROR_METHOD = "_dataSourceLoadErrorHandler",
-    DATA_SOURCE_LOADING_CHANGED_METHOD = "_dataSourceLoadingChangedHandler",
-    DATA_SOURCE_FROM_URL_LOAD_MODE_METHOD = "_dataSourceFromUrlLoadMode",
-    SPECIFIC_DATA_SOURCE_OPTION = "_getSpecificDataSourceOption";
+var DataSource = require("./data/data_source/data_source").DataSource;
+var extend = require("./core/utils/extend").extend;
+var normalizeDataSourceOptions = require("./data/data_source/data_source").normalizeDataSourceOptions;
+var DATA_SOURCE_OPTIONS_METHOD = "_dataSourceOptions";
+var DATA_SOURCE_CHANGED_METHOD = "_dataSourceChangedHandler";
+var DATA_SOURCE_LOAD_ERROR_METHOD = "_dataSourceLoadErrorHandler";
+var DATA_SOURCE_LOADING_CHANGED_METHOD = "_dataSourceLoadingChangedHandler";
+var DATA_SOURCE_FROM_URL_LOAD_MODE_METHOD = "_dataSourceFromUrlLoadMode";
+var SPECIFIC_DATA_SOURCE_OPTION = "_getSpecificDataSourceOption";
 
 
 /**
@@ -30,9 +29,9 @@ var DataHelperMixin = {
     },
 
     _initDataSource: function() {
-        var dataSourceOptions = (SPECIFIC_DATA_SOURCE_OPTION in this) ? this[SPECIFIC_DATA_SOURCE_OPTION]() : this.option("dataSource"),
-            widgetDataSourceOptions,
-            dataSourceType;
+        var dataSourceOptions = (SPECIFIC_DATA_SOURCE_OPTION in this) ? this[SPECIFIC_DATA_SOURCE_OPTION]() : this.option("dataSource");
+        var widgetDataSourceOptions;
+        var dataSourceType;
 
         this._disposeDataSource();
 

@@ -1,22 +1,20 @@
-var extend = require("../../../core/utils/extend").extend,
-    each = require("../../../core/utils/iterator").each,
-    noop = require("../../../core/utils/common").noop,
-    windowUtils = require("../../../core/utils/window"),
-    window = windowUtils.getWindow(),
-    labelModule = require("./label"),
-    _extend = extend,
-    _isDefined = require("../../../core/utils/type").isDefined,
-    _normalizeEnum = require("../../core/utils").normalizeEnum,
-
-    _math = Math,
-    _round = _math.round,
-    _floor = _math.floor,
-    _ceil = _math.ceil,
-
-    DEFAULT_IMAGE_WIDTH = 20,
-    DEFAULT_IMAGE_HEIGHT = 20,
-    LABEL_OFFSET = 10,
-    CANVAS_POSITION_DEFAULT = "canvas_position_default";
+var extend = require("../../../core/utils/extend").extend;
+var each = require("../../../core/utils/iterator").each;
+var noop = require("../../../core/utils/common").noop;
+var windowUtils = require("../../../core/utils/window");
+var window = windowUtils.getWindow();
+var labelModule = require("./label");
+var _extend = extend;
+var _isDefined = require("../../../core/utils/type").isDefined;
+var _normalizeEnum = require("../../core/utils").normalizeEnum;
+var _math = Math;
+var _round = _math.round;
+var _floor = _math.floor;
+var _ceil = _math.ceil;
+var DEFAULT_IMAGE_WIDTH = 20;
+var DEFAULT_IMAGE_HEIGHT = 20;
+var LABEL_OFFSET = 10;
+var CANVAS_POSITION_DEFAULT = "canvas_position_default";
 
 function getSquareMarkerCoords(radius) {
     return [
@@ -40,9 +38,11 @@ function getPolygonMarkerCoords(radius) {
 }
 
 function getCrossMarkerCoords(radius) {
-    var r = _ceil(radius), // T100386
-        floorHalfRadius = _floor(r / 2),
-        ceilHalfRadius = _ceil(r / 2);
+    var // T100386
+    r = _ceil(radius);
+
+    var floorHalfRadius = _floor(r / 2);
+    var ceilHalfRadius = _ceil(r / 2);
 
     return [
         -r, -floorHalfRadius,
@@ -89,8 +89,8 @@ module.exports = {
     },
 
     clearVisibility: function() {
-        var that = this,
-            graphic = that.graphic;
+        var that = this;
+        var graphic = that.graphic;
         if(graphic && graphic.attr("visibility")) {
             graphic.attr({ visibility: null });
         }
@@ -101,8 +101,8 @@ module.exports = {
     },
 
     setInvisibility: function() {
-        var that = this,
-            graphic = that.graphic;
+        var that = this;
+        var graphic = that.graphic;
         if(graphic && graphic.attr("visibility") !== "hidden") {
             graphic.attr({ visibility: "hidden" });
         }
@@ -141,10 +141,10 @@ module.exports = {
     },
 
     _checkSymbol: function(oldOptions, newOptions) {
-        var oldSymbol = oldOptions.symbol,
-            newSymbol = newOptions.symbol,
-            symbolChanged = (oldSymbol === "circle" && newSymbol !== "circle") || (oldSymbol !== "circle" && newSymbol === "circle"),
-            imageChanged = this._checkImage(oldOptions.image) !== this._checkImage(newOptions.image);
+        var oldSymbol = oldOptions.symbol;
+        var newSymbol = newOptions.symbol;
+        var symbolChanged = (oldSymbol === "circle" && newSymbol !== "circle") || (oldSymbol !== "circle" && newSymbol === "circle");
+        var imageChanged = this._checkImage(oldOptions.image) !== this._checkImage(newOptions.image);
 
         return !!(symbolChanged || imageChanged);
     },
@@ -193,8 +193,8 @@ module.exports = {
     },
 
     _getTranslates: function(animationEnabled) {
-        var translateX = this.x,
-            translateY = this.y;
+        var translateX = this.x;
+        var translateY = this.y;
 
         if(animationEnabled) {
             if(this._options.rotated) {
@@ -207,16 +207,16 @@ module.exports = {
     },
 
     _createImageMarker: function(renderer, settings, options) {
-        var width = options.width || DEFAULT_IMAGE_WIDTH,
-            height = options.height || DEFAULT_IMAGE_HEIGHT;
+        var width = options.width || DEFAULT_IMAGE_WIDTH;
+        var height = options.height || DEFAULT_IMAGE_HEIGHT;
 
         return renderer.image(-_round(width * 0.5), -_round(height * 0.5), width, height, options.url ? options.url.toString() : options.toString(), "center")
             .attr({ translateX: settings.translateX, translateY: settings.translateY, visibility: settings.visibility });
     },
 
     _createSymbolMarker: function(renderer, pointSettings) {
-        var marker,
-            symbol = this._options.symbol;
+        var marker;
+        var symbol = this._options.symbol;
 
         if(symbol === "circle") {
             delete pointSettings.points;
@@ -229,8 +229,8 @@ module.exports = {
     },
 
     _createMarker: function(renderer, group, image, settings) {
-        var that = this,
-            marker = that._checkImage(image) ? that._createImageMarker(renderer, settings, image) : that._createSymbolMarker(renderer, settings);
+        var that = this;
+        var marker = that._checkImage(image) ? that._createImageMarker(renderer, settings, image) : that._createSymbolMarker(renderer, settings);
         if(marker) {
             marker.data({ "chart-data-point": that }).append(group);
         }
@@ -247,9 +247,9 @@ module.exports = {
     },
 
     _getImageBBox: function(x, y) {
-        var image = this._options.image,
-            width = image.width || DEFAULT_IMAGE_WIDTH,
-            height = image.height || DEFAULT_IMAGE_HEIGHT;
+        var image = this._options.image;
+        var width = image.width || DEFAULT_IMAGE_WIDTH;
+        var height = image.height || DEFAULT_IMAGE_HEIGHT;
 
         return {
             x: x - _round(width / 2),
@@ -260,11 +260,11 @@ module.exports = {
     },
 
     _getGraphicBBox: function() {
-        var that = this,
-            options = that._options,
-            x = that.x,
-            y = that.y,
-            bBox;
+        var that = this;
+        var options = that._options;
+        var x = that.x;
+        var y = that.y;
+        var bBox;
 
         if(options.visible) {
             bBox = that._checkImage(options.image) ? that._getImageBBox(x, y) : that._getSymbolBBox(x, y, options.styles.normal.r);
@@ -284,17 +284,17 @@ module.exports = {
     },
 
     _drawLabel: function() {
-        var that = this,
-            customVisibility = that._getCustomLabelVisibility(),
-            label = that._label,
-            isVisible = that._showForZeroValues() && that.hasValue() && customVisibility !== false && (that.series.getLabelVisibility() || customVisibility);
+        var that = this;
+        var customVisibility = that._getCustomLabelVisibility();
+        var label = that._label;
+        var isVisible = that._showForZeroValues() && that.hasValue() && customVisibility !== false && (that.series.getLabelVisibility() || customVisibility);
 
         label.draw(!!isVisible);
     },
 
     correctLabelPosition: function(label) {
-        var that = this,
-            coord = that._getShiftLabelCoords(label);
+        var that = this;
+        var coord = that._getShiftLabelCoords(label);
         if(!that.hideInsideLabel(label, coord)) {
             label.setFigureToDrawConnector(that._getLabelConnector(label.pointPosition));
             label.shift(_round(coord.x), _round(coord.y));
@@ -306,9 +306,9 @@ module.exports = {
     },
 
     _getLabelConnector: function(pointPosition) {
-        var bBox = this._getGraphicBBox(pointPosition),
-            w2 = bBox.width / 2,
-            h2 = bBox.height / 2;
+        var bBox = this._getGraphicBBox(pointPosition);
+        var w2 = bBox.width / 2;
+        var h2 = bBox.height / 2;
         // This is to make label connector end at the center of point; "width" and "height" are required by the path building algorithm
         // TODO: When path building algorithm is updated remove "width" and "height"
         return { x: bBox.x + w2, y: bBox.y + h2, r: this._options.visible ? Math.max(w2, h2) : 0 };
@@ -324,11 +324,11 @@ module.exports = {
     },
 
     _checkLabelPosition: function(label, coord) {
-        var that = this,
-            visibleArea = that._getVisibleArea(),
-            labelBBox = label.getBoundingRect(),
-            graphicBBox = that._getGraphicBBox(label.pointPosition),
-            offset = LABEL_OFFSET;
+        var that = this;
+        var visibleArea = that._getVisibleArea();
+        var labelBBox = label.getBoundingRect();
+        var graphicBBox = that._getGraphicBBox(label.pointPosition);
+        var offset = LABEL_OFFSET;
 
         if(that._isPointInVisibleArea(visibleArea, graphicBBox)) {
             if(!that._options.rotated) {
@@ -364,8 +364,8 @@ module.exports = {
     },
 
     _addLabelAlignmentAndOffset: function(label, coord) {
-        var labelBBox = label.getBoundingRect(),
-            labelOptions = label.getLayoutOptions();
+        var labelBBox = label.getBoundingRect();
+        var labelOptions = label.getLayoutOptions();
 
         if(!this._options.rotated) {
             if(labelOptions.alignment === "left") {
@@ -385,14 +385,14 @@ module.exports = {
     },
 
     _getLabelCoordOfPosition: function(label, position) {
-        var that = this,
-            labelBBox = label.getBoundingRect(),
-            graphicBBox = that._getGraphicBBox(label.pointPosition),
-            offset = LABEL_OFFSET,
-            centerY = graphicBBox.height / 2 - labelBBox.height / 2,
-            centerX = graphicBBox.width / 2 - labelBBox.width / 2,
-            x = graphicBBox.x,
-            y = graphicBBox.y;
+        var that = this;
+        var labelBBox = label.getBoundingRect();
+        var graphicBBox = that._getGraphicBBox(label.pointPosition);
+        var offset = LABEL_OFFSET;
+        var centerY = graphicBBox.height / 2 - labelBBox.height / 2;
+        var centerX = graphicBBox.width / 2 - labelBBox.width / 2;
+        var x = graphicBBox.x;
+        var y = graphicBBox.y;
 
         switch(position) {
             case "left":
@@ -421,10 +421,10 @@ module.exports = {
     },
 
     _drawMarker: function(renderer, group, animationEnabled) {
-        var that = this,
-            options = that._options,
-            translates = that._getTranslates(animationEnabled),
-            style = that._getStyle();
+        var that = this;
+        var options = that._options;
+        var translates = that._getTranslates(animationEnabled);
+        var style = that._getStyle();
 
         that.graphic = that._createMarker(renderer, group, options.image, _extend({ translateX: translates.x, translateY: translates.y, points: that._populatePointShape(options.symbol, style.r) }, style));
     },
@@ -441,19 +441,19 @@ module.exports = {
         if(!this._options.errorBars) {
             return;
         }
-        var that = this,
-            options = that._options,
-            errorBarOptions = options.errorBars,
-            points = [],
-            settings,
-            pos = that._errorBarPos,
-            high = that._highErrorCoord,
-            low = that._lowErrorCoord,
-            displayMode = _normalizeEnum(errorBarOptions.displayMode),
-            isHighDisplayMode = displayMode === "high",
-            isLowDisplayMode = displayMode === "low",
-            highErrorOnly = (isHighDisplayMode || !_isDefined(low)) && (_isDefined(high) && !isLowDisplayMode),
-            lowErrorOnly = (isLowDisplayMode || !_isDefined(high)) && (_isDefined(low) && !isHighDisplayMode);
+        var that = this;
+        var options = that._options;
+        var errorBarOptions = options.errorBars;
+        var points = [];
+        var settings;
+        var pos = that._errorBarPos;
+        var high = that._highErrorCoord;
+        var low = that._lowErrorCoord;
+        var displayMode = _normalizeEnum(errorBarOptions.displayMode);
+        var isHighDisplayMode = displayMode === "high";
+        var isLowDisplayMode = displayMode === "low";
+        var highErrorOnly = (isHighDisplayMode || !_isDefined(low)) && (_isDefined(high) && !isLowDisplayMode);
+        var lowErrorOnly = (isLowDisplayMode || !_isDefined(high)) && (_isDefined(low) && !isHighDisplayMode);
 
         let edgeLength = errorBarOptions.edgeLength;
 
@@ -488,8 +488,8 @@ module.exports = {
     },
 
     getTooltipParams: function() {
-        var that = this,
-            graphic = that.graphic;
+        var that = this;
+        var graphic = that.graphic;
         return {
             x: that.x,
             y: that.y,
@@ -498,10 +498,10 @@ module.exports = {
     },
 
     setPercentValue: function(absTotal, total, leftHoleTotal, rightHoleTotal) {
-        var that = this,
-            valuePercent = (that.value / absTotal) || 0,
-            minValuePercent = (that.minValue / absTotal) || 0,
-            percent = valuePercent - minValuePercent;
+        var that = this;
+        var valuePercent = (that.value / absTotal) || 0;
+        var minValuePercent = (that.minValue / absTotal) || 0;
+        var percent = valuePercent - minValuePercent;
 
         that._label.setDataField("percent", percent);
         that._label.setDataField("total", total);
@@ -521,10 +521,10 @@ module.exports = {
     },
 
     _storeTrackerR: function() {
-        var that = this,
-            navigator = window.navigator,
-            r = that._options.styles.normal.r,
-            minTrackerSize;
+        var that = this;
+        var navigator = window.navigator;
+        var r = that._options.styles.normal.r;
+        var minTrackerSize;
         ///#DEBUG
         navigator = that.__debug_navigator || navigator;
         that.__debug_browserNavigator = navigator;
@@ -535,11 +535,11 @@ module.exports = {
     },
 
     _translateErrorBars: function() {
-        var that = this,
-            options = that._options,
-            rotated = options.rotated,
-            errorBars = options.errorBars,
-            translator = that._getValTranslator();
+        var that = this;
+        var options = that._options;
+        var rotated = options.rotated;
+        var errorBars = options.errorBars;
+        var translator = that._getValTranslator();
 
         if(!errorBars) {
             return;
@@ -552,9 +552,9 @@ module.exports = {
     },
 
     _translate: function() {
-        var that = this,
-            valTranslator = that._getValTranslator(),
-            argTranslator = that._getArgTranslator();
+        var that = this;
+        var valTranslator = that._getValTranslator();
+        var argTranslator = that._getArgTranslator();
 
         if(that._options.rotated) {
             that.vx = that.x = valTranslator.translate(that.value);
@@ -586,10 +586,10 @@ module.exports = {
     },
 
     getCrosshairData: function() {
-        var that = this,
-            r = that._options.rotated,
-            value = that.properValue,
-            argument = that.argument;
+        var that = this;
+        var r = that._options.rotated;
+        var value = that.properValue;
+        var argument = that.argument;
         return {
             x: that.vx,
             y: that.vy,
@@ -600,13 +600,13 @@ module.exports = {
     },
 
     getPointRadius: function() {
-        var style = this._getStyle(),
-            options = this._options,
-            r = style.r,
-            extraSpace,
-            symbol = options.symbol,
-            isSquare = symbol === "square",
-            isTriangle = symbol === "triangle" || symbol === "triangleDown" || symbol === "triangleUp";
+        var style = this._getStyle();
+        var options = this._options;
+        var r = style.r;
+        var extraSpace;
+        var symbol = options.symbol;
+        var isSquare = symbol === "square";
+        var isTriangle = symbol === "triangle" || symbol === "triangleDown" || symbol === "triangleUp";
         if(options.visible && !options.image && r) {
             extraSpace = style["stroke-width"] / 2;
             return (isSquare || isTriangle ? 1.4 * r : r) + extraSpace;
@@ -615,11 +615,11 @@ module.exports = {
     },
 
     _updateMarker: function(animationEnabled, style) {
-        var that = this,
-            options = that._options,
-            settings,
-            image = options.image,
-            visibility = !that.isVisible() ? { visibility: "hidden" } : {};
+        var that = this;
+        var options = that._options;
+        var settings;
+        var image = options.image;
+        var visibility = !that.isVisible() ? { visibility: "hidden" } : {};
 
         if(that._checkImage(image)) {
             settings = _extend({}, { visibility: style.visibility }, visibility, that._getImageSettings(image));
@@ -659,8 +659,8 @@ module.exports = {
     },
 
     _getFormatObject: function(tooltip) {
-        var that = this,
-            labelFormatObject = that._label.getData();
+        var that = this;
+        var labelFormatObject = that._label.getData();
 
         return _extend(
             {},
@@ -686,9 +686,9 @@ module.exports = {
     getMinValue: function(noErrorBar) {
         var errorBarOptions = this._options.errorBars;
         if(errorBarOptions && !noErrorBar) {
-            var displayMode = errorBarOptions.displayMode,
-                lowValue = displayMode === "high" ? this.value : this.lowError,
-                highValue = displayMode === "low" ? this.value : this.highError;
+            var displayMode = errorBarOptions.displayMode;
+            var lowValue = displayMode === "high" ? this.value : this.lowError;
+            var highValue = displayMode === "low" ? this.value : this.highError;
 
             return lowValue < highValue ? lowValue : highValue;
         } else {
@@ -699,9 +699,9 @@ module.exports = {
     getMaxValue: function(noErrorBar) {
         var errorBarOptions = this._options.errorBars;
         if(errorBarOptions && !noErrorBar) {
-            var displayMode = errorBarOptions.displayMode,
-                lowValue = displayMode === "high" ? this.value : this.lowError,
-                highValue = displayMode === "low" ? this.value : this.highError;
+            var displayMode = errorBarOptions.displayMode;
+            var lowValue = displayMode === "high" ? this.value : this.lowError;
+            var highValue = displayMode === "low" ? this.value : this.highError;
 
             return lowValue > highValue ? lowValue : highValue;
         } else {

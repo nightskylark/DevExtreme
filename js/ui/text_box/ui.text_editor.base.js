@@ -1,36 +1,36 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    domUtils = require("../../core/utils/dom"),
-    focused = require("../widget/selectors").focused,
-    isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    each = require("../../core/utils/iterator").each,
-    themes = require("../themes"),
-    Editor = require("../editor/editor"),
-    eventUtils = require("../../events/utils"),
-    pointerEvents = require("../../events/pointer"),
-    ClearButton = require("./ui.text_editor.clear").default,
-    ActionButtonCollection = require("./action_button_collection/index").default,
-    config = require("../../core/config"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var domUtils = require("../../core/utils/dom");
+var focused = require("../widget/selectors").focused;
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var each = require("../../core/utils/iterator").each;
+var themes = require("../themes");
+var Editor = require("../editor/editor");
+var eventUtils = require("../../events/utils");
+var pointerEvents = require("../../events/pointer");
+var ClearButton = require("./ui.text_editor.clear").default;
+var ActionButtonCollection = require("./action_button_collection/index").default;
+var config = require("../../core/config");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var TEXTEDITOR_CLASS = "dx-texteditor";
+var TEXTEDITOR_INPUT_CLASS = "dx-texteditor-input";
+var TEXTEDITOR_INPUT_SELECTOR = "." + TEXTEDITOR_INPUT_CLASS;
+var TEXTEDITOR_CONTAINER_CLASS = "dx-texteditor-container";
+var TEXTEDITOR_BUTTONS_CONTAINER_CLASS = "dx-texteditor-buttons-container";
+var TEXTEDITOR_PLACEHOLDER_CLASS = "dx-placeholder";
+var TEXTEDITOR_EMPTY_INPUT_CLASS = "dx-texteditor-empty";
+var TEXTEDITOR_STYLING_MODE_PREFIX = "dx-editor-";
 
-var TEXTEDITOR_CLASS = "dx-texteditor",
-    TEXTEDITOR_INPUT_CLASS = "dx-texteditor-input",
-    TEXTEDITOR_INPUT_SELECTOR = "." + TEXTEDITOR_INPUT_CLASS,
-    TEXTEDITOR_CONTAINER_CLASS = "dx-texteditor-container",
-    TEXTEDITOR_BUTTONS_CONTAINER_CLASS = "dx-texteditor-buttons-container",
-    TEXTEDITOR_PLACEHOLDER_CLASS = "dx-placeholder",
-    TEXTEDITOR_EMPTY_INPUT_CLASS = "dx-texteditor-empty",
-    TEXTEDITOR_STYLING_MODE_PREFIX = "dx-editor-",
-    ALLOWED_STYLE_CLASSES = [
-        TEXTEDITOR_STYLING_MODE_PREFIX + "outlined",
-        TEXTEDITOR_STYLING_MODE_PREFIX + "filled",
-        TEXTEDITOR_STYLING_MODE_PREFIX + "underlined"
-    ],
+var ALLOWED_STYLE_CLASSES = [
+    TEXTEDITOR_STYLING_MODE_PREFIX + "outlined",
+    TEXTEDITOR_STYLING_MODE_PREFIX + "filled",
+    TEXTEDITOR_STYLING_MODE_PREFIX + "underlined"
+];
 
-    STATE_INVISIBLE_CLASS = "dx-state-invisible";
+var STATE_INVISIBLE_CLASS = "dx-state-invisible";
 
 var EVENTS_LIST = [
     "KeyDown", "KeyPress", "KeyUp",
@@ -435,9 +435,9 @@ var TextEditorBase = Editor.inherit({
     _renderInputValue: function(value) {
         value = value || this.option("value");
 
-        var text = this.option("text"),
-            displayValue = this.option("displayValue"),
-            valueFormat = this.option("valueFormat");
+        var text = this.option("text");
+        var displayValue = this.option("displayValue");
+        var valueFormat = this.option("valueFormat");
 
         if(displayValue !== undefined && value !== null) {
             text = valueFormat(displayValue);
@@ -506,9 +506,9 @@ var TextEditorBase = Editor.inherit({
     },
 
     _toggleTabIndex: function() {
-        var $input = this._input(),
-            disabled = this.option("disabled"),
-            focusStateEnabled = this.option("focusStateEnabled");
+        var $input = this._input();
+        var disabled = this.option("disabled");
+        var focusStateEnabled = this.option("focusStateEnabled");
 
         if(disabled || !focusStateEnabled) {
             $input.attr("tabIndex", -1);
@@ -541,18 +541,19 @@ var TextEditorBase = Editor.inherit({
             this._$placeholder = null;
         }
 
-        var $input = this._input(),
-            placeholderText = this.option("placeholder"),
-            $placeholder = this._$placeholder = $("<div>")
-                .attr("data-dx_placeholder", placeholderText);
+        var $input = this._input();
+        var placeholderText = this.option("placeholder");
+
+        var $placeholder = this._$placeholder = $("<div>")
+            .attr("data-dx_placeholder", placeholderText);
 
         $placeholder.insertAfter($input);
         $placeholder.addClass(TEXTEDITOR_PLACEHOLDER_CLASS);
     },
 
     _attachPlaceholderEvents: function() {
-        var that = this,
-            startEvent = eventUtils.addNamespace(pointerEvents.up, that.NAME);
+        var that = this;
+        var startEvent = eventUtils.addNamespace(pointerEvents.up, that.NAME);
 
         eventsEngine.on(that._$placeholder, startEvent, function() {
             eventsEngine.trigger(that._input(), "focus");
@@ -576,8 +577,8 @@ var TextEditorBase = Editor.inherit({
     },
 
     _renderEvents: function() {
-        var that = this,
-            $input = that._input();
+        var that = this;
+        var $input = that._input();
 
         each(EVENTS_LIST, function(_, event) {
             if(that.hasActionSubscription("on" + event)) {
@@ -596,8 +597,8 @@ var TextEditorBase = Editor.inherit({
     },
 
     _refreshEvents: function() {
-        var that = this,
-            $input = this._input();
+        var that = this;
+        var $input = this._input();
 
         each(EVENTS_LIST, function(_, event) {
             eventsEngine.off($input, eventUtils.addNamespace(event.toLowerCase(), that.NAME));
@@ -611,16 +612,16 @@ var TextEditorBase = Editor.inherit({
     },
 
     _renderValueChangeEvent: function() {
-        var keyPressEvent = eventUtils.addNamespace(this._renderValueEventName(), this.NAME + "TextChange"),
-            valueChangeEvent = eventUtils.addNamespace(this.option("valueChangeEvent"), this.NAME + "ValueChange");
+        var keyPressEvent = eventUtils.addNamespace(this._renderValueEventName(), this.NAME + "TextChange");
+        var valueChangeEvent = eventUtils.addNamespace(this.option("valueChangeEvent"), this.NAME + "ValueChange");
 
         eventsEngine.on(this._input(), keyPressEvent, this._keyPressHandler.bind(this));
         eventsEngine.on(this._input(), valueChangeEvent, this._valueChangeEventHandler.bind(this));
     },
 
     _cleanValueChangeEvent: function() {
-        var eventNamespace = this.NAME + "ValueChange",
-            keyPressEvent = eventUtils.addNamespace(this._renderValueEventName(), this.NAME + "TextChange");
+        var eventNamespace = this.NAME + "ValueChange";
+        var keyPressEvent = eventUtils.addNamespace(this._renderValueEventName(), this.NAME + "TextChange");
 
         eventsEngine.off(this._input(), "." + eventNamespace);
         eventsEngine.off(this._input(), keyPressEvent);
@@ -658,8 +659,8 @@ var TextEditorBase = Editor.inherit({
     },
 
     _toggleEmptinessEventHandler: function() {
-        var text = this._input().val(),
-            isEmpty = (text === "" || text === null) && this._isValueValid();
+        var text = this._input().val();
+        var isEmpty = (text === "" || text === null) && this._isValueValid();
 
         this._toggleEmptiness(isEmpty);
     },
@@ -813,8 +814,8 @@ var TextEditorBase = Editor.inherit({
     },
 
     on: function(eventName, eventHandler) {
-        var result = this.callBase(eventName, eventHandler),
-            event = eventName.charAt(0).toUpperCase() + eventName.substr(1);
+        var result = this.callBase(eventName, eventHandler);
+        var event = eventName.charAt(0).toUpperCase() + eventName.substr(1);
 
         if(EVENTS_LIST.indexOf(event) >= 0) {
             this._refreshEvents();

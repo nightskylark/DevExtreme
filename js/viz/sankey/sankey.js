@@ -1,23 +1,23 @@
 import { COLOR_MODE_GRADIENT, COLOR_MODE_SOURCE, COLOR_MODE_TARGET } from './constants';
 
-var noop = require("../../core/utils/common").noop,
-    Node = require("./node_item"),
-    Link = require("./link_item"),
-    defaultLayoutBuilder = require("./layout"),
-    typeUtils = require("../../core/utils/type"),
-    _isString = typeUtils.isString,
-    _isNumber = typeUtils.isNumeric;
+var noop = require("../../core/utils/common").noop;
+var Node = require("./node_item");
+var Link = require("./link_item");
+var defaultLayoutBuilder = require("./layout");
+var typeUtils = require("../../core/utils/type");
+var _isString = typeUtils.isString;
+var _isNumber = typeUtils.isNumeric;
 
 function moveLabel(node, labelOptions, availableLabelWidth, rect) {
     if(node.label.getBBox().width > availableLabelWidth) {
         node.labelText.applyEllipsis(availableLabelWidth);
     }
 
-    var bBox = node.label.getBBox(),
-        verticalOffset = labelOptions.verticalOffset,
-        horizontalOffset = labelOptions.horizontalOffset,
-        labelOffsetY = Math.round(node.rect.y + node.rect.height / 2 - bBox.y - bBox.height / 2) + verticalOffset,
-        labelOffsetX = node.rect.x + horizontalOffset + node.rect.width - bBox.x;
+    var bBox = node.label.getBBox();
+    var verticalOffset = labelOptions.verticalOffset;
+    var horizontalOffset = labelOptions.horizontalOffset;
+    var labelOffsetY = Math.round(node.rect.y + node.rect.height / 2 - bBox.y - bBox.height / 2) + verticalOffset;
+    var labelOffsetX = node.rect.x + horizontalOffset + node.rect.width - bBox.x;
 
     if(labelOffsetX + bBox.width >= rect[2] - rect[0]) {
         labelOffsetX = node.rect.x - horizontalOffset - bBox.x - bBox.width;
@@ -38,9 +38,9 @@ function moveLabel(node, labelOptions, availableLabelWidth, rect) {
 }
 
 function getConnectedLinks(layout, nodeName, linkType) {
-    let result = [],
-        attrName = linkType === 'in' ? '_to' : '_from',
-        invertedAttrName = linkType === 'in' ? '_from' : '_to';
+    let result = [];
+    let attrName = linkType === 'in' ? '_to' : '_from';
+    let invertedAttrName = linkType === 'in' ? '_from' : '_to';
 
     layout.links.map((link) => { return link[attrName]._name === nodeName; }).forEach((connected, idx) => {
         connected && result.push({ index: idx, weight: layout.links[idx]._weight, node: layout.links[idx][invertedAttrName]._name });
@@ -142,8 +142,8 @@ var dxSankey = require("../core/base_widget").inherit({
     },
 
     _change_NODES_DRAW: function() {
-        var that = this,
-            nodes = that._nodes;
+        var that = this;
+        var nodes = that._nodes;
 
         nodes.forEach(function(node, index) {
             var element = that._renderer.rect().attr(node.rect).append(that._groupNodes);
@@ -153,8 +153,8 @@ var dxSankey = require("../core/base_widget").inherit({
     },
 
     _change_LINKS_DRAW: function() {
-        var that = this,
-            links = that._links;
+        var that = this;
+        var links = that._links;
 
         links.forEach(function(link, index) {
             var group = that._renderer.g().attr({ class: 'link', 'data-link-idx': index }).append(that._groupLinks);
@@ -210,8 +210,8 @@ var dxSankey = require("../core/base_widget").inherit({
     },
 
     _hitTestTargets: function(x, y) {
-        var that = this,
-            data;
+        var that = this;
+        var data;
 
         this._proxyData.some(function(callback) {
             data = callback.call(that, x, y);
@@ -223,12 +223,12 @@ var dxSankey = require("../core/base_widget").inherit({
     },
 
     _getData: function() {
-        var that = this,
-            data = that._dataSourceItems() || [],
-            sourceField = that._getOption("sourceField", true),
-            targetField = that._getOption("targetField", true),
-            weightField = that._getOption("weightField", true),
-            processedData = [];
+        var that = this;
+        var data = that._dataSourceItems() || [];
+        var sourceField = that._getOption("sourceField", true);
+        var targetField = that._getOption("targetField", true);
+        var weightField = that._getOption("weightField", true);
+        var processedData = [];
 
         data.forEach(function(item) {
             if(!item.hasOwnProperty(sourceField)) {
@@ -256,40 +256,45 @@ var dxSankey = require("../core/base_widget").inherit({
     },
 
     _buildLayout: function() {
-        var that = this,
-            data = that._getData(),
-            availableRect = this._rect,
-            nodeOptions = that._getOption('node'),
-            sortData = that._getOption('sortData'),
-            layoutBuilder = that._getOption('layoutBuilder', true) || defaultLayoutBuilder,
-            rect = {
-                x: availableRect[0],
-                y: availableRect[1],
-                width: availableRect[2] - availableRect[0],
-                height: availableRect[3] - availableRect[1]
-            },
-            layout = layoutBuilder.computeLayout(data, sortData,
-                {
-                    availableRect: rect,
-                    nodePadding: nodeOptions.padding,
-                    nodeWidth: nodeOptions.width,
-                    nodeAlign: that._getOption('alignment', true)
-                }, that._incidentOccurred
-            );
+        var that = this;
+        var data = that._getData();
+        var availableRect = this._rect;
+        var nodeOptions = that._getOption('node');
+        var sortData = that._getOption('sortData');
+        var layoutBuilder = that._getOption('layoutBuilder', true) || defaultLayoutBuilder;
+
+        var rect = {
+            x: availableRect[0],
+            y: availableRect[1],
+            width: availableRect[2] - availableRect[0],
+            height: availableRect[3] - availableRect[1]
+        };
+
+        var layout = layoutBuilder.computeLayout(data, sortData,
+            {
+                availableRect: rect,
+                nodePadding: nodeOptions.padding,
+                nodeWidth: nodeOptions.width,
+                nodeAlign: that._getOption('alignment', true)
+            }, that._incidentOccurred
+        );
+
         that._layoutMap = layout;
 
         if(!layout.hasOwnProperty('error')) {
-            let nodeColors = {},
-                nodeIdx = 0,
-                linkOptions = that._getOption("link"),
-                totalNodesNum = layout.nodes
-                    .map((item) => { return item.length; })
-                    .reduce((previousValue, currentValue) => { return previousValue + currentValue; }, 0),
-                palette = that._themeManager.createPalette(that._getOption("palette", true), {
-                    useHighlight: true,
-                    extensionMode: that._getOption("paletteExtensionMode", true),
-                    count: totalNodesNum
-                });
+            let nodeColors = {};
+            let nodeIdx = 0;
+            let linkOptions = that._getOption("link");
+
+            let totalNodesNum = layout.nodes
+                .map((item) => { return item.length; })
+                .reduce((previousValue, currentValue) => { return previousValue + currentValue; }, 0);
+
+            let palette = that._themeManager.createPalette(that._getOption("palette", true), {
+                useHighlight: true,
+                extensionMode: that._getOption("paletteExtensionMode", true),
+                count: totalNodesNum
+            });
 
             that._nodes = [];
             that._links = [];
@@ -301,15 +306,17 @@ var dxSankey = require("../core/base_widget").inherit({
 
             layout.nodes.forEach((cascadeNodes) => {
                 cascadeNodes.forEach((node) => {
-                    var color = nodeOptions.color || palette.getNextColor(),
-                        nodeItem = new Node(that, {
-                            id: nodeIdx,
-                            color: color,
-                            rect: node,
-                            options: nodeOptions,
-                            linksIn: getConnectedLinks(layout, node._name, 'in'),
-                            linksOut: getConnectedLinks(layout, node._name, 'out')
-                        });
+                    var color = nodeOptions.color || palette.getNextColor();
+
+                    var nodeItem = new Node(that, {
+                        id: nodeIdx,
+                        color: color,
+                        rect: node,
+                        options: nodeOptions,
+                        linksIn: getConnectedLinks(layout, node._name, 'in'),
+                        linksOut: getConnectedLinks(layout, node._name, 'out')
+                    });
+
                     that._nodes.push(nodeItem);
                     nodeIdx++;
                     nodeColors[node._name] = color;
@@ -357,10 +364,10 @@ var dxSankey = require("../core/base_widget").inherit({
     },
 
     _applyLabelsAppearance: function() {
-        var that = this,
-            labelOptions = that._getOption("label"),
-            availableWidth = that._rect[2] - that._rect[0],
-            nodeOptions = that._getOption("node");
+        var that = this;
+        var labelOptions = that._getOption("label");
+        var availableWidth = that._rect[2] - that._rect[0];
+        var nodeOptions = that._getOption("node");
 
         that._shadowFilter = that._renderer.shadowFilter("-50%", "-50%", "200%", "200%").attr(labelOptions.shadow);
         that._groupLabels.clear();
@@ -393,8 +400,8 @@ var dxSankey = require("../core/base_widget").inherit({
     },
 
     _createLabel: function(node, labelOptions, filter) {
-        var textData = labelOptions.customizeText(node),
-            settings = node.getLabelAttributes(labelOptions, filter);
+        var textData = labelOptions.customizeText(node);
+        var settings = node.getLabelAttributes(labelOptions, filter);
         if(textData) {
             node.label = this._renderer.g().append(this._groupLabels);
             node.labelText = this._renderer.text(textData)
@@ -402,7 +409,6 @@ var dxSankey = require("../core/base_widget").inherit({
                 .css(settings.css);
             node.labelText.append(node.label);
         }
-
     },
 
     _getMinSize: function() {

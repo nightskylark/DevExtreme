@@ -1,8 +1,8 @@
-var extend = require("../../core/utils/extend").extend,
-    BaseStrategy = require("./base"),
-    MouseStrategy = require("./mouse"),
-    TouchStrategy = require("./touch"),
-    eventUtils = require("../utils");
+var extend = require("../../core/utils/extend").extend;
+var BaseStrategy = require("./base");
+var MouseStrategy = require("./mouse");
+var TouchStrategy = require("./touch");
+var eventUtils = require("../utils");
 
 var eventMap = {
     "dxpointerdown": "touchstart mousedown",
@@ -66,8 +66,8 @@ var MouseAndTouchStrategy = BaseStrategy.inherit({
     },
 
     _fireEvent: function(args) {
-        var isMouseEvent = eventUtils.isMouseEvent(args.originalEvent),
-            normalizer = isMouseEvent ? MouseStrategy.normalize : TouchStrategy.normalize;
+        var isMouseEvent = eventUtils.isMouseEvent(args.originalEvent);
+        var normalizer = isMouseEvent ? MouseStrategy.normalize : TouchStrategy.normalize;
 
         return this.callBase(extend(normalizer(args.originalEvent), args));
     },

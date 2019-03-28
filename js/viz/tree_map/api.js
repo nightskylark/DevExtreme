@@ -1,14 +1,13 @@
-var proto = require("./tree_map.base").prototype,
-    nodeProto = require("./node").prototype,
-
-    _extend = require("../../core/utils/extend").extend;
+var proto = require("./tree_map.base").prototype;
+var nodeProto = require("./node").prototype;
+var _extend = require("../../core/utils/extend").extend;
 
 proto._eventsMap.onNodesInitialized = { name: "nodesInitialized" };
 proto._eventsMap.onNodesRendering = { name: "nodesRendering" };
 
 proto._createProxyType = function() {
-    var that = this,
-        nodes;
+    var that = this;
+    var nodes;
 
     Proxy.prototype = {
         constructor: Proxy,
@@ -28,10 +27,10 @@ proto._createProxyType = function() {
         },
 
         getAllChildren: function() {
-            var _nodes = nodes[this._id].nodes,
-                i,
-                ii = _nodes && _nodes.length,
-                list = [];
+            var _nodes = nodes[this._id].nodes;
+            var i;
+            var ii = _nodes && _nodes.length;
+            var list = [];
 
             for(i = 0; i < ii; ++i) {
                 list.push(_nodes[i].proxy);
@@ -55,8 +54,8 @@ proto._createProxyType = function() {
         },
 
         value: function(arg) {
-            var node = nodes[this._id],
-                result;
+            var node = nodes[this._id];
+            var result;
 
             if(arg !== undefined) {
                 updateValue(node, arg > 0 ? Number(arg) : 0);
@@ -69,8 +68,8 @@ proto._createProxyType = function() {
         },
 
         label: function(arg) {
-            var node = nodes[this._id],
-                result;
+            var node = nodes[this._id];
+            var result;
 
             if(arg !== undefined) {
                 node.customLabel = arg ? String(arg) : null;
@@ -136,9 +135,9 @@ function change(node, codes) {
 }
 
 function collectNodes(node, list) {
-    var nodes = node.nodes,
-        i,
-        ii = nodes && nodes.length;
+    var nodes = node.nodes;
+    var i;
+    var ii = nodes && nodes.length;
 
     for(i = 0; i < ii; ++i) {
         list.push(nodes[i].proxy);
@@ -176,8 +175,8 @@ nodeProto.updateStyles = function() {
 
 var _updateLabelStyle = nodeProto.updateLabelStyle;
 nodeProto.updateLabelStyle = function() {
-    var that = this,
-        custom = that._custom;
+    var that = this;
+    var custom = that._custom;
 
     _updateLabelStyle.call(that);
     if(custom && custom.label) {

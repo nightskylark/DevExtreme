@@ -1,14 +1,14 @@
-var isDefined = require("../../core/utils/type").isDefined,
-    config = require("../../core/config"),
-    odataUtils = require("./utils"),
-    proxyUrlFormatter = require("../proxy_url_formatter"),
-    errors = require("../errors").errors,
-    query = require("../query"),
-    Store = require("../abstract_store"),
-    mixins = require("./mixins"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred;
+var isDefined = require("../../core/utils/type").isDefined;
+var config = require("../../core/config");
+var odataUtils = require("./utils");
+var proxyUrlFormatter = require("../proxy_url_formatter");
+var errors = require("../errors").errors;
+var query = require("../query");
+var Store = require("../abstract_store");
+var mixins = require("./mixins");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
 
 require("./query_adapter");
 
@@ -113,9 +113,10 @@ var ODataStore = Store.inherit({
          * @acceptValues "String"|"Int32"|"Int64"|"Guid"|"Boolean"|"Single"|"Decimal"
          */
 
-        var key = this.key(),
-            fieldTypes = options.fieldTypes,
-            keyType = options.keyType;
+        var key = this.key();
+
+        var fieldTypes = options.fieldTypes;
+        var keyType = options.keyType;
 
         if(keyType) {
             var keyTypeIsString = (typeof keyType === "string");
@@ -177,8 +178,8 @@ var ODataStore = Store.inherit({
     * @return object
     */
     createQuery: function(loadOptions) {
-        var url,
-            queryOptions;
+        var url;
+        var queryOptions;
 
         loadOptions = loadOptions || {};
         queryOptions = {
@@ -222,8 +223,8 @@ var ODataStore = Store.inherit({
     _insertImpl: function(values) {
         this._requireKey();
 
-        var that = this,
-            d = new Deferred();
+        var that = this;
+        var d = new Deferred();
 
         when(this._sendRequest(this._url, "POST", null, values))
             .done(function(serverResponse) {
@@ -267,9 +268,9 @@ var ODataStore = Store.inherit({
     },
 
     _convertKey: function(value) {
-        var result = value,
-            fieldTypes = this._fieldTypes,
-            key = this.key() || this._legacyAnonymousKey;
+        var result = value;
+        var fieldTypes = this._fieldTypes;
+        var key = this.key() || this._legacyAnonymousKey;
 
         if(Array.isArray(key)) {
             result = {};

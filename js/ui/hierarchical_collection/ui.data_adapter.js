@@ -1,19 +1,18 @@
-var Class = require("../../core/class"),
-    commonUtils = require("../../core/utils/common"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    each = require("../../core/utils/iterator").each,
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    errors = require("../../ui/widget/ui.errors"),
-    getOperationBySearchMode = require("../../ui/widget/ui.search_box_mixin").getOperationBySearchMode,
-    inArray = require("../../core/utils/array").inArray,
-    query = require("../../data/query"),
-    storeHelper = require("../../data/store_helper"),
-    HierarchicalDataConverter = require("./ui.data_converter");
-
-var EXPANDED = "expanded",
-    SELECTED = "selected",
-    DISABLED = "disabled";
+var Class = require("../../core/class");
+var commonUtils = require("../../core/utils/common");
+var iteratorUtils = require("../../core/utils/iterator");
+var each = require("../../core/utils/iterator").each;
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var errors = require("../../ui/widget/ui.errors");
+var getOperationBySearchMode = require("../../ui/widget/ui.search_box_mixin").getOperationBySearchMode;
+var inArray = require("../../core/utils/array").inArray;
+var query = require("../../data/query");
+var storeHelper = require("../../data/store_helper");
+var HierarchicalDataConverter = require("./ui.data_converter");
+var EXPANDED = "expanded";
+var SELECTED = "selected";
+var DISABLED = "disabled";
 
 var DataAdapter = Class.inherit({
 
@@ -82,8 +81,8 @@ var DataAdapter = Class.inherit({
     },
 
     _updateNodesKeysArray: function(property) {
-        var that = this,
-            array = [];
+        var that = this;
+        var array = [];
 
         each(that._getDataBySelectionMode(), function(_, node) {
             if(!that._isNodeVisible(node)) {
@@ -158,8 +157,8 @@ var DataAdapter = Class.inherit({
     },
 
     _updateOneBranch: function(key) {
-        var that = this,
-            node = this.getNodeByKey(key);
+        var that = this;
+        var node = this.getNodeByKey(key);
 
         that._iterateParents(node, function(parent) {
             that._setFieldState(parent, EXPANDED, true);
@@ -193,15 +192,15 @@ var DataAdapter = Class.inherit({
     },
 
     _calculateSelectedState: function(node) {
-        var itemsCount = node.internalFields.childrenKeys.length,
-            selectedItemsCount = 0,
-            invisibleItemsCount = 0,
-            result = false;
+        var itemsCount = node.internalFields.childrenKeys.length;
+        var selectedItemsCount = 0;
+        var invisibleItemsCount = 0;
+        var result = false;
 
         for(var i = 0; i <= itemsCount - 1; i++) {
-            var childNode = this.getNodeByKey(node.internalFields.childrenKeys[i]),
-                isChildInvisible = childNode.internalFields.item.visible === false,
-                childState = childNode.internalFields.selected;
+            var childNode = this.getNodeByKey(node.internalFields.childrenKeys[i]);
+            var isChildInvisible = childNode.internalFields.item.visible === false;
+            var childState = childNode.internalFields.selected;
 
             if(isChildInvisible) {
                 invisibleItemsCount++;
@@ -250,8 +249,8 @@ var DataAdapter = Class.inherit({
         var that = this;
 
         each(keys, function(_, key) {
-            var index = that.getIndexByKey(key),
-                node = that.getNodeByKey(key);
+            var index = that.getIndexByKey(key);
+            var node = that.getNodeByKey(key);
             that._dataStructure[index] = 0;
             node.internalFields.childrenKeys.length && that._markChildren(node.internalFields.childrenKeys);
         });
@@ -263,9 +262,9 @@ var DataAdapter = Class.inherit({
         this._dataStructure[this.getIndexByKey(key)] = 0;
         this._markChildren(node.internalFields.childrenKeys);
 
-        var that = this,
-            counter = 0,
-            items = extend([], this._dataStructure);
+        var that = this;
+        var counter = 0;
+        var items = extend([], this._dataStructure);
         each(items, function(index, item) {
             if(!item) {
                 that._dataStructure.splice(index - counter, 1);
@@ -275,8 +274,8 @@ var DataAdapter = Class.inherit({
     },
 
     _addNode: function(item) {
-        var dataConverter = this.options.dataConverter,
-            node = dataConverter._convertItemToNode(item, this.options.dataAccessors.getters.parentKey(item));
+        var dataConverter = this.options.dataConverter;
+        var node = dataConverter._convertItemToNode(item, this.options.dataAccessors.getters.parentKey(item));
 
         this._dataStructure = this._dataStructure.concat(node);
         this._initialDataStructure = this._initialDataStructure.concat(node);
@@ -319,8 +318,8 @@ var DataAdapter = Class.inherit({
     },
 
     getNodesByItems: function(items) {
-        var that = this,
-            nodes = [];
+        var that = this;
+        var nodes = [];
 
         each(items, function(_, item) {
             var node = that.getNodeByItem(item);
@@ -373,8 +372,8 @@ var DataAdapter = Class.inherit({
     },
 
     toggleSelection: function(key, state, selectRecursive) {
-        var isSingleModeUnselect = this._isSingleModeUnselect(state),
-            node = this._getByKey(selectRecursive || isSingleModeUnselect ? this._initialDataStructure : this._dataStructure, key);
+        var isSingleModeUnselect = this._isSingleModeUnselect(state);
+        var node = this._getByKey(selectRecursive || isSingleModeUnselect ? this._initialDataStructure : this._dataStructure, key);
         this._setFieldState(node, SELECTED, state);
 
         if(this.options.recursiveSelection && !selectRecursive) {
@@ -399,9 +398,9 @@ var DataAdapter = Class.inherit({
             return;
         }
 
-        var that = this,
-            lastSelectedKey = that._selectedNodesKeys[that._selectedNodesKeys.length - 1],
-            dataStructure = that._isSingleModeUnselect(state) ? this._initialDataStructure : this._dataStructure;
+        var that = this;
+        var lastSelectedKey = that._selectedNodesKeys[that._selectedNodesKeys.length - 1];
+        var dataStructure = that._isSingleModeUnselect(state) ? this._initialDataStructure : this._dataStructure;
 
         each(dataStructure, function(index, node) {
             if(!that._isNodeVisible(node)) {
@@ -453,9 +452,9 @@ var DataAdapter = Class.inherit({
     },
 
     _filterDataStructure: function(filterValue, dataStructure) {
-        var selector = this.options.searchExpr || this.options.dataAccessors.getters.display,
-            operation = getOperationBySearchMode(this.options.searchMode),
-            criteria = this._createCriteria(selector, filterValue, operation);
+        var selector = this.options.searchExpr || this.options.dataAccessors.getters.display;
+        var operation = getOperationBySearchMode(this.options.searchMode);
+        var criteria = this._createCriteria(selector, filterValue, operation);
 
         dataStructure = dataStructure || this._initialDataStructure;
 
@@ -463,9 +462,9 @@ var DataAdapter = Class.inherit({
     },
 
     search: function(searchValue) {
-        var that = this,
-            matches = this._filterDataStructure(searchValue),
-            dataConverter = this.options.dataConverter;
+        var that = this;
+        var matches = this._filterDataStructure(searchValue);
+        var dataConverter = this.options.dataConverter;
 
         function lookForParents(matches, index) {
 

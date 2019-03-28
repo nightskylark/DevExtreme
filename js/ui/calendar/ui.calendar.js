@@ -1,48 +1,45 @@
-var $ = require("../../core/renderer"),
-    Guid = require("../../core/guid"),
-    registerComponent = require("../../core/component_registrator"),
-    noop = require("../../core/utils/common").noop,
-    typeUtils = require("../../core/utils/type"),
-    inRange = require("../../core/utils/math").inRange,
-    extend = require("../../core/utils/extend").extend,
-    Button = require("../button"),
-    Editor = require("../editor/editor"),
-    Swipeable = require("../../events/gesture/swipeable"),
-    Navigator = require("./ui.calendar.navigator"),
-    Views = require("./ui.calendar.views"),
-    translator = require("../../animation/translator"),
-    browser = require("../../core/utils/browser"),
-    dateUtils = require("../../core/utils/date"),
-    dateSerialization = require("../../core/utils/date_serialization"),
-    devices = require("../../core/devices"),
-    fx = require("../../animation/fx"),
-    windowUtils = require("../../core/utils/window"),
-    messageLocalization = require("../../localization/message"),
-    FunctionTemplate = require("../widget/function_template");
+var $ = require("../../core/renderer");
+var Guid = require("../../core/guid");
+var registerComponent = require("../../core/component_registrator");
+var noop = require("../../core/utils/common").noop;
+var typeUtils = require("../../core/utils/type");
+var inRange = require("../../core/utils/math").inRange;
+var extend = require("../../core/utils/extend").extend;
+var Button = require("../button");
+var Editor = require("../editor/editor");
+var Swipeable = require("../../events/gesture/swipeable");
+var Navigator = require("./ui.calendar.navigator");
+var Views = require("./ui.calendar.views");
+var translator = require("../../animation/translator");
+var browser = require("../../core/utils/browser");
+var dateUtils = require("../../core/utils/date");
+var dateSerialization = require("../../core/utils/date_serialization");
+var devices = require("../../core/devices");
+var fx = require("../../animation/fx");
+var windowUtils = require("../../core/utils/window");
+var messageLocalization = require("../../localization/message");
+var FunctionTemplate = require("../widget/function_template");
+var CALENDAR_CLASS = "dx-calendar";
+var CALENDAR_BODY_CLASS = "dx-calendar-body";
+var CALENDAR_CELL_CLASS = "dx-calendar-cell";
+var CALENDAR_FOOTER_CLASS = "dx-calendar-footer";
+var CALENDAR_TODAY_BUTTON_CLASS = "dx-calendar-today-button";
+var CALENDAR_HAS_FOOTER_CLASS = "dx-calendar-with-footer";
+var CALENDAR_VIEWS_WRAPPER_CLASS = "dx-calendar-views-wrapper";
+var CALENDAR_VIEW_CLASS = "dx-calendar-view";
+var FOCUSED_STATE_CLASS = "dx-state-focused";
+var ANIMATION_DURATION_SHOW_VIEW = 250;
+var POP_ANIMATION_FROM = 0.6;
+var POP_ANIMATION_TO = 1;
+var CALENDAR_INPUT_STANDARD_PATTERN = "yyyy-MM-dd";
+var CALENDAR_DATE_VALUE_KEY = "dxDateValueKey";
 
-var CALENDAR_CLASS = "dx-calendar",
-    CALENDAR_BODY_CLASS = "dx-calendar-body",
-    CALENDAR_CELL_CLASS = "dx-calendar-cell",
-    CALENDAR_FOOTER_CLASS = "dx-calendar-footer",
-    CALENDAR_TODAY_BUTTON_CLASS = "dx-calendar-today-button",
-    CALENDAR_HAS_FOOTER_CLASS = "dx-calendar-with-footer",
-    CALENDAR_VIEWS_WRAPPER_CLASS = "dx-calendar-views-wrapper",
-    CALENDAR_VIEW_CLASS = "dx-calendar-view",
-    FOCUSED_STATE_CLASS = "dx-state-focused",
-
-    ANIMATION_DURATION_SHOW_VIEW = 250,
-    POP_ANIMATION_FROM = 0.6,
-    POP_ANIMATION_TO = 1,
-
-    CALENDAR_INPUT_STANDARD_PATTERN = "yyyy-MM-dd",
-    CALENDAR_DATE_VALUE_KEY = "dxDateValueKey",
-
-    LEVEL_COMPARE_MAP = {
-        "month": 3,
-        "year": 2,
-        "decade": 1,
-        "century": 0
-    };
+var LEVEL_COMPARE_MAP = {
+    "month": 3,
+    "year": 2,
+    "decade": 1,
+    "century": 0
+};
 
 var ZOOM_LEVEL = {
     MONTH: "month",
@@ -352,15 +349,15 @@ var Calendar = Editor.inherit({
     },
 
     _moveCurrentDate: function(offset, baseDate) {
-        var currentDate = baseDate || new Date(this.option("currentDate")),
-            maxDate = this._getMaxDate(),
-            minDate = this._getMinDate(),
-            zoomLevel = this.option("zoomLevel"),
-            currentDateInRange = inRange(currentDate, minDate, maxDate),
-            dateForward = new Date(currentDate),
-            dateBackward = new Date(currentDate),
-            dateForwardInRange = currentDateInRange,
-            dateBackwardInRange = currentDateInRange;
+        var currentDate = baseDate || new Date(this.option("currentDate"));
+        var maxDate = this._getMaxDate();
+        var minDate = this._getMinDate();
+        var zoomLevel = this.option("zoomLevel");
+        var currentDateInRange = inRange(currentDate, minDate, maxDate);
+        var dateForward = new Date(currentDate);
+        var dateBackward = new Date(currentDate);
+        var dateForwardInRange = currentDateInRange;
+        var dateBackwardInRange = currentDateInRange;
 
         while((!offset && (dateForwardInRange || dateBackwardInRange)) || (offset && dateForwardInRange)) {
             var step = offset || 1;
@@ -417,9 +414,9 @@ var Calendar = Editor.inherit({
     },
 
     _correctZoomLevel: function() {
-        var minZoomLevel = this.option("minZoomLevel"),
-            maxZoomLevel = this.option("maxZoomLevel"),
-            zoomLevel = this.option("zoomLevel");
+        var minZoomLevel = this.option("minZoomLevel");
+        var maxZoomLevel = this.option("maxZoomLevel");
+        var zoomLevel = this.option("zoomLevel");
 
         if(LEVEL_COMPARE_MAP[maxZoomLevel] < LEVEL_COMPARE_MAP[minZoomLevel]) {
             return;
@@ -461,8 +458,8 @@ var Calendar = Editor.inherit({
             fx.stop(this._$viewsWrapper, true);
         }
 
-        var min = this._getMinDate(),
-            max = this._getMaxDate();
+        var min = this._getMinDate();
+        var max = this._getMaxDate();
 
         if(min > max) {
             this.option("currentDate", new Date());
@@ -538,8 +535,8 @@ var Calendar = Editor.inherit({
     },
 
     _getMonthsOffset: function(startDate, endDate) {
-        var yearOffset = endDate.getFullYear() - startDate.getFullYear(),
-            monthOffset = endDate.getMonth() - startDate.getMonth();
+        var yearOffset = endDate.getFullYear() - startDate.getFullYear();
+        var monthOffset = endDate.getMonth() - startDate.getMonth();
 
         return yearOffset * 12 + monthOffset;
     },
@@ -651,9 +648,9 @@ var Calendar = Editor.inherit({
     },
 
     _renderSpecificView: function(date) {
-        var specificView = Views[this.option("zoomLevel")],
-            $view = $("<div>").appendTo(this._$viewsWrapper),
-            config = this._viewConfig(date);
+        var specificView = Views[this.option("zoomLevel")];
+        var $view = $("<div>").appendTo(this._$viewsWrapper);
+        var config = this._viewConfig(date);
 
         return new specificView($view, config);
     },
@@ -716,8 +713,8 @@ var Calendar = Editor.inherit({
     },
 
     _cellClickHandler: function(e) {
-        var zoomLevel = this.option("zoomLevel"),
-            nextView = dateUtils.getViewDown(zoomLevel);
+        var zoomLevel = this.option("zoomLevel");
+        var nextView = dateUtils.getViewDown(zoomLevel);
 
         var isMaxZoomLevel = this._isMaxZoomLevel();
 
@@ -806,8 +803,8 @@ var Calendar = Editor.inherit({
     },
 
     _navigateUp: function() {
-        var zoomLevel = this.option("zoomLevel"),
-            nextView = dateUtils.getViewUp(zoomLevel);
+        var zoomLevel = this.option("zoomLevel");
+        var nextView = dateUtils.getViewUp(zoomLevel);
 
         if(!nextView || this._isMinZoomLevel(zoomLevel)) {
             return;
@@ -826,8 +823,8 @@ var Calendar = Editor.inherit({
     },
 
     _isMinZoomLevel: function(zoomLevel) {
-        var min = this._getMinDate(),
-            max = this._getMaxDate();
+        var min = this._getMinDate();
+        var max = this._getMaxDate();
 
         return dateUtils.sameView(zoomLevel, min, max) || this.option("minZoomLevel") === zoomLevel;
     },
@@ -876,8 +873,8 @@ var Calendar = Editor.inherit({
     },
 
     _swipeEndHandler: function(e) {
-        var targetOffset = e.event.targetOffset,
-            moveOffset = !targetOffset ? 0 : targetOffset / Math.abs(targetOffset);
+        var targetOffset = e.event.targetOffset;
+        var moveOffset = !targetOffset ? 0 : targetOffset / Math.abs(targetOffset);
 
         if(moveOffset === 0) {
             this._animateWrapper(0, ANIMATION_DURATION_SHOW_VIEW);
@@ -924,9 +921,9 @@ var Calendar = Editor.inherit({
             return;
         }
 
-        var min = this._getMinDate(),
-            max = this._getMaxDate(),
-            normalizedDate = dateUtils.normalizeDate(date, min, max);
+        var min = this._getMinDate();
+        var max = this._getMaxDate();
+        var normalizedDate = dateUtils.normalizeDate(date, min, max);
 
         return normalizedDate === min || normalizedDate === max;
     },
@@ -1007,9 +1004,9 @@ var Calendar = Editor.inherit({
             this._translateViews();
         }
 
-        var rtlCorrection = this._getRtlCorrection(),
-            offsetSign = offset > 0 ? 1 : offset < 0 ? -1 : 0,
-            endPosition = -rtlCorrection * offsetSign * this._viewWidth();
+        var rtlCorrection = this._getRtlCorrection();
+        var offsetSign = offset > 0 ? 1 : offset < 0 ? -1 : 0;
+        var endPosition = -rtlCorrection * offsetSign * this._viewWidth();
 
         var viewsWrapperPosition = this._$viewsWrapper.position().left;
 
@@ -1064,9 +1061,9 @@ var Calendar = Editor.inherit({
             return;
         }
 
-        var viewOffset,
-            viewToCreateKey,
-            viewToRemoveKey;
+        var viewOffset;
+        var viewToCreateKey;
+        var viewToRemoveKey;
 
         if(offset < 0) {
             viewOffset = 1;

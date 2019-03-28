@@ -1,11 +1,10 @@
-var themeModule = require("../../themes"),
-    registerTheme = themeModule.registerTheme,
-
-    WHITE = "#ffffff",
-    BLACK = "#000000",
-    CONTRAST_ACTIVE = "#cf00da",
-    MARKER_COLOR = "#f8ca00",
-    AREA_LAYER_COLOR = "#686868";
+var themeModule = require("../../themes");
+var registerTheme = themeModule.registerTheme;
+var WHITE = "#ffffff";
+var BLACK = "#000000";
+var CONTRAST_ACTIVE = "#cf00da";
+var MARKER_COLOR = "#f8ca00";
+var AREA_LAYER_COLOR = "#686868";
 
 registerTheme({
     name: "generic.contrast",

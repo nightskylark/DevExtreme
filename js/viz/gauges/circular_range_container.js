@@ -1,8 +1,7 @@
-var BaseRangeContainer = require("./base_range_container"),
-
-    _Number = Number,
-    _max = Math.max,
-    _normalizeEnum = require("../core/utils").normalizeEnum;
+var BaseRangeContainer = require("./base_range_container");
+var _Number = Number;
+var _max = Math.max;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
 
 var CircularRangeContainer = BaseRangeContainer.inherit({
     _processOptions: function() {
@@ -28,8 +27,8 @@ var CircularRangeContainer = BaseRangeContainer.inherit({
     },
 
     _createRange: function(range, layout) {
-        var that = this,
-            width = (range.startWidth + range.endWidth) / 2;
+        var that = this;
+        var width = (range.startWidth + range.endWidth) / 2;
         return that._renderer.arc(layout.x, layout.y, layout.radius - that._inner * width, layout.radius + that._outer * width, that._translator.translate(range.end), that._translator.translate(range.start)).attr({ "stroke-linejoin": "round" });
     },
 

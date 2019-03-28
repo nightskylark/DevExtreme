@@ -1,16 +1,13 @@
-var _patchFontOptions = require("./utils").patchFontOptions,
-
-    STATE_HIDDEN = 0,
-    STATE_SHOWN = 1,
-
-    ANIMATION_EASING = "linear",
-    ANIMATION_DURATION = 400,
-
-    LOADING_INDICATOR_READY = "loadingIndicatorReady";
+var _patchFontOptions = require("./utils").patchFontOptions;
+var STATE_HIDDEN = 0;
+var STATE_SHOWN = 1;
+var ANIMATION_EASING = "linear";
+var ANIMATION_DURATION = 400;
+var LOADING_INDICATOR_READY = "loadingIndicatorReady";
 
 function LoadingIndicator(parameters) {
-    var that = this,
-        renderer = parameters.renderer;
+    var that = this;
+    var renderer = parameters.renderer;
     that._group = renderer.g().attr({ "class": "dx-loading-indicator" }).linkOn(renderer.root, { name: "loading-indicator", after: "peripheral" });
     that._rect = renderer.rect().attr({ opacity: 0 }).append(that._group);
     that._text = renderer.text().attr({ align: "center" }).append(that._group);
@@ -47,8 +44,8 @@ LoadingIndicator.prototype = {
     },
 
     setSize: function(size) {
-        var width = size.width,
-            height = size.height;
+        var width = size.width;
+        var height = size.height;
         this._rect.attr({ width: width, height: height });
         this._text.attr({ x: width / 2, y: height / 2 });
     },
@@ -66,8 +63,8 @@ LoadingIndicator.prototype = {
     },
 
     _transit: function(stateId) {
-        var that = this,
-            state;
+        var that = this;
+        var state;
         if(that._state !== stateId) {
             that._state = stateId;
             that._isHiding = false;

@@ -1,13 +1,12 @@
 module.exports = function(object) {
-    var extend = require("./extend").extend,
-        isFunction = require("./type").isFunction,
-        each = require("./iterator").each,
-        Class = require("../class");
-
-    var BaseClass = Class.inherit(object),
-        InjectedClass = BaseClass,
-        instance = new InjectedClass(object),
-        initialFields = {};
+    var extend = require("./extend").extend;
+    var isFunction = require("./type").isFunction;
+    var each = require("./iterator").each;
+    var Class = require("../class");
+    var BaseClass = Class.inherit(object);
+    var InjectedClass = BaseClass;
+    var instance = new InjectedClass(object);
+    var initialFields = {};
 
     var injectFields = function(injectionObject, initial) {
         each(injectionObject, function(key) {

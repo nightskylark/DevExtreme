@@ -1,15 +1,14 @@
-var $ = require("../../../core/renderer"),
-    Shader = require("./ui.scheduler.current_time_shader");
-
-var DATE_TIME_SHADER_ALL_DAY_CLASS = "dx-scheduler-date-time-shader-all-day",
-    DATE_TIME_SHADER_TOP_CLASS = "dx-scheduler-date-time-shader-top",
-    DATE_TIME_SHADER_BOTTOM_CLASS = "dx-scheduler-date-time-shader-bottom";
+var $ = require("../../../core/renderer");
+var Shader = require("./ui.scheduler.current_time_shader");
+var DATE_TIME_SHADER_ALL_DAY_CLASS = "dx-scheduler-date-time-shader-all-day";
+var DATE_TIME_SHADER_TOP_CLASS = "dx-scheduler-date-time-shader-top";
+var DATE_TIME_SHADER_BOTTOM_CLASS = "dx-scheduler-date-time-shader-bottom";
 
 var VerticalCurrentTimeShader = Shader.inherit({
     _renderShader: function() {
-        var shaderHeight = this._getShaderHeight(),
-            maxHeight = this._getShaderMaxHeight(),
-            renderSolidShader = false;
+        var shaderHeight = this._getShaderHeight();
+        var maxHeight = this._getShaderMaxHeight();
+        var renderSolidShader = false;
 
         if(shaderHeight > maxHeight) {
             shaderHeight = maxHeight;

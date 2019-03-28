@@ -139,8 +139,8 @@ var PATTERN_SETTERS = {
 };
 
 var getSameCharCount = function(text, index) {
-    var char = text[index],
-        count = 0;
+    var char = text[index];
+    var count = 0;
 
     do {
         index++;
@@ -159,10 +159,10 @@ var createPattern = function(char, count) {
 };
 
 var getRegExpInfo = function(format, dateParts) {
-    var regexpText = "",
-        stubText = "",
-        isEscaping,
-        patterns = [];
+    var regexpText = "";
+    var stubText = "";
+    var isEscaping;
+    var patterns = [];
 
     var addPreviousStub = function() {
         if(stubText) {
@@ -173,9 +173,9 @@ var getRegExpInfo = function(format, dateParts) {
     };
 
     for(var i = 0; i < format.length; i++) {
-        var char = format[i],
-            isEscapeChar = char === "'",
-            regexpPart = PATTERN_REGEXPS[char];
+        var char = format[i];
+        var isEscapeChar = char === "'";
+        var regexpPart = PATTERN_REGEXPS[char];
 
         if(isEscapeChar) {
             isEscaping = !isEscaping;
@@ -185,8 +185,8 @@ var getRegExpInfo = function(format, dateParts) {
         }
 
         if(regexpPart && !isEscaping) {
-            var count = getSameCharCount(format, i),
-                pattern = createPattern(char, count);
+            var count = getSameCharCount(format, i);
+            var pattern = createPattern(char, count);
 
             addPreviousStub();
             patterns.push(pattern);
@@ -214,9 +214,9 @@ var getPatternSetters = function() {
 };
 
 var setPatternPart = function(date, pattern, text, dateParts) {
-    var patternChar = pattern[0],
-        partSetter = PATTERN_SETTERS[patternChar],
-        partParser = PATTERN_PARSERS[patternChar];
+    var patternChar = pattern[0];
+    var partSetter = PATTERN_SETTERS[patternChar];
+    var partParser = PATTERN_PARSERS[patternChar];
 
     if(partSetter && partParser) {
         var value = partParser(text, pattern.length, dateParts);
@@ -229,8 +229,8 @@ var setPatternPart = function(date, pattern, text, dateParts) {
 };
 
 var setPatternPartFromNow = function(date, pattern, now) {
-    var setterName = PATTERN_SETTERS[pattern],
-        getterName = "g" + setterName.substr(1);
+    var setterName = PATTERN_SETTERS[pattern];
+    var getterName = "g" + setterName.substr(1);
 
     date[setterName](now[getterName]());
 };
@@ -268,11 +268,11 @@ var getParser = function(format, dateParts) {
         var regExpResult = regExpInfo.regexp.exec(text);
 
         if(regExpResult) {
-            var now = new Date(),
-                date = new Date(now.getFullYear(), 0, 1),
-                formatPatterns = getShortPatterns(regExpInfo.patterns),
-                maxPatternIndex = getMaxOrderedPatternIndex(formatPatterns),
-                orderedFormatPatterns = getOrderedFormatPatterns(formatPatterns);
+            var now = new Date();
+            var date = new Date(now.getFullYear(), 0, 1);
+            var formatPatterns = getShortPatterns(regExpInfo.patterns);
+            var maxPatternIndex = getMaxOrderedPatternIndex(formatPatterns);
+            var orderedFormatPatterns = getOrderedFormatPatterns(formatPatterns);
 
             orderedFormatPatterns.forEach(function(pattern, index) {
                 if(!pattern || (index < ORDERED_PATTERNS.length && index > maxPatternIndex)) {

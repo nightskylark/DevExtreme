@@ -1,29 +1,28 @@
-var windowUtils = require("../core/utils/window"),
-    window = windowUtils.hasWindow() ? windowUtils.getWindow() : {},
-    callOnce = require("../core/utils/call_once");
+var windowUtils = require("../core/utils/window");
+var window = windowUtils.hasWindow() ? windowUtils.getWindow() : {};
+var callOnce = require("../core/utils/call_once");
+var FRAME_ANIMATION_STEP_TIME = 1000 / 60;
 
-var FRAME_ANIMATION_STEP_TIME = 1000 / 60,
+var request = function(callback) {
+    return setTimeout(callback, FRAME_ANIMATION_STEP_TIME);
+};
 
-    request = function(callback) {
-        return setTimeout(callback, FRAME_ANIMATION_STEP_TIME);
-    },
-
-    cancel = function(requestID) {
-        clearTimeout(requestID);
-    };
+var cancel = function(requestID) {
+    clearTimeout(requestID);
+};
 
 var setAnimationFrameMethods = callOnce(function() {
     var nativeRequest = window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame,
+            window.msRequestAnimationFrame;
 
-        nativeCancel = window.cancelAnimationFrame ||
-            window.webkitCancelAnimationFrame ||
-            window.mozCancelAnimationFrame ||
-            window.oCancelAnimationFrame ||
-            window.msCancelAnimationFrame;
+    var nativeCancel = window.cancelAnimationFrame ||
+        window.webkitCancelAnimationFrame ||
+        window.mozCancelAnimationFrame ||
+        window.oCancelAnimationFrame ||
+        window.msCancelAnimationFrame;
 
     if(nativeRequest && nativeCancel) {
         request = nativeRequest;

@@ -1,5 +1,5 @@
-var proto = require("./tree_map.base").prototype,
-    _expand = require("../core/helpers").expand;
+var proto = require("./tree_map.base").prototype;
+var _expand = require("../core/helpers").expand;
 
 require("./api");
 
@@ -18,8 +18,8 @@ _expand(proto, "_onNodesCreated", function() {
 });
 
 proto._drillToNode = function(index) {
-    var that = this,
-        node;
+    var that = this;
+    var node;
 
     if(that._drilldownIndex !== index) {
         node = that._nodes[index] || that._root;

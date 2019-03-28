@@ -107,11 +107,11 @@ var getHandlersController = function(element, eventName) {
     return {
         addHandler: function(handler, selector, data) {
             var callHandler = function(e, extraParameters) {
-                var handlerArgs = [e],
-                    target = e.currentTarget,
-                    relatedTarget = e.relatedTarget,
-                    secondaryTargetIsInside,
-                    result;
+                var handlerArgs = [e];
+                var target = e.currentTarget;
+                var relatedTarget = e.relatedTarget;
+                var secondaryTargetIsInside;
+                var result;
 
                 if(eventName in NATIVE_EVENTS_TO_SUBSCRIBE) {
                     secondaryTargetIsInside = relatedTarget && target && (relatedTarget === target || target.contains(relatedTarget));

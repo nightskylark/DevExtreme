@@ -1,12 +1,10 @@
-var Callbacks = require("../../core/utils/callbacks"),
-    NativeStrategy = require("./ui.scrollable.native"),
-    Deferred = require("../../core/utils/deferred").Deferred;
-
-var STATE_RELEASED = 0,
-    STATE_READY = 1,
-    STATE_LOADING = 2,
-
-    LOADING_HEIGHT = 80;
+var Callbacks = require("../../core/utils/callbacks");
+var NativeStrategy = require("./ui.scrollable.native");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var STATE_RELEASED = 0;
+var STATE_READY = 1;
+var STATE_LOADING = 2;
+var LOADING_HEIGHT = 80;
 
 
 var SlideDownNativeScrollViewStrategy = NativeStrategy.inherit({

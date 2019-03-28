@@ -1,39 +1,31 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    fx = require("../animation/fx"),
-    swipeEvents = require("../events/swipe"),
-    translator = require("../animation/translator"),
-    domUtils = require("../core/utils/dom"),
-    extend = require("../core/utils/extend").extend,
-    isDefined = require("../core/utils/type").isDefined,
-    registerComponent = require("../core/component_registrator"),
-    eventUtils = require("../events/utils"),
-    CollectionWidget = require("./collection/ui.collection_widget.edit"),
-    PivotTabs = require("./pivot/ui.pivot_tabs"),
-    EmptyTemplate = require("./widget/empty_template"),
-    ChildDefaultTemplate = require("./widget/child_default_template"),
-    Deferred = require("../core/utils/deferred").Deferred;
-
-var PIVOT_CLASS = "dx-pivot",
-    PIVOT_AUTOHEIGHT_CLASS = "dx-pivot-autoheight",
-
-    PIVOT_WRAPPER_CLASS = "dx-pivot-wrapper",
-
-    PIVOT_TABS_CONTAINER_CLASS = "dx-pivottabs-container",
-
-    PIVOT_ITEM_CONTAINER_CLASS = "dx-pivot-itemcontainer",
-    PIVOT_ITEM_WRAPPER_CLASS = "dx-pivot-itemwrapper",
-
-    PIVOT_ITEM_CLASS = "dx-pivot-item",
-    PIVOT_ITEM_HIDDEN_CLASS = "dx-pivot-item-hidden",
-    PIVOT_ITEM_DATA_KEY = "dxPivotItemData",
-
-    PIVOT_RETURN_BACK_DURATION = 200,
-
-    PIVOT_SLIDE_AWAY_DURATION = 50,
-
-    PIVOT_SLIDE_BACK_DURATION = 250,
-    PIVOT_SLIDE_BACK_EASING = "cubic-bezier(.10, 1, 0, 1)";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var fx = require("../animation/fx");
+var swipeEvents = require("../events/swipe");
+var translator = require("../animation/translator");
+var domUtils = require("../core/utils/dom");
+var extend = require("../core/utils/extend").extend;
+var isDefined = require("../core/utils/type").isDefined;
+var registerComponent = require("../core/component_registrator");
+var eventUtils = require("../events/utils");
+var CollectionWidget = require("./collection/ui.collection_widget.edit");
+var PivotTabs = require("./pivot/ui.pivot_tabs");
+var EmptyTemplate = require("./widget/empty_template");
+var ChildDefaultTemplate = require("./widget/child_default_template");
+var Deferred = require("../core/utils/deferred").Deferred;
+var PIVOT_CLASS = "dx-pivot";
+var PIVOT_AUTOHEIGHT_CLASS = "dx-pivot-autoheight";
+var PIVOT_WRAPPER_CLASS = "dx-pivot-wrapper";
+var PIVOT_TABS_CONTAINER_CLASS = "dx-pivottabs-container";
+var PIVOT_ITEM_CONTAINER_CLASS = "dx-pivot-itemcontainer";
+var PIVOT_ITEM_WRAPPER_CLASS = "dx-pivot-itemwrapper";
+var PIVOT_ITEM_CLASS = "dx-pivot-item";
+var PIVOT_ITEM_HIDDEN_CLASS = "dx-pivot-item-hidden";
+var PIVOT_ITEM_DATA_KEY = "dxPivotItemData";
+var PIVOT_RETURN_BACK_DURATION = 200;
+var PIVOT_SLIDE_AWAY_DURATION = 50;
+var PIVOT_SLIDE_BACK_DURATION = 250;
+var PIVOT_SLIDE_BACK_EASING = "cubic-bezier(.10, 1, 0, 1)";
 
 var animation = {
 
@@ -257,8 +249,8 @@ var Pivot = CollectionWidget.inherit({
     },
 
     _initTabs: function() {
-        var that = this,
-            $tabsContainer = $("<div>").addClass(PIVOT_TABS_CONTAINER_CLASS);
+        var that = this;
+        var $tabsContainer = $("<div>").addClass(PIVOT_TABS_CONTAINER_CLASS);
 
         this._$wrapper.append($tabsContainer);
 
@@ -326,8 +318,8 @@ var Pivot = CollectionWidget.inherit({
         var itemsCache = this._itemsCache;
         itemsCache[previousIndex] = this._selectedItemElement();
 
-        var $hidingItem = itemsCache[previousIndex],
-            $showingItem = itemsCache[currentIndex];
+        var $hidingItem = itemsCache[previousIndex];
+        var $showingItem = itemsCache[currentIndex];
 
         domUtils.triggerHidingEvent($hidingItem);
         $hidingItem.addClass(PIVOT_ITEM_HIDDEN_CLASS);
@@ -352,10 +344,9 @@ var Pivot = CollectionWidget.inherit({
     },
 
     _animateComplete: function(newIndex, currentIndex) {
-        var $itemWrapper = this._$itemWrapper,
-
-            rtlSignCorrection = this._getRTLSignCorrection(),
-            intermediatePosition = this._elementWidth() * (this._isPrevSwipeHandled() ? 1 : -1) * rtlSignCorrection;
+        var $itemWrapper = this._$itemWrapper;
+        var rtlSignCorrection = this._getRTLSignCorrection();
+        var intermediatePosition = this._elementWidth() * (this._isPrevSwipeHandled() ? 1 : -1) * rtlSignCorrection;
 
         animation.slideAway($itemWrapper, intermediatePosition, (function() {
             translator.move($itemWrapper, { left: -intermediatePosition });
@@ -372,8 +363,8 @@ var Pivot = CollectionWidget.inherit({
     },
 
     _isPrevSwipeHandled: function() {
-        var wrapperOffset = translator.locate(this._$itemWrapper).left,
-            rtl = this.option("rtlEnabled");
+        var wrapperOffset = translator.locate(this._$itemWrapper).left;
+        var rtl = this.option("rtlEnabled");
 
         return rtl ^ (wrapperOffset > 0) && (wrapperOffset !== 0);
     },
@@ -453,8 +444,8 @@ var Pivot = CollectionWidget.inherit({
             return;
         }
 
-        var items = this.option("items"),
-            selectedIndex = this.option("selectedIndex");
+        var items = this.option("items");
+        var selectedIndex = this.option("selectedIndex");
 
         if(items.length) {
             this._renderItems([items[selectedIndex]]);
@@ -490,8 +481,8 @@ var Pivot = CollectionWidget.inherit({
     },
 
     _updateSelection: function(addedItems, removedItems) {
-        var newIndex = addedItems[0],
-            oldIndex = removedItems[0];
+        var newIndex = addedItems[0];
+        var oldIndex = removedItems[0];
 
         if(!this._swipeGestureRunning) {
             this._prepareAnimation();

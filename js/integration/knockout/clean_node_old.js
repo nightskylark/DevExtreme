@@ -1,6 +1,6 @@
-var ko = require("knockout"),
-    compareVersion = require("../../core/utils/version").compare,
-    strategyChanging = require("../../core/element_data").strategyChanging;
+var ko = require("knockout");
+var compareVersion = require("../../core/utils/version").compare;
+var strategyChanging = require("../../core/element_data").strategyChanging;
 
 var patchCleanData = function(jQuery) {
     var cleanKoData = function(element, andSelf) {

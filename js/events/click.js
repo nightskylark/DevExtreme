@@ -1,18 +1,17 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    devices = require("../core/devices"),
-    domAdapter = require("../core/dom_adapter"),
-    domUtils = require("../core/utils/dom"),
-    animationFrame = require("../animation/frame"),
-    eventUtils = require("./utils"),
-    pointerEvents = require("./pointer"),
-    Emitter = require("./core/emitter"),
-    registerEmitter = require("./core/emitter_registrator"),
-    compareVersions = require("../core/utils/version").compare;
-
-var CLICK_EVENT_NAME = "dxclick",
-    TOUCH_BOUNDARY = 10,
-    abs = Math.abs;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var devices = require("../core/devices");
+var domAdapter = require("../core/dom_adapter");
+var domUtils = require("../core/utils/dom");
+var animationFrame = require("../animation/frame");
+var eventUtils = require("./utils");
+var pointerEvents = require("./pointer");
+var Emitter = require("./core/emitter");
+var registerEmitter = require("./core/emitter_registrator");
+var compareVersions = require("../core/utils/version").compare;
+var CLICK_EVENT_NAME = "dxclick";
+var TOUCH_BOUNDARY = 10;
+var abs = Math.abs;
 
 var isInput = function(element) {
     return $(element).is("input, textarea, select, button ,:focus, :focus *");
@@ -57,11 +56,10 @@ var ClickEmitter = Emitter.inherit({
     },
 
     _eventOutOfElement: function(e, element) {
-        var target = e.target,
-            targetChanged = !domUtils.contains(element, target) && element !== target,
-
-            gestureDelta = eventUtils.eventDelta(eventUtils.eventData(e), this._startEventData),
-            boundsExceeded = abs(gestureDelta.x) > TOUCH_BOUNDARY || abs(gestureDelta.y) > TOUCH_BOUNDARY;
+        var target = e.target;
+        var targetChanged = !domUtils.contains(element, target) && element !== target;
+        var gestureDelta = eventUtils.eventDelta(eventUtils.eventData(e), this._startEventData);
+        var boundsExceeded = abs(gestureDelta.x) > TOUCH_BOUNDARY || abs(gestureDelta.y) > TOUCH_BOUNDARY;
 
         return targetChanged || boundsExceeded;
     },
@@ -82,24 +80,25 @@ var ClickEmitter = Emitter.inherit({
 // NOTE: native strategy for desktop, iOS 9.3+, Android 5+
 (function() {
     var NATIVE_CLICK_CLASS = "dx-native-click";
-    var realDevice = devices.real(),
-        useNativeClick =
-            realDevice.generic ||
-            realDevice.ios && compareVersions(realDevice.version, [9, 3]) >= 0 ||
-            realDevice.android && compareVersions(realDevice.version, [5]) >= 0;
+    var realDevice = devices.real();
+
+    var useNativeClick =
+        realDevice.generic ||
+        realDevice.ios && compareVersions(realDevice.version, [9, 3]) >= 0 ||
+        realDevice.android && compareVersions(realDevice.version, [5]) >= 0;
 
     var isNativeClickEvent = function(target) {
         return useNativeClick || $(target).closest("." + NATIVE_CLICK_CLASS).length;
     };
 
 
-    var prevented = null,
-        lastFiredEvent = null;
+    var prevented = null;
+    var lastFiredEvent = null;
 
     var clickHandler = function(e) {
-        var originalEvent = e.originalEvent,
-            eventAlreadyFired = lastFiredEvent !== originalEvent,
-            leftButton = !e.which || e.which === 1;
+        var originalEvent = e.originalEvent;
+        var eventAlreadyFired = lastFiredEvent !== originalEvent;
+        var leftButton = !e.which || e.which === 1;
 
         if(leftButton && !prevented && isNativeClickEvent(e.target) && eventAlreadyFired) {
             lastFiredEvent = originalEvent;
@@ -162,8 +161,8 @@ var ClickEmitter = Emitter.inherit({
     var desktopDevice = devices.real().generic;
 
     if(!desktopDevice) {
-        var startTarget = null,
-            blurPrevented = false;
+        var startTarget = null;
+        var blurPrevented = false;
 
         var pointerDownHandler = function(e) {
             startTarget = e.target;
@@ -180,8 +179,8 @@ var ClickEmitter = Emitter.inherit({
             blurPrevented = false;
         };
 
-        var NATIVE_CLICK_FIXER_NAMESPACE = "NATIVE_CLICK_FIXER",
-            document = domAdapter.getDocument();
+        var NATIVE_CLICK_FIXER_NAMESPACE = "NATIVE_CLICK_FIXER";
+        var document = domAdapter.getDocument();
         eventsEngine.subscribeGlobal(document, eventUtils.addNamespace(pointerEvents.down, NATIVE_CLICK_FIXER_NAMESPACE), pointerDownHandler);
         eventsEngine.subscribeGlobal(document, eventUtils.addNamespace("click", NATIVE_CLICK_FIXER_NAMESPACE), clickHandler);
     }

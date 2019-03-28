@@ -44,8 +44,8 @@ function getOutsideLeftLabelPosition(coords, bBox, options, inverted) {
 }
 
 function getInsideLabelPosition(coords, bBox, options) {
-    var width = coords[2] - coords[0],
-        height = coords[7] - coords[1];
+    var width = coords[2] - coords[0];
+    var height = coords[7] - coords[1];
 
     return {
         x: coords[0] + width / 2 + options.horizontalOffset - bBox.width / 2,
@@ -72,9 +72,9 @@ function getColumnLabelLeftPosition(labelRect, rect, textAlignment) {
 }
 
 function getConnectorStrategy(options, inverted) {
-    var isLeftPos = options.horizontalAlignment === "left",
-        connectorIndent = isLeftPos ? CONNECTOR_INDENT : -CONNECTOR_INDENT,
-        verticalCorrection = inverted ? -PREVENT_EMPTY_PIXEL_OFFSET : 0;
+    var isLeftPos = options.horizontalAlignment === "left";
+    var connectorIndent = isLeftPos ? CONNECTOR_INDENT : -CONNECTOR_INDENT;
+    var verticalCorrection = inverted ? -PREVENT_EMPTY_PIXEL_OFFSET : 0;
 
     function getFigureCenter(figure) {
         return isLeftPos ? [figure[0] + PREVENT_EMPTY_PIXEL_OFFSET, figure[1] + verticalCorrection] : [figure[2] - PREVENT_EMPTY_PIXEL_OFFSET, figure[3] + verticalCorrection];
@@ -86,9 +86,9 @@ function getConnectorStrategy(options, inverted) {
         },
         getFigureCenter: getFigureCenter,
         prepareLabelPoints: function(bBox) {
-            var x = bBox.x + connectorIndent,
-                y = bBox.y,
-                x1 = x + bBox.width;
+            var x = bBox.x + connectorIndent;
+            var y = bBox.y;
+            var x1 = x + bBox.width;
 
             return [...Array(bBox.height + 1)].map((_, i) => [x, y + i]).concat([...Array(bBox.height + 1)].map((_, i) => [x1, y + i]));
         },
@@ -106,21 +106,23 @@ function getConnectorStrategy(options, inverted) {
 }
 
 function getLabelOptions(labelOptions, defaultColor, defaultTextAlignment) {
-    var opt = labelOptions || {},
-        labelFont = extend({}, opt.font) || {},
-        labelBorder = opt.border || {},
-        labelConnector = opt.connector || {},
-        backgroundAttr = {
-            fill: opt.backgroundColor || defaultColor,
-            "stroke-width": labelBorder.visible ? labelBorder.width || 0 : 0,
-            stroke: labelBorder.visible && labelBorder.width ? labelBorder.color : "none",
-            dashStyle: labelBorder.dashStyle
-        },
-        connectorAttr = {
-            stroke: labelConnector.visible && labelConnector.width ? labelConnector.color || defaultColor : "none",
-            "stroke-width": labelConnector.visible ? labelConnector.width || 0 : 0,
-            opacity: labelConnector.opacity
-        };
+    var opt = labelOptions || {};
+    var labelFont = extend({}, opt.font) || {};
+    var labelBorder = opt.border || {};
+    var labelConnector = opt.connector || {};
+
+    var backgroundAttr = {
+        fill: opt.backgroundColor || defaultColor,
+        "stroke-width": labelBorder.visible ? labelBorder.width || 0 : 0,
+        stroke: labelBorder.visible && labelBorder.width ? labelBorder.color : "none",
+        dashStyle: labelBorder.dashStyle
+    };
+
+    var connectorAttr = {
+        stroke: labelConnector.visible && labelConnector.width ? labelConnector.color || defaultColor : "none",
+        "stroke-width": labelConnector.visible ? labelConnector.width || 0 : 0,
+        opacity: labelConnector.opacity
+    };
 
     labelFont.color = (opt.backgroundColor === "none" && normalizeEnum(labelFont.color) === "#ffffff" && opt.position !== "inside") ? defaultColor : labelFont.color;
 
@@ -186,12 +188,12 @@ exports.plugin = {
         },
 
         _applySize: function() {
-            var options = this._getOption("label"),
-                adaptiveLayout = this._getOption("adaptiveLayout"),
-                rect = this._rect,
-                labelWidth = 0,
-                groupWidth,
-                width = rect[2] - rect[0];
+            var options = this._getOption("label");
+            var adaptiveLayout = this._getOption("adaptiveLayout");
+            var rect = this._rect;
+            var labelWidth = 0;
+            var groupWidth;
+            var width = rect[2] - rect[0];
 
             this._labelRect = rect.slice();
 
@@ -231,7 +233,6 @@ exports.plugin = {
             } else {
                 rect[2] -= labelWidth;
             }
-
         },
 
         _buildNodes: function() {
@@ -239,11 +240,11 @@ exports.plugin = {
         },
 
         _change_TILING: function() {
-            var that = this,
-                options = that._getOption("label"),
-                getCoords = getInsideLabelPosition,
-                inverted = that._getOption("inverted", true),
-                textAlignment;
+            var that = this;
+            var options = that._getOption("label");
+            var getCoords = getInsideLabelPosition;
+            var inverted = that._getOption("inverted", true);
+            var textAlignment;
 
             if(isOutsidePosition(options.position)) {
                 if(normalizeEnum(options.position) === OUTSIDE_POSITION) {
@@ -255,21 +256,23 @@ exports.plugin = {
             }
 
             that._labels.forEach(function(label, index) {
-                var item = that._items[index],
-                    bBox,
-                    pos,
-                    borderWidth = item.getNormalStyle()["stroke-width"],
-                    halfBorderWidth = inverted ? borderWidth / 2 : -borderWidth / 2,
-                    coords = halfBorderWidth ? item.coords.map(function(coord, index) {
-                        if(index === 1 || index === 3) {
-                            return coord - halfBorderWidth;
-                        } else if(index === 2) {
-                            return coord - borderWidth;
-                        } else if(index === 0) {
-                            return coord + borderWidth;
-                        }
-                        return coord;
-                    }) : item.coords;
+                var item = that._items[index];
+                var bBox;
+                var pos;
+                var borderWidth = item.getNormalStyle()["stroke-width"];
+                var halfBorderWidth = inverted ? borderWidth / 2 : -borderWidth / 2;
+
+                var coords = halfBorderWidth ? item.coords.map(function(coord, index) {
+                    if(index === 1 || index === 3) {
+                        return coord - halfBorderWidth;
+                    } else if(index === 2) {
+                        return coord - borderWidth;
+                    } else if(index === 0) {
+                        return coord + borderWidth;
+                    }
+                    return coord;
+                }) : item.coords;
+
                 if(!options.showForZeroValues && item.value === 0) {
                     label.draw(false);
                     return;
@@ -343,10 +346,10 @@ exports.plugin = {
         },
 
         _correctLabelWidth: function(label, item, options) {
-            var isLeftPos = options.horizontalAlignment === "left",
-                minX = isLeftPos ? this._labelRect[0] : item[2],
-                maxX = isLeftPos ? item[0] : this._labelRect[2],
-                maxWidth = maxX - minX;
+            var isLeftPos = options.horizontalAlignment === "left";
+            var minX = isLeftPos ? this._labelRect[0] : item[2];
+            var maxX = isLeftPos ? item[0] : this._labelRect[2];
+            var maxWidth = maxX - minX;
 
             if(label.getBoundingRect().width > maxWidth) {
                 label.fit(maxWidth);
@@ -354,9 +357,9 @@ exports.plugin = {
         },
 
         _createLabels: function() {
-            var that = this,
-                labelOptions = that._getOption("label"),
-                connectorStrategy = getConnectorStrategy(labelOptions, that._getOption("inverted", true));
+            var that = this;
+            var labelOptions = that._getOption("label");
+            var connectorStrategy = getConnectorStrategy(labelOptions, that._getOption("inverted", true));
 
             this._labelsGroup.clear();
 
@@ -391,8 +394,8 @@ exports.plugin = {
     },
     customize: function(constructor) {
         constructor.prototype._proxyData.push(function(x, y) {
-            var that = this,
-                data;
+            var that = this;
+            var data;
             that._labels.forEach(function(label, index) {
                 var rect = label.getBoundingRect();
                 if(x >= rect.x && x <= (rect.x + rect.width) && y >= rect.y && y <= (rect.y + rect.height)) {

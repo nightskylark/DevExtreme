@@ -12,9 +12,9 @@ import { getFormat } from "../../localization/ldml/date.format";
 import { isString } from "../../core/utils/type";
 import DateBoxBase from "./ui.date_box.base";
 
-const MASK_EVENT_NAMESPACE = "dateBoxMask",
-    FORWARD = 1,
-    BACKWARD = -1;
+const MASK_EVENT_NAMESPACE = "dateBoxMask";
+const FORWARD = 1;
+const BACKWARD = -1;
 
 let DateBoxMask = DateBoxBase.inherit({
 
@@ -161,9 +161,9 @@ let DateBoxMask = DateBoxBase.inherit({
             return;
         }
 
-        let limits = this._getActivePartProp("limits")(this._maskValue),
-            startString = this._searchValue + char.toLowerCase(),
-            endLimit = limits.max - limits.min;
+        let limits = this._getActivePartProp("limits")(this._maskValue);
+        let startString = this._searchValue + char.toLowerCase();
+        let endLimit = limits.max - limits.min;
 
         for(let i = 0; i <= endLimit; i++) {
             this._partIncrease(1);
@@ -300,17 +300,17 @@ let DateBoxMask = DateBoxBase.inherit({
     },
 
     _addLeadingZeroes(value) {
-        const zeroes = this._searchValue.match(/^0+/),
-            limits = this._getActivePartLimits(),
-            maxLimitLength = String(limits.max).length;
+        const zeroes = this._searchValue.match(/^0+/);
+        const limits = this._getActivePartLimits();
+        const maxLimitLength = String(limits.max).length;
 
         return ((zeroes && zeroes[0] || "") + String(value)).substr(-maxLimitLength);
     },
 
     _setActivePartValue(value, dateValue) {
         dateValue = dateValue || this._maskValue;
-        const setter = this._getActivePartProp("setter"),
-            limits = this._getActivePartLimits();
+        const setter = this._getActivePartProp("setter");
+        const limits = this._getActivePartLimits();
 
         value = inRange(value, limits.min, limits.max) ? value : value % 10;
         value = this._addLeadingZeroes(fitIntoRange(value, limits.min, limits.max));
@@ -355,8 +355,8 @@ let DateBoxMask = DateBoxBase.inherit({
     _partIncrease(step) {
         this._setNewDateIfEmpty();
 
-        let limits = this._getActivePartLimits(),
-            newValue = step + this._getActivePartValue();
+        let limits = this._getActivePartLimits();
+        let newValue = step + this._getActivePartValue();
 
         newValue = newValue > limits.max ? limits.min : newValue;
         newValue = newValue < limits.min ? limits.max : newValue;

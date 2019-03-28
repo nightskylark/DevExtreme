@@ -1,12 +1,12 @@
-var errors = require("../errors"),
-    Class = require("../class"),
-    objectUtils = require("./object"),
-    typeUtils = require("./type"),
-    each = require("./iterator").each,
-    variableWrapper = require("./variable_wrapper"),
-    unwrapVariable = variableWrapper.unwrap,
-    isWrapped = variableWrapper.isWrapped,
-    assign = variableWrapper.assign;
+var errors = require("../errors");
+var Class = require("../class");
+var objectUtils = require("./object");
+var typeUtils = require("./type");
+var each = require("./iterator").each;
+var variableWrapper = require("./variable_wrapper");
+var unwrapVariable = variableWrapper.unwrap;
+var isWrapped = variableWrapper.isWrapped;
+var assign = variableWrapper.assign;
 
 var bracketsToDots = function(expr) {
     return expr
@@ -61,9 +61,9 @@ var compileGetter = function(expr) {
 
         return function(obj, options) {
             options = prepareOptions(options);
-            var functionAsIs = options.functionsAsIs,
-                hasDefaultValue = "defaultValue" in options,
-                current = unwrap(obj, options);
+            var functionAsIs = options.functionsAsIs;
+            var hasDefaultValue = "defaultValue" in options;
+            var current = unwrap(obj, options);
 
             for(var i = 0; i < path.length; i++) {
                 if(!current) {
@@ -112,11 +112,11 @@ var combineGetters = function(getters) {
         var result;
 
         each(compiledGetters, function(name) {
-            var value = this(obj, options),
-                current,
-                path,
-                last,
-                i;
+            var value = this(obj, options);
+            var current;
+            var path;
+            var last;
+            var i;
 
             if(value === undefined) {
                 return;
@@ -156,8 +156,8 @@ var compileSetter = function(expr) {
         var currentValue = unwrap(obj, options);
 
         expr.forEach(function(propertyName, levelIndex) {
-            var propertyValue = readPropValue(currentValue, propertyName, options),
-                isPropertyFunc = !options.functionsAsIs && typeUtils.isFunction(propertyValue) && !isWrapped(propertyValue);
+            var propertyValue = readPropValue(currentValue, propertyName, options);
+            var isPropertyFunc = !options.functionsAsIs && typeUtils.isFunction(propertyValue) && !isWrapped(propertyValue);
 
             if(levelIndex === lastLevelIndex) {
                 if(options.merge && typeUtils.isPlainObject(value) && (!typeUtils.isDefined(propertyValue) || typeUtils.isPlainObject(propertyValue))) {

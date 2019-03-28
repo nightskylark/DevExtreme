@@ -1,44 +1,38 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    registerComponent = require("../core/component_registrator"),
-    commonUtils = require("../core/utils/common"),
-    typeUtils = require("../core/utils/type"),
-    windowUtils = require("../core/utils/window"),
-    extend = require("../core/utils/extend").extend,
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    fx = require("../animation/fx"),
-    clickEvent = require("../events/click"),
-    translator = require("../animation/translator"),
-    devices = require("../core/devices"),
-    Widget = require("./widget/ui.widget"),
-    eventUtils = require("../events/utils"),
-    CollectionWidget = require("./collection/ui.collection_widget.edit"),
-    Swipeable = require("../events/gesture/swipeable"),
-    BindableTemplate = require("./widget/bindable_template"),
-    Deferred = require("../core/utils/deferred").Deferred;
-
-var GALLERY_CLASS = "dx-gallery",
-    GALLERY_WRAPPER_CLASS = GALLERY_CLASS + "-wrapper",
-    GALLERY_LOOP_CLASS = "dx-gallery-loop",
-    GALLERY_ITEM_CONTAINER_CLASS = GALLERY_CLASS + "-container",
-    GALLERY_ACTIVE_CLASS = GALLERY_CLASS + "-active",
-
-    GALLERY_ITEM_CLASS = GALLERY_CLASS + "-item",
-    GALLERY_INVISIBLE_ITEM_CLASS = GALLERY_CLASS + "-item-invisible",
-    GALLERY_LOOP_ITEM_CLASS = GALLERY_ITEM_CLASS + "-loop",
-    GALLERY_ITEM_SELECTOR = "." + GALLERY_ITEM_CLASS,
-    GALLERY_ITEM_SELECTED_CLASS = GALLERY_ITEM_CLASS + "-selected",
-
-    GALLERY_INDICATOR_CLASS = GALLERY_CLASS + "-indicator",
-    GALLERY_INDICATOR_ITEM_CLASS = GALLERY_INDICATOR_CLASS + "-item",
-    GALLERY_INDICATOR_ITEM_SELECTOR = "." + GALLERY_INDICATOR_ITEM_CLASS,
-    GALLERY_INDICATOR_ITEM_SELECTED_CLASS = GALLERY_INDICATOR_ITEM_CLASS + "-selected",
-
-    GALLERY_IMAGE_CLASS = "dx-gallery-item-image",
-
-    GALLERY_ITEM_DATA_KEY = "dxGalleryItemData",
-
-    MAX_CALC_ERROR = 1;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var registerComponent = require("../core/component_registrator");
+var commonUtils = require("../core/utils/common");
+var typeUtils = require("../core/utils/type");
+var windowUtils = require("../core/utils/window");
+var extend = require("../core/utils/extend").extend;
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var fx = require("../animation/fx");
+var clickEvent = require("../events/click");
+var translator = require("../animation/translator");
+var devices = require("../core/devices");
+var Widget = require("./widget/ui.widget");
+var eventUtils = require("../events/utils");
+var CollectionWidget = require("./collection/ui.collection_widget.edit");
+var Swipeable = require("../events/gesture/swipeable");
+var BindableTemplate = require("./widget/bindable_template");
+var Deferred = require("../core/utils/deferred").Deferred;
+var GALLERY_CLASS = "dx-gallery";
+var GALLERY_WRAPPER_CLASS = GALLERY_CLASS + "-wrapper";
+var GALLERY_LOOP_CLASS = "dx-gallery-loop";
+var GALLERY_ITEM_CONTAINER_CLASS = GALLERY_CLASS + "-container";
+var GALLERY_ACTIVE_CLASS = GALLERY_CLASS + "-active";
+var GALLERY_ITEM_CLASS = GALLERY_CLASS + "-item";
+var GALLERY_INVISIBLE_ITEM_CLASS = GALLERY_CLASS + "-item-invisible";
+var GALLERY_LOOP_ITEM_CLASS = GALLERY_ITEM_CLASS + "-loop";
+var GALLERY_ITEM_SELECTOR = "." + GALLERY_ITEM_CLASS;
+var GALLERY_ITEM_SELECTED_CLASS = GALLERY_ITEM_CLASS + "-selected";
+var GALLERY_INDICATOR_CLASS = GALLERY_CLASS + "-indicator";
+var GALLERY_INDICATOR_ITEM_CLASS = GALLERY_INDICATOR_CLASS + "-item";
+var GALLERY_INDICATOR_ITEM_SELECTOR = "." + GALLERY_INDICATOR_ITEM_CLASS;
+var GALLERY_INDICATOR_ITEM_SELECTED_CLASS = GALLERY_INDICATOR_ITEM_CLASS + "-selected";
+var GALLERY_IMAGE_CLASS = "dx-gallery-item-image";
+var GALLERY_ITEM_DATA_KEY = "dxGalleryItemData";
+var MAX_CALC_ERROR = 1;
 
 var GalleryNavButton = Widget.inherit({
     _supportedKeys: function() {
@@ -59,9 +53,9 @@ var GalleryNavButton = Widget.inherit({
     _render: function() {
         this.callBase();
 
-        var that = this,
-            $element = this.$element(),
-            eventName = eventUtils.addNamespace(clickEvent.name, this.NAME);
+        var that = this;
+        var $element = this.$element();
+        var eventName = eventUtils.addNamespace(clickEvent.name, this.NAME);
 
         $element.addClass(GALLERY_CLASS + "-nav-button-" + this.option("direction"));
 
@@ -328,9 +322,9 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _itemPercentWidth: function() {
-        var percentWidth,
-            elementWidth = this.$element().outerWidth(),
-            initialItemWidth = this.option("initialItemWidth");
+        var percentWidth;
+        var elementWidth = this.$element().outerWidth();
+        var initialItemWidth = this.option("initialItemWidth");
 
         if(initialItemWidth && initialItemWidth <= elementWidth) {
             percentWidth = initialItemWidth / elementWidth;
@@ -450,10 +444,10 @@ var Gallery = CollectionWidget.inherit({
             return;
         }
 
-        var items = this.option("items") || [],
-            itemsCount = items.length,
-            lastItemIndex = itemsCount - 1,
-            i;
+        var items = this.option("items") || [];
+        var itemsCount = items.length;
+        var lastItemIndex = itemsCount - 1;
+        var i;
 
         if(!itemsCount) return;
 
@@ -479,8 +473,8 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _renderItemSizes: function(startIndex) {
-        var $items = this._itemElements(),
-            itemWidth = this._actualItemWidth();
+        var $items = this._itemElements();
+        var itemWidth = this._actualItemWidth();
 
         if(startIndex !== undefined) {
             $items = $items.slice(startIndex);
@@ -492,21 +486,21 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _renderItemPositions: function() {
-        var itemWidth = this._actualItemWidth(),
-            itemsCount = this._itemsCount(),
-            itemsPerPage = this._itemsPerPage(),
-            loopItemsCount = this.$element().find("." + GALLERY_LOOP_ITEM_CLASS).length,
-            lastItemDuplicateIndex = itemsCount + loopItemsCount - 1,
-            offsetRatio = this.option("wrapAround") ? 0.5 : 0,
-            freeSpace = this._itemFreeSpace(),
-            isGapBetweenImages = !!freeSpace,
-            rtlEnabled = this.option("rtlEnabled"),
-            selectedIndex = this.option("selectedIndex"),
-            side = rtlEnabled ? "Right" : "Left";
+        var itemWidth = this._actualItemWidth();
+        var itemsCount = this._itemsCount();
+        var itemsPerPage = this._itemsPerPage();
+        var loopItemsCount = this.$element().find("." + GALLERY_LOOP_ITEM_CLASS).length;
+        var lastItemDuplicateIndex = itemsCount + loopItemsCount - 1;
+        var offsetRatio = this.option("wrapAround") ? 0.5 : 0;
+        var freeSpace = this._itemFreeSpace();
+        var isGapBetweenImages = !!freeSpace;
+        var rtlEnabled = this.option("rtlEnabled");
+        var selectedIndex = this.option("selectedIndex");
+        var side = rtlEnabled ? "Right" : "Left";
 
         this._itemElements().each(function(index) {
-            var realIndex = index,
-                isLoopItem = $(this).hasClass(GALLERY_LOOP_ITEM_CLASS);
+            var realIndex = index;
+            var isLoopItem = $(this).hasClass(GALLERY_LOOP_ITEM_CLASS);
 
             if(index > itemsCount + itemsPerPage - 1) {
                 realIndex = lastItemDuplicateIndex - realIndex - itemsPerPage;
@@ -519,8 +513,8 @@ var Gallery = CollectionWidget.inherit({
                 return;
             }
 
-            var itemPosition = itemWidth * (realIndex + offsetRatio) + freeSpace * (realIndex + 1 - offsetRatio),
-                property = isLoopItem ? side.toLowerCase() : "margin" + side;
+            var itemPosition = itemWidth * (realIndex + offsetRatio) + freeSpace * (realIndex + 1 - offsetRatio);
+            var property = isLoopItem ? side.toLowerCase() : "margin" + side;
 
             $(this).css(property, itemPosition * 100 + "%");
         });
@@ -542,11 +536,11 @@ var Gallery = CollectionWidget.inherit({
         this._releaseInvisibleItems();
         offset = offset || 0;
 
-        var that = this,
-            itemWidth = this._actualItemWidth(),
-            targetIndex = offset,
-            targetPosition = this._offsetDirection() * targetIndex * (itemWidth + this._itemFreeSpace()),
-            positionReady;
+        var that = this;
+        var itemWidth = this._actualItemWidth();
+        var targetIndex = offset;
+        var targetPosition = this._offsetDirection() * targetIndex * (itemWidth + this._itemFreeSpace());
+        var positionReady;
 
         if(typeUtils.isDefined(this._animationOverride)) {
             animate = this._animationOverride;
@@ -578,9 +572,9 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _animate: function(targetPosition, extraConfig) {
-        var that = this,
-            $container = this._$container,
-            animationComplete = new Deferred();
+        var that = this;
+        var $container = this._$container;
+        var animationComplete = new Deferred();
 
         fx.animate(this._$container, extend({
             type: "slide",
@@ -603,15 +597,15 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _needMoveContainerForward: function() {
-        var expectedPosition = this._$container.position().left * this._offsetDirection(),
-            actualPosition = -this._maxItemWidth() * this._elementWidth() * this._itemsCount();
+        var expectedPosition = this._$container.position().left * this._offsetDirection();
+        var actualPosition = -this._maxItemWidth() * this._elementWidth() * this._itemsCount();
 
         return expectedPosition <= actualPosition + MAX_CALC_ERROR;
     },
 
     _needMoveContainerBack: function() {
-        var expectedPosition = this._$container.position().left * this._offsetDirection(),
-            actualPosition = this._actualItemWidth() * this._elementWidth();
+        var expectedPosition = this._$container.position().left * this._offsetDirection();
+        var actualPosition = this._actualItemWidth() * this._elementWidth();
 
         return expectedPosition >= actualPosition - MAX_CALC_ERROR;
     },
@@ -625,8 +619,8 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _reviseDimensions: function() {
-        var that = this,
-            $firstItem = that._itemElements().first().find(".dx-item-content");
+        var that = this;
+        var $firstItem = that._itemElements().first().find(".dx-item-content");
 
         if(!$firstItem || $firstItem.is(":hidden")) {
             return;
@@ -706,9 +700,9 @@ var Gallery = CollectionWidget.inherit({
             return;
         }
 
-        var itemIndex = this.option("selectedIndex"),
-            lastIndex = this._pagesCount() - 1,
-            pageIndex = Math.ceil(itemIndex / this._itemsPerPage());
+        var itemIndex = this.option("selectedIndex");
+        var lastIndex = this._pagesCount() - 1;
+        var pageIndex = Math.ceil(itemIndex / this._itemsPerPage());
 
         pageIndex = Math.min(lastIndex, pageIndex);
 
@@ -720,8 +714,8 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _renderUserInteraction: function() {
-        var rootElement = this.$element(),
-            swipeEnabled = this.option("swipeEnabled") && this._itemsCount() > 1;
+        var rootElement = this.$element();
+        var swipeEnabled = this.option("swipeEnabled") && this._itemsCount() > 1;
 
         this._createComponent(rootElement, Swipeable, {
             disabled: this.option("disabled") || !swipeEnabled,
@@ -740,15 +734,15 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _indicatorSelectHandler: function(args) {
-        var e = args.event,
-            instance = args.component;
+        var e = args.event;
+        var instance = args.component;
 
         if(!instance.option("indicatorEnabled")) {
             return;
         }
 
-        var indicatorIndex = $(e.target).index(),
-            itemIndex = instance._fitPaginatedIndex(indicatorIndex * instance._itemsPerPage());
+        var indicatorIndex = $(e.target).index();
+        var itemIndex = instance._fitPaginatedIndex(indicatorIndex * instance._itemsPerPage());
 
         instance._needLongMove = true;
 
@@ -784,8 +778,8 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _prevPage: function() {
-        var visiblePageSize = this._itemsPerPage(),
-            newSelectedIndex = this.option("selectedIndex") - visiblePageSize;
+        var visiblePageSize = this._itemsPerPage();
+        var newSelectedIndex = this.option("selectedIndex") - visiblePageSize;
 
         if(newSelectedIndex === -visiblePageSize && visiblePageSize === this._itemsCount()) {
             return this._relocateItems(newSelectedIndex, 0);
@@ -795,8 +789,8 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _nextPage: function() {
-        var visiblePageSize = this._itemsPerPage(),
-            newSelectedIndex = this.option("selectedIndex") + visiblePageSize;
+        var visiblePageSize = this._itemsPerPage();
+        var newSelectedIndex = this.option("selectedIndex") + visiblePageSize;
 
         if(newSelectedIndex === visiblePageSize && visiblePageSize === this._itemsCount()) {
             return this._relocateItems(newSelectedIndex, 0);
@@ -867,9 +861,9 @@ var Gallery = CollectionWidget.inherit({
             return;
         }
 
-        var selectedIndex = this.option("selectedIndex"),
-            loop = this.option("loop"),
-            itemsCount = this._itemsCount();
+        var selectedIndex = this.option("selectedIndex");
+        var loop = this.option("loop");
+        var itemsCount = this._itemsCount();
 
         this._prevNavButton.show();
         this._nextNavButton.show();
@@ -883,8 +877,8 @@ var Gallery = CollectionWidget.inherit({
             return;
         }
 
-        var nextHidden = selectedIndex === itemsCount - this._itemsPerPage(),
-            prevHidden = itemsCount < 2 || selectedIndex === 0;
+        var nextHidden = selectedIndex === itemsCount - this._itemsPerPage();
+        var prevHidden = itemsCount < 2 || selectedIndex === 0;
 
         if(this._dataSource && this._dataSource.paginate()) {
             nextHidden = nextHidden && this._isLastPage();
@@ -901,8 +895,8 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _setupSlideShow: function() {
-        var that = this,
-            slideshowDelay = that.option("slideshowDelay");
+        var that = this;
+        var slideshowDelay = that.option("slideshowDelay");
 
         clearTimeout(that._slideshowTimer);
 
@@ -948,10 +942,10 @@ var Gallery = CollectionWidget.inherit({
         this._startSwipe();
         this._userInteraction = true;
         if(!this.option("loop")) {
-            var selectedIndex = this.option("selectedIndex"),
-                startOffset = itemsCount - selectedIndex - this._itemsPerPage(),
-                endOffset = selectedIndex,
-                rtlEnabled = this.option("rtlEnabled");
+            var selectedIndex = this.option("selectedIndex");
+            var startOffset = itemsCount - selectedIndex - this._itemsPerPage();
+            var endOffset = selectedIndex;
+            var rtlEnabled = this.option("rtlEnabled");
 
             e.event.maxLeftOffset = rtlEnabled ? endOffset : startOffset;
             e.event.maxRightOffset = rtlEnabled ? startOffset : endOffset;
@@ -975,10 +969,10 @@ var Gallery = CollectionWidget.inherit({
     },
 
     _swipeEndHandler: function(e) {
-        var targetOffset = e.event.targetOffset * this._offsetDirection() * this._itemsPerPage(),
-            selectedIndex = this.option("selectedIndex"),
-            newIndex = this._fitIndex(selectedIndex - targetOffset),
-            paginatedIndex = this._fitPaginatedIndex(newIndex);
+        var targetOffset = e.event.targetOffset * this._offsetDirection() * this._itemsPerPage();
+        var selectedIndex = this.option("selectedIndex");
+        var newIndex = this._fitIndex(selectedIndex - targetOffset);
+        var paginatedIndex = this._fitPaginatedIndex(newIndex);
 
         if(Math.abs(targetOffset) < this._itemsPerPage()) {
             this._relocateItems(selectedIndex);
@@ -1201,8 +1195,8 @@ var Gallery = CollectionWidget.inherit({
     * @return Promise<void>
     */
     goToItem: function(itemIndex, animation) {
-        var selectedIndex = this.option("selectedIndex"),
-            itemsCount = this._itemsCount();
+        var selectedIndex = this.option("selectedIndex");
+        var itemsCount = this._itemsCount();
 
         if(animation !== undefined) {
             this._animationOverride = animation;

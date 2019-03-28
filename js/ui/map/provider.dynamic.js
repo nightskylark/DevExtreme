@@ -1,14 +1,14 @@
-var Promise = require("../../core/polyfills/promise"),
-    extend = require("../../core/utils/extend").extend,
-    iteratorUtils = require("../../core/utils/iterator"),
-    Provider = require("./provider"),
-    abstract = Provider.abstract;
+var Promise = require("../../core/polyfills/promise");
+var extend = require("../../core/utils/extend").extend;
+var iteratorUtils = require("../../core/utils/iterator");
+var Provider = require("./provider");
+var abstract = Provider.abstract;
 
 var DynamicProvider = Provider.inherit({
     _geocodeLocation: function(location) {
         return new Promise(function(resolve) {
-            var cache = this._geocodedLocations,
-                cachedLocation = cache[location];
+            var cache = this._geocodedLocations;
+            var cachedLocation = cache[location];
             if(cachedLocation) {
                 resolve(cachedLocation);
             } else {

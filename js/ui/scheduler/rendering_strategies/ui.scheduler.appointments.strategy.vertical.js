@@ -1,15 +1,14 @@
-var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base"),
-    extend = require("../../../core/utils/extend").extend,
-    isNumeric = require("../../../core/utils/type").isNumeric,
-    devices = require("../../../core/devices"),
-    dateUtils = require("../../../core/utils/date");
-
-var WEEK_APPOINTMENT_DEFAULT_OFFSET = 25,
-    WEEK_APPOINTMENT_MOBILE_OFFSET = 50,
-    APPOINTMENT_MIN_WIDTH = 5,
-    APPOINTMENT_DEFAULT_WIDTH = 50,
-    ALLDAY_APPOINTMENT_MIN_VERTICAL_OFFSET = 5,
-    ALLDAY_APPOINTMENT_MAX_VERTICAL_OFFSET = 20;
+var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base");
+var extend = require("../../../core/utils/extend").extend;
+var isNumeric = require("../../../core/utils/type").isNumeric;
+var devices = require("../../../core/devices");
+var dateUtils = require("../../../core/utils/date");
+var WEEK_APPOINTMENT_DEFAULT_OFFSET = 25;
+var WEEK_APPOINTMENT_MOBILE_OFFSET = 50;
+var APPOINTMENT_MIN_WIDTH = 5;
+var APPOINTMENT_DEFAULT_WIDTH = 50;
+var ALLDAY_APPOINTMENT_MIN_VERTICAL_OFFSET = 5;
+var ALLDAY_APPOINTMENT_MAX_VERTICAL_OFFSET = 20;
 
 var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     getDeltaTime: function(args, initialSize, appointment) {
@@ -30,8 +29,8 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     getAppointmentGeometry: function(coordinates) {
-        var result,
-            allDay = coordinates.allDay;
+        var result;
+        var allDay = coordinates.allDay;
 
         if(allDay) {
             result = this._getAllDayAppointmentGeometry(coordinates);
@@ -43,23 +42,23 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _getItemPosition: function(item) {
-        var allDay = this.isAllDay(item),
-            isRecurring = !!this.instance.fire("getField", "recurrenceRule", item);
+        var allDay = this.isAllDay(item);
+        var isRecurring = !!this.instance.fire("getField", "recurrenceRule", item);
 
         if(allDay) {
             return this.callBase(item);
         }
 
-        var position = this._getAppointmentCoordinates(item),
-            result = [];
+        var position = this._getAppointmentCoordinates(item);
+        var result = [];
 
         for(var j = 0; j < position.length; j++) {
-            var height = this.calculateAppointmentHeight(item, position[j]),
-                width = this.calculateAppointmentWidth(item, position[j], isRecurring),
-                resultHeight = height,
-                appointmentReduced = null,
-                multiDaysAppointmentParts = [],
-                currentMaxAllowedPosition = position[j].vMax;
+            var height = this.calculateAppointmentHeight(item, position[j]);
+            var width = this.calculateAppointmentWidth(item, position[j], isRecurring);
+            var resultHeight = height;
+            var appointmentReduced = null;
+            var multiDaysAppointmentParts = [];
+            var currentMaxAllowedPosition = position[j].vMax;
 
             if(this._isMultiDayAppointment(position[j], height)) {
 
@@ -91,8 +90,8 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _isMultiDayAppointment: function(position, height) {
-        var maxTop = position.vMax,
-            result = height > (maxTop - position.top);
+        var maxTop = position.vMax;
+        var result = height > (maxTop - position.top);
 
         return result;
     },
@@ -104,12 +103,12 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _getAppointmentParts: function(appointmentGeometry, appointmentSettings) {
-        var tailHeight = appointmentGeometry.sourceAppointmentHeight - appointmentGeometry.reducedHeight,
-            width = appointmentGeometry.width,
-            result = [],
-            currentPartTop = this.instance.fire("getGroupTop", appointmentSettings.groupIndex),
-            offset = this.instance.fire("isGroupedByDate") ? this._defaultWidth * this.instance.fire("getGroupCount") : this._defaultWidth,
-            left = appointmentSettings.left + offset;
+        var tailHeight = appointmentGeometry.sourceAppointmentHeight - appointmentGeometry.reducedHeight;
+        var width = appointmentGeometry.width;
+        var result = [];
+        var currentPartTop = this.instance.fire("getGroupTop", appointmentSettings.groupIndex);
+        var offset = this.instance.fire("isGroupedByDate") ? this._defaultWidth * this.instance.fire("getGroupCount") : this._defaultWidth;
+        var left = appointmentSettings.left + offset;
 
         if(tailHeight) {
             var minHeight = this.getAppointmentMinSize();
@@ -145,8 +144,8 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _getCompactLeftCoordinate: function(itemLeft, index) {
-        var cellBorderSize = 1,
-            cellWidth = this._defaultWidth || this.getAppointmentMinSize();
+        var cellBorderSize = 1;
+        var cellWidth = this._defaultWidth || this.getAppointmentMinSize();
 
         return itemLeft + (cellBorderSize + cellWidth) * index;
     },
@@ -165,10 +164,10 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
 
             return this._customizeVerticalCoordinates(coordinates, config.width, config.appointmentCountPerCell, config.offset);
         } else {
-            var width = this._getAppointmentMaxWidth() / coordinates.count,
-                height = coordinates.height,
-                top = coordinates.top,
-                left = coordinates.left + (coordinates.index * width);
+            var width = this._getAppointmentMaxWidth() / coordinates.count;
+            var height = coordinates.height;
+            var top = coordinates.top;
+            var left = coordinates.left + (coordinates.index * width);
 
             if(width < APPOINTMENT_MIN_WIDTH) {
                 width = APPOINTMENT_MIN_WIDTH;
@@ -179,13 +178,13 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _customizeVerticalCoordinates: function(coordinates, width, appointmentCountPerCell, topOffset, isAllDay) {
-        var index = coordinates.index,
-            appointmentWidth = Math.max(width / appointmentCountPerCell, width / coordinates.count),
-            height = coordinates.height,
-            appointmentLeft = coordinates.left + (coordinates.index * appointmentWidth),
-            top = coordinates.top,
-            compactAppointmentDefaultSize,
-            compactAppointmentDefaultOffset;
+        var index = coordinates.index;
+        var appointmentWidth = Math.max(width / appointmentCountPerCell, width / coordinates.count);
+        var height = coordinates.height;
+        var appointmentLeft = coordinates.left + (coordinates.index * appointmentWidth);
+        var top = coordinates.top;
+        var compactAppointmentDefaultSize;
+        var compactAppointmentDefaultOffset;
 
         if(coordinates.isCompact) {
             compactAppointmentDefaultSize = this.getCompactAppointmentDefaultSize();
@@ -208,9 +207,9 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _calculateVerticalGeometryConfig: function(coordinates) {
-        var overlappingMode = this.instance.fire("getMaxAppointmentsPerCell"),
-            offsets = this._getOffsets(),
-            appointmentDefaultOffset = this._getAppointmentDefaultOffset();
+        var overlappingMode = this.instance.fire("getMaxAppointmentsPerCell");
+        var offsets = this._getOffsets();
+        var appointmentDefaultOffset = this._getAppointmentDefaultOffset();
 
         var appointmentCountPerCell = this._getAppointmentCount(overlappingMode, coordinates);
         var ratio = this._getDefaultRatio(coordinates, appointmentCountPerCell);
@@ -250,8 +249,8 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _getAppointmentMaxWidth: function() {
-        var offset = devices.current().deviceType === "desktop" ? WEEK_APPOINTMENT_DEFAULT_OFFSET : WEEK_APPOINTMENT_MOBILE_OFFSET,
-            width = this._defaultWidth - offset;
+        var offset = devices.current().deviceType === "desktop" ? WEEK_APPOINTMENT_DEFAULT_OFFSET : WEEK_APPOINTMENT_MOBILE_OFFSET;
+        var width = this._defaultWidth - offset;
 
         return width > 0 ? width : this.getAppointmentMinSize();
     },
@@ -261,9 +260,9 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
             return 0;
         }
 
-        var startDate = new Date(this.startDate(appointment, false, position)),
-            endDate = this.endDate(appointment, position, isRecurring),
-            cellWidth = this._defaultWidth || this.getAppointmentMinSize();
+        var startDate = new Date(this.startDate(appointment, false, position));
+        var endDate = this.endDate(appointment, position, isRecurring);
+        var cellWidth = this._defaultWidth || this.getAppointmentMinSize();
 
         startDate = dateUtils.trimTime(startDate);
         var durationInHours = (endDate.getTime() - startDate.getTime()) / 3600000;
@@ -275,16 +274,16 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     calculateAppointmentHeight: function(appointment, position) {
-        var endDate = this.endDate(appointment, position),
-            startDate = this.startDate(appointment, false, position),
-            allDay = this.instance.fire("getField", "allDay", appointment);
+        var endDate = this.endDate(appointment, position);
+        var startDate = this.startDate(appointment, false, position);
+        var allDay = this.instance.fire("getField", "allDay", appointment);
 
         if(this.isAllDay(appointment)) {
             return 0;
         }
 
-        var fullDuration = this._getAppointmentDurationInMs(startDate, endDate, allDay),
-            durationInMinutes = this._adjustDurationByDaylightDiff(fullDuration, startDate, endDate) / 60000;
+        var fullDuration = this._getAppointmentDurationInMs(startDate, endDate, allDay);
+        var durationInMinutes = this._adjustDurationByDaylightDiff(fullDuration, startDate, endDate) / 60000;
 
         var height = durationInMinutes * this._getMinuteHeight();
 
@@ -296,10 +295,10 @@ var VerticalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _sortCondition: function(a, b) {
-        var allDayCondition = a.allDay - b.allDay,
-            isAllDay = a.allDay && b.allDay,
-            condition = this.instance._groupOrientation === "vertical" && isAllDay ? this._columnCondition(a, b) : this._rowCondition(a, b),
-            result = allDayCondition ? allDayCondition : condition;
+        var allDayCondition = a.allDay - b.allDay;
+        var isAllDay = a.allDay && b.allDay;
+        var condition = this.instance._groupOrientation === "vertical" && isAllDay ? this._columnCondition(a, b) : this._rowCondition(a, b);
+        var result = allDayCondition ? allDayCondition : condition;
         return this._fixUnstableSorting(result, a, b);
     },
 

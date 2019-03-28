@@ -1,10 +1,10 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    ko = require("knockout"),
-    typeUtils = require("../../core/utils/type"),
-    TemplateBase = require("../../ui/widget/ui.template_base"),
-    domUtils = require("../../core/utils/dom"),
-    getClosestNodeWithContext = require("./utils").getClosestNodeWithContext;
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var ko = require("knockout");
+var typeUtils = require("../../core/utils/type");
+var TemplateBase = require("../../ui/widget/ui.template_base");
+var domUtils = require("../../core/utils/dom");
+var getClosestNodeWithContext = require("./utils").getClosestNodeWithContext;
 
 var getParentContext = function(data) {
     var parentNode = domAdapter.createElement("div");

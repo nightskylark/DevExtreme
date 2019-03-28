@@ -14,41 +14,42 @@ import { deepExtendArraySafe } from "../../core/utils/object";
 import { getWindow } from "../../core/utils/window";
 import eventsEngine from "../../events/core/events_engine";
 
-var DATAGRID_SELECTION_DISABLED_CLASS = "dx-selection-disabled",
-    DATAGRID_GROUP_OPENED_CLASS = "dx-datagrid-group-opened",
-    DATAGRID_GROUP_CLOSED_CLASS = "dx-datagrid-group-closed",
-    DATAGRID_EXPAND_CLASS = "dx-datagrid-expand",
-    NO_DATA_CLASS = "nodata",
-    DATE_INTERVAL_SELECTORS = {
-        "year": function(value) {
-            return value && value.getFullYear();
-        },
-        "month": function(value) {
-            return value && (value.getMonth() + 1);
-        },
-        "day": function(value) {
-            return value && value.getDate();
-        },
-        "quarter": function(value) {
-            return value && (Math.floor(value.getMonth() / 3) + 1);
-        },
-        "hour": function(value) {
-            return value && value.getHours();
-        },
-        "minute": function(value) {
-            return value && value.getMinutes();
-        },
-        "second": function(value) {
-            return value && value.getSeconds();
-        }
-    };
+var DATAGRID_SELECTION_DISABLED_CLASS = "dx-selection-disabled";
+var DATAGRID_GROUP_OPENED_CLASS = "dx-datagrid-group-opened";
+var DATAGRID_GROUP_CLOSED_CLASS = "dx-datagrid-group-closed";
+var DATAGRID_EXPAND_CLASS = "dx-datagrid-expand";
+var NO_DATA_CLASS = "nodata";
+
+var DATE_INTERVAL_SELECTORS = {
+    "year": function(value) {
+        return value && value.getFullYear();
+    },
+    "month": function(value) {
+        return value && (value.getMonth() + 1);
+    },
+    "day": function(value) {
+        return value && value.getDate();
+    },
+    "quarter": function(value) {
+        return value && (Math.floor(value.getMonth() / 3) + 1);
+    },
+    "hour": function(value) {
+        return value && value.getHours();
+    },
+    "minute": function(value) {
+        return value && value.getMinutes();
+    },
+    "second": function(value) {
+        return value && value.getSeconds();
+    }
+};
 
 module.exports = (function() {
     var getIntervalSelector = function() {
-        var groupInterval,
-            data = arguments[1],
-            nameIntervalSelector,
-            value = this.calculateCellValue(data);
+        var groupInterval;
+        var data = arguments[1];
+        var nameIntervalSelector;
+        var value = this.calculateCellValue(data);
 
         if(!isDefined(value)) {
             return null;
@@ -88,10 +89,10 @@ module.exports = (function() {
                 return;
             }
 
-            var noDataClass = that.addWidgetPrefix(NO_DATA_CLASS),
-                noDataElement = $element.find("." + noDataClass).last(),
-                isVisible = this._dataController.isEmpty(),
-                isLoading = this._dataController.isLoading();
+            var noDataClass = that.addWidgetPrefix(NO_DATA_CLASS);
+            var noDataElement = $element.find("." + noDataClass).last();
+            var isVisible = this._dataController.isEmpty();
+            var isLoading = this._dataController.isLoading();
 
             if(!noDataElement.length) {
                 noDataElement = $("<span>")
@@ -110,8 +111,8 @@ module.exports = (function() {
         },
 
         renderLoadPanel: function($element, $container, isLocalStore) {
-            var that = this,
-                loadPanelOptions;
+            var that = this;
+            var loadPanelOptions;
 
             that._loadPanel && that._loadPanel.$element().remove();
             loadPanelOptions = that.option("loadPanel");
@@ -141,8 +142,8 @@ module.exports = (function() {
         },
 
         getIndexByKey: function(key, items, keyName) {
-            var index = -1,
-                item;
+            var index = -1;
+            var item;
 
             if(key !== undefined && Array.isArray(items)) {
                 keyName = arguments.length <= 2 ? "key" : keyName;
@@ -160,8 +161,8 @@ module.exports = (function() {
         },
 
         combineFilters: function(filters, operation) {
-            var resultFilter = [],
-                i;
+            var resultFilter = [];
+            var i;
 
             operation = operation || "and";
 
@@ -181,8 +182,8 @@ module.exports = (function() {
         },
 
         checkChanges: function(changes, changeNames) {
-            var changesWithChangeNamesCount = 0,
-                i;
+            var changesWithChangeNamesCount = 0;
+            var i;
 
             for(i = 0; i < changeNames.length; i++) {
                 if(changes[changeNames[i]]) {
@@ -224,13 +225,14 @@ module.exports = (function() {
         },
 
         formatValue: function(value, options) {
-            var valueText = formatHelper.format(value, options.format) || (value && value.toString()) || "",
-                formatObject = {
-                    value: value,
-                    valueText: options.getDisplayFormat ? options.getDisplayFormat(valueText) : valueText,
-                    target: options.target || "row",
-                    groupInterval: options.groupInterval
-                };
+            var valueText = formatHelper.format(value, options.format) || (value && value.toString()) || "";
+
+            var formatObject = {
+                value: value,
+                valueText: options.getDisplayFormat ? options.getDisplayFormat(valueText) : valueText,
+                target: options.target || "row",
+                groupInterval: options.groupInterval
+            };
 
             return options.customizeText ? options.customizeText.call(options, formatObject) : formatObject.valueText;
         },
@@ -258,9 +260,9 @@ module.exports = (function() {
         },
 
         getGroupRowSummaryText: function(summaryItems, summaryTexts) {
-            var result = "(",
-                i,
-                summaryItem;
+            var result = "(";
+            var i;
+            var summaryItem;
 
             for(i = 0; i < summaryItems.length; i++) {
                 summaryItem = summaryItems[i];
@@ -284,8 +286,8 @@ module.exports = (function() {
         normalizeSortingInfo: function(sort) {
             sort = sort || [];
 
-            var result,
-                i;
+            var result;
+            var i;
 
             result = normalizeSortingInfo(sort);
             for(i = 0; i < sort.length; i++) {
@@ -309,9 +311,9 @@ module.exports = (function() {
         },
 
         getHeaderFilterGroupParameters: function(column, remoteGrouping) {
-            var result = [],
-                dataField = column.dataField || column.name,
-                groupInterval = getGroupInterval(column);
+            var result = [];
+            var dataField = column.dataField || column.name;
+            var groupInterval = getGroupInterval(column);
 
             if(groupInterval) {
                 each(groupInterval, function(index, interval) {
@@ -363,16 +365,16 @@ module.exports = (function() {
         },
 
         getPointsByColumns: function(items, pointCreated, isVertical, startColumnIndex) {
-            var cellsLength = items.length,
-                notCreatePoint = false,
-                point,
-                i,
-                item,
-                offset,
-                columnIndex = startColumnIndex || 0,
-                prevItemOffset,
-                result = [],
-                rtlEnabled;
+            var cellsLength = items.length;
+            var notCreatePoint = false;
+            var point;
+            var i;
+            var item;
+            var offset;
+            var columnIndex = startColumnIndex || 0;
+            var prevItemOffset;
+            var result = [];
+            var rtlEnabled;
 
             for(i = 0; i <= cellsLength; i++) {
                 if(i < cellsLength) {
@@ -409,8 +411,8 @@ module.exports = (function() {
         },
 
         createObjectWithChanges: function(target, changes) {
-            var result = target ? Object.create(Object.getPrototypeOf(target)) : {},
-                targetWithoutPrototype = extendFromObject({}, target);
+            var result = target ? Object.create(Object.getPrototypeOf(target)) : {};
+            var targetWithoutPrototype = extendFromObject({}, target);
 
             deepExtendArraySafe(result, targetWithoutPrototype, true, true);
             return deepExtendArraySafe(result, changes, true, true);
@@ -420,8 +422,8 @@ module.exports = (function() {
             return {
                 allowRenderToDetachedContainer: true,
                 render: function(container, options) {
-                    var rowsView,
-                        $container = $(container);
+                    var rowsView;
+                    var $container = $(container);
 
                     if(isDefined(options.value) && !(options.data && options.data.isContinuation) && !options.row.inserted) {
                         rowsView = options.component.getView("rowsView");
@@ -469,9 +471,9 @@ module.exports = (function() {
         focusAndSelectElement: function(component, $element) {
             eventsEngine.trigger($element, "focus");
 
-            let isSelectTextOnEditingStart = component.option("editing.selectTextOnEditStart"),
-                keyboardController = component.getController("keyboardNavigation"),
-                isEditingNavigationMode = keyboardController && keyboardController._isFastEditingStarted();
+            let isSelectTextOnEditingStart = component.option("editing.selectTextOnEditStart");
+            let keyboardController = component.getController("keyboardNavigation");
+            let isEditingNavigationMode = keyboardController && keyboardController._isFastEditingStarted();
 
             if(isSelectTextOnEditingStart && !isEditingNavigationMode && $element.is(".dx-texteditor-input")) {
                 $element.get(0).select();
@@ -482,9 +484,9 @@ module.exports = (function() {
             var hasResizableColumns = columns.some(column => column && !column.command && !column.fixed && column.allowResizing !== false);
 
             for(var lastColumnIndex = columns.length - 1; columns[lastColumnIndex]; lastColumnIndex--) {
-                var column = columns[lastColumnIndex],
-                    width = resultWidths && resultWidths[lastColumnIndex],
-                    allowResizing = !hasResizableColumns || column.allowResizing !== false;
+                var column = columns[lastColumnIndex];
+                var width = resultWidths && resultWidths[lastColumnIndex];
+                var allowResizing = !hasResizableColumns || column.allowResizing !== false;
 
                 if(!column.command && !column.fixed && width !== "adaptiveHidden" && allowResizing) {
                     break;

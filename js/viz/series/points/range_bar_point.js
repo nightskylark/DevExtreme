@@ -1,8 +1,8 @@
-var noop = require("../../../core/utils/common").noop,
-    extend = require("../../../core/utils/extend").extend,
-    barPoint = require("./bar_point"),
-    rangeSymbolPointMethods = require("./range_symbol_point"),
-    _extend = extend;
+var noop = require("../../../core/utils/common").noop;
+var extend = require("../../../core/utils/extend").extend;
+var barPoint = require("./bar_point");
+var rangeSymbolPointMethods = require("./range_symbol_point");
+var _extend = extend;
 
 module.exports = _extend({}, barPoint, {
     deleteLabel: rangeSymbolPointMethods.deleteLabel,
@@ -28,10 +28,10 @@ module.exports = _extend({}, barPoint, {
     },
 
     getTooltipParams: function(location) {
-        var that = this,
-            edgeLocation = location === 'edge',
-            x,
-            y;
+        var that = this;
+        var edgeLocation = location === 'edge';
+        var x;
+        var y;
 
         if(that._options.rotated) {
             x = edgeLocation ? that.x + that.width : that.x + that.width / 2;
@@ -45,8 +45,8 @@ module.exports = _extend({}, barPoint, {
     },
 
     _translate: function() {
-        var that = this,
-            barMethods = barPoint;
+        var that = this;
+        var barMethods = barPoint;
         barMethods._translate.call(that);
 
         if(that._options.rotated) {
@@ -83,8 +83,8 @@ module.exports = _extend({}, barPoint, {
     _getLabelCoords: rangeSymbolPointMethods._getLabelCoords,
 
     _getGraphicBBox: function(location) {
-        var isTop = location === "top",
-            bBox = barPoint._getGraphicBBox.call(this);
+        var isTop = location === "top";
+        var bBox = barPoint._getGraphicBBox.call(this);
 
         if(!this._options.rotated) {
             bBox.y = isTop ? bBox.y : bBox.y + bBox.height;

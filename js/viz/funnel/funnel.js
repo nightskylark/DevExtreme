@@ -1,9 +1,9 @@
-var tiling = require("./tiling"),
-    dynamicSlope = require("./tiling.funnel"),
-    dynamicHeight = require("./tiling.pyramid"),
-    noop = require("../../core/utils/common").noop,
-    Item = require("./item"),
-    NODES_CREATE_CHANGE = "NODES_CREATE";
+var tiling = require("./tiling");
+var dynamicSlope = require("./tiling.funnel");
+var dynamicHeight = require("./tiling.pyramid");
+var noop = require("../../core/utils/common").noop;
+var Item = require("./item");
+var NODES_CREATE_CHANGE = "NODES_CREATE";
 
 tiling.addAlgorithm("dynamicslope", dynamicSlope, true);
 tiling.addAlgorithm("dynamicheight", dynamicHeight);
@@ -74,23 +74,25 @@ var dxFunnel = require("../core/base_widget").inherit({
     },
 
     _change_TILING: function() {
-        var that = this,
-            items = that._items,
-            rect = that._rect,
-            convertCoord = function(coord, index) {
-                var offset = index % 2;
-                return rect[0 + offset] + (rect[2 + offset] - rect[0 + offset]) * coord;
-            };
+        var that = this;
+        var items = that._items;
+        var rect = that._rect;
+
+        var convertCoord = function(coord, index) {
+            var offset = index % 2;
+            return rect[0 + offset] + (rect[2 + offset] - rect[0 + offset]) * coord;
+        };
 
         this._group.clear();
 
         items.forEach(function(item, index) {
-            var coords = item.figure.map(convertCoord),
-                element = that._renderer.path([], "area")
-                    .attr({
-                        points: coords
-                    })
-                    .append(that._group);
+            var coords = item.figure.map(convertCoord);
+
+            var element = that._renderer.path([], "area")
+                .attr({
+                    points: coords
+                })
+                .append(that._group);
 
             item.coords = coords;
             item.element = element;
@@ -141,8 +143,8 @@ var dxFunnel = require("../core/base_widget").inherit({
     },
 
     _hitTestTargets: function(x, y) {
-        var that = this,
-            data;
+        var that = this;
+        var data;
 
         this._proxyData.some(function(callback) {
             data = callback.call(that, x, y);
@@ -171,25 +173,27 @@ var dxFunnel = require("../core/base_widget").inherit({
     },
 
     _getData: function() {
-        var that = this,
-            data = that._dataSourceItems() || [],
-            valueField = that._getOption("valueField", true),
-            argumentField = that._getOption("argumentField", true),
-            colorField = that._getOption("colorField", true),
-            processedData = data.reduce(function(d, item) {
-                var value = Number(item[valueField]);
-                if(value >= 0) {
-                    d[0].push({
-                        value: value,
-                        color: item[colorField],
-                        argument: item[argumentField],
-                        dataItem: item
-                    });
-                    d[1] += value;
-                }
-                return d;
-            }, [[], 0]),
-            items = processedData[0];
+        var that = this;
+        var data = that._dataSourceItems() || [];
+        var valueField = that._getOption("valueField", true);
+        var argumentField = that._getOption("argumentField", true);
+        var colorField = that._getOption("colorField", true);
+
+        var processedData = data.reduce(function(d, item) {
+            var value = Number(item[valueField]);
+            if(value >= 0) {
+                d[0].push({
+                    value: value,
+                    color: item[colorField],
+                    argument: item[argumentField],
+                    dataItem: item
+                });
+                d[1] += value;
+            }
+            return d;
+        }, [[], 0]);
+
+        var items = processedData[0];
 
         if(!processedData[1]) {
             items = items.map(function(item) {
@@ -212,28 +216,30 @@ var dxFunnel = require("../core/base_widget").inherit({
     },
 
     _buildNodes: function() {
-        var that = this,
-            data = that._getData(),
-            algorithm = tiling.getAlgorithm(that._getOption("algorithm", true)),
-            percents = algorithm.normalizeValues(data),
-            itemOptions = that._getOption("item"),
-            figures = algorithm.getFigures(percents, that._getOption("neckWidth", true), that._getOption("neckHeight", true)),
-            palette = that._themeManager.createPalette(that._getOption("palette", true), {
-                useHighlight: true,
-                extensionMode: that._getOption("paletteExtensionMode", true),
-                count: figures.length
-            });
+        var that = this;
+        var data = that._getData();
+        var algorithm = tiling.getAlgorithm(that._getOption("algorithm", true));
+        var percents = algorithm.normalizeValues(data);
+        var itemOptions = that._getOption("item");
+        var figures = algorithm.getFigures(percents, that._getOption("neckWidth", true), that._getOption("neckHeight", true));
+
+        var palette = that._themeManager.createPalette(that._getOption("palette", true), {
+            useHighlight: true,
+            extensionMode: that._getOption("paletteExtensionMode", true),
+            count: figures.length
+        });
 
         that._items = figures.map(function(figure, index) {
-            var curData = data[index],
-                node = new Item(that, {
-                    figure: figure,
-                    data: curData,
-                    percent: percents[index],
-                    id: index,
-                    color: curData.color || palette.getNextColor(),
-                    itemOptions: itemOptions
-                });
+            var curData = data[index];
+
+            var node = new Item(that, {
+                figure: figure,
+                data: curData,
+                percent: percents[index],
+                id: index,
+                color: curData.color || palette.getNextColor(),
+                itemOptions: itemOptions
+            });
 
             return node;
         });

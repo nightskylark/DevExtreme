@@ -1,8 +1,8 @@
-var elementData = require("../../core/element_data"),
-    afterCleanData = elementData.afterCleanData,
-    strategyChanging = elementData.strategyChanging,
-    ko = require("knockout"),
-    compareVersion = require("../../core/utils/version").compare;
+var elementData = require("../../core/element_data");
+var afterCleanData = elementData.afterCleanData;
+var strategyChanging = elementData.strategyChanging;
+var ko = require("knockout");
+var compareVersion = require("../../core/utils/version").compare;
 
 var originalKOCleanExternalData = ko.utils.domNodeDisposal.cleanExternalData;
 

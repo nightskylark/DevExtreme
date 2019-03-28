@@ -47,9 +47,9 @@ var currencyData = {
     }
 };
 
-var Globalize = require("globalize"),
-    config = require("../../core/config"),
-    numberLocalization = require("../number");
+var Globalize = require("globalize");
+var config = require("../../core/config");
+var numberLocalization = require("../number");
 
 if(Globalize && Globalize.formatCurrency) {
 
@@ -65,8 +65,8 @@ if(Globalize && Globalize.formatCurrency) {
     var formattersCache = {};
 
     var getFormatter = function(currency, format) {
-        var formatter,
-            formatCacheKey;
+        var formatter;
+        var formatCacheKey;
 
         if(typeof format === "object") {
             formatCacheKey = Globalize.locale().locale + ":" + currency + ":" + JSON.stringify(format);
@@ -128,12 +128,12 @@ if(Globalize && Globalize.formatCurrency) {
             return Globalize.cldr.main("numbers/currencies/" + currency);
         },
         getOpenXmlCurrencyFormat: function(currency) {
-            var currencySymbol = this.getCurrencySymbol(currency).symbol,
-                currencyFormat = Globalize.cldr.main("numbers/currencyFormats-numberSystem-latn"),
-                i,
-                result,
-                symbol,
-                encodeSymbols;
+            var currencySymbol = this.getCurrencySymbol(currency).symbol;
+            var currencyFormat = Globalize.cldr.main("numbers/currencyFormats-numberSystem-latn");
+            var i;
+            var result;
+            var symbol;
+            var encodeSymbols;
 
             if(currencyFormat.accounting) {
                 encodeSymbols = {

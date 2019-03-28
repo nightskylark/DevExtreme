@@ -1,12 +1,12 @@
-var variableWrapper = require("../../core/utils/variable_wrapper"),
-    dataCoreUtils = require("../../core/utils/data"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    DataHelperMixin = require("../../data_helper"),
-    DataSourceModule = require("../../data/data_source/data_source"),
-    ArrayStore = require("../../data/array_store"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var variableWrapper = require("../../core/utils/variable_wrapper");
+var dataCoreUtils = require("../../core/utils/data");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var DataHelperMixin = require("../../data_helper");
+var DataSourceModule = require("../../data/data_source/data_source");
+var ArrayStore = require("../../data/array_store");
+var Deferred = require("../../core/utils/deferred").Deferred;
 
 /**
 * @name DataExpressionMixin

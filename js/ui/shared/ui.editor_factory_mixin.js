@@ -1,15 +1,15 @@
-var $ = require("../../core/renderer"),
-    noop = require("../../core/utils/common").noop,
-    eventsEngine = require("../../events/core/events_engine"),
-    typeUtils = require("../../core/utils/type"),
-    isWrapped = require("../../core/utils/variable_wrapper").isWrapped,
-    compileGetter = require("../../core/utils/data").compileGetter,
-    browser = require("../../core/utils/browser"),
-    extend = require("../../core/utils/extend").extend,
-    devices = require("../../core/devices"),
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    normalizeDataSourceOptions = require("../../data/data_source/data_source").normalizeDataSourceOptions,
-    normalizeKeyName = require("../../events/utils").normalizeKeyName;
+var $ = require("../../core/renderer");
+var noop = require("../../core/utils/common").noop;
+var eventsEngine = require("../../events/core/events_engine");
+var typeUtils = require("../../core/utils/type");
+var isWrapped = require("../../core/utils/variable_wrapper").isWrapped;
+var compileGetter = require("../../core/utils/data").compileGetter;
+var browser = require("../../core/utils/browser");
+var extend = require("../../core/utils/extend").extend;
+var devices = require("../../core/devices");
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var normalizeDataSourceOptions = require("../../data/data_source/data_source").normalizeDataSourceOptions;
+var normalizeKeyName = require("../../events/utils").normalizeKeyName;
 
 require("../text_box");
 require("../number_box");
@@ -17,9 +17,9 @@ require("../check_box");
 require("../select_box");
 require("../date_box");
 
-var CHECKBOX_SIZE_CLASS = "checkbox-size",
-    CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled",
-    EDITOR_INLINE_BLOCK = "dx-editor-inline-block";
+var CHECKBOX_SIZE_CLASS = "checkbox-size";
+var CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled";
+var EDITOR_INLINE_BLOCK = "dx-editor-inline-block";
 
 var EditorFactoryMixin = (function() {
     var getResultConfig = function(config, options) {
@@ -38,21 +38,21 @@ var EditorFactoryMixin = (function() {
     };
 
     var getTextEditorConfig = function(options) {
-        var data = {},
-            isEnterBug = checkEnterBug(),
-            sharedData = options.sharedData || data;
+        var data = {};
+        var isEnterBug = checkEnterBug();
+        var sharedData = options.sharedData || data;
 
         return getResultConfig({
             placeholder: options.placeholder,
             width: options.width,
             value: options.value,
             onValueChanged: function(e) {
+                var needDelayedUpdate = options.parentType === "filterRow" || options.parentType === "searchPanel";
+                var isKeyUpEvent = e.event && e.event.type === "keyup";
 
-                var needDelayedUpdate = options.parentType === "filterRow" || options.parentType === "searchPanel",
-                    isKeyUpEvent = e.event && e.event.type === "keyup",
-                    updateValue = function(e, notFireEvent) {
-                        options && options.setValue(e.value, notFireEvent);
-                    };
+                var updateValue = function(e, notFireEvent) {
+                    options && options.setValue(e.value, notFireEvent);
+                };
 
                 clearTimeout(data.valueChangeTimeout);
 
@@ -96,11 +96,12 @@ var EditorFactoryMixin = (function() {
     };
 
     var prepareTextBox = function(options) {
-        var config = getTextEditorConfig(options),
-            isSearching = options.parentType === "searchPanel",
-            toString = function(value) {
-                return typeUtils.isDefined(value) ? value.toString() : "";
-            };
+        var config = getTextEditorConfig(options);
+        var isSearching = options.parentType === "searchPanel";
+
+        var toString = function(value) {
+            return typeUtils.isDefined(value) ? value.toString() : "";
+        };
 
         config.value = toString(options.value);
         config.valueChangeEvent += (isSearching ? " keyup search" : "");
@@ -140,11 +141,11 @@ var EditorFactoryMixin = (function() {
     };
 
     var prepareSelectBox = function(options) {
-        var lookup = options.lookup,
-            displayGetter,
-            dataSource,
-            postProcess,
-            isFilterRow = options.parentType === "filterRow";
+        var lookup = options.lookup;
+        var displayGetter;
+        var dataSource;
+        var postProcess;
+        var isFilterRow = options.parentType === "filterRow";
 
         if(lookup) {
             displayGetter = compileGetter(lookup.displayExpr);

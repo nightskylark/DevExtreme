@@ -1,11 +1,11 @@
-var themeModule = require("../../themes"),
-    registerTheme = themeModule.registerTheme,
-    ACCENT_COLOR = "#f05b41",
-    BACKGROUND_COLOR = "#fff",
-    TITLE_COLOR = "#333",
-    SUBTITLE_COLOR = "#8899a8",
-    TEXT_COLOR = "#707070",
-    BORDER_COLOR = "#dee1e3";
+var themeModule = require("../../themes");
+var registerTheme = themeModule.registerTheme;
+var ACCENT_COLOR = "#f05b41";
+var BACKGROUND_COLOR = "#fff";
+var TITLE_COLOR = "#333";
+var SUBTITLE_COLOR = "#8899a8";
+var TEXT_COLOR = "#707070";
+var BORDER_COLOR = "#dee1e3";
 
 registerTheme({
     name: "generic.carmine",

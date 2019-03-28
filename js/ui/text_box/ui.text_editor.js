@@ -1,5 +1,5 @@
-var registerComponent = require("../../core/component_registrator"),
-    TextEditorMask = require("./ui.text_editor.mask");
+var registerComponent = require("../../core/component_registrator");
+var TextEditorMask = require("./ui.text_editor.mask");
 
 registerComponent("dxTextEditor", TextEditorMask);
 

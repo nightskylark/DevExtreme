@@ -1,12 +1,12 @@
-var $ = require("../core/renderer"),
-    ajax = require("../core/utils/ajax"),
-    window = require("../core/utils/window").getWindow(),
-    isFunction = require("../core/utils/type").isFunction,
-    each = require("../core/utils/iterator").each,
-    svgUtils = require("../core/utils/svg"),
-    deferredUtils = require("../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred;
+var $ = require("../core/renderer");
+var ajax = require("../core/utils/ajax");
+var window = require("../core/utils/window").getWindow();
+var isFunction = require("../core/utils/type").isFunction;
+var each = require("../core/utils/iterator").each;
+var svgUtils = require("../core/utils/svg");
+var deferredUtils = require("../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
 
 
 exports.svgCreator = {
@@ -38,10 +38,10 @@ exports.svgCreator = {
                     return;
                 }
 
-                var i,
-                    binary = '',
-                    bytes = new Uint8Array(response),
-                    length = bytes.byteLength;
+                var i;
+                var binary = '';
+                var bytes = new Uint8Array(response);
+                var length = bytes.byteLength;
 
                 for(i = 0; i < length; i++) {
                     binary += String.fromCharCode(bytes[i]);
@@ -53,8 +53,8 @@ exports.svgCreator = {
     },
 
     _parseImages: function(element) {
-        var href,
-            that = this;
+        var href;
+        var that = this;
 
         if(element.tagName === "image") {
             href = $(element).attr("href") || $(element).attr("xlink:href");
@@ -76,12 +76,12 @@ exports.svgCreator = {
     },
 
     getData: function(data, options) {
-        var markup,
-            that = this,
-            xmlVersion = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>',
-            blob = new Deferred(),
-            svgElem = svgUtils.getSvgElement(data),
-            $svgObject = $(svgElem);
+        var markup;
+        var that = this;
+        var xmlVersion = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>';
+        var blob = new Deferred();
+        var svgElem = svgUtils.getSvgElement(data);
+        var $svgObject = $(svgElem);
 
         markup = xmlVersion + svgUtils.getSvgMarkup($svgObject.get(0), options.backgroundColor);
 

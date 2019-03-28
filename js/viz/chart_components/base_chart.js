@@ -1,74 +1,72 @@
-var commonUtils = require("../../core/utils/common"),
-    noop = commonUtils.noop,
-    eventsEngine = require("../../events/core/events_engine"),
-    typeUtils = require("../../core/utils/type"),
-    iteratorModule = require("../../core/utils/iterator"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    eventUtils = require("../../events/utils"),
-    BaseWidget = require("../core/base_widget"),
-    coreDataUtils = require("../../core/utils/data"),
-    legendModule = require("../components/legend"),
-    dataValidatorModule = require("../components/data_validator"),
-    seriesModule = require("../series/base_series"),
-    chartThemeManagerModule = require("../components/chart_theme_manager"),
-    LayoutManagerModule = require("./layout_manager"),
-    trackerModule = require("./tracker"),
-    headerBlockModule = require("./header_block"),
+var commonUtils = require("../../core/utils/common");
+var noop = commonUtils.noop;
+var eventsEngine = require("../../events/core/events_engine");
+var typeUtils = require("../../core/utils/type");
+var iteratorModule = require("../../core/utils/iterator");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var eventUtils = require("../../events/utils");
+var BaseWidget = require("../core/base_widget");
+var coreDataUtils = require("../../core/utils/data");
+var legendModule = require("../components/legend");
+var dataValidatorModule = require("../components/data_validator");
+var seriesModule = require("../series/base_series");
+var chartThemeManagerModule = require("../components/chart_theme_manager");
+var LayoutManagerModule = require("./layout_manager");
+var trackerModule = require("./tracker");
+var headerBlockModule = require("./header_block");
+var REINIT_REFRESH_ACTION = "_reinit";
+var REINIT_DATA_SOURCE_REFRESH_ACTION = "_updateDataSource";
+var DATA_INIT_REFRESH_ACTION = "_dataInit";
+var FORCE_RENDER_REFRESH_ACTION = "_forceRender";
+var RESIZE_REFRESH_ACTION = "_resize";
+var ACTIONS_BY_PRIORITY = [REINIT_REFRESH_ACTION, REINIT_DATA_SOURCE_REFRESH_ACTION, DATA_INIT_REFRESH_ACTION, FORCE_RENDER_REFRESH_ACTION, RESIZE_REFRESH_ACTION];
+var vizUtils = require("../core/utils");
+var _map = vizUtils.map;
+var _each = iteratorModule.each;
+var _reverseEach = iteratorModule.reverseEach;
+var _extend = extend;
+var _isArray = Array.isArray;
+var _isDefined = typeUtils.isDefined;
+var _setCanvasValues = vizUtils.setCanvasValues;
+var DEFAULT_OPACITY = 0.3;
 
-    REINIT_REFRESH_ACTION = "_reinit",
-    REINIT_DATA_SOURCE_REFRESH_ACTION = "_updateDataSource",
-    DATA_INIT_REFRESH_ACTION = "_dataInit",
-    FORCE_RENDER_REFRESH_ACTION = "_forceRender",
-    RESIZE_REFRESH_ACTION = "_resize",
-    ACTIONS_BY_PRIORITY = [REINIT_REFRESH_ACTION, REINIT_DATA_SOURCE_REFRESH_ACTION, DATA_INIT_REFRESH_ACTION, FORCE_RENDER_REFRESH_ACTION, RESIZE_REFRESH_ACTION],
+var REFRESH_SERIES_DATA_INIT_ACTION_OPTIONS = [
+    "series",
+    "commonSeriesSettings",
+    "dataPrepareSettings",
+    "seriesSelectionMode",
+    "pointSelectionMode",
+    "synchronizeMultiAxes",
+    "resolveLabelsOverlapping"
+];
 
-    vizUtils = require("../core/utils"),
-    _map = vizUtils.map,
-    _each = iteratorModule.each,
-    _reverseEach = iteratorModule.reverseEach,
-    _extend = extend,
-    _isArray = Array.isArray,
-    _isDefined = typeUtils.isDefined,
-    _setCanvasValues = vizUtils.setCanvasValues,
-    DEFAULT_OPACITY = 0.3,
+var REFRESH_SERIES_FAMILIES_ACTION_OPTIONS = [
+    "equalBarWidth",
+    "minBubbleSize",
+    "maxBubbleSize",
+    "barWidth",
+    "barGroupPadding",
+    "barGroupWidth",
+    "negativesAsZeroes",
+    "negativesAsZeros" // misspelling case
+];
 
-    REFRESH_SERIES_DATA_INIT_ACTION_OPTIONS = [
-        "series",
-        "commonSeriesSettings",
-        "dataPrepareSettings",
-        "seriesSelectionMode",
-        "pointSelectionMode",
-        "synchronizeMultiAxes",
-        "resolveLabelsOverlapping"
-    ],
+var FORCE_RENDER_REFRESH_ACTION_OPTIONS = [
+    "adaptiveLayout",
+    "crosshair",
+    "resolveLabelOverlapping",
+    "adjustOnZoom",
+    "zoomingMode",
+    "scrollingMode",
+    "stickyHovering"
+];
 
-    REFRESH_SERIES_FAMILIES_ACTION_OPTIONS = [
-        "equalBarWidth",
-        "minBubbleSize",
-        "maxBubbleSize",
-        "barWidth",
-        "barGroupPadding",
-        "barGroupWidth",
-        "negativesAsZeroes",
-        "negativesAsZeros" // misspelling case
-    ],
-
-    FORCE_RENDER_REFRESH_ACTION_OPTIONS = [
-        "adaptiveLayout",
-        "crosshair",
-        "resolveLabelOverlapping",
-        "adjustOnZoom",
-        "zoomingMode",
-        "scrollingMode",
-        "stickyHovering"
-    ],
-
-    FONT = "font";
+var FONT = "font";
 
 function checkHeightRollingStock(rollingStocks, stubCanvas) {
-    var canvasSize = stubCanvas.end - stubCanvas.start,
-        size = 0;
+    var canvasSize = stubCanvas.end - stubCanvas.start;
+    var size = 0;
     rollingStocks.forEach(function(rollingStock) {
         size += rollingStock.getBoundingRect().width;
     });
@@ -79,8 +77,8 @@ function checkHeightRollingStock(rollingStocks, stubCanvas) {
 }
 
 function findAndKillSmallValue(rollingStocks) {
-    var smallestObject,
-        width;
+    var smallestObject;
+    var width;
 
     smallestObject = rollingStocks.reduce(function(prev, rollingStock, index) {
         if(!rollingStock) return prev;
@@ -104,11 +102,11 @@ function findAndKillSmallValue(rollingStocks) {
 }
 
 function checkStackOverlap(rollingStocks) {
-    var i,
-        j,
-        iLength,
-        jLength,
-        overlap = false;
+    var i;
+    var j;
+    var iLength;
+    var jLength;
+    var overlap = false;
 
     for(i = 0, iLength = rollingStocks.length - 1; i < iLength; i++) {
         for(j = i + 1, jLength = rollingStocks.length; j < jLength; j++) {
@@ -123,12 +121,14 @@ function checkStackOverlap(rollingStocks) {
 }
 
 function resolveLabelOverlappingInOneDirection(points, canvas, isRotated, shiftFunction) {
-    var rollingStocks = [],
-        stubCanvas = {
-            start: isRotated ? canvas.left : canvas.top,
-            end: isRotated ? canvas.width - canvas.right : canvas.height - canvas.bottom
-        },
-        hasStackedSeries = false;
+    var rollingStocks = [];
+
+    var stubCanvas = {
+        start: isRotated ? canvas.left : canvas.top,
+        end: isRotated ? canvas.width - canvas.right : canvas.height - canvas.bottom
+    };
+
+    var hasStackedSeries = false;
 
     points.forEach(function(p) {
         if(!p) return;
@@ -159,17 +159,19 @@ function resolveLabelOverlappingInOneDirection(points, canvas, isRotated, shiftF
 
 function checkStacksOverlapping(firstRolling, secondRolling, inTwoSides) {
     if(!firstRolling || !secondRolling) return;
-    var firstRect = firstRolling.getBoundingRect(),
-        secondRect = secondRolling.getBoundingRect(),
-        oppositeOverlapping = inTwoSides ? ((firstRect.oppositeStart <= secondRect.oppositeStart && firstRect.oppositeEnd > secondRect.oppositeStart) ||
-            (secondRect.oppositeStart <= firstRect.oppositeStart && secondRect.oppositeEnd > firstRect.oppositeStart)) : true;
+    var firstRect = firstRolling.getBoundingRect();
+    var secondRect = secondRolling.getBoundingRect();
+
+    var oppositeOverlapping = inTwoSides ? ((firstRect.oppositeStart <= secondRect.oppositeStart && firstRect.oppositeEnd > secondRect.oppositeStart) ||
+        (secondRect.oppositeStart <= firstRect.oppositeStart && secondRect.oppositeEnd > firstRect.oppositeStart)) : true;
+
     return firstRect.end > secondRect.start && oppositeOverlapping;
 }
 
 function prepareOverlapStacks(rollingStocks) {
-    var i,
-        currentRollingStock,
-        root;
+    var i;
+    var currentRollingStock;
+    var root;
 
     for(i = 0; i < rollingStocks.length - 1; i++) {
         currentRollingStock = root || rollingStocks[i];
@@ -184,11 +186,12 @@ function prepareOverlapStacks(rollingStocks) {
 }
 
 function moveRollingStock(rollingStocks, canvas) {
-    var i, j,
-        currentRollingStock,
-        nextRollingStock,
-        currentBBox,
-        nextBBox;
+    var i;
+    var j;
+    var currentRollingStock;
+    var nextRollingStock;
+    var currentBBox;
+    var nextBBox;
 
     for(i = 0; i < rollingStocks.length; i++) {
         currentRollingStock = rollingStocks[i];
@@ -221,11 +224,11 @@ function rollingStocksIsOut(rollingStock, canvas) {
 }
 
 function RollingStock(label, isRotated, shiftFunction) {
-    var bBox = label.getBoundingRect(),
-        x = bBox.x,
-        y = bBox.y,
-        endX = bBox.x + bBox.width,
-        endY = bBox.y + bBox.height;
+    var bBox = label.getBoundingRect();
+    var x = bBox.x;
+    var y = bBox.y;
+    var endX = bBox.x + bBox.width;
+    var endY = bBox.y + bBox.height;
 
     this.labels = [label];
     this.shiftFunction = shiftFunction;
@@ -257,8 +260,8 @@ RollingStock.prototype = {
     shift: function(shiftLength) {
         var shiftFunction = this.shiftFunction;
         _each(this.labels, function(index, label) {
-            var bBox = label.getBoundingRect(),
-                coords = shiftFunction(bBox, shiftLength);
+            var bBox = label.getBoundingRect();
+            var coords = shiftFunction(bBox, shiftLength);
             if(!label.hideInsideLabel(coords)) {
                 label.shift(coords.x, coords.y);
             }
@@ -354,8 +357,8 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _createThemeManager: function() {
-        var chartOption = this.option(),
-            themeManager = new chartThemeManagerModule.ThemeManager(this._getThemeManagerOptions());
+        var chartOption = this.option();
+        var themeManager = new chartThemeManagerModule.ThemeManager(this._getThemeManagerOptions());
 
         themeManager.setTheme(chartOption.theme, chartOption.rtlEnabled);
         return themeManager;
@@ -423,13 +426,14 @@ var BaseChart = BaseWidget.inherit({
     _correctAxes: noop,
 
     _createHtmlStructure: function() {
-        var that = this,
-            renderer = that._renderer,
-            root = renderer.root,
-            createConstantLinesGroup = function() {
-                // TODO: Must be created in the same place where used (advanced chart)
-                return renderer.g().attr({ "class": "dxc-constant-lines-group" }).linkOn(root, "constant-lines");
-            };
+        var that = this;
+        var renderer = that._renderer;
+        var root = renderer.root;
+
+        var createConstantLinesGroup = function() {
+            // TODO: Must be created in the same place where used (advanced chart)
+            return renderer.g().attr({ "class": "dxc-constant-lines-group" }).linkOn(root, "constant-lines");
+        };
 
         that._constantLinesGroup = {
             dispose: function() {
@@ -482,18 +486,21 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _disposeCore: function() {
-        var that = this,
-            disposeObject = function(propName) {
-                // TODO: What is the purpose of the `if` check in a private function?
-                if(that[propName]) {
-                    that[propName].dispose();
-                    that[propName] = null;
-                }
-            },
-            unlinkGroup = function(name) {
-                that[name].linkOff();
-            },
-            disposeObjectsInArray = this._disposeObjectsInArray;
+        var that = this;
+
+        var disposeObject = function(propName) {
+            // TODO: What is the purpose of the `if` check in a private function?
+            if(that[propName]) {
+                that[propName].dispose();
+                that[propName] = null;
+            }
+        };
+
+        var unlinkGroup = function(name) {
+            that[name].linkOff();
+        };
+
+        var disposeObjectsInArray = this._disposeObjectsInArray;
 
         that._renderer.stopAllAnimations();
 
@@ -615,9 +622,9 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _doRender: function(_options) {
-        var that = this,
-            drawOptions,
-            recreateCanvas;
+        var that = this;
+        var drawOptions;
+        var recreateCanvas;
 
         if(/* !that._initialized || */that._skipRender) return; // NOTE: Because _render can be called from _init!
 
@@ -654,18 +661,18 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _renderElements: function(drawOptions) {
-        var that = this,
-            preparedOptions = that._prepareToRender(drawOptions),
-            isRotated = that._isRotated(),
-            isLegendInside = that._isLegendInside(),
-            trackerCanvases = [],
-            layoutTargets = that._getLayoutTargets(),
-            dirtyCanvas = extend({}, that._canvas),
-            argBusinessRange,
-            zoomMinArg,
-            drawElements = [],
-            layoutCanvas = drawOptions.drawTitle && drawOptions.drawLegend && drawOptions.adjustAxes,
-            zoomMaxArg;
+        var that = this;
+        var preparedOptions = that._prepareToRender(drawOptions);
+        var isRotated = that._isRotated();
+        var isLegendInside = that._isLegendInside();
+        var trackerCanvases = [];
+        var layoutTargets = that._getLayoutTargets();
+        var dirtyCanvas = extend({}, that._canvas);
+        var argBusinessRange;
+        var zoomMinArg;
+        var drawElements = [];
+        var layoutCanvas = drawOptions.drawTitle && drawOptions.drawLegend && drawOptions.adjustAxes;
+        var zoomMaxArg;
 
         ///#DEBUG
         that.DEBUG_dirtyCanvas = dirtyCanvas;
@@ -745,12 +752,12 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _renderSeriesElements: function(drawOptions, isRotated, isLegendInside) {
-        var that = this,
-            i,
-            series = that.series,
-            singleSeries,
-            seriesLength = series.length,
-            resolveLabelOverlapping = that._themeManager.getOptions("resolveLabelOverlapping");
+        var that = this;
+        var i;
+        var series = that.series;
+        var singleSeries;
+        var seriesLength = series.length;
+        var resolveLabelOverlapping = that._themeManager.getOptions("resolveLabelOverlapping");
 
         for(i = 0; i < seriesLength; i++) {
             singleSeries = series[i];
@@ -805,15 +812,15 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _resolveLabelOverlappingHide: function() {
-        var labels = [],
-            currentLabel,
-            nextLabel,
-            currentLabelRect,
-            nextLabelRect,
-            i,
-            j,
-            points,
-            series = this._getVisibleSeries();
+        var labels = [];
+        var currentLabel;
+        var nextLabel;
+        var currentLabelRect;
+        var nextLabelRect;
+        var i;
+        var j;
+        var points;
+        var series = this._getVisibleSeries();
 
         for(i = 0; i < series.length; i++) {
             points = series[i].getVisiblePoints();
@@ -855,8 +862,8 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _createLegend: function() {
-        var that = this,
-            legendSettings = getLegendSettings(that._legendDataField);
+        var that = this;
+        var legendSettings = getLegendSettings(that._legendDataField);
 
         that._legend = new legendModule.Legend({
             renderer: that._renderer,
@@ -870,10 +877,10 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _updateLegend: function() {
-        var that = this,
-            themeManager = that._themeManager,
-            legendOptions = themeManager.getOptions("legend"),
-            legendData = that._getLegendData();
+        var that = this;
+        var themeManager = that._themeManager;
+        var legendOptions = themeManager.getOptions("legend");
+        var legendData = that._getLegendData();
 
         legendOptions.containerBackgroundColor = themeManager.getOptions("containerBackgroundColor");
         legendOptions._incidentOccurred = that._incidentOccurred; // TODO: Why is `_` used?
@@ -881,8 +888,8 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _prepareDrawOptions: function(drawOptions) {
-        var animationOptions = this._getAnimationOptions(),
-            options;
+        var animationOptions = this._getAnimationOptions();
+        var options;
         options = extend({},
             {
                 force: false,
@@ -900,8 +907,8 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _processRefreshData: function(newRefreshAction) {
-        var currentRefreshActionPosition = inArray(this._currentRefreshData, ACTIONS_BY_PRIORITY),
-            newRefreshActionPosition = inArray(newRefreshAction, ACTIONS_BY_PRIORITY);
+        var currentRefreshActionPosition = inArray(this._currentRefreshData, ACTIONS_BY_PRIORITY);
+        var newRefreshActionPosition = inArray(newRefreshAction, ACTIONS_BY_PRIORITY);
         if(!this._currentRefreshData || (currentRefreshActionPosition >= 0 && newRefreshActionPosition < currentRefreshActionPosition)) {
             this._currentRefreshData = newRefreshAction;
             // this._invalidate();
@@ -910,9 +917,9 @@ var BaseChart = BaseWidget.inherit({
 
     _getLegendData: function() {
         return _map(this._getLegendTargets(), function(item) {
-            var legendData = item.legendData,
-                style = item.getLegendStyles,
-                opacity = style.normal.opacity;
+            var legendData = item.legendData;
+            var style = item.getLegendStyles;
+            var opacity = style.normal.opacity;
 
             if(!item.visible) {
                 if(!_isDefined(opacity) || opacity > DEFAULT_OPACITY) {
@@ -1094,9 +1101,9 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _updateCanvasClipRect: function(canvas) {
-        var that = this,
-            width,
-            height;
+        var that = this;
+        var width;
+        var height;
 
         width = Math.max(canvas.width - canvas.left - canvas.right, 0);
         height = Math.max(canvas.height - canvas.top - canvas.bottom, 0);
@@ -1151,12 +1158,12 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _repopulateSeries: function() {
-        var that = this,
-            parsedData,
-            themeManager = that._themeManager,
-            data = that._dataSourceItems(),
-            dataValidatorOptions = themeManager.getOptions("dataPrepareSettings"),
-            seriesTemplate = themeManager.getOptions("seriesTemplate");
+        var that = this;
+        var parsedData;
+        var themeManager = that._themeManager;
+        var data = that._dataSourceItems();
+        var dataValidatorOptions = themeManager.getOptions("dataPrepareSettings");
+        var seriesTemplate = themeManager.getOptions("seriesTemplate");
 
         if(seriesTemplate) {
             that._populateSeries(data);
@@ -1176,10 +1183,10 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _organizeStackPoints: function() {
-        var that = this,
-            themeManager = that._themeManager,
-            sharedTooltip = themeManager.getOptions("tooltip").shared,
-            stackPoints = {};
+        var that = this;
+        var themeManager = that._themeManager;
+        var sharedTooltip = themeManager.getOptions("tooltip").shared;
+        var stackPoints = {};
 
         _each(that.series || [], function(_, singleSeries) {
             that._resetStackPoints(singleSeries);
@@ -1188,8 +1195,8 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _renderCompleteHandler: function() {
-        var that = this,
-            allSeriesInited = true;
+        var that = this;
+        var allSeriesInited = true;
         if(that._needHandleRenderComplete) {
             _each(that.series, function(_, s) {
                 allSeriesInited = (allSeriesInited && s.canRenderCompleteHandle());
@@ -1202,12 +1209,12 @@ var BaseChart = BaseWidget.inherit({
     },
 
     _getDrawElements: function(drawOptions, legendHasInsidePosition) {
-        var that = this,
-            drawElements = [],
-            exportOptions = that._themeManager.getOptions("export"),
-            titleOptions = that._title.getLayoutOptions() || {},
-            legendOptions,
-            headerElements = [];
+        var that = this;
+        var drawElements = [];
+        var exportOptions = that._themeManager.getOptions("export");
+        var titleOptions = that._title.getLayoutOptions() || {};
+        var legendOptions;
+        var headerElements = [];
 
         if(that._exportMenu && exportOptions.enabled) {
             headerElements.push(that._exportMenu);

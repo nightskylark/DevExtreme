@@ -17,8 +17,8 @@ var getImageSourceType = function(source) {
 };
 
 var getImageContainer = function(source) {
-    var imageType = getImageSourceType(source),
-        ICON_CLASS = "dx-icon";
+    var imageType = getImageSourceType(source);
+    var ICON_CLASS = "dx-icon";
     switch(imageType) {
         case "image":
             return $("<img>").attr("src", source).addClass(ICON_CLASS);

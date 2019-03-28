@@ -1,33 +1,30 @@
-var PI_DIV_180 = Math.PI / 180,
-    _abs = Math.abs,
-    _round = Math.round,
-    _floor = Math.floor,
-    _min = Math.min,
-    _max = Math.max,
-
-    registerComponent = require("../../core/component_registrator"),
-    objectUtils = require("../../core/utils/object"),
-    commonUtils = require("../../core/utils/common"),
-    extend = require("../../core/utils/extend").extend,
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-
-    baseGaugeModule = require("./base_gauge"),
-    dxBaseGauge = baseGaugeModule.dxBaseGauge,
-    _getSampleText = baseGaugeModule.getSampleText,
-    _formatValue = baseGaugeModule.formatValue,
-    _compareArrays = baseGaugeModule.compareArrays,
-    dxCircularGauge = require("./circular_gauge"),
-    _isArray = Array.isArray,
-    vizUtils = require("../core/utils"),
-    _convertAngleToRendererSpace = vizUtils.convertAngleToRendererSpace,
-    _getCosAndSin = vizUtils.getCosAndSin,
-    _patchFontOptions = vizUtils.patchFontOptions,
-    _Number = Number,
-    _isFinite = isFinite,
-    _noop = commonUtils.noop,
-    _extend = extend,
-
-    OPTION_VALUES = "values";
+var PI_DIV_180 = Math.PI / 180;
+var _abs = Math.abs;
+var _round = Math.round;
+var _floor = Math.floor;
+var _min = Math.min;
+var _max = Math.max;
+var registerComponent = require("../../core/component_registrator");
+var objectUtils = require("../../core/utils/object");
+var commonUtils = require("../../core/utils/common");
+var extend = require("../../core/utils/extend").extend;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var baseGaugeModule = require("./base_gauge");
+var dxBaseGauge = baseGaugeModule.dxBaseGauge;
+var _getSampleText = baseGaugeModule.getSampleText;
+var _formatValue = baseGaugeModule.formatValue;
+var _compareArrays = baseGaugeModule.compareArrays;
+var dxCircularGauge = require("./circular_gauge");
+var _isArray = Array.isArray;
+var vizUtils = require("../core/utils");
+var _convertAngleToRendererSpace = vizUtils.convertAngleToRendererSpace;
+var _getCosAndSin = vizUtils.getCosAndSin;
+var _patchFontOptions = vizUtils.patchFontOptions;
+var _Number = Number;
+var _isFinite = isFinite;
+var _noop = commonUtils.noop;
+var _extend = extend;
+var OPTION_VALUES = "values";
 
 var dxBarGauge = dxBaseGauge.inherit({
     _rootClass: "dxbg-bar-gauge",
@@ -48,9 +45,9 @@ var dxBarGauge = dxBaseGauge.inherit({
             group: that._barsGroup
         };
         that._animateStep = function(pos) {
-            var bars = that._bars,
-                i,
-                ii;
+            var bars = that._bars;
+            var i;
+            var ii;
             for(i = 0, ii = bars.length; i < ii; ++i) {
                 bars[i].animate(pos);
             }
@@ -69,9 +66,9 @@ var dxBarGauge = dxBaseGauge.inherit({
     },
 
     _setupDomainCore: function() {
-        var that = this,
-            startValue = that.option("startValue"),
-            endValue = that.option("endValue");
+        var that = this;
+        var startValue = that.option("startValue");
+        var endValue = that.option("endValue");
         _isFinite(startValue) || (startValue = 0);
         _isFinite(endValue) || (endValue = 100);
         that._translator.setDomain(startValue, endValue);
@@ -86,11 +83,11 @@ var dxBarGauge = dxBaseGauge.inherit({
     _setupCodomain: dxCircularGauge.prototype._setupCodomain,
 
     _getApproximateScreenRange: function() {
-        var that = this,
-            sides = that._area.sides,
-            width = that._canvas.width / (sides.right - sides.left),
-            height = that._canvas.height / (sides.down - sides.up),
-            r = width < height ? width : height;
+        var that = this;
+        var sides = that._area.sides;
+        var width = that._canvas.width / (sides.right - sides.left);
+        var height = that._canvas.height / (sides.down - sides.up);
+        var r = width < height ? width : height;
         return -that._translator.getCodomainRange() * r * PI_DIV_180;
     },
 
@@ -112,11 +109,11 @@ var dxBarGauge = dxBaseGauge.inherit({
     },
 
     _renderContent: function() {
-        var that = this,
-            labelOptions = that.option("label"),
-            text,
-            bBox,
-            context = that._context;
+        var that = this;
+        var labelOptions = that.option("label");
+        var text;
+        var bBox;
+        var context = that._context;
 
         that._barsGroup.linkAppend();
         context.textEnabled = labelOptions === undefined || (labelOptions && (!("visible" in labelOptions) || labelOptions.visible));
@@ -160,11 +157,11 @@ var dxBarGauge = dxBaseGauge.inherit({
     },
 
     _renderBars: function() {
-        var that = this,
-            options = _extend({}, that._themeManager.theme(), that.option()),
-            relativeInnerRadius,
-            radius,
-            area = that._area;
+        var that = this;
+        var options = _extend({}, that._themeManager.theme(), that.option());
+        var relativeInnerRadius;
+        var radius;
+        var area = that._area;
 
         relativeInnerRadius = options.relativeInnerRadius > 0 && options.relativeInnerRadius < 1 ? _Number(options.relativeInnerRadius) : 0.1;
         radius = area.radius;
@@ -188,13 +185,13 @@ var dxBarGauge = dxBaseGauge.inherit({
     },
 
     _arrangeBars: function() {
-        var that = this,
-            radius = that._outerRadius - that._innerRadius,
-            context = that._context,
-            spacing,
-            colors,
-            unitOffset,
-            i;
+        var that = this;
+        var radius = that._outerRadius - that._innerRadius;
+        var context = that._context;
+        var spacing;
+        var colors;
+        var unitOffset;
+        var i;
 
         const count = that._bars.length;
 
@@ -253,9 +250,9 @@ var dxBarGauge = dxBaseGauge.inherit({
     },
 
     _checkOverlap: function() {
-        const that = this,
-            bars = that._bars,
-            overlapStrategy = _normalizeEnum(that._getOption("resolveLabelOverlapping", true));
+        const that = this;
+        const bars = that._bars;
+        const overlapStrategy = _normalizeEnum(that._getOption("resolveLabelOverlapping", true));
 
         if(overlapStrategy === "none") {
             return;
@@ -280,9 +277,9 @@ var dxBarGauge = dxBaseGauge.inherit({
     },
 
     _animateBars: function() {
-        var that = this,
-            i,
-            ii = that._bars.length;
+        var that = this;
+        var i;
+        var ii = that._bars.length;
         if(ii > 0) {
             for(i = 0; i < ii; ++i) {
                 that._bars[i].beginAnimation();
@@ -330,11 +327,11 @@ var dxBarGauge = dxBaseGauge.inherit({
     },
 
     _updateValues: function(values) {
-        var that = this,
-            list = (_isArray(values) && values) || (_isFinite(values) && [values]) || [],
-            i,
-            ii = list.length,
-            value;
+        var that = this;
+        var list = (_isArray(values) && values) || (_isFinite(values) && [values]) || [];
+        var i;
+        var ii = list.length;
+        var value;
         that._values.length = ii;
         for(i = 0; i < ii; ++i) {
             value = list[i];
@@ -392,11 +389,11 @@ var dxBarGauge = dxBaseGauge.inherit({
     _proxyData: [],
 
     _getLegendData() {
-        var that = this,
-            formatOptions = {},
-            options = that._options,
-            labelFormatOptions = (options.label || {}).format,
-            legendFormatOptions = (options.legend || {}).itemTextFormat;
+        var that = this;
+        var formatOptions = {};
+        var options = that._options;
+        var labelFormatOptions = (options.label || {}).format;
+        var legendFormatOptions = (options.legend || {}).itemTextFormat;
 
         if(legendFormatOptions) {
             formatOptions.format = legendFormatOptions;
@@ -442,8 +439,8 @@ _extend(BarWrapper.prototype, {
     },
 
     arrange: function(options) {
-        var that = this,
-            context = that._context;
+        var that = this;
+        var context = that._context;
 
         this._visible = true;
         context.tracker.attach(that._tracker, that, { index: that.index });
@@ -475,8 +472,8 @@ _extend(BarWrapper.prototype, {
     },
 
     getTooltipParameters: function() {
-        var that = this,
-            cosSin = _getCosAndSin((that._angle + that._context.baseAngle) / 2);
+        var that = this;
+        var cosSin = _getCosAndSin((that._angle + that._context.baseAngle) / 2);
         return {
             x: _round(that._context.x + (that._settings.outerRadius + that._settings.innerRadius) / 2 * cosSin.cos),
             y: _round(that._context.y - (that._settings.outerRadius + that._settings.innerRadius) / 2 * cosSin.sin),
@@ -487,10 +484,10 @@ _extend(BarWrapper.prototype, {
     },
 
     setAngle: function(angle) {
-        var that = this,
-            context = that._context,
-            settings = that._settings,
-            cosSin;
+        var that = this;
+        var context = that._context;
+        var settings = that._settings;
+        var cosSin;
 
         that._angle = angle;
         setAngles(settings, context.baseAngle, angle);
@@ -498,13 +495,13 @@ _extend(BarWrapper.prototype, {
         that._tracker.attr(settings);
         if(context.textEnabled) {
             cosSin = _getCosAndSin(angle);
-            var indent = context.textIndent,
-                radius = context.textRadius + indent,
-                x = context.x + radius * cosSin.cos,
-                y = context.y - radius * cosSin.sin,
-                halfWidth = context.textWidth * 0.5,
-                textHeight = context.textHeight,
-                textY = context.textY;
+            var indent = context.textIndent;
+            var radius = context.textRadius + indent;
+            var x = context.x + radius * cosSin.cos;
+            var y = context.y - radius * cosSin.sin;
+            var halfWidth = context.textWidth * 0.5;
+            var textHeight = context.textHeight;
+            var textY = context.textY;
 
             if(_abs(x - context.x) > indent) {
                 x += (x < context.x) ? -halfWidth : halfWidth;
@@ -515,8 +512,8 @@ _extend(BarWrapper.prototype, {
                 y -= (y < context.y) ? textY + textHeight : textY;
             }
 
-            var text = _formatValue(that._value, context.formatOptions, { index: that.index }),
-                visibility = text === "" ? "hidden" : null;
+            var text = _formatValue(that._value, context.formatOptions, { index: that.index });
+            var visibility = text === "" ? "hidden" : null;
             that._text.attr({
                 text: text,
                 x: x,
@@ -599,8 +596,8 @@ _extend(BarWrapper.prototype, {
         if(!this._visible) {
             return this;
         }
-        var that = this,
-            angle = this._processValue(this.getValue());
+        var that = this;
+        var angle = this._processValue(this.getValue());
         if(!compareFloats(that._angle, angle)) {
             that._start = that._angle;
             that._delta = angle - that._angle;

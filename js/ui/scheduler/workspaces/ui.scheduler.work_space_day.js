@@ -1,5 +1,5 @@
-var registerComponent = require("../../../core/component_registrator"),
-    SchedulerWorkSpace = require("./ui.scheduler.work_space.indicator");
+var registerComponent = require("../../../core/component_registrator");
+var SchedulerWorkSpace = require("./ui.scheduler.work_space.indicator");
 
 var DAY_CLASS = "dx-scheduler-work-space-day";
 

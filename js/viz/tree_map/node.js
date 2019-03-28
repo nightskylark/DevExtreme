@@ -16,8 +16,8 @@ _extend(Node.prototype, {
     },
 
     updateStyles: function() {
-        var that = this,
-            isNode = Number(that.isNode());
+        var that = this;
+        var isNode = Number(that.isNode());
 
         that.state = that._buildState(that.ctx.settings[isNode].state, !isNode && that.color && { fill: that.color });
     },

@@ -1,29 +1,23 @@
-var $ = require("../core/renderer"),
-    dataUtils = require("../core/element_data"),
-    wrapToArray = require("../core/utils/array").wrapToArray,
-    inArray = require("../core/utils/array").inArray,
-    iteratorUtils = require("../core/utils/iterator"),
-    contains = require("../core/utils/dom").contains,
-    registerEvent = require("./core/event_registrator"),
-    eventUtils = require("./utils"),
-    GestureEmitter = require("./gesture/emitter.gesture"),
-    registerEmitter = require("./core/emitter_registrator");
-
-
-var DRAG_START_EVENT = "dxdragstart",
-    DRAG_EVENT = "dxdrag",
-    DRAG_END_EVENT = "dxdragend",
-
-    DRAG_ENTER_EVENT = "dxdragenter",
-    DRAG_LEAVE_EVENT = "dxdragleave",
-    DROP_EVENT = "dxdrop",
-
-    DX_DRAG_EVENTS_COUNT_KEY = "dxDragEventsCount";
-
-
-var knownDropTargets = [],
-    knownDropTargetSelectors = [],
-    knownDropTargetConfigs = [];
+var $ = require("../core/renderer");
+var dataUtils = require("../core/element_data");
+var wrapToArray = require("../core/utils/array").wrapToArray;
+var inArray = require("../core/utils/array").inArray;
+var iteratorUtils = require("../core/utils/iterator");
+var contains = require("../core/utils/dom").contains;
+var registerEvent = require("./core/event_registrator");
+var eventUtils = require("./utils");
+var GestureEmitter = require("./gesture/emitter.gesture");
+var registerEmitter = require("./core/emitter_registrator");
+var DRAG_START_EVENT = "dxdragstart";
+var DRAG_EVENT = "dxdrag";
+var DRAG_END_EVENT = "dxdragend";
+var DRAG_ENTER_EVENT = "dxdragenter";
+var DRAG_LEAVE_EVENT = "dxdragleave";
+var DROP_EVENT = "dxdrop";
+var DX_DRAG_EVENTS_COUNT_KEY = "dxDragEventsCount";
+var knownDropTargets = [];
+var knownDropTargetSelectors = [];
+var knownDropTargetConfigs = [];
 
 var dropTargetRegistration = {
 
@@ -97,8 +91,8 @@ registerEvent(DRAG_LEAVE_EVENT, dropTargetRegistration);
 registerEvent(DROP_EVENT, dropTargetRegistration);
 
 var getItemDelegatedTargets = function($element) {
-    var dropTargetIndex = inArray($element.get(0), knownDropTargets),
-        dropTargetSelectors = knownDropTargetSelectors[dropTargetIndex];
+    var dropTargetIndex = inArray($element.get(0), knownDropTargets);
+    var dropTargetSelectors = knownDropTargetSelectors[dropTargetIndex];
 
     var $delegatedTargets = $element.find(dropTargetSelectors.join(", "));
     if(inArray(undefined, dropTargetSelectors) !== -1) {
@@ -156,8 +150,8 @@ var DragEmitter = GestureEmitter.inherit({
     },
 
     _move: function(e) {
-        var eventData = eventUtils.eventData(e),
-            dragOffset = this._calculateOffset(eventData);
+        var eventData = eventUtils.eventData(e);
+        var dragOffset = this._calculateOffset(eventData);
 
         e = this._fireEvent(DRAG_EVENT, e, {
             offset: dragOffset
@@ -207,8 +201,8 @@ var DragEmitter = GestureEmitter.inherit({
     },
 
     _processDropTargets: function(e) {
-        var target = this._findDropTarget(e),
-            sameTarget = target === this._currentDropTarget;
+        var target = this._findDropTarget(e);
+        var sameTarget = target === this._currentDropTarget;
 
         if(!sameTarget) {
             this._fireDropTargetEvent(e, DRAG_LEAVE_EVENT);
@@ -233,8 +227,8 @@ var DragEmitter = GestureEmitter.inherit({
     },
 
     _findDropTarget: function(e) {
-        var that = this,
-            result;
+        var that = this;
+        var result;
 
         iteratorUtils.each(knownDropTargets, function(_, target) {
             if(!that._checkDropTargetActive(target)) {

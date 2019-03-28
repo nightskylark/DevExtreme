@@ -37,10 +37,10 @@ RangeView.prototype = {
     constructor: RangeView,
 
     update: function(backgroundOption, backgroundTheme, canvas, isCompactMode, isAnimationEnabled, seriesDataSource) {
-        var renderer = this._params.renderer,
-            root = this._params.root,
-            canvasWidth = canvas.width - canvas.left,
-            seriesGroup;
+        var renderer = this._params.renderer;
+        var root = this._params.root;
+        var canvasWidth = canvas.width - canvas.left;
+        var seriesGroup;
 
         backgroundOption = backgroundOption || {};
         root.clear();

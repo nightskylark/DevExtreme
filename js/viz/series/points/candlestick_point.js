@@ -1,25 +1,23 @@
-var _extend = require("../../../core/utils/extend").extend,
-    symbolPoint = require("./symbol_point"),
-    barPoint = require("./bar_point"),
-
-    _math = Math,
-    _abs = _math.abs,
-    _min = _math.min,
-    _max = _math.max,
-    _round = _math.round,
-
-    DEFAULT_FINANCIAL_TRACKER_MARGIN = 2;
+var _extend = require("../../../core/utils/extend").extend;
+var symbolPoint = require("./symbol_point");
+var barPoint = require("./bar_point");
+var _math = Math;
+var _abs = _math.abs;
+var _min = _math.min;
+var _max = _math.max;
+var _round = _math.round;
+var DEFAULT_FINANCIAL_TRACKER_MARGIN = 2;
 
 module.exports = _extend({}, barPoint, {
     _getContinuousPoints: function(openCoord, closeCoord) {
-        var that = this,
-            x = that.x,
-            createPoint = that._options.rotated ? function(x, y) { return [y, x]; } : function(x, y) { return [x, y]; },
-            width = that.width,
-            highCoord = that.highY,
-            max = _abs(highCoord - openCoord) < _abs(highCoord - closeCoord) ? openCoord : closeCoord,
-            min = max === closeCoord ? openCoord : closeCoord,
-            points;
+        var that = this;
+        var x = that.x;
+        var createPoint = that._options.rotated ? function(x, y) { return [y, x]; } : function(x, y) { return [x, y]; };
+        var width = that.width;
+        var highCoord = that.highY;
+        var max = _abs(highCoord - openCoord) < _abs(highCoord - closeCoord) ? openCoord : closeCoord;
+        var min = max === closeCoord ? openCoord : closeCoord;
+        var points;
 
         if(min === max) {
             points = [].concat(createPoint(x, that.highY)).
@@ -45,9 +43,9 @@ module.exports = _extend({}, barPoint, {
     },
 
     _getCrockPoints: function(y) {
-        var that = this,
-            x = that.x,
-            createPoint = that._options.rotated ? function(x, y) { return [y, x]; } : function(x, y) { return [x, y]; };
+        var that = this;
+        var x = that.x;
+        var createPoint = that._options.rotated ? function(x, y) { return [y, x]; } : function(x, y) { return [x, y]; };
 
         return [].concat(createPoint(x, that.highY)).
             concat(createPoint(x, that.lowY)).
@@ -58,10 +56,10 @@ module.exports = _extend({}, barPoint, {
     },
 
     _getPoints: function() {
-        var that = this,
-            points,
-            closeCoord = that.closeY,
-            openCoord = that.openY;
+        var that = this;
+        var points;
+        var closeCoord = that.closeY;
+        var openCoord = that.openY;
 
         if(closeCoord !== null && openCoord !== null) {
             points = that._getContinuousPoints(openCoord, closeCoord);
@@ -87,8 +85,8 @@ module.exports = _extend({}, barPoint, {
     },
 
     _fillStyle: function() {
-        var that = this,
-            styles = that._options.styles;
+        var that = this;
+        var styles = that._options.styles;
         if(that._isReduction && that._isPositive) {
             that._styles = styles.reductionPositive;
         } else if(that._isReduction) {
@@ -105,9 +103,9 @@ module.exports = _extend({}, barPoint, {
     },
 
     correctCoordinates: function(correctOptions) {
-        var minWidth = this._getMinTrackerWidth(),
-            maxWidth = 10,
-            width = correctOptions.width;
+        var minWidth = this._getMinTrackerWidth();
+        var maxWidth = 10;
+        var width = correctOptions.width;
         width = width < minWidth ? minWidth : (width > maxWidth ? maxWidth : width);
 
         this.width = width + width % 2;
@@ -115,8 +113,8 @@ module.exports = _extend({}, barPoint, {
     },
 
     _getMarkerGroup: function(group) {
-        var that = this,
-            markerGroup;
+        var that = this;
+        var markerGroup;
 
         if(that._isReduction && that._isPositive) {
             markerGroup = group.reductionPositiveMarkersGroup;
@@ -136,14 +134,14 @@ module.exports = _extend({}, barPoint, {
     },
 
     _getSettingsForTracker: function() {
-        var that = this,
-            highY = that.highY,
-            lowY = that.lowY,
-            rotated = that._options.rotated,
-            x,
-            y,
-            width,
-            height;
+        var that = this;
+        var highY = that.highY;
+        var lowY = that.lowY;
+        var rotated = that._options.rotated;
+        var x;
+        var y;
+        var width;
+        var height;
 
         if(highY === lowY) {
             highY = rotated ? highY + DEFAULT_FINANCIAL_TRACKER_MARGIN : highY - DEFAULT_FINANCIAL_TRACKER_MARGIN;
@@ -171,12 +169,12 @@ module.exports = _extend({}, barPoint, {
     },
 
     _getGraphicBBox: function() {
-        var that = this,
-            rotated = that._options.rotated,
-            x = that.x,
-            width = that.width,
-            lowY = that.lowY,
-            highY = that.highY;
+        var that = this;
+        var rotated = that._options.rotated;
+        var x = that.x;
+        var width = that.width;
+        var lowY = that.lowY;
+        var highY = that.highY;
 
         return {
             x: !rotated ? x - _round(width / 2) : lowY,
@@ -189,18 +187,18 @@ module.exports = _extend({}, barPoint, {
     getTooltipParams: function(location) {
         var that = this;
         if(that.graphic) {
-            var x,
-                y,
-                minValue = _min(that.lowY, that.highY),
-                maxValue = _max(that.lowY, that.highY),
-                visibleArea = that._getVisibleArea(),
-                edgeLocation = location === 'edge',
-                rotated = that._options.rotated,
-                minVisible = rotated ? visibleArea.minX : visibleArea.minY,
-                maxVisible = rotated ? visibleArea.maxX : visibleArea.maxY,
-                min = _max(minVisible, minValue),
-                max = _min(maxVisible, maxValue),
-                center = min + (max - min) / 2;
+            var x;
+            var y;
+            var minValue = _min(that.lowY, that.highY);
+            var maxValue = _max(that.lowY, that.highY);
+            var visibleArea = that._getVisibleArea();
+            var edgeLocation = location === 'edge';
+            var rotated = that._options.rotated;
+            var minVisible = rotated ? visibleArea.minX : visibleArea.minY;
+            var maxVisible = rotated ? visibleArea.maxX : visibleArea.maxY;
+            var min = _max(minVisible, minValue);
+            var max = _min(maxVisible, maxValue);
+            var center = min + (max - min) / 2;
 
 
             if(rotated) {
@@ -224,11 +222,11 @@ module.exports = _extend({}, barPoint, {
     },
 
     _translate: function() {
-        var that = this,
-            rotated = that._options.rotated,
-            valTranslator = that._getValTranslator(),
-            centerValue,
-            x = that._getArgTranslator().translate(that.argument);
+        var that = this;
+        var rotated = that._options.rotated;
+        var valTranslator = that._getValTranslator();
+        var centerValue;
+        var x = that._getArgTranslator().translate(that.argument);
 
         that.vx = that.vy = that.x = x === null ? x : x + (that.xCorrection || 0);
         that.openY = that.openValue !== null ? valTranslator.translate(that.openValue) : null;
@@ -241,13 +239,13 @@ module.exports = _extend({}, barPoint, {
     },
 
     getCrosshairData: function(x, y) {
-        var that = this,
-            rotated = that._options.rotated,
-            origY = rotated ? x : y,
-            yValue,
-            argument = that.argument,
-            coords,
-            coord = "low";
+        var that = this;
+        var rotated = that._options.rotated;
+        var origY = rotated ? x : y;
+        var yValue;
+        var argument = that.argument;
+        var coords;
+        var coord = "low";
 
         if(_abs(that.lowY - origY) < _abs(that.closeY - origY)) {
             yValue = that.lowY;
@@ -288,9 +286,9 @@ module.exports = _extend({}, barPoint, {
     },
 
     _updateData: function(data) {
-        var that = this,
-            label = that._label,
-            reductionColor = this._options.reduction.color;
+        var that = this;
+        var label = that._label;
+        var reductionColor = this._options.reduction.color;
 
         that.value = that.initialValue = data.reductionValue;
         that.originalValue = data.value;
@@ -312,8 +310,8 @@ module.exports = _extend({}, barPoint, {
     },
 
     _updateMarker: function(animationEnabled, style, group) {
-        var that = this,
-            graphic = that.graphic;
+        var that = this;
+        var graphic = that.graphic;
 
         graphic.attr({ points: that._getPoints() }).smartAttr(style).sharp();
         group && graphic.append(that._getMarkerGroup(group));
@@ -341,13 +339,13 @@ module.exports = _extend({}, barPoint, {
     },
 
     _getFormatObject: function(tooltip) {
-        var that = this,
-            highValue = tooltip.formatValue(that.highValue),
-            openValue = tooltip.formatValue(that.openValue),
-            closeValue = tooltip.formatValue(that.closeValue),
-            lowValue = tooltip.formatValue(that.lowValue),
-            symbolMethods = symbolPoint,
-            formatObject = symbolMethods._getFormatObject.call(that, tooltip);
+        var that = this;
+        var highValue = tooltip.formatValue(that.highValue);
+        var openValue = tooltip.formatValue(that.openValue);
+        var closeValue = tooltip.formatValue(that.closeValue);
+        var lowValue = tooltip.formatValue(that.lowValue);
+        var symbolMethods = symbolPoint;
+        var formatObject = symbolMethods._getFormatObject.call(that, tooltip);
 
         return _extend({}, formatObject, {
             valueText: "h: " + highValue + (openValue !== "" ? " o: " + openValue : "") + (closeValue !== "" ? " c: " + closeValue : "") + " l: " + lowValue,

@@ -1,18 +1,15 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    support = require("../core/utils/support"),
-    devices = require("../core/devices"),
-    Class = require("../core/class"),
-    registerEvent = require("./core/event_registrator"),
-    eventUtils = require("./utils"),
-    holdEvent = require("./hold");
-
-var CONTEXTMENU_NAMESPACE = "dxContexMenu",
-
-    CONTEXTMENU_NAMESPACED_EVENT_NAME = eventUtils.addNamespace("contextmenu", CONTEXTMENU_NAMESPACE),
-    HOLD_NAMESPACED_EVENT_NAME = eventUtils.addNamespace(holdEvent.name, CONTEXTMENU_NAMESPACE),
-
-    CONTEXTMENU_EVENT_NAME = "dxcontextmenu";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var support = require("../core/utils/support");
+var devices = require("../core/devices");
+var Class = require("../core/class");
+var registerEvent = require("./core/event_registrator");
+var eventUtils = require("./utils");
+var holdEvent = require("./hold");
+var CONTEXTMENU_NAMESPACE = "dxContexMenu";
+var CONTEXTMENU_NAMESPACED_EVENT_NAME = eventUtils.addNamespace("contextmenu", CONTEXTMENU_NAMESPACE);
+var HOLD_NAMESPACED_EVENT_NAME = eventUtils.addNamespace(holdEvent.name, CONTEXTMENU_NAMESPACE);
+var CONTEXTMENU_EVENT_NAME = "dxcontextmenu";
 
 
 var ContextMenu = Class.inherit({

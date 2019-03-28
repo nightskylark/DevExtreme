@@ -1,14 +1,13 @@
-var $ = require("../../core/renderer"),
-    window = require("../../core/utils/window").getWindow(),
-    CalendarStrategy = require("./ui.date_box.strategy.calendar"),
-    TimeView = require("./ui.time_view"),
-    dateLocalization = require("../../localization/date"),
-    extend = require("../../core/utils/extend").extend,
-    Box = require("../box"),
-    uiDateUtils = require("./ui.date_utils");
-
-var SHRINK_VIEW_SCREEN_WIDTH = 573,
-    DATEBOX_ADAPTIVITY_MODE_CLASS = "dx-datebox-adaptivity-mode";
+var $ = require("../../core/renderer");
+var window = require("../../core/utils/window").getWindow();
+var CalendarStrategy = require("./ui.date_box.strategy.calendar");
+var TimeView = require("./ui.time_view");
+var dateLocalization = require("../../localization/date");
+var extend = require("../../core/utils/extend").extend;
+var Box = require("../box");
+var uiDateUtils = require("./ui.date_utils");
+var SHRINK_VIEW_SCREEN_WIDTH = 573;
+var DATEBOX_ADAPTIVITY_MODE_CLASS = "dx-datebox-adaptivity-mode";
 
 var CalendarWithTimeStrategy = CalendarStrategy.inherit({
 
@@ -58,8 +57,8 @@ var CalendarWithTimeStrategy = CalendarStrategy.inherit({
     },
 
     isAdaptivityChanged: function() {
-        var isAdaptiveMode = this._isShrinkView(),
-            currentAdaptiveMode = this._currentAdaptiveMode;
+        var isAdaptiveMode = this._isShrinkView();
+        var currentAdaptiveMode = this._currentAdaptiveMode;
 
         if(isAdaptiveMode !== currentAdaptiveMode) {
             this._currentAdaptiveMode = isAdaptiveMode;
@@ -134,16 +133,17 @@ var CalendarWithTimeStrategy = CalendarStrategy.inherit({
     },
 
     popupConfig: function(popupConfig) {
-        var calendarPopupConfig = this.callBase(popupConfig),
-            result = extend(calendarPopupConfig, {
-                onShowing: (function() {
-                    if(this._box.option("_layoutStrategy") === "fallback") {
-                        var clockMinWidth = this._getPopup().$content().find(".dx-timeview-clock").css("minWidth");
+        var calendarPopupConfig = this.callBase(popupConfig);
 
-                        this._timeView.$element().css("maxWidth", clockMinWidth);
-                    }
-                }).bind(this),
-            });
+        var result = extend(calendarPopupConfig, {
+            onShowing: (function() {
+                if(this._box.option("_layoutStrategy") === "fallback") {
+                    var clockMinWidth = this._getPopup().$content().find(".dx-timeview-clock").css("minWidth");
+
+                    this._timeView.$element().css("maxWidth", clockMinWidth);
+                }
+            }).bind(this),
+        });
 
         return result;
     },
@@ -153,13 +153,14 @@ var CalendarWithTimeStrategy = CalendarStrategy.inherit({
     },
 
     _attachTabHandler: function() {
-        var dateBox = this.dateBox,
-            handler = function(e) {
-                if(e.shiftKey) {
-                    e.preventDefault();
-                    dateBox.focus();
-                }
-            };
+        var dateBox = this.dateBox;
+
+        var handler = function(e) {
+            if(e.shiftKey) {
+                e.preventDefault();
+                dateBox.focus();
+            }
+        };
 
         this._timeView._hourBox.registerKeyHandler("tab", handler);
     },
@@ -174,8 +175,8 @@ var CalendarWithTimeStrategy = CalendarStrategy.inherit({
     },
 
     getValue: function() {
-        var date = this._widget.option("value"),
-            time = this._timeView.option("value");
+        var date = this._widget.option("value");
+        var time = this._timeView.option("value");
 
         date = date ? new Date(date) : new Date();
         date.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());

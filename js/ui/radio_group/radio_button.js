@@ -1,19 +1,18 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    devices = require("../../core/devices"),
-    extend = require("../../core/utils/extend").extend,
-    inkRipple = require("../widget/utils.ink_ripple"),
-    registerComponent = require("../../core/component_registrator"),
-    Editor = require("../editor/editor"),
-    eventUtils = require("../../events/utils"),
-    themes = require("../themes"),
-    clickEvent = require("../../events/click");
-
-var RADIO_BUTTON_CLASS = "dx-radiobutton",
-    RADIO_BUTTON_ICON_CLASS = "dx-radiobutton-icon",
-    RADIO_BUTTON_ICON_DOT_CLASS = "dx-radiobutton-icon-dot",
-    RADIO_BUTTON_CHECKED_CLASS = "dx-radiobutton-checked",
-    RADIO_BUTTON_ICON_CHECKED_CLASS = "dx-radiobutton-icon-checked";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var devices = require("../../core/devices");
+var extend = require("../../core/utils/extend").extend;
+var inkRipple = require("../widget/utils.ink_ripple");
+var registerComponent = require("../../core/component_registrator");
+var Editor = require("../editor/editor");
+var eventUtils = require("../../events/utils");
+var themes = require("../themes");
+var clickEvent = require("../../events/click");
+var RADIO_BUTTON_CLASS = "dx-radiobutton";
+var RADIO_BUTTON_ICON_CLASS = "dx-radiobutton-icon";
+var RADIO_BUTTON_ICON_DOT_CLASS = "dx-radiobutton-icon-dot";
+var RADIO_BUTTON_CHECKED_CLASS = "dx-radiobutton-checked";
+var RADIO_BUTTON_ICON_CHECKED_CLASS = "dx-radiobutton-icon-checked";
 
 /**
 * @name dxRadioButton

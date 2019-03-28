@@ -1,16 +1,16 @@
-var _each = require("../../core/utils/iterator").each,
-    _max = Math.max,
-    _min = Math.min,
-    _round = Math.round,
-    registerComponent = require("../../core/component_registrator"),
-    extend = require("../../core/utils/extend").extend,
-    objectUtils = require("../../core/utils/object"),
-    dxBaseGauge = require("./base_gauge").dxBaseGauge,
-    dxGauge = require("./common").dxGauge,
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-    linearIndicatorsModule = require("./linear_indicators"),
-    createIndicatorCreator = require("./common").createIndicatorCreator,
-    LinearRangeContainer = require("./linear_range_container");
+var _each = require("../../core/utils/iterator").each;
+var _max = Math.max;
+var _min = Math.min;
+var _round = Math.round;
+var registerComponent = require("../../core/component_registrator");
+var extend = require("../../core/utils/extend").extend;
+var objectUtils = require("../../core/utils/object");
+var dxBaseGauge = require("./base_gauge").dxBaseGauge;
+var dxGauge = require("./common").dxGauge;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var linearIndicatorsModule = require("./linear_indicators");
+var createIndicatorCreator = require("./common").createIndicatorCreator;
+var LinearRangeContainer = require("./linear_range_container");
 
 var dxLinearGauge = dxGauge.inherit({
     _rootClass: 'dxg-linear-gauge',
@@ -37,14 +37,14 @@ var dxLinearGauge = dxGauge.inherit({
     },
 
     _updateScaleTickIndent: function(scaleOptions) {
-        var indentFromTick = scaleOptions.label.indentFromTick,
-            length = scaleOptions.tick.length,
-            textParams = this._scale.measureLabels(extend({}, this._canvas)),
-            verticalTextCorrection = scaleOptions.isHorizontal ? textParams.height + textParams.y : 0,
-            isIndentPositive = indentFromTick > 0,
-            orientation,
-            textCorrection,
-            tickCorrection;
+        var indentFromTick = scaleOptions.label.indentFromTick;
+        var length = scaleOptions.tick.length;
+        var textParams = this._scale.measureLabels(extend({}, this._canvas));
+        var verticalTextCorrection = scaleOptions.isHorizontal ? textParams.height + textParams.y : 0;
+        var isIndentPositive = indentFromTick > 0;
+        var orientation;
+        var textCorrection;
+        var tickCorrection;
 
         if(scaleOptions.isHorizontal) {
             orientation = isIndentPositive ? { center: 0.5, top: 0, bottom: 1 } : { center: 0.5, top: 1, bottom: 0 };
@@ -62,10 +62,10 @@ var dxLinearGauge = dxGauge.inherit({
     },
 
     _shiftScale: function(layout, scaleOptions) {
-        var that = this,
-            canvas = extend({}, that._canvas),
-            isHorizontal = scaleOptions.isHorizontal,
-            scale = that._scale;
+        var that = this;
+        var canvas = extend({}, that._canvas);
+        var isHorizontal = scaleOptions.isHorizontal;
+        var scale = that._scale;
 
         canvas[isHorizontal ? "left" : "top"] = that._area[isHorizontal ? "startCoord" : "endCoord"];
         canvas[isHorizontal ? "right" : "bottom"] = canvas[isHorizontal ? "width" : "height"] - that._area[isHorizontal ? "endCoord" : "startCoord"];
@@ -75,11 +75,11 @@ var dxLinearGauge = dxGauge.inherit({
     },
 
     _setupCodomain: function() {
-        var that = this,
-            geometry = that.option('geometry') || {},
-            vertical = _normalizeEnum(geometry.orientation) === 'vertical',
-            initialStartCoord = -100,
-            initialEndCoord = 100;
+        var that = this;
+        var geometry = that.option('geometry') || {};
+        var vertical = _normalizeEnum(geometry.orientation) === 'vertical';
+        var initialStartCoord = -100;
+        var initialEndCoord = 100;
 
         that._area = {
             vertical: vertical,
@@ -129,13 +129,13 @@ var dxLinearGauge = dxGauge.inherit({
     },
 
     _measureMainElements: function(elements, scaleMeasurement) {
-        var that = this,
-            x = that._area.x,
-            y = that._area.y,
-            minBound = 1000,
-            maxBound = 0,
-            indent = 0,
-            scale = that._scale;
+        var that = this;
+        var x = that._area.x;
+        var y = that._area.y;
+        var minBound = 1000;
+        var maxBound = 0;
+        var indent = 0;
+        var scale = that._scale;
 
         _each(elements.concat(scale), function(_, element) {
             var bounds = element.measure ? element.measure({ x: x + element.getOffset(), y: y + element.getOffset() }) : scaleMeasurement;
@@ -147,11 +147,11 @@ var dxLinearGauge = dxGauge.inherit({
     },
 
     _applyMainLayout: function(elements, scaleMeasurement) {
-        var that = this,
-            measurements = that._measureMainElements(elements, scaleMeasurement),
-            area = that._area,
-            rect,
-            offset;
+        var that = this;
+        var measurements = that._measureMainElements(elements, scaleMeasurement);
+        var area = that._area;
+        var rect;
+        var offset;
 
         if(area.vertical) {
             rect = selectRectBySizes(that._innerRect, { width: measurements.maxBound - measurements.minBound });
@@ -175,9 +175,9 @@ var dxLinearGauge = dxGauge.inherit({
     },
 
     _getApproximateScreenRange: function() {
-        var that = this,
-            area = that._area,
-            s = area.vertical ? that._canvas.height : that._canvas.width;
+        var that = this;
+        var area = that._area;
+        var s = area.vertical ? that._canvas.height : that._canvas.width;
 
         s > area.totalSize && (s = area.totalSize);
         s = s * 0.8;
@@ -197,8 +197,8 @@ var dxLinearGauge = dxGauge.inherit({
 });
 
 function selectRectBySizes(srcRect, sizes, margins) {
-    var rect = extend({}, srcRect),
-        step;
+    var rect = extend({}, srcRect);
+    var step;
     margins = margins || {};
     if(sizes) {
         rect.left += margins.left || 0;

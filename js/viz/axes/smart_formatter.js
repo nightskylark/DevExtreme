@@ -12,13 +12,13 @@ const formats = ["fixedPoint", "thousands", "millions", "billions", "trillions",
 const dateUnitIntervals = ['millisecond', 'second', 'minute', 'hour', 'day', 'month', 'year'];
 
 function getDatesDifferences(prevDate, curDate, nextDate, tickFormat) {
-    var prevDifferences,
-        nextDifferences,
-        dateUnitInterval,
-        tickFormatIndex,
-        dateUnitsLength = dateUnitIntervals.length,
-        i,
-        j;
+    var prevDifferences;
+    var nextDifferences;
+    var dateUnitInterval;
+    var tickFormatIndex;
+    var dateUnitsLength = dateUnitIntervals.length;
+    var i;
+    var j;
 
     if(tickFormat === "week") {
         tickFormat = "day";
@@ -69,9 +69,9 @@ function getDatesDifferences(prevDate, curDate, nextDate, tickFormat) {
 }
 
 function isDateTimeStart(date, dateUnitInterval) {
-    var unitNumbers = [date.getMilliseconds(), date.getSeconds(), date.getMinutes(), date.getHours(), date.getDate(), date.getMonth()],
-        unitIndex = dateUnitIntervals.indexOf(dateUnitInterval),
-        i;
+    var unitNumbers = [date.getMilliseconds(), date.getSeconds(), date.getMinutes(), date.getHours(), date.getDate(), date.getMonth()];
+    var unitIndex = dateUnitIntervals.indexOf(dateUnitInterval);
+    var i;
     for(i = 0; i < unitIndex; i++) {
         if((i === 4 && unitNumbers[i] !== 1) || (i !== 4 && unitNumbers[i] !== 0)) {
             return false;
@@ -103,10 +103,10 @@ function getNoZeroIndex(str) {
 }
 
 function getTransitionTickIndex(ticks, value) {
-    var i,
-        curDiff,
-        minDiff,
-        nearestTickIndex = 0;
+    var i;
+    var curDiff;
+    var minDiff;
+    var nearestTickIndex = 0;
 
     minDiff = abs(value - ticks[0]);
     for(i = 1; i < ticks.length; i++) {
@@ -135,24 +135,24 @@ function createFormat(type) {
 }
 
 export function smartFormatter(tick, options) {
-    var tickInterval = options.tickInterval,
-        tickIntervalIndex,
-        tickIndex,
-        actualIndex,
-        stringTick = abs(tick).toString(),
-        precision = 0,
-        typeFormat,
-        offset = 0,
-        separatedTickInterval,
-        indexOfFormat = 0,
-        indexOfTick = -1,
-        datesDifferences,
-        format = options.labelOptions.format,
-        ticks = options.ticks,
-        log10Tick,
-        prevDateIndex,
-        nextDateIndex,
-        isLogarithmic = options.type === "logarithmic";
+    var tickInterval = options.tickInterval;
+    var tickIntervalIndex;
+    var tickIndex;
+    var actualIndex;
+    var stringTick = abs(tick).toString();
+    var precision = 0;
+    var typeFormat;
+    var offset = 0;
+    var separatedTickInterval;
+    var indexOfFormat = 0;
+    var indexOfTick = -1;
+    var datesDifferences;
+    var format = options.labelOptions.format;
+    var ticks = options.ticks;
+    var log10Tick;
+    var prevDateIndex;
+    var nextDateIndex;
+    var isLogarithmic = options.type === "logarithmic";
 
     if(ticks.length === 1 && ticks.indexOf(tick) === 0 && !isDefined(tickInterval)) {
         tickInterval = abs(tick) >= 1 ? 1 : adjust(1 - abs(tick), tick);

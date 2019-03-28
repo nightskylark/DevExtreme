@@ -1,20 +1,19 @@
-var $ = require("../core/renderer"),
-    windowUtils = require("../core/utils/window"),
-    navigator = windowUtils.getNavigator(),
-    support = require("../core/utils/support"),
-    themes = require("./themes"),
-    extend = require("../core/utils/extend").extend,
-    devices = require("../core/devices"),
-    registerComponent = require("../core/component_registrator"),
-    Widget = require("./widget/ui.widget");
-
-var LOADINDICATOR_CLASS = "dx-loadindicator",
-    LOADINDICATOR_WRAPPER_CLASS = "dx-loadindicator-wrapper",
-    LOADINDICATOR_CONTENT_CLASS = "dx-loadindicator-content",
-    LOADINDICATOR_ICON_CLASS = "dx-loadindicator-icon",
-    LOADINDICATOR_SEGMENT_CLASS = "dx-loadindicator-segment",
-    LOADINDICATOR_SEGMENT_INNER_CLASS = "dx-loadindicator-segment-inner",
-    LOADINDICATOR_IMAGE_CLASS = "dx-loadindicator-image";
+var $ = require("../core/renderer");
+var windowUtils = require("../core/utils/window");
+var navigator = windowUtils.getNavigator();
+var support = require("../core/utils/support");
+var themes = require("./themes");
+var extend = require("../core/utils/extend").extend;
+var devices = require("../core/devices");
+var registerComponent = require("../core/component_registrator");
+var Widget = require("./widget/ui.widget");
+var LOADINDICATOR_CLASS = "dx-loadindicator";
+var LOADINDICATOR_WRAPPER_CLASS = "dx-loadindicator-wrapper";
+var LOADINDICATOR_CONTENT_CLASS = "dx-loadindicator-content";
+var LOADINDICATOR_ICON_CLASS = "dx-loadindicator-icon";
+var LOADINDICATOR_SEGMENT_CLASS = "dx-loadindicator-segment";
+var LOADINDICATOR_SEGMENT_INNER_CLASS = "dx-loadindicator-segment-inner";
+var LOADINDICATOR_IMAGE_CLASS = "dx-loadindicator-image";
 
 /**
 * @name dxLoadIndicator
@@ -84,8 +83,8 @@ var LoadIndicator = Widget.inherit({
         return this.callBase().concat([
             {
                 device: function() {
-                    var realDevice = devices.real(),
-                        obsoleteAndroid = realDevice.platform === "android" && !(/chrome/i.test(navigator.userAgent));
+                    var realDevice = devices.real();
+                    var obsoleteAndroid = realDevice.platform === "android" && !(/chrome/i.test(navigator.userAgent));
                     return obsoleteAndroid;
                 },
                 options: {
@@ -199,8 +198,8 @@ var LoadIndicator = Widget.inherit({
             return;
         }
 
-        var width = this.option("width"),
-            height = this.option("height");
+        var width = this.option("width");
+        var height = this.option("height");
 
         if(width || height) {
             width = this.$element().width();

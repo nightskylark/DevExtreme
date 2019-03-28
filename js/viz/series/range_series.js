@@ -1,13 +1,13 @@
 // there are rangebar, rangearea
-var extend = require("../../core/utils/extend").extend,
-    _extend = extend,
-    _isDefined = require("../../core/utils/type").isDefined,
-    _map = require("../core/utils").map,
-    _noop = require("../../core/utils/common").noop,
+var extend = require("../../core/utils/extend").extend;
 
-    scatterSeries = require("./scatter_series").chart,
-    barSeries = require("./bar_series").chart.bar,
-    areaSeries = require("./area_series").chart.area;
+var _extend = extend;
+var _isDefined = require("../../core/utils/type").isDefined;
+var _map = require("../core/utils").map;
+var _noop = require("../../core/utils/common").noop;
+var scatterSeries = require("./scatter_series").chart;
+var barSeries = require("./bar_series").chart.bar;
+var areaSeries = require("./area_series").chart.area;
 
 exports.chart = {};
 
@@ -114,8 +114,8 @@ exports.chart["rangearea"] = _extend({}, areaSeries, {
     },
 
     _prepareSegment: function(points, rotated) {
-        var processedPoints = this._processSinglePointsAreaSegment(points, rotated),
-            processedMinPointsCoords = _map(processedPoints, function(pt) { return pt.getCoords(true); });
+        var processedPoints = this._processSinglePointsAreaSegment(points, rotated);
+        var processedMinPointsCoords = _map(processedPoints, function(pt) { return pt.getCoords(true); });
 
         return {
             line: processedPoints,
@@ -137,17 +137,17 @@ exports.chart["rangearea"] = _extend({}, areaSeries, {
     },
 
     _drawElement: function(segment, group) {
-        var that = this,
-            drawnElement = areaSeries._drawElement.call(that, segment, group);
+        var that = this;
+        var drawnElement = areaSeries._drawElement.call(that, segment, group);
         drawnElement.bottomLine = that._bordersGroup && that._createBorderElement(segment.bottomLine, { "stroke-width": that._styles.normal.border["stroke-width"] }).append(that._bordersGroup);
 
         return drawnElement;
     },
 
     _applyStyle: function(style) {
-        var that = this,
-            elementsGroup = that._elementsGroup,
-            bordersGroup = that._bordersGroup;
+        var that = this;
+        var elementsGroup = that._elementsGroup;
+        var bordersGroup = that._bordersGroup;
 
         elementsGroup && elementsGroup.smartAttr(style.elements);
         bordersGroup && bordersGroup.attr(style.border);
@@ -158,8 +158,8 @@ exports.chart["rangearea"] = _extend({}, areaSeries, {
     },
 
     _updateElement: function(element, segment, animate, complete) {
-        var bottomLineParams = { points: segment.bottomLine },
-            bottomBorderElement = element.bottomLine;
+        var bottomLineParams = { points: segment.bottomLine };
+        var bottomBorderElement = element.bottomLine;
 
         areaSeries._updateElement.apply(this, arguments);
 

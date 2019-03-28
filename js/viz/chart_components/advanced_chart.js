@@ -1,25 +1,23 @@
-var extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    iteratorModule = require("../../core/utils/iterator"),
-    rangeModule = require("../translators/range"),
-    DEFAULT_AXIS_NAME = "defaultAxisName",
-    axisModule = require("../axes/base_axis"),
-    seriesFamilyModule = require("../core/series_family"),
-    BaseChart = require("./base_chart").BaseChart,
-    crosshairModule = require("./crosshair"),
-
-    _isArray = Array.isArray,
-    _isDefined = require("../../core/utils/type").isDefined,
-    _each = iteratorModule.each,
-    _reverseEach = iteratorModule.reverseEach,
-    _noop = require("../../core/utils/common").noop,
-    _extend = extend,
-    vizUtils = require("../core/utils"),
-    _map = vizUtils.map,
-    mergeMarginOptions = vizUtils.mergeMarginOptions,
-
-    FONT = "font",
-    COMMON_AXIS_SETTINGS = "commonAxisSettings";
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var iteratorModule = require("../../core/utils/iterator");
+var rangeModule = require("../translators/range");
+var DEFAULT_AXIS_NAME = "defaultAxisName";
+var axisModule = require("../axes/base_axis");
+var seriesFamilyModule = require("../core/series_family");
+var BaseChart = require("./base_chart").BaseChart;
+var crosshairModule = require("./crosshair");
+var _isArray = Array.isArray;
+var _isDefined = require("../../core/utils/type").isDefined;
+var _each = iteratorModule.each;
+var _reverseEach = iteratorModule.reverseEach;
+var _noop = require("../../core/utils/common").noop;
+var _extend = extend;
+var vizUtils = require("../core/utils");
+var _map = vizUtils.map;
+var mergeMarginOptions = vizUtils.mergeMarginOptions;
+var FONT = "font";
+var COMMON_AXIS_SETTINGS = "commonAxisSettings";
 
 function prepareAxis(axisOptions) {
     return _isArray(axisOptions) ? axisOptions.length === 0 ? [{}] : axisOptions : [axisOptions];
@@ -33,8 +31,8 @@ function processBubbleMargin(opt, bubbleSize) {
 }
 
 function estimateBubbleSize(size, panesCount, maxSize, rotated) {
-    var width = rotated ? size.width / panesCount : size.width,
-        height = rotated ? size.height : size.height / panesCount;
+    var width = rotated ? size.width / panesCount : size.width;
+    var height = rotated ? size.height : size.height / panesCount;
 
     return Math.min(width, height) * maxSize;
 }
@@ -52,8 +50,8 @@ var AdvancedChart = BaseChart.inherit({
     _fontFields: [COMMON_AXIS_SETTINGS + ".label." + FONT, COMMON_AXIS_SETTINGS + ".title." + FONT],
 
     _dispose: function() {
-        var that = this,
-            disposeObjectsInArray = this._disposeObjectsInArray;
+        var that = this;
+        var disposeObjectsInArray = this._disposeObjectsInArray;
 
         that.callBase();
 
@@ -74,9 +72,9 @@ var AdvancedChart = BaseChart.inherit({
     },
 
     _getCrosshairMargins: function() {
-        var crosshairOptions = this._getCrosshairOptions() || {},
-            crosshairEnabled = crosshairOptions.enabled,
-            margins = crosshairModule.getMargins();
+        var crosshairOptions = this._getCrosshairOptions() || {};
+        var crosshairEnabled = crosshairOptions.enabled;
+        var margins = crosshairModule.getMargins();
 
         return {
             x: crosshairEnabled && crosshairOptions.horizontalLine.visible ? margins.x : 0,
@@ -121,8 +119,8 @@ var AdvancedChart = BaseChart.inherit({
         });
 
         _each(valueAxesOptions, (priority, axisOptions) => {
-            var axisPanes = [],
-                name = axisOptions.name;
+            var axisPanes = [];
+            var name = axisOptions.name;
 
             if(name && inArray(name, axisNames) !== -1) {
                 that._incidentOccurred("E2102");
@@ -213,8 +211,8 @@ var AdvancedChart = BaseChart.inherit({
     },
 
     _prepareStackPoints: function(singleSeries, stackPoints) {
-        var points = singleSeries.getPoints(),
-            stackName = singleSeries.getStackName();
+        var points = singleSeries.getPoints();
+        var stackName = singleSeries.getStackName();
 
         _each(points, function(_, point) {
             var argument = point.argument;
@@ -254,8 +252,8 @@ var AdvancedChart = BaseChart.inherit({
     },
 
     _disposeAxes: function() {
-        var that = this,
-            disposeObjectsInArray = that._disposeObjectsInArray;
+        var that = this;
+        var disposeObjectsInArray = that._disposeObjectsInArray;
         disposeObjectsInArray.call(that, "_argumentAxes");
         disposeObjectsInArray.call(that, "_valueAxes");
     },
@@ -283,8 +281,8 @@ var AdvancedChart = BaseChart.inherit({
     },
 
     _renderTrackers: function() {
-        var that = this,
-            i;
+        var that = this;
+        var i;
         for(i = 0; i < that.series.length; ++i) {
             that.series[i].drawTrackers();
         }
@@ -299,22 +297,25 @@ var AdvancedChart = BaseChart.inherit({
     },
 
     _processSeriesFamilies: function() {
-        var that = this,
-            types = [],
-            families = [],
-            paneSeries,
-            themeManager = that._themeManager,
-            negativesAsZeroes = themeManager.getOptions("negativesAsZeroes"),
-            negativesAsZeros = themeManager.getOptions("negativesAsZeros"), // misspelling case
-            familyOptions = {
-                equalBarWidth: themeManager.getOptions("equalBarWidth"),
-                minBubbleSize: themeManager.getOptions("minBubbleSize"),
-                maxBubbleSize: themeManager.getOptions("maxBubbleSize"),
-                barWidth: themeManager.getOptions("barWidth"),
-                barGroupPadding: themeManager.getOptions("barGroupPadding"),
-                barGroupWidth: themeManager.getOptions("barGroupWidth"),
-                negativesAsZeroes: _isDefined(negativesAsZeroes) ? negativesAsZeroes : negativesAsZeros
-            };
+        var that = this;
+        var types = [];
+        var families = [];
+        var paneSeries;
+        var themeManager = that._themeManager;
+        var negativesAsZeroes = themeManager.getOptions("negativesAsZeroes");
+
+        var // misspelling case
+        negativesAsZeros = themeManager.getOptions("negativesAsZeros");
+
+        var familyOptions = {
+            equalBarWidth: themeManager.getOptions("equalBarWidth"),
+            minBubbleSize: themeManager.getOptions("minBubbleSize"),
+            maxBubbleSize: themeManager.getOptions("maxBubbleSize"),
+            barWidth: themeManager.getOptions("barWidth"),
+            barGroupPadding: themeManager.getOptions("barGroupPadding"),
+            barGroupWidth: themeManager.getOptions("barGroupWidth"),
+            negativesAsZeroes: _isDefined(negativesAsZeroes) ? negativesAsZeroes : negativesAsZeros
+        };
 
         if(that.seriesFamilies && that.seriesFamilies.length) {
             _each(that.seriesFamilies, function(_, family) {
@@ -356,9 +357,9 @@ var AdvancedChart = BaseChart.inherit({
     },
 
     _updateSeriesDimensions: function() {
-        var that = this,
-            i,
-            seriesFamilies = that.seriesFamilies || [];
+        var that = this;
+        var i;
+        var seriesFamilies = that.seriesFamilies || [];
 
         for(i = 0; i < seriesFamilies.length; i++) {
             var family = seriesFamilies[i];
@@ -419,8 +420,9 @@ var AdvancedChart = BaseChart.inherit({
                     rotated: !!rotated,
                     pane: valueAxis.pane,
                     axis: valueAxis.name
-                }),
-                groupSeries = series.filter(series => series.getValueAxis() === valueAxis);
+                });
+
+            var groupSeries = series.filter(series => series.getValueAxis() === valueAxis);
 
             groupSeries.forEach(series => {
                 var seriesRange = series.getRangeData();
@@ -452,8 +454,8 @@ var AdvancedChart = BaseChart.inherit({
     },
 
     _getGroupsData: function() {
-        var that = this,
-            groups = [];
+        var that = this;
+        var groups = [];
 
         that._valueAxes.forEach(function(axis) {
             groups.push({

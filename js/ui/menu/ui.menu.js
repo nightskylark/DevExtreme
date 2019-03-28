@@ -1,56 +1,50 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    registerComponent = require("../../core/component_registrator"),
-    commonUtils = require("../../core/utils/common"),
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    each = require("../../core/utils/iterator").each,
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    getElementMaxHeightByWindow = require("../overlay/utils").getElementMaxHeightByWindow,
-    eventUtils = require("../../events/utils"),
-    pointerEvents = require("../../events/pointer"),
-    hoverEvents = require("../../events/hover"),
-    MenuBase = require("../context_menu/ui.menu_base"),
-    Overlay = require("../overlay"),
-    Submenu = require("./ui.submenu"),
-    Button = require("../button"),
-    TreeView = require("../tree_view");
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var registerComponent = require("../../core/component_registrator");
+var commonUtils = require("../../core/utils/common");
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var each = require("../../core/utils/iterator").each;
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var getElementMaxHeightByWindow = require("../overlay/utils").getElementMaxHeightByWindow;
+var eventUtils = require("../../events/utils");
+var pointerEvents = require("../../events/pointer");
+var hoverEvents = require("../../events/hover");
+var MenuBase = require("../context_menu/ui.menu_base");
+var Overlay = require("../overlay");
+var Submenu = require("./ui.submenu");
+var Button = require("../button");
+var TreeView = require("../tree_view");
+var DX_MENU_CLASS = "dx-menu";
+var DX_MENU_VERTICAL_CLASS = DX_MENU_CLASS + "-vertical";
+var DX_MENU_HORIZONTAL_CLASS = DX_MENU_CLASS + "-horizontal";
+var DX_MENU_ITEM_CLASS = DX_MENU_CLASS + "-item";
+var DX_MENU_ITEMS_CONTAINER_CLASS = DX_MENU_CLASS + "-items-container";
+var DX_MENU_ITEM_EXPANDED_CLASS = DX_MENU_ITEM_CLASS + "-expanded";
+var DX_CONTEXT_MENU_CLASS = "dx-context-menu";
+var DX_CONTEXT_MENU_CONTAINER_BORDER_CLASS = DX_CONTEXT_MENU_CLASS + "-container-border";
+var DX_CONTEXT_MENU_CONTENT_DELIMITER_CLASS = "dx-context-menu-content-delimiter";
+var DX_SUBMENU_CLASS = "dx-submenu";
+var DX_STATE_DISABLED_CLASS = "dx-state-disabled";
+var DX_STATE_HOVER_CLASS = "dx-state-hover";
+var DX_STATE_ACTIVE_CLASS = "dx-state-active";
+var DX_ADAPTIVE_MODE_CLASS = DX_MENU_CLASS + "-adaptive-mode";
+var DX_ADAPTIVE_HAMBURGER_BUTTON_CLASS = DX_MENU_CLASS + "-hamburger-button";
+var DX_ADAPTIVE_MODE_OVERLAY_WRAPPER_CLASS = DX_ADAPTIVE_MODE_CLASS + "-overlay-wrapper";
+var FOCUS_UP = "up";
+var FOCUS_DOWN = "down";
+var FOCUS_LEFT = "left";
+var FOCUS_RIGHT = "right";
+var SHOW_SUBMENU_OPERATION = "showSubmenu";
+var NEXTITEM_OPERATION = "nextItem";
+var PREVITEM_OPERATION = "prevItem";
 
-var DX_MENU_CLASS = "dx-menu",
-    DX_MENU_VERTICAL_CLASS = DX_MENU_CLASS + "-vertical",
-    DX_MENU_HORIZONTAL_CLASS = DX_MENU_CLASS + "-horizontal",
-    DX_MENU_ITEM_CLASS = DX_MENU_CLASS + "-item",
-    DX_MENU_ITEMS_CONTAINER_CLASS = DX_MENU_CLASS + "-items-container",
-    DX_MENU_ITEM_EXPANDED_CLASS = DX_MENU_ITEM_CLASS + "-expanded",
-    DX_CONTEXT_MENU_CLASS = "dx-context-menu",
-    DX_CONTEXT_MENU_CONTAINER_BORDER_CLASS = DX_CONTEXT_MENU_CLASS + "-container-border",
-    DX_CONTEXT_MENU_CONTENT_DELIMITER_CLASS = "dx-context-menu-content-delimiter",
-    DX_SUBMENU_CLASS = "dx-submenu",
+var DEFAULT_DELAY = {
+    "show": 50,
+    "hide": 300
+};
 
-    DX_STATE_DISABLED_CLASS = "dx-state-disabled",
-    DX_STATE_HOVER_CLASS = "dx-state-hover",
-    DX_STATE_ACTIVE_CLASS = "dx-state-active",
-
-    DX_ADAPTIVE_MODE_CLASS = DX_MENU_CLASS + "-adaptive-mode",
-    DX_ADAPTIVE_HAMBURGER_BUTTON_CLASS = DX_MENU_CLASS + "-hamburger-button",
-    DX_ADAPTIVE_MODE_OVERLAY_WRAPPER_CLASS = DX_ADAPTIVE_MODE_CLASS + "-overlay-wrapper",
-
-
-    FOCUS_UP = "up",
-    FOCUS_DOWN = "down",
-    FOCUS_LEFT = "left",
-    FOCUS_RIGHT = "right",
-
-    SHOW_SUBMENU_OPERATION = "showSubmenu",
-    NEXTITEM_OPERATION = "nextItem",
-    PREVITEM_OPERATION = "prevItem",
-
-    DEFAULT_DELAY = {
-        "show": 50,
-        "hide": 300
-    },
-
-    ACTIONS = ["onSubmenuShowing", "onSubmenuShown", "onSubmenuHiding", "onSubmenuHidden", "onItemContextMenu", "onItemClick", "onSelectionChanged"];
+var ACTIONS = ["onSubmenuShowing", "onSubmenuShown", "onSubmenuHiding", "onSubmenuHidden", "onItemContextMenu", "onItemClick", "onSelectionChanged"];
 
 var Menu = MenuBase.inherit({
 
@@ -207,16 +201,16 @@ var Menu = MenuBase.inherit({
     },
 
     _itemElements: function() {
-        var rootMenuElements = this.callBase(),
-            submenuElements = this._submenuItemElements();
+        var rootMenuElements = this.callBase();
+        var submenuElements = this._submenuItemElements();
 
         return rootMenuElements.add(submenuElements);
     },
 
     _submenuItemElements: function() {
-        var elements = [],
-            itemSelector = "." + DX_MENU_ITEM_CLASS,
-            currentSubmenu = this._submenus.length && this._submenus[0];
+        var elements = [];
+        var itemSelector = "." + DX_MENU_ITEM_CLASS;
+        var currentSubmenu = this._submenus.length && this._submenus[0];
 
         if(currentSubmenu && currentSubmenu.itemsContainer()) {
             elements = currentSubmenu.itemsContainer().find(itemSelector);
@@ -234,13 +228,13 @@ var Menu = MenuBase.inherit({
     },
 
     _moveFocus: function(location) {
-        var $items = this._getAvailableItems(),
-            isMenuHorizontal = this._isMenuHorizontal(),
-            argument,
-            $activeItem = this._getActiveItem(true),
-            operation,
-            navigationAction,
-            $newTarget;
+        var $items = this._getAvailableItems();
+        var isMenuHorizontal = this._isMenuHorizontal();
+        var argument;
+        var $activeItem = this._getActiveItem(true);
+        var operation;
+        var navigationAction;
+        var $newTarget;
 
         switch(location) {
             case FOCUS_UP:
@@ -387,8 +381,8 @@ var Menu = MenuBase.inherit({
     },
 
     _toggleAdaptiveMode: function(state) {
-        var $menuItemsContainer = this.$element().find("." + DX_MENU_HORIZONTAL_CLASS),
-            $adaptiveElements = this.$element().find("." + DX_ADAPTIVE_MODE_CLASS);
+        var $menuItemsContainer = this.$element().find("." + DX_MENU_HORIZONTAL_CLASS);
+        var $adaptiveElements = this.$element().find("." + DX_ADAPTIVE_MODE_CLASS);
 
         if(state) {
             this._hideVisibleSubmenu();
@@ -422,8 +416,8 @@ var Menu = MenuBase.inherit({
     },
 
     _getAdaptiveOverlayOptions: function() {
-        var rtl = this.option("rtlEnabled"),
-            position = rtl ? "right" : "left";
+        var rtl = this.option("rtlEnabled");
+        var position = rtl ? "right" : "left";
 
         return {
             maxHeight: function() {
@@ -450,15 +444,17 @@ var Menu = MenuBase.inherit({
     },
 
     _getTreeViewOptions: function() {
-        var menuOptions = {},
-            that = this,
-            optionsToTransfer = [
-                "rtlEnabled", "width", "accessKey", "activeStateEnabled", "animation", "dataSource",
-                "disabled", "displayExpr", "displayExpr", "focusStateEnabled", "hint", "hoverStateEnabled",
-                "itemsExpr", "items", "itemTemplate", "selectedExpr",
-                "selectionMode", "tabIndex", "visible"
-            ],
-            actionsToTransfer = ["onItemContextMenu", "onSelectionChanged"];
+        var menuOptions = {};
+        var that = this;
+
+        var optionsToTransfer = [
+            "rtlEnabled", "width", "accessKey", "activeStateEnabled", "animation", "dataSource",
+            "disabled", "displayExpr", "displayExpr", "focusStateEnabled", "hint", "hoverStateEnabled",
+            "itemsExpr", "items", "itemTemplate", "selectedExpr",
+            "selectionMode", "tabIndex", "visible"
+        ];
+
+        var actionsToTransfer = ["onItemContextMenu", "onSelectionChanged"];
 
         each(optionsToTransfer, function(_, option) {
             menuOptions[option] = that.option(option);
@@ -551,16 +547,17 @@ var Menu = MenuBase.inherit({
         var $submenuContainer = $("<div>").addClass(DX_CONTEXT_MENU_CLASS)
             .appendTo($rootItem);
 
-        var childKeyboardProcessor = this._keyboardProcessor && this._keyboardProcessor.attachChildProcessor(),
-            items = this._getChildNodes(node),
-            result = this._createComponent($submenuContainer, Submenu, extend(this._getSubmenuOptions(), {
-                _keyboardProcessor: childKeyboardProcessor,
-                _dataAdapter: this._dataAdapter,
-                _parentKey: node.internalFields.key,
-                items: items,
-                onHoverStart: this._clearTimeouts.bind(this),
-                position: this.getSubmenuPosition($rootItem)
-            }));
+        var childKeyboardProcessor = this._keyboardProcessor && this._keyboardProcessor.attachChildProcessor();
+        var items = this._getChildNodes(node);
+
+        var result = this._createComponent($submenuContainer, Submenu, extend(this._getSubmenuOptions(), {
+            _keyboardProcessor: childKeyboardProcessor,
+            _dataAdapter: this._dataAdapter,
+            _parentKey: node.internalFields.key,
+            items: items,
+            onHoverStart: this._clearTimeouts.bind(this),
+            position: this.getSubmenuPosition($rootItem)
+        }));
 
         this._attachSubmenuHandlers($rootItem, result);
 
@@ -568,8 +565,8 @@ var Menu = MenuBase.inherit({
     },
 
     _getSubmenuOptions: function() {
-        var $submenuTarget = $("<div>"),
-            isMenuHorizontal = this._isMenuHorizontal();
+        var $submenuTarget = $("<div>");
+        var isMenuHorizontal = this._isMenuHorizontal();
 
         return {
             itemTemplate: this.option("itemTemplate"),
@@ -614,10 +611,10 @@ var Menu = MenuBase.inherit({
     },
 
     _moveMainMenuFocus: function(direction) {
-        var $items = this._getAvailableItems(),
-            itemCount = $items.length,
-            $currentItem = $items.filter("." + DX_MENU_ITEM_EXPANDED_CLASS).eq(0),
-            itemIndex = $items.index($currentItem);
+        var $items = this._getAvailableItems();
+        var itemCount = $items.length;
+        var $currentItem = $items.filter("." + DX_MENU_ITEM_EXPANDED_CLASS).eq(0);
+        var itemIndex = $items.index($currentItem);
 
         this._hideSubmenu(this._visibleSubmenu);
 
@@ -635,9 +632,9 @@ var Menu = MenuBase.inherit({
     },
 
     _nestedItemOnSelectionChangedHandler: function(args) {
-        var selectedItem = args.addedItems.length && args.addedItems[0],
-            submenu = Submenu.getInstance(args.element),
-            onSelectionChanged = this._actions["onSelectionChanged"];
+        var selectedItem = args.addedItems.length && args.addedItems[0];
+        var submenu = Submenu.getInstance(args.element);
+        var onSelectionChanged = this._actions["onSelectionChanged"];
 
         onSelectionChanged(args);
 
@@ -647,13 +644,13 @@ var Menu = MenuBase.inherit({
     },
 
     _clearSelectionInSubmenus: function(item, targetSubmenu) {
-        var that = this,
-            cleanAllSubmenus = !arguments.length;
+        var that = this;
+        var cleanAllSubmenus = !arguments.length;
 
         each(this._submenus, function(index, submenu) {
-            var $submenu = submenu._itemContainer(),
-                isOtherItem = !$submenu.is(targetSubmenu && targetSubmenu._itemContainer()),
-                $selectedItem = $submenu.find("." + that._selectedItemClass());
+            var $submenu = submenu._itemContainer();
+            var isOtherItem = !$submenu.is(targetSubmenu && targetSubmenu._itemContainer());
+            var $selectedItem = $submenu.find("." + that._selectedItemClass());
 
             if((isOtherItem && $selectedItem.length) || cleanAllSubmenus) {
                 var selectedItemData;
@@ -688,10 +685,10 @@ var Menu = MenuBase.inherit({
     },
 
     _attachSubmenuHandlers: function($rootItem, submenu) {
-        var that = this,
-            $submenuOverlayContent = submenu.getOverlayContent(),
-            submenus = $submenuOverlayContent.find("." + DX_SUBMENU_CLASS),
-            submenuMouseLeaveName = eventUtils.addNamespace(hoverEvents.end, this.NAME + "_submenu");
+        var that = this;
+        var $submenuOverlayContent = submenu.getOverlayContent();
+        var submenus = $submenuOverlayContent.find("." + DX_SUBMENU_CLASS);
+        var submenuMouseLeaveName = eventUtils.addNamespace(hoverEvents.end, this.NAME + "_submenu");
 
         submenu.option({
             onShowing: this._submenuOnShowingHandler.bind(this, $rootItem, submenu),
@@ -727,8 +724,8 @@ var Menu = MenuBase.inherit({
     },
 
     _submenuOnHidingHandler: function($rootItem, submenu, eventArgs) {
-        var $border = $rootItem.children("." + DX_CONTEXT_MENU_CONTAINER_BORDER_CLASS),
-            args = eventArgs;
+        var $border = $rootItem.children("." + DX_CONTEXT_MENU_CONTAINER_BORDER_CLASS);
+        var args = eventArgs;
 
         args.rootItem = getPublicElement($rootItem);
         args.submenu = submenu;
@@ -751,9 +748,9 @@ var Menu = MenuBase.inherit({
     },
 
     _submenuMouseLeaveHandler: function($rootItem, eventArgs) {
-        var that = this,
-            target = $(eventArgs.relatedTarget).parents("." + DX_CONTEXT_MENU_CLASS)[0],
-            contextMenu = that._getSubmenuByRootElement($rootItem).getOverlayContent()[0];
+        var that = this;
+        var target = $(eventArgs.relatedTarget).parents("." + DX_CONTEXT_MENU_CLASS)[0];
+        var contextMenu = that._getSubmenuByRootElement($rootItem).getOverlayContent()[0];
 
         if(that.option("hideSubmenuOnMouseLeave") && target !== contextMenu) {
             that._clearTimeouts();
@@ -766,8 +763,8 @@ var Menu = MenuBase.inherit({
             return;
         }
 
-        var isRootItemHovered = $(this._visibleSubmenu.$element().context).hasClass(DX_STATE_HOVER_CLASS),
-            isSubmenuItemHovered = this._visibleSubmenu.getOverlayContent().find("." + DX_STATE_HOVER_CLASS).length;
+        var isRootItemHovered = $(this._visibleSubmenu.$element().context).hasClass(DX_STATE_HOVER_CLASS);
+        var isSubmenuItemHovered = this._visibleSubmenu.getOverlayContent().find("." + DX_STATE_HOVER_CLASS).length;
 
         if(!isSubmenuItemHovered && !isRootItemHovered) {
             this._visibleSubmenu.hide();
@@ -786,13 +783,14 @@ var Menu = MenuBase.inherit({
     },
 
     getSubmenuPosition: function($rootItem) {
-        var isHorizontalMenu = this._isMenuHorizontal(),
-            submenuDirection = this.option("submenuDirection").toLowerCase(),
-            rtlEnabled = this.option("rtlEnabled"),
-            submenuPosition = {
-                collision: "flip",
-                of: $rootItem
-            };
+        var isHorizontalMenu = this._isMenuHorizontal();
+        var submenuDirection = this.option("submenuDirection").toLowerCase();
+        var rtlEnabled = this.option("rtlEnabled");
+
+        var submenuPosition = {
+            collision: "flip",
+            of: $rootItem
+        };
 
         switch(submenuDirection) {
             case "leftortop":
@@ -825,8 +823,8 @@ var Menu = MenuBase.inherit({
     },
 
     _itemPointerDownHandler: function(e) {
-        var $target = $(e.target),
-            $closestItem = $target.closest(this._itemElements());
+        var $target = $(e.target);
+        var $closestItem = $target.closest(this._itemElements());
 
         if($closestItem.hasClass("dx-menu-item-has-submenu")) {
             this.option("focusedElement", null);
@@ -837,10 +835,10 @@ var Menu = MenuBase.inherit({
     },
 
     _hoverStartHandler: function(e) {
-        var mouseMoveEventName = eventUtils.addNamespace(pointerEvents.move, this.NAME),
-            $item = this._getItemElementByEventArgs(e),
-            node = this._dataAdapter.getNodeByItem(this._getItemData($item)),
-            isSelectionActive = typeUtils.isDefined(e.buttons) && e.buttons === 1 || !typeUtils.isDefined(e.buttons) && e.which === 1;
+        var mouseMoveEventName = eventUtils.addNamespace(pointerEvents.move, this.NAME);
+        var $item = this._getItemElementByEventArgs(e);
+        var node = this._dataAdapter.getNodeByItem(this._getItemData($item));
+        var isSelectionActive = typeUtils.isDefined(e.buttons) && e.buttons === 1 || !typeUtils.isDefined(e.buttons) && e.which === 1;
 
         if(this._isItemDisabled($item)) {
             return;
@@ -866,9 +864,9 @@ var Menu = MenuBase.inherit({
     },
 
     _hoverEndHandler: function(eventArg) {
-        var that = this,
-            $item = that._getItemElementByEventArgs(eventArg),
-            relatedTarget = $(eventArg.relatedTarget);
+        var that = this;
+        var $item = that._getItemElementByEventArgs(eventArg);
+        var relatedTarget = $(eventArg.relatedTarget);
 
         that.callBase(eventArg);
         that._clearTimeouts();
@@ -927,8 +925,8 @@ var Menu = MenuBase.inherit({
             return;
         }
 
-        var that = this,
-            $item = $(e.currentTarget);
+        var that = this;
+        var $item = $(e.currentTarget);
 
         if(!typeUtils.isDefined(that._showSubmenuTimer)) {
             return;
@@ -963,8 +961,8 @@ var Menu = MenuBase.inherit({
     },
 
     _updateSubmenuVisibilityOnClick: function(actionArgs) {
-        var args = actionArgs.args.length && actionArgs.args[0],
-            currentSubmenu;
+        var args = actionArgs.args.length && actionArgs.args[0];
+        var currentSubmenu;
 
         if(!args || this._disabledGetter(args.itemData)) {
             return;
@@ -992,7 +990,6 @@ var Menu = MenuBase.inherit({
             this._showSubmenu($itemElement);
             return;
         }
-
     },
 
     _optionChanged: function(args) {

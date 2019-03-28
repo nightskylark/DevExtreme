@@ -37,8 +37,8 @@ function canvasToRect(canvas) {
 }
 
 function checkCoords(rect, coords) {
-    var x = coords.x,
-        y = coords.y;
+    var x = coords.x;
+    var y = coords.y;
     return x >= rect.x && x <= (rect.width + rect.x)
         && y >= rect.y && y <= (rect.height + rect.y);
 }
@@ -62,8 +62,8 @@ function sortAxes(axes, onlyAxisToNotify) {
 module.exports = {
     name: "zoom_and_pan",
     init: function() {
-        const chart = this,
-            renderer = this._renderer;
+        const chart = this;
+        const renderer = this._renderer;
 
         function cancelEvent(e) {
             if(e.originalEvent) {
@@ -227,10 +227,10 @@ module.exports = {
 
         function calcCenterForPinch(e) {
             const rootOffset = renderer.getRootOffset();
-            let x1 = e.pointers[0].pageX,
-                x2 = e.pointers[1].pageX,
-                y1 = e.pointers[0].pageY,
-                y2 = e.pointers[1].pageY;
+            let x1 = e.pointers[0].pageX;
+            let x2 = e.pointers[1].pageX;
+            let y1 = e.pointers[0].pageY;
+            let y2 = e.pointers[1].pageY;
             return {
                 x: _min(x1, x2) + _abs(x2 - x1) / 2 - rootOffset.left,
                 y: _min(y1, y2) + _abs(y2 - y1) / 2 - rootOffset.top
@@ -312,11 +312,11 @@ module.exports = {
                 if(actionData.action === "zoom") {
                     preventDefaults(e);
 
-                    const curCanvas = actionData.curAxisRect,
-                        startCoords = actionData.startCoords,
-                        curCoords = getPointerCoord(curCanvas, e),
-                        zoomArg = options.argumentAxis.zoom,
-                        zoomVal = options.valueAxis.zoom;
+                    const curCanvas = actionData.curAxisRect;
+                    const startCoords = actionData.startCoords;
+                    const curCoords = getPointerCoord(curCanvas, e);
+                    const zoomArg = options.argumentAxis.zoom;
+                    const zoomVal = options.valueAxis.zoom;
 
                     const rect = {
                         x: _min(startCoords.x, curCoords.x),

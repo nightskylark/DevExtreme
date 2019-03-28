@@ -14,32 +14,29 @@ import { equalByValue } from "../../core/utils/common";
 import { each } from "../../core/utils/iterator";
 import { extend } from "../../core/utils/extend";
 
-var COLUMN_HEADERS_VIEW = "columnHeadersView",
-    ROWS_VIEW = "rowsView",
-    FOOTER_VIEW = "footerView",
-    COLUMN_VIEWS = [COLUMN_HEADERS_VIEW, ROWS_VIEW, FOOTER_VIEW],
-
-    ADAPTIVE_NAMESPACE = "dxDataGridAdaptivity",
-    HIDDEN_COLUMNS_WIDTH = "adaptiveHidden",
-    ADAPTIVE_ROW_TYPE = "detailAdaptive",
-
-    FORM_ITEM_CONTENT_CLASS = "dx-field-item-content",
-    FORM_ITEM_MODIFIED = "dx-item-modified",
-
-    HIDDEN_COLUMN_CLASS = "hidden-column",
-    ADAPTIVE_COLUMN_BUTTON_CLASS = "adaptive-more",
-    ADAPTIVE_COLUMN_NAME_CLASS = "dx-command-adaptive",
-    COMMAND_ADAPTIVE_HIDDEN_CLASS = "dx-command-adaptive-hidden",
-    ADAPTIVE_DETAIL_ROW_CLASS = "dx-adaptive-detail-row",
-    ADAPTIVE_ITEM_TEXT_CLASS = "dx-adaptive-item-text",
-    MASTER_DETAIL_CELL_CLASS = "dx-master-detail-cell",
-    LAST_DATA_CELL_CLASS = "dx-last-data-cell",
-    ADAPTIVE_COLUMN_NAME = "adaptive",
-    EDIT_MODE_BATCH = "batch",
-    EDIT_MODE_ROW = "row",
-    EDIT_MODE_FORM = "form",
-    EDIT_MODE_POPUP = "popup",
-    REVERT_TOOLTIP_CLASS = "revert-tooltip";
+var COLUMN_HEADERS_VIEW = "columnHeadersView";
+var ROWS_VIEW = "rowsView";
+var FOOTER_VIEW = "footerView";
+var COLUMN_VIEWS = [COLUMN_HEADERS_VIEW, ROWS_VIEW, FOOTER_VIEW];
+var ADAPTIVE_NAMESPACE = "dxDataGridAdaptivity";
+var HIDDEN_COLUMNS_WIDTH = "adaptiveHidden";
+var ADAPTIVE_ROW_TYPE = "detailAdaptive";
+var FORM_ITEM_CONTENT_CLASS = "dx-field-item-content";
+var FORM_ITEM_MODIFIED = "dx-item-modified";
+var HIDDEN_COLUMN_CLASS = "hidden-column";
+var ADAPTIVE_COLUMN_BUTTON_CLASS = "adaptive-more";
+var ADAPTIVE_COLUMN_NAME_CLASS = "dx-command-adaptive";
+var COMMAND_ADAPTIVE_HIDDEN_CLASS = "dx-command-adaptive-hidden";
+var ADAPTIVE_DETAIL_ROW_CLASS = "dx-adaptive-detail-row";
+var ADAPTIVE_ITEM_TEXT_CLASS = "dx-adaptive-item-text";
+var MASTER_DETAIL_CELL_CLASS = "dx-master-detail-cell";
+var LAST_DATA_CELL_CLASS = "dx-last-data-cell";
+var ADAPTIVE_COLUMN_NAME = "adaptive";
+var EDIT_MODE_BATCH = "batch";
+var EDIT_MODE_ROW = "row";
+var EDIT_MODE_FORM = "form";
+var EDIT_MODE_POPUP = "popup";
+var REVERT_TOOLTIP_CLASS = "revert-tooltip";
 
 function getColumnId(that, column) {
     return that._columnsController.getColumnId(column);
@@ -50,9 +47,9 @@ function getDataCellElements($row) {
 }
 
 function adaptiveCellTemplate(container, options) {
-    var $adaptiveColumnButton,
-        $container = $(container),
-        adaptiveColumnsController = options.component.getController("adaptiveColumns");
+    var $adaptiveColumnButton;
+    var $container = $(container);
+    var adaptiveColumnsController = options.component.getController("adaptiveColumns");
 
     if(options.rowType === "data") {
         $adaptiveColumnButton = $("<span>").addClass(adaptiveColumnsController.addWidgetPrefix(ADAPTIVE_COLUMN_BUTTON_CLASS));
@@ -72,23 +69,25 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _isItemModified: function(item, cellOptions) {
-        var columnIndex = this._columnsController.getVisibleIndex(item.column.index),
-            rowIndex = this._dataController.getRowIndexByKey(cellOptions.key),
-            row = this._dataController.items()[rowIndex + 1];
+        var columnIndex = this._columnsController.getVisibleIndex(item.column.index);
+        var rowIndex = this._dataController.getRowIndexByKey(cellOptions.key);
+        var row = this._dataController.items()[rowIndex + 1];
 
         return row && row.modifiedValues && typeUtils.isDefined(row.modifiedValues[columnIndex]);
     },
 
     _renderFormViewTemplate: function(item, cellOptions, $container) {
-        var that = this,
-            column = item.column,
-            focusAction = that.createAction(function() {
-                eventsEngine.trigger($container, clickEvent.name);
-            }),
-            container,
-            value = column.calculateCellValue(cellOptions.data),
-            displayValue = gridCoreUtils.getDisplayValue(column, value, cellOptions.data, cellOptions.rowType),
-            text = gridCoreUtils.formatValue(displayValue, column);
+        var that = this;
+        var column = item.column;
+
+        var focusAction = that.createAction(function() {
+            eventsEngine.trigger($container, clickEvent.name);
+        });
+
+        var container;
+        var value = column.calculateCellValue(cellOptions.data);
+        var displayValue = gridCoreUtils.getDisplayValue(column, value, cellOptions.data, cellOptions.rowType);
+        var text = gridCoreUtils.formatValue(displayValue, column);
 
         if(column.allowEditing && that.option("useKeyboard")) {
             $container.attr("tabIndex", that.option("tabIndex"));
@@ -123,15 +122,15 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _getTemplate: function(item, cellOptions) {
-        var that = this,
-            column = item.column,
-            editingController = this.getController("editing");
+        var that = this;
+        var column = item.column;
+        var editingController = this.getController("editing");
 
         return function(options, container) {
-            var isItemEdited = that._isItemEdited(item),
-                $container = $(container),
-                columnIndex = that._columnsController.getVisibleIndex(column.visibleIndex),
-                templateOptions = extend({}, cellOptions);
+            var isItemEdited = that._isItemEdited(item);
+            var $container = $(container);
+            var columnIndex = that._columnsController.getVisibleIndex(column.visibleIndex);
+            var templateOptions = extend({}, cellOptions);
 
             templateOptions.value = cellOptions.row.values[columnIndex];
 
@@ -156,9 +155,9 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
 
     _isVisibleColumnsValid: function(visibleColumns) {
         var getCommandColumnsCount = function() {
-            var result = 0,
-                j,
-                visibleColumn;
+            var result = 0;
+            var j;
+            var visibleColumn;
 
             for(j = 0; j < visibleColumns.length; j++) {
                 visibleColumn = visibleColumns[j];
@@ -181,8 +180,8 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _calculatePercentWidths: function(widths, visibleColumns) {
-        var that = this,
-            percentWidths = 0;
+        var that = this;
+        var percentWidths = 0;
 
         visibleColumns.forEach(function(item, index) {
             if(widths[index] !== HIDDEN_COLUMNS_WIDTH) {
@@ -204,9 +203,9 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _getAverageColumnsWidth: function(containerWidth, columns, columnsCanFit) {
-        var that = this,
-            fixedColumnsWidth = 0,
-            columnsWithoutFixedWidthCount = 0;
+        var that = this;
+        var fixedColumnsWidth = 0;
+        var columnsWithoutFixedWidthCount = 0;
 
         columns.forEach(function(column) {
             if(!that._isColumnHidden(column)) {
@@ -229,11 +228,11 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _calculateColumnWidth: function(column, containerWidth, contentColumns, columnsCanFit) {
-        var columnId = getColumnId(this, column),
-            widthOption = this._columnsController.columnOption(columnId, "width"),
-            bestFitWidth = this._columnsController.columnOption(columnId, "bestFitWidth"),
-            columnsCount = contentColumns.length,
-            colWidth;
+        var columnId = getColumnId(this, column);
+        var widthOption = this._columnsController.columnOption(columnId, "width");
+        var bestFitWidth = this._columnsController.columnOption(columnId, "bestFitWidth");
+        var columnsCount = contentColumns.length;
+        var colWidth;
 
         if(widthOption && widthOption !== "auto") {
             if(this._isPercentWidth(widthOption)) {
@@ -257,18 +256,18 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _calculatePercentWidth: function(options) {
-        var columnFitted = (options.visibleIndex < options.columnsCount - 1) && options.columnsCanFit,
-            partialWidth = options.containerWidth * parseFloat(options.columnWidth) / 100,
-            resultWidth = options.columnsCanFit && (partialWidth < options.bestFitWidth) ? options.bestFitWidth : partialWidth;
+        var columnFitted = (options.visibleIndex < options.columnsCount - 1) && options.columnsCanFit;
+        var partialWidth = options.containerWidth * parseFloat(options.columnWidth) / 100;
+        var resultWidth = options.columnsCanFit && (partialWidth < options.bestFitWidth) ? options.bestFitWidth : partialWidth;
 
         return columnFitted ? options.containerWidth * parseFloat(options.columnWidth) / 100 : resultWidth;
     },
 
     _getNotTruncatedColumnWidth: function(column, containerWidth, contentColumns, columnsCanFit) {
-        var columnId = getColumnId(this, column),
-            widthOption = this._columnsController.columnOption(columnId, "width"),
-            bestFitWidth = this._columnsController.columnOption(columnId, "bestFitWidth"),
-            colWidth;
+        var columnId = getColumnId(this, column);
+        var widthOption = this._columnsController.columnOption(columnId, "width");
+        var bestFitWidth = this._columnsController.columnOption(columnId, "bestFitWidth");
+        var colWidth;
 
         if(widthOption && widthOption !== "auto" && !this._isPercentWidth(widthOption)) {
             return widthOption;
@@ -290,9 +289,9 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _getCommandColumnsWidth: function() {
-        var that = this,
-            columns = that._columnsController.getVisibleColumns(),
-            colWidth = 0;
+        var that = this;
+        var columns = that._columnsController.getVisibleColumns();
+        var colWidth = 0;
 
         each(columns, function(index, column) {
             if(column.index < 0 || column.command) {
@@ -314,8 +313,8 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
                 return true;
             }
         } else {
-            var rowIndex = this._dataController.getRowIndexByKey(this._dataController.adaptiveExpandedKey()) + 1,
-                columnIndex = this._columnsController.getVisibleIndex(item.column.index);
+            var rowIndex = this._dataController.getRowIndexByKey(this._dataController.adaptiveExpandedKey()) + 1;
+            var columnIndex = this._columnsController.getVisibleIndex(item.column.index);
 
             return this._editingController.isEditCell(rowIndex, columnIndex);
         }
@@ -336,8 +335,8 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _getAdaptiveColumnVisibleIndex: function(visibleColumns) {
-        var i,
-            column;
+        var i;
+        var column;
 
         for(i = 0; i < visibleColumns.length; i++) {
             column = visibleColumns[i];
@@ -356,9 +355,9 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _removeCssClassFromColumn: function(cssClassName) {
-        var i,
-            view,
-            $cells;
+        var i;
+        var view;
+        var $cells;
 
         for(i = 0; i < COLUMN_VIEWS.length; i++) {
             view = this.getView(COLUMN_VIEWS[i]);
@@ -387,13 +386,13 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     _addCssClassToViewColumn: function(view, cssClassName, visibleIndex) {
-        var viewName = view.name,
-            rowsCount,
-            rowIndex,
-            $cellElement,
-            currentVisibleIndex,
-            column = this._columnsController.getVisibleColumns()[visibleIndex],
-            editFormRowIndex = this._editingController && this._editingController.getEditFormRowIndex();
+        var viewName = view.name;
+        var rowsCount;
+        var rowIndex;
+        var $cellElement;
+        var currentVisibleIndex;
+        var column = this._columnsController.getVisibleColumns()[visibleIndex];
+        var editFormRowIndex = this._editingController && this._editingController.getEditFormRowIndex();
 
         if(view && view.isVisible() && column) {
             rowsCount = view.getRowsCount();
@@ -417,25 +416,27 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     hideRedundantColumns: function(resultWidths, visibleColumns, hiddenQueue) {
-        var that = this,
-            visibleColumn;
+        var that = this;
+        var visibleColumn;
 
         this._hiddenColumns = [];
 
         if(that._isVisibleColumnsValid(visibleColumns) && hiddenQueue.length) {
-            var totalWidth = 0,
-                percentWidths,
-                $rootElement = that.component.$element(),
-                rootElementWidth = $rootElement.width() - that._getCommandColumnsWidth(),
-                getVisibleContentColumns = function() {
-                    return visibleColumns.filter(item => !item.command && this._hiddenColumns.filter(i => i.dataField === item.dataField).length === 0);
-                }.bind(this),
-                visibleContentColumns = getVisibleContentColumns(),
-                contentColumnsCount = visibleContentColumns.length,
-                columnsCanFit,
-                i,
-                hasHiddenColumns,
-                needHideColumn;
+            var totalWidth = 0;
+            var percentWidths;
+            var $rootElement = that.component.$element();
+            var rootElementWidth = $rootElement.width() - that._getCommandColumnsWidth();
+
+            var getVisibleContentColumns = function() {
+                return visibleColumns.filter(item => !item.command && this._hiddenColumns.filter(i => i.dataField === item.dataField).length === 0);
+            }.bind(this);
+
+            var visibleContentColumns = getVisibleContentColumns();
+            var contentColumnsCount = visibleContentColumns.length;
+            var columnsCanFit;
+            var i;
+            var hasHiddenColumns;
+            var needHideColumn;
 
             do {
                 needHideColumn = false;
@@ -447,11 +448,11 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
                 for(i = 0; i < visibleColumns.length; i++) {
                     visibleColumn = visibleColumns[i];
 
-                    var columnWidth = that._getNotTruncatedColumnWidth(visibleColumn, rootElementWidth, visibleContentColumns, columnsCanFit),
-                        columnId = getColumnId(that, visibleColumn),
-                        widthOption = that._columnsController.columnOption(columnId, "width"),
-                        minWidth = that._columnsController.columnOption(columnId, "minWidth"),
-                        columnBestFitWidth = that._columnsController.columnOption(columnId, "bestFitWidth");
+                    var columnWidth = that._getNotTruncatedColumnWidth(visibleColumn, rootElementWidth, visibleContentColumns, columnsCanFit);
+                    var columnId = getColumnId(that, visibleColumn);
+                    var widthOption = that._columnsController.columnOption(columnId, "width");
+                    var minWidth = that._columnsController.columnOption(columnId, "minWidth");
+                    var columnBestFitWidth = that._columnsController.columnOption(columnId, "bestFitWidth");
 
                     if(resultWidths[i] === HIDDEN_COLUMNS_WIDTH) {
                         hasHiddenColumns = true;
@@ -474,8 +475,8 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
                 needHideColumn = needHideColumn || totalWidth > $rootElement.width();
 
                 if(needHideColumn) {
-                    var column = hiddenQueue.pop(),
-                        visibleIndex = that._columnsController.getVisibleIndex(column.index);
+                    var column = hiddenQueue.pop();
+                    var visibleIndex = that._columnsController.getVisibleIndex(column.index);
 
                     rootElementWidth += that._calculateColumnWidth(column, rootElementWidth, visibleContentColumns, columnsCanFit);
 
@@ -496,9 +497,9 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     getItemContentByColumnIndex: function(visibleColumnIndex) {
-        var $itemContent,
-            i,
-            item;
+        var $itemContent;
+        var i;
+        var item;
 
         for(i = 0; i < this._$itemContents.length; i++) {
             $itemContent = this._$itemContents.eq(i);
@@ -516,13 +517,15 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     createFormByHiddenColumns: function(container, options) {
-        var that = this,
-            $container = $(container),
-            userFormOptions = {
-                items: that._getFormItemsByHiddenColumns(that._hiddenColumns),
-                formID: "dx-" + new Guid()
-            },
-            defaultFormOptions = themes.isMaterial() ? { colCount: 2 } : {};
+        var that = this;
+        var $container = $(container);
+
+        var userFormOptions = {
+            items: that._getFormItemsByHiddenColumns(that._hiddenColumns),
+            formID: "dx-" + new Guid()
+        };
+
+        var defaultFormOptions = themes.isMaterial() ? { colCount: 2 } : {};
 
         this.executeAction("onAdaptiveDetailRowPreparing", { formOptions: userFormOptions });
 
@@ -563,12 +566,14 @@ var AdaptiveColumnsController = modules.ViewController.inherit({
     },
 
     updateHidingQueue: function(columns) {
-        var that = this,
-            hideableColumns = columns.filter(function(column) {
-                return column.visible && !column.type && !column.fixed && !(typeUtils.isDefined(column.groupIndex) && column.groupIndex >= 0);
-            }),
-            columnsHasHidingPriority,
-            i;
+        var that = this;
+
+        var hideableColumns = columns.filter(function(column) {
+            return column.visible && !column.type && !column.fixed && !(typeUtils.isDefined(column.groupIndex) && column.groupIndex >= 0);
+        });
+
+        var columnsHasHidingPriority;
+        var i;
 
         that._hidingColumnsQueue = [];
 
@@ -708,8 +713,8 @@ module.exports = {
         views: {
             rowsView: {
                 _getCellTemplate: function(options) {
-                    var that = this,
-                        column = options.column;
+                    var that = this;
+                    var column = options.column;
 
                     if(options.rowType === ADAPTIVE_ROW_TYPE && column.command === "detail") {
                         return function(container, options) {
@@ -731,8 +736,8 @@ module.exports = {
                 _renderCells: function($row, options) {
                     this.callBase($row, options);
 
-                    var hidingColumnsQueueLength = this._adaptiveColumnsController.getHidingColumnsQueue().length,
-                        hiddenColumnsLength = this._adaptiveColumnsController.getHiddenColumns().length;
+                    var hidingColumnsQueueLength = this._adaptiveColumnsController.getHidingColumnsQueue().length;
+                    var hiddenColumnsLength = this._adaptiveColumnsController.getHiddenColumns().length;
 
                     if(hidingColumnsQueueLength && !hiddenColumnsLength) {
                         getDataCellElements($row).last().addClass(LAST_DATA_CELL_CLASS);
@@ -797,18 +802,18 @@ module.exports = {
             },
             columnsResizer: {
                 _pointCreated: function(point, cellsLength, columns) {
-                    var result = this.callBase(point, cellsLength, columns),
-                        currentColumn = columns[point.columnIndex] || {},
-                        nextColumnIndex = this._getNextColumnIndex(point.columnIndex),
-                        nextColumn = columns[nextColumnIndex] || {},
-                        hasHiddenColumnsOnly = nextColumnIndex !== point.columnIndex + 1 && nextColumn.command,
-                        hasAdaptiveHiddenWidth = currentColumn.visibleWidth === HIDDEN_COLUMNS_WIDTH || hasHiddenColumnsOnly;
+                    var result = this.callBase(point, cellsLength, columns);
+                    var currentColumn = columns[point.columnIndex] || {};
+                    var nextColumnIndex = this._getNextColumnIndex(point.columnIndex);
+                    var nextColumn = columns[nextColumnIndex] || {};
+                    var hasHiddenColumnsOnly = nextColumnIndex !== point.columnIndex + 1 && nextColumn.command;
+                    var hasAdaptiveHiddenWidth = currentColumn.visibleWidth === HIDDEN_COLUMNS_WIDTH || hasHiddenColumnsOnly;
 
                     return result || hasAdaptiveHiddenWidth;
                 },
                 _getNextColumnIndex: function(currentColumnIndex) {
-                    var visibleColumns = this._columnsController.getVisibleColumns(),
-                        index = this.callBase(currentColumnIndex);
+                    var visibleColumns = this._columnsController.getVisibleColumns();
+                    var index = this.callBase(currentColumnIndex);
 
                     while(visibleColumns[index] && visibleColumns[index].visibleWidth === HIDDEN_COLUMNS_WIDTH) {
                         index++;
@@ -819,9 +824,9 @@ module.exports = {
             },
             draggingHeader: {
                 _pointCreated: function(point, columns, location, sourceColumn) {
-                    var result = this.callBase(point, columns, location, sourceColumn),
-                        column = columns[point.columnIndex - 1] || {},
-                        hasAdaptiveHiddenWidth = column.visibleWidth === HIDDEN_COLUMNS_WIDTH;
+                    var result = this.callBase(point, columns, location, sourceColumn);
+                    var column = columns[point.columnIndex - 1] || {};
+                    var hasAdaptiveHiddenWidth = column.visibleWidth === HIDDEN_COLUMNS_WIDTH;
 
                     return result || hasAdaptiveHiddenWidth;
                 }
@@ -841,10 +846,10 @@ module.exports = {
                 },
 
                 _closeEditItem: function($targetElement) {
-                    var $itemContents = $targetElement.closest("." + FORM_ITEM_CONTENT_CLASS),
-                        rowIndex = this._dataController.getRowIndexByKey(this._dataController.adaptiveExpandedKey()) + 1,
-                        formItem = $itemContents.length ? $itemContents.first().data("dx-form-item") : null,
-                        columnIndex = formItem && formItem.column && this._columnsController.getVisibleIndex(formItem.column.index);
+                    var $itemContents = $targetElement.closest("." + FORM_ITEM_CONTENT_CLASS);
+                    var rowIndex = this._dataController.getRowIndexByKey(this._dataController.adaptiveExpandedKey()) + 1;
+                    var formItem = $itemContents.length ? $itemContents.first().data("dx-form-item") : null;
+                    var columnIndex = formItem && formItem.column && this._columnsController.getVisibleIndex(formItem.column.index);
 
                     if(!this.isEditCell(rowIndex, columnIndex)) {
                         this.callBase($targetElement);
@@ -853,9 +858,9 @@ module.exports = {
 
                 _beforeUpdateItems: function(rowIndices, rowIndex) {
                     if(!this._adaptiveController.isFormEditMode() && this._adaptiveController.hasHiddenColumns()) {
-                        var items = this._dataController.items(),
-                            item = items[rowIndex],
-                            oldExpandRowIndex = gridCoreUtils.getIndexByKey(this._dataController.adaptiveExpandedKey(), items);
+                        var items = this._dataController.items();
+                        var item = items[rowIndex];
+                        var oldExpandRowIndex = gridCoreUtils.getIndexByKey(this._dataController.adaptiveExpandedKey(), items);
 
                         this._isForceRowAdaptiveExpand = !this._adaptiveController.hasAdaptiveDetailRowExpanded();
 
@@ -918,8 +923,8 @@ module.exports = {
                 },
 
                 _beforeCloseEditCellInBatchMode: function(rowIndices) {
-                    var expandedKey = this._dataController._adaptiveExpandedKey,
-                        rowIndex;
+                    var expandedKey = this._dataController._adaptiveExpandedKey;
+                    var rowIndex;
 
                     if(expandedKey) {
                         rowIndex = gridCoreUtils.getIndexByKey(expandedKey, this._dataController.items());
@@ -968,11 +973,11 @@ module.exports = {
                 },
 
                 _correctColumnWidths: function(resultWidths, visibleColumns) {
-                    var adaptiveController = this._adaptiveColumnsController,
-                        columnAutoWidth = this.option("columnAutoWidth"),
-                        oldHiddenColumns = adaptiveController.getHiddenColumns(),
-                        hiddenColumns,
-                        hidingColumnsQueue = adaptiveController.updateHidingQueue(this._columnsController.getColumns());
+                    var adaptiveController = this._adaptiveColumnsController;
+                    var columnAutoWidth = this.option("columnAutoWidth");
+                    var oldHiddenColumns = adaptiveController.getHiddenColumns();
+                    var hiddenColumns;
+                    var hidingColumnsQueue = adaptiveController.updateHidingQueue(this._columnsController.getColumns());
 
                     adaptiveController.hideRedundantColumns(resultWidths, visibleColumns, hidingColumnsQueue);
                     hiddenColumns = adaptiveController.getHiddenColumns();
@@ -1008,9 +1013,9 @@ module.exports = {
             },
             data: {
                 _processItems: function(items, changeType) {
-                    var that = this,
-                        item,
-                        expandRowIndex;
+                    var that = this;
+                    var item;
+                    var expandRowIndex;
 
                     items = that.callBase.apply(that, arguments);
 
@@ -1039,8 +1044,8 @@ module.exports = {
                 },
 
                 _getRowIndicesForExpand: function(key) {
-                    var rowIndices = this.callBase.apply(this, arguments),
-                        lastRowIndex;
+                    var rowIndices = this.callBase.apply(this, arguments);
+                    var lastRowIndex;
 
                     if(this.getController("adaptiveColumns").isAdaptiveDetailRowExpanded(key)) {
                         lastRowIndex = rowIndices[rowIndices.length - 1];
@@ -1121,17 +1126,17 @@ module.exports = {
                 },
 
                 _handleTabKeyOnMasterDetailCell: function(eventTarget, direction) {
-                    var result = this.callBase(eventTarget, direction),
-                        $currentCell = this._getFocusedCell();
+                    var result = this.callBase(eventTarget, direction);
+                    var $currentCell = this._getFocusedCell();
 
                     if(!result && $currentCell) {
-                        var $row = $currentCell.parent(),
-                            $dataCells = getDataCellElements($row),
-                            $targetCell = direction === "next" ? $dataCells.last() : $dataCells.first(),
-                            rowIndex = $row.get(0).rowIndex,
-                            adaptiveController = this._adaptiveController,
-                            key = this._dataController.getKeyByRowIndex(direction === "next" ? rowIndex : rowIndex - 1),
-                            isCellElementsEquals = $currentCell && $targetCell && $currentCell.get(0) === $targetCell.get(0);
+                        var $row = $currentCell.parent();
+                        var $dataCells = getDataCellElements($row);
+                        var $targetCell = direction === "next" ? $dataCells.last() : $dataCells.first();
+                        var rowIndex = $row.get(0).rowIndex;
+                        var adaptiveController = this._adaptiveController;
+                        var key = this._dataController.getKeyByRowIndex(direction === "next" ? rowIndex : rowIndex - 1);
+                        var isCellElementsEquals = $currentCell && $targetCell && $currentCell.get(0) === $targetCell.get(0);
 
                         return adaptiveController.isAdaptiveDetailRowExpanded(key) && isCellElementsEquals;
                     }

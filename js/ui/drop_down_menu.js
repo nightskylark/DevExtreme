@@ -1,21 +1,20 @@
-var $ = require("../core/renderer"),
-    window = require("../core/utils/window").getWindow(),
-    devices = require("../core/devices"),
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    Widget = require("./widget/ui.widget"),
-    Button = require("./button"),
-    Popover = require("./popover"),
-    DataHelperMixin = require("../data_helper"),
-    List = require("./list"),
-    themes = require("./themes"),
-    ChildDefaultTemplate = require("./widget/child_default_template");
-
-var DROP_DOWN_MENU_CLASS = "dx-dropdownmenu",
-    DROP_DOWN_MENU_POPUP_CLASS = "dx-dropdownmenu-popup",
-    DROP_DOWN_MENU_POPUP_WRAPPER_CLASS = "dx-dropdownmenu-popup-wrapper",
-    DROP_DOWN_MENU_LIST_CLASS = "dx-dropdownmenu-list",
-    DROP_DOWN_MENU_BUTTON_CLASS = "dx-dropdownmenu-button";
+var $ = require("../core/renderer");
+var window = require("../core/utils/window").getWindow();
+var devices = require("../core/devices");
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var Widget = require("./widget/ui.widget");
+var Button = require("./button");
+var Popover = require("./popover");
+var DataHelperMixin = require("../data_helper");
+var List = require("./list");
+var themes = require("./themes");
+var ChildDefaultTemplate = require("./widget/child_default_template");
+var DROP_DOWN_MENU_CLASS = "dx-dropdownmenu";
+var DROP_DOWN_MENU_POPUP_CLASS = "dx-dropdownmenu-popup";
+var DROP_DOWN_MENU_POPUP_WRAPPER_CLASS = "dx-dropdownmenu-popup-wrapper";
+var DROP_DOWN_MENU_LIST_CLASS = "dx-dropdownmenu-list";
+var DROP_DOWN_MENU_BUTTON_CLASS = "dx-dropdownmenu-button";
 
 var POPUP_OPTION_MAP = {
     "popupWidth": "width",
@@ -310,8 +309,8 @@ var DropDownMenu = Widget.inherit({
     },
 
     _renderButton: function() {
-        var $button = this.$element().addClass(DROP_DOWN_MENU_BUTTON_CLASS),
-            config = this._buttonOptions();
+        var $button = this.$element().addClass(DROP_DOWN_MENU_BUTTON_CLASS);
+        var config = this._buttonOptions();
 
         this._button = this._createComponent($button, Button, config);
     },
@@ -352,8 +351,8 @@ var DropDownMenu = Widget.inherit({
             return;
         }
 
-        var $popup = this._$popup = $("<div>").appendTo(this.$element()),
-            config = this._popupOptions();
+        var $popup = this._$popup = $("<div>").appendTo(this.$element());
+        var config = this._popupOptions();
 
         this._popup = this._createComponent($popup, Popover, config); // TODO: Circular dep
     },
@@ -389,8 +388,8 @@ var DropDownMenu = Widget.inherit({
     },
 
     _renderList: function(contentElement) {
-        var $content = $(contentElement),
-            listConfig = this._listOptions();
+        var $content = $(contentElement);
+        var listConfig = this._listOptions();
 
         $content.addClass(DROP_DOWN_MENU_LIST_CLASS);
 

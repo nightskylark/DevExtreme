@@ -1,5 +1,5 @@
-var inArray = require("../../core/utils/array").inArray,
-    EditStrategy = require("./ui.collection_widget.edit.strategy");
+var inArray = require("../../core/utils/array").inArray;
+var EditStrategy = require("./ui.collection_widget.edit.strategy");
 
 
 var PlainEditStrategy = EditStrategy.inherit({
@@ -42,8 +42,8 @@ var PlainEditStrategy = EditStrategy.inherit({
     },
 
     getIndexByKey: function(key) {
-        var cache = this._cache,
-            keys = cache && cache.keys || this.getKeysByItems(this._getPlainItems());
+        var cache = this._cache;
+        var keys = cache && cache.keys || this.getKeysByItems(this._getPlainItems());
 
         if(cache && !cache.keys) {
             cache.keys = keys;
@@ -65,8 +65,8 @@ var PlainEditStrategy = EditStrategy.inherit({
     },
 
     moveItemAtIndexToIndex: function(movingIndex, destinationIndex) {
-        var items = this._getPlainItems(),
-            movedItemData = items[movingIndex];
+        var items = this._getPlainItems();
+        var movedItemData = items[movingIndex];
 
         items.splice(movingIndex, 1);
         items.splice(destinationIndex, 0, movedItemData);

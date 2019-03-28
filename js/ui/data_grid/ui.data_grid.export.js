@@ -13,25 +13,22 @@ import List from "../list";
 import ContextMenu from "../context_menu";
 import { when, Deferred } from "../../core/utils/deferred";
 
-var DATAGRID_EXPORT_MENU_CLASS = "dx-datagrid-export-menu",
-    DATAGRID_EXPORT_BUTTON_CLASS = "dx-datagrid-export-button",
-    DATAGRID_EXPORT_ICON = "export-to",
-    DATAGRID_EXPORT_EXCEL_ICON = "exportxlsx",
-    DATAGRID_EXPORT_SELECTED_ICON = "exportselected",
-    DATAGRID_EXPORT_EXCEL_BUTTON_ICON = "export-excel-button",
-
-    TOOLBAR_ITEM_AUTO_HIDE_CLASS = "dx-toolbar-item-auto-hide",
-    TOOLBAR_HIDDEN_BUTTON_CLASS = "dx-toolbar-hidden-button",
-
-    BUTTON_CLASS = "dx-button",
-
-    DATA_STYLE_OFFSET = 3;
+var DATAGRID_EXPORT_MENU_CLASS = "dx-datagrid-export-menu";
+var DATAGRID_EXPORT_BUTTON_CLASS = "dx-datagrid-export-button";
+var DATAGRID_EXPORT_ICON = "export-to";
+var DATAGRID_EXPORT_EXCEL_ICON = "exportxlsx";
+var DATAGRID_EXPORT_SELECTED_ICON = "exportselected";
+var DATAGRID_EXPORT_EXCEL_BUTTON_ICON = "export-excel-button";
+var TOOLBAR_ITEM_AUTO_HIDE_CLASS = "dx-toolbar-item-auto-hide";
+var TOOLBAR_HIDDEN_BUTTON_CLASS = "dx-toolbar-hidden-button";
+var BUTTON_CLASS = "dx-button";
+var DATA_STYLE_OFFSET = 3;
 
 exports.DataProvider = Class.inherit({
     _getGroupValue: function(item) {
-        var groupColumn = this._options.groupColumns[item.groupIndex],
-            value = dataGridCore.getDisplayValue(groupColumn, item.key[item.groupIndex], item.data, item.rowType),
-            result = groupColumn.caption + ": " + dataGridCore.formatValue(value, groupColumn);
+        var groupColumn = this._options.groupColumns[item.groupIndex];
+        var value = dataGridCore.getDisplayValue(groupColumn, item.key[item.groupIndex], item.data, item.rowType);
+        var result = groupColumn.caption + ": " + dataGridCore.formatValue(value, groupColumn);
 
         var summaryCells = item.summaryCells;
         if(summaryCells && summaryCells[0] && summaryCells[0].length) {
@@ -46,9 +43,9 @@ exports.DataProvider = Class.inherit({
     },
 
     _initOptions: function() {
-        var exportController = this._exportController,
-            groupColumns = exportController._columnsController.getGroupColumns(),
-            excelWrapTextEnabled = exportController.option("export.excelWrapTextEnabled");
+        var exportController = this._exportController;
+        var groupColumns = exportController._columnsController.getGroupColumns();
+        var excelWrapTextEnabled = exportController.option("export.excelWrapTextEnabled");
 
         this._options = {
             columns: exportController._getColumns(this._initialColumnWidthsByColumnIndex),
@@ -84,15 +81,16 @@ exports.DataProvider = Class.inherit({
     },
 
     getStyles: function() {
-        var wrapTextEnabled = this._options.wrapTextEnabled,
-            styles = ["center", "left", "right"].map(function(alignment) {
-                return {
-                    // Header, Total styles
-                    bold: true,
-                    alignment: alignment,
-                    wrapText: true
-                };
-            });
+        var wrapTextEnabled = this._options.wrapTextEnabled;
+
+        var styles = ["center", "left", "right"].map(function(alignment) {
+            return {
+                // Header, Total styles
+                bold: true,
+                alignment: alignment,
+                wrapText: true
+            };
+        });
 
         this.getColumns().forEach(function(column) {
             styles.push({
@@ -153,8 +151,8 @@ exports.DataProvider = Class.inherit({
     },
 
     getGroupLevel: function(rowIndex) {
-        var item = this._options.items[rowIndex - this.getHeaderRowCount()],
-            groupIndex = item && item.groupIndex;
+        var item = this._options.items[rowIndex - this.getHeaderRowCount()];
+        var groupIndex = item && item.groupIndex;
 
         if(item && item.rowType === "totalFooter") {
             return 0;
@@ -172,8 +170,8 @@ exports.DataProvider = Class.inherit({
         }
 
         if(cellIndex < columns.length) {
-            var item = this._options.items.length && this._options.items[rowIndex],
-                column = columns[cellIndex];
+            var item = this._options.items.length && this._options.items[rowIndex];
+            var column = columns[cellIndex];
 
             if(item && item.rowType === "data") {
                 if(isFinite(item.values[this._correctCellIndex(cellIndex)]) && !isDefined(column.customizeText)) {
@@ -185,8 +183,8 @@ exports.DataProvider = Class.inherit({
     },
 
     ready: function() {
-        var that = this,
-            options;
+        var that = this;
+        var options;
 
         that._initOptions();
         options = this._options;
@@ -209,14 +207,14 @@ exports.DataProvider = Class.inherit({
 
     getCellData: function(rowIndex, cellIndex) {
         const result = { cellSourceData: {}, value };
-        var column,
-            value,
-            i,
-            summaryItems,
-            columns = this.getColumns(),
-            correctedCellIndex = this._correctCellIndex(cellIndex),
-            itemValues,
-            item;
+        var column;
+        var value;
+        var i;
+        var summaryItems;
+        var columns = this.getColumns();
+        var correctedCellIndex = this._correctCellIndex(cellIndex);
+        var itemValues;
+        var item;
 
         if(rowIndex < this.getHeaderRowCount()) {
             const columnsRow = this.getColumns(true)[rowIndex];
@@ -288,17 +286,17 @@ exports.DataProvider = Class.inherit({
     },
 
     isTotalCell: function(rowIndex, cellIndex) {
-        var items = this._options.items,
-            item = items[rowIndex],
-            correctCellIndex = this._correctCellIndex(cellIndex),
-            isSummaryAlignByColumn = item.summaryCells && item.summaryCells[correctCellIndex] && item.summaryCells[correctCellIndex].length > 0 && item.summaryCells[correctCellIndex][0].alignByColumn;
+        var items = this._options.items;
+        var item = items[rowIndex];
+        var correctCellIndex = this._correctCellIndex(cellIndex);
+        var isSummaryAlignByColumn = item.summaryCells && item.summaryCells[correctCellIndex] && item.summaryCells[correctCellIndex].length > 0 && item.summaryCells[correctCellIndex][0].alignByColumn;
 
         return item && item.rowType === "groupFooter" || item.rowType === "totalFooter" || isSummaryAlignByColumn;
     },
 
     getCellMerging: function(rowIndex, cellIndex) {
-        var columns = this._options.columns,
-            column = columns[rowIndex] && columns[rowIndex][cellIndex];
+        var columns = this._options.columns;
+        var column = columns[rowIndex] && columns[rowIndex][cellIndex];
 
         return column ? {
             colspan: (column.colspan || 1) - 1,
@@ -327,13 +325,13 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _getColumns: function(initialColumnWidthsByColumnIndex) {
-        var result = [],
-            i,
-            j,
-            column,
-            columns,
-            columnsController = this._columnsController,
-            rowCount = columnsController.getRowCount();
+        var result = [];
+        var i;
+        var j;
+        var column;
+        var columns;
+        var columnsController = this._columnsController;
+        var rowCount = columnsController.getRowCount();
 
         for(i = 0; i <= rowCount; i++) {
             result.push([]);
@@ -375,13 +373,13 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _getFooterSummaryItems: function(summaryCells, isTotal) {
-        var result = [],
-            estimatedItemsCount = 1,
-            values,
-            itemsLength,
-            summaryCell,
-            j,
-            i = 0;
+        var result = [];
+        var estimatedItemsCount = 1;
+        var values;
+        var itemsLength;
+        var summaryCell;
+        var j;
+        var i = 0;
 
         do {
             values = [];
@@ -400,8 +398,8 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _hasSummaryGroupFooters: function() {
-        var i,
-            groupItems = this.option("summary.groupItems");
+        var i;
+        var groupItems = this.option("summary.groupItems");
 
         if(isDefined(groupItems)) {
             for(i = 0; i < groupItems.length; i++) {
@@ -415,11 +413,11 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _getItemsWithSummaryGroupFooters: function(sourceItems) {
-        var item,
-            result = [],
-            beforeGroupFooterItems = [],
-            groupFooterItems = [],
-            i;
+        var item;
+        var result = [];
+        var beforeGroupFooterItems = [];
+        var groupFooterItems = [];
+        var i;
 
         for(i = 0; i < sourceItems.length; i++) {
             item = sourceItems[i];
@@ -436,14 +434,14 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _updateGroupValuesWithSummaryByColumn: function(sourceItems) {
-        var item,
-            summaryCells,
-            summaryItem,
-            summaryValues = [],
-            groupColumnCount,
-            k,
-            j,
-            i;
+        var item;
+        var summaryCells;
+        var summaryItem;
+        var summaryValues = [];
+        var groupColumnCount;
+        var k;
+        var j;
+        var i;
 
         for(i = 0; i < sourceItems.length; i++) {
             item = sourceItems[i];
@@ -471,14 +469,14 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _processUnExportedItems: function(items) {
-        var columns = this._columnsController.getVisibleColumns(null, true),
-            groupColumns = this._columnsController.getGroupColumns(),
-            item,
-            column,
-            values,
-            summaryCells,
-            i,
-            j;
+        var columns = this._columnsController.getVisibleColumns(null, true);
+        var groupColumns = this._columnsController.getGroupColumns();
+        var item;
+        var column;
+        var values;
+        var summaryCells;
+        var i;
+        var j;
 
         for(i = 0; i < items.length; i++) {
             item = items[i];
@@ -515,14 +513,14 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _getAllItems: function(data) {
-        var that = this,
-            d = new Deferred(),
-            dataController = this.getController("data"),
-            footerItems = dataController.footerItems(),
-            totalItem = footerItems.length && footerItems[0],
-            summaryTotalItems = that.option("summary.totalItems"),
-            summaryCells,
-            summaryItems;
+        var that = this;
+        var d = new Deferred();
+        var dataController = this.getController("data");
+        var footerItems = dataController.footerItems();
+        var totalItem = footerItems.length && footerItems[0];
+        var summaryTotalItems = that.option("summary.totalItems");
+        var summaryCells;
+        var summaryItems;
 
         when(data).done(function(data) {
             dataController.loadAll(data).done(function(sourceItems, totalAggregates) {
@@ -552,8 +550,8 @@ exports.ExportController = dataGridCore.ViewController.inherit({}).include(expor
     },
 
     _getSelectedItems: function() {
-        var selectionController = this.getController("selection"),
-            selectedRowData = selectionController.getSelectedRowsData();
+        var selectionController = this.getController("selection");
+        var selectedRowData = selectionController.getSelectedRowsData();
 
         return this._getAllItems(selectedRowData);
     },
@@ -777,8 +775,8 @@ dataGridCore.registerModule("export", {
                 },
 
                 _appendExportItems: function(items) {
-                    var that = this,
-                        exportOptions = that.option("export");
+                    var that = this;
+                    var exportOptions = that.option("export");
 
                     if(exportOptions.enabled) {
                         var exportItems = [];
@@ -822,11 +820,12 @@ dataGridCore.registerModule("export", {
                 },
 
                 _renderButton: function(data, $container, withText) {
-                    var that = this,
-                        buttonOptions = that._getButtonOptions(data.allowExportSelected),
-                        $buttonContainer = that._getButtonContainer()
-                            .addClass(DATAGRID_EXPORT_BUTTON_CLASS)
-                            .appendTo($container);
+                    var that = this;
+                    var buttonOptions = that._getButtonOptions(data.allowExportSelected);
+
+                    var $buttonContainer = that._getButtonContainer()
+                        .addClass(DATAGRID_EXPORT_BUTTON_CLASS)
+                        .appendTo($container);
 
                     if(withText) {
                         var wrapperNode = $("<div>").addClass(TOOLBAR_ITEM_AUTO_HIDE_CLASS);
@@ -845,20 +844,21 @@ dataGridCore.registerModule("export", {
                 },
 
                 _renderList: function(data, $container) {
-                    var that = this,
-                        texts = that.option("export.texts"),
-                        items = [{
-                            template: function(data, index, container) {
-                                that._renderFakeButton(data, $(container), DATAGRID_EXPORT_EXCEL_ICON);
-                            },
-                            text: texts.exportAll
-                        }, {
-                            template: function(data, index, container) {
-                                that._renderFakeButton(data, $(container), DATAGRID_EXPORT_SELECTED_ICON);
-                            },
-                            text: texts.exportSelectedRows,
-                            exportSelected: true
-                        }];
+                    var that = this;
+                    var texts = that.option("export.texts");
+
+                    var items = [{
+                        template: function(data, index, container) {
+                            that._renderFakeButton(data, $(container), DATAGRID_EXPORT_EXCEL_ICON);
+                        },
+                        text: texts.exportAll
+                    }, {
+                        template: function(data, index, container) {
+                            that._renderFakeButton(data, $(container), DATAGRID_EXPORT_SELECTED_ICON);
+                        },
+                        text: texts.exportSelectedRows,
+                        exportSelected: true
+                    }];
 
                     that._createComponent(
                         $container,
@@ -875,20 +875,24 @@ dataGridCore.registerModule("export", {
 
                 _renderFakeButton: function(data, $container, iconName) {
                     var $icon = $("<div>")
-                            .addClass("dx-icon dx-icon-" + iconName),
-                        $text = $("<span>")
-                            .addClass("dx-button-text")
-                            .text(data.text),
-                        $content = $("<div>")
-                            .addClass("dx-button-content")
-                            .append($icon)
-                            .append($text),
-                        $button = $("<div>")
-                            .addClass(BUTTON_CLASS + " dx-button-has-text dx-button-has-icon dx-datagrid-toolbar-button")
-                            .append($content),
-                        $toolbarItem = $("<div>")
-                            .addClass(TOOLBAR_ITEM_AUTO_HIDE_CLASS)
-                            .append($button);
+                            .addClass("dx-icon dx-icon-" + iconName);
+
+                    var $text = $("<span>")
+                        .addClass("dx-button-text")
+                        .text(data.text);
+
+                    var $content = $("<div>")
+                        .addClass("dx-button-content")
+                        .append($icon)
+                        .append($text);
+
+                    var $button = $("<div>")
+                        .addClass(BUTTON_CLASS + " dx-button-has-text dx-button-has-icon dx-datagrid-toolbar-button")
+                        .append($content);
+
+                    var $toolbarItem = $("<div>")
+                        .addClass(TOOLBAR_ITEM_AUTO_HIDE_CLASS)
+                        .append($button);
 
                     $container
                         .append($toolbarItem)
@@ -903,21 +907,23 @@ dataGridCore.registerModule("export", {
                 },
 
                 _renderExportMenu: function($buttonContainer) {
-                    var that = this,
-                        $button = $buttonContainer.find("." + BUTTON_CLASS),
-                        texts = that.option("export.texts"),
-                        menuItems = [
-                            {
-                                text: texts.exportAll,
-                                icon: DATAGRID_EXPORT_EXCEL_ICON
-                            },
-                            {
-                                text: texts.exportSelectedRows,
-                                exportSelected: true,
-                                icon: DATAGRID_EXPORT_SELECTED_ICON
-                            }
-                        ],
-                        $menuContainer = $("<div>").appendTo($buttonContainer);
+                    var that = this;
+                    var $button = $buttonContainer.find("." + BUTTON_CLASS);
+                    var texts = that.option("export.texts");
+
+                    var menuItems = [
+                        {
+                            text: texts.exportAll,
+                            icon: DATAGRID_EXPORT_EXCEL_ICON
+                        },
+                        {
+                            text: texts.exportSelectedRows,
+                            exportSelected: true,
+                            icon: DATAGRID_EXPORT_SELECTED_ICON
+                        }
+                    ];
+
+                    var $menuContainer = $("<div>").appendTo($buttonContainer);
 
                     that._contextMenu = that._createComponent($menuContainer, ContextMenu, {
                         showEvent: "dxclick",
@@ -943,9 +949,9 @@ dataGridCore.registerModule("export", {
                 },
 
                 _getButtonOptions: function(allowExportSelected) {
-                    var that = this,
-                        texts = that.option("export.texts"),
-                        options;
+                    var that = this;
+                    var texts = that.option("export.texts");
+                    var options;
 
                     if(allowExportSelected) {
                         options = {

@@ -38,14 +38,14 @@ module.exports = {
     },
 
     areLabelsOverlap: function(bBox1, bBox2, spacing, alignment) {
-        var horizontalInverted = bBox1.x > bBox2.x,
-            verticalInverted = bBox1.y > bBox2.y,
-            x1 = bBox1.x,
-            x2 = bBox2.x,
-            width1 = bBox1.width,
-            width2 = bBox2.width,
-            hasHorizontalOverlapping,
-            hasVerticalOverlapping;
+        var horizontalInverted = bBox1.x > bBox2.x;
+        var verticalInverted = bBox1.y > bBox2.y;
+        var x1 = bBox1.x;
+        var x2 = bBox2.x;
+        var width1 = bBox1.width;
+        var width2 = bBox2.width;
+        var hasHorizontalOverlapping;
+        var hasVerticalOverlapping;
 
         if(alignment === "left") {
             x1 += width1 / 2;

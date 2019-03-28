@@ -1,7 +1,6 @@
-var patchFontOptions = require("../core/utils").patchFontOptions,
-
-    SLIDER_MARKER_UPDATE_DELAY = 75,
-    POINTER_SIZE = require("./common").consts.pointerSize;
+var patchFontOptions = require("../core/utils").patchFontOptions;
+var SLIDER_MARKER_UPDATE_DELAY = 75;
+var POINTER_SIZE = require("./common").consts.pointerSize;
 
 function SliderMarker(renderer, root, isLeftPointer) {
     var that = this;
@@ -38,36 +37,39 @@ SliderMarker.prototype = {
     },
 
     _getAreaPointsInfo: function(textSize) {
-        var that = this,
-            rectSize = that._getRectSize(textSize),
-            rectWidth = rectSize.width,
-            rectHeight = rectSize.height,
-            rectLeftBorder = -rectWidth,
-            rectRightBorder = 0,
-            pointerRightPoint = POINTER_SIZE,
-            pointerCenterPoint = 0,
-            pointerLeftPoint = -POINTER_SIZE,
-            position = that._position,
-            isLeft = that._isLeftPointer,
-            correctCloudBorders = function() {
-                rectLeftBorder++;
-                rectRightBorder++;
-                pointerRightPoint++;
-                pointerCenterPoint++;
-                pointerLeftPoint++;
-            },
-            checkPointerBorders = function() {
-                if(pointerRightPoint > rectRightBorder) {
-                    pointerRightPoint = rectRightBorder;
-                } else {
-                    if(pointerLeftPoint < rectLeftBorder) {
-                        pointerLeftPoint = rectLeftBorder;
-                    }
-                }
+        var that = this;
+        var rectSize = that._getRectSize(textSize);
+        var rectWidth = rectSize.width;
+        var rectHeight = rectSize.height;
+        var rectLeftBorder = -rectWidth;
+        var rectRightBorder = 0;
+        var pointerRightPoint = POINTER_SIZE;
+        var pointerCenterPoint = 0;
+        var pointerLeftPoint = -POINTER_SIZE;
+        var position = that._position;
+        var isLeft = that._isLeftPointer;
 
-                isLeft && correctCloudBorders();
-            },
-            borderPosition = position;
+        var correctCloudBorders = function() {
+            rectLeftBorder++;
+            rectRightBorder++;
+            pointerRightPoint++;
+            pointerCenterPoint++;
+            pointerLeftPoint++;
+        };
+
+        var checkPointerBorders = function() {
+            if(pointerRightPoint > rectRightBorder) {
+                pointerRightPoint = rectRightBorder;
+            } else {
+                if(pointerLeftPoint < rectLeftBorder) {
+                    pointerLeftPoint = rectLeftBorder;
+                }
+            }
+
+            isLeft && correctCloudBorders();
+        };
+
+        var borderPosition = position;
 
         if(isLeft) {
             if(position > that._range[1] - rectWidth) {
@@ -109,10 +111,10 @@ SliderMarker.prototype = {
     },
 
     _update: function() {
-        var that = this,
-            textSize,
-            currentTextSize,
-            rectSize;
+        var that = this;
+        var textSize;
+        var currentTextSize;
+        var rectSize;
 
         clearTimeout(that._timeout);
 
@@ -129,9 +131,9 @@ SliderMarker.prototype = {
         }, SLIDER_MARKER_UPDATE_DELAY);
 
         function updateSliderMarker(size, rectSize) {
-            var points,
-                pointsData,
-                offset;
+            var points;
+            var pointsData;
+            var offset;
 
             rectSize = rectSize || that._getRectSize(size);
             that._group.attr({ translateY: -(rectSize.height + POINTER_SIZE) });

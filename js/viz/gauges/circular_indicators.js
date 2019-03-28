@@ -1,18 +1,17 @@
-var baseIndicatorsModule = require("./base_indicators"),
-    BaseIndicator = baseIndicatorsModule.BaseIndicator,
-    BaseTextCloudMarker = baseIndicatorsModule.BaseTextCloudMarker,
-    BaseRangeBar = baseIndicatorsModule.BaseRangeBar,
-    vizUtils = require("../core/utils"),
-
-    _Number = Number,
-    _getCosAndSin = vizUtils.getCosAndSin,
-    _convertAngleToRendererSpace = vizUtils.convertAngleToRendererSpace;
+var baseIndicatorsModule = require("./base_indicators");
+var BaseIndicator = baseIndicatorsModule.BaseIndicator;
+var BaseTextCloudMarker = baseIndicatorsModule.BaseTextCloudMarker;
+var BaseRangeBar = baseIndicatorsModule.BaseRangeBar;
+var vizUtils = require("../core/utils");
+var _Number = Number;
+var _getCosAndSin = vizUtils.getCosAndSin;
+var _convertAngleToRendererSpace = vizUtils.convertAngleToRendererSpace;
 
 var SimpleIndicator = BaseIndicator.inherit({
     _move: function() {
-        var that = this,
-            options = that._options,
-            angle = _convertAngleToRendererSpace(that._actualPosition);
+        var that = this;
+        var options = that._options;
+        var angle = _convertAngleToRendererSpace(that._actualPosition);
         that._rootElement.rotate(angle, options.x, options.y);
         that._trackerElement && that._trackerElement.rotate(angle, options.x, options.y);
     },
@@ -26,12 +25,13 @@ var SimpleIndicator = BaseIndicator.inherit({
     },
 
     _getTrackerSettings: function() {
-        var options = this._options,
-            radius = this._getRadius(),
-            indentFromCenter = this._getIndentFromCenter(),
-            x = options.x, y = options.y - (radius + indentFromCenter) / 2,
-            width = options.width / 2,
-            length = (radius - indentFromCenter) / 2;
+        var options = this._options;
+        var radius = this._getRadius();
+        var indentFromCenter = this._getIndentFromCenter();
+        var x = options.x;
+        var y = options.y - (radius + indentFromCenter) / 2;
+        var width = options.width / 2;
+        var length = (radius - indentFromCenter) / 2;
         width > 10 || (width = 10);
         length > 10 || (length = 10);
         return { points: [x - width, y - length, x - width, y + length, x + width, y + length, x + width, y - length] };
@@ -67,17 +67,17 @@ var SimpleIndicator = BaseIndicator.inherit({
     },
 
     getTooltipParameters: function() {
-        var options = this._options,
-            cosSin = _getCosAndSin(this._actualPosition),
-            r = (this._getRadius() + this._getIndentFromCenter()) / 2;
+        var options = this._options;
+        var cosSin = _getCosAndSin(this._actualPosition);
+        var r = (this._getRadius() + this._getIndentFromCenter()) / 2;
         return { x: options.x + cosSin.cos * r, y: options.y - cosSin.sin * r, value: this._currentValue, color: options.color, offset: options.width / 2 };
     }
 });
 
 var NeedleIndicator = SimpleIndicator.inherit({
     _isVisible: function(layout) {
-        var indentFromCenter = this._adjustOffset(Number(this._options.indentFromCenter), layout.radius),
-            offset = this._adjustOffset(Number(this._options.offset), layout.radius);
+        var indentFromCenter = this._adjustOffset(Number(this._options.indentFromCenter), layout.radius);
+        var offset = this._adjustOffset(Number(this._options.offset), layout.radius);
 
         return layout.radius - indentFromCenter - offset > 0;
     },
@@ -87,8 +87,8 @@ var NeedleIndicator = SimpleIndicator.inherit({
     },
 
     _adjustOffset: function(value, radius) {
-        var minRadius = Number(this._options.beginAdaptingAtRadius),
-            diff = radius / minRadius;
+        var minRadius = Number(this._options.beginAdaptingAtRadius);
+        var diff = radius / minRadius;
 
         if(diff < 1) {
             value = Math.floor(value * diff);
@@ -107,11 +107,11 @@ var NeedleIndicator = SimpleIndicator.inherit({
     },
 
     _renderSpindle: function() {
-        var that = this,
-            options = that._options,
-            radius = options.radius,
-            spindleSize = this._adjustOffset(_Number(options.spindleSize) / 2, radius) * 2,
-            gapSize;
+        var that = this;
+        var options = that._options;
+        var radius = options.radius;
+        var spindleSize = this._adjustOffset(_Number(options.spindleSize) / 2, radius) * 2;
+        var gapSize;
 
         gapSize = this._adjustOffset(_Number(options.spindleGapSize) / 2, radius) * 2 || 0;
         if(gapSize > 0) {
@@ -141,12 +141,12 @@ var NeedleIndicator = SimpleIndicator.inherit({
 
 var rectangleNeedle = NeedleIndicator.inherit({
     _renderPointer: function() {
-        var that = this,
-            options = that._options,
-            y2 = options.y - this._getRadius(),
-            y1 = options.y - this._getIndentFromCenter(),
-            x1 = options.x - options.width / 2,
-            x2 = x1 + _Number(options.width);
+        var that = this;
+        var options = that._options;
+        var y2 = options.y - this._getRadius();
+        var y1 = options.y - this._getIndentFromCenter();
+        var x1 = options.x - options.width / 2;
+        var x2 = x1 + _Number(options.width);
 
         that._element = that._element || that._renderer.path([], "area").append(that._rootElement);
         that._element.attr({ points: [x1, y1, x1, y2, x2, y2, x2, y1] });
@@ -155,12 +155,12 @@ var rectangleNeedle = NeedleIndicator.inherit({
 
 var triangleNeedle = NeedleIndicator.inherit({
     _renderPointer: function() {
-        var that = this,
-            options = that._options,
-            y2 = options.y - this._getRadius(),
-            y1 = options.y - this._getIndentFromCenter(),
-            x1 = options.x - options.width / 2,
-            x2 = options.x + options.width / 2;
+        var that = this;
+        var options = that._options;
+        var y2 = options.y - this._getRadius();
+        var y1 = options.y - this._getIndentFromCenter();
+        var x1 = options.x - options.width / 2;
+        var x2 = options.x + options.width / 2;
 
         that._element = that._element || that._renderer.path([], "area").append(that._rootElement);
         that._element.attr({ points: [x1, y1, options.x, y2, x2, y1] });
@@ -169,15 +169,15 @@ var triangleNeedle = NeedleIndicator.inherit({
 
 var twoColorNeedle = NeedleIndicator.inherit({
     _renderPointer: function() {
-        var that = this,
-            options = that._options,
-            x1 = options.x - options.width / 2,
-            x2 = options.x + options.width / 2,
-            y4 = options.y - this._getRadius(),
-            y1 = options.y - this._getIndentFromCenter(),
-            fraction = _Number(options.secondFraction) || 0,
-            y2,
-            y3;
+        var that = this;
+        var options = that._options;
+        var x1 = options.x - options.width / 2;
+        var x2 = options.x + options.width / 2;
+        var y4 = options.y - this._getRadius();
+        var y1 = options.y - this._getIndentFromCenter();
+        var fraction = _Number(options.secondFraction) || 0;
+        var y2;
+        var y3;
         //  B253863
         if(fraction >= 1) {
             y2 = y3 = y1;
@@ -214,13 +214,13 @@ var triangleMarker = SimpleIndicator.inherit({
     },
 
     _render: function() {
-        var that = this,
-            options = that._options,
-            x = options.x,
-            y1 = options.y - options.radius,
-            dx = options.width / 2 || 0,
-            y2 = y1 - _Number(options.length),
-            settings;
+        var that = this;
+        var options = that._options;
+        var x = options.x;
+        var y1 = options.y - options.radius;
+        var dx = options.width / 2 || 0;
+        var y2 = y1 - _Number(options.length);
+        var settings;
         that._element = that._element || that._renderer.path([], "area").append(that._rootElement);
         settings = { points: [x, y1, x - dx, y2, x + dx, y2], stroke: "none", "stroke-width": 0, "stroke-linecap": "square" };
         if(options.space > 0) {
@@ -235,10 +235,11 @@ var triangleMarker = SimpleIndicator.inherit({
     },
 
     _getTrackerSettings: function() {
-        var options = this._options,
-            x = options.x, y = options.y - options.radius - options.length / 2,
-            width = options.width / 2,
-            length = options.length / 2;
+        var options = this._options;
+        var x = options.x;
+        var y = options.y - options.radius - options.length / 2;
+        var width = options.width / 2;
+        var length = options.length / 2;
         width > 10 || (width = 10);
         length > 10 || (length = 10);
         return { points: [x - width, y - length, x - width, y + length, x + width, y + length, x + width, y - length] };
@@ -249,10 +250,10 @@ var triangleMarker = SimpleIndicator.inherit({
     },
 
     getTooltipParameters: function() {
-        var options = this._options,
-            cosSin = _getCosAndSin(this._actualPosition),
-            r = options.radius + options.length / 2,
-            parameters = this.callBase();
+        var options = this._options;
+        var cosSin = _getCosAndSin(this._actualPosition);
+        var r = options.radius + options.length / 2;
+        var parameters = this.callBase();
         parameters.x = options.x + cosSin.cos * r;
         parameters.y = options.y - cosSin.sin * r;
         parameters.offset = options.length / 2;
@@ -270,9 +271,9 @@ var textCloud = BaseTextCloudMarker.inherit({
     },
 
     _getTextCloudOptions: function() {
-        var that = this,
-            cosSin = _getCosAndSin(that._actualPosition),
-            nAngle = vizUtils.normalizeAngle(that._actualPosition);
+        var that = this;
+        var cosSin = _getCosAndSin(that._actualPosition);
+        var nAngle = vizUtils.normalizeAngle(that._actualPosition);
         return {
             x: that._options.x + cosSin.cos * that._options.radius,
             y: that._options.y - cosSin.sin * that._options.radius,
@@ -281,10 +282,10 @@ var textCloud = BaseTextCloudMarker.inherit({
     },
 
     measure: function(layout) {
-        var that = this,
-            arrowLength = _Number(that._options.arrowLength) || 0,
-            verticalOffset,
-            horizontalOffset;
+        var that = this;
+        var arrowLength = _Number(that._options.arrowLength) || 0;
+        var verticalOffset;
+        var horizontalOffset;
 
         that._measureText();
         verticalOffset = that._textFullHeight + arrowLength;
@@ -337,20 +338,20 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _setTextItemsSides: function() {
-        var that = this,
-            options = that._options,
-            indent = _Number(options.text.indent);
+        var that = this;
+        var options = that._options;
+        var indent = _Number(options.text.indent);
         that._lineFrom = options.y - options.radius;
         that._lineTo = that._lineFrom - indent;
         that._textRadius = options.radius + indent;
     },
 
     _getPositions: function() {
-        var that = this,
-            basePosition = that._basePosition,
-            actualPosition = that._actualPosition,
-            mainPosition1,
-            mainPosition2;
+        var that = this;
+        var basePosition = that._basePosition;
+        var actualPosition = that._actualPosition;
+        var mainPosition1;
+        var mainPosition2;
         if(basePosition >= actualPosition) {
             mainPosition1 = basePosition;
             mainPosition2 = actualPosition;
@@ -374,20 +375,20 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _updateTextPosition: function() {
-        var that = this,
-            cosSin = _getCosAndSin(that._actualPosition),
-            x = that._options.x + that._textRadius * cosSin.cos,
-            y = that._options.y - that._textRadius * cosSin.sin;
+        var that = this;
+        var cosSin = _getCosAndSin(that._actualPosition);
+        var x = that._options.x + that._textRadius * cosSin.cos;
+        var y = that._options.y - that._textRadius * cosSin.sin;
         x += cosSin.cos * that._textWidth * 0.6;
         y -= cosSin.sin * that._textHeight * 0.6;
         that._text.attr({ x: x, y: y + that._textVerticalOffset });
     },
 
     _updateLinePosition: function() {
-        var that = this,
-            x = that._options.x,
-            x1,
-            x2;
+        var that = this;
+        var x = that._options.x;
+        var x1;
+        var x2;
         if(that._basePosition > that._actualPosition) {
             x1 = x - 2;
             x2 = x;
@@ -404,18 +405,19 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _getTooltipPosition: function() {
-        var that = this,
-            cosSin = _getCosAndSin((that._basePosition + that._actualPosition) / 2),
-            r = (that._minSide + that._maxSide) / 2;
+        var that = this;
+        var cosSin = _getCosAndSin((that._basePosition + that._actualPosition) / 2);
+        var r = (that._minSide + that._maxSide) / 2;
         return { x: that._options.x + cosSin.cos * r, y: that._options.y - cosSin.sin * r };
     },
 
     measure: function(layout) {
-        var that = this,
-            result = {
-                min: layout.radius - _Number(that._options.size),
-                max: layout.radius
-            };
+        var that = this;
+
+        var result = {
+            min: layout.radius - _Number(that._options.size),
+            max: layout.radius
+        };
 
         that._measureText();
         if(that._hasText) {

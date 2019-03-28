@@ -1,17 +1,16 @@
-var HorizontalAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.horizontal"),
-    dateUtils = require("../../../core/utils/date"),
-    query = require("../../../data/query");
-
-var HOURS_IN_DAY = 24,
-    MINUTES_IN_HOUR = 60,
-    MILLISECONDS_IN_MINUTE = 60000;
+var HorizontalAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.horizontal");
+var dateUtils = require("../../../core/utils/date");
+var query = require("../../../data/query");
+var HOURS_IN_DAY = 24;
+var MINUTES_IN_HOUR = 60;
+var MILLISECONDS_IN_MINUTE = 60000;
 
 var HorizontalMonthLineRenderingStrategy = HorizontalAppointmentsStrategy.inherit({
 
     calculateAppointmentWidth: function(appointment, position, isRecurring) {
-        var startDate = new Date(this.startDate(appointment, false, position)),
-            endDate = new Date(this.endDate(appointment, position, isRecurring)),
-            cellWidth = this._defaultWidth || this.getAppointmentMinSize();
+        var startDate = new Date(this.startDate(appointment, false, position));
+        var endDate = new Date(this.endDate(appointment, position, isRecurring));
+        var cellWidth = this._defaultWidth || this.getAppointmentMinSize();
 
         startDate = dateUtils.trimTime(startDate);
 

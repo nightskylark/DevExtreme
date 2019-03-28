@@ -1,9 +1,9 @@
-var $ = require("../../../core/renderer"),
-    registerComponent = require("../../../core/component_registrator"),
-    dateUtils = require("../../../core/utils/date"),
-    dateLocalization = require("../../../localization/date"),
-    each = require("../../../core/utils/iterator").each,
-    SchedulerWorkSpace = require("./ui.scheduler.work_space.indicator");
+var $ = require("../../../core/renderer");
+var registerComponent = require("../../../core/component_registrator");
+var dateUtils = require("../../../core/utils/date");
+var dateLocalization = require("../../../localization/date");
+var each = require("../../../core/utils/iterator").each;
+var SchedulerWorkSpace = require("./ui.scheduler.work_space.indicator");
 
 var WEEK_CLASS = "dx-scheduler-work-space-week";
 
@@ -44,15 +44,15 @@ var SchedulerWorkSpaceWeek = SchedulerWorkSpace.inherit({
             return this.callBase($first, $last);
         }
 
-        var $cells = this._getCells(),
-            firstColumn = $first.index(),
-            firstRow = $first.parent().index(),
-            lastColumn = $last.index(),
-            lastRow = $last.parent().index(),
-            groupCount = this._getGroupCount(),
-            cellCount = groupCount > 0 ? this._getTotalCellCount(groupCount) : this._getCellCount(),
-            rowCount = this._getTotalRowCount(groupCount),
-            result = [];
+        var $cells = this._getCells();
+        var firstColumn = $first.index();
+        var firstRow = $first.parent().index();
+        var lastColumn = $last.index();
+        var lastRow = $last.parent().index();
+        var groupCount = this._getGroupCount();
+        var cellCount = groupCount > 0 ? this._getTotalCellCount(groupCount) : this._getCellCount();
+        var rowCount = this._getTotalRowCount(groupCount);
+        var result = [];
 
         for(var i = 0; i < cellCount; i++) {
             for(var j = 0; j < rowCount; j++) {
@@ -61,11 +61,10 @@ var SchedulerWorkSpaceWeek = SchedulerWorkSpace.inherit({
             }
         }
 
-        var lastCellGroup = this.getCellData($last).groups,
-            indexesDifference = this.option("showAllDayPanel") && this._isVerticalGroupedWorkSpace() ? this._getGroupIndexByResourceId(lastCellGroup) + 1 : 0;
-
-        var newFirstIndex = rowCount * firstColumn + firstRow - indexesDifference,
-            newLastIndex = rowCount * lastColumn + lastRow - indexesDifference;
+        var lastCellGroup = this.getCellData($last).groups;
+        var indexesDifference = this.option("showAllDayPanel") && this._isVerticalGroupedWorkSpace() ? this._getGroupIndexByResourceId(lastCellGroup) + 1 : 0;
+        var newFirstIndex = rowCount * firstColumn + firstRow - indexesDifference;
+        var newLastIndex = rowCount * lastColumn + lastRow - indexesDifference;
 
         if(newFirstIndex > newLastIndex) {
             var buffer = newFirstIndex;
@@ -76,8 +75,8 @@ var SchedulerWorkSpaceWeek = SchedulerWorkSpace.inherit({
         $cells = $(result).slice(newFirstIndex, newLastIndex + 1);
 
         if(this._getGroupCount()) {
-            var arr = [],
-                focusedGroupIndex = this._getGroupIndexByCell($first);
+            var arr = [];
+            var focusedGroupIndex = this._getGroupIndexByCell($first);
             each($cells, (function(_, cell) {
                 var groupIndex = this._getGroupIndexByCell($(cell));
                 if(focusedGroupIndex === groupIndex) {
@@ -93,12 +92,12 @@ var SchedulerWorkSpaceWeek = SchedulerWorkSpace.inherit({
         if(!isMultiSelection) {
             return this.callBase(isMultiSelection);
         }
-        var $rightCell,
-            $focusedCell = this._$focusedCell,
-            groupCount = this._getGroupCount(),
-            rowCellCount = isMultiSelection ? this._getCellCount() : this._getTotalCellCount(groupCount),
-            edgeCellIndex = this._isRTL() ? 0 : rowCellCount - 1,
-            direction = this._isRTL() ? "prev" : "next";
+        var $rightCell;
+        var $focusedCell = this._$focusedCell;
+        var groupCount = this._getGroupCount();
+        var rowCellCount = isMultiSelection ? this._getCellCount() : this._getTotalCellCount(groupCount);
+        var edgeCellIndex = this._isRTL() ? 0 : rowCellCount - 1;
+        var direction = this._isRTL() ? "prev" : "next";
 
         if($focusedCell.index() === edgeCellIndex || this._isGroupEndCell($focusedCell)) {
             $rightCell = $focusedCell;
@@ -113,12 +112,12 @@ var SchedulerWorkSpaceWeek = SchedulerWorkSpace.inherit({
         if(!isMultiSelection) {
             return this.callBase(isMultiSelection);
         }
-        var $leftCell,
-            $focusedCell = this._$focusedCell,
-            groupCount = this._getGroupCount(),
-            rowCellCount = isMultiSelection ? this._getCellCount() : this._getTotalCellCount(groupCount),
-            edgeCellIndex = this._isRTL() ? rowCellCount - 1 : 0,
-            direction = this._isRTL() ? "next" : "prev";
+        var $leftCell;
+        var $focusedCell = this._$focusedCell;
+        var groupCount = this._getGroupCount();
+        var rowCellCount = isMultiSelection ? this._getCellCount() : this._getTotalCellCount(groupCount);
+        var edgeCellIndex = this._isRTL() ? rowCellCount - 1 : 0;
+        var direction = this._isRTL() ? "next" : "prev";
 
         if($focusedCell.index() === edgeCellIndex || this._isGroupStartCell($focusedCell)) {
             $leftCell = $focusedCell;

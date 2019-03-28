@@ -1,11 +1,11 @@
-var themeModule = require("../../themes"),
-    registerTheme = themeModule.registerTheme,
-    ACCENT_COLOR = "#7ab8eb",
-    BACKGROUND_COLOR = "#fff",
-    TITLE_COLOR = "#333",
-    SUBTITLE_COLOR = "#99a1a8",
-    TEXT_COLOR = "#707070",
-    BORDER_COLOR = "#e8eaeb";
+var themeModule = require("../../themes");
+var registerTheme = themeModule.registerTheme;
+var ACCENT_COLOR = "#7ab8eb";
+var BACKGROUND_COLOR = "#fff";
+var TITLE_COLOR = "#333";
+var SUBTITLE_COLOR = "#99a1a8";
+var TEXT_COLOR = "#707070";
+var BORDER_COLOR = "#e8eaeb";
 
 registerTheme({
     name: "generic.softblue",

@@ -2,12 +2,12 @@ import $ from '../../core/renderer';
 import treeListCore from './ui.tree_list.core';
 import rowsViewModule from '../grid_core/ui.grid_core.rows';
 
-var TREELIST_TEXT_CONTENT = "dx-treelist-text-content",
-    TREELIST_EXPAND_ICON_CONTAINER_CLASS = "dx-treelist-icon-container",
-    TREELIST_CELL_EXPANDABLE_CLASS = "dx-treelist-cell-expandable",
-    TREELIST_EMPTY_SPACE = "dx-treelist-empty-space",
-    TREELIST_EXPANDED_CLASS = "dx-treelist-expanded",
-    TREELIST_COLLAPSED_CLASS = "dx-treelist-collapsed";
+var TREELIST_TEXT_CONTENT = "dx-treelist-text-content";
+var TREELIST_EXPAND_ICON_CONTAINER_CLASS = "dx-treelist-icon-container";
+var TREELIST_CELL_EXPANDABLE_CLASS = "dx-treelist-cell-expandable";
+var TREELIST_EMPTY_SPACE = "dx-treelist-empty-space";
+var TREELIST_EXPANDED_CLASS = "dx-treelist-expanded";
+var TREELIST_COLLAPSED_CLASS = "dx-treelist-collapsed";
 
 exports.RowsView = rowsViewModule.views.rowsView.inherit((function() {
     var createCellContent = function($container) {
@@ -63,9 +63,9 @@ exports.RowsView = rowsViewModule.views.rowsView.inherit((function() {
         },
 
         _processTemplate: function(template, options) {
-            var that = this,
-                resultTemplate,
-                renderingTemplate = this.callBase(template);
+            var that = this;
+            var resultTemplate;
+            var renderingTemplate = this.callBase(template);
 
             var firstDataColumnIndex = that._columnsController.getFirstDataColumnIndex();
 
@@ -94,10 +94,10 @@ exports.RowsView = rowsViewModule.views.rowsView.inherit((function() {
         },
 
         _rowClick: function(e) {
-            var dataController = this._dataController,
-                $targetElement = $(e.event.target),
-                isExpandIcon = this.isExpandIcon($targetElement),
-                item = dataController && dataController.items()[e.rowIndex];
+            var dataController = this._dataController;
+            var $targetElement = $(e.event.target);
+            var isExpandIcon = this.isExpandIcon($targetElement);
+            var item = dataController && dataController.items()[e.rowIndex];
 
             if(isExpandIcon && item) {
                 dataController.changeRowExpand(item.key);
@@ -107,8 +107,8 @@ exports.RowsView = rowsViewModule.views.rowsView.inherit((function() {
         },
 
         _createRow: function(row) {
-            var node = row && row.node,
-                $rowElement = this.callBase.apply(this, arguments);
+            var node = row && row.node;
+            var $rowElement = this.callBase.apply(this, arguments);
 
             if(node) {
                 this.setAria("level", row.level, $rowElement);

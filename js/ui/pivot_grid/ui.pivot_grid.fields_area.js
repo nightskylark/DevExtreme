@@ -1,11 +1,11 @@
-var $ = require("../../core/renderer"),
-    noop = require("../../core/utils/common").noop,
-    each = require("../../core/utils/iterator").each,
-    areaItem = require("./ui.pivot_grid.area_item"),
-    pivotGridUtils = require("./ui.pivot_grid.utils"),
-    Popup = require("../popup"),
-    Button = require("../button"),
-    DIV = "<div>";
+var $ = require("../../core/renderer");
+var noop = require("../../core/utils/common").noop;
+var each = require("../../core/utils/iterator").each;
+var areaItem = require("./ui.pivot_grid.area_item");
+var pivotGridUtils = require("./ui.pivot_grid.utils");
+var Popup = require("../popup");
+var Button = require("../button");
+var DIV = "<div>";
 
 require("./ui.pivot_grid.field_chooser_base");
 
@@ -41,19 +41,21 @@ exports.FieldsArea = areaItem.AreaItem.inherit({
     },
 
     _renderButton: function(element) {
-        var that = this,
-            container = $("<td>").appendTo($("<tr>").appendTo(element)),
-            button = that.component._createComponent($(DIV).appendTo(container), Button, {
-                text: "Fields",
-                icon: "menu",
-                width: "auto",
-                onClick: function() {
-                    var popup = that.tableElement().find(".dx-fields-area-popup").dxPopup("instance");
-                    if(!popup.option("visible")) {
-                        popup.show();
-                    }
+        var that = this;
+        var container = $("<td>").appendTo($("<tr>").appendTo(element));
+
+        var button = that.component._createComponent($(DIV).appendTo(container), Button, {
+            text: "Fields",
+            icon: "menu",
+            width: "auto",
+            onClick: function() {
+                var popup = that.tableElement().find(".dx-fields-area-popup").dxPopup("instance");
+                if(!popup.option("visible")) {
+                    popup.show();
                 }
-            });
+            }
+        });
+
         button.$element().addClass("dx-pivotgrid-fields-area-hamburger");
     },
 
@@ -86,10 +88,10 @@ exports.FieldsArea = areaItem.AreaItem.inherit({
     },
 
     _renderPopup: function(tableElement, row) {
-        var that = this,
-            button = tableElement.find(".dx-button"),
-            popupOptions = that._getPopupOptions(row, button),
-            FieldChooserBase = that.component.$element().dxPivotGridFieldChooserBase("instance");
+        var that = this;
+        var button = tableElement.find(".dx-button");
+        var popupOptions = that._getPopupOptions(row, button);
+        var FieldChooserBase = that.component.$element().dxPivotGridFieldChooserBase("instance");
 
         if(that._rowPopup) {
             that._rowPopup.$element().remove();
@@ -112,13 +114,13 @@ exports.FieldsArea = areaItem.AreaItem.inherit({
     },
 
     _renderTableContent: function(tableElement, data) {
-        var that = this,
-            groupElement = this.groupElement(),
-            isVisible = this.isVisible(),
-            fieldChooserBase = that.component.$element().dxPivotGridFieldChooserBase("instance"),
-            head = $("<thead>").addClass("dx-pivotgrid-fields-area-head").appendTo(tableElement),
-            area = that._area,
-            row = $("<tr>");
+        var that = this;
+        var groupElement = this.groupElement();
+        var isVisible = this.isVisible();
+        var fieldChooserBase = that.component.$element().dxPivotGridFieldChooserBase("instance");
+        var head = $("<thead>").addClass("dx-pivotgrid-fields-area-head").appendTo(tableElement);
+        var area = that._area;
+        var row = $("<tr>");
 
         groupElement.toggleClass("dx-hidden", !isVisible);
         tableElement.addClass("dx-area-field-container");
@@ -129,8 +131,8 @@ exports.FieldsArea = areaItem.AreaItem.inherit({
 
         each(data, function(index, field) {
             if(field.area === area && field.visible !== false) {
-                var td = $("<td>").append(fieldChooserBase.renderField(field, field.area === "row")),
-                    indicators = td.find(".dx-column-indicators");
+                var td = $("<td>").append(fieldChooserBase.renderField(field, field.area === "row"));
+                var indicators = td.find(".dx-column-indicators");
                 if(indicators.length && that._shouldCreateButton()) {
                     indicators.insertAfter(indicators.next());
                 }

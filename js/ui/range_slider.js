@@ -1,16 +1,15 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    Slider = require("./slider"),
-    SliderHandle = require("./slider/ui.slider_handle"),
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    applyServerDecimalSeparator = require("../core/utils/common").applyServerDecimalSeparator,
-    eventUtils = require("../events/utils"),
-    messageLocalization = require("../localization/message");
-
-var RANGE_SLIDER_CLASS = "dx-rangeslider",
-    RANGE_SLIDER_START_HANDLE_CLASS = RANGE_SLIDER_CLASS + "-start-handle",
-    RANGE_SLIDER_END_HANDLE_CLASS = RANGE_SLIDER_CLASS + "-end-handle";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var Slider = require("./slider");
+var SliderHandle = require("./slider/ui.slider_handle");
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var applyServerDecimalSeparator = require("../core/utils/common").applyServerDecimalSeparator;
+var eventUtils = require("../events/utils");
+var messageLocalization = require("../localization/message");
+var RANGE_SLIDER_CLASS = "dx-rangeslider";
+var RANGE_SLIDER_START_HANDLE_CLASS = RANGE_SLIDER_CLASS + "-start-handle";
+var RANGE_SLIDER_END_HANDLE_CLASS = RANGE_SLIDER_CLASS + "-end-handle";
 
 /**
 * @name dxRangeSlider
@@ -24,36 +23,37 @@ var RangeSlider = Slider.inherit({
     _supportedKeys: function() {
         var isRTL = this.option("rtlEnabled");
 
-        var that = this,
-            _changeHandle = function(e, capturedHandle) {
-                if(that.option("start") === that.option("end")) {
-                    that._capturedHandle = capturedHandle;
-                    e.target = that._capturedHandle;
-                    eventsEngine.trigger(that._capturedHandle, "focus");
-                }
-            },
+        var that = this;
 
-            _setHandleValue = function(e, step, sign) {
-                var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS),
+        var _changeHandle = function(e, capturedHandle) {
+            if(that.option("start") === that.option("end")) {
+                that._capturedHandle = capturedHandle;
+                e.target = that._capturedHandle;
+                eventsEngine.trigger(that._capturedHandle, "focus");
+            }
+        };
 
-                    valueOption = isStart ? "start" : "end",
-                    val = that.option(valueOption);
+        var _setHandleValue = function(e, step, sign) {
+            var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS),
 
-                step = that._valueStep(step);
+                valueOption = isStart ? "start" : "end",
+                val = that.option(valueOption);
 
-                val += sign * (isRTL ? -step : step);
-                that.option(valueOption, val);
-            },
+            step = that._valueStep(step);
 
-            moveHandleRight = function(e, step) {
-                _changeHandle(e, isRTL ? that._$handleStart : that._$handleEnd);
-                _setHandleValue(e, step, 1);
-            },
+            val += sign * (isRTL ? -step : step);
+            that.option(valueOption, val);
+        };
 
-            moveHandleLeft = function(e, step) {
-                _changeHandle(e, isRTL ? that._$handleEnd : that._$handleStart);
-                _setHandleValue(e, step, -1);
-            };
+        var moveHandleRight = function(e, step) {
+            _changeHandle(e, isRTL ? that._$handleStart : that._$handleEnd);
+            _setHandleValue(e, step, 1);
+        };
+
+        var moveHandleLeft = function(e, step) {
+            _changeHandle(e, isRTL ? that._$handleEnd : that._$handleStart);
+            _setHandleValue(e, step, -1);
+        };
 
         return extend(this.callBase(), {
             leftArrow: function(e) {
@@ -83,20 +83,20 @@ var RangeSlider = Slider.inherit({
             home: function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS),
-                    valueOption = isStart ? "start" : "end",
-                    startOption = isStart ? "min" : "start",
-                    val = this.option(startOption);
+                var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS);
+                var valueOption = isStart ? "start" : "end";
+                var startOption = isStart ? "min" : "start";
+                var val = this.option(startOption);
 
                 this.option(valueOption, val);
             },
             end: function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS),
-                    valueOption = isStart ? "start" : "end",
-                    endOption = isStart ? "end" : "max",
-                    val = this.option(endOption);
+                var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS);
+                var valueOption = isStart ? "start" : "end";
+                var endOption = isStart ? "end" : "max";
+                var val = this.option(endOption);
 
                 this.option(valueOption, val);
             }
@@ -176,8 +176,8 @@ var RangeSlider = Slider.inherit({
     _initOptions: function(options) {
         this.callBase(options);
 
-        var initialValue = this.initialOption("value"),
-            value = this.option("value");
+        var initialValue = this.initialOption("value");
+        var value = this.option("value");
         if(value[0] === initialValue[0] && value[1] === initialValue[1]) {
             this.option("value", [this.option("start"), this.option("end")]);
         } else {
@@ -202,14 +202,14 @@ var RangeSlider = Slider.inherit({
     },
 
     _startHandler: function(args) {
-        var e = args.event,
-            $range = this._$range,
-            rangeWidth = $range.width(),
-            eventOffsetX = eventUtils.eventData(e).x - this._$bar.offset().left,
-            startHandleX = $range.position().left,
-            endHandleX = $range.position().left + rangeWidth,
-            rtlEnabled = this.option("rtlEnabled"),
-            startHandleIsClosest = (rtlEnabled ? -1 : 1) * ((startHandleX + endHandleX) / 2 - eventOffsetX) > 0;
+        var e = args.event;
+        var $range = this._$range;
+        var rangeWidth = $range.width();
+        var eventOffsetX = eventUtils.eventData(e).x - this._$bar.offset().left;
+        var startHandleX = $range.position().left;
+        var endHandleX = $range.position().left + rangeWidth;
+        var rtlEnabled = this.option("rtlEnabled");
+        var startHandleIsClosest = (rtlEnabled ? -1 : 1) * ((startHandleX + endHandleX) / 2 - eventOffsetX) > 0;
 
         this._capturedHandle = startHandleIsClosest ? this._$handleStart : this._$handleEnd;
 
@@ -226,10 +226,10 @@ var RangeSlider = Slider.inherit({
     },
 
     _updateHandlePosition: function(e) {
-        var rtlEnabled = this.option("rtlEnabled"),
-            offsetDirection = rtlEnabled ? -1 : 1,
-            max = this.option("max"),
-            min = this.option("min");
+        var rtlEnabled = this.option("rtlEnabled");
+        var offsetDirection = rtlEnabled ? -1 : 1;
+        var max = this.option("max");
+        var min = this.option("min");
 
         var newRatio = this._startOffset + offsetDirection * e.event.offset / this._swipePixelRatio();
         newRatio = newRatio.toPrecision(12); // NOTE: android 2.3 has problems with mathematics
@@ -241,9 +241,9 @@ var RangeSlider = Slider.inherit({
 
         this._changeValueOnSwipe(newRatio);
 
-        var startValue = this.option("start"),
-            endValue = this.option("end"),
-            $nextHandle;
+        var startValue = this.option("start");
+        var endValue = this.option("end");
+        var $nextHandle;
 
         if(startValue === endValue) {
             if(newValue < startValue) {
@@ -267,9 +267,10 @@ var RangeSlider = Slider.inherit({
     },
 
     _updateSelectedRangePosition: function(leftRatio, rightRatio) {
-        var rtlEnabled = this.option("rtlEnabled"),
-            moveRight = this._capturedHandle === this._$handleStart && rtlEnabled ||
-                        this._capturedHandle === this._$handleEnd && !rtlEnabled;
+        var rtlEnabled = this.option("rtlEnabled");
+
+        var moveRight = this._capturedHandle === this._$handleStart && rtlEnabled ||
+                    this._capturedHandle === this._$handleEnd && !rtlEnabled;
 
         var prop = moveRight ? "right" : "left";
 
@@ -281,11 +282,11 @@ var RangeSlider = Slider.inherit({
     },
 
     _setValueOnSwipe: function(value) {
-        var option = this._capturedHandle === this._$handleStart ? "start" : "end",
-            start = this.option("start"),
-            end = this.option("end"),
-            max = this.option("max"),
-            min = this.option("min");
+        var option = this._capturedHandle === this._$handleStart ? "start" : "end";
+        var start = this.option("start");
+        var end = this.option("end");
+        var max = this.option("max");
+        var min = this.option("min");
 
         start = Math.min(Math.max(start, min), max);
         end = Math.min(Math.max(end, min), max);
@@ -300,11 +301,11 @@ var RangeSlider = Slider.inherit({
     },
 
     _renderValue: function() {
-        var valStart = this.option("start"),
-            valEnd = this.option("end"),
-            min = this.option("min"),
-            max = this.option("max"),
-            rtlEnabled = this.option("rtlEnabled");
+        var valStart = this.option("start");
+        var valEnd = this.option("end");
+        var min = this.option("min");
+        var max = this.option("max");
+        var rtlEnabled = this.option("rtlEnabled");
 
         valStart = Math.max(min, Math.min(valStart, max));
         valEnd = Math.max(valStart, Math.min(valEnd, max));
@@ -315,11 +316,10 @@ var RangeSlider = Slider.inherit({
         this._$submitStartElement.val(applyServerDecimalSeparator(valStart));
         this._$submitEndElement.val(applyServerDecimalSeparator(valEnd));
 
-        var ratio1 = (max === min) ? 0 : (valStart - min) / (max - min),
-            ratio2 = (max === min) ? 0 : (valEnd - min) / (max - min);
-
-        var startOffset = parseFloat((ratio1 * 100).toPrecision(12)) + "%",
-            endOffset = parseFloat(((1 - ratio2) * 100).toPrecision(12)) + "%";
+        var ratio1 = (max === min) ? 0 : (valStart - min) / (max - min);
+        var ratio2 = (max === min) ? 0 : (valEnd - min) / (max - min);
+        var startOffset = parseFloat((ratio1 * 100).toPrecision(12)) + "%";
+        var endOffset = parseFloat(((1 - ratio2) * 100).toPrecision(12)) + "%";
 
         !this._needPreventAnimation && this._setRangeStyles({
             right: rtlEnabled ? startOffset : endOffset,
@@ -336,8 +336,8 @@ var RangeSlider = Slider.inherit({
     },
 
     _setValueOption: function() {
-        var start = this.option("start"),
-            end = this.option("end");
+        var start = this.option("start");
+        var end = this.option("end");
 
         this.option("value", [start, end]);
     },
@@ -357,8 +357,8 @@ var RangeSlider = Slider.inherit({
                 this._setValueOption();
                 this._renderValue();
 
-                var start = this.option("start"),
-                    end = this.option("end");
+                var start = this.option("start");
+                var end = this.option("end");
 
                 this._createActionByOption("onValueChanged", {
                     excludeValidators: ["disabled", "readOnly"]

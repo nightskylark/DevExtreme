@@ -1,10 +1,10 @@
 /* global Debug*/
-var errors = require("../core/errors"),
-    window = require("../core/utils/window").getWindow(),
-    proxyUrlFormatter = require("./proxy_url_formatter");
+var errors = require("../core/errors");
 
-var IS_WINJS_ORIGIN,
-    IS_LOCAL_ORIGIN;
+var window = require("../core/utils/window").getWindow();
+var proxyUrlFormatter = require("./proxy_url_formatter");
+var IS_WINJS_ORIGIN;
+var IS_LOCAL_ORIGIN;
 
 function isLocalHostName(url) {
     return /^(localhost$|127\.)/i.test(url); // TODO more precise check for 127.x.x.x IP

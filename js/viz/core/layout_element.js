@@ -1,17 +1,19 @@
-var noop = require("../../core/utils/common").noop,
-    _round = Math.round,
-    objectUtils = require("../../core/utils/object"),
-    defaultOffset = {
-        horizontal: 0,
-        vertical: 0
-    },
-    alignFactors = {
-        center: 0.5,
-        right: 1,
-        bottom: 1,
-        left: 0,
-        top: 0
-    };
+var noop = require("../../core/utils/common").noop;
+var _round = Math.round;
+var objectUtils = require("../../core/utils/object");
+
+var defaultOffset = {
+    horizontal: 0,
+    vertical: 0
+};
+
+var alignFactors = {
+    center: 0.5,
+    right: 1,
+    bottom: 1,
+    left: 0,
+    top: 0
+};
 
 function LayoutElement(options) {
     this._options = options;
@@ -20,14 +22,14 @@ function LayoutElement(options) {
 LayoutElement.prototype = {
     constructor: LayoutElement,
     position: function(options) {
-        var that = this,
-            ofBBox = options.of.getLayoutOptions(),
-            myBBox = that.getLayoutOptions(),
-            at = options.at,
-            my = options.my,
-            offset = options.offset || defaultOffset,
-            shiftX = -alignFactors[my.horizontal] * myBBox.width + ofBBox.x + alignFactors[at.horizontal] * ofBBox.width + parseInt(offset.horizontal),
-            shiftY = -alignFactors[my.vertical] * myBBox.height + ofBBox.y + alignFactors[at.vertical] * ofBBox.height + parseInt(offset.vertical);
+        var that = this;
+        var ofBBox = options.of.getLayoutOptions();
+        var myBBox = that.getLayoutOptions();
+        var at = options.at;
+        var my = options.my;
+        var offset = options.offset || defaultOffset;
+        var shiftX = -alignFactors[my.horizontal] * myBBox.width + ofBBox.x + alignFactors[at.horizontal] * ofBBox.width + parseInt(offset.horizontal);
+        var shiftY = -alignFactors[my.vertical] * myBBox.height + ofBBox.y + alignFactors[at.vertical] * ofBBox.height + parseInt(offset.vertical);
 
         that.shift(_round(shiftX), _round(shiftY));
     },

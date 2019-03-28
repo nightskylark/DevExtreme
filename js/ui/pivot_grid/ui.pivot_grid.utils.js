@@ -1,20 +1,20 @@
-var typeUtils = require("../../core/utils/type"),
-    ajax = require("../../core/utils/ajax"),
-    dataCoreUtils = require("../../core/utils/data"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    extend = require("../../core/utils/extend").extend,
-    isDefined = require("../../core/utils/type").isDefined,
-    dateLocalization = require("../../localization/date"),
-    formatHelper = require("../../format_helper"),
-    DataSourceModule = require("../../data/data_source/data_source"),
-    ArrayStore = require("../../data/array_store"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred;
+var typeUtils = require("../../core/utils/type");
+var ajax = require("../../core/utils/ajax");
+var dataCoreUtils = require("../../core/utils/data");
+var iteratorUtils = require("../../core/utils/iterator");
+var extend = require("../../core/utils/extend").extend;
+var isDefined = require("../../core/utils/type").isDefined;
+var dateLocalization = require("../../localization/date");
+var formatHelper = require("../../format_helper");
+var DataSourceModule = require("../../data/data_source/data_source");
+var ArrayStore = require("../../data/array_store");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
 
 var setFieldProperty = exports.setFieldProperty = function(field, property, value, isInitialization) {
-    var initProperties = field._initProperties = field._initProperties || {},
-        initValue = isInitialization ? value : field[property];
+    var initProperties = field._initProperties = field._initProperties || {};
+    var initValue = isInitialization ? value : field[property];
 
     if(!initProperties.hasOwnProperty(property) || isInitialization) {
         initProperties[property] = initValue;
@@ -34,10 +34,10 @@ function createForeachTreeFunc(isAsync) {
         members = members || [];
         items = items || [];
 
-        var item,
-            i,
-            deferred,
-            childrenDeferred;
+        var item;
+        var i;
+        var deferred;
+        var childrenDeferred;
 
         index = index || 0;
 
@@ -96,8 +96,8 @@ exports.foreachTree = createForeachTreeFunc(false);
 exports.foreachTreeAsync = createForeachTreeFunc(true);
 
 exports.findField = function(fields, id) {
-    var i,
-        field;
+    var i;
+    var field;
 
     if(fields && typeUtils.isDefined(id)) {
         for(i = 0; i < fields.length; i++) {
@@ -120,11 +120,11 @@ exports.formatValue = function(value, options) {
 
 exports.getCompareFunction = function(valueSelector) {
     return function(a, b) {
-        var result = 0,
-            valueA = valueSelector(a),
-            valueB = valueSelector(b),
-            aIsDefined = isDefined(valueA),
-            bIsDefined = isDefined(valueB);
+        var result = 0;
+        var valueA = valueSelector(a);
+        var valueB = valueSelector(b);
+        var aIsDefined = isDefined(valueA);
+        var bIsDefined = isDefined(valueB);
 
         if(aIsDefined && bIsDefined) {
             if(valueA > valueB) {
@@ -147,8 +147,8 @@ exports.getCompareFunction = function(valueSelector) {
 };
 
 exports.createPath = function(items) {
-    var result = [],
-        i;
+    var result = [];
+    var i;
     for(i = items.length - 1; i >= 0; i--) {
         result.push(items[i].key || items[i].value);
     }
@@ -156,8 +156,8 @@ exports.createPath = function(items) {
 };
 
 exports.foreachDataLevel = function foreachDataLevel(data, callback, index, childrenField) {
-    var item,
-        i;
+    var item;
+    var i;
     index = index || 0;
     childrenField = childrenField || "children";
 
@@ -175,8 +175,8 @@ exports.foreachDataLevel = function foreachDataLevel(data, callback, index, chil
 
 
 exports.mergeArraysByMaxValue = function(values1, values2) {
-    var result = [],
-        i;
+    var result = [];
+    var i;
 
     for(i = 0; i < values1.length; i++) {
         result.push(Math.max(values1[i] || 0, values2[i] || 0));
@@ -185,9 +185,9 @@ exports.mergeArraysByMaxValue = function(values1, values2) {
 };
 
 exports.getExpandedLevel = function(options, axisName) {
-    var dimensions = options[axisName],
-        expandLevel = 0,
-        expandedPaths = (axisName === "columns" ? options.columnExpandedPaths : options.rowExpandedPaths) || [];
+    var dimensions = options[axisName];
+    var expandLevel = 0;
+    var expandedPaths = (axisName === "columns" ? options.columnExpandedPaths : options.rowExpandedPaths) || [];
 
     if(options.headerName === axisName) {
         expandLevel = options.path.length;
@@ -216,11 +216,11 @@ function parseFields(dataSource, fieldsList, path, fieldsDataType) {
     iteratorUtils.each(fieldsList || [], function(field, value) {
         if(field && field.indexOf("__") === 0) return;
 
-        var dataIndex = 1,
-            currentPath = path.length ? path + "." + field : field,
-            dataType = fieldsDataType[currentPath],
-            getter = dataCoreUtils.compileGetter(currentPath),
-            items;
+        var dataIndex = 1;
+        var currentPath = path.length ? path + "." + field : field;
+        var dataType = fieldsDataType[currentPath];
+        var getter = dataCoreUtils.compileGetter(currentPath);
+        var items;
 
         while(!typeUtils.isDefined(value) && dataSource[dataIndex]) {
             value = getter(dataSource[dataIndex]);
@@ -286,8 +286,8 @@ exports.setDefaultFieldValueFormatting = function(field) {
 
         if(groupInterval && !field.customizeText) {
             setFieldProperty(field, "customizeText", function(formatObject) {
-                var secondValue = formatObject.value + groupInterval,
-                    secondValueText = formatHelper.format(secondValue, field.format);
+                var secondValue = formatObject.value + groupInterval;
+                var secondValueText = formatHelper.format(secondValue, field.format);
 
                 return formatObject.valueText && secondValueText ? formatObject.valueText + " - " + secondValueText : "";
             });
@@ -331,13 +331,14 @@ exports.storeDrillDownMixin = {
             };
         }
 
-        var items = this.getDrillDownItems(descriptions, params),
-            arrayStore,
-            dataSource = new DataSourceModule.DataSource({
-                load: createCustomStoreMethod("load"),
-                totalCount: createCustomStoreMethod("totalCount"),
-                key: this.key()
-            });
+        var items = this.getDrillDownItems(descriptions, params);
+        var arrayStore;
+
+        var dataSource = new DataSourceModule.DataSource({
+            load: createCustomStoreMethod("load"),
+            totalCount: createCustomStoreMethod("totalCount"),
+            key: this.key()
+        });
 
         return dataSource;
     }

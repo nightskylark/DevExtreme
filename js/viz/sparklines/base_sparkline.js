@@ -1,27 +1,24 @@
-var eventsEngine = require("../../events/core/events_engine"),
-    domAdapter = require("../../core/dom_adapter"),
-    ready = require("../../core/utils/ready_callbacks").add,
-    isFunction = require("../../core/utils/type").isFunction,
-    BaseWidget = require("../core/base_widget"),
-    extend = require("../../core/utils/extend").extend,
-
-    DEFAULT_LINE_SPACING = 2,
-    DEFAULT_EVENTS_DELAY = 100,
-
-    eventUtils = require("../../events/utils"),
-    wheelEvent = require("../../events/core/wheel"),
-    translator2DModule = require("../translators/translator2d"),
-
-    _extend = extend,
-    _noop = require("../../core/utils/common").noop;
+var eventsEngine = require("../../events/core/events_engine");
+var domAdapter = require("../../core/dom_adapter");
+var ready = require("../../core/utils/ready_callbacks").add;
+var isFunction = require("../../core/utils/type").isFunction;
+var BaseWidget = require("../core/base_widget");
+var extend = require("../../core/utils/extend").extend;
+var DEFAULT_LINE_SPACING = 2;
+var DEFAULT_EVENTS_DELAY = 100;
+var eventUtils = require("../../events/utils");
+var wheelEvent = require("../../events/core/wheel");
+var translator2DModule = require("../translators/translator2d");
+var _extend = extend;
+var _noop = require("../../core/utils/common").noop;
 
 function generateDefaultCustomizeTooltipCallback(fontOptions, rtlEnabled) {
-    var lineSpacing = fontOptions.lineSpacing,
-        lineHeight = ((lineSpacing !== undefined && lineSpacing !== null) ? lineSpacing : DEFAULT_LINE_SPACING) + fontOptions.size;
+    var lineSpacing = fontOptions.lineSpacing;
+    var lineHeight = ((lineSpacing !== undefined && lineSpacing !== null) ? lineSpacing : DEFAULT_LINE_SPACING) + fontOptions.size;
 
     return function(customizeObject) {
-        var html = "",
-            vt = customizeObject.valueText;
+        var html = "";
+        var vt = customizeObject.valueText;
         for(var i = 0; i < vt.length; i += 2) {
             html += "<tr><td>" + vt[i] + "</td><td style='width: 15px'></td><td style='text-align: " + (rtlEnabled ? "left" : "right") + "'>" + vt[i + 1] + "</td></tr>";
         }
@@ -141,8 +138,8 @@ var BaseSparkline = BaseWidget.inherit({
     },
 
     _getTooltipCoords: function() {
-        var canvas = this._canvas,
-            rootOffset = this._renderer.getRootOffset();
+        var canvas = this._canvas;
+        var rootOffset = this._renderer.getRootOffset();
         return {
             x: (canvas.width / 2) + rootOffset.left,
             y: (canvas.height / 2) + rootOffset.top
@@ -150,8 +147,8 @@ var BaseSparkline = BaseWidget.inherit({
     },
 
     _initTooltipEvents: function() {
-        var that = this,
-            data = { widget: that };
+        var that = this;
+        var data = { widget: that };
 
         that._showTooltipCallback = function() {
             var tooltip;
@@ -252,34 +249,38 @@ var mouseMoveEvents = {
     }
 };
 
-var active_touch_tooltip_widget = null,
-    touchStartTooltipProcessing = function(event) {
-        var widget = active_touch_tooltip_widget;
-        if(widget && widget !== event.data.widget) {
-            widget._hideTooltip(DEFAULT_EVENTS_DELAY);
-        }
-        widget = active_touch_tooltip_widget = event.data.widget;
-        widget._showTooltip();
-        widget._touch = true;
-    },
-    touchStartDocumentProcessing = function() {
-        var widget = active_touch_tooltip_widget;
-        if(widget) {
-            if(!widget._touch) {
-                widget._hideTooltip(DEFAULT_EVENTS_DELAY);
-                active_touch_tooltip_widget = null;
-            }
-            widget._touch = null;
-        }
-    },
-    touchEndDocumentProcessing = function() {
-        var widget = active_touch_tooltip_widget;
-        if(widget) {
+var active_touch_tooltip_widget = null;
+
+var touchStartTooltipProcessing = function(event) {
+    var widget = active_touch_tooltip_widget;
+    if(widget && widget !== event.data.widget) {
+        widget._hideTooltip(DEFAULT_EVENTS_DELAY);
+    }
+    widget = active_touch_tooltip_widget = event.data.widget;
+    widget._showTooltip();
+    widget._touch = true;
+};
+
+var touchStartDocumentProcessing = function() {
+    var widget = active_touch_tooltip_widget;
+    if(widget) {
+        if(!widget._touch) {
             widget._hideTooltip(DEFAULT_EVENTS_DELAY);
             active_touch_tooltip_widget = null;
         }
-    },
-    isPointerDownCalled = false;
+        widget._touch = null;
+    }
+};
+
+var touchEndDocumentProcessing = function() {
+    var widget = active_touch_tooltip_widget;
+    if(widget) {
+        widget._hideTooltip(DEFAULT_EVENTS_DELAY);
+        active_touch_tooltip_widget = null;
+    }
+};
+
+var isPointerDownCalled = false;
 
 
 var touchEvents = {
@@ -327,8 +328,8 @@ BaseSparkline.prototype._setTooltipRendererOptions = function() {
     }
 };
 BaseSparkline.prototype._setTooltipOptions = function() {
-    var tooltip = this._tooltip,
-        options = tooltip && this._getOption("tooltip");
+    var tooltip = this._tooltip;
+    var options = tooltip && this._getOption("tooltip");
     tooltip && tooltip.update(_extend({}, options, {
         customizeTooltip: generateCustomizeTooltipCallback(options.customizeTooltip, options.font, this.option("rtlEnabled")),
         enabled: options.enabled && this._isTooltipEnabled()

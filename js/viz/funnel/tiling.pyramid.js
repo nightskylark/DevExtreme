@@ -1,18 +1,18 @@
-var CENTER = 0.5,
-    LEFTCORNER = 0,
-    RIGHTCORNER = 1;
+var CENTER = 0.5;
+var LEFTCORNER = 0;
+var RIGHTCORNER = 1;
 
 module.exports = {
     getFigures: function(data, neckWidth, neckHeight) {
-        var height = 0,
-            y = 0,
-            x = 0,
-            offsetX = 0,
-            halfNeckWidth = neckWidth / 2,
-            offsetFromCorner = CENTER - halfNeckWidth,
-            funnelHeight = 1 - neckHeight,
-            neckLeftCorner = CENTER - halfNeckWidth,
-            neckRightCorner = CENTER + halfNeckWidth;
+        var height = 0;
+        var y = 0;
+        var x = 0;
+        var offsetX = 0;
+        var halfNeckWidth = neckWidth / 2;
+        var offsetFromCorner = CENTER - halfNeckWidth;
+        var funnelHeight = 1 - neckHeight;
+        var neckLeftCorner = CENTER - halfNeckWidth;
+        var neckRightCorner = CENTER + halfNeckWidth;
         return data.map(function(value) {
             x = offsetX;
             y = height;

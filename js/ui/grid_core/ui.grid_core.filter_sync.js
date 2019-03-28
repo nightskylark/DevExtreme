@@ -6,9 +6,9 @@ import gridCoreUtils from "./ui.grid_core.utils";
 import filterUtils from "../shared/filtering";
 import customOperations from "./ui.grid_core.filter_custom_operations";
 
-var FILTER_ROW_OPERATIONS = ["=", "<>", "<", "<=", ">", ">=", "notcontains", "contains", "startswith", "endswith", "between"],
-    FILTER_TYPES_INCLUDE = "include",
-    FILTER_TYPES_EXCLUDE = "exclude";
+var FILTER_ROW_OPERATIONS = ["=", "<>", "<", "<=", ">", ">=", "notcontains", "contains", "startswith", "endswith", "between"];
+var FILTER_TYPES_INCLUDE = "include";
+var FILTER_TYPES_EXCLUDE = "exclude";
 
 function getColumnIdentifier(column) {
     return column.dataField || column.name;
@@ -38,10 +38,10 @@ var FilterSyncController = modules.Controller.inherit((function() {
             return getEmptyFilterValues();
         }
 
-        var filterType,
-            selectedFilterOperation = headerFilterCondition[1],
-            value = headerFilterCondition[2],
-            hasArrayValue = Array.isArray(value);
+        var filterType;
+        var selectedFilterOperation = headerFilterCondition[1];
+        var value = headerFilterCondition[2];
+        var hasArrayValue = Array.isArray(value);
 
         if(!hasArrayValue) {
             if(!canSyncHeaderFilterWithFilterRow(column)) {
@@ -70,8 +70,8 @@ var FilterSyncController = modules.Controller.inherit((function() {
     var getConditionFromFilterRow = function(column) {
         var value = column.filterValue;
         if(isDefined(value)) {
-            let operation = column.selectedFilterOperation || column.defaultFilterOperation || utils.getDefaultOperation(column),
-                filter = [getColumnIdentifier(column), operation, column.filterValue];
+            let operation = column.selectedFilterOperation || column.defaultFilterOperation || utils.getDefaultOperation(column);
+            let filter = [getColumnIdentifier(column), operation, column.filterValue];
             return filter;
         } else {
             return null;
@@ -79,9 +79,9 @@ var FilterSyncController = modules.Controller.inherit((function() {
     };
 
     var getConditionFromHeaderFilter = function(column) {
-        var selectedOperation,
-            value,
-            filterValues = column.filterValues;
+        var selectedOperation;
+        var value;
+        var filterValues = column.filterValues;
 
         if(!filterValues) return null;
 
@@ -101,9 +101,9 @@ var FilterSyncController = modules.Controller.inherit((function() {
     };
 
     var updateFilterRowCondition = function(columnsController, column, condition) {
-        var filterRowOptions,
-            selectedFilterOperation = condition && condition[1],
-            filterOperations = column.filterOperations || column.defaultFilterOperations;
+        var filterRowOptions;
+        var selectedFilterOperation = condition && condition[1];
+        var filterOperations = column.filterOperations || column.defaultFilterOperations;
 
         if((!filterOperations || filterOperations.indexOf(selectedFilterOperation) >= 0 || selectedFilterOperation === column.defaultFilterOperation)
             && FILTER_ROW_OPERATIONS.indexOf(selectedFilterOperation) >= 0) {
@@ -125,9 +125,9 @@ var FilterSyncController = modules.Controller.inherit((function() {
 
     return {
         syncFilterValue: function() {
-            var that = this,
-                columnsController = that.getController("columns"),
-                columns = columnsController.getFilteringColumns();
+            var that = this;
+            var columnsController = that.getController("columns");
+            var columns = columnsController.getFilteringColumns();
 
             this._skipSyncColumnOptions = true;
             columns.forEach(function(column) {
@@ -148,8 +148,8 @@ var FilterSyncController = modules.Controller.inherit((function() {
             let columns = this.getController("columns").getColumns();
             checkForErrors(columns);
             if(!this.option("filterValue")) {
-                let filteringColumns = this.getController("columns").getFilteringColumns(),
-                    filterValue = this.getFilterValueFromColumns(filteringColumns);
+                let filteringColumns = this.getController("columns").getFilteringColumns();
+                let filterValue = this.getFilterValueFromColumns(filteringColumns);
                 this.option("filterValue", filterValue);
             }
             this.syncFilterValue();
@@ -192,8 +192,8 @@ var FilterSyncController = modules.Controller.inherit((function() {
             var filterValue = ["and"];
 
             columns && columns.forEach(column => {
-                let headerFilter = getConditionFromHeaderFilter(column),
-                    filterRow = getConditionFromFilterRow(column);
+                let headerFilter = getConditionFromHeaderFilter(column);
+                let filterRow = getConditionFromFilterRow(column);
 
                 headerFilter && utils.addItem(headerFilter, filterValue);
                 filterRow && utils.addItem(filterRow, filterValue);
@@ -238,9 +238,9 @@ var DataControllerFilterSyncExtender = {
             return that.callBase();
         }
 
-        var filters = [that.callBase()],
-            columns = that.getController("columns").getFilteringColumns(),
-            filterValue = that.option("filterValue");
+        var filters = [that.callBase()];
+        var columns = that.getController("columns").getFilteringColumns();
+        var filterValue = that.option("filterValue");
 
         if(that.isFilterSyncActive()) {
             var currentColumn = that.getController("headerFilter").getCurrentColumn();
@@ -248,8 +248,8 @@ var DataControllerFilterSyncExtender = {
                 filterValue = utils.removeFieldConditionsFromFilter(filterValue, getColumnIdentifier(currentColumn));
             }
         }
-        var customOperations = that.getController("filterSync").getCustomFilterOperations(),
-            calculatedFilterValue = utils.getFilterExpression(filterValue, columns, customOperations, "filterBuilder");
+        var customOperations = that.getController("filterSync").getCustomFilterOperations();
+        var calculatedFilterValue = utils.getFilterExpression(filterValue, columns, customOperations, "filterBuilder");
         if(calculatedFilterValue) {
             filters.push(calculatedFilterValue);
         }
@@ -288,8 +288,8 @@ var DataControllerFilterSyncExtender = {
                 break;
             case "columns":
                 if(this.isFilterSyncActive()) {
-                    let column = this.getController("columns").getColumnByPath(args.fullName),
-                        filterSyncController = this.getController("filterSync");
+                    let column = this.getController("columns").getColumnByPath(args.fullName);
+                    let filterSyncController = this.getController("filterSync");
                     if(column && !filterSyncController._skipSyncColumnOptions) {
                         let propertyName = this._parseColumnPropertyName(args.fullName);
                         filterSyncController._skipSyncColumnOptions = true;

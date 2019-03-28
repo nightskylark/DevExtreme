@@ -58,8 +58,8 @@ var isPlainObject = function(object) {
     if(!object || Object.prototype.toString.call(object) !== "[object Object]") {
         return false;
     }
-    var proto = Object.getPrototypeOf(object),
-        ctor = Object.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+    var proto = Object.getPrototypeOf(object);
+    var ctor = Object.hasOwnProperty.call(proto, "constructor") && proto.constructor;
 
     return typeof ctor === "function"
         && Object.toString.call(ctor) === Object.toString.call(Object);

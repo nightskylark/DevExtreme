@@ -29,9 +29,9 @@ class ListPopupModule extends BaseModule {
     }
 
     renderPopup() {
-        let editorInstance = this.options.editorInstance,
-            $container = $("<div>").appendTo(editorInstance.$element()),
-            popupConfig = this._getPopupConfig();
+        let editorInstance = this.options.editorInstance;
+        let $container = $("<div>").appendTo(editorInstance.$element());
+        let popupConfig = this._getPopupConfig();
 
         return editorInstance._createComponent($container, Popup, popupConfig);
     }

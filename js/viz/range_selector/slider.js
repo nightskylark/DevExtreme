@@ -1,11 +1,10 @@
-var commonModule = require("./common"),
-    animationSettings = commonModule.utils.animationSettings,
-    formatValue = commonModule.formatValue,
-    SliderMarker = require("./slider_marker"),
-    support = require("../../core/utils/support"),
-
-    SPLITTER_WIDTH = 8,
-    TOUCH_SPLITTER_WIDTH = 20;
+var commonModule = require("./common");
+var animationSettings = commonModule.utils.animationSettings;
+var formatValue = commonModule.formatValue;
+var SliderMarker = require("./slider_marker");
+var support = require("../../core/utils/support");
+var SPLITTER_WIDTH = 8;
+var TOUCH_SPLITTER_WIDTH = 20;
 
 function getSliderTrackerWidth(sliderHandleWidth) {
     return support.touchEvents || support.pointer ? TOUCH_SPLITTER_WIDTH : (SPLITTER_WIDTH < sliderHandleWidth ? sliderHandleWidth : SPLITTER_WIDTH);
@@ -29,10 +28,10 @@ Slider.prototype = {
     },
 
     applyPosition: function(isAnimated) {
-        var that = this,
-            slider = that._sliderGroup,
-            tracker = that._tracker,
-            attrs = { translateX: that._position };
+        var that = this;
+        var slider = that._sliderGroup;
+        var tracker = that._tracker;
+        var attrs = { translateX: that._position };
 
         that._marker.setPosition(that._position);
         if(isAnimated) {

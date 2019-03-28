@@ -1,10 +1,10 @@
-var $ = require("../core/renderer"),
-    dependencyInjector = require("../core/utils/dependency_injector"),
-    extend = require("../core/utils/extend").extend,
-    each = require("../core/utils/iterator").each,
-    stringFormat = require("../core/utils/string").format,
-    humanize = require("../core/utils/inflector").humanize,
-    coreLocalization = require("./core");
+var $ = require("../core/renderer");
+var dependencyInjector = require("../core/utils/dependency_injector");
+var extend = require("../core/utils/extend").extend;
+var each = require("../core/utils/iterator").each;
+var stringFormat = require("../core/utils/string").format;
+var humanize = require("../core/utils/inflector").humanize;
+var coreLocalization = require("./core");
 
 require("./core");
 
@@ -29,8 +29,8 @@ var getDataByLocale = function(localeData, locale) {
 };
 
 var getValueByClosestLocale = function(localeData, locale, key) {
-    var value = getDataByLocale(localeData, locale)[key],
-        isRootLocale;
+    var value = getDataByLocale(localeData, locale)[key];
+    var isRootLocale;
 
     while(!value && !isRootLocale) {
         locale = getParentLocale(locale);
@@ -61,13 +61,13 @@ var messageLocalization = dependencyInjector({
     },
 
     localizeString: function(text) {
-        var that = this,
-            regex = new RegExp("(^|[^a-zA-Z_0-9" + that._localizablePrefix + "-]+)(" + that._localizablePrefix + "{1,2})([a-zA-Z_0-9-]+)", "g"),
-            escapeString = that._localizablePrefix + that._localizablePrefix;
+        var that = this;
+        var regex = new RegExp("(^|[^a-zA-Z_0-9" + that._localizablePrefix + "-]+)(" + that._localizablePrefix + "{1,2})([a-zA-Z_0-9-]+)", "g");
+        var escapeString = that._localizablePrefix + that._localizablePrefix;
 
         return text.replace(regex, function(str, prefix, escape, localizationKey) {
-            var defaultResult = that._localizablePrefix + localizationKey,
-                result;
+            var defaultResult = that._localizablePrefix + localizationKey;
+            var result;
 
             if(escape !== escapeString) {
                 result = that.format(localizationKey);

@@ -18,11 +18,11 @@ var getSameNewByOld = function(oldItem, newItems, newIndexByKey, getKey) {
 };
 
 export const findChanges = function(oldItems, newItems, getKey, isItemEquals) {
-    var oldIndexByKey = {},
-        newIndexByKey = {},
-        addedCount = 0,
-        removeCount = 0,
-        result = [];
+    var oldIndexByKey = {};
+    var newIndexByKey = {};
+    var addedCount = 0;
+    var removeCount = 0;
+    var result = [];
 
     oldItems.forEach(function(item, index) {
         var key = getKeyWrapper(item, getKey);
@@ -36,10 +36,10 @@ export const findChanges = function(oldItems, newItems, getKey, isItemEquals) {
 
     var itemCount = Math.max(oldItems.length, newItems.length);
     for(var index = 0; index < itemCount + addedCount; index++) {
-        var newItem = newItems[index],
-            oldNextIndex = index - addedCount + removeCount,
-            nextOldItem = oldItems[oldNextIndex],
-            isRemoved = !newItem || (nextOldItem && !getSameNewByOld(nextOldItem, newItems, newIndexByKey, getKey));
+        var newItem = newItems[index];
+        var oldNextIndex = index - addedCount + removeCount;
+        var nextOldItem = oldItems[oldNextIndex];
+        var isRemoved = !newItem || (nextOldItem && !getSameNewByOld(nextOldItem, newItems, newIndexByKey, getKey));
 
         if(isRemoved) {
             if(nextOldItem) {
@@ -53,9 +53,9 @@ export const findChanges = function(oldItems, newItems, getKey, isItemEquals) {
                 index--;
             }
         } else {
-            var key = getKeyWrapper(newItem, getKey),
-                oldIndex = oldIndexByKey[key],
-                oldItem = oldItems[oldIndex];
+            var key = getKeyWrapper(newItem, getKey);
+            var oldIndex = oldIndexByKey[key];
+            var oldItem = oldItems[oldIndex];
             if(!oldItem) {
                 addedCount++;
                 result.push({

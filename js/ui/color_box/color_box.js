@@ -1,30 +1,28 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    Color = require("../../color"),
-    ColorView = require("./color_view"),
-    extend = require("../../core/utils/extend").extend,
-    isFunction = require("../../core/utils/type").isFunction,
-    registerComponent = require("../../core/component_registrator"),
-    DropDownEditor = require("../drop_down_editor/ui.drop_down_editor");
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var Color = require("../../color");
+var ColorView = require("./color_view");
+var extend = require("../../core/utils/extend").extend;
+var isFunction = require("../../core/utils/type").isFunction;
+var registerComponent = require("../../core/component_registrator");
+var DropDownEditor = require("../drop_down_editor/ui.drop_down_editor");
+var COLOR_BOX_CLASS = "dx-colorbox";
+var COLOR_BOX_INPUT_CLASS = COLOR_BOX_CLASS + "-input";
+var COLOR_BOX_INPUT_CONTAINER_CLASS = COLOR_BOX_INPUT_CLASS + "-container";
+var COLOR_BOX_COLOR_RESULT_PREVIEW_CLASS = COLOR_BOX_CLASS + "-color-result-preview";
+var COLOR_BOX_COLOR_IS_NOT_DEFINED = COLOR_BOX_CLASS + "-color-is-not-defined";
+var COLOR_BOX_OVERLAY_CLASS = COLOR_BOX_CLASS + "-overlay";
+var COLOR_BOX_CONTAINER_CELL_CLASS = "dx-colorview-container-cell";
+var COLOR_BOX_BUTTON_CELL_CLASS = "dx-colorview-button-cell";
+var COLOR_BOX_BUTTONS_CONTAINER_CLASS = "dx-colorview-buttons-container";
+var COLOR_BOX_APPLY_BUTTON_CLASS = "dx-colorview-apply-button";
+var COLOR_BOX_CANCEL_BUTTON_CLASS = "dx-colorview-cancel-button";
+var colorEditorPrototype = ColorView.prototype;
 
-var COLOR_BOX_CLASS = "dx-colorbox",
-    COLOR_BOX_INPUT_CLASS = COLOR_BOX_CLASS + "-input",
-    COLOR_BOX_INPUT_CONTAINER_CLASS = COLOR_BOX_INPUT_CLASS + "-container",
-    COLOR_BOX_COLOR_RESULT_PREVIEW_CLASS = COLOR_BOX_CLASS + "-color-result-preview",
-    COLOR_BOX_COLOR_IS_NOT_DEFINED = COLOR_BOX_CLASS + "-color-is-not-defined",
-    COLOR_BOX_OVERLAY_CLASS = COLOR_BOX_CLASS + "-overlay",
-
-    COLOR_BOX_CONTAINER_CELL_CLASS = "dx-colorview-container-cell",
-    COLOR_BOX_BUTTON_CELL_CLASS = "dx-colorview-button-cell",
-    COLOR_BOX_BUTTONS_CONTAINER_CLASS = "dx-colorview-buttons-container",
-    COLOR_BOX_APPLY_BUTTON_CLASS = "dx-colorview-apply-button",
-    COLOR_BOX_CANCEL_BUTTON_CLASS = "dx-colorview-cancel-button";
-
-var colorEditorPrototype = ColorView.prototype,
-    colorUtils = {
-        makeTransparentBackground: colorEditorPrototype._makeTransparentBackground.bind(colorEditorPrototype),
-        makeRgba: colorEditorPrototype._makeRgba.bind(colorEditorPrototype)
-    };
+var colorUtils = {
+    makeTransparentBackground: colorEditorPrototype._makeTransparentBackground.bind(colorEditorPrototype),
+    makeRgba: colorEditorPrototype._makeRgba.bind(colorEditorPrototype)
+};
 
 var ColorBox = DropDownEditor.inherit({
 
@@ -269,9 +267,9 @@ var ColorBox = DropDownEditor.inherit({
     },
 
     _enterKeyHandler: function() {
-        var newValue = this._input().val(),
-            value = this.option("value"),
-            oldValue = this.option("editAlphaChannel") ? colorUtils.makeRgba(value) : value;
+        var newValue = this._input().val();
+        var value = this.option("value");
+        var oldValue = this.option("editAlphaChannel") ? colorUtils.makeRgba(value) : value;
 
         if(!newValue) return false;
 
@@ -364,8 +362,8 @@ var ColorBox = DropDownEditor.inherit({
     },
 
     _resetInputValue: function() {
-        var $input = this._input(),
-            value = this.option("value");
+        var $input = this._input();
+        var value = this.option("value");
 
         $input.val(value);
         this._updateColorViewValue(value);
@@ -403,8 +401,8 @@ var ColorBox = DropDownEditor.inherit({
     },
 
     _optionChanged: function(args) {
-        var value = args.value,
-            name = args.name;
+        var value = args.value;
+        var name = args.name;
 
         switch(name) {
             case "value":

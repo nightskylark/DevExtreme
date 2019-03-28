@@ -1,31 +1,29 @@
-var $ = require("../../core/renderer"),
-    themes = require("../themes"),
-    commonUtils = require("../../core/utils/common"),
-    isPlainObject = require("../../core/utils/type").isPlainObject,
-    registerComponent = require("../../core/component_registrator"),
-    inArray = require("../../core/utils/array").inArray,
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    AsyncCollectionWidget = require("../collection/ui.collection_widget.async"),
-    BindableTemplate = require("../widget/bindable_template");
-
-var TOOLBAR_CLASS = "dx-toolbar",
-    TOOLBAR_BEFORE_CLASS = "dx-toolbar-before",
-    TOOLBAR_CENTER_CLASS = "dx-toolbar-center",
-    TOOLBAR_AFTER_CLASS = "dx-toolbar-after",
-    TOOLBAR_BOTTOM_CLASS = "dx-toolbar-bottom",
-    TOOLBAR_MINI_CLASS = "dx-toolbar-mini",
-    TOOLBAR_ITEM_CLASS = "dx-toolbar-item",
-    TOOLBAR_LABEL_CLASS = "dx-toolbar-label",
-    TOOLBAR_BUTTON_CLASS = "dx-toolbar-button",
-    TOOLBAR_ITEMS_CONTAINER_CLASS = "dx-toolbar-items-container",
-    TOOLBAR_GROUP_CLASS = "dx-toolbar-group",
-    TOOLBAR_COMPACT_CLASS = "dx-toolbar-compact",
-    TOOLBAR_LABEL_SELECTOR = "." + TOOLBAR_LABEL_CLASS,
-    TEXT_BUTTON_MODE = "text",
-    DEFAULT_BUTTON_TYPE = "default",
-
-    TOOLBAR_ITEM_DATA_KEY = "dxToolbarItemDataKey";
+var $ = require("../../core/renderer");
+var themes = require("../themes");
+var commonUtils = require("../../core/utils/common");
+var isPlainObject = require("../../core/utils/type").isPlainObject;
+var registerComponent = require("../../core/component_registrator");
+var inArray = require("../../core/utils/array").inArray;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var AsyncCollectionWidget = require("../collection/ui.collection_widget.async");
+var BindableTemplate = require("../widget/bindable_template");
+var TOOLBAR_CLASS = "dx-toolbar";
+var TOOLBAR_BEFORE_CLASS = "dx-toolbar-before";
+var TOOLBAR_CENTER_CLASS = "dx-toolbar-center";
+var TOOLBAR_AFTER_CLASS = "dx-toolbar-after";
+var TOOLBAR_BOTTOM_CLASS = "dx-toolbar-bottom";
+var TOOLBAR_MINI_CLASS = "dx-toolbar-mini";
+var TOOLBAR_ITEM_CLASS = "dx-toolbar-item";
+var TOOLBAR_LABEL_CLASS = "dx-toolbar-label";
+var TOOLBAR_BUTTON_CLASS = "dx-toolbar-button";
+var TOOLBAR_ITEMS_CONTAINER_CLASS = "dx-toolbar-items-container";
+var TOOLBAR_GROUP_CLASS = "dx-toolbar-group";
+var TOOLBAR_COMPACT_CLASS = "dx-toolbar-compact";
+var TOOLBAR_LABEL_SELECTOR = "." + TOOLBAR_LABEL_CLASS;
+var TEXT_BUTTON_MODE = "text";
+var DEFAULT_BUTTON_TYPE = "default";
+var TOOLBAR_ITEM_DATA_KEY = "dxToolbarItemDataKey";
 
 var ToolbarBase = AsyncCollectionWidget.inherit({
     compactMode: false,
@@ -168,11 +166,11 @@ var ToolbarBase = AsyncCollectionWidget.inherit({
     },
 
     _renderSections: function() {
-        var $container = this._$toolbarItemsContainer,
-            that = this;
+        var $container = this._$toolbarItemsContainer;
+        var that = this;
         each(["before", "center", "after"], function() {
-            var sectionClass = "dx-toolbar-" + this,
-                $section = $container.find("." + sectionClass);
+            var sectionClass = "dx-toolbar-" + this;
+            var $section = $container.find("." + sectionClass);
 
             if(!$section.length) {
                 that["_$" + this + "Section"] = $section = $("<div>")
@@ -190,29 +188,29 @@ var ToolbarBase = AsyncCollectionWidget.inherit({
             float: "none"
         });
 
-        var beforeRect = this._$beforeSection.get(0).getBoundingClientRect(),
-            afterRect = this._$afterSection.get(0).getBoundingClientRect();
+        var beforeRect = this._$beforeSection.get(0).getBoundingClientRect();
+        var afterRect = this._$afterSection.get(0).getBoundingClientRect();
 
         this._alignCenterSection(beforeRect, afterRect, elementWidth);
 
-        var $label = this._$toolbarItemsContainer.find(TOOLBAR_LABEL_SELECTOR).eq(0),
-            $section = $label.parent();
+        var $label = this._$toolbarItemsContainer.find(TOOLBAR_LABEL_SELECTOR).eq(0);
+        var $section = $label.parent();
 
         if(!$label.length) {
             return;
         }
 
-        var labelOffset = beforeRect.width ? beforeRect.width : $label.position().left,
-            widthBeforeSection = $section.hasClass(TOOLBAR_BEFORE_CLASS) ? 0 : labelOffset,
-            widthAfterSection = $section.hasClass(TOOLBAR_AFTER_CLASS) ? 0 : afterRect.width,
-            elemsAtSectionWidth = 0;
+        var labelOffset = beforeRect.width ? beforeRect.width : $label.position().left;
+        var widthBeforeSection = $section.hasClass(TOOLBAR_BEFORE_CLASS) ? 0 : labelOffset;
+        var widthAfterSection = $section.hasClass(TOOLBAR_AFTER_CLASS) ? 0 : afterRect.width;
+        var elemsAtSectionWidth = 0;
 
         $section.children().not(TOOLBAR_LABEL_SELECTOR).each(function() {
             elemsAtSectionWidth += $(this).outerWidth();
         });
 
-        var freeSpace = elementWidth - elemsAtSectionWidth,
-            sectionMaxWidth = Math.max(freeSpace - widthBeforeSection - widthAfterSection, 0);
+        var freeSpace = elementWidth - elemsAtSectionWidth;
+        var sectionMaxWidth = Math.max(freeSpace - widthBeforeSection - widthAfterSection, 0);
 
         if($section.hasClass(TOOLBAR_BEFORE_CLASS)) {
             this._alignSection(this._$beforeSection, sectionMaxWidth);
@@ -225,10 +223,10 @@ var ToolbarBase = AsyncCollectionWidget.inherit({
     _alignCenterSection: function(beforeRect, afterRect, elementWidth) {
         this._alignSection(this._$centerSection, elementWidth - beforeRect.width - afterRect.width);
 
-        var isRTL = this.option("rtlEnabled"),
-            leftRect = isRTL ? afterRect : beforeRect,
-            rightRect = isRTL ? beforeRect : afterRect,
-            centerRect = this._$centerSection.get(0).getBoundingClientRect();
+        var isRTL = this.option("rtlEnabled");
+        var leftRect = isRTL ? afterRect : beforeRect;
+        var rightRect = isRTL ? beforeRect : afterRect;
+        var centerRect = this._$centerSection.get(0).getBoundingClientRect();
 
         if(leftRect.right > centerRect.left || centerRect.right > rightRect.left) {
             this._$centerSection.css({
@@ -240,13 +238,13 @@ var ToolbarBase = AsyncCollectionWidget.inherit({
     },
 
     _alignSection: function($section, maxWidth) {
-        var $labels = $section.find(TOOLBAR_LABEL_SELECTOR),
-            labels = $labels.toArray();
+        var $labels = $section.find(TOOLBAR_LABEL_SELECTOR);
+        var labels = $labels.toArray();
 
         maxWidth = maxWidth - this._getCurrentLabelsPaddings(labels);
 
-        var currentWidth = this._getCurrentLabelsWidth(labels),
-            difference = Math.abs(currentWidth - maxWidth);
+        var currentWidth = this._getCurrentLabelsWidth(labels);
+        var difference = Math.abs(currentWidth - maxWidth);
 
         if(maxWidth < currentWidth) {
             labels = labels.reverse();
@@ -260,9 +258,9 @@ var ToolbarBase = AsyncCollectionWidget.inherit({
         var getRealLabelWidth = function(label) { return label.getBoundingClientRect().width; };
 
         for(var i = 0; i < labels.length; i++) {
-            var $label = $(labels[i]),
-                currentLabelWidth = Math.ceil(getRealLabelWidth(labels[i])),
-                labelMaxWidth;
+            var $label = $(labels[i]);
+            var currentLabelWidth = Math.ceil(getRealLabelWidth(labels[i]));
+            var labelMaxWidth;
 
             if(expanding) {
                 $label.css("maxWidth", "inherit");
@@ -313,10 +311,10 @@ var ToolbarBase = AsyncCollectionWidget.inherit({
     },
 
     _renderItem: function(index, item, itemContainer, $after) {
-        var location = item.location || "center",
-            container = itemContainer || this["_$" + location + "Section"],
-            itemHasText = !!(item.text || item.html),
-            itemElement = this.callBase(index, item, container, $after);
+        var location = item.location || "center";
+        var container = itemContainer || this["_$" + location + "Section"];
+        var itemHasText = !!(item.text || item.html);
+        var itemElement = this.callBase(index, item, container, $after);
 
         itemElement
             .toggleClass(this._buttonClass(), !itemHasText)
@@ -330,9 +328,9 @@ var ToolbarBase = AsyncCollectionWidget.inherit({
         var that = this;
 
         each(this.option("items"), function(groupIndex, group) {
-            var groupItems = group.items,
-                $container = $("<div>").addClass(TOOLBAR_GROUP_CLASS),
-                location = group.location || "center";
+            var groupItems = group.items;
+            var $container = $("<div>").addClass(TOOLBAR_GROUP_CLASS);
+            var location = group.location || "center";
 
             if(!groupItems || !groupItems.length) {
                 return;

@@ -1,20 +1,22 @@
-var animationFrame = require("../../../animation/frame"),
-    noop = function() { },
-    easingFunctions = {
-        easeOutCubic: function(pos, start, end) { return (pos === 1) ? end : ((1 - Math.pow((1 - pos), 3)) * (end - start) + (+start)); },
-        linear: function(pos, start, end) { return (pos === 1) ? end : (pos * (end - start) + (+start)); }
-    };
+var animationFrame = require("../../../animation/frame");
+var noop = function() { };
+
+var easingFunctions = {
+    easeOutCubic: function(pos, start, end) { return (pos === 1) ? end : ((1 - Math.pow((1 - pos), 3)) * (end - start) + (+start)); },
+    linear: function(pos, start, end) { return (pos === 1) ? end : (pos * (end - start) + (+start)); }
+};
 
 exports.easingFunctions = easingFunctions;
 
 var animationSvgStep = {
     segments: function(elem, params, progress, easing, currentParams) {
-        var from = params.from,
-            to = params.to,
-            curSeg,
-            seg,
-            i, j,
-            segments = [];
+        var from = params.from;
+        var to = params.to;
+        var curSeg;
+        var seg;
+        var i;
+        var j;
+        var segments = [];
 
         for(i = 0; i < from.length; i++) {
             curSeg = from[i];
@@ -31,9 +33,9 @@ var animationSvgStep = {
     },
 
     arc: function(elem, params, progress, easing) {
-        var from = params.from,
-            to = params.to,
-            current = {};
+        var from = params.from;
+        var to = params.to;
+        var current = {};
         for(var i in from) {
             current[i] = easing(progress, from[i], to[i]);
         }
@@ -41,9 +43,9 @@ var animationSvgStep = {
     },
 
     transform: function(elem, params, progress, easing, currentParams) {
-        var from = params.from,
-            to = params.to,
-            current = {};
+        var from = params.from;
+        var to = params.to;
+        var current = {};
         for(var i in from) {
             current[i] = currentParams[i] = easing(progress, from[i], to[i]);
         }
@@ -64,9 +66,9 @@ var animationSvgStep = {
 };
 
 function step(now) {
-    var that = this,
-        animateStep = that._animateStep,
-        attrName;
+    var that = this;
+    var animateStep = that._animateStep;
+    var attrName;
     that._progress = that._calcProgress(now);
 
     for(attrName in that.params) {
@@ -114,9 +116,9 @@ Animation.prototype = {
     },
 
     stop: function(disableComplete) {
-        var that = this,
-            options = that.options,
-            animateStep = that._animateStep;
+        var that = this;
+        var options = that.options;
+        var animateStep = that._animateStep;
 
         that.stop = that.tick = noop;
 
@@ -136,12 +138,12 @@ exports.AnimationController = AnimationController;
 
 AnimationController.prototype = {
     _loop: function() {
-        var that = this,
-            animations = that._animations,
-            activeAnimation = 0,
-            now = new Date().getTime(),
-            an,
-            endAnimation = that._endAnimation;
+        var that = this;
+        var animations = that._animations;
+        var activeAnimation = 0;
+        var now = new Date().getTime();
+        var an;
+        var endAnimation = that._endAnimation;
 
         for(an in animations) {
             if(!animations[an].tick(now)) {
@@ -205,10 +207,13 @@ AnimationController.prototype = {
     },
 
     lock: function() {
-        var an,
-            animations = this._animations,
-            unstoppable, // T261694
-            hasUnstoppableInAnimations;
+        var an;
+        var animations = this._animations;
+
+        var // T261694
+        unstoppable;
+
+        var hasUnstoppableInAnimations;
 
         for(an in animations) {
             unstoppable = animations[an].options.unstoppable;

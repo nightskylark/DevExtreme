@@ -1,55 +1,49 @@
-var $ = require("../core/renderer"),
-    Class = require("../core/class"),
-    Guid = require("../core/guid"),
-    window = require("../core/utils/window").getWindow(),
-    eventsEngine = require("../events/core/events_engine"),
-    registerComponent = require("../core/component_registrator"),
-    Callbacks = require("../core/utils/callbacks"),
-    isDefined = require("../core/utils/type").isDefined,
-    each = require("../core/utils/iterator").each,
-    extend = require("../core/utils/extend").extend,
-    inArray = require("../core/utils/array").inArray,
-    ajax = require("../core/utils/ajax"),
-    Editor = require("./editor/editor"),
-    Button = require("./button"),
-    ProgressBar = require("./progress_bar"),
-    browser = require("../core/utils/browser"),
-    devices = require("../core/devices"),
-    eventUtils = require("../events/utils"),
-    clickEvent = require("../events/click"),
-    messageLocalization = require("../localization/message"),
-    themes = require("./themes");
-
-var FILEUPLOADER_CLASS = "dx-fileuploader",
-    FILEUPLOADER_EMPTY_CLASS = "dx-fileuploader-empty",
-    FILEUPLOADER_SHOW_FILE_LIST_CLASS = "dx-fileuploader-show-file-list",
-    FILEUPLOADER_DRAGOVER_CLASS = "dx-fileuploader-dragover",
-
-    FILEUPLOADER_WRAPPER_CLASS = "dx-fileuploader-wrapper",
-    FILEUPLOADER_CONTAINER_CLASS = "dx-fileuploader-container",
-    FILEUPLOADER_CONTENT_CLASS = "dx-fileuploader-content",
-    FILEUPLOADER_INPUT_WRAPPER_CLASS = "dx-fileuploader-input-wrapper",
-    FILEUPLOADER_INPUT_CONTAINER_CLASS = "dx-fileuploader-input-container",
-    FILEUPLOADER_INPUT_LABEL_CLASS = "dx-fileuploader-input-label",
-    FILEUPLOADER_INPUT_CLASS = "dx-fileuploader-input",
-    FILEUPLOADER_FILES_CONTAINER_CLASS = "dx-fileuploader-files-container",
-    FILEUPLOADER_FILE_CONTAINER_CLASS = "dx-fileuploader-file-container",
-    FILEUPLOADER_FILE_INFO_CLASS = "dx-fileuploader-file-info",
-    FILEUPLOADER_FILE_STATUS_MESSAGE_CLASS = "dx-fileuploader-file-status-message",
-
-    FILEUPLOADER_FILE_CLASS = "dx-fileuploader-file",
-    FILEUPLOADER_FILE_NAME_CLASS = "dx-fileuploader-file-name",
-    FILEUPLOADER_FILE_SIZE_CLASS = "dx-fileuploader-file-size",
-
-    FILEUPLOADER_BUTTON_CLASS = "dx-fileuploader-button",
-    FILEUPLOADER_BUTTON_CONTAINER_CLASS = "dx-fileuploader-button-container",
-    FILEUPLOADER_CANCEL_BUTTON_CLASS = "dx-fileuploader-cancel-button",
-    FILEUPLOADER_UPLOAD_BUTTON_CLASS = "dx-fileuploader-upload-button",
-
-    FILEUPLOADER_INVALID_CLASS = "dx-fileuploader-invalid",
-
-    FILEUPLOADER_AFTER_LOAD_DELAY = 400,
-    FILEUPLOADER_CHUNK_META_DATA_NAME = "chunkMetadata";
+var $ = require("../core/renderer");
+var Class = require("../core/class");
+var Guid = require("../core/guid");
+var window = require("../core/utils/window").getWindow();
+var eventsEngine = require("../events/core/events_engine");
+var registerComponent = require("../core/component_registrator");
+var Callbacks = require("../core/utils/callbacks");
+var isDefined = require("../core/utils/type").isDefined;
+var each = require("../core/utils/iterator").each;
+var extend = require("../core/utils/extend").extend;
+var inArray = require("../core/utils/array").inArray;
+var ajax = require("../core/utils/ajax");
+var Editor = require("./editor/editor");
+var Button = require("./button");
+var ProgressBar = require("./progress_bar");
+var browser = require("../core/utils/browser");
+var devices = require("../core/devices");
+var eventUtils = require("../events/utils");
+var clickEvent = require("../events/click");
+var messageLocalization = require("../localization/message");
+var themes = require("./themes");
+var FILEUPLOADER_CLASS = "dx-fileuploader";
+var FILEUPLOADER_EMPTY_CLASS = "dx-fileuploader-empty";
+var FILEUPLOADER_SHOW_FILE_LIST_CLASS = "dx-fileuploader-show-file-list";
+var FILEUPLOADER_DRAGOVER_CLASS = "dx-fileuploader-dragover";
+var FILEUPLOADER_WRAPPER_CLASS = "dx-fileuploader-wrapper";
+var FILEUPLOADER_CONTAINER_CLASS = "dx-fileuploader-container";
+var FILEUPLOADER_CONTENT_CLASS = "dx-fileuploader-content";
+var FILEUPLOADER_INPUT_WRAPPER_CLASS = "dx-fileuploader-input-wrapper";
+var FILEUPLOADER_INPUT_CONTAINER_CLASS = "dx-fileuploader-input-container";
+var FILEUPLOADER_INPUT_LABEL_CLASS = "dx-fileuploader-input-label";
+var FILEUPLOADER_INPUT_CLASS = "dx-fileuploader-input";
+var FILEUPLOADER_FILES_CONTAINER_CLASS = "dx-fileuploader-files-container";
+var FILEUPLOADER_FILE_CONTAINER_CLASS = "dx-fileuploader-file-container";
+var FILEUPLOADER_FILE_INFO_CLASS = "dx-fileuploader-file-info";
+var FILEUPLOADER_FILE_STATUS_MESSAGE_CLASS = "dx-fileuploader-file-status-message";
+var FILEUPLOADER_FILE_CLASS = "dx-fileuploader-file";
+var FILEUPLOADER_FILE_NAME_CLASS = "dx-fileuploader-file-name";
+var FILEUPLOADER_FILE_SIZE_CLASS = "dx-fileuploader-file-size";
+var FILEUPLOADER_BUTTON_CLASS = "dx-fileuploader-button";
+var FILEUPLOADER_BUTTON_CONTAINER_CLASS = "dx-fileuploader-button-container";
+var FILEUPLOADER_CANCEL_BUTTON_CLASS = "dx-fileuploader-cancel-button";
+var FILEUPLOADER_UPLOAD_BUTTON_CLASS = "dx-fileuploader-upload-button";
+var FILEUPLOADER_INVALID_CLASS = "dx-fileuploader-invalid";
+var FILEUPLOADER_AFTER_LOAD_DELAY = 400;
+var FILEUPLOADER_CHUNK_META_DATA_NAME = "chunkMetadata";
 
 var renderFileUploaderInput = function() {
     return $("<input>").attr("type", "file");
@@ -471,8 +465,8 @@ var FileUploader = Editor.inherit({
             return;
         }
 
-        var fileName = this._$fileInput.val().replace(/^.*\\/, ''),
-            files = this._$fileInput.prop("files");
+        var fileName = this._$fileInput.val().replace(/^.*\\/, '');
+        var files = this._$fileInput.prop("files");
 
         if(files && !files.length) {
             return;
@@ -617,8 +611,8 @@ var FileUploader = Editor.inherit({
     },
 
     _validateFileExtension: function(file) {
-        var allowedExtensions = this.option("allowedFileExtensions"),
-            fileExtension = file.value.name.substring(file.value.name.lastIndexOf('.')).toLowerCase();
+        var allowedExtensions = this.option("allowedFileExtensions");
+        var fileExtension = file.value.name.substring(file.value.name.lastIndexOf('.')).toLowerCase();
         if(allowedExtensions.length === 0) {
             return true;
         }
@@ -631,14 +625,14 @@ var FileUploader = Editor.inherit({
     },
 
     _validateMaxFileSize: function(file) {
-        var fileSize = file.value.size,
-            maxFileSize = this.option("maxFileSize");
+        var fileSize = file.value.size;
+        var maxFileSize = this.option("maxFileSize");
         return maxFileSize > 0 ? fileSize <= maxFileSize : true;
     },
 
     _validateMinFileSize: function(file) {
-        var fileSize = file.value.size,
-            minFileSize = this.option("minFileSize");
+        var fileSize = file.value.size;
+        var minFileSize = this.option("minFileSize");
         return minFileSize > 0 ? fileSize >= minFileSize : true;
     },
 
@@ -762,12 +756,12 @@ var FileUploader = Editor.inherit({
     },
 
     _updateFileNameMaxWidth: function() {
-        var cancelButtonsCount = this.option("allowCanceling") && this.option("uploadMode") !== "useForm" ? 1 : 0,
-            uploadButtonsCount = this.option("uploadMode") === "useButtons" ? 1 : 0,
-            filesContainerWidth = this._$filesContainer.find("." + FILEUPLOADER_FILE_CONTAINER_CLASS).first().width() || this._$filesContainer.width(),
-            $buttonContainer = this._$filesContainer.find("." + FILEUPLOADER_BUTTON_CONTAINER_CLASS).eq(0),
-            buttonsWidth = $buttonContainer.width() * (cancelButtonsCount + uploadButtonsCount),
-            $fileSize = this._$filesContainer.find("." + FILEUPLOADER_FILE_SIZE_CLASS).eq(0);
+        var cancelButtonsCount = this.option("allowCanceling") && this.option("uploadMode") !== "useForm" ? 1 : 0;
+        var uploadButtonsCount = this.option("uploadMode") === "useButtons" ? 1 : 0;
+        var filesContainerWidth = this._$filesContainer.find("." + FILEUPLOADER_FILE_CONTAINER_CLASS).first().width() || this._$filesContainer.width();
+        var $buttonContainer = this._$filesContainer.find("." + FILEUPLOADER_BUTTON_CONTAINER_CLASS).eq(0);
+        var buttonsWidth = $buttonContainer.width() * (cancelButtonsCount + uploadButtonsCount);
+        var $fileSize = this._$filesContainer.find("." + FILEUPLOADER_FILE_SIZE_CLASS).eq(0);
 
         var prevFileSize = $fileSize.text();
         $fileSize.text("1000 Mb");
@@ -864,14 +858,16 @@ var FileUploader = Editor.inherit({
     },
 
     _getFileSize: function(size) {
-        var i = 0,
-            labels = [
-                messageLocalization.format("dxFileUploader-bytes"),
-                messageLocalization.format("dxFileUploader-kb"),
-                messageLocalization.format("dxFileUploader-Mb"),
-                messageLocalization.format("dxFileUploader-Gb")
-            ],
-            count = labels.length - 1;
+        var i = 0;
+
+        var labels = [
+            messageLocalization.format("dxFileUploader-bytes"),
+            messageLocalization.format("dxFileUploader-kb"),
+            messageLocalization.format("dxFileUploader-Mb"),
+            messageLocalization.format("dxFileUploader-Gb")
+        ];
+
+        var count = labels.length - 1;
 
         while(i < count && size >= 1024) {
             size /= 1024;
@@ -1042,8 +1038,8 @@ var FileUploader = Editor.inherit({
     },
 
     _updateEventTargets: function(e) {
-        var targetIndex = this._dragEventsTargets.indexOf(e.target),
-            isTargetExists = targetIndex !== -1;
+        var targetIndex = this._dragEventsTargets.indexOf(e.target);
+        var isTargetExists = targetIndex !== -1;
 
         if(e.type === "dragenter") {
             !isTargetExists && this._dragEventsTargets.push(e.target);
@@ -1062,8 +1058,8 @@ var FileUploader = Editor.inherit({
 
         e.preventDefault();
 
-        var fileList = e.originalEvent.dataTransfer.files,
-            files = this._getFiles(fileList);
+        var fileList = e.originalEvent.dataTransfer.files;
+        var files = this._getFiles(fileList);
 
         if(!this.option("multiple") && files.length > 1) {
             return;
@@ -1087,8 +1083,8 @@ var FileUploader = Editor.inherit({
             return files;
         }
 
-        var result = [],
-            allowedTypes = this._getAllowedFileTypes(accept);
+        var result = [];
+        var allowedTypes = this._getAllowedFileTypes(accept);
 
         for(var i = 0, n = files.length; i < n; i++) {
             if(this._isFileTypeAllowed(files[i], allowedTypes)) {

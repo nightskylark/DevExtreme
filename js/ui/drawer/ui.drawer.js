@@ -240,9 +240,9 @@ const Drawer = Widget.inherit({
         this._whenPanelRendered = new Deferred();
         this._strategy.renderPanel(this._getTemplate(this.option("template")), this._whenPanelRendered);
 
-        const contentTemplateOption = this.option("contentTemplate"),
-            contentTemplate = this._getTemplate(contentTemplateOption),
-            transclude = this._getAnonymousTemplateName() === contentTemplateOption;
+        const contentTemplateOption = this.option("contentTemplate");
+        const contentTemplate = this._getTemplate(contentTemplateOption);
+        const transclude = this._getAnonymousTemplateName() === contentTemplateOption;
 
         contentTemplate && contentTemplate.render({
             container: this.viewContent(),

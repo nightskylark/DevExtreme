@@ -40,25 +40,24 @@ var OPERATION_DESCRIPTORS = {
     "between": "between"
 };
 
-var FILTERING_TIMEOUT = 700,
-    CORRECT_FILTER_RANGE_OVERLAY_WIDTH = 1,
-    FILTER_ROW_CLASS = "filter-row",
-    FILTER_RANGE_OVERLAY_CLASS = "filter-range-overlay",
-    FILTER_RANGE_START_CLASS = "filter-range-start",
-    FILTER_RANGE_END_CLASS = "filter-range-end",
-    MENU_CLASS = "dx-menu",
-    EDITOR_WITH_MENU_CLASS = "dx-editor-with-menu",
-    EDITOR_CONTAINER_CLASS = "dx-editor-container",
-    EDITOR_CELL_CLASS = "dx-editor-cell",
-    FILTER_MENU = "dx-filter-menu",
-    APPLY_BUTTON_CLASS = "dx-apply-button",
-    HIGHLIGHT_OUTLINE_CLASS = "dx-highlight-outline",
-    FOCUSED_CLASS = "dx-focused",
-    CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled",
-    FILTER_RANGE_CONTENT_CLASS = "dx-filter-range-content",
-    FILTER_MODIFIED_CLASS = "dx-filter-modified",
-
-    EDITORS_INPUT_SELECTOR = "input:not([type='hidden'])";
+var FILTERING_TIMEOUT = 700;
+var CORRECT_FILTER_RANGE_OVERLAY_WIDTH = 1;
+var FILTER_ROW_CLASS = "filter-row";
+var FILTER_RANGE_OVERLAY_CLASS = "filter-range-overlay";
+var FILTER_RANGE_START_CLASS = "filter-range-start";
+var FILTER_RANGE_END_CLASS = "filter-range-end";
+var MENU_CLASS = "dx-menu";
+var EDITOR_WITH_MENU_CLASS = "dx-editor-with-menu";
+var EDITOR_CONTAINER_CLASS = "dx-editor-container";
+var EDITOR_CELL_CLASS = "dx-editor-cell";
+var FILTER_MENU = "dx-filter-menu";
+var APPLY_BUTTON_CLASS = "dx-apply-button";
+var HIGHLIGHT_OUTLINE_CLASS = "dx-highlight-outline";
+var FOCUSED_CLASS = "dx-focused";
+var CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled";
+var FILTER_RANGE_CONTENT_CLASS = "dx-filter-range-content";
+var FILTER_MODIFIED_CLASS = "dx-filter-modified";
+var EDITORS_INPUT_SELECTOR = "input:not([type='hidden'])";
 
 function isOnClickApplyFilterMode(that) {
     return that.option("filterRow.applyFilter") === "onClick";
@@ -66,9 +65,9 @@ function isOnClickApplyFilterMode(that) {
 
 var ColumnHeadersViewFilterRowExtender = (function() {
     var getEditorInstance = function($editorContainer) {
-        var $editor = $editorContainer && $editorContainer.children(),
-            componentNames = $editor && $editor.data("dxComponents"),
-            editor = componentNames && componentNames.length && $editor.data(componentNames[0]);
+        var $editor = $editorContainer && $editorContainer.children();
+        var componentNames = $editor && $editor.data("dxComponents");
+        var editor = componentNames && componentNames.length && $editor.data(componentNames[0]);
 
         if(editor instanceof Editor) {
             return editor;
@@ -76,10 +75,10 @@ var ColumnHeadersViewFilterRowExtender = (function() {
     };
 
     var getRangeTextByFilterValue = function(that, column) {
-        var result = "",
-            rangeEnd = "",
-            filterValue = getColumnFilterValue(that, column),
-            formatOptions = gridCoreUtils.getFormatOptionsByColumn(column, "filterRow");
+        var result = "";
+        var rangeEnd = "";
+        var filterValue = getColumnFilterValue(that, column);
+        var formatOptions = gridCoreUtils.getFormatOptionsByColumn(column, "filterRow");
 
         if(Array.isArray(filterValue)) {
             result = gridCoreUtils.formatValue(filterValue[0], formatOptions);
@@ -109,10 +108,10 @@ var ColumnHeadersViewFilterRowExtender = (function() {
 
 
     var getFilterValue = function(that, columnIndex, $editorContainer) {
-        var column = that._columnsController.columnOption(columnIndex),
-            filterValue = getColumnFilterValue(that, column),
-            isFilterRange = $editorContainer.closest("." + that.addWidgetPrefix(FILTER_RANGE_OVERLAY_CLASS)).length,
-            isRangeStart = $editorContainer.hasClass(that.addWidgetPrefix(FILTER_RANGE_START_CLASS));
+        var column = that._columnsController.columnOption(columnIndex);
+        var filterValue = getColumnFilterValue(that, column);
+        var isFilterRange = $editorContainer.closest("." + that.addWidgetPrefix(FILTER_RANGE_OVERLAY_CLASS)).length;
+        var isRangeStart = $editorContainer.hasClass(that.addWidgetPrefix(FILTER_RANGE_START_CLASS));
 
         if(filterValue && Array.isArray(filterValue) && getColumnSelectedFilterOperation(that, column) === "between") {
             if(isRangeStart) {
@@ -139,10 +138,10 @@ var ColumnHeadersViewFilterRowExtender = (function() {
     };
 
     var updateFilterValue = function(that, options) {
-        var value = options.value === "" ? null : options.value,
-            $editorContainer = options.container,
-            column = that._columnsController.columnOption(options.column.index),
-            filterValue = getFilterValue(that, column.index, $editorContainer);
+        var value = options.value === "" ? null : options.value;
+        var $editorContainer = options.container;
+        var column = that._columnsController.columnOption(options.column.index);
+        var filterValue = getFilterValue(that, column.index, $editorContainer);
 
         if(!isDefined(filterValue) && !isDefined(value)) return;
 
@@ -152,22 +151,22 @@ var ColumnHeadersViewFilterRowExtender = (function() {
 
     return {
         _updateEditorValue: function(column, $editorContainer) {
-            var that = this,
-                editor = getEditorInstance($editorContainer);
+            var that = this;
+            var editor = getEditorInstance($editorContainer);
 
             editor && editor.option("value", getFilterValue(that, column.index, $editorContainer));
         },
 
         _columnOptionChanged: function(e) {
-            var that = this,
-                optionNames = e.optionNames,
-                overlayInstance,
-                visibleIndex,
-                column,
-                $cell,
-                $editorContainer,
-                $editorRangeElements,
-                $menu;
+            var that = this;
+            var optionNames = e.optionNames;
+            var overlayInstance;
+            var visibleIndex;
+            var column;
+            var $cell;
+            var $editorContainer;
+            var $editorRangeElements;
+            var $menu;
 
             if(gridCoreUtils.checkChanges(optionNames, ["filterValue", "bufferedFilterValue", "selectedFilterOperation", "bufferedSelectedFilterOperation"]) && e.columnIndex !== undefined) {
                 visibleIndex = that._columnsController.getVisibleIndex(e.columnIndex);
@@ -235,10 +234,10 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _initFilterRangeOverlay: function($cell, column) {
-            var that = this,
-                sharedData = {},
-                $editorContainer = $cell.find(".dx-editor-container"),
-                $overlay = $("<div>").addClass(that.addWidgetPrefix(FILTER_RANGE_OVERLAY_CLASS)).appendTo($cell);
+            var that = this;
+            var sharedData = {};
+            var $editorContainer = $cell.find(".dx-editor-container");
+            var $overlay = $("<div>").addClass(that.addWidgetPrefix(FILTER_RANGE_OVERLAY_CLASS)).appendTo($cell);
 
             return that._createComponent($overlay, Overlay, {
                 height: "auto",
@@ -255,8 +254,8 @@ var ColumnHeadersViewFilterRowExtender = (function() {
                     offset: "0 -1"
                 },
                 contentTemplate: function(contentElement) {
-                    var editorOptions,
-                        $editor = $("<div>").addClass(EDITOR_CONTAINER_CLASS + " " + that.addWidgetPrefix(FILTER_RANGE_START_CLASS)).appendTo(contentElement);
+                    var editorOptions;
+                    var $editor = $("<div>").addClass(EDITOR_CONTAINER_CLASS + " " + that.addWidgetPrefix(FILTER_RANGE_START_CLASS)).appendTo(contentElement);
 
                     column = that._columnsController.columnOption(column.index);
                     editorOptions = that._getEditorOptions($editor, column);
@@ -315,9 +314,9 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _showFilterRange: function($cell, column) {
-            var that = this,
-                $overlay = $cell.children("." + that.addWidgetPrefix(FILTER_RANGE_OVERLAY_CLASS)),
-                overlayInstance = $overlay.length && $overlay.data("dxOverlay");
+            var that = this;
+            var $overlay = $cell.children("." + that.addWidgetPrefix(FILTER_RANGE_OVERLAY_CLASS));
+            var overlayInstance = $overlay.length && $overlay.data("dxOverlay");
 
             if(!overlayInstance && column) {
                 overlayInstance = that._initFilterRangeOverlay($cell, column);
@@ -363,11 +362,11 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _renderFilterCell: function(cell, options) {
-            var that = this,
-                column = options.column,
-                $cell = $(cell),
-                $container,
-                $editorContainer;
+            var that = this;
+            var column = options.column;
+            var $cell = $(cell);
+            var $container;
+            var $editorContainer;
 
             that.setAria("label",
                 messageLocalization.format("dxDataGrid-ariaColumn") + " " + column.caption + ", " + messageLocalization.format("dxDataGrid-ariaFilterCell"),
@@ -391,9 +390,11 @@ var ColumnHeadersViewFilterRowExtender = (function() {
             }
         },
 
-        _renderCellContent: function($cell, options) { // TODO _getCellTemplate
-            var that = this,
-                column = options.column;
+        _renderCellContent: function($cell, options) {
+            // TODO _getCellTemplate
+            var that = this;
+
+            var column = options.column;
 
             if(options.rowType === "filter") {
                 if(column.command) {
@@ -408,22 +409,23 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _getEditorOptions: function($editorContainer, column) {
-            var that = this,
-                result = extend({}, column, {
-                    value: getFilterValue(that, column.index, $editorContainer),
-                    parentType: "filterRow",
-                    showAllText: that.option("filterRow.showAllText"),
-                    updateValueTimeout: that.option("filterRow.applyFilter") === "onClick" ? 0 : FILTERING_TIMEOUT,
-                    width: null,
-                    setValue: function(value, notFireEvent) {
-                        updateFilterValue(that, {
-                            column: column,
-                            value: value,
-                            container: $editorContainer,
-                            notFireEvent: notFireEvent
-                        });
-                    }
-                });
+            var that = this;
+
+            var result = extend({}, column, {
+                value: getFilterValue(that, column.index, $editorContainer),
+                parentType: "filterRow",
+                showAllText: that.option("filterRow.showAllText"),
+                updateValueTimeout: that.option("filterRow.applyFilter") === "onClick" ? 0 : FILTERING_TIMEOUT,
+                width: null,
+                setValue: function(value, notFireEvent) {
+                    updateFilterValue(that, {
+                        column: column,
+                        value: value,
+                        container: $editorContainer,
+                        notFireEvent: notFireEvent
+                    });
+                }
+            });
 
             if(getColumnSelectedFilterOperation(that, column) === "between") {
                 if($editorContainer.hasClass(that.addWidgetPrefix(FILTER_RANGE_START_CLASS))) {
@@ -442,8 +444,8 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _renderFilterRangeContent: function($cell, column) {
-            var that = this,
-                $editorContainer = $cell.find("." + EDITOR_CONTAINER_CLASS).first();
+            var that = this;
+            var $editorContainer = $cell.find("." + EDITOR_CONTAINER_CLASS).first();
 
             $editorContainer.empty();
             var $filterRangeContent = $("<div>")
@@ -472,8 +474,8 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _updateFilterOperationChooser: function($menu, column, $editorContainer) {
-            var that = this,
-                isCellWasFocused;
+            var that = this;
+            var isCellWasFocused;
 
             that._createComponent($menu, Menu, {
                 integrationOptions: {},
@@ -489,11 +491,11 @@ var ColumnHeadersViewFilterRowExtender = (function() {
                     items: that._getFilterOperationMenuItems(column)
                 }],
                 onItemClick: function(properties) {
-                    var selectedFilterOperation = properties.itemData.name,
-                        columnSelectedFilterOperation = getColumnSelectedFilterOperation(that, column),
-                        notFocusEditor = false,
-                        isOnClickMode = isOnClickApplyFilterMode(that),
-                        options = {};
+                    var selectedFilterOperation = properties.itemData.name;
+                    var columnSelectedFilterOperation = getColumnSelectedFilterOperation(that, column);
+                    var notFocusEditor = false;
+                    var isOnClickMode = isOnClickApplyFilterMode(that);
+                    var options = {};
 
                     if(properties.itemData.items || (selectedFilterOperation && selectedFilterOperation === columnSelectedFilterOperation)) {
                         return;
@@ -553,8 +555,8 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _renderFilterOperationChooser: function($container, column, $editorContainer) {
-            var that = this,
-                $menu;
+            var that = this;
+            var $menu;
 
             if(that.option("filterRow.showOperationChooser")) {
                 $container.addClass(EDITOR_WITH_MENU_CLASS);
@@ -564,10 +566,10 @@ var ColumnHeadersViewFilterRowExtender = (function() {
         },
 
         _getFilterOperationMenuItems: function(column) {
-            var that = this,
-                result = [{}],
-                filterRowOptions = that.option("filterRow"),
-                operationDescriptions = filterRowOptions && filterRowOptions.operationDescriptions || {};
+            var that = this;
+            var result = [{}];
+            var filterRowOptions = that.option("filterRow");
+            var operationDescriptions = filterRowOptions && filterRowOptions.operationDescriptions || {};
 
             if(column.filterOperations && column.filterOperations.length) {
                 let availableFilterOperations = column.filterOperations.filter(function(value) {
@@ -621,8 +623,8 @@ var DataControllerFilterRowExtender = {
             return this.callBase();
         }
 
-        var filters = [this.callBase()],
-            columns = this._columnsController.getVisibleColumns();
+        var filters = [this.callBase()];
+        var columns = this._columnsController.getVisibleColumns();
 
         iteratorUtils.each(columns, function() {
             var filter;
@@ -655,8 +657,8 @@ exports.ApplyFilterViewController = modules.ViewController.inherit({
     },
 
     applyFilter: function() {
-        var columnsController = this.getController("columns"),
-            columns = columnsController.getColumns();
+        var columnsController = this.getController("columns");
+        var columns = columnsController.getColumns();
 
         columnsController.beginUpdate();
         for(var i = 0; i < columns.length; i++) {
@@ -826,9 +828,9 @@ module.exports = {
             data: DataControllerFilterRowExtender,
             columnsResizer: {
                 _startResizing: function() {
-                    var that = this,
-                        cellIndex,
-                        overlayInstance;
+                    var that = this;
+                    var cellIndex;
+                    var overlayInstance;
 
                     that.callBase.apply(that, arguments);
 
@@ -846,9 +848,9 @@ module.exports = {
                 },
 
                 _endResizing: function() {
-                    var that = this,
-                        $cell,
-                        overlayInstance;
+                    var that = this;
+                    var $cell;
+                    var overlayInstance;
 
                     if(that.isResizing()) {
                         overlayInstance = that._columnHeadersView.getFilterRangeOverlayInstance();
@@ -868,44 +870,48 @@ module.exports = {
             columnHeadersView: ColumnHeadersViewFilterRowExtender,
             headerPanel: {
                 _getToolbarItems: function() {
-                    var items = this.callBase(),
-                        filterItem = this._prepareFilterItem(items);
+                    var items = this.callBase();
+                    var filterItem = this._prepareFilterItem(items);
 
                     return filterItem.concat(items);
                 },
 
                 _prepareFilterItem: function() {
-                    var that = this,
-                        filterItem = [];
+                    var that = this;
+                    var filterItem = [];
 
                     if(that._isShowApplyFilterButton()) {
-                        var hintText = that.option("filterRow.applyFilterText"),
-                            columns = that._columnsController.getColumns(),
-                            disabled = !columns.filter(function(column) {
-                                return column.bufferedFilterValue !== undefined;
-                            }).length,
-                            onInitialized = function(e) {
-                                $(e.element).addClass(that._getToolbarButtonClass(APPLY_BUTTON_CLASS));
+                        var hintText = that.option("filterRow.applyFilterText");
+                        var columns = that._columnsController.getColumns();
+
+                        var disabled = !columns.filter(function(column) {
+                            return column.bufferedFilterValue !== undefined;
+                        }).length;
+
+                        var onInitialized = function(e) {
+                            $(e.element).addClass(that._getToolbarButtonClass(APPLY_BUTTON_CLASS));
+                        };
+
+                        var onClickHandler = function() {
+                            that._applyFilterViewController.applyFilter();
+                        };
+
+                        var toolbarItem = {
+                            widget: "dxButton",
+                            options: {
+                                icon: "apply-filter",
+                                disabled: disabled,
+                                onClick: onClickHandler,
+                                hint: hintText,
+                                text: hintText,
+                                onInitialized: onInitialized
                             },
-                            onClickHandler = function() {
-                                that._applyFilterViewController.applyFilter();
-                            },
-                            toolbarItem = {
-                                widget: "dxButton",
-                                options: {
-                                    icon: "apply-filter",
-                                    disabled: disabled,
-                                    onClick: onClickHandler,
-                                    hint: hintText,
-                                    text: hintText,
-                                    onInitialized: onInitialized
-                                },
-                                showText: "inMenu",
-                                name: "applyFilterButton",
-                                location: "after",
-                                locateInMenu: "auto",
-                                sortIndex: 10
-                            };
+                            showText: "inMenu",
+                            name: "applyFilterButton",
+                            location: "after",
+                            locateInMenu: "auto",
+                            sortIndex: 10
+                        };
 
                         filterItem.push(toolbarItem);
                     }

@@ -1,12 +1,11 @@
-var registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    NavBarItem = require("./nav_bar/item"),
-    Tabs = require("./tabs");
-
-var NAVBAR_CLASS = "dx-navbar",
-    ITEM_CLASS = "dx-item-content",
-    NAVBAR_ITEM_CLASS = "dx-nav-item",
-    NAVBAR_ITEM_CONTENT_CLASS = "dx-nav-item-content";
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var NavBarItem = require("./nav_bar/item");
+var Tabs = require("./tabs");
+var NAVBAR_CLASS = "dx-navbar";
+var ITEM_CLASS = "dx-item-content";
+var NAVBAR_ITEM_CLASS = "dx-nav-item";
+var NAVBAR_ITEM_CONTENT_CLASS = "dx-nav-item-content";
 
 /**
 * @name dxNavBar
@@ -47,8 +46,8 @@ var NavBar = Tabs.inherit({
     _postprocessRenderItem: function(args) {
         this.callBase(args);
 
-        var $itemElement = args.itemElement,
-            itemData = args.itemData;
+        var $itemElement = args.itemElement;
+        var itemData = args.itemData;
 
         $itemElement.addClass(NAVBAR_ITEM_CLASS);
         $itemElement.find("." + ITEM_CLASS)

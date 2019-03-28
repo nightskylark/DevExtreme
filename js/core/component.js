@@ -1,21 +1,21 @@
-var Config = require("./config"),
-    domAdapter = require("./dom_adapter"),
-    extend = require("./utils/extend").extend,
-    Class = require("./class"),
-    Action = require("./action"),
-    errors = require("./errors"),
-    coreDataUtils = require("./utils/data"),
-    commonUtils = require("./utils/common"),
-    typeUtils = require("./utils/type"),
-    deferredUtils = require("../core/utils/deferred"),
-    Deferred = deferredUtils.Deferred,
-    when = deferredUtils.when,
-    Callbacks = require("./utils/callbacks"),
-    EventsMixin = require("./events_mixin"),
-    publicComponentUtils = require("./utils/public_component"),
-    devices = require("./devices"),
-    isFunction = typeUtils.isFunction,
-    noop = commonUtils.noop;
+var Config = require("./config");
+var domAdapter = require("./dom_adapter");
+var extend = require("./utils/extend").extend;
+var Class = require("./class");
+var Action = require("./action");
+var errors = require("./errors");
+var coreDataUtils = require("./utils/data");
+var commonUtils = require("./utils/common");
+var typeUtils = require("./utils/type");
+var deferredUtils = require("../core/utils/deferred");
+var Deferred = deferredUtils.Deferred;
+var when = deferredUtils.when;
+var Callbacks = require("./utils/callbacks");
+var EventsMixin = require("./events_mixin");
+var publicComponentUtils = require("./utils/public_component");
+var devices = require("./devices");
+var isFunction = typeUtils.isFunction;
+var noop = commonUtils.noop;
 
 var cachedGetters = {};
 var cachedSetters = {};
@@ -159,9 +159,9 @@ var Component = Class.inherit({
         };
 
         for(var i = 0; i < rules.length; i++) {
-            var rule = rules[i],
-                deviceFilter = rule.device || { },
-                match;
+            var rule = rules[i];
+            var deviceFilter = rule.device || { };
+            var match;
 
             if(isFunction(deviceFilter)) {
                 match = deviceFilter(currentDevice);
@@ -177,9 +177,9 @@ var Component = Class.inherit({
     },
 
     _isInitialOptionValue: function(name) {
-        var optionValue = this.option(name),
-            initialOptionValue = this.initialOption(name),
-            isInitialOption = isFunction(optionValue) && isFunction(initialOptionValue) ? optionValue.toString() === initialOptionValue.toString() : commonUtils.equalByValue(optionValue, initialOptionValue);
+        var optionValue = this.option(name);
+        var initialOptionValue = this.initialOption(name);
+        var isInitialOption = isFunction(optionValue) && isFunction(initialOptionValue) ? optionValue.toString() === initialOptionValue.toString() : commonUtils.equalByValue(optionValue, initialOptionValue);
 
         return isInitialOption;
     },
@@ -243,8 +243,8 @@ var Component = Class.inherit({
             return newValue.is(oldValue);
         }
 
-        var oldValueIsNaN = oldValue !== oldValue,
-            newValueIsNaN = newValue !== newValue;
+        var oldValueIsNaN = oldValue !== oldValue;
+        var newValueIsNaN = newValue !== newValue;
         if(oldValueIsNaN && newValueIsNaN) {
             return true;
         }
@@ -364,13 +364,14 @@ var Component = Class.inherit({
         if(this._initialized) {
             var optionNames = [option].concat(that._getOptionAliasesByName(option));
             for(var i = 0; i < optionNames.length; i++) {
-                var name = optionNames[i],
-                    args = {
-                        name: name.split(/[.[]/)[0],
-                        fullName: name,
-                        value: value,
-                        previousValue: previousValue
-                    };
+                var name = optionNames[i];
+
+                var args = {
+                    name: name.split(/[.[]/)[0],
+                    fullName: name,
+                    value: value,
+                    previousValue: previousValue
+                };
 
                 that._optionChangedCallbacks.fireWith(that, [extend(that._defaultActionArgs(), args)]);
                 that._optionChangedAction(extend({}, args));
@@ -383,8 +384,8 @@ var Component = Class.inherit({
     },
 
     initialOption: function(optionName) {
-        var currentOptions,
-            currentInitialized = this._initialized;
+        var currentOptions;
+        var currentInitialized = this._initialized;
         if(!this._initialOptions) {
             currentOptions = this._options;
             this._options = {};
@@ -414,8 +415,8 @@ var Component = Class.inherit({
     },
 
     _createAction: function(actionSource, config) {
-        var that = this,
-            action;
+        var that = this;
+        var action;
 
         return function(e) {
             if(!arguments.length) {
@@ -433,10 +434,10 @@ var Component = Class.inherit({
     },
 
     _createActionByOption: function(optionName, config) {
-        var that = this,
-            action,
-            eventName,
-            actionFunc;
+        var that = this;
+        var action;
+        var eventName;
+        var actionFunc;
 
         var result = function() {
             if(!eventName) {
@@ -584,9 +585,9 @@ var Component = Class.inherit({
         var clearOptionsField = function(options, name) {
             delete options[name];
 
-            var previousFieldName = getPreviousName(name),
-                fieldName = getFieldName(name),
-                fieldObject = previousFieldName ? getOptionValue(options, previousFieldName, false) : options;
+            var previousFieldName = getPreviousName(name);
+            var fieldName = getFieldName(name);
+            var fieldObject = previousFieldName ? getOptionValue(options, previousFieldName, false) : options;
 
             if(fieldObject) {
                 delete fieldObject[fieldName];
@@ -594,8 +595,8 @@ var Component = Class.inherit({
         };
 
         var setOptionsField = function(options, fullName, value) {
-            var fieldName = "",
-                fieldObject;
+            var fieldName = "";
+            var fieldObject;
 
             do {
                 if(fieldName) {
@@ -662,8 +663,8 @@ var Component = Class.inherit({
         };
 
         return function(options, value) {
-            var that = this,
-                name = options;
+            var that = this;
+            var name = options;
 
             if(arguments.length < 2 && typeUtils.type(name) !== "object") {
                 name = normalizeOptionName(that, name);

@@ -1,8 +1,8 @@
-var Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    errors = require("../../ui/widget/ui.errors"),
-    each = require("../../core/utils/iterator").each,
-    typeUtils = require("../../core/utils/type");
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var errors = require("../../ui/widget/ui.errors");
+var each = require("../../core/utils/iterator").each;
+var typeUtils = require("../../core/utils/type");
 
 var DataConverter = Class.inherit({
 
@@ -18,8 +18,8 @@ var DataConverter = Class.inherit({
         var that = this;
 
         each(items, function(_, item) {
-            var parentId = typeUtils.isDefined(parentKey) ? parentKey : that._getParentId(item),
-                node = that._convertItemToNode(item, parentId);
+            var parentId = typeUtils.isDefined(parentKey) ? parentKey : that._getParentId(item);
+            var node = that._convertItemToNode(item, parentId);
 
             that._dataStructure.push(node);
 
@@ -51,9 +51,9 @@ var DataConverter = Class.inherit({
     },
 
     _getUniqueKey: function(item) {
-        var keyGetter = this._dataAccessors.getters.key,
-            itemKey = keyGetter(item),
-            isCorrectKey = keyGetter && (itemKey || itemKey === 0) && typeUtils.isPrimitive(itemKey);
+        var keyGetter = this._dataAccessors.getters.key;
+        var itemKey = keyGetter(item);
+        var isCorrectKey = keyGetter && (itemKey || itemKey === 0) && typeUtils.isPrimitive(itemKey);
 
         return isCorrectKey ? itemKey : this.getItemsCount();
     },
@@ -62,18 +62,19 @@ var DataConverter = Class.inherit({
         this._itemsCount++;
         item.visible !== false && this._visibleItemsCount++;
 
-        var that = this,
-            node = {
-                internalFields: {
-                    disabled: that._dataAccessors.getters.disabled(item, { defaultValue: false }),
-                    expanded: that._dataAccessors.getters.expanded(item, { defaultValue: false }),
-                    selected: that._dataAccessors.getters.selected(item, { defaultValue: false }),
-                    key: that._getUniqueKey(item),
-                    parentKey: typeUtils.isDefined(parentKey) ? parentKey : that._rootValue,
-                    item: that._makeObjectFromPrimitive(item),
-                    childrenKeys: []
-                }
-            };
+        var that = this;
+
+        var node = {
+            internalFields: {
+                disabled: that._dataAccessors.getters.disabled(item, { defaultValue: false }),
+                expanded: that._dataAccessors.getters.expanded(item, { defaultValue: false }),
+                selected: that._dataAccessors.getters.selected(item, { defaultValue: false }),
+                key: that._getUniqueKey(item),
+                parentKey: typeUtils.isDefined(parentKey) ? parentKey : that._rootValue,
+                item: that._makeObjectFromPrimitive(item),
+                childrenKeys: []
+            }
+        };
 
         extend(node, item);
 
@@ -128,11 +129,10 @@ var DataConverter = Class.inherit({
     },
 
     convertToPublicNodes: function(data, parent) {
-
         if(!data.length) return [];
 
-        var that = this,
-            publicNodes = [];
+        var that = this;
+        var publicNodes = [];
 
         each(data, function(_, node) {
             node = typeUtils.isPrimitive(node) ? that._getByKey(node) : node;
@@ -162,13 +162,13 @@ var DataConverter = Class.inherit({
     },
 
     getByKey: function(data, key) {
-        var result = null,
-            that = this;
+        var result = null;
+        var that = this;
 
         var getByKey = function(data, key) {
             each(data, function(_, element) {
-                var currentElementKey = element.internalFields && element.internalFields.key || that._dataAccessors.getters.key(element),
-                    items = that._dataAccessors.getters.items(element);
+                var currentElementKey = element.internalFields && element.internalFields.key || that._dataAccessors.getters.key(element);
+                var items = that._dataAccessors.getters.items(element);
 
                 if(currentElementKey.toString() === key.toString()) {
                     result = element;

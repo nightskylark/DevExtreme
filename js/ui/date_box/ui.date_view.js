@@ -1,18 +1,17 @@
-var $ = require("../../core/renderer"),
-    Editor = require("../editor/editor"),
-    DateViewRoller = require("./ui.date_view_roller"),
-    dateUtils = require("../../core/utils/date"),
-    each = require("../../core/utils/iterator").each,
-    extend = require("../../core/utils/extend").extend,
-    uiDateUtils = require("./ui.date_utils"),
-    registerComponent = require("../../core/component_registrator"),
-    dateLocalization = require("../../localization/date");
-
-var DATEVIEW_CLASS = "dx-dateview",
-    DATEVIEW_COMPACT_CLASS = "dx-dateview-compact",
-    DATEVIEW_WRAPPER_CLASS = "dx-dateview-wrapper",
-    DATEVIEW_ROLLER_CONTAINER_CLASS = "dx-dateview-rollers",
-    DATEVIEW_ROLLER_CLASS = "dx-dateviewroller";
+var $ = require("../../core/renderer");
+var Editor = require("../editor/editor");
+var DateViewRoller = require("./ui.date_view_roller");
+var dateUtils = require("../../core/utils/date");
+var each = require("../../core/utils/iterator").each;
+var extend = require("../../core/utils/extend").extend;
+var uiDateUtils = require("./ui.date_utils");
+var registerComponent = require("../../core/component_registrator");
+var dateLocalization = require("../../localization/date");
+var DATEVIEW_CLASS = "dx-dateview";
+var DATEVIEW_COMPACT_CLASS = "dx-dateview-compact";
+var DATEVIEW_WRAPPER_CLASS = "dx-dateview-wrapper";
+var DATEVIEW_ROLLER_CONTAINER_CLASS = "dx-dateview-rollers";
+var DATEVIEW_ROLLER_CLASS = "dx-dateviewroller";
 
 var TYPE = {
     date: 'date',
@@ -29,8 +28,8 @@ var ROLLER_TYPE = {
 
 var DateView = Editor.inherit({
     _valueOption: function() {
-        var value = this.option("value"),
-            date = new Date(value);
+        var value = this.option("value");
+        var date = new Date(value);
 
         return !value || isNaN(date) ? this._getDefaultDate() : date;
     },
@@ -160,16 +159,13 @@ var DateView = Editor.inherit({
     },
 
     _createRollerConfig: function(componentName) {
-        var componentInfo = uiDateUtils.DATE_COMPONENTS_INFO[componentName],
-
-            valueRange = this._calculateRollerConfigValueRange(componentName),
-            startValue = valueRange.startValue,
-            endValue = valueRange.endValue,
-
-            formatter = componentInfo.formatter,
-            showNames = this.option("showNames"),
-
-            curDate = this._getCurrentDate();
+        var componentInfo = uiDateUtils.DATE_COMPONENTS_INFO[componentName];
+        var valueRange = this._calculateRollerConfigValueRange(componentName);
+        var startValue = valueRange.startValue;
+        var endValue = valueRange.endValue;
+        var formatter = componentInfo.formatter;
+        var showNames = this.option("showNames");
+        var curDate = this._getCurrentDate();
 
         var config = {
             type: componentName,
@@ -209,10 +205,10 @@ var DateView = Editor.inherit({
 
     _setRollerState: function(roller, selectedIndex) {
         if(selectedIndex !== roller.selectedIndex) {
-            var rollerValue = roller.valueItems[selectedIndex],
-                setValue = roller.setValue,
-                currentValue = new Date(this._getCurrentDate()),
-                currentDate = currentValue.getDate();
+            var rollerValue = roller.valueItems[selectedIndex];
+            var setValue = roller.setValue;
+            var currentValue = new Date(this._getCurrentDate());
+            var currentDate = currentValue.getDate();
 
             if(roller.type === ROLLER_TYPE.month) {
                 currentDate = Math.min(currentDate, uiDateUtils.getMaxMonthDay(currentValue.getFullYear(), rollerValue));
@@ -256,9 +252,9 @@ var DateView = Editor.inherit({
     },
 
     _getCurrentDate: function() {
-        var curDate = this._valueOption(),
-            minDate = this.option("minDate"),
-            maxDate = this.option("maxDate");
+        var curDate = this._valueOption();
+        var minDate = this.option("minDate");
+        var maxDate = this.option("maxDate");
 
         if(minDate && curDate.getTime() <= minDate.getTime()) {
             curDate = minDate;
@@ -270,20 +266,18 @@ var DateView = Editor.inherit({
     },
 
     _calculateRollerConfigValueRange: function(componentName) {
-        var curDate = this._getCurrentDate(),
-            minDate = this.option("minDate"),
-            maxDate = this.option("maxDate"),
-
-            minYear = dateUtils.sameYear(curDate, minDate),
-            minMonth = minYear && curDate.getMonth() === minDate.getMonth(),
-            maxYear = dateUtils.sameYear(curDate, maxDate),
-            maxMonth = maxYear && curDate.getMonth() === maxDate.getMonth(),
-            minHour = minMonth && curDate.getDate() === minDate.getDate(),
-            maxHour = maxMonth && curDate.getDate() === maxDate.getDate(),
-
-            componentInfo = uiDateUtils.DATE_COMPONENTS_INFO[componentName],
-            startValue = componentInfo.startValue,
-            endValue = componentInfo.endValue;
+        var curDate = this._getCurrentDate();
+        var minDate = this.option("minDate");
+        var maxDate = this.option("maxDate");
+        var minYear = dateUtils.sameYear(curDate, minDate);
+        var minMonth = minYear && curDate.getMonth() === minDate.getMonth();
+        var maxYear = dateUtils.sameYear(curDate, maxDate);
+        var maxMonth = maxYear && curDate.getMonth() === maxDate.getMonth();
+        var minHour = minMonth && curDate.getDate() === minDate.getDate();
+        var maxHour = maxMonth && curDate.getDate() === maxDate.getDate();
+        var componentInfo = uiDateUtils.DATE_COMPONENTS_INFO[componentName];
+        var startValue = componentInfo.startValue;
+        var endValue = componentInfo.endValue;
 
         // TODO: think about these exceptions for 'year' and 'day'
         if(componentName === ROLLER_TYPE.year) {

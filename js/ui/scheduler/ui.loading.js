@@ -1,7 +1,7 @@
-var $ = require("../../core/renderer"),
-    viewPortUtils = require("../../core/utils/view_port"),
-    LoadPanel = require("../load_panel"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var $ = require("../../core/renderer");
+var viewPortUtils = require("../../core/utils/view_port");
+var LoadPanel = require("../load_panel");
+var Deferred = require("../../core/utils/deferred").Deferred;
 
 var loading = null;
 

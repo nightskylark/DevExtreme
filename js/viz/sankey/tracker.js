@@ -1,7 +1,7 @@
-var proto = require("./sankey").prototype,
-    Tracker = require("../components/tracker").Tracker,
-    DATA_KEY_BASE = "__sankey_data_",
-    dataKeyModifier = 0;
+var proto = require("./sankey").prototype;
+var Tracker = require("../components/tracker").Tracker;
+var DATA_KEY_BASE = "__sankey_data_";
+var dataKeyModifier = 0;
 
 proto._eventsMap.onNodeClick = { name: "nodeClick" };
 proto._eventsMap.onLinkClick = { name: "linkClick" };
@@ -9,8 +9,8 @@ proto._eventsMap.onLinkClick = { name: "linkClick" };
 exports.plugin = {
     name: "tracker",
     init: function() {
-        var that = this,
-            dataKey = DATA_KEY_BASE + dataKeyModifier++;
+        var that = this;
+        var dataKey = DATA_KEY_BASE + dataKeyModifier++;
 
         that._tracker = new Tracker({
             widget: that,

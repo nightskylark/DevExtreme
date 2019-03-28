@@ -5,11 +5,11 @@ import { camelize } from "../../core/utils/inflector";
 
 const animation = {
     moveTo(config) {
-        let $element = config.$element,
-            position = config.position,
-            direction = config.direction || "left",
-            toConfig = {},
-            animationType;
+        let $element = config.$element;
+        let position = config.position;
+        let direction = config.direction || "left";
+        let toConfig = {};
+        let animationType;
 
         if(direction === "right") {
             toConfig["transform"] = "translate(" + position + "px, 0px)";
@@ -34,10 +34,10 @@ const animation = {
         });
     },
     margin(config) {
-        let $element = config.$element,
-            margin = config.margin,
-            direction = config.direction || "left",
-            toConfig = {};
+        let $element = config.$element;
+        let margin = config.margin;
+        let direction = config.direction || "left";
+        let toConfig = {};
 
         toConfig["margin" + camelize(direction, true)] = margin;
 
@@ -58,12 +58,12 @@ const animation = {
     },
 
     size(config) {
-        let $element = config.$element,
-            size = config.size,
-            direction = config.direction || "left",
-            marginTop = config.marginTop || 0,
-            duration = config.duration,
-            toConfig = {};
+        let $element = config.$element;
+        let size = config.size;
+        let direction = config.direction || "left";
+        let marginTop = config.marginTop || 0;
+        let duration = config.duration;
+        let toConfig = {};
 
 
         if(direction === "right" || direction === "left") {

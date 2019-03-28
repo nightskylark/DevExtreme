@@ -1,20 +1,19 @@
-var common = require("./common"),
-    Node = require("./node"),
+var common = require("./common");
+var Node = require("./node");
+var _getTilingAlgorithm = require("./tiling").getAlgorithm;
+var _getColorizer = require("./colorizing").getColorizer;
+var _patchFontOptions = require("../core/utils").patchFontOptions;
+var _buildRectAppearance = common.buildRectAppearance;
+var _buildTextAppearance = common.buildTextAppearance;
+var _noop = require("../../core/utils/common").noop;
+var _max = Math.max;
 
-    _getTilingAlgorithm = require("./tiling").getAlgorithm,
-    _getColorizer = require("./colorizing").getColorizer,
-    _patchFontOptions = require("../core/utils").patchFontOptions,
-    _buildRectAppearance = common.buildRectAppearance,
-    _buildTextAppearance = common.buildTextAppearance,
-    _noop = require("../../core/utils/common").noop,
-    _max = Math.max,
-
-    directions = {
-        "lefttoprightbottom": [+1, +1],
-        "leftbottomrighttop": [+1, -1],
-        "righttopleftbottom": [-1, +1],
-        "rightbottomlefttop": [-1, -1]
-    };
+var directions = {
+    "lefttoprightbottom": [+1, +1],
+    "leftbottomrighttop": [+1, -1],
+    "righttopleftbottom": [-1, +1],
+    "rightbottomlefttop": [-1, -1]
+};
 
 // At least one algorithm is required.
 require("./tiling.squarified");
@@ -84,8 +83,8 @@ var dxTreeMap = require("../core/base_widget").inherit({
     _initialChanges: ["DATA_SOURCE"],
 
     _initCore: function() {
-        var that = this,
-            renderer = that._renderer;
+        var that = this;
+        var renderer = that._renderer;
 
         that._createProxyType();
         that._tilesGroup = renderer.g().linkOn(renderer.root, "tiles").linkAppend();
@@ -210,9 +209,9 @@ var dxTreeMap = require("../core/base_widget").inherit({
     },
 
     _buildNodes: function() {
-        var that = this,
-            root = that._root = that._topNode = new Node(),
-            processedData;
+        var that = this;
+        var root = that._root = that._topNode = new Node();
+        var processedData;
 
         root._id = 0;
         root.parent = {};
@@ -242,14 +241,14 @@ var dxTreeMap = require("../core/base_widget").inherit({
     },
 
     _changeTileSettings: function() {
-        var that = this,
-            options = that._getOption("tile"),
-            offsets = that._rectOffsets,
-            borderWidth = pickPositiveInteger(options.border.width),
-            edgeOffset = borderWidth / 2,
-            innerOffset = borderWidth & 1 ? 0.5 : 0,
-            labelOptions = options.label,
-            settings = that._context.settings[0];
+        var that = this;
+        var options = that._getOption("tile");
+        var offsets = that._rectOffsets;
+        var borderWidth = pickPositiveInteger(options.border.width);
+        var edgeOffset = borderWidth / 2;
+        var innerOffset = borderWidth & 1 ? 0.5 : 0;
+        var labelOptions = options.label;
+        var settings = that._context.settings[0];
 
         that._change(["TILES", "LABELS"]);
         settings.state = that._handlers.calculateState(options);
@@ -265,16 +264,16 @@ var dxTreeMap = require("../core/base_widget").inherit({
     },
 
     _changeGroupSettings: function() {
-        var that = this,
-            options = that._getOption("group"),
-            labelOptions = options.label,
-            offsets = that._rectOffsets,
-            borderWidth = pickPositiveInteger(options.border.width),
-            edgeOffset = borderWidth / 2,
-            innerOffset = borderWidth & 1 ? 0.5 : 0,
-            headerHeight = 0,
-            groupPadding = pickPositiveInteger(options.padding),
-            settings = that._context.settings[1];
+        var that = this;
+        var options = that._getOption("group");
+        var labelOptions = options.label;
+        var offsets = that._rectOffsets;
+        var borderWidth = pickPositiveInteger(options.border.width);
+        var edgeOffset = borderWidth / 2;
+        var innerOffset = borderWidth & 1 ? 0.5 : 0;
+        var headerHeight = 0;
+        var groupPadding = pickPositiveInteger(options.padding);
+        var settings = that._context.settings[1];
 
         that._change(["TILES", "LABELS"]);
         settings.state = that._handlers.calculateState(options);
@@ -300,9 +299,9 @@ var dxTreeMap = require("../core/base_widget").inherit({
     },
 
     _calculateLabelSettings: function(settings, options, filter) {
-        var bBox = this._getTextBBox(options.font),
-            paddingLeftRight = pickPositiveInteger(options.paddingLeftRight),
-            paddingTopBottom = pickPositiveInteger(options.paddingTopBottom);
+        var bBox = this._getTextBBox(options.font);
+        var paddingLeftRight = pickPositiveInteger(options.paddingLeftRight);
+        var paddingTopBottom = pickPositiveInteger(options.paddingTopBottom);
 
         settings.labelState = _buildTextAppearance(options, filter);
         settings.labelState.visible = !("visible" in options) || !!options.visible;
@@ -341,12 +340,13 @@ var dxTreeMap = require("../core/base_widget").inherit({
     },
 
     _applyTilesAppearance: function() {
-        var that = this,
-            // Passing *themeManager* looks dirty but is excused by necessity of palettes (and default palette specifically).
-            // Passing *topNode* looks awfully dirty and is performed only because of discrete group colorizing.
-            // Aforementioned colorizing requires breadth-first tree traversal and nodes processing is performed in a depth-first order.
-            // TODO: Find a way to stop passing *topNode*
-            colorizer = _getColorizer(that._getOption("colorizer"), that._themeManager, that._topNode);
+        var that = this;
+
+        var // Passing *themeManager* looks dirty but is excused by necessity of palettes (and default palette specifically).
+        // Passing *topNode* looks awfully dirty and is performed only because of discrete group colorizing.
+        // Aforementioned colorizing requires breadth-first tree traversal and nodes processing is performed in a depth-first order.
+        // TODO: Find a way to stop passing *topNode*
+        colorizer = _getColorizer(that._getOption("colorizer"), that._themeManager, that._topNode);
 
         that._processNodes({
             renderer: that._renderer,
@@ -373,14 +373,15 @@ var dxTreeMap = require("../core/base_widget").inherit({
     },
 
     _performTiling: function() {
-        var that = this,
-            context = {
-                algorithm: _getTilingAlgorithm(that._getOption("layoutAlgorithm", true)),
-                directions: directions[String(that._getOption("layoutDirection", true)).toLowerCase()] || directions["lefttoprightbottom"],
-                headerHeight: that._headerHeight,
-                groupPadding: that._groupPadding,
-                rectOffsets: that._rectOffsets
-            };
+        var that = this;
+
+        var context = {
+            algorithm: _getTilingAlgorithm(that._getOption("layoutAlgorithm", true)),
+            directions: directions[String(that._getOption("layoutDirection", true)).toLowerCase()] || directions["lefttoprightbottom"],
+            headerHeight: that._headerHeight,
+            groupPadding: that._groupPadding,
+            rectOffsets: that._rectOffsets
+        };
 
         that._topNode.innerRect = that._tilingRect;
         calculateRects(context, that._topNode);
@@ -396,9 +397,9 @@ var dxTreeMap = require("../core/base_widget").inherit({
     },
 
     _getTextBBox: function(fontOptions) {
-        var renderer = this._renderer,
-            text = this._textForCalculations || renderer.text("0", 0, 0),
-            bBox;
+        var renderer = this._renderer;
+        var text = this._textForCalculations || renderer.text("0", 0, 0);
+        var bBox;
 
         this._textForCalculations = text;
         text.css(_patchFontOptions(fontOptions)).append(renderer.root);
@@ -409,14 +410,14 @@ var dxTreeMap = require("../core/base_widget").inherit({
 });
 
 function traverseDataItems(root, dataItems, level, params) {
-    var nodes = [],
-        allNodes = params.nodes,
-        node,
-        i,
-        ii = dataItems.length,
-        dataItem,
-        totalValue = 0,
-        items;
+    var nodes = [];
+    var allNodes = params.nodes;
+    var node;
+    var i;
+    var ii = dataItems.length;
+    var dataItem;
+    var totalValue = 0;
+    var items;
 
     for(i = 0; i < ii; ++i) {
         dataItem = dataItems[i];
@@ -444,10 +445,10 @@ function traverseDataItems(root, dataItems, level, params) {
 }
 
 function processNodes(context, root, process) {
-    var nodes = root.nodes,
-        node,
-        i,
-        ii = nodes.length;
+    var nodes = root.nodes;
+    var node;
+    var i;
+    var ii = nodes.length;
 
     for(i = 0; i < ii; ++i) {
         node = nodes[i];
@@ -475,8 +476,8 @@ function createLeaf(context, node) {
 }
 
 function createGroup(context, node) {
-    var outer = context.renderer.simpleRect().append(context.group),
-        inner = context.renderer.simpleRect().append(context.group);
+    var outer = context.renderer.simpleRect().append(context.group);
+    var inner = context.renderer.simpleRect().append(context.group);
 
     context.setTrackerData(node, inner);
     return { outer: outer, inner: inner };
@@ -503,12 +504,12 @@ function createLabel(context, currentNode, settings, params) {
 var emptyRect = [0, 0, 0, 0];
 
 function calculateRects(context, root) {
-    var nodes = root.nodes,
-        items = [],
-        rects = [],
-        sum = 0,
-        i,
-        ii = items.length = rects.length = nodes.length;
+    var nodes = root.nodes;
+    var items = [];
+    var rects = [];
+    var sum = 0;
+    var i;
+    var ii = items.length = rects.length = nodes.length;
 
     for(i = 0; i < ii; ++i) {
         sum += nodes[i].value;
@@ -530,9 +531,9 @@ function calculateRects(context, root) {
 }
 
 function processTiling(context, node) {
-    var rect = node.parent.rects[node.index],
-        rectOffsets = context.rectOffsets,
-        headerHeight;
+    var rect = node.parent.rects[node.index];
+    var rectOffsets = context.rectOffsets;
+    var headerHeight;
 
     if(node.isNode()) {
         setRectAttrs(node.tile.outer, buildTileRect(rect, node.parent.innerRect, rectOffsets.headerEdge, rectOffsets.headerInner));
@@ -573,14 +574,14 @@ function processLabelsLayout(context, node) {
 }
 
 function layoutTextNode(node, params) {
-    var rect = node.rect,
-        text = node.text,
-        bBox = text.getBBox(),
-        paddingLeftRight = params.paddingLeftRight,
-        paddingTopBottom = params.paddingTopBottom,
-        effectiveWidth = rect[2] - rect[0] - paddingLeftRight,
-        fitByHeight = bBox.height + paddingTopBottom <= rect[3] - rect[1],
-        fitByWidth = bBox.width <= effectiveWidth;
+    var rect = node.rect;
+    var text = node.text;
+    var bBox = text.getBBox();
+    var paddingLeftRight = params.paddingLeftRight;
+    var paddingTopBottom = params.paddingTopBottom;
+    var effectiveWidth = rect[2] - rect[0] - paddingLeftRight;
+    var fitByHeight = bBox.height + paddingTopBottom <= rect[3] - rect[1];
+    var fitByWidth = bBox.width <= effectiveWidth;
 
     if(params.resolveLabelOverflow === "ellipsis" && fitByHeight) {
         text.applyEllipsis(effectiveWidth);

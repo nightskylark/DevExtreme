@@ -1,42 +1,39 @@
-var noop = require("../../core/utils/common").noop,
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    _Number = Number,
-    _String = String,
-    _abs = Math.abs,
-    _round = Math.round,
-    _min = Math.min,
-    _max = Math.max,
-    _sqrt = Math.sqrt,
-    DataHelperMixin = require("../../data_helper"),
-    _isFunction = require("../../core/utils/type").isFunction,
-    _isDefined = require("../../core/utils/type").isDefined,
-    _isArray = Array.isArray,
-    vizUtils = require("../core/utils"),
-    _parseScalar = vizUtils.parseScalar,
-    _patchFontOptions = vizUtils.patchFontOptions,
-    _normalizeEnum = vizUtils.normalizeEnum,
-    _noop = noop,
-    _extend = extend,
-    _each = each,
-    _concat = Array.prototype.concat,
+var noop = require("../../core/utils/common").noop;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var _Number = Number;
+var _String = String;
+var _abs = Math.abs;
+var _round = Math.round;
+var _min = Math.min;
+var _max = Math.max;
+var _sqrt = Math.sqrt;
+var DataHelperMixin = require("../../data_helper");
+var _isFunction = require("../../core/utils/type").isFunction;
+var _isDefined = require("../../core/utils/type").isDefined;
+var _isArray = Array.isArray;
+var vizUtils = require("../core/utils");
+var _parseScalar = vizUtils.parseScalar;
+var _patchFontOptions = vizUtils.patchFontOptions;
+var _normalizeEnum = vizUtils.normalizeEnum;
+var _noop = noop;
+var _extend = extend;
+var _each = each;
+var _concat = Array.prototype.concat;
+var TYPE_AREA = "area";
+var TYPE_LINE = "line";
+var TYPE_MARKER = "marker";
+var STATE_DEFAULT = 0;
+var STATE_HOVERED = 1;
+var STATE_SELECTED = 2;
+var STATE_TO_INDEX = [0, 1, 2, 2];
+var TOLERANCE = 1;
 
-    TYPE_AREA = "area",
-    TYPE_LINE = "line",
-    TYPE_MARKER = "marker",
-
-    STATE_DEFAULT = 0,
-    STATE_HOVERED = 1,
-    STATE_SELECTED = 2,
-    STATE_TO_INDEX = [0, 1, 2, 2],
-
-    TOLERANCE = 1,
-
-    SELECTIONS = {
-        "none": null,
-        "single": -1,
-        "multiple": NaN
-    };
+var SELECTIONS = {
+    "none": null,
+    "single": -1,
+    "multiple": NaN
+};
 
 function getSelection(selectionMode) {
     var selection = _normalizeEnum(selectionMode);
@@ -164,8 +161,8 @@ function pick(a, b) {
 }
 
 function guessTypeByData(sample) {
-    var type = TYPE_TO_TYPE_MAP[sample.type],
-        coordinates = sample.coordinates;
+    var type = TYPE_TO_TYPE_MAP[sample.type];
+    var coordinates = sample.coordinates;
     if(!type) {
         if(typeof coordinates[0] === "number") {
             type = TYPE_MARKER;
@@ -179,10 +176,10 @@ function guessTypeByData(sample) {
 }
 
 var selectStrategy = function(options, data) {
-    var type = _normalizeEnum(options.type),
-        elementType = _normalizeEnum(options.elementType),
-        sample,
-        strategy = _extend({}, emptyStrategy);
+    var type = _normalizeEnum(options.type);
+    var elementType = _normalizeEnum(options.elementType);
+    var sample;
+    var strategy = _extend({}, emptyStrategy);
     if(data.count() > 0) {
         sample = data.geometry(data.item(0));
         type = strategiesByType[type] ? type : guessTypeByData(sample);
@@ -237,10 +234,10 @@ strategiesByType[TYPE_AREA] = {
     },
 
     getStyles: function(settings) {
-        var color = settings.color || null,
-            borderColor = settings.borderColor || null,
-            borderWidth = pick(settings.borderWidth, null),
-            opacity = pick(settings.opacity, null);
+        var color = settings.color || null;
+        var borderColor = settings.borderColor || null;
+        var borderWidth = pick(settings.borderWidth, null);
+        var opacity = pick(settings.opacity, null);
         return {
             root: [
                 { "class": "dxm-area", stroke: borderColor, "stroke-width": borderWidth, fill: color, opacity: opacity },
@@ -282,9 +279,9 @@ strategiesByType[TYPE_LINE] = {
     },
 
     getStyles: function(settings) {
-        var color = settings.color || settings.borderColor || null,
-            width = pick(settings.borderWidth, null),
-            opacity = pick(settings.opacity, null);
+        var color = settings.color || settings.borderColor || null;
+        var width = pick(settings.borderWidth, null);
+        var opacity = pick(settings.opacity, null);
         return {
             root: [
                 { "class": "dxm-line", stroke: color, "stroke-width": width, opacity: opacity },
@@ -386,17 +383,17 @@ strategiesByElementType[TYPE_MARKER] = {
         },
 
         _getStyles: function(styles, style) {
-            var size = style.size > 0 ? _Number(style.size) : 0,
-                hoveredSize = size,
-                selectedSize = size + (style.selectedStep > 0 ? _Number(style.selectedStep) : 0),
-                hoveredBackSize = hoveredSize + (style.backStep > 0 ? _Number(style.backStep) : 0),
-                selectedBackSize = selectedSize + (style.backStep > 0 ? _Number(style.backStep) : 0),
-                color = style.color || null,
-                borderColor = style.borderColor || null,
-                borderWidth = pick(style.borderWidth, null),
-                opacity = pick(style.opacity, null),
-                backColor = style.backColor || null,
-                backOpacity = pick(style.backOpacity, null);
+            var size = style.size > 0 ? _Number(style.size) : 0;
+            var hoveredSize = size;
+            var selectedSize = size + (style.selectedStep > 0 ? _Number(style.selectedStep) : 0);
+            var hoveredBackSize = hoveredSize + (style.backStep > 0 ? _Number(style.backStep) : 0);
+            var selectedBackSize = selectedSize + (style.backStep > 0 ? _Number(style.backStep) : 0);
+            var color = style.color || null;
+            var borderColor = style.borderColor || null;
+            var borderWidth = pick(style.borderWidth, null);
+            var opacity = pick(style.opacity, null);
+            var backColor = style.backColor || null;
+            var backOpacity = pick(style.backOpacity, null);
             styles.dot = [
                 { r: size / 2, stroke: borderColor, "stroke-width": borderWidth, fill: color, opacity: opacity },
                 { r: hoveredSize / 2, stroke: style.hoveredBorderColor || borderColor, "stroke-width": pick(style.hoveredBorderWidth, borderWidth), fill: style.hoveredColor || color, opacity: pick(style.hoveredOpacity, opacity) },
@@ -425,10 +422,10 @@ strategiesByElementType[TYPE_MARKER] = {
         },
 
         _getStyles: function(styles, style) {
-            var color = style.color || null,
-                borderColor = style.borderColor || null,
-                borderWidth = pick(style.borderWidth, null),
-                opacity = pick(style.opacity, null);
+            var color = style.color || null;
+            var borderColor = style.borderColor || null;
+            var borderWidth = pick(style.borderWidth, null);
+            var opacity = pick(style.opacity, null);
             styles.bubble = [
                 { stroke: borderColor, "stroke-width": borderWidth, fill: color, opacity: opacity },
                 { stroke: style.hoveredBorderColor || borderColor, "stroke-width": pick(style.hoveredBorderWidth, borderWidth), fill: style.hoveredColor || style.color, opacity: pick(style.hoveredOpacity, opacity) },
@@ -441,17 +438,17 @@ strategiesByElementType[TYPE_MARKER] = {
         },
 
         arrange: function(context, handles) {
-            var values = [],
-                i,
-                ii = values.length = handles.length,
-                settings = context.settings,
-                dataField = settings.dataField,
-                minSize = settings.minSize > 0 ? _Number(settings.minSize) : 0,
-                maxSize = settings.maxSize > minSize ? _Number(settings.maxSize) : minSize,
-                minValue,
-                maxValue,
-                deltaValue,
-                deltaSize;
+            var values = [];
+            var i;
+            var ii = values.length = handles.length;
+            var settings = context.settings;
+            var dataField = settings.dataField;
+            var minSize = settings.minSize > 0 ? _Number(settings.minSize) : 0;
+            var maxSize = settings.maxSize > minSize ? _Number(settings.maxSize) : minSize;
+            var minValue;
+            var maxValue;
+            var deltaValue;
+            var deltaSize;
 
             if(settings.sizeGroups) {
                 return;
@@ -485,16 +482,16 @@ strategiesByElementType[TYPE_MARKER] = {
         },
 
         refresh: function(ctx, figure, data, proxy, settings) {
-            var values = getDataValue(proxy, ctx.settings.dataField) || [],
-                colors = settings._colors,
-                sum = 0,
-                pie = figure.pie,
-                renderer = ctx.renderer,
-                dataKey = ctx.dataKey,
-                r = (settings.size > 0 ? _Number(settings.size) : 0) / 2,
-                start = 90,
-                end = start,
-                zeroSum = false;
+            var values = getDataValue(proxy, ctx.settings.dataField) || [];
+            var colors = settings._colors;
+            var sum = 0;
+            var pie = figure.pie;
+            var renderer = ctx.renderer;
+            var dataKey = ctx.dataKey;
+            var r = (settings.size > 0 ? _Number(settings.size) : 0) / 2;
+            var start = 90;
+            var end = start;
+            var zeroSum = false;
 
             sum = values.reduce(function(total, item) {
                 return total + (item || 0);
@@ -514,9 +511,9 @@ strategiesByElementType[TYPE_MARKER] = {
         },
 
         _getStyles: function(styles, style) {
-            var opacity = pick(style.opacity, null),
-                borderColor = style.borderColor || null,
-                borderWidth = pick(style.borderWidth, null);
+            var opacity = pick(style.opacity, null);
+            var borderColor = style.borderColor || null;
+            var borderWidth = pick(style.borderWidth, null);
             styles.pie = [
                 { opacity: opacity },
                 { opacity: pick(style.hoveredOpacity, opacity) },
@@ -535,12 +532,12 @@ strategiesByElementType[TYPE_MARKER] = {
         },
 
         arrange: function(context, handles) {
-            var i,
-                ii = handles.length,
-                dataField = context.settings.dataField,
-                values,
-                count = 0,
-                palette;
+            var i;
+            var ii = handles.length;
+            var dataField = context.settings.dataField;
+            var values;
+            var count = 0;
+            var palette;
             for(i = 0; i < ii; ++i) {
                 values = getDataValue(handles[i].proxy, dataField);
                 if(values && values.length > count) {
@@ -571,10 +568,10 @@ strategiesByElementType[TYPE_MARKER] = {
         },
 
         _getStyles: function(styles, style) {
-            var size = style.size > 0 ? _Number(style.size) : 0,
-                hoveredSize = size + (style.hoveredStep > 0 ? _Number(style.hoveredStep) : 0),
-                selectedSize = size + (style.selectedStep > 0 ? _Number(style.selectedStep) : 0),
-                opacity = pick(style.opacity, null);
+            var size = style.size > 0 ? _Number(style.size) : 0;
+            var hoveredSize = size + (style.hoveredStep > 0 ? _Number(style.hoveredStep) : 0);
+            var selectedSize = size + (style.selectedStep > 0 ? _Number(style.selectedStep) : 0);
+            var opacity = pick(style.opacity, null);
             styles.image = [
                 { x: -size / 2, y: -size / 2, width: size, height: size, opacity: opacity },
                 { x: -hoveredSize / 2, y: -hoveredSize / 2, width: hoveredSize, height: hoveredSize, opacity: pick(style.hoveredOpacity, opacity) },
@@ -593,9 +590,9 @@ function projectPoint(projection, coordinates) {
 }
 
 function projectPointList(projection, coordinates) {
-    var output = [],
-        i,
-        ii = output.length = coordinates.length;
+    var output = [];
+    var i;
+    var ii = output.length = coordinates.length;
     for(i = 0; i < ii; ++i) {
         output[i] = projection.project(coordinates[i]);
     }
@@ -607,9 +604,9 @@ function projectLineString(projection, coordinates) {
 }
 
 function projectPolygon(projection, coordinates) {
-    var output = [],
-        i,
-        ii = output.length = coordinates.length;
+    var output = [];
+    var i;
+    var ii = output.length = coordinates.length;
     for(i = 0; i < ii; ++i) {
         output[i] = projectPointList(projection, coordinates[i]);
     }
@@ -617,9 +614,9 @@ function projectPolygon(projection, coordinates) {
 }
 
 function projectMultiPolygon(projection, coordinates) {
-    var output = [],
-        i,
-        ii = output.length = coordinates.length;
+    var output = [];
+    var i;
+    var ii = output.length = coordinates.length;
     for(i = 0; i < ii; ++i) {
         output[i] = projectPolygon(projection, coordinates[i]);
     }
@@ -632,11 +629,11 @@ function transformPoint(content, projection, coordinates) {
 }
 
 function transformList(projection, coordinates) {
-    var output = [],
-        i,
-        ii = coordinates.length,
-        item,
-        k = 0;
+    var output = [];
+    var i;
+    var ii = coordinates.length;
+    var item;
+    var k = 0;
     output.length = 2 * ii;
     for(i = 0; i < ii; ++i) {
         item = projection.transform(coordinates[i]);
@@ -647,9 +644,9 @@ function transformList(projection, coordinates) {
 }
 
 function transformPointList(content, projection, coordinates) {
-    var output = [],
-        i,
-        ii = output.length = coordinates.length;
+    var output = [];
+    var i;
+    var ii = output.length = coordinates.length;
     for(i = 0; i < ii; ++i) {
         output[i] = transformList(projection, coordinates[i]);
     }
@@ -689,10 +686,10 @@ function applyGrouping(grouping, proxy, settings) {
 }
 
 function findGroupingIndex(value, partition) {
-    var start = 0,
-        end = partition.length - 1,
-        index = -1,
-        middle;
+    var start = 0;
+    var end = partition.length - 1;
+    var index = -1;
+    var middle;
     if(partition[start] <= value && value <= partition[end]) {
         if(value === partition[end]) {
             index = end - 1;
@@ -725,12 +722,12 @@ function combineSettings(common, partial) {
 }
 
 function processCommonSettings(context, options) {
-    var themeManager = context.params.themeManager,
-        strategy = context.str,
-        settings = combineSettings(_extend({ label: {}, color: strategy.getDefaultColor(context, options.palette) }, themeManager.theme("layer:" + strategy.fullType)), options),
-        colors,
-        i,
-        palette;
+    var themeManager = context.params.themeManager;
+    var strategy = context.str;
+    var settings = combineSettings(_extend({ label: {}, color: strategy.getDefaultColor(context, options.palette) }, themeManager.theme("layer:" + strategy.fullType)), options);
+    var colors;
+    var i;
+    var palette;
     if(settings.paletteSize > 0) {
         palette = themeManager.createDiscretePalette(settings.palette, settings.paletteSize);
         for(i = 0, colors = []; i < settings.paletteSize; ++i) {
@@ -760,8 +757,8 @@ var performGrouping = function(context, partition, settingField, dataField, valu
 };
 
 function dropGrouping(context) {
-    var name = context.name,
-        dataExchanger = context.params.dataExchanger;
+    var name = context.name;
+    var dataExchanger = context.params.dataExchanger;
     _each(context.grouping, function(field) {
         dataExchanger.set(name, field, null);
     });
@@ -770,9 +767,9 @@ function dropGrouping(context) {
 
 var groupByColor = function(context) {
     performGrouping(context, context.settings.colorGroups, "color", context.settings.colorGroupingField, function(count) {
-        var _palette = context.params.themeManager.createDiscretePalette(context.settings.palette, count),
-            i,
-            list = [];
+        var _palette = context.params.themeManager.createDiscretePalette(context.settings.palette, count);
+        var i;
+        var list = [];
         for(i = 0; i < count; ++i) {
             list.push(_palette.getColor(i));
         }
@@ -783,10 +780,10 @@ var groupByColor = function(context) {
 var groupBySize = function(context, valueCallback) {
     var settings = context.settings;
     performGrouping(context, settings.sizeGroups, "size", valueCallback || settings.sizeGroupingField, function(count) {
-        var minSize = settings.minSize > 0 ? _Number(settings.minSize) : 0,
-            maxSize = settings.maxSize >= minSize ? _Number(settings.maxSize) : 0,
-            i = 0,
-            sizes = [];
+        var minSize = settings.minSize > 0 ? _Number(settings.minSize) : 0;
+        var maxSize = settings.maxSize >= minSize ? _Number(settings.maxSize) : 0;
+        var i = 0;
+        var sizes = [];
         if(count > 1) {
             for(i = 0; i < count; ++i) {
                 sizes.push((minSize * (count - i - 1) + maxSize * i) / (count - 1));
@@ -940,8 +937,8 @@ MapLayer.prototype = _extend({
     },
 
     _update: function(isContextChanged) {
-        var that = this,
-            context = that._context;
+        var that = this;
+        var context = that._context;
         if(isContextChanged) {
             context.str.reset(context);
             context.root.clear();
@@ -988,9 +985,9 @@ MapLayer.prototype = _extend({
     },
 
     _destroyHandles: function() {
-        var handles = this._handles,
-            i,
-            ii = handles.length;
+        var handles = this._handles;
+        var i;
+        var ii = handles.length;
         for(i = 0; i < ii; ++i) {
             handles[i].dispose();
         }
@@ -1001,16 +998,16 @@ MapLayer.prototype = _extend({
     },
 
     _createHandles: function() {
-        var that = this,
-            handles = that._handles = [],
-            data = that._data,
-            i,
-            ii = handles.length = data.count(),
-            context = that._context,
-            geometry = data.geometry,
-            attributes = data.attributes,
-            handle,
-            dataItem;
+        var that = this;
+        var handles = that._handles = [];
+        var data = that._data;
+        var i;
+        var ii = handles.length = data.count();
+        var context = that._context;
+        var geometry = data.geometry;
+        var attributes = data.attributes;
+        var handle;
+        var dataItem;
         for(i = 0; i < ii; ++i) {
             dataItem = data.item(i);
             handles[i] = new MapLayerElement(context, i, geometry(dataItem), attributes(dataItem));
@@ -1032,9 +1029,9 @@ MapLayer.prototype = _extend({
     },
 
     _updateHandles: function() {
-        var handles = this._handles,
-            i,
-            ii = handles.length;
+        var handles = this._handles;
+        var i;
+        var ii = handles.length;
         for(i = 0; i < ii; ++i) {
             handles[i].refresh();
         }
@@ -1055,18 +1052,18 @@ MapLayer.prototype = _extend({
     },
 
     _project: function() {
-        var handles = this._handles,
-            i,
-            ii = handles.length;
+        var handles = this._handles;
+        var i;
+        var ii = handles.length;
         for(i = 0; i < ii; ++i) {
             handles[i].project();
         }
     },
 
     _transform: function() {
-        var handles = this._handles,
-            i,
-            ii = handles.length;
+        var handles = this._handles;
+        var i;
+        var ii = handles.length;
         this._transformCore();
         for(i = 0; i < ii; ++i) {
             handles[i].transform();
@@ -1074,10 +1071,10 @@ MapLayer.prototype = _extend({
     },
 
     getProxies: function() {
-        var handles = this._handles,
-            proxies = [],
-            i,
-            ii = proxies.length = handles.length;
+        var handles = this._handles;
+        var proxies = [];
+        var i;
+        var ii = proxies.length = handles.length;
         for(i = 0; i < ii; ++i) {
             proxies[i] = handles[i].proxy;
         }
@@ -1147,8 +1144,8 @@ function createProxy(handle, coords, attrs) {
 }
 
 var MapLayerElement = function(context, index, geometry, attributes) {
-    var that = this,
-        proxy = that.proxy = createProxy(that, geometry.coordinates, _extend({}, attributes));
+    var that = this;
+    var proxy = that.proxy = createProxy(that, geometry.coordinates, _extend({}, attributes));
     that._ctx = context;
     that._index = index;
     that._fig = that._label = null;
@@ -1184,15 +1181,15 @@ MapLayerElement.prototype = {
     },
 
     draw: function() {
-        var that = this,
-            context = this._ctx;
+        var that = this;
+        var context = this._ctx;
         context.str.draw(context, that._fig = {}, that._data);
         that._fig.root.append(context.root);
     },
 
     transform: function() {
-        var that = this,
-            context = that._ctx;
+        var that = this;
+        var context = that._ctx;
         context.str.transform(that._fig, context.projection, that._projection);
         if(context.hasSeparateLabel && that._label) {
             that._transformLabel();
@@ -1204,9 +1201,9 @@ MapLayerElement.prototype = {
     },
 
     refresh: function() {
-        var that = this,
-            strategy = that._ctx.str,
-            settings = getItemSettings(that._ctx, that.proxy, that._settings);
+        var that = this;
+        var strategy = that._ctx.str;
+        var settings = getItemSettings(that._ctx, that.proxy, that._settings);
         that._styles = strategy.getStyles(settings);
         strategy.refresh(that._ctx, that._fig, that._data, that.proxy, settings);
         that._refreshLabel(settings);
@@ -1214,10 +1211,10 @@ MapLayerElement.prototype = {
     },
 
     _refreshLabel: function(settings) {
-        var that = this,
-            context = that._ctx,
-            labelSettings = settings.label,
-            label = that._label;
+        var that = this;
+        var context = that._ctx;
+        var labelSettings = settings.label;
+        var label = that._label;
         if(context.settings.label.enabled) {
             if(!label) {
                 label = that._label = {
@@ -1250,8 +1247,8 @@ MapLayerElement.prototype = {
     },
 
     measureLabel: function() {
-        var label = this._label,
-            bBox;
+        var label = this._label;
+        var bBox;
         if(label.value) {
             bBox = label.text.getBBox();
             label.size = [bBox.width, bBox.height, -bBox.y - bBox.height / 2];
@@ -1259,8 +1256,8 @@ MapLayerElement.prototype = {
     },
 
     adjustLabel: function() {
-        var label = this._label,
-            offset;
+        var label = this._label;
+        var offset;
         if(label.value) {
             offset = this._ctx.str.getLabelOffset(label, label.settings);
             label.settings = null;
@@ -1292,9 +1289,9 @@ MapLayerElement.prototype = {
     },
 
     setHovered: function(state) {
-        var that = this,
-            currentState = hasFlag(that._state, STATE_HOVERED),
-            newState = !!state;
+        var that = this;
+        var currentState = hasFlag(that._state, STATE_HOVERED);
+        var newState = !!state;
         if(that._ctx.hover && currentState !== newState) {
             that._state = setFlag(that._state, STATE_HOVERED, newState);
             that._setState();
@@ -1305,11 +1302,11 @@ MapLayerElement.prototype = {
     },
 
     setSelected: function(state, _noEvent) {
-        var that = this,
-            currentState = hasFlag(that._state, STATE_SELECTED),
-            newState = !!state,
-            selection = that._ctx.selection,
-            tmp;
+        var that = this;
+        var currentState = hasFlag(that._state, STATE_SELECTED);
+        var newState = !!state;
+        var selection = that._ctx.selection;
+        var tmp;
         if(selection && currentState !== newState) {
             that._state = setFlag(that._state, STATE_SELECTED, newState);
             tmp = selection.state[selection.single];
@@ -1344,18 +1341,18 @@ MapLayerElement.prototype = {
 
 // http://en.wikipedia.org/wiki/Centroid
 function calculatePolygonCentroid(coordinates) {
-    var i,
-        length = coordinates.length,
-        v1,
-        v2 = coordinates[length - 1],
-        cross,
-        cx = 0,
-        cy = 0,
-        area = 0,
-        minX = Infinity,
-        maxX = -Infinity,
-        minY = Infinity,
-        maxY = -Infinity;
+    var i;
+    var length = coordinates.length;
+    var v1;
+    var v2 = coordinates[length - 1];
+    var cross;
+    var cx = 0;
+    var cy = 0;
+    var area = 0;
+    var minX = Infinity;
+    var maxX = -Infinity;
+    var minY = Infinity;
+    var maxY = -Infinity;
 
     for(i = 0; i < length; ++i) {
         v1 = v2;
@@ -1381,17 +1378,17 @@ function calculatePolygonCentroid(coordinates) {
 }
 
 function calculateLineStringData(coordinates) {
-    var i,
-        ii = coordinates.length,
-        v1,
-        v2 = coordinates[0] || [],
-        totalLength = 0,
-        items = [0],
-        min0 = v2[0],
-        max0 = v2[0],
-        min1 = v2[1],
-        max1 = v2[1],
-        t;
+    var i;
+    var ii = coordinates.length;
+    var v1;
+    var v2 = coordinates[0] || [];
+    var totalLength = 0;
+    var items = [0];
+    var min0 = v2[0];
+    var max0 = v2[0];
+    var min1 = v2[1];
+    var max1 = v2[1];
+    var t;
 
     for(i = 1; i < ii; ++i) {
         v1 = v2;
@@ -1423,11 +1420,11 @@ function calculateLineStringData(coordinates) {
 // There are redundant iterations in the following cycle - interior holes of a polygon should not be taken into account
 // So there is only centroid to be calculated for each "Polygon"
 function projectAreaLabel(coordinates) {
-    var i,
-        ii = coordinates.length,
-        centroid,
-        resultCentroid,
-        maxArea = 0;
+    var i;
+    var ii = coordinates.length;
+    var centroid;
+    var resultCentroid;
+    var maxArea = 0;
 
     for(i = 0; i < ii; ++i) {
         centroid = calculatePolygonCentroid(coordinates[i]);
@@ -1441,11 +1438,11 @@ function projectAreaLabel(coordinates) {
 }
 
 function projectLineLabel(coordinates) {
-    var i,
-        ii = coordinates.length,
-        maxLength = 0,
-        data,
-        resultData;
+    var i;
+    var ii = coordinates.length;
+    var maxLength = 0;
+    var data;
+    var resultData;
 
     for(i = 0; i < ii; ++i) {
         data = calculateLineStringData(coordinates[i]);
@@ -1458,8 +1455,8 @@ function projectLineLabel(coordinates) {
 }
 
 function MapLayerCollection(params) {
-    var that = this,
-        renderer = params.renderer;
+    var that = this;
+    var renderer = params.renderer;
     that._params = params;
     that._layers = [];
     // TODO: Use Set instance instead of plain object
@@ -1487,8 +1484,9 @@ MapLayerCollection.prototype = {
         that._offTracker = tracker.on({
             "click": function(arg) {
                 // TODO: Adjust `x` and `y` inside the Tracker
-                var offset = renderer.getRootOffset(),
-                    layer = that.byName(arg.data.name);
+                var offset = renderer.getRootOffset();
+
+                var layer = that.byName(arg.data.name);
                 arg.$event.x = arg.x - offset.left;
                 arg.$event.y = arg.y - offset.top;
                 // TODO: Remove the "raiseClick" method
@@ -1541,8 +1539,8 @@ MapLayerCollection.prototype = {
     },
 
     _updateClip: function() {
-        var rect = this._rect,
-            bw = this._borderWidth;
+        var rect = this._rect;
+        var bw = this._borderWidth;
         this._clip.attr({ x: rect[0] + bw, y: rect[1] + bw, width: _max(rect[2] - bw * 2, 0), height: _max(rect[3] - bw * 2, 0) });
     },
 

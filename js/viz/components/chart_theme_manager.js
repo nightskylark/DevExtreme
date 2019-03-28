@@ -1,10 +1,10 @@
-var noop = require("../../core/utils/common").noop,
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    BaseThemeManager = require("../core/base_theme_manager").BaseThemeManager,
-    _isString = typeUtils.isString,
-    _isDefined = typeUtils.isDefined,
-    _normalizeEnum = require("../core/utils").normalizeEnum;
+var noop = require("../../core/utils/common").noop;
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var BaseThemeManager = require("../core/base_theme_manager").BaseThemeManager;
+var _isString = typeUtils.isString;
+var _isDefined = typeUtils.isDefined;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
 
 var ThemeManager = BaseThemeManager.inherit((function() {
     var ctor = function(params) {
@@ -58,11 +58,11 @@ var ThemeManager = BaseThemeManager.inherit((function() {
     };
 
     var applyParticularAxisOptions = function(name, userOptions, rotated) {
-        var theme = this._theme,
-            position = !(rotated ^ (name === "valueAxis")) ? "horizontalAxis" : "verticalAxis",
-            processedUserOptions = processAxisOptions(userOptions, name),
-            commonAxisSettings = processAxisOptions(this._userOptions["commonAxisSettings"], name),
-            mergeOptions = extend(true, {}, theme.commonAxisSettings, theme[position], theme[name], commonAxisSettings, processedUserOptions);
+        var theme = this._theme;
+        var position = !(rotated ^ (name === "valueAxis")) ? "horizontalAxis" : "verticalAxis";
+        var processedUserOptions = processAxisOptions(userOptions, name);
+        var commonAxisSettings = processAxisOptions(this._userOptions["commonAxisSettings"], name);
+        var mergeOptions = extend(true, {}, theme.commonAxisSettings, theme[position], theme[name], commonAxisSettings, processedUserOptions);
 
         mergeOptions.workWeek = processedUserOptions.workWeek || theme[name].workWeek;
         mergeOptions.forceUserTickInterval |= _isDefined(processedUserOptions.tickInterval) && !_isDefined(processedUserOptions.axisDivisionFactor);
@@ -71,8 +71,8 @@ var ThemeManager = BaseThemeManager.inherit((function() {
 
     var mergeOptions = function(name, userOptions) {
         userOptions = userOptions || this._userOptions[name];
-        var theme = this._theme[name],
-            result = this._mergedSettings[name];
+        var theme = this._theme[name];
+        var result = this._mergedSettings[name];
         if(result) { return result; }
         if(typeUtils.isPlainObject(theme) && typeUtils.isPlainObject(userOptions)) {
             result = extend(true, {}, theme, userOptions);
@@ -92,23 +92,26 @@ var ThemeManager = BaseThemeManager.inherit((function() {
         },
         valueAxis: applyParticularAxisOptions,
         series: function(name, userOptions, seriesCount) {
-            var that = this,
-                theme = that._theme,
-                userCommonSettings = that._userOptions.commonSeriesSettings || {},
-                themeCommonSettings = theme.commonSeriesSettings,
-                widgetType = that._themeSection.split(".").slice(-1)[0],
-                type = _normalizeEnum(userOptions.type || userCommonSettings.type || themeCommonSettings.type || (widgetType === "pie" && theme.type)), // userCommonSettings.type && themeCommonSettings.type deprecated in 15.2 in pie
-                settings,
-                palette = that.palette,
-                isBar = ~type.indexOf("bar"),
-                isLine = ~type.indexOf("line"),
-                isArea = ~type.indexOf("area"),
-                isBubble = type === "bubble",
-                mainSeriesColor,
-                resolveLabelsOverlapping = that.getOptions("resolveLabelsOverlapping"),
-                containerBackgroundColor = that.getOptions("containerBackgroundColor"),
-                seriesTemplate = applyParticularTheme.seriesTemplate.call(this),
-                seriesVisibility;
+            var that = this;
+            var theme = that._theme;
+            var userCommonSettings = that._userOptions.commonSeriesSettings || {};
+            var themeCommonSettings = theme.commonSeriesSettings;
+            var widgetType = that._themeSection.split(".").slice(-1)[0];
+
+            var // userCommonSettings.type && themeCommonSettings.type deprecated in 15.2 in pie
+            type = _normalizeEnum(userOptions.type || userCommonSettings.type || themeCommonSettings.type || (widgetType === "pie" && theme.type));
+
+            var settings;
+            var palette = that.palette;
+            var isBar = ~type.indexOf("bar");
+            var isLine = ~type.indexOf("line");
+            var isArea = ~type.indexOf("area");
+            var isBubble = type === "bubble";
+            var mainSeriesColor;
+            var resolveLabelsOverlapping = that.getOptions("resolveLabelsOverlapping");
+            var containerBackgroundColor = that.getOptions("containerBackgroundColor");
+            var seriesTemplate = applyParticularTheme.seriesTemplate.call(this);
+            var seriesVisibility;
 
             if(isBar || isBubble) {
                 userOptions = extend(true, {}, userCommonSettings, userCommonSettings[type], userOptions);
@@ -166,8 +169,8 @@ var ThemeManager = BaseThemeManager.inherit((function() {
         zoomAndPan() {
             function parseOption(option) {
                 option = _normalizeEnum(option);
-                const pan = option === "pan" || option === "both",
-                    zoom = option === "zoom" || option === "both";
+                const pan = option === "pan" || option === "both";
+                const zoom = option === "zoom" || option === "both";
 
                 return {
                     pan: pan,

@@ -1,18 +1,17 @@
-var $ = require("../../core/renderer"),
-    eventUtils = require("../../events/utils"),
-    extend = require("../../core/utils/extend").extend,
-    GroupedEditStrategy = require("./ui.list.edit.strategy.grouped"),
-    messageLocalization = require("../../localization/message"),
-    EditProvider = require("./ui.list.edit.provider"),
-    ListBase = require("./ui.list.base");
-
-var LIST_ITEM_SELECTED_CLASS = "dx-list-item-selected",
-    LIST_ITEM_RESPONSE_WAIT_CLASS = "dx-list-item-response-wait";
+var $ = require("../../core/renderer");
+var eventUtils = require("../../events/utils");
+var extend = require("../../core/utils/extend").extend;
+var GroupedEditStrategy = require("./ui.list.edit.strategy.grouped");
+var messageLocalization = require("../../localization/message");
+var EditProvider = require("./ui.list.edit.provider");
+var ListBase = require("./ui.list.base");
+var LIST_ITEM_SELECTED_CLASS = "dx-list-item-selected";
+var LIST_ITEM_RESPONSE_WAIT_CLASS = "dx-list-item-response-wait";
 
 var ListEdit = ListBase.inherit({
     _supportedKeys: function() {
-        var that = this,
-            parent = this.callBase();
+        var that = this;
+        var parent = this.callBase();
 
         var deleteFocusedItem = function(e) {
             if(that.option("allowItemDeleting")) {
@@ -354,8 +353,8 @@ var ListEdit = ListBase.inherit({
             return;
         }
 
-        var isTouchEvent = eventUtils.isTouchEvent(e),
-            handledByEditProvider = isTouchEvent && this._editProvider.handleContextMenu($itemElement, e);
+        var isTouchEvent = eventUtils.isTouchEvent(e);
+        var handledByEditProvider = isTouchEvent && this._editProvider.handleContextMenu($itemElement, e);
         if(handledByEditProvider) {
             e.handledByEditProvider = true;
             return;

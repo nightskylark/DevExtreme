@@ -1,49 +1,48 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    registerComponent = require("../../core/component_registrator"),
-    Guid = require("../../core/guid"),
-    utils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    dataUtils = require("../../core/element_data"),
-    each = require("../../core/utils/iterator").each,
-    inArray = require("../../core/utils/array").inArray,
-    extend = require("../../core/utils/extend").extend,
-    stringUtils = require("../../core/utils/string"),
-    errors = require("../widget/ui.errors"),
-    browser = require("../../core/utils/browser"),
-    domUtils = require("../../core/utils/dom"),
-    messageLocalization = require("../../localization/message"),
-    Widget = require("../widget/ui.widget"),
-    windowUtils = require("../../core/utils/window"),
-    ValidationEngine = require("../validation_engine"),
-    LayoutManager = require("./ui.form.layout_manager"),
-    FormItemsRunTimeInfo = require("./ui.form.items_runtime_info").default,
-    TabPanel = require("../tab_panel"),
-    Scrollable = require("../scroll_view/ui.scrollable"),
-    Deferred = require("../../core/utils/deferred").Deferred,
-    themes = require("../themes");
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var registerComponent = require("../../core/component_registrator");
+var Guid = require("../../core/guid");
+var utils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var dataUtils = require("../../core/element_data");
+var each = require("../../core/utils/iterator").each;
+var inArray = require("../../core/utils/array").inArray;
+var extend = require("../../core/utils/extend").extend;
+var stringUtils = require("../../core/utils/string");
+var errors = require("../widget/ui.errors");
+var browser = require("../../core/utils/browser");
+var domUtils = require("../../core/utils/dom");
+var messageLocalization = require("../../localization/message");
+var Widget = require("../widget/ui.widget");
+var windowUtils = require("../../core/utils/window");
+var ValidationEngine = require("../validation_engine");
+var LayoutManager = require("./ui.form.layout_manager");
+var FormItemsRunTimeInfo = require("./ui.form.items_runtime_info").default;
+var TabPanel = require("../tab_panel");
+var Scrollable = require("../scroll_view/ui.scrollable");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var themes = require("../themes");
 
 require("../validation_summary");
 require("../validation_group");
 
-var FORM_CLASS = "dx-form",
-    FIELD_ITEM_CLASS = "dx-field-item",
-    FIELD_ITEM_LABEL_TEXT_CLASS = "dx-field-item-label-text",
-    FORM_GROUP_CLASS = "dx-form-group",
-    FORM_GROUP_CONTENT_CLASS = "dx-form-group-content",
-    FORM_GROUP_WITH_CAPTION_CLASS = "dx-form-group-with-caption",
-    FORM_GROUP_CAPTION_CLASS = "dx-form-group-caption",
-    HIDDEN_LABEL_CLASS = "dx-layout-manager-hidden-label",
-    FIELD_ITEM_LABEL_CLASS = "dx-field-item-label",
-    FIELD_ITEM_LABEL_CONTENT_CLASS = "dx-field-item-label-content",
-    FIELD_ITEM_TAB_CLASS = "dx-field-item-tab",
-    FORM_FIELD_ITEM_COL_CLASS = "dx-col-",
-    GROUP_COL_COUNT_CLASS = "dx-group-colcount-",
-    FIELD_ITEM_CONTENT_CLASS = "dx-field-item-content",
-    FORM_VALIDATION_SUMMARY = "dx-form-validation-summary",
-
-    WIDGET_CLASS = "dx-widget",
-    FOCUSED_STATE_CLASS = "dx-state-focused";
+var FORM_CLASS = "dx-form";
+var FIELD_ITEM_CLASS = "dx-field-item";
+var FIELD_ITEM_LABEL_TEXT_CLASS = "dx-field-item-label-text";
+var FORM_GROUP_CLASS = "dx-form-group";
+var FORM_GROUP_CONTENT_CLASS = "dx-form-group-content";
+var FORM_GROUP_WITH_CAPTION_CLASS = "dx-form-group-with-caption";
+var FORM_GROUP_CAPTION_CLASS = "dx-form-group-caption";
+var HIDDEN_LABEL_CLASS = "dx-layout-manager-hidden-label";
+var FIELD_ITEM_LABEL_CLASS = "dx-field-item-label";
+var FIELD_ITEM_LABEL_CONTENT_CLASS = "dx-field-item-label-content";
+var FIELD_ITEM_TAB_CLASS = "dx-field-item-tab";
+var FORM_FIELD_ITEM_COL_CLASS = "dx-col-";
+var GROUP_COL_COUNT_CLASS = "dx-group-colcount-";
+var FIELD_ITEM_CONTENT_CLASS = "dx-field-item-content";
+var FORM_VALIDATION_SUMMARY = "dx-form-validation-summary";
+var WIDGET_CLASS = "dx-widget";
+var FOCUSED_STATE_CLASS = "dx-state-focused";
 
 var Form = Widget.inherit({
     _init: function() {
@@ -651,9 +650,9 @@ var Form = Widget.inherit({
     },
 
     _getColCount: function($element) {
-        var index = 0,
-            isColsExist = true,
-            $cols;
+        var index = 0;
+        var isColsExist = true;
+        var $cols;
 
         while(isColsExist) {
             $cols = $element.find("." + FORM_FIELD_ITEM_COL_CLASS + index);
@@ -694,18 +693,18 @@ var Form = Widget.inherit({
     _getLabelsSelectorByCol: function(index, options) {
         options = options || {};
 
-        var fieldItemClass = options.inOneColumn ? FIELD_ITEM_CLASS : FORM_FIELD_ITEM_COL_CLASS + index,
-            cssExcludeTabbedSelector = options.excludeTabbed ? ":not(." + FIELD_ITEM_TAB_CLASS + ")" : "",
-            childLabelContentSelector = "> ." + FIELD_ITEM_LABEL_CLASS + " > ." + FIELD_ITEM_LABEL_CONTENT_CLASS;
+        var fieldItemClass = options.inOneColumn ? FIELD_ITEM_CLASS : FORM_FIELD_ITEM_COL_CLASS + index;
+        var cssExcludeTabbedSelector = options.excludeTabbed ? ":not(." + FIELD_ITEM_TAB_CLASS + ")" : "";
+        var childLabelContentSelector = "> ." + FIELD_ITEM_LABEL_CLASS + " > ." + FIELD_ITEM_LABEL_CONTENT_CLASS;
 
         return "." + fieldItemClass + cssExcludeTabbedSelector + childLabelContentSelector;
     },
 
     _getLabelText: function(labelText) {
-        var length = labelText.children.length,
-            child,
-            result = "",
-            i;
+        var length = labelText.children.length;
+        var child;
+        var result = "";
+        var i;
 
         for(i = 0; i < length; i++) {
             child = labelText.children[i];
@@ -716,11 +715,11 @@ var Form = Widget.inherit({
     },
 
     _applyLabelsWidthByCol: function($container, index, options) {
-        var $labelTexts = $container.find(this._getLabelsSelectorByCol(index, options)),
-            $labelTextsLength = $labelTexts.length,
-            labelWidth,
-            i,
-            maxWidth = 0;
+        var $labelTexts = $container.find(this._getLabelsSelectorByCol(index, options));
+        var $labelTextsLength = $labelTexts.length;
+        var labelWidth;
+        var i;
+        var maxWidth = 0;
 
         for(i = 0; i < $labelTextsLength; i++) {
             labelWidth = this._getLabelWidthByText(this._getLabelText($labelTexts[i]));
@@ -735,11 +734,13 @@ var Form = Widget.inherit({
 
     _applyLabelsWidth: function($container, excludeTabbed, inOneColumn, colCount) {
         colCount = inOneColumn ? 1 : colCount || this._getColCount($container);
+
         var applyLabelsOptions = {
                 excludeTabbed: excludeTabbed,
                 inOneColumn: inOneColumn
-            },
-            i;
+            };
+
+        var i;
 
         for(i = 0; i < colCount; i++) {
             this._applyLabelsWidthByCol($container, i, applyLabelsOptions);
@@ -747,8 +748,8 @@ var Form = Widget.inherit({
     },
 
     _getGroupElementsInColumn: function($container, columnIndex, colCount) {
-        var cssColCountSelector = typeUtils.isDefined(colCount) ? "." + GROUP_COL_COUNT_CLASS + colCount : "",
-            groupSelector = "." + FORM_FIELD_ITEM_COL_CLASS + columnIndex + " > ." + FIELD_ITEM_CONTENT_CLASS + " > ." + FORM_GROUP_CLASS + cssColCountSelector;
+        var cssColCountSelector = typeUtils.isDefined(colCount) ? "." + GROUP_COL_COUNT_CLASS + colCount : "";
+        var groupSelector = "." + FORM_FIELD_ITEM_COL_CLASS + columnIndex + " > ." + FIELD_ITEM_CONTENT_CLASS + " > ." + FORM_GROUP_CLASS + cssColCountSelector;
 
         return $container.find(groupSelector);
     },
@@ -759,8 +760,8 @@ var Form = Widget.inherit({
         if(alignItemLabelsInAllGroups) {
             this._applyLabelsWidthWithNestedGroups($container, colCount, excludeTabbed);
         } else {
-            var $groups = this.$element().find("." + FORM_GROUP_CLASS),
-                i;
+            var $groups = this.$element().find("." + FORM_GROUP_CLASS);
+            var i;
             for(i = 0; i < $groups.length; i++) {
                 this._applyLabelsWidth($groups.eq(i), excludeTabbed);
             }
@@ -768,11 +769,11 @@ var Form = Widget.inherit({
     },
 
     _applyLabelsWidthWithNestedGroups: function($container, colCount, excludeTabbed) {
-        var applyLabelsOptions = { excludeTabbed: excludeTabbed },
-            colIndex,
-            groupsColIndex,
-            groupColIndex,
-            $groupsByCol;
+        var applyLabelsOptions = { excludeTabbed: excludeTabbed };
+        var colIndex;
+        var groupsColIndex;
+        var groupColIndex;
+        var $groupsByCol;
 
         for(colIndex = 0; colIndex < colCount; colIndex++) {
             $groupsByCol = this._getGroupElementsInColumn($container, colIndex);
@@ -956,9 +957,9 @@ var Form = Widget.inherit({
     },
 
     _renderLayout: function() {
-        var that = this,
-            items = that.option("items"),
-            $content = that._getContent();
+        var that = this;
+        var items = that.option("items");
+        var $content = that._getContent();
 
         items = that._prepareItems(items);
 
@@ -981,44 +982,45 @@ var Form = Widget.inherit({
     },
 
     _itemTabbedTemplate: function(item, e, $container) {
-        var that = this,
-            $tabPanel = $("<div>").appendTo($container),
-            tabPanelOptions = extend({}, item.tabPanelOptions, {
-                dataSource: item.tabs,
-                onItemRendered: function(args) {
-                    domUtils.triggerShownEvent(args.itemElement);
-                },
-                itemTemplate: function(itemData, e, container) {
-                    var layoutManager,
-                        $container = $(container),
-                        alignItemLabels = utils.ensureDefined(itemData.alignItemLabels, true);
+        var that = this;
+        var $tabPanel = $("<div>").appendTo($container);
 
-                    layoutManager = that._renderLayoutManager(itemData.items, $container, {
-                        colCount: itemData.colCount,
-                        alignItemLabels: alignItemLabels,
-                        screenByWidth: this.option("screenByWidth"),
-                        colCountByScreen: itemData.colCountByScreen,
-                        cssItemClass: itemData.cssItemClass,
-                        onLayoutChanged: function(inOneColumn) {
-                            that._alignLabelsInColumn.bind(that)({
-                                $container: $container,
-                                layoutManager: layoutManager,
-                                items: itemData.items,
-                                inOneColumn: inOneColumn
-                            });
-                        }
-                    });
+        var tabPanelOptions = extend({}, item.tabPanelOptions, {
+            dataSource: item.tabs,
+            onItemRendered: function(args) {
+                domUtils.triggerShownEvent(args.itemElement);
+            },
+            itemTemplate: function(itemData, e, container) {
+                var layoutManager,
+                    $container = $(container),
+                    alignItemLabels = utils.ensureDefined(itemData.alignItemLabels, true);
 
-                    if(alignItemLabels) {
+                layoutManager = that._renderLayoutManager(itemData.items, $container, {
+                    colCount: itemData.colCount,
+                    alignItemLabels: alignItemLabels,
+                    screenByWidth: this.option("screenByWidth"),
+                    colCountByScreen: itemData.colCountByScreen,
+                    cssItemClass: itemData.cssItemClass,
+                    onLayoutChanged: function(inOneColumn) {
                         that._alignLabelsInColumn.bind(that)({
                             $container: $container,
                             layoutManager: layoutManager,
                             items: itemData.items,
-                            inOneColumn: layoutManager.isSingleColumnMode()
+                            inOneColumn: inOneColumn
                         });
                     }
+                });
+
+                if(alignItemLabels) {
+                    that._alignLabelsInColumn.bind(that)({
+                        $container: $container,
+                        layoutManager: layoutManager,
+                        items: itemData.items,
+                        inOneColumn: layoutManager.isSingleColumnMode()
+                    });
                 }
-            });
+            }
+        });
 
         that._createComponent($tabPanel, TabPanel, tabPanelOptions);
     },
@@ -1027,10 +1029,11 @@ var Form = Widget.inherit({
         var $group = $("<div>")
                 .toggleClass(FORM_GROUP_WITH_CAPTION_CLASS, typeUtils.isDefined(item.caption) && item.caption.length)
                 .addClass(FORM_GROUP_CLASS)
-                .appendTo($container),
-            $groupContent,
-            colCount,
-            layoutManager;
+                .appendTo($container);
+
+        var $groupContent;
+        var colCount;
+        var layoutManager;
 
         if(item.caption) {
             $("<span>")
@@ -1069,16 +1072,17 @@ var Form = Widget.inherit({
     },
 
     _renderLayoutManager: function(items, $rootElement, options) {
-        var $element = $("<div>"),
-            that = this,
-            instance,
-            config = that._getLayoutManagerConfig(items, options),
-            baseColCountByScreen = {
-                lg: options.colCount,
-                md: options.colCount,
-                sm: options.colCount,
-                xs: 1
-            };
+        var $element = $("<div>");
+        var that = this;
+        var instance;
+        var config = that._getLayoutManagerConfig(items, options);
+
+        var baseColCountByScreen = {
+            lg: options.colCount,
+            md: options.colCount,
+            sm: options.colCount,
+            xs: 1
+        };
 
         that._cachedColCountOptions.push({ colCountByScreen: extend(baseColCountByScreen, options.colCountByScreen) });
         $element.appendTo($rootElement);
@@ -1093,29 +1097,30 @@ var Form = Widget.inherit({
     },
 
     _getLayoutManagerConfig: function(items, options) {
-        var that = this,
-            baseConfig = {
-                form: that,
-                validationGroup: that._getValidationGroup(),
-                showRequiredMark: that.option("showRequiredMark"),
-                showOptionalMark: that.option("showOptionalMark"),
-                requiredMark: that.option("requiredMark"),
-                optionalMark: that.option("optionalMark"),
-                requiredMessage: that.option("requiredMessage"),
-                screenByWidth: that.option("screenByWidth"),
-                layoutData: that.option("formData"),
-                labelLocation: that.option("labelLocation"),
-                customizeItem: that.option("customizeItem"),
-                minColWidth: that.option("minColWidth"),
-                showColonAfterLabel: that.option("showColonAfterLabel"),
-                onEditorEnterKey: that.option("onEditorEnterKey"),
-                onFieldDataChanged: function(args) {
-                    if(!that._isDataUpdating) {
-                        that._triggerOnFieldDataChanged(args);
-                    }
-                },
-                validationBoundary: that.option("scrollingEnabled") ? that.$element() : undefined
-            };
+        var that = this;
+
+        var baseConfig = {
+            form: that,
+            validationGroup: that._getValidationGroup(),
+            showRequiredMark: that.option("showRequiredMark"),
+            showOptionalMark: that.option("showOptionalMark"),
+            requiredMark: that.option("requiredMark"),
+            optionalMark: that.option("optionalMark"),
+            requiredMessage: that.option("requiredMessage"),
+            screenByWidth: that.option("screenByWidth"),
+            layoutData: that.option("formData"),
+            labelLocation: that.option("labelLocation"),
+            customizeItem: that.option("customizeItem"),
+            minColWidth: that.option("minColWidth"),
+            showColonAfterLabel: that.option("showColonAfterLabel"),
+            onEditorEnterKey: that.option("onEditorEnterKey"),
+            onFieldDataChanged: function(args) {
+                if(!that._isDataUpdating) {
+                    that._triggerOnFieldDataChanged(args);
+                }
+            },
+            validationBoundary: that.option("scrollingEnabled") ? that.$element() : undefined
+        };
 
         return extend(baseConfig, {
             items: items,
@@ -1238,12 +1243,12 @@ var Form = Widget.inherit({
     },
 
     _getRootLevelOfExpectedComplexOption: function(fullOptionName, expectedRootNames) {
-        var splitFullName = fullOptionName.split("."),
-            result;
+        var splitFullName = fullOptionName.split(".");
+        var result;
 
         if(splitFullName.length > 1) {
-            var i,
-                rootOptionName = splitFullName[0];
+            var i;
+            var rootOptionName = splitFullName[0];
 
             for(i = 0; i < expectedRootNames.length; i++) {
                 if(rootOptionName.search(expectedRootNames[i]) !== -1) {
@@ -1260,11 +1265,11 @@ var Form = Widget.inherit({
 
         switch(rootOptionName) {
             case "items":
-                var itemPath = this._getItemPath(nameParts),
-                    item = this.option(itemPath),
-                    instance = this._itemsRunTimeInfo.findWidgetInstanceByItem(item),
-                    $itemContainer = this._itemsRunTimeInfo.findItemContainerByItem(item),
-                    fullName = args.fullName;
+                var itemPath = this._getItemPath(nameParts);
+                var item = this.option(itemPath);
+                var instance = this._itemsRunTimeInfo.findWidgetInstanceByItem(item);
+                var $itemContainer = this._itemsRunTimeInfo.findItemContainerByItem(item);
+                var fullName = args.fullName;
 
                 if(instance) {
                     if(fullName.search("buttonOptions") !== -1) {
@@ -1291,8 +1296,8 @@ var Form = Widget.inherit({
                 }
 
                 if(item) {
-                    var name = args.fullName.replace(itemPath + ".", ""),
-                        items;
+                    var name = args.fullName.replace(itemPath + ".", "");
+                    var items;
                     this._changeItemOption(item, name, args.value);
                     items = this._generateItemsFromData(this.option("items"));
                     this.option("items", items);
@@ -1300,8 +1305,8 @@ var Form = Widget.inherit({
 
                 break;
             case "formData":
-                var dataField = nameParts.slice(1).join("."),
-                    editor = this.getEditor(dataField);
+                var dataField = nameParts.slice(1).join(".");
+                var editor = this.getEditor(dataField);
 
                 if(editor) {
                     editor.option("value", args.value);
@@ -1316,8 +1321,8 @@ var Form = Widget.inherit({
     },
 
     _getItemPath: function(nameParts) {
-        var itemPath = nameParts[0],
-            i;
+        var itemPath = nameParts[0];
+        var i;
 
         for(i = 1; i < nameParts.length; i++) {
             if(nameParts[i].search("items|tabs") !== -1) {
@@ -1360,8 +1365,8 @@ var Form = Widget.inherit({
     },
 
     _generateItemsFromData: function(items) {
-        var formData = this.option("formData"),
-            result = [];
+        var formData = this.option("formData");
+        var result = [];
 
         if(!items && typeUtils.isDefined(formData)) {
             each(formData, function(dataField) {
@@ -1387,11 +1392,11 @@ var Form = Widget.inherit({
     },
 
     _getItemByField: function(field, items) {
-        var that = this,
-            fieldParts = typeUtils.isObject(field) ? field : that._getFieldParts(field),
-            fieldName = fieldParts.fieldName,
-            fieldPath = fieldParts.fieldPath,
-            resultItem;
+        var that = this;
+        var fieldParts = typeUtils.isObject(field) ? field : that._getFieldParts(field);
+        var fieldName = fieldParts.fieldName;
+        var fieldPath = fieldParts.fieldPath;
+        var resultItem;
 
         if(items.length) {
             each(items, function(index, item) {
@@ -1420,10 +1425,10 @@ var Form = Widget.inherit({
     },
 
     _getFieldParts: function(field) {
-        var fieldSeparator = ".",
-            fieldName = field,
-            separatorIndex = fieldName.indexOf(fieldSeparator),
-            resultPath = [];
+        var fieldSeparator = ".";
+        var fieldName = field;
+        var separatorIndex = fieldName.indexOf(fieldSeparator);
+        var resultPath = [];
 
 
         while(separatorIndex !== -1) {
@@ -1439,18 +1444,18 @@ var Form = Widget.inherit({
     },
 
     _getItemByFieldPath: function(path, fieldName, item) {
-        var that = this,
-            itemType = item.itemType,
-            subItemsField = that._getSubItemField(itemType),
-            isItemWithSubItems = itemType === "group" || itemType === "tabbed" || item.title,
-            result;
+        var that = this;
+        var itemType = item.itemType;
+        var subItemsField = that._getSubItemField(itemType);
+        var isItemWithSubItems = itemType === "group" || itemType === "tabbed" || item.title;
+        var result;
 
         do {
             if(isItemWithSubItems) {
-                var name = item.name || item.caption || item.title,
-                    isGroupWithName = typeUtils.isDefined(name),
-                    nameWithoutSpaces = that._getTextWithoutSpaces(name),
-                    pathNode;
+                var name = item.name || item.caption || item.title;
+                var isGroupWithName = typeUtils.isDefined(name);
+                var nameWithoutSpaces = that._getTextWithoutSpaces(name);
+                var pathNode;
 
                 item[subItemsField] = that._generateItemsFromData(item[subItemsField]);
 
@@ -1484,8 +1489,8 @@ var Form = Widget.inherit({
     },
 
     _searchItemInEverySubItem: function(path, fieldName, items) {
-        var that = this,
-            result;
+        var that = this;
+        var result;
 
         each(items, function(index, groupItem) {
             result = that._getItemByFieldPath(path.slice(), fieldName, groupItem);
@@ -1551,8 +1556,8 @@ var Form = Widget.inherit({
     },
 
     _resetValues: function() {
-        var validationGroup = this._getValidationGroup(),
-            validationGroupConfig = ValidationEngine.getGroupConfig(validationGroup);
+        var validationGroup = this._getValidationGroup();
+        var validationGroupConfig = ValidationEngine.getGroupConfig(validationGroup);
 
         validationGroupConfig && validationGroupConfig.reset();
         this._itemsRunTimeInfo.each(function(_, itemRunTimeInfo) {
@@ -1564,8 +1569,8 @@ var Form = Widget.inherit({
     },
 
     _updateData: function(data, value, isComplexData) {
-        var that = this,
-            _data = isComplexData ? value : data;
+        var that = this;
+        var _data = isComplexData ? value : data;
 
         if(typeUtils.isObject(_data)) {
             each(_data, function(dataField, fieldValue) {
@@ -1644,8 +1649,8 @@ var Form = Widget.inherit({
      * @return Promise<void>
      */
     updateDimensions: function() {
-        var that = this,
-            deferred = new Deferred();
+        var that = this;
+        var deferred = new Deferred();
 
         if(that._scrollable) {
             that._scrollable.update().done(function() {
@@ -1678,10 +1683,10 @@ var Form = Widget.inherit({
      * @return any
      */
     itemOption: function(id, option, value) {
-        var that = this,
-            argsCount = arguments.length,
-            items = that._generateItemsFromData(that.option("items")),
-            item = that._getItemByField(id, items);
+        var that = this;
+        var argsCount = arguments.length;
+        var items = that._generateItemsFromData(that.option("items"));
+        var item = that._getItemByField(id, items);
 
         switch(argsCount) {
             case 1:

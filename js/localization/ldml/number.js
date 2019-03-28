@@ -1,8 +1,8 @@
 var fitIntoRange = require("../../core/utils/math").fitIntoRange;
 
-var DEFAULT_CONFIG = { thousandsSeparator: ",", decimalSeparator: "." },
-    ESCAPING_CHAR = "'",
-    MAXIMUM_NUMBER_LENGTH = 15;
+var DEFAULT_CONFIG = { thousandsSeparator: ",", decimalSeparator: "." };
+var ESCAPING_CHAR = "'";
+var MAXIMUM_NUMBER_LENGTH = 15;
 
 function getGroupSizes(formatString) {
     return formatString.split(",").slice(1).map(function(str) {
@@ -61,8 +61,8 @@ function normalizeValueString(valuePart, minDigitCount, maxDigitCount) {
 function applyGroups(valueString, groupSizes, thousandsSeparator) {
     if(!groupSizes.length) return valueString;
 
-    var groups = [],
-        index = 0;
+    var groups = [];
+    var index = 0;
 
     while(valueString) {
         var groupSize = groupSizes[index];
@@ -106,10 +106,10 @@ function getFormatter(format, config) {
     return function(value) {
         if(typeof value !== "number" || isNaN(value)) return "";
 
-        var signFormatParts = getSignParts(format),
-            isPositiveZero = 1 / value === Infinity,
-            isPositive = value > 0 || isPositiveZero,
-            numberFormat = signFormatParts[isPositive ? 0 : 1];
+        var signFormatParts = getSignParts(format);
+        var isPositiveZero = 1 / value === Infinity;
+        var isPositive = value > 0 || isPositiveZero;
+        var numberFormat = signFormatParts[isPositive ? 0 : 1];
 
         if(isPercentFormat(numberFormat)) {
             value = value * 100;
@@ -119,25 +119,25 @@ function getFormatter(format, config) {
             value = -value;
         }
 
-        var floatPointIndex = getFloatPointIndex(numberFormat),
-            floatFormatParts = [numberFormat.substr(0, floatPointIndex), numberFormat.substr(floatPointIndex + 1)],
-            minFloatPrecision = getRequiredDigitCount(floatFormatParts[1]),
-            maxFloatPrecision = minFloatPrecision + getNonRequiredDigitCount(floatFormatParts[1]),
-            minIntegerPrecision = getRequiredDigitCount(floatFormatParts[0]),
-            maxIntegerPrecision = getNonRequiredDigitCount(floatFormatParts[0]) ? undefined : minIntegerPrecision,
-            integerLength = Math.floor(value).toString().length,
-            floatPrecision = fitIntoRange(maxFloatPrecision, 0, MAXIMUM_NUMBER_LENGTH - integerLength),
-            groupSizes = getGroupSizes(floatFormatParts[0]).reverse();
+        var floatPointIndex = getFloatPointIndex(numberFormat);
+        var floatFormatParts = [numberFormat.substr(0, floatPointIndex), numberFormat.substr(floatPointIndex + 1)];
+        var minFloatPrecision = getRequiredDigitCount(floatFormatParts[1]);
+        var maxFloatPrecision = minFloatPrecision + getNonRequiredDigitCount(floatFormatParts[1]);
+        var minIntegerPrecision = getRequiredDigitCount(floatFormatParts[0]);
+        var maxIntegerPrecision = getNonRequiredDigitCount(floatFormatParts[0]) ? undefined : minIntegerPrecision;
+        var integerLength = Math.floor(value).toString().length;
+        var floatPrecision = fitIntoRange(maxFloatPrecision, 0, MAXIMUM_NUMBER_LENGTH - integerLength);
+        var groupSizes = getGroupSizes(floatFormatParts[0]).reverse();
 
         var valueParts = value.toFixed(floatPrecision < 0 ? 0 : floatPrecision).split(".");
 
-        var valueIntegerPart = normalizeValueString(reverseString(valueParts[0]), minIntegerPrecision, maxIntegerPrecision),
-            valueFloatPart = normalizeValueString(valueParts[1], minFloatPrecision, maxFloatPrecision);
+        var valueIntegerPart = normalizeValueString(reverseString(valueParts[0]), minIntegerPrecision, maxIntegerPrecision);
+        var valueFloatPart = normalizeValueString(valueParts[1], minFloatPrecision, maxFloatPrecision);
 
         valueIntegerPart = applyGroups(valueIntegerPart, groupSizes, config.thousandsSeparator);
 
-        var integerString = reverseString(formatNumberPart(reverseString(floatFormatParts[0]), valueIntegerPart)),
-            floatString = maxFloatPrecision ? formatNumberPart(floatFormatParts[1], valueFloatPart) : "";
+        var integerString = reverseString(formatNumberPart(reverseString(floatFormatParts[0]), valueIntegerPart));
+        var floatString = maxFloatPrecision ? formatNumberPart(floatFormatParts[1], valueFloatPart) : "";
 
         var result = integerString + (floatString.match(/\d/) ? config.decimalSeparator : "") + floatString;
 
@@ -152,10 +152,10 @@ function parseValue(text, isPercent, isNegative) {
 }
 
 function prepareValueText(valueText, formatter, isPercent, isIntegerPart) {
-    var nextValueText = valueText,
-        char,
-        text,
-        nextText;
+    var nextValueText = valueText;
+    var char;
+    var text;
+    var nextText;
 
     do {
         if(nextText) {
@@ -178,11 +178,11 @@ function prepareValueText(valueText, formatter, isPercent, isIntegerPart) {
 }
 
 function getFormatByValueText(valueText, formatter, isPercent, isNegative) {
-    var format = formatter(parseValue(valueText, isPercent, isNegative)),
-        valueTextParts = valueText.split("."),
-        valueTextWithModifiedFloat = valueTextParts[0] + ".3" + valueTextParts[1].slice(1),
-        valueWithModifiedFloat = parseValue(valueTextWithModifiedFloat, isPercent, isNegative),
-        decimalSeparatorIndex = formatter(valueWithModifiedFloat).indexOf("3") - 1;
+    var format = formatter(parseValue(valueText, isPercent, isNegative));
+    var valueTextParts = valueText.split(".");
+    var valueTextWithModifiedFloat = valueTextParts[0] + ".3" + valueTextParts[1].slice(1);
+    var valueWithModifiedFloat = parseValue(valueTextWithModifiedFloat, isPercent, isNegative);
+    var decimalSeparatorIndex = formatter(valueWithModifiedFloat).indexOf("3") - 1;
 
     format = format.replace(/(\d)\D(\d)/g, "$1,$2");
 
@@ -200,8 +200,8 @@ function getFormatByValueText(valueText, formatter, isPercent, isNegative) {
 }
 
 function getFormat(formatter) {
-    var valueText = ".",
-        isPercent = formatter(1).indexOf("100") >= 0;
+    var valueText = ".";
+    var isPercent = formatter(1).indexOf("100") >= 0;
 
     valueText = prepareValueText(valueText, formatter, isPercent, true);
     valueText = prepareValueText(valueText, formatter, isPercent, false);

@@ -1,5 +1,5 @@
-var Globalize = require("globalize"),
-    coreLocalization = require("../core");
+var Globalize = require("globalize");
+var coreLocalization = require("../core");
 
 if(Globalize && Globalize.load) {
     var likelySubtags = {

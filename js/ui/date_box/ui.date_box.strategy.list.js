@@ -1,13 +1,13 @@
-var $ = require("../../core/renderer"),
-    window = require("../../core/utils/window").getWindow(),
-    List = require("../list"),
-    DateBoxStrategy = require("./ui.date_box.strategy"),
-    themes = require("../themes"),
-    noop = require("../../core/utils/common").noop,
-    isDate = require("../../core/utils/type").isDate,
-    extend = require("../../core/utils/extend").extend,
-    dateUtils = require("./ui.date_utils"),
-    dateLocalization = require("../../localization/date");
+var $ = require("../../core/renderer");
+var window = require("../../core/utils/window").getWindow();
+var List = require("../list");
+var DateBoxStrategy = require("./ui.date_box.strategy");
+var themes = require("../themes");
+var noop = require("../../core/utils/common").noop;
+var isDate = require("../../core/utils/type").isDate;
+var extend = require("../../core/utils/extend").extend;
+var dateUtils = require("./ui.date_utils");
+var dateLocalization = require("../../localization/date");
 
 var BOUNDARY_VALUES = {
     "min": new Date(0, 0, 0, 0, 0),
@@ -176,11 +176,11 @@ var ListStrategy = DateBoxStrategy.inherit({
     },
 
     _getTimeListItems: function() {
-        var min = this.dateBox.dateOption("min") || this._getBoundaryDate("min"),
-            max = this.dateBox.dateOption("max") || this._getBoundaryDate("max"),
-            value = this.dateBox.dateOption("value") || null,
-            delta = max - min,
-            minutes = min.getMinutes() % this.dateBox.option("interval");
+        var min = this.dateBox.dateOption("min") || this._getBoundaryDate("min");
+        var max = this.dateBox.dateOption("max") || this._getBoundaryDate("max");
+        var value = this.dateBox.dateOption("value") || null;
+        var delta = max - min;
+        var minutes = min.getMinutes() % this.dateBox.option("interval");
 
         if(delta < 0) {
             return [];
@@ -217,8 +217,8 @@ var ListStrategy = DateBoxStrategy.inherit({
     },
 
     _getBoundaryDate: function(boundary) {
-        var boundaryValue = BOUNDARY_VALUES[boundary],
-            currentValue = this.dateBox.dateOption("value") || new Date();
+        var boundaryValue = BOUNDARY_VALUES[boundary];
+        var currentValue = this.dateBox.dateOption("value") || new Date();
 
         return new Date(
             currentValue.getFullYear(),

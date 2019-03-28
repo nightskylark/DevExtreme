@@ -1,15 +1,15 @@
-var $ = require("../../core/renderer"),
-    config = require("../../core/config"),
-    domAdapter = require("../../core/dom_adapter"),
-    windowUtils = require("./window"),
-    window = windowUtils.getWindow(),
-    eventsEngine = require("../../events/core/events_engine"),
-    inArray = require("./array").inArray,
-    typeUtils = require("./type"),
-    isDefined = typeUtils.isDefined,
-    isRenderer = typeUtils.isRenderer,
-    htmlParser = require("../../core/utils/html_parser"),
-    elementStrategy;
+var $ = require("../../core/renderer");
+var config = require("../../core/config");
+var domAdapter = require("../../core/dom_adapter");
+var windowUtils = require("./window");
+var window = windowUtils.getWindow();
+var eventsEngine = require("../../events/core/events_engine");
+var inArray = require("./array").inArray;
+var typeUtils = require("./type");
+var isDefined = typeUtils.isDefined;
+var isRenderer = typeUtils.isRenderer;
+var htmlParser = require("../../core/utils/html_parser");
+var elementStrategy;
 
 var resetActiveElement = function() {
     var activeElement = domAdapter.getActiveElement();
@@ -34,16 +34,16 @@ var clearSelection = function() {
 };
 
 var closestCommonParent = function(startTarget, endTarget) {
-    var $startTarget = $(startTarget),
-        $endTarget = $(endTarget);
+    var $startTarget = $(startTarget);
+    var $endTarget = $(endTarget);
 
     if($startTarget[0] === $endTarget[0]) {
         return $startTarget[0];
     }
 
-    var $startParents = $startTarget.parents(),
-        $endParents = $endTarget.parents(),
-        startingParent = Math.min($startParents.length, $endParents.length);
+    var $startParents = $startTarget.parents();
+    var $endParents = $endTarget.parents();
+    var startingParent = Math.min($startParents.length, $endParents.length);
 
     for(var i = -startingParent; i < 0; i++) {
         if($startParents.get(i) === $endParents.get(i)) {
@@ -86,13 +86,13 @@ var getElementOptions = function(element) {
 };
 
 var createComponents = function(elements, componentTypes) {
-    var result = [],
-        selector = "[" + dataOptionsAttributeName + "]";
+    var result = [];
+    var selector = "[" + dataOptionsAttributeName + "]";
 
     var $items = elements.find(selector).add(elements.filter(selector));
     $items.each(function(index, element) {
-        var $element = $(element),
-            options = getElementOptions(element);
+        var $element = $(element);
+        var options = getElementOptions(element);
 
         for(var componentName in options) {
             if(!componentTypes || inArray(componentName, componentTypes) > -1) {

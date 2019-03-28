@@ -86,21 +86,20 @@
 */
 
 
-var $ = require("../core/renderer"),
-    commonUtils = require("../core/utils/common"),
-    each = require("../core/utils/iterator").each,
-    windowUtils = require("../core/utils/window"),
-    window = windowUtils.getWindow(),
-    domAdapter = require("../core/dom_adapter"),
-    isWindow = require("../core/utils/type").isWindow,
-    extend = require("../core/utils/extend").extend,
+var $ = require("../core/renderer");
 
-    translator = require("./translator"),
-    support = require("../core/utils/support");
-
-var horzRe = /left|right/,
-    vertRe = /top|bottom/,
-    collisionRe = /fit|flip|none/;
+var commonUtils = require("../core/utils/common");
+var each = require("../core/utils/iterator").each;
+var windowUtils = require("../core/utils/window");
+var window = windowUtils.getWindow();
+var domAdapter = require("../core/dom_adapter");
+var isWindow = require("../core/utils/type").isWindow;
+var extend = require("../core/utils/extend").extend;
+var translator = require("./translator");
+var support = require("../core/utils/support");
+var horzRe = /left|right/;
+var vertRe = /top|bottom/;
+var collisionRe = /fit|flip|none/;
 
 var normalizeAlign = function(raw) {
     var result = {
@@ -129,9 +128,9 @@ var normalizeOffset = function(raw) {
 };
 
 var normalizeCollision = function(raw) {
-    var pair = commonUtils.splitPair(raw),
-        h = String(pair && pair[0]).toLowerCase(),
-        v = String(pair && pair[1]).toLowerCase();
+    var pair = commonUtils.splitPair(raw);
+    var h = String(pair && pair[0]).toLowerCase();
+    var v = String(pair && pair[1]).toLowerCase();
 
     if(!collisionRe.test(h)) {
         h = "none";
@@ -262,8 +261,9 @@ var calculateScrollbarWidth = function() {
             overflow: "scroll",
             position: "absolute",
             top: -9999
-        }).appendTo($("body")),
-        result = $scrollDiv.get(0).offsetWidth - $scrollDiv.get(0).clientWidth;
+        }).appendTo($("body"));
+
+    var result = $scrollDiv.get(0).offsetWidth - $scrollDiv.get(0).clientWidth;
 
     $scrollDiv.remove();
 
@@ -286,24 +286,25 @@ var defaultPositionResult = {
 };
 
 var calculatePosition = function(what, options) {
-    var $what = $(what),
-        currentOffset = $what.offset(),
-        result = extend(true, {}, defaultPositionResult, {
-            h: { location: currentOffset.left },
-            v: { location: currentOffset.top }
-        });
+    var $what = $(what);
+    var currentOffset = $what.offset();
+
+    var result = extend(true, {}, defaultPositionResult, {
+        h: { location: currentOffset.left },
+        v: { location: currentOffset.top }
+    });
 
     if(!options) {
         return result;
     }
 
-    var my = normalizeAlign(options.my),
-        at = normalizeAlign(options.at),
-        of = ($(options.of).length && options.of) || window,
-        offset = normalizeOffset(options.offset),
-        collision = normalizeCollision(options.collision),
-        boundary = options.boundary,
-        boundaryOffset = normalizeOffset(options.boundaryOffset);
+    var my = normalizeAlign(options.my);
+    var at = normalizeAlign(options.at);
+    var of = ($(options.of).length && options.of) || window;
+    var offset = normalizeOffset(options.offset);
+    var collision = normalizeCollision(options.collision);
+    var boundary = options.boundary;
+    var boundaryOffset = normalizeOffset(options.boundaryOffset);
 
     var h = {
         mySize: $what.outerWidth(),
@@ -353,25 +354,25 @@ var calculatePosition = function(what, options) {
     initMyLocation(v);
 
     var bounds = (function() {
-        var win = $(window),
-            windowWidth = win.width(),
-            windowHeight = win.height(),
-            left = win.scrollLeft(),
-            top = win.scrollTop(),
-            documentElement = domAdapter.getDocumentElement(),
-            hZoomLevel = support.touch ? documentElement.clientWidth / windowWidth : 1,
-            vZoomLevel = support.touch ? documentElement.clientHeight / windowHeight : 1;
+        var win = $(window);
+        var windowWidth = win.width();
+        var windowHeight = win.height();
+        var left = win.scrollLeft();
+        var top = win.scrollTop();
+        var documentElement = domAdapter.getDocumentElement();
+        var hZoomLevel = support.touch ? documentElement.clientWidth / windowWidth : 1;
+        var vZoomLevel = support.touch ? documentElement.clientHeight / windowHeight : 1;
 
         if(scrollbarWidth === undefined) {
             calculateScrollbarWidth();
         }
 
-        var boundaryWidth = windowWidth,
-            boundaryHeight = windowHeight;
+        var boundaryWidth = windowWidth;
+        var boundaryHeight = windowHeight;
 
         if(boundary) {
-            var $boundary = $(boundary),
-                boundaryPosition = $boundary.offset();
+            var $boundary = $(boundary);
+            var boundaryPosition = $boundary.offset();
 
             left = boundaryPosition.left;
             top = boundaryPosition.top;
@@ -428,8 +429,8 @@ var position = function(what, options) {
 
     translator.resetPosition($what, true);
 
-    var offset = $what.offset(),
-        targetPosition = (options.h && options.v) ? options : calculatePosition($what, options);
+    var offset = $what.offset();
+    var targetPosition = (options.h && options.v) ? options : calculatePosition($what, options);
 
     var preciser = function(number) {
         return options.precise ? number : Math.round(number);

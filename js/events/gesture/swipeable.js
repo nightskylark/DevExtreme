@@ -1,20 +1,19 @@
-var swipeEvents = require("../swipe"),
-    eventsEngine = require("../../events/core/events_engine"),
-    DOMComponent = require("../../core/dom_component"),
-    each = require("../../core/utils/iterator").each,
-    eventUtils = require("../utils"),
-    extend = require("../../core/utils/extend").extend,
-    publicComponentUtils = require("../../core/utils/public_component");
+var swipeEvents = require("../swipe");
+var eventsEngine = require("../../events/core/events_engine");
+var DOMComponent = require("../../core/dom_component");
+var each = require("../../core/utils/iterator").each;
+var eventUtils = require("../utils");
+var extend = require("../../core/utils/extend").extend;
+var publicComponentUtils = require("../../core/utils/public_component");
+var DX_SWIPEABLE = "dxSwipeable";
+var SWIPEABLE_CLASS = "dx-swipeable";
 
-var DX_SWIPEABLE = "dxSwipeable",
-    SWIPEABLE_CLASS = "dx-swipeable",
-
-    ACTION_TO_EVENT_MAP = {
-        "onStart": swipeEvents.start,
-        "onUpdated": swipeEvents.swipe,
-        "onEnd": swipeEvents.end,
-        "onCancel": "dxswipecancel"
-    };
+var ACTION_TO_EVENT_MAP = {
+    "onStart": swipeEvents.start,
+    "onUpdated": swipeEvents.swipe,
+    "onEnd": swipeEvents.end,
+    "onCancel": "dxswipecancel"
+};
 
 
 var Swipeable = DOMComponent.inherit({

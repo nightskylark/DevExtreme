@@ -1,8 +1,8 @@
-var _format = require("../axes/smart_formatter").smartFormatter,
-    isFunction = require("../../core/utils/type").isFunction,
-    HEIGHT_COMPACT_MODE = 24,
-    POINTER_SIZE = 4,
-    EMPTY_SLIDER_MARKER_TEXT = ". . .";
+var _format = require("../axes/smart_formatter").smartFormatter;
+var isFunction = require("../../core/utils/type").isFunction;
+var HEIGHT_COMPACT_MODE = 24;
+var POINTER_SIZE = 4;
+var EMPTY_SLIDER_MARKER_TEXT = ". . .";
 
 var utils = {
     trackerSettings: {

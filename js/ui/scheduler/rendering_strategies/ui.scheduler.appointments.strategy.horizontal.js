@@ -1,10 +1,9 @@
-var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base"),
-    dateUtils = require("../../../core/utils/date");
-
-var MAX_APPOINTMENT_HEIGHT = 100,
-    DEFAULT_APPOINTMENT_HEIGHT = 60,
-    DROP_DOWN_BUTTON_OFFSET = 2,
-    BOTTOM_CELL_GAP = 20;
+var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base");
+var dateUtils = require("../../../core/utils/date");
+var MAX_APPOINTMENT_HEIGHT = 100;
+var DEFAULT_APPOINTMENT_HEIGHT = 60;
+var DROP_DOWN_BUTTON_OFFSET = 2;
+var BOTTOM_CELL_GAP = 20;
 
 var toMs = dateUtils.dateToMilliseconds;
 
@@ -14,18 +13,17 @@ var HorizontalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     calculateAppointmentWidth: function(appointment, position, isRecurring) {
-        var cellWidth = this._defaultWidth || this.getAppointmentMinSize(),
-            allDay = this.instance.fire("getField", "allDay", appointment),
-            width;
-
-        var startDate = this.startDate(appointment, false, position),
-            endDate = this.endDate(appointment, position, isRecurring),
-            appointmentDuration = this._getAppointmentDurationInMs(startDate, endDate, allDay);
+        var cellWidth = this._defaultWidth || this.getAppointmentMinSize();
+        var allDay = this.instance.fire("getField", "allDay", appointment);
+        var width;
+        var startDate = this.startDate(appointment, false, position);
+        var endDate = this.endDate(appointment, position, isRecurring);
+        var appointmentDuration = this._getAppointmentDurationInMs(startDate, endDate, allDay);
 
         appointmentDuration = this._adjustDurationByDaylightDiff(appointmentDuration, startDate, endDate);
 
-        var cellDuration = this.instance.getAppointmentDurationInMinutes() * toMs("minute"),
-            durationInCells = appointmentDuration / cellDuration;
+        var cellDuration = this.instance.getAppointmentDurationInMinutes() * toMs("minute");
+        var durationInCells = appointmentDuration / cellDuration;
 
         width = durationInCells * cellWidth;
 
@@ -52,8 +50,8 @@ var HorizontalRenderingStrategy = BaseAppointmentsStrategy.inherit({
 
             return this._customizeCoordinates(coordinates, config.height, config.appointmentCountPerCell, config.offset);
         } else {
-            var cellHeight = (this._defaultHeight || this.getAppointmentMinSize()) - BOTTOM_CELL_GAP,
-                height = cellHeight / coordinates.count;
+            var cellHeight = (this._defaultHeight || this.getAppointmentMinSize()) - BOTTOM_CELL_GAP;
+            var height = cellHeight / coordinates.count;
 
             if(height > MAX_APPOINTMENT_HEIGHT) {
                 height = MAX_APPOINTMENT_HEIGHT;
@@ -135,8 +133,8 @@ var HorizontalRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     getDeltaTime: function(args, initialSize) {
-        var deltaTime = 0,
-            deltaWidth = args.width - initialSize.width;
+        var deltaTime = 0;
+        var deltaWidth = args.width - initialSize.width;
 
         deltaTime = 60000 * Math.round(deltaWidth / this._defaultWidth * this.instance.getAppointmentDurationInMinutes());
 

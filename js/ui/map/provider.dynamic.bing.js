@@ -1,23 +1,21 @@
-var noop = require("../../core/utils/common").noop,
-    window = require("../../core/utils/window").getWindow(),
-    Promise = require("../../core/polyfills/promise"),
-    extend = require("../../core/utils/extend").extend,
-    errors = require("../widget/ui.errors"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    DynamicProvider = require("./provider.dynamic"),
-    Color = require("../../color"),
-    ajax = require("../../core/utils/ajax"),
-    isDefined = require("../../core/utils/type").isDefined;
+var noop = require("../../core/utils/common").noop;
+var window = require("../../core/utils/window").getWindow();
+var Promise = require("../../core/polyfills/promise");
+var extend = require("../../core/utils/extend").extend;
+var errors = require("../widget/ui.errors");
+var iteratorUtils = require("../../core/utils/iterator");
+var DynamicProvider = require("./provider.dynamic");
+var Color = require("../../color");
+var ajax = require("../../core/utils/ajax");
+var isDefined = require("../../core/utils/type").isDefined;
 
 /* global Microsoft */
-var BING_MAP_READY = "_bingScriptReady",
-    BING_URL_V8 = "https://www.bing.com/api/maps/mapcontrol?callback=" + BING_MAP_READY,
+var BING_MAP_READY = "_bingScriptReady";
 
-    INFOBOX_V_OFFSET_V8 = 13,
-
-    BING_CREDENTIALS = "AhuxC0dQ1DBTNo8L-H9ToVMQStmizZzBJdraTSgCzDSWPsA1Qd8uIvFSflzxdaLH",
-
-    MIN_LOCATION_RECT_LENGTH = 0.0000000000000001;
+var BING_URL_V8 = "https://www.bing.com/api/maps/mapcontrol?callback=" + BING_MAP_READY;
+var INFOBOX_V_OFFSET_V8 = 13;
+var BING_CREDENTIALS = "AhuxC0dQ1DBTNo8L-H9ToVMQStmizZzBJdraTSgCzDSWPsA1Qd8uIvFSflzxdaLH";
+var MIN_LOCATION_RECT_LENGTH = 0.0000000000000001;
 
 
 var msMapsLoaded = function() {
@@ -94,8 +92,8 @@ var BingProvider = DynamicProvider.inherit({
     },
 
     _normalizeLocationRect: function(locationRect) {
-        var northWest = this._normalizeLocation(locationRect.getNorthwest()),
-            southEast = this._normalizeLocation(locationRect.getSoutheast());
+        var northWest = this._normalizeLocation(locationRect.getNorthwest());
+        var southEast = this._normalizeLocation(locationRect.getSoutheast());
 
         return {
             northEast: {
@@ -208,8 +206,8 @@ var BingProvider = DynamicProvider.inherit({
     },
 
     updateMapType: function() {
-        var type = this._option("type"),
-            labelOverlay = Microsoft.Maps.LabelOverlay;
+        var type = this._option("type");
+        var labelOverlay = Microsoft.Maps.LabelOverlay;
 
         this._map.setView({
             animate: false,
@@ -281,8 +279,8 @@ var BingProvider = DynamicProvider.inherit({
             var infobox = this._renderTooltip(location, options.tooltip);
             var handler;
             if(options.onClick || options.tooltip) {
-                var markerClickAction = this._mapWidget._createAction(options.onClick || noop),
-                    markerNormalizedLocation = this._normalizeLocation(location);
+                var markerClickAction = this._mapWidget._createAction(options.onClick || noop);
+                var markerNormalizedLocation = this._normalizeLocation(location);
 
                 handler = Microsoft.Maps.Events.addHandler(pushpin, "click", function() {
                     markerClickAction({
@@ -337,9 +335,9 @@ var BingProvider = DynamicProvider.inherit({
             return this._resolveLocation(point);
         }.bind(this))).then(function(locations) {
             return new Promise(function(resolve) {
-                var direction = new Microsoft.Maps.Directions.DirectionsManager(this._map),
-                    color = new Color(options.color || this._defaultRouteColor()).toHex(),
-                    routeColor = new Microsoft.Maps.Color.fromHex(color);
+                var direction = new Microsoft.Maps.Directions.DirectionsManager(this._map);
+                var color = new Color(options.color || this._defaultRouteColor()).toHex();
+                var routeColor = new Microsoft.Maps.Color.fromHex(color);
                 routeColor.a = (options.opacity || this._defaultRouteOpacity()) * 255;
 
                 direction.setRenderOptions({

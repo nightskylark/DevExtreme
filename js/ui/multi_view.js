@@ -1,27 +1,24 @@
-var $ = require("../core/renderer"),
-    fx = require("../animation/fx"),
-    translator = require("../animation/translator"),
-    mathUtils = require("../core/utils/math"),
-    extend = require("../core/utils/extend").extend,
-    noop = require("../core/utils/common").noop,
-    domUtils = require("../core/utils/dom"),
-    isDefined = require("../core/utils/type").isDefined,
-    devices = require("../core/devices"),
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    registerComponent = require("../core/component_registrator"),
-    CollectionWidget = require("./collection/ui.collection_widget.live_update").default,
-    Swipeable = require("../events/gesture/swipeable"),
-    Deferred = require("../core/utils/deferred").Deferred;
-
-
-var MULTIVIEW_CLASS = "dx-multiview",
-    MULTIVIEW_WRAPPER_CLASS = "dx-multiview-wrapper",
-    MULTIVIEW_ITEM_CONTAINER_CLASS = "dx-multiview-item-container",
-    MULTIVIEW_ITEM_CLASS = "dx-multiview-item",
-    MULTIVIEW_ITEM_HIDDEN_CLASS = "dx-multiview-item-hidden",
-    MULTIVIEW_ITEM_DATA_KEY = "dxMultiViewItemData",
-
-    MULTIVIEW_ANIMATION_DURATION = 200;
+var $ = require("../core/renderer");
+var fx = require("../animation/fx");
+var translator = require("../animation/translator");
+var mathUtils = require("../core/utils/math");
+var extend = require("../core/utils/extend").extend;
+var noop = require("../core/utils/common").noop;
+var domUtils = require("../core/utils/dom");
+var isDefined = require("../core/utils/type").isDefined;
+var devices = require("../core/devices");
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var registerComponent = require("../core/component_registrator");
+var CollectionWidget = require("./collection/ui.collection_widget.live_update").default;
+var Swipeable = require("../events/gesture/swipeable");
+var Deferred = require("../core/utils/deferred").Deferred;
+var MULTIVIEW_CLASS = "dx-multiview";
+var MULTIVIEW_WRAPPER_CLASS = "dx-multiview-wrapper";
+var MULTIVIEW_ITEM_CONTAINER_CLASS = "dx-multiview-item-container";
+var MULTIVIEW_ITEM_CLASS = "dx-multiview-item";
+var MULTIVIEW_ITEM_HIDDEN_CLASS = "dx-multiview-item-hidden";
+var MULTIVIEW_ITEM_DATA_KEY = "dxMultiViewItemData";
+var MULTIVIEW_ANIMATION_DURATION = 200;
 
 var toNumber = function(value) {
     return +(value);
@@ -235,8 +232,8 @@ var MultiView = CollectionWidget.inherit({
     _renderItemContent: function(args) {
         var renderContentDeferred = new Deferred();
 
-        var that = this,
-            callBase = this.callBase;
+        var that = this;
+        var callBase = this.callBase;
 
         var deferred = new Deferred();
         deferred.done(function() {
@@ -267,9 +264,9 @@ var MultiView = CollectionWidget.inherit({
     },
 
     _updateItemsPosition: function(selectedIndex, newIndex) {
-        var $itemElements = this._itemElements(),
-            positionSign = -this._animationDirection(newIndex, selectedIndex),
-            $selectedItem = $itemElements.eq(selectedIndex);
+        var $itemElements = this._itemElements();
+        var positionSign = -this._animationDirection(newIndex, selectedIndex);
+        var $selectedItem = $itemElements.eq(selectedIndex);
 
         move($selectedItem, 0);
         move($itemElements.eq(newIndex), positionSign * 100 + "%");
@@ -279,8 +276,8 @@ var MultiView = CollectionWidget.inherit({
         var $itemElements = this._itemElements();
 
         $itemElements.each((function(itemIndex, item) {
-            var $item = $(item),
-                isHidden = itemIndex !== selectedIndex && itemIndex !== newIndex;
+            var $item = $(item);
+            var isHidden = itemIndex !== selectedIndex && itemIndex !== newIndex;
 
             if(!isHidden) {
                 this._renderSpecificItem(itemIndex);
@@ -292,8 +289,8 @@ var MultiView = CollectionWidget.inherit({
     },
 
     _renderSpecificItem: function(index) {
-        var $item = this._itemElements().eq(index),
-            hasItemContent = $item.find(this._itemContentClass()).length > 0;
+        var $item = this._itemElements().eq(index);
+        var hasItemContent = $item.find(this._itemContentClass()).length > 0;
 
         if(isDefined(index) && !hasItemContent) {
             this._deferredItems[index].resolve();
@@ -310,8 +307,8 @@ var MultiView = CollectionWidget.inherit({
     _setAriaSelected: noop,
 
     _updateSelection: function(addedSelection, removedSelection) {
-        var newIndex = addedSelection[0],
-            prevIndex = removedSelection[0];
+        var newIndex = addedSelection[0];
+        var prevIndex = removedSelection[0];
 
         animation.complete(this._$itemContainer);
 
@@ -335,11 +332,10 @@ var MultiView = CollectionWidget.inherit({
     },
 
     _animationDirection: function(newIndex, prevIndex) {
-        var containerPosition = position(this._$itemContainer),
-            indexDifference = (prevIndex - newIndex) * this._getRTLSignCorrection() * this._getItemFocusLoopSignCorrection(),
-            isSwipePresent = containerPosition !== 0,
-
-            directionSignVariable = isSwipePresent ? containerPosition : indexDifference;
+        var containerPosition = position(this._$itemContainer);
+        var indexDifference = (prevIndex - newIndex) * this._getRTLSignCorrection() * this._getItemFocusLoopSignCorrection();
+        var isSwipePresent = containerPosition !== 0;
+        var directionSignVariable = isSwipePresent ? containerPosition : indexDifference;
 
         return mathUtils.sign(directionSignVariable);
     },
@@ -364,10 +360,10 @@ var MultiView = CollectionWidget.inherit({
     _swipeStartHandler: function(e) {
         animation.complete(this._$itemContainer);
 
-        var selectedIndex = this.option("selectedIndex"),
-            loop = this.option("loop"),
-            lastIndex = this._itemsCount() - 1,
-            rtl = this.option("rtlEnabled");
+        var selectedIndex = this.option("selectedIndex");
+        var loop = this.option("loop");
+        var lastIndex = this._itemsCount() - 1;
+        var rtl = this.option("rtlEnabled");
 
         e.maxLeftOffset = toNumber(loop || (rtl ? selectedIndex > 0 : selectedIndex < lastIndex));
         e.maxRightOffset = toNumber(loop || (rtl ? selectedIndex < lastIndex : selectedIndex > 0));
@@ -376,16 +372,16 @@ var MultiView = CollectionWidget.inherit({
     },
 
     _swipeUpdateHandler: function(e) {
-        var offset = e.offset,
-            swipeDirection = mathUtils.sign(offset) * this._getRTLSignCorrection();
+        var offset = e.offset;
+        var swipeDirection = mathUtils.sign(offset) * this._getRTLSignCorrection();
 
         move(this._$itemContainer, offset * this._itemWidth());
 
         if(swipeDirection !== this._swipeDirection) {
             this._swipeDirection = swipeDirection;
 
-            var selectedIndex = this.option("selectedIndex"),
-                newIndex = this._normalizeIndex(selectedIndex - swipeDirection);
+            var selectedIndex = this.option("selectedIndex");
+            var newIndex = this._normalizeIndex(selectedIndex - swipeDirection);
 
             this._updateItems(selectedIndex, newIndex);
         }

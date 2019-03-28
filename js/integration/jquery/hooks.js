@@ -83,8 +83,8 @@ if(useJQuery) {
         var fix = function(event, originalEvent) {
             var fixHook = jQuery.event.fixHooks[originalEvent.type] || jQuery.event.mouseHooks;
 
-            var props = fixHook.props ? jQuery.event.props.concat(fixHook.props) : jQuery.event.props,
-                propIndex = props.length;
+            var props = fixHook.props ? jQuery.event.props.concat(fixHook.props) : jQuery.event.props;
+            var propIndex = props.length;
 
             while(propIndex--) {
                 var prop = props[propIndex];

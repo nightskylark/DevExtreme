@@ -6,20 +6,20 @@ import { isDefined } from "../../core/utils/type";
 import { each } from "../../core/utils/iterator";
 import { extend } from "../../core/utils/extend";
 
-var CELL_CONTENT_CLASS = "text-content",
-    HEADERS_CLASS = "headers",
-    NOWRAP_CLASS = "nowrap",
-    HEADER_ROW_CLASS = "dx-header-row",
-    COLUMN_LINES_CLASS = "dx-column-lines",
-    CONTEXT_MENU_SORT_ASC_ICON = "context-menu-sort-asc",
-    CONTEXT_MENU_SORT_DESC_ICON = "context-menu-sort-desc",
-    CONTEXT_MENU_SORT_NONE_ICON = "context-menu-sort-none",
-    CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled",
-    VISIBILITY_HIDDEN_CLASS = "dx-visibility-hidden",
-    TEXT_CONTENT_ALIGNMENT_CLASS_PREFIX = "dx-text-content-alignment-",
-    SORT_INDICATOR_CLASS = "dx-sort-indicator",
-    HEADER_FILTER_INDICATOR_CLASS = "dx-header-filter-indicator",
-    MULTI_ROW_HEADER_CLASS = "dx-header-multi-row";
+var CELL_CONTENT_CLASS = "text-content";
+var HEADERS_CLASS = "headers";
+var NOWRAP_CLASS = "nowrap";
+var HEADER_ROW_CLASS = "dx-header-row";
+var COLUMN_LINES_CLASS = "dx-column-lines";
+var CONTEXT_MENU_SORT_ASC_ICON = "context-menu-sort-asc";
+var CONTEXT_MENU_SORT_DESC_ICON = "context-menu-sort-desc";
+var CONTEXT_MENU_SORT_NONE_ICON = "context-menu-sort-none";
+var CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled";
+var VISIBILITY_HIDDEN_CLASS = "dx-visibility-hidden";
+var TEXT_CONTENT_ALIGNMENT_CLASS_PREFIX = "dx-text-content-alignment-";
+var SORT_INDICATOR_CLASS = "dx-sort-indicator";
+var HEADER_FILTER_INDICATOR_CLASS = "dx-header-filter-indicator";
+var MULTI_ROW_HEADER_CLASS = "dx-header-multi-row";
 
 module.exports = {
     defaultOptions: function() {
@@ -41,8 +41,8 @@ module.exports = {
     views: {
         columnHeadersView: columnsView.ColumnsView.inherit((function() {
             var createCellContent = function(that, $cell, options) {
-                var showColumnLines,
-                    $cellContent = $("<div>").addClass(that.addWidgetPrefix(CELL_CONTENT_CLASS));
+                var showColumnLines;
+                var $cellContent = $("<div>").addClass(that.addWidgetPrefix(CELL_CONTENT_CLASS));
 
                 that.setAria("role", "presentation", $cellContent);
 
@@ -52,10 +52,10 @@ module.exports = {
             };
 
             var addCssClassesToCellContent = function(that, $cell, column, $cellContent) {
-                var $indicatorElements = that._getIndicatorElements($cell, true),
-                    $visibleIndicatorElements = that._getIndicatorElements($cell),
-                    indicatorCount = $indicatorElements && $indicatorElements.length,
-                    columnAlignment = that._getColumnAlignment(column.alignment);
+                var $indicatorElements = that._getIndicatorElements($cell, true);
+                var $visibleIndicatorElements = that._getIndicatorElements($cell);
+                var indicatorCount = $indicatorElements && $indicatorElements.length;
+                var columnAlignment = that._getColumnAlignment(column.alignment);
 
                 $cellContent = $cellContent || $cell.children("." + that.addWidgetPrefix(CELL_CONTENT_CLASS));
 
@@ -82,8 +82,8 @@ module.exports = {
                 },
 
                 _getDefaultTemplate: function(column) {
-                    var that = this,
-                        template;
+                    var that = this;
+                    var template;
 
                     if(column.command) {
                         template = function($container, options) {
@@ -107,10 +107,10 @@ module.exports = {
                 },
 
                 _processTemplate: function(template, options) {
-                    var that = this,
-                        resultTemplate,
-                        column = options.column,
-                        renderingTemplate = that.callBase(template);
+                    var that = this;
+                    var resultTemplate;
+                    var column = options.column;
+                    var renderingTemplate = that.callBase(template);
 
                     if(options.rowType === "header" && renderingTemplate && column.headerCellTemplate && !column.command) {
                         resultTemplate = {
@@ -169,8 +169,8 @@ module.exports = {
                 },
 
                 _renderCore: function() {
-                    var that = this,
-                        $container = that.element();
+                    var that = this;
+                    var $container = that.element();
 
                     if(that._tableElement && !that._dataController.isLoaded() && !that._hasRowElements) {
                         return;
@@ -211,8 +211,8 @@ module.exports = {
                 },
 
                 _createCell: function(options) {
-                    var column = options.column,
-                        $cellElement = this.callBase.apply(this, arguments);
+                    var column = options.column;
+                    var $cellElement = this.callBase.apply(this, arguments);
 
                     column.rowspan > 1 && options.rowType === "header" && $cellElement.attr("rowSpan", column.rowspan);
 
@@ -220,9 +220,9 @@ module.exports = {
                 },
 
                 _getRows: function() {
-                    var i,
-                        result = [],
-                        rowCount = this.getRowCount();
+                    var i;
+                    var result = [];
+                    var rowCount = this.getRowCount();
 
                     if(this.option("showColumnHeaders")) {
                         for(i = 0; i < rowCount; i++) {
@@ -240,8 +240,8 @@ module.exports = {
                 },
 
                 _columnOptionChanged: function(e) {
-                    var changeTypes = e.changeTypes,
-                        optionNames = e.optionNames;
+                    var changeTypes = e.changeTypes;
+                    var optionNames = e.optionNames;
 
                     if(changeTypes.grouping) {
                         this._isGroupingChanged = true;
@@ -305,8 +305,8 @@ module.exports = {
                 },
 
                 getHeadersRowHeight: function() {
-                    var $tableElement = this._getTableElement(),
-                        $headerRows = $tableElement && $tableElement.find("." + HEADER_ROW_CLASS);
+                    var $tableElement = this._getTableElement();
+                    var $headerRows = $tableElement && $tableElement.find("." + HEADER_ROW_CLASS);
 
                     return $headerRows && $headerRows.toArray().reduce(function(sum, headerRow) {
                         return sum + $(headerRow).height();
@@ -320,13 +320,13 @@ module.exports = {
                 },
 
                 getColumnElements: function(index, bandColumnIndex) {
-                    var that = this,
-                        rowIndex,
-                        result,
-                        $cellElement,
-                        visibleColumns,
-                        columnsController = that._columnsController,
-                        rowCount = that.getRowCount();
+                    var that = this;
+                    var rowIndex;
+                    var result;
+                    var $cellElement;
+                    var visibleColumns;
+                    var columnsController = that._columnsController;
+                    var rowCount = that.getRowCount();
 
                     if(that.option("showColumnHeaders")) {
                         if(rowCount > 1 && (!isDefined(index) || isDefined(bandColumnIndex))) {
@@ -363,14 +363,15 @@ module.exports = {
                 },
 
                 allowDragging: function(column, sourceLocation, draggingPanels) {
-                    var i,
-                        rowIndex = column && this._columnsController.getRowIndex(column.index),
-                        columns = this.getColumns(rowIndex === 0 ? 0 : null),
-                        draggableColumnCount = 0,
-                        draggingPanel,
-                        allowDrag = function(column) {
-                            return column.allowReordering || column.allowGrouping || column.allowHiding;
-                        };
+                    var i;
+                    var rowIndex = column && this._columnsController.getRowIndex(column.index);
+                    var columns = this.getColumns(rowIndex === 0 ? 0 : null);
+                    var draggableColumnCount = 0;
+                    var draggingPanel;
+
+                    var allowDrag = function(column) {
+                        return column.allowReordering || column.allowGrouping || column.allowHiding;
+                    };
 
                     for(i = 0; i < columns.length; i++) {
                         if(allowDrag(columns[i])) {
@@ -395,9 +396,9 @@ module.exports = {
                 },
 
                 getBoundingRect: function() {
-                    var that = this,
-                        offset,
-                        $columnElements = that.getColumnElements();
+                    var that = this;
+                    var offset;
+                    var $columnElements = that.getColumnElements();
 
                     if($columnElements && $columnElements.length) {
                         offset = that._getTableElement().offset();
@@ -442,10 +443,10 @@ module.exports = {
                 },
 
                 getContextMenuItems: function(options) {
-                    var that = this,
-                        column = options.column,
-                        onItemClick,
-                        sortingOptions;
+                    var that = this;
+                    var column = options.column;
+                    var onItemClick;
+                    var sortingOptions;
 
                     if(options.row && (options.row.rowType === "header" || options.row.rowType === "detailAdaptive")) {
                         sortingOptions = that.option("sorting");
@@ -470,22 +471,23 @@ module.exports = {
                 },
 
                 setRowsOpacity: function(columnIndex, value, rowIndex) {
-                    var that = this,
-                        i,
-                        columnElements,
-                        rowCount = that.getRowCount(),
-                        columns = that._columnsController.getColumns(),
-                        column = columns && columns[columnIndex],
-                        columnID = column && column.isBand && column.index,
-                        setColumnOpacity = function(index, column) {
-                            if(column.ownerBand === columnID) {
-                                columnElements.eq(index).css({ opacity: value });
+                    var that = this;
+                    var i;
+                    var columnElements;
+                    var rowCount = that.getRowCount();
+                    var columns = that._columnsController.getColumns();
+                    var column = columns && columns[columnIndex];
+                    var columnID = column && column.isBand && column.index;
 
-                                if(column.isBand) {
-                                    that.setRowsOpacity(column.index, value, i + 1);
-                                }
+                    var setColumnOpacity = function(index, column) {
+                        if(column.ownerBand === columnID) {
+                            columnElements.eq(index).css({ opacity: value });
+
+                            if(column.isBand) {
+                                that.setRowsOpacity(column.index, value, i + 1);
                             }
-                        };
+                        }
+                    };
 
                     if(isDefined(columnID)) {
                         rowIndex = rowIndex || 0;

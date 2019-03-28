@@ -1,14 +1,13 @@
-var $ = require("../../core/renderer"),
-    noop = require("../../core/utils/common").noop,
-    BaseView = require("./ui.calendar.base_view"),
-    dateUtils = require("../../core/utils/date"),
-    extend = require("../../core/utils/extend").extend,
-    dateLocalization = require("../../localization/date"),
-    dateSerialization = require("../../core/utils/date_serialization"),
-    typeUtils = require("../../core/utils/type");
-
-var CALENDAR_OTHER_MONTH_CLASS = "dx-calendar-other-month",
-    CALENDAR_OTHER_VIEW_CLASS = "dx-calendar-other-view";
+var $ = require("../../core/renderer");
+var noop = require("../../core/utils/common").noop;
+var BaseView = require("./ui.calendar.base_view");
+var dateUtils = require("../../core/utils/date");
+var extend = require("../../core/utils/extend").extend;
+var dateLocalization = require("../../localization/date");
+var dateSerialization = require("../../core/utils/date_serialization");
+var typeUtils = require("../../core/utils/type");
+var CALENDAR_OTHER_MONTH_CLASS = "dx-calendar-other-month";
+var CALENDAR_OTHER_VIEW_CLASS = "dx-calendar-other-view";
 
 var Views = {
 
@@ -79,8 +78,8 @@ var Views = {
         },
 
         _isDateOutOfRange: function(cellDate) {
-            var minDate = this.option("min"),
-                maxDate = this.option("max");
+            var minDate = this.option("min");
+            var maxDate = this.option("max");
 
             return !dateUtils.dateInRange(cellDate, minDate, maxDate, "date");
         },
@@ -100,9 +99,9 @@ var Views = {
         },
 
         _getFirstCellData: function() {
-            var firstDay = dateUtils.getFirstMonthDate(this.option("date")),
-                firstMonthDayOffset = this._getFirstDayOfWeek() - firstDay.getDay(),
-                daysInWeek = this.option("colCount");
+            var firstDay = dateUtils.getFirstMonthDate(this.option("date"));
+            var firstMonthDayOffset = this._getFirstDayOfWeek() - firstDay.getDay();
+            var daysInWeek = this.option("colCount");
 
             if(firstMonthDayOffset >= 0) {
                 firstMonthDayOffset -= daysInWeek;
@@ -211,8 +210,8 @@ var Views = {
         },
 
         _isDateOutOfRange: function(cellDate) {
-            var min = this.option("min"),
-                max = this.option("max");
+            var min = this.option("min");
+            var max = this.option("max");
 
             return !dateUtils.dateInRange(cellDate.getFullYear(), min && min.getFullYear(), max && max.getFullYear());
         },
@@ -240,10 +239,10 @@ var Views = {
         },
 
         getNavigatorCaption: function() {
-            var currentDate = this.option("date"),
-                firstYearInDecade = dateUtils.getFirstYearInDecade(currentDate),
-                startDate = new Date(currentDate),
-                endDate = new Date(currentDate);
+            var currentDate = this.option("date");
+            var firstYearInDecade = dateUtils.getFirstYearInDecade(currentDate);
+            var startDate = new Date(currentDate);
+            var endDate = new Date(currentDate);
 
             startDate.setFullYear(firstYearInDecade);
             endDate.setFullYear(firstYearInDecade + 9);
@@ -279,9 +278,9 @@ var Views = {
         },
 
         _isDateOutOfRange: function(cellDate) {
-            var decade = dateUtils.getFirstYearInDecade(cellDate),
-                minDecade = dateUtils.getFirstYearInDecade(this.option("min")),
-                maxDecade = dateUtils.getFirstYearInDecade(this.option("max"));
+            var decade = dateUtils.getFirstYearInDecade(cellDate);
+            var minDecade = dateUtils.getFirstYearInDecade(this.option("min"));
+            var maxDecade = dateUtils.getFirstYearInDecade(this.option("max"));
 
             return !dateUtils.dateInRange(decade, minDecade, maxDecade);
         },
@@ -294,8 +293,8 @@ var Views = {
         },
 
         _getCellText: function(cellDate) {
-            var startDate = dateLocalization.format(cellDate, "yyyy"),
-                endDate = new Date(cellDate);
+            var startDate = dateLocalization.format(cellDate, "yyyy");
+            var endDate = new Date(cellDate);
 
             endDate.setFullYear(endDate.getFullYear() + 9);
 
@@ -323,10 +322,10 @@ var Views = {
         },
 
         getNavigatorCaption: function() {
-            var currentDate = this.option("date"),
-                firstDecadeInCentury = dateUtils.getFirstDecadeInCentury(currentDate),
-                startDate = new Date(currentDate),
-                endDate = new Date(currentDate);
+            var currentDate = this.option("date");
+            var firstDecadeInCentury = dateUtils.getFirstDecadeInCentury(currentDate);
+            var startDate = new Date(currentDate);
+            var endDate = new Date(currentDate);
 
             startDate.setFullYear(firstDecadeInCentury);
             endDate.setFullYear(firstDecadeInCentury + 99);

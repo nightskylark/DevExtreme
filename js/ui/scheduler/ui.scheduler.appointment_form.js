@@ -1,10 +1,10 @@
-var $ = require("../../core/renderer"),
-    Form = require("../form"),
-    dateSerialization = require("../../core/utils/date_serialization"),
-    messageLocalization = require("../../localization/message"),
-    clickEvent = require("../../events/click"),
-    typeUtils = require("../../core/utils/type"),
-    eventsEngine = require("../../events/core/events_engine");
+var $ = require("../../core/renderer");
+var Form = require("../form");
+var dateSerialization = require("../../core/utils/date_serialization");
+var messageLocalization = require("../../localization/message");
+var clickEvent = require("../../events/click");
+var typeUtils = require("../../core/utils/type");
+var eventsEngine = require("../../events/core/events_engine");
 
 require("./ui.scheduler.recurrence_editor");
 require("./timezones/ui.scheduler.timezone_editor");
@@ -79,10 +79,10 @@ var SchedulerAppointmentForm = {
                     onValueChanged: function(args) {
                         that._validateAppointmentFormDate(args.component, args.value, args.previousValue);
 
-                        var value = dateSerialization.deserializeDate(args.value),
-                            previousValue = dateSerialization.deserializeDate(args.previousValue),
-                            endDateEditor = that._appointmentForm.getEditor(dataExprs.endDateExpr),
-                            endValue = dateSerialization.deserializeDate(endDateEditor.option("value"));
+                        var value = dateSerialization.deserializeDate(args.value);
+                        var previousValue = dateSerialization.deserializeDate(args.previousValue);
+                        var endDateEditor = that._appointmentForm.getEditor(dataExprs.endDateExpr);
+                        var endValue = dateSerialization.deserializeDate(endDateEditor.option("value"));
 
                         if(endValue < value) {
                             var duration = endValue.getTime() - previousValue.getTime();
@@ -122,10 +122,10 @@ var SchedulerAppointmentForm = {
                     onValueChanged: function(args) {
                         that._validateAppointmentFormDate(args.component, args.value, args.previousValue);
 
-                        var value = dateSerialization.deserializeDate(args.value),
-                            previousValue = dateSerialization.deserializeDate(args.previousValue),
-                            startDateEditor = that._appointmentForm.getEditor(dataExprs.startDateExpr),
-                            startValue = dateSerialization.deserializeDate(startDateEditor.option("value"));
+                        var value = dateSerialization.deserializeDate(args.value);
+                        var previousValue = dateSerialization.deserializeDate(args.previousValue);
+                        var startDateEditor = that._appointmentForm.getEditor(dataExprs.startDateExpr);
+                        var startValue = dateSerialization.deserializeDate(startDateEditor.option("value"));
 
                         if(value && startValue > value) {
                             var duration = previousValue ? previousValue.getTime() - startValue.getTime() : 0;
@@ -156,9 +156,9 @@ var SchedulerAppointmentForm = {
                 },
                 editorOptions: {
                     onValueChanged: function(args) {
-                        var value = args.value,
-                            startDateEditor = that._appointmentForm.getEditor(dataExprs.startDateExpr),
-                            endDateEditor = that._appointmentForm.getEditor(dataExprs.endDateExpr);
+                        var value = args.value;
+                        var startDateEditor = that._appointmentForm.getEditor(dataExprs.startDateExpr);
+                        var endDateEditor = that._appointmentForm.getEditor(dataExprs.endDateExpr);
 
                         if(startDateEditor && endDateEditor) {
                             startDateEditor.option("type", value ? "date" : "datetime");
@@ -210,8 +210,8 @@ var SchedulerAppointmentForm = {
                         schedulerInst.fire("recurrenceEditorVisibilityChanged", value);
                     },
                     onContentReady: function(args) {
-                        var $editorField = $(args.element).closest(".dx-field-item"),
-                            $editorLabel = $editorField.find(".dx-field-item-label");
+                        var $editorField = $(args.element).closest(".dx-field-item");
+                        var $editorLabel = $editorField.find(".dx-field-item-label");
 
                         eventsEngine.off($editorLabel, clickEvent.name);
                         eventsEngine.on($editorLabel, clickEvent.name, function() {
@@ -242,13 +242,13 @@ var SchedulerAppointmentForm = {
     },
 
     checkEditorsType: function(form, startDateExpr, endDateExpr, allDay) {
-        var startDateFormItem = form.itemOption(startDateExpr),
-            endDateFormItem = form.itemOption(endDateExpr);
+        var startDateFormItem = form.itemOption(startDateExpr);
+        var endDateFormItem = form.itemOption(endDateExpr);
 
 
         if(startDateFormItem && endDateFormItem) {
-            var startDateEditorOptions = startDateFormItem.editorOptions,
-                endDateEditorOptions = endDateFormItem.editorOptions;
+            var startDateEditorOptions = startDateFormItem.editorOptions;
+            var endDateEditorOptions = endDateFormItem.editorOptions;
 
             if(allDay) {
                 startDateEditorOptions.type = endDateEditorOptions.type = "date";

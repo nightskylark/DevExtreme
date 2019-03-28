@@ -1,80 +1,78 @@
-var registerComponent = require("../../core/component_registrator"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    vizUtils = require("../core/utils"),
-    dateUtils = require("../../core/utils/date"),
-    adjust = require("../../core/utils/math").adjust,
-    addInterval = dateUtils.addInterval,
-    dateToMilliseconds = dateUtils.dateToMilliseconds,
-    getSequenceByInterval = dateUtils.getSequenceByInterval,
-    rangeModule = require("../translators/range"),
-    axisModule = require("../axes/base_axis"),
-    patchFontOptions = vizUtils.patchFontOptions,
-    parseUtils = require("../components/parse_utils"),
-    _normalizeEnum = vizUtils.normalizeEnum,
-    formatHelper = require("../../format_helper"),
-    commonModule = require("./common"),
-    slidersControllerModule = require("./sliders_controller"),
-    trackerModule = require("./tracker"),
-    rangeViewModule = require("./range_view"),
-    seriesDataSourceModule = require("./series_data_source"),
-    tickGeneratorModule = require("../axes/tick_generator"),
-    parseValue = vizUtils.getVizRangeObject,
-    convertVisualRangeObject = vizUtils.convertVisualRangeObject,
-
-    _isDefined = typeUtils.isDefined,
-    _isNumber = typeUtils.isNumeric,
-    _isDate = typeUtils.isDate,
-    _max = Math.max,
-    _ceil = Math.ceil,
-    _floor = Math.floor,
-
-    START_VALUE = "startValue",
-    END_VALUE = "endValue",
-    DATETIME = "datetime",
-    VALUE = "value",
-    DISCRETE = "discrete",
-    SEMIDISCRETE = "semidiscrete",
-    STRING = "string",
-    VALUE_CHANGED = VALUE + "Changed",
-    CONTAINER_BACKGROUND_COLOR = "containerBackgroundColor",
-    SLIDER_MARKER = "sliderMarker",
-    OPTION_BACKGROUND = "background",
-    LOGARITHMIC = "logarithmic",
-    KEEP = "keep",
-    SHIFT = "shift",
-    RESET = "reset",
-    INVISIBLE_POS = -1000,
-    SEMIDISCRETE_GRID_SPACING_FACTOR = 50,
-    DEFAULT_AXIS_DIVISION_FACTOR = 30,
-    DEFAULT_MINOR_AXIS_DIVISION_FACTOR = 15,
-    logarithmBase = 10;
+var registerComponent = require("../../core/component_registrator");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var vizUtils = require("../core/utils");
+var dateUtils = require("../../core/utils/date");
+var adjust = require("../../core/utils/math").adjust;
+var addInterval = dateUtils.addInterval;
+var dateToMilliseconds = dateUtils.dateToMilliseconds;
+var getSequenceByInterval = dateUtils.getSequenceByInterval;
+var rangeModule = require("../translators/range");
+var axisModule = require("../axes/base_axis");
+var patchFontOptions = vizUtils.patchFontOptions;
+var parseUtils = require("../components/parse_utils");
+var _normalizeEnum = vizUtils.normalizeEnum;
+var formatHelper = require("../../format_helper");
+var commonModule = require("./common");
+var slidersControllerModule = require("./sliders_controller");
+var trackerModule = require("./tracker");
+var rangeViewModule = require("./range_view");
+var seriesDataSourceModule = require("./series_data_source");
+var tickGeneratorModule = require("../axes/tick_generator");
+var parseValue = vizUtils.getVizRangeObject;
+var convertVisualRangeObject = vizUtils.convertVisualRangeObject;
+var _isDefined = typeUtils.isDefined;
+var _isNumber = typeUtils.isNumeric;
+var _isDate = typeUtils.isDate;
+var _max = Math.max;
+var _ceil = Math.ceil;
+var _floor = Math.floor;
+var START_VALUE = "startValue";
+var END_VALUE = "endValue";
+var DATETIME = "datetime";
+var VALUE = "value";
+var DISCRETE = "discrete";
+var SEMIDISCRETE = "semidiscrete";
+var STRING = "string";
+var VALUE_CHANGED = VALUE + "Changed";
+var CONTAINER_BACKGROUND_COLOR = "containerBackgroundColor";
+var SLIDER_MARKER = "sliderMarker";
+var OPTION_BACKGROUND = "background";
+var LOGARITHMIC = "logarithmic";
+var KEEP = "keep";
+var SHIFT = "shift";
+var RESET = "reset";
+var INVISIBLE_POS = -1000;
+var SEMIDISCRETE_GRID_SPACING_FACTOR = 50;
+var DEFAULT_AXIS_DIVISION_FACTOR = 30;
+var DEFAULT_MINOR_AXIS_DIVISION_FACTOR = 15;
+var logarithmBase = 10;
 
 function calculateMarkerHeight(renderer, value, sliderMarkerOptions) {
-    var formattedText = (value === undefined ? commonModule.consts.emptySliderMarkerText : commonModule.formatValue(value, sliderMarkerOptions)),
-        textBBox = getTextBBox(renderer, formattedText, sliderMarkerOptions.font);
+    var formattedText = (value === undefined ? commonModule.consts.emptySliderMarkerText : commonModule.formatValue(value, sliderMarkerOptions));
+    var textBBox = getTextBBox(renderer, formattedText, sliderMarkerOptions.font);
     return _ceil(textBBox.height) + 2 * sliderMarkerOptions.paddingTopBottom + commonModule.consts.pointerSize;
 }
 
 function calculateScaleLabelHalfWidth(renderer, value, scaleOptions, tickIntervalsInfo) {
-    var formattedText = commonModule.formatValue(value, scaleOptions.label, tickIntervalsInfo, scaleOptions.valueType, scaleOptions.type, scaleOptions.logarithmBase),
-        textBBox = getTextBBox(renderer, formattedText, scaleOptions.label.font);
+    var formattedText = commonModule.formatValue(value, scaleOptions.label, tickIntervalsInfo, scaleOptions.valueType, scaleOptions.type, scaleOptions.logarithmBase);
+    var textBBox = getTextBBox(renderer, formattedText, scaleOptions.label.font);
 
     return _ceil(textBBox.width / 2);
 }
 
 function calculateIndents(renderer, scale, sliderMarkerOptions, indentOptions, tickIntervalsInfo) {
-    var leftMarkerHeight,
-        leftScaleLabelWidth = 0,
-        rightScaleLabelWidth = 0,
-        rightMarkerHeight,
-        placeholderWidthLeft,
-        placeholderWidthRight,
-        placeholderHeight,
-        ticks = scale.type === "semidiscrete" ? scale.customTicks : tickIntervalsInfo.ticks,
-        startTickValue,
-        endTickValue;
+    var leftMarkerHeight;
+    var leftScaleLabelWidth = 0;
+    var rightScaleLabelWidth = 0;
+    var rightMarkerHeight;
+    var placeholderWidthLeft;
+    var placeholderWidthRight;
+    var placeholderHeight;
+    var ticks = scale.type === "semidiscrete" ? scale.customTicks : tickIntervalsInfo.ticks;
+    var startTickValue;
+    var endTickValue;
 
     indentOptions = indentOptions || {};
 
@@ -109,11 +107,12 @@ function calculateIndents(renderer, scale, sliderMarkerOptions, indentOptions, t
 }
 
 function calculateValueType(firstValue, secondValue) {
-    var typeFirstValue = typeUtils.type(firstValue),
-        typeSecondValue = typeUtils.type(secondValue),
-        validType = function(type) {
-            return typeFirstValue === type || typeSecondValue === type;
-        };
+    var typeFirstValue = typeUtils.type(firstValue);
+    var typeSecondValue = typeUtils.type(secondValue);
+
+    var validType = function(type) {
+        return typeFirstValue === type || typeSecondValue === type;
+    };
 
     return validType("date") ? DATETIME : validType("number") ? "numeric" : validType(STRING) ? STRING : "";
 }
@@ -147,11 +146,11 @@ function checkLogarithmicOptions(options, defaultLogarithmBase, incidentOccurred
 }
 
 function calculateScaleAreaHeight(renderer, scaleOptions, visibleMarkers, tickIntervalsInfo) {
-    var labelScaleOptions = scaleOptions.label,
-        markerScaleOptions = scaleOptions.marker,
-        placeholderHeight = scaleOptions.placeholderHeight,
-        ticks = scaleOptions.type === "semidiscrete" ? scaleOptions.customTicks : tickIntervalsInfo.ticks,
-        text = commonModule.formatValue(ticks[0], labelScaleOptions);
+    var labelScaleOptions = scaleOptions.label;
+    var markerScaleOptions = scaleOptions.marker;
+    var placeholderHeight = scaleOptions.placeholderHeight;
+    var ticks = scaleOptions.type === "semidiscrete" ? scaleOptions.customTicks : tickIntervalsInfo.ticks;
+    var text = commonModule.formatValue(ticks[0], labelScaleOptions);
 
     if(placeholderHeight) {
         return placeholderHeight;
@@ -162,9 +161,9 @@ function calculateScaleAreaHeight(renderer, scaleOptions, visibleMarkers, tickIn
 }
 
 function getMinorTickIntervalUnit(tickInterval, minorTickInterval, withCorrection) {
-    var interval = dateUtils.getDateUnitInterval(minorTickInterval),
-        majorUnit = dateUtils.getDateUnitInterval(tickInterval),
-        idx = dateUtils.dateUnitIntervals.indexOf(interval);
+    var interval = dateUtils.getDateUnitInterval(minorTickInterval);
+    var majorUnit = dateUtils.getDateUnitInterval(tickInterval);
+    var idx = dateUtils.dateUnitIntervals.indexOf(interval);
 
     if(withCorrection && interval === majorUnit && idx > 0) {
         interval = dateUtils.dateUnitIntervals[idx - 1];
@@ -188,13 +187,13 @@ function getNextTickInterval(tickInterval, minorTickInterval, isDateType) {
 }
 
 function calculateTickIntervalsForSemidiscreteScale(scaleOptions, min, max, screenDelta) {
-    var minorTickInterval = scaleOptions.minorTickInterval,
-        tickInterval = scaleOptions.tickInterval,
-        interval,
-        isDateType = scaleOptions.valueType === "datetime",
-        gridSpacingFactor = scaleOptions.axisDivisionFactor || {},
-        tickCountByInterval,
-        tickCountByScreen;
+    var minorTickInterval = scaleOptions.minorTickInterval;
+    var tickInterval = scaleOptions.tickInterval;
+    var interval;
+    var isDateType = scaleOptions.valueType === "datetime";
+    var gridSpacingFactor = scaleOptions.axisDivisionFactor || {};
+    var tickCountByInterval;
+    var tickCountByScreen;
 
     if(!tickInterval) {
         do {
@@ -226,13 +225,13 @@ function calculateTickIntervalsForSemidiscreteScale(scaleOptions, min, max, scre
 }
 
 function updateTickIntervals(scaleOptions, screenDelta, incidentOccurred, range) {
-    var result,
-        min = _isDefined(range.minVisible) ? range.minVisible : range.min,
-        max = _isDefined(range.maxVisible) ? range.maxVisible : range.max,
-        categoriesInfo = scaleOptions._categoriesInfo,
-        ticksInfo,
-        length,
-        bounds = {};
+    var result;
+    var min = _isDefined(range.minVisible) ? range.minVisible : range.min;
+    var max = _isDefined(range.maxVisible) ? range.maxVisible : range.max;
+    var categoriesInfo = scaleOptions._categoriesInfo;
+    var ticksInfo;
+    var length;
+    var bounds = {};
 
     if(scaleOptions.type === SEMIDISCRETE) {
         result = calculateTickIntervalsForSemidiscreteScale(scaleOptions, min, max, screenDelta);
@@ -281,17 +280,20 @@ function updateTickIntervals(scaleOptions, screenDelta, incidentOccurred, range)
 }
 
 function calculateTranslatorRange(seriesDataSource, scaleOptions) {
-    var minValue, maxValue,
-        inverted = false,
-        startValue = scaleOptions.startValue,
-        endValue = scaleOptions.endValue,
-        categories,
-        categoriesInfo,
-        // TODO: There should be something like "seriesDataSource.getArgumentRange()"
-        translatorRange = seriesDataSource ? seriesDataSource.getBoundRange().arg : new rangeModule.Range(),
-        rangeForCategories,
-        isDate = scaleOptions.valueType === "datetime",
-        minRange = scaleOptions.minRange;
+    var minValue;
+    var maxValue;
+    var inverted = false;
+    var startValue = scaleOptions.startValue;
+    var endValue = scaleOptions.endValue;
+    var categories;
+    var categoriesInfo;
+
+    var // TODO: There should be something like "seriesDataSource.getArgumentRange()"
+    translatorRange = seriesDataSource ? seriesDataSource.getBoundRange().arg : new rangeModule.Range();
+
+    var rangeForCategories;
+    var isDate = scaleOptions.valueType === "datetime";
+    var minRange = scaleOptions.minRange;
 
     if(scaleOptions.type === DISCRETE) {
         rangeForCategories = new rangeModule.Range({
@@ -375,11 +377,11 @@ function getDateMarkerVisibilityChecker(screenDelta) {
 }
 
 function updateScaleOptions(scaleOptions, seriesDataSource, translatorRange, tickIntervalsInfo, checkDateMarkerVisibility) {
-    var bounds,
-        isEmptyInterval,
-        categoriesInfo = scaleOptions._categoriesInfo,
-        intervals,
-        isDateTime = scaleOptions.valueType === DATETIME;
+    var bounds;
+    var isEmptyInterval;
+    var categoriesInfo = scaleOptions._categoriesInfo;
+    var intervals;
+    var isDateTime = scaleOptions.valueType === DATETIME;
 
     if(seriesDataSource && !seriesDataSource.isEmpty() && !translatorRange.isEmpty()) {
         bounds = tickIntervalsInfo.bounds;
@@ -426,22 +428,23 @@ function updateScaleOptions(scaleOptions, seriesDataSource, translatorRange, tic
 }
 
 function prepareScaleOptions(scaleOption, calculatedValueType, incidentOccurred, containerColor) {
-    var parsedValue = 0,
-        valueType = parseUtils.correctValueType(_normalizeEnum(scaleOption.valueType)),
-        parser,
-        validateStartEndValues = function(field, parser) {
-            var messageToIncidentOccurred = field === START_VALUE ? "start" : "end";
+    var parsedValue = 0;
+    var valueType = parseUtils.correctValueType(_normalizeEnum(scaleOption.valueType));
+    var parser;
 
-            if(_isDefined(scaleOption[field])) {
-                parsedValue = parser(scaleOption[field]);
-                if(_isDefined(parsedValue)) {
-                    scaleOption[field] = parsedValue;
-                } else {
-                    scaleOption[field] = undefined;
-                    incidentOccurred("E2202", [messageToIncidentOccurred]);
-                }
+    var validateStartEndValues = function(field, parser) {
+        var messageToIncidentOccurred = field === START_VALUE ? "start" : "end";
+
+        if(_isDefined(scaleOption[field])) {
+            parsedValue = parser(scaleOption[field]);
+            if(_isDefined(parsedValue)) {
+                scaleOption[field] = parsedValue;
+            } else {
+                scaleOption[field] = undefined;
+                incidentOccurred("E2202", [messageToIncidentOccurred]);
             }
-        };
+        }
+    };
 
     valueType = calculatedValueType || valueType;
 
@@ -492,13 +495,14 @@ function correctValueByInterval(value, isDate, interval) {
 }
 
 function getIntervalCustomTicks(options) {
-    var min = options.startValue,
-        max = options.endValue,
-        isDate = options.valueType === "datetime",
-        tickInterval = options.tickInterval,
-        res = {
-            intervals: []
-        };
+    var min = options.startValue;
+    var max = options.endValue;
+    var isDate = options.valueType === "datetime";
+    var tickInterval = options.tickInterval;
+
+    var res = {
+        intervals: []
+    };
 
     if(!_isDefined(min) || !_isDefined(max)) {
         return res;
@@ -520,8 +524,8 @@ function getIntervalCustomTicks(options) {
 }
 
 function getPrecisionForSlider(startValue, endValue, screenDelta) {
-    var d = Math.abs(endValue - startValue) / screenDelta,
-        tail = d - Math.floor(d);
+    var d = Math.abs(endValue - startValue) / screenDelta;
+    var tail = d - Math.floor(d);
 
     return tail > 0 ? Math.ceil(Math.abs(adjust(vizUtils.getLog(tail, 10)))) : 0;
 }
@@ -563,14 +567,14 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     _fontFields: ["scale.label.font", "sliderMarker.font"],
 
     _initCore: function() {
-        var that = this,
-            renderer = that._renderer,
-            root = renderer.root,
-            rangeViewGroup,
-            slidersGroup,
-            scaleGroup,
-            scaleBreaksGroup,
-            trackersGroup;
+        var that = this;
+        var renderer = that._renderer;
+        var root = renderer.root;
+        var rangeViewGroup;
+        var slidersGroup;
+        var scaleGroup;
+        var scaleBreaksGroup;
+        var trackersGroup;
 
         // TODO: Move it to the SlidersEventManager
         root.css({
@@ -706,15 +710,15 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     },
 
     _change_SLIDER_SELECTION: function() {
-        var that = this,
-            value = that._options[VALUE];
+        var that = this;
+        var value = that._options[VALUE];
 
         that._slidersController.setSelectedRange(value && parseValue(value));
     },
 
     _change_VALUE: function() {
-        var that = this,
-            option = that._rangeOption;
+        var that = this;
+        var option = that._rangeOption;
         if(option) {
             that._options[VALUE] = option;
             that.setValue(option);
@@ -722,8 +726,8 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     },
 
     _validateRange: function(start, end) {
-        var that = this,
-            translator = that._axis.getTranslator();
+        var that = this;
+        var translator = that._axis.getTranslator();
         if(_isDefined(start) && !translator.isValid(start) ||
             _isDefined(end) && !translator.isValid(end)) {
             that._incidentOccurred("E2203");
@@ -731,8 +735,8 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     },
 
     _applyChanges: function() {
-        var that = this,
-            value = that._options[VALUE];
+        var that = this;
+        var value = that._options[VALUE];
 
         if(that._changes.has("VALUE") && value) {
             that._rangeOption = value;
@@ -743,13 +747,14 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     },
 
     _applyMostlyTotalChange: function() {
-        var that = this,
-            renderer = that._renderer,
-            rect = that._clientRect,
-            currentAnimationEnabled,
-            canvas = {
-                left: rect[0], top: rect[1], width: rect[2] - rect[0], height: rect[3] - rect[1]
-            };
+        var that = this;
+        var renderer = that._renderer;
+        var rect = that._clientRect;
+        var currentAnimationEnabled;
+
+        var canvas = {
+            left: rect[0], top: rect[1], width: rect[2] - rect[0], height: rect[3] - rect[1]
+        };
 
         if(that.__isResizing || that.__skipAnimation) {
             currentAnimationEnabled = renderer.animationEnabled();
@@ -861,10 +866,10 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     },
 
     _updateElements: function(scaleOptions, sliderMarkerOptions, isCompactMode, canvas, seriesDataSource) {
-        var that = this,
-            behavior = that._getOption("behavior"),
-            shutterOptions = that._getOption("shutter"),
-            isNotSemiDiscrete = scaleOptions.type !== SEMIDISCRETE;
+        var that = this;
+        var behavior = that._getOption("behavior");
+        var shutterOptions = that._getOption("shutter");
+        var isNotSemiDiscrete = scaleOptions.type !== SEMIDISCRETE;
 
         shutterOptions.color = shutterOptions.color || that._getOption(CONTAINER_BACKGROUND_COLOR, true);
 
@@ -885,16 +890,20 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     },
 
     _createSeriesDataSource: function(chartOptions) {
-        var that = this,
-            seriesDataSource,
-            dataSource = that._dataSourceItems(), // TODO: This code can be executed when data source is not loaded (it is an error)!
-            scaleOptions = that._getOption("scale"),
-            valueType = scaleOptions.valueType || calculateValueType(scaleOptions.startValue, scaleOptions.endValue),
-            valueAxis = new axisModule.Axis({
-                renderer: that._renderer,
-                axisType: "xyAxes",
-                drawingType: "linear"
-            });
+        var that = this;
+        var seriesDataSource;
+
+        var // TODO: This code can be executed when data source is not loaded (it is an error)!
+        dataSource = that._dataSourceItems();
+
+        var scaleOptions = that._getOption("scale");
+        var valueType = scaleOptions.valueType || calculateValueType(scaleOptions.startValue, scaleOptions.endValue);
+
+        var valueAxis = new axisModule.Axis({
+            renderer: that._renderer,
+            axisType: "xyAxes",
+            drawingType: "linear"
+        });
 
         valueAxis.updateOptions({
             isHorizontal: false,
@@ -923,16 +932,16 @@ var dxRangeSelector = require("../core/base_widget").inherit({
     },
 
     _prepareSliderMarkersOptions: function(scaleOptions, screenDelta, tickIntervalsInfo, argRange) {
-        var that = this,
-            minorTickInterval = tickIntervalsInfo.minorTickInterval,
-            tickInterval = tickIntervalsInfo.tickInterval,
-            interval = tickInterval,
-            endValue = scaleOptions.endValue,
-            startValue = scaleOptions.startValue,
-            sliderMarkerOptions = that._getOption(SLIDER_MARKER),
-            doNotSnap = !that._getOption("behavior").snapToTicks,
-            isTypeDiscrete = scaleOptions.type === DISCRETE,
-            isValueTypeDatetime = scaleOptions.valueType === DATETIME;
+        var that = this;
+        var minorTickInterval = tickIntervalsInfo.minorTickInterval;
+        var tickInterval = tickIntervalsInfo.tickInterval;
+        var interval = tickInterval;
+        var endValue = scaleOptions.endValue;
+        var startValue = scaleOptions.startValue;
+        var sliderMarkerOptions = that._getOption(SLIDER_MARKER);
+        var doNotSnap = !that._getOption("behavior").snapToTicks;
+        var isTypeDiscrete = scaleOptions.type === DISCRETE;
+        var isValueTypeDatetime = scaleOptions.valueType === DATETIME;
 
         sliderMarkerOptions.borderColor = that._getOption(CONTAINER_BACKGROUND_COLOR, true);
 
@@ -1024,9 +1033,9 @@ function createDateMarkersEvent(scaleOptions, markerTrackers, setSelectedRange) 
         value.on("dxpointerdown", onPointerDown);
     });
     function onPointerDown(e) {
-        var range = e.target.range,
-            minRange = scaleOptions.minRange ? addInterval(range.startValue, scaleOptions.minRange) : undefined,
-            maxRange = scaleOptions.maxRange ? addInterval(range.startValue, scaleOptions.maxRange) : undefined;
+        var range = e.target.range;
+        var minRange = scaleOptions.minRange ? addInterval(range.startValue, scaleOptions.minRange) : undefined;
+        var maxRange = scaleOptions.maxRange ? addInterval(range.startValue, scaleOptions.maxRange) : undefined;
         if(!(minRange && minRange > range.endValue || maxRange && maxRange < range.endValue)) {
             setSelectedRange(range);
         }

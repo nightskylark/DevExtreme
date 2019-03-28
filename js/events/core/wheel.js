@@ -1,12 +1,11 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    domAdapter = require("../../core/dom_adapter"),
-    callOnce = require("../../core/utils/call_once"),
-    registerEvent = require("./event_registrator"),
-    eventUtils = require("../utils");
-
-var EVENT_NAME = "dxmousewheel",
-    EVENT_NAMESPACE = "dxWheel";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var domAdapter = require("../../core/dom_adapter");
+var callOnce = require("../../core/utils/call_once");
+var registerEvent = require("./event_registrator");
+var eventUtils = require("../utils");
+var EVENT_NAME = "dxmousewheel";
+var EVENT_NAMESPACE = "dxWheel";
 
 var getWheelEventName = callOnce(function() {
     return domAdapter.hasDocumentProperty("onwheel") ? "wheel" : "mousewheel";

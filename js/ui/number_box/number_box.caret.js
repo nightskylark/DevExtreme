@@ -1,6 +1,6 @@
-var fitIntoRange = require("../../core/utils/math").fitIntoRange,
-    escapeRegExp = require("../../core/utils/common").escapeRegExp,
-    number = require("../../localization/number");
+var fitIntoRange = require("../../core/utils/math").fitIntoRange;
+var escapeRegExp = require("../../core/utils/common").escapeRegExp;
+var number = require("../../localization/number");
 
 var getCaretBoundaries = function(text, format) {
     var signParts = format.split(";");
@@ -23,9 +23,9 @@ var getCaretBoundaries = function(text, format) {
 };
 
 var _getDigitCountBeforeIndex = function(index, text) {
-    var decimalSeparator = number.getDecimalSeparator(),
-        regExp = new RegExp("[^0-9" + escapeRegExp(decimalSeparator) + "]", "g"),
-        textBeforePosition = text.slice(0, index);
+    var decimalSeparator = number.getDecimalSeparator();
+    var regExp = new RegExp("[^0-9" + escapeRegExp(decimalSeparator) + "]", "g");
+    var textBeforePosition = text.slice(0, index);
 
     return textBeforePosition.replace(regExp, '').length;
 };
@@ -39,10 +39,10 @@ var _getDigitPositionByIndex = function(digitIndex, text) {
         return -1;
     }
 
-    var regExp = /[0-9]/g,
-        counter = 1,
-        index = null,
-        result = regExp.exec(text);
+    var regExp = /[0-9]/g;
+    var counter = 1;
+    var index = null;
+    var result = regExp.exec(text);
 
     while(result) {
         index = result.index;
@@ -70,24 +70,24 @@ var getCaretWithOffset = function(caret, offset) {
 var getCaretAfterFormat = function(text, formatted, caret, format) {
     caret = getCaretWithOffset(caret, 0);
 
-    var point = number.getDecimalSeparator(),
-        pointPosition = text.indexOf(point),
-        newPointPosition = formatted.indexOf(point),
-        textParts = text.split(point),
-        formattedParts = formatted.split(point),
-        isCaretOnFloat = pointPosition !== -1 && caret.start > pointPosition;
+    var point = number.getDecimalSeparator();
+    var pointPosition = text.indexOf(point);
+    var newPointPosition = formatted.indexOf(point);
+    var textParts = text.split(point);
+    var formattedParts = formatted.split(point);
+    var isCaretOnFloat = pointPosition !== -1 && caret.start > pointPosition;
 
     if(isCaretOnFloat) {
-        var relativeIndex = caret.start - pointPosition - 1,
-            digitsBefore = _getDigitCountBeforeIndex(relativeIndex, textParts[1]),
-            newPosition = formattedParts[1] ? newPointPosition + 1 + _getDigitPositionByIndex(digitsBefore, formattedParts[1]) + 1 : formatted.length;
+        var relativeIndex = caret.start - pointPosition - 1;
+        var digitsBefore = _getDigitCountBeforeIndex(relativeIndex, textParts[1]);
+        var newPosition = formattedParts[1] ? newPointPosition + 1 + _getDigitPositionByIndex(digitsBefore, formattedParts[1]) + 1 : formatted.length;
 
         return getCaretInBoundaries(newPosition, formatted, format);
     } else {
-        var positionFromEnd = textParts[0].length - caret.start,
-            digitsFromEnd = _getDigitCountBeforeIndex(positionFromEnd, _reverseText(textParts[0])),
-            newPositionFromEnd = _getDigitPositionByIndex(digitsFromEnd, _reverseText(formattedParts[0])),
-            newPositionFromBegin = formattedParts[0].length - (newPositionFromEnd + 1);
+        var positionFromEnd = textParts[0].length - caret.start;
+        var digitsFromEnd = _getDigitCountBeforeIndex(positionFromEnd, _reverseText(textParts[0]));
+        var newPositionFromEnd = _getDigitPositionByIndex(digitsFromEnd, _reverseText(formattedParts[0]));
+        var newPositionFromBegin = formattedParts[0].length - (newPositionFromEnd + 1);
 
         return getCaretInBoundaries(newPositionFromBegin, formatted, format);
     }
@@ -103,18 +103,19 @@ var isCaretInBoundaries = function(caret, text, format) {
 var getCaretInBoundaries = function(caret, text, format) {
     caret = getCaretWithOffset(caret, 0);
 
-    var boundaries = getCaretBoundaries(text, format),
-        adjustedCaret = {
-            start: fitIntoRange(caret.start, boundaries.start, boundaries.end),
-            end: fitIntoRange(caret.end, boundaries.start, boundaries.end)
-        };
+    var boundaries = getCaretBoundaries(text, format);
+
+    var adjustedCaret = {
+        start: fitIntoRange(caret.start, boundaries.start, boundaries.end),
+        end: fitIntoRange(caret.end, boundaries.start, boundaries.end)
+    };
 
     return adjustedCaret;
 };
 
 var getCaretOffset = function(previousText, newText, format) {
-    var previousBoundaries = getCaretBoundaries(previousText, format),
-        newBoundaries = getCaretBoundaries(newText, format);
+    var previousBoundaries = getCaretBoundaries(previousText, format);
+    var newBoundaries = getCaretBoundaries(newText, format);
 
     return newBoundaries.start - previousBoundaries.start;
 };

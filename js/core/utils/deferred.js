@@ -129,10 +129,10 @@ var when = function() {
         return exports.fromPromise(arguments[0]);
     }
 
-    var values = [].slice.call(arguments),
-        contexts = [],
-        resolvedCount = 0,
-        deferred = new Deferred();
+    var values = [].slice.call(arguments);
+    var contexts = [];
+    var resolvedCount = 0;
+    var deferred = new Deferred();
 
     var updateState = function(i) {
         return function(value) {

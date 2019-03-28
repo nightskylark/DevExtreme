@@ -1,16 +1,16 @@
 import { renderValueText } from "../filter_builder/filter_builder";
 
-var $ = require("../../core/renderer"),
-    messageLocalization = require("../../localization/message"),
-    extend = require("../../core/utils/extend").extend,
-    DataSourceModule = require("../../data/data_source/data_source"),
-    deferredUtils = require("../../core/utils/deferred"),
-    utils = require("../filter_builder/utils");
+var $ = require("../../core/renderer");
+var messageLocalization = require("../../localization/message");
+var extend = require("../../core/utils/extend").extend;
+var DataSourceModule = require("../../data/data_source/data_source");
+var deferredUtils = require("../../core/utils/deferred");
+var utils = require("../filter_builder/utils");
 
 function baseOperation(grid) {
     var calculateFilterExpression = function(filterValue, field) {
-        var result = [],
-            lastIndex = filterValue.length - 1;
+        var result = [];
+        var lastIndex = filterValue.length - 1;
         filterValue && filterValue.forEach(function(value, index) {
             if(utils.isCondition(value) || utils.isGroup(value)) {
                 var filterExpression = utils.getFilterExpression(value, [field], [], "headerFilter");
@@ -42,41 +42,44 @@ function baseOperation(grid) {
         return result;
     };
 
-    var headerFilterController = grid && grid.getController("headerFilter"),
-        customizeText = function(fieldInfo) {
-            var value = fieldInfo.value,
-                column = grid.columnOption(fieldInfo.field.dataField),
-                headerFilter = column && column.headerFilter,
-                lookup = column && column.lookup;
+    var headerFilterController = grid && grid.getController("headerFilter");
 
-            if((headerFilter && headerFilter.dataSource) || (lookup && lookup.dataSource)) {
-                column = extend({}, column, { filterType: "include", filterValues: [value] });
-                var dataSourceOptions = headerFilterController.getDataSource(column);
-                dataSourceOptions.paginate = false;
-                let headerFilterDataSource = headerFilter && headerFilter.dataSource;
-                if(!headerFilterDataSource && lookup.items) {
-                    dataSourceOptions.store = lookup.items;
-                }
-                var dataSource = new DataSourceModule.DataSource(dataSourceOptions),
-                    result = new deferredUtils.Deferred();
+    var customizeText = function(fieldInfo) {
+        var value = fieldInfo.value,
+            column = grid.columnOption(fieldInfo.field.dataField),
+            headerFilter = column && column.headerFilter,
+            lookup = column && column.lookup;
 
-                dataSource.load().done(items => {
-                    result.resolve(getSelectedItemsTexts(items)[0]);
-                });
-                return result;
-            } else {
-                var text = headerFilterController.getHeaderItemText(value, column, 0, grid.option("headerFilter"));
-                return text;
+        if((headerFilter && headerFilter.dataSource) || (lookup && lookup.dataSource)) {
+            column = extend({}, column, { filterType: "include", filterValues: [value] });
+            var dataSourceOptions = headerFilterController.getDataSource(column);
+            dataSourceOptions.paginate = false;
+            let headerFilterDataSource = headerFilter && headerFilter.dataSource;
+            if(!headerFilterDataSource && lookup.items) {
+                dataSourceOptions.store = lookup.items;
             }
-        };
+            var dataSource = new DataSourceModule.DataSource(dataSourceOptions),
+                result = new deferredUtils.Deferred();
+
+            dataSource.load().done(items => {
+                result.resolve(getSelectedItemsTexts(items)[0]);
+            });
+            return result;
+        } else {
+            var text = headerFilterController.getHeaderItemText(value, column, 0, grid.option("headerFilter"));
+            return text;
+        }
+    };
+
     return {
         dataTypes: ["string", "date", "datetime", "number", "boolean", "object"],
         calculateFilterExpression: calculateFilterExpression,
         editorTemplate: function(conditionInfo, container) {
             var div = $("<div>")
                     .addClass("dx-filterbuilder-item-value-text")
-                    .appendTo(container),
-                column = extend(true, {}, grid.columnOption(conditionInfo.field.dataField));
+                    .appendTo(container);
+
+            var column = extend(true, {}, grid.columnOption(conditionInfo.field.dataField));
 
             renderValueText(div, conditionInfo.text && conditionInfo.text.split("|"));
 

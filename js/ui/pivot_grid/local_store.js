@@ -1,20 +1,20 @@
-var deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-    dataUtils = require("../../data/utils"),
-    dataQuery = require("../../data/query"),
-    dateSerialization = require("../../core/utils/date_serialization"),
-    DataSourceModule = require("../../data/data_source/data_source"),
-    CustomStore = require("../../data/custom_store"),
-    dataCoreUtils = require("../../core/utils/data"),
-    Class = require("../../core/class"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    each = require("../../core/utils/iterator").each,
-    pivotGridUtils = require("./ui.pivot_grid.utils"),
-    getFiltersByPath = pivotGridUtils.getFiltersByPath,
-    setFieldProperty = pivotGridUtils.setFieldProperty,
-    ArrayStore = require("../../data/array_store");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var dataUtils = require("../../data/utils");
+var dataQuery = require("../../data/query");
+var dateSerialization = require("../../core/utils/date_serialization");
+var DataSourceModule = require("../../data/data_source/data_source");
+var CustomStore = require("../../data/custom_store");
+var dataCoreUtils = require("../../core/utils/data");
+var Class = require("../../core/class");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var each = require("../../core/utils/iterator").each;
+var pivotGridUtils = require("./ui.pivot_grid.utils");
+var getFiltersByPath = pivotGridUtils.getFiltersByPath;
+var setFieldProperty = pivotGridUtils.setFieldProperty;
+var ArrayStore = require("../../data/array_store");
 
 const PATH_DELIMETER = "/./";
 
@@ -54,12 +54,12 @@ exports.LocalStore = Class.inherit((function() {
 
     function prepareFields(fields) {
         each(fields || [], function(_, field) {
-            var fieldSelector,
-                intervalSelector,
-                dataField = field.dataField,
-                groupInterval,
-                levels = field.levels,
-                dataSelector;
+            var fieldSelector;
+            var intervalSelector;
+            var dataField = field.dataField;
+            var groupInterval;
+            var levels = field.levels;
+            var dataSelector;
 
             if(!field.selector) {
                 if(!dataField) {
@@ -116,10 +116,10 @@ exports.LocalStore = Class.inherit((function() {
     };
 
     function fillHierarchyItemIndexesCore(indexes, options, children, expandIndex, pathHash) {
-        var dimension = options.dimensions[expandIndex],
-            expandedPathsHash = options.expandedPathsHash,
-            dimensionValue,
-            hierarchyItem;
+        var dimension = options.dimensions[expandIndex];
+        var expandedPathsHash = options.expandedPathsHash;
+        var dimensionValue;
+        var hierarchyItem;
 
         if(dimension) {
             dimensionValue = dimension.selector(options.data);
@@ -139,25 +139,27 @@ exports.LocalStore = Class.inherit((function() {
     }
 
     function generateHierarchyItems(data, loadOptions, headers, headerName) {
-        var result = [0],
-            expandIndex = loadOptions.headerName === headerName ? loadOptions.path.length : 0,
-            expandedPaths = headerName === "rows" ? loadOptions.rowExpandedPaths : loadOptions.columnExpandedPaths,
-            options = {
-                data: data,
-                childrenHash: headers[headerName + "Hash"],
-                dimensions: loadOptions[headerName],
-                expandedPathsHash: loadOptions.headerName !== headerName && expandedPaths && expandedPaths.hash
-            };
+        var result = [0];
+        var expandIndex = loadOptions.headerName === headerName ? loadOptions.path.length : 0;
+        var expandedPaths = headerName === "rows" ? loadOptions.rowExpandedPaths : loadOptions.columnExpandedPaths;
+
+        var options = {
+            data: data,
+            childrenHash: headers[headerName + "Hash"],
+            dimensions: loadOptions[headerName],
+            expandedPathsHash: loadOptions.headerName !== headerName && expandedPaths && expandedPaths.hash
+        };
 
         fillHierarchyItemIndexesCore(result, options, headers[headerName], expandIndex);
         return result;
     }
 
     function generateAggregationCells(data, cells, headers, options) {
-        var cellSet = [],
-            x, y,
-            rowIndex,
-            columnIndex;
+        var cellSet = [];
+        var x;
+        var y;
+        var rowIndex;
+        var columnIndex;
 
         var rowIndexes = generateHierarchyItems(data, options, headers, "rows");
         var columnIndexes = generateHierarchyItems(data, options, headers, "columns");
@@ -234,8 +236,8 @@ exports.LocalStore = Class.inherit((function() {
             var cellField = measures[aggregatorIndex];
             var cellValue = cellField.selector(data);
 
-            var aggregator = getAggregator(cellField),
-                isAggregatorSeedFunction = typeof aggregator.seed === "function";
+            var aggregator = getAggregator(cellField);
+            var isAggregatorSeedFunction = typeof aggregator.seed === "function";
 
             for(var cellSetIndex = 0; cellSetIndex < aggregationCells.length; cellSetIndex++) {
                 var cell = aggregationCells[cellSetIndex];
@@ -267,8 +269,8 @@ exports.LocalStore = Class.inherit((function() {
     }
 
     function areValuesEqual(filterValue, fieldValue) {
-        var valueOfFilter = filterValue && filterValue.valueOf(),
-            valueOfField = fieldValue && fieldValue.valueOf();
+        var valueOfFilter = filterValue && filterValue.valueOf();
+        var valueOfField = fieldValue && fieldValue.valueOf();
 
         if(Array.isArray(filterValue)) {
             fieldValue = fieldValue || [];
@@ -298,16 +300,16 @@ exports.LocalStore = Class.inherit((function() {
     function createDimensionFilters(dimension) {
         var filters = [];
         each(dimension, function(_, field) {
-            var filterValues = field.filterValues || [],
-                groupName = field.groupName,
-                filter;
+            var filterValues = field.filterValues || [];
+            var groupName = field.groupName;
+            var filter;
 
             if(groupName && typeUtils.isNumeric(field.groupIndex)) {
                 return;
             }
             filter = function(dataItem) {
-                var value = field.levels ? getGroupValue(field.levels, dataItem) : field.selector(dataItem),
-                    result = false;
+                var value = field.levels ? getGroupValue(field.levels, dataItem) : field.selector(dataItem);
+                var result = false;
                 for(var i = 0; i < filterValues.length; i++) {
                     if(areValuesEqual(filterValues[i], value)) {
                         result = true;
@@ -323,9 +325,9 @@ exports.LocalStore = Class.inherit((function() {
     }
 
     function createFilter(options) {
-        var filters = createDimensionFilters(options.rows).concat(createDimensionFilters(options.columns)).concat(createDimensionFilters(options.filters)),
-            expandedDimensions = options[options.headerName],
-            path = options.path;
+        var filters = createDimensionFilters(options.rows).concat(createDimensionFilters(options.columns)).concat(createDimensionFilters(options.filters));
+        var expandedDimensions = options[options.headerName];
+        var path = options.path;
 
         if(expandedDimensions) {
             filters.push(function(dataItem) {
@@ -356,19 +358,20 @@ exports.LocalStore = Class.inherit((function() {
                 rows: [],
                 columnsHash: { length: 1 },
                 rowsHash: { length: 1 }
-            },
-            values = [],
-            aggregationCells,
-            filter,
-            data,
-            d = new Deferred(),
-            i = 0;
+            };
+
+        var values = [];
+        var aggregationCells;
+        var filter;
+        var data;
+        var d = new Deferred();
+        var i = 0;
 
         filter = createFilter(options);
 
         function processData() {
-            var t = new Date(),
-                startIndex = i;
+            var t = new Date();
+            var startIndex = i;
 
             for(; i < items.length; i++) {
                 if(i > startIndex && i % 10000 === 0) {
@@ -485,9 +488,9 @@ exports.LocalStore = Class.inherit((function() {
         },
 
         getFields: function(fields) {
-            var that = this,
-                dataSource = that._dataSource,
-                d = new Deferred();
+            var that = this;
+            var dataSource = that._dataSource;
+            var d = new Deferred();
 
             loadDataSource(dataSource, getFieldSelectors(fields)).done(function(data) {
                 d.resolve(pivotGridUtils.discoverObjectFields(data, fields));
@@ -501,9 +504,9 @@ exports.LocalStore = Class.inherit((function() {
         },
 
         load: function(options) {
-            var that = this,
-                dataSource = that._dataSource,
-                d = new Deferred();
+            var that = this;
+            var dataSource = that._dataSource;
+            var d = new Deferred();
 
             prepareLoadOption(options);
 
@@ -529,17 +532,18 @@ exports.LocalStore = Class.inherit((function() {
             params = params || {};
             prepareLoadOption(loadOptions);
 
-            var drillDownItems = [],
-                items = this._dataSource.items(),
-                item,
-                maxRowCount = params.maxRowCount,
-                customColumns = params.customColumns,
-                filter = createFilter(loadOptions),
-                pathFilter = createFilter({
-                    rows: getFiltersByPath(loadOptions.rows, params.rowPath),
-                    columns: getFiltersByPath(loadOptions.columns, params.columnPath),
-                    filters: []
-                });
+            var drillDownItems = [];
+            var items = this._dataSource.items();
+            var item;
+            var maxRowCount = params.maxRowCount;
+            var customColumns = params.customColumns;
+            var filter = createFilter(loadOptions);
+
+            var pathFilter = createFilter({
+                rows: getFiltersByPath(loadOptions.rows, params.rowPath),
+                columns: getFiltersByPath(loadOptions.columns, params.columnPath),
+                filters: []
+            });
 
             for(var i = 0; i < items.length; i++) {
                 if(pathFilter(items[i]) && filter(items[i])) {

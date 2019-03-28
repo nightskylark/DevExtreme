@@ -1,24 +1,20 @@
 // there are pie, doughnut
-var noop = require("../../core/utils/common").noop,
-    each = require("../../core/utils/iterator").each,
-    scatterSeries = require("./scatter_series"),
-    vizUtils = require("../core/utils"),
-    extend = require("../../core/utils/extend").extend,
+var noop = require("../../core/utils/common").noop;
 
-    chartScatterSeries = scatterSeries.chart,
-    barSeries = require("./bar_series").chart.bar,
-
-    _extend = extend,
-    _each = each,
-    _noop = noop,
-
-    _map = vizUtils.map,
-
-    _isFinite = isFinite,
-    _max = Math.max,
-
-    ANIMATION_DURATION = 0.7,
-    INSIDE = "inside";
+var each = require("../../core/utils/iterator").each;
+var scatterSeries = require("./scatter_series");
+var vizUtils = require("../core/utils");
+var extend = require("../../core/utils/extend").extend;
+var chartScatterSeries = scatterSeries.chart;
+var barSeries = require("./bar_series").chart.bar;
+var _extend = extend;
+var _each = each;
+var _noop = noop;
+var _map = vizUtils.map;
+var _isFinite = isFinite;
+var _max = Math.max;
+var ANIMATION_DURATION = 0.7;
+var INSIDE = "inside";
 
 exports.pie = _extend({}, barSeries, {
     _setGroupsSettings: chartScatterSeries._setGroupsSettings,
@@ -26,8 +22,8 @@ exports.pie = _extend({}, barSeries, {
     _createErrorBarGroup: _noop,
 
     _drawPoint: function(options) {
-        var point = options.point,
-            legendCallback = this._legendCallback;
+        var point = options.point;
+        var legendCallback = this._legendCallback;
 
         chartScatterSeries._drawPoint.call(this, options);
         !point.isVisible() && point.setInvisibility();
@@ -120,8 +116,8 @@ exports.pie = _extend({}, barSeries, {
     },
 
     _createPointStyles: function(pointOptions, data, point) {
-        var that = this,
-            mainColor = pointOptions.color || that._getMainColor(data, point);
+        var that = this;
+        var mainColor = pointOptions.color || that._getMainColor(data, point);
 
         return {
             normal: that._parsePointStyle(pointOptions, mainColor, mainColor),
@@ -136,9 +132,9 @@ exports.pie = _extend({}, barSeries, {
     },
 
     _getArrangeMinShownValue: function(points, total) {
-        var minSegmentSize = this._options.minSegmentSize,
-            totalMinSegmentSize = 0,
-            totalNotMinValues = 0;
+        var minSegmentSize = this._options.minSegmentSize;
+        var totalMinSegmentSize = 0;
+        var totalNotMinValues = 0;
 
         total = total || points.length;
 
@@ -156,13 +152,13 @@ exports.pie = _extend({}, barSeries, {
     },
 
     _applyArrangeCorrection: function(points, minShownValue, total) {
-        var options = this._options,
-            isClockWise = options.segmentsDirection !== "anticlockwise",
-            shiftedAngle = _isFinite(options.startAngle) ? vizUtils.normalizeAngle(options.startAngle) : 0,
-            minSegmentSize = options.minSegmentSize,
-            percent,
-            correction = 0,
-            zeroTotalCorrection = 0;
+        var options = this._options;
+        var isClockWise = options.segmentsDirection !== "anticlockwise";
+        var shiftedAngle = _isFinite(options.startAngle) ? vizUtils.normalizeAngle(options.startAngle) : 0;
+        var minSegmentSize = options.minSegmentSize;
+        var percent;
+        var correction = 0;
+        var zeroTotalCorrection = 0;
 
         if(total === 0) {
             total = points.filter(function(el) { return el.isVisible(); }).length;
@@ -170,8 +166,8 @@ exports.pie = _extend({}, barSeries, {
         }
 
         _each(isClockWise ? points : points.concat([]).reverse(), function(_, point) {
-            var val = point.isVisible() ? zeroTotalCorrection || point.normalInitialValue : 0,
-                updatedZeroValue;
+            var val = point.isVisible() ? zeroTotalCorrection || point.normalInitialValue : 0;
+            var updatedZeroValue;
 
             if(minSegmentSize && point.isVisible() && val < minShownValue) {
                 updatedZeroValue = minShownValue;
@@ -191,16 +187,16 @@ exports.pie = _extend({}, barSeries, {
     },
 
     arrangePoints: function() {
-        var that = this,
-            originalPoints = that._points || [],
-            minSegmentSize = that._options.minSegmentSize,
-            minShownValue,
-            total,
-            isAllPointsNegative = true,
-            points,
-            i = 0,
-            len = originalPoints.length,
-            maxValue;
+        var that = this;
+        var originalPoints = that._points || [];
+        var minSegmentSize = that._options.minSegmentSize;
+        var minShownValue;
+        var total;
+        var isAllPointsNegative = true;
+        var points;
+        var i = 0;
+        var len = originalPoints.length;
+        var maxValue;
 
         while(i < len && isAllPointsNegative) {
             isAllPointsNegative = originalPoints[i].value <= 0;
@@ -272,13 +268,15 @@ exports.pie = _extend({}, barSeries, {
     _applyVisibleArea: _noop,
 
     _animate: function(firstDrawing) {
-        var that = this,
-            points = that._points,
-            pointsCount = points && (points.length),
-            completeFunc = function() {
-                that._animateComplete();
-            },
-            animatePoint;
+        var that = this;
+        var points = that._points;
+        var pointsCount = points && (points.length);
+
+        var completeFunc = function() {
+            that._animateComplete();
+        };
+
+        var animatePoint;
 
         if(firstDrawing) {
             animatePoint = function(p, i) {

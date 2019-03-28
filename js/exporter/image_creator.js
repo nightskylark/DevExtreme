@@ -40,23 +40,23 @@ function createCanvas(width, height, margin) {
 }
 
 function getStringFromCanvas(canvas, mimeType) {
-    var dataURL = canvas.toDataURL(mimeType, IMAGE_QUALITY),
-        imageData = window.atob(dataURL.substring(("data:" + mimeType + ";base64,").length));
+    var dataURL = canvas.toDataURL(mimeType, IMAGE_QUALITY);
+    var imageData = window.atob(dataURL.substring(("data:" + mimeType + ";base64,").length));
 
     return imageData;
 }
 
 function arcTo(x1, y1, x2, y2, radius, largeArcFlag, clockwise, context) {
-    var cBx = (x1 + x2) / 2,
-        cBy = (y1 + y2) / 2,
-        aB = _atan2(y1 - y2, x1 - x2),
-        k = largeArcFlag ? 1 : -1,
-        opSide,
-        adjSide,
-        centerX,
-        centerY,
-        startAngle,
-        endAngle;
+    var cBx = (x1 + x2) / 2;
+    var cBy = (y1 + y2) / 2;
+    var aB = _atan2(y1 - y2, x1 - x2);
+    var k = largeArcFlag ? 1 : -1;
+    var opSide;
+    var adjSide;
+    var centerX;
+    var centerY;
+    var startAngle;
+    var endAngle;
 
     aB += 90 * (PI / 180) * (clockwise ? 1 : -1);
 
@@ -73,13 +73,15 @@ function arcTo(x1, y1, x2, y2, radius, largeArcFlag, clockwise, context) {
 }
 
 function getElementOptions(element) {
-    var attr = parseAttributes(element.attributes || {}),
-        options = extend({}, attr, {
-            text: element.textContent.replace(/\s+/g, " "),
-            textAlign: attr["text-anchor"] === "middle" ? "center" : attr["text-anchor"]
-        }),
-        transform = attr.transform,
-        coords;
+    var attr = parseAttributes(element.attributes || {});
+
+    var options = extend({}, attr, {
+        text: element.textContent.replace(/\s+/g, " "),
+        textAlign: attr["text-anchor"] === "middle" ? "center" : attr["text-anchor"]
+    });
+
+    var transform = attr.transform;
+    var coords;
 
     if(transform) {
         coords = transform.match(/translate\(-*\d+([.]\d+)*(,*\s*-*\d+([.]\d+)*)*/);
@@ -104,11 +106,11 @@ function getElementOptions(element) {
 }
 
 function drawRect(context, options) {
-    var x = options.x,
-        y = options.y,
-        width = options.width,
-        height = options.height,
-        cornerRadius = options.rx;
+    var x = options.x;
+    var y = options.y;
+    var width = options.width;
+    var height = options.height;
+    var cornerRadius = options.rx;
 
     if(!cornerRadius) {
         context.rect(options.x, options.y, options.width, options.height);
@@ -127,8 +129,8 @@ function drawRect(context, options) {
 }
 
 function drawImage(context, options, shared) {
-    var d = new Deferred(),
-        image = new window.Image();
+    var d = new Deferred();
+    var image = new window.Image();
 
     image.onload = function() {
         context.save();
@@ -154,10 +156,10 @@ function drawImage(context, options, shared) {
 }
 
 function drawPath(context, dAttr) {
-    var dArray = dAttr.split(" "),
-        i = 0,
-        param1,
-        param2;
+    var dArray = dAttr.split(" ");
+    var i = 0;
+    var param1;
+    var param2;
 
     do {
         param1 = _number(dArray[i + 1]);
@@ -188,8 +190,8 @@ function drawPath(context, dAttr) {
 }
 
 function parseStyles(element, options) {
-    var style = element.style || {},
-        field;
+    var style = element.style || {};
+    var field;
 
     for(field in style) {
         if(style[field] !== "") {
@@ -251,11 +253,11 @@ function drawTextDecoration(context, options, shared) {
         return;
     }
 
-    var x = options.x,
-        textWidth = context.measureText(options.text).width,
-        textHeight = parseInt(options.fontSize, 10),
-        lineHeight = textHeight * TEXT_DECORATION_LINE_WIDTH_COEFF < 1 ? 1 : textHeight * TEXT_DECORATION_LINE_WIDTH_COEFF,
-        y = options.y;
+    var x = options.x;
+    var textWidth = context.measureText(options.text).width;
+    var textHeight = parseInt(options.fontSize, 10);
+    var lineHeight = textHeight * TEXT_DECORATION_LINE_WIDTH_COEFF < 1 ? 1 : textHeight * TEXT_DECORATION_LINE_WIDTH_COEFF;
+    var y = options.y;
 
     switch(options.textDecoration) {
         case "line-through":
@@ -295,9 +297,9 @@ function hasTspan(element) {
 }
 
 function drawTextElement(childNodes, context, options, shared) {
-    var lines = [],
-        line,
-        offset = 0;
+    var lines = [];
+    var line;
+    var offset = 0;
 
     for(var i = 0; i < childNodes.length; i++) {
         var element = childNodes[i];
@@ -305,8 +307,8 @@ function drawTextElement(childNodes, context, options, shared) {
         if(element.tagName === undefined) {
             drawElement(element, context, options, shared);
         } else if(element.tagName === "tspan" || element.tagName === "text") {
-            var elementOptions = getElementOptions(element),
-                mergedOptions = extend({}, options, elementOptions);
+            var elementOptions = getElementOptions(element);
+            var mergedOptions = extend({}, options, elementOptions);
 
             if(element.tagName === "tspan" && hasTspan(element)) {
                 drawTextElement(element.childNodes, context, mergedOptions, shared);
@@ -342,9 +344,10 @@ function drawTextElement(childNodes, context, options, shared) {
     lines.forEach(function(line) {
         var commonWidth = line.widths.reduce(function(commonWidth, width) {
                 return commonWidth + width;
-            }, 0),
-            xDiff = 0,
-            currentOffset = 0;
+            }, 0);
+
+        var xDiff = 0;
+        var currentOffset = 0;
 
         if(options.textAlign === "center") {
             xDiff = commonWidth / 2;
@@ -364,15 +367,14 @@ function drawTextElement(childNodes, context, options, shared) {
         line.elements.forEach(function(element, index) {
             drawTextElement(element.childNodes, context, line.options[index], shared);
         });
-
     });
 }
 
 function drawElement(element, context, parentOptions, shared) {
-    var tagName = element.tagName,
-        isText = tagName === "text" || tagName === "tspan" || tagName === undefined,
-        isImage = tagName === "image",
-        options = extend({}, parentOptions, getElementOptions(element));
+    var tagName = element.tagName;
+    var isText = tagName === "text" || tagName === "tspan" || tagName === undefined;
+    var isImage = tagName === "image";
+    var options = extend({}, parentOptions, getElementOptions(element));
 
     if(options.visibility === "hidden" || options["hidden-for-export"]) {
         return;
@@ -421,8 +423,8 @@ function drawElement(element, context, parentOptions, shared) {
 }
 
 function applyFilter(context, options, shared) {
-    var filterOptions,
-        id = parseUrl(options.filter);
+    var filterOptions;
+    var id = parseUrl(options.filter);
 
     if(id) {
         filterOptions = shared.filters[id];
@@ -474,9 +476,9 @@ function hex2rgba(hexColor, alpha) {
 }
 
 function createFilter(element) {
-    var color,
-        opacity,
-        filterOptions = {};
+    var color;
+    var opacity;
+    var filterOptions = {};
 
     _each(element.childNodes, function(_, node) {
         var attr = node.attributes;
@@ -588,10 +590,10 @@ function strokeElement(context, options, isText) {
 }
 
 function getPattern(context, fill, shared) {
-    var pattern = shared.patterns[parseUrl(fill)],
-        options = getElementOptions(pattern),
-        patternCanvas = createCanvas(options.width, options.height, 0),
-        patternContext = patternCanvas.getContext("2d");
+    var pattern = shared.patterns[parseUrl(fill)];
+    var options = getElementOptions(pattern);
+    var patternCanvas = createCanvas(options.width, options.height, 0);
+    var patternContext = patternCanvas.getContext("2d");
 
     drawCanvasElements(pattern.childNodes, patternContext, options, shared);
 
@@ -610,8 +612,8 @@ function fillElement(context, options, shared) {
 }
 
 var parseAttributes = function(attributes) {
-    var newAttributes = {},
-        attr;
+    var newAttributes = {};
+    var attr;
 
     iteratorUtils.each(attributes, function(index, item) {
         attr = item.textContent;
@@ -630,9 +632,9 @@ function drawBackground(context, width, height, backgroundColor, margin) {
 }
 
 function getCanvasFromSvg(markup, width, height, backgroundColor, margin) {
-    var canvas = createCanvas(width, height, margin),
-        context = canvas.getContext("2d"),
-        svgElem = svgUtils.getSvgElement(markup);
+    var canvas = createCanvas(width, height, margin);
+    var context = canvas.getContext("2d");
+    var svgElem = svgUtils.getSvgElement(markup);
 
     context.translate(margin, margin);
 
@@ -654,10 +656,10 @@ function getCanvasFromSvg(markup, width, height, backgroundColor, margin) {
 
 exports.imageCreator = {
     getImageData: function(markup, options) {
-        var mimeType = "image/" + options.format,
-            width = options.width,
-            height = options.height,
-            backgroundColor = options.backgroundColor;
+        var mimeType = "image/" + options.format;
+        var width = options.width;
+        var height = options.height;
+        var backgroundColor = options.backgroundColor;
         // Injection for testing T403049
         if(isFunction(options.__parseAttributesFn)) {
             parseAttributes = options.__parseAttributesFn;
@@ -687,8 +689,8 @@ exports.imageCreator = {
     },
 
     _getBlob: function(binaryData, mimeType) {
-        var i,
-            dataArray = new Uint8Array(binaryData.length);
+        var i;
+        var dataArray = new Uint8Array(binaryData.length);
 
         for(i = 0; i < binaryData.length; i++) {
             dataArray[i] = binaryData.charCodeAt(i);

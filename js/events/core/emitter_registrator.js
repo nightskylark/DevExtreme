@@ -1,19 +1,18 @@
-var $ = require("../../core/renderer"),
-    readyCallbacks = require("../../core/utils/ready_callbacks"),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    dataUtils = require("../../core/element_data"),
-    Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    each = require("../../core/utils/iterator").each,
-    registerEvent = require("./event_registrator"),
-    eventUtils = require("../utils"),
-    pointerEvents = require("../pointer"),
-    wheelEvent = require("./wheel");
-
-var MANAGER_EVENT = "dxEventManager",
-    EMITTER_DATA = "dxEmitter";
+var $ = require("../../core/renderer");
+var readyCallbacks = require("../../core/utils/ready_callbacks");
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var dataUtils = require("../../core/element_data");
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var each = require("../../core/utils/iterator").each;
+var registerEvent = require("./event_registrator");
+var eventUtils = require("../utils");
+var pointerEvents = require("../pointer");
+var wheelEvent = require("./wheel");
+var MANAGER_EVENT = "dxEventManager";
+var EMITTER_DATA = "dxEmitter";
 
 var EventManager = Class.inherit({
 
@@ -100,10 +99,9 @@ var EventManager = Class.inherit({
     },
 
     _closestEmitter: function(e) {
-        var that = this,
-
-            result = [],
-            $element = $(e.target);
+        var that = this;
+        var result = [];
+        var $element = $(e.target);
 
         function handleEmitter(_, emitter) {
             if(!!emitter && emitter.validatePointers(e) && emitter.validate(e)) {
@@ -215,9 +213,9 @@ var EventManager = Class.inherit({
             return;
         }
 
-        var direction = closestGestureEmitter.getDirection(e),
-            verticalGestureDirection = direction === "both" && !e.shiftKey || direction === "vertical",
-            prop = verticalGestureDirection ? "pageY" : "pageX";
+        var direction = closestGestureEmitter.getDirection(e);
+        var verticalGestureDirection = direction === "both" && !e.shiftKey || direction === "vertical";
+        var prop = verticalGestureDirection ? "pageY" : "pageX";
 
         e[prop] += e.delta;
     },
@@ -236,9 +234,9 @@ var eventManager = new EventManager();
 var EMITTER_SUBSCRIPTION_DATA = "dxEmitterSubscription";
 
 var registerEmitter = function(emitterConfig) {
-    var emitterClass = emitterConfig.emitter,
-        emitterName = emitterConfig.events[0],
-        emitterEvents = emitterConfig.events;
+    var emitterClass = emitterConfig.emitter;
+    var emitterName = emitterConfig.events[0];
+    var emitterEvents = emitterConfig.events;
 
     each(emitterEvents, function(_, eventName) {
         registerEvent(eventName, {
@@ -246,10 +244,9 @@ var registerEmitter = function(emitterConfig) {
             noBubble: !emitterConfig.bubble,
 
             setup: function(element) {
-                var subscriptions = dataUtils.data(element, EMITTER_SUBSCRIPTION_DATA) || {},
-
-                    emitters = dataUtils.data(element, EMITTER_DATA) || {},
-                    emitter = emitters[emitterName] || new emitterClass(element);
+                var subscriptions = dataUtils.data(element, EMITTER_SUBSCRIPTION_DATA) || {};
+                var emitters = dataUtils.data(element, EMITTER_DATA) || {};
+                var emitter = emitters[emitterName] || new emitterClass(element);
 
                 subscriptions[eventName] = true;
                 emitters[emitterName] = emitter;
@@ -259,8 +256,8 @@ var registerEmitter = function(emitterConfig) {
             },
 
             add: function(element, handleObj) {
-                var emitters = dataUtils.data(element, EMITTER_DATA),
-                    emitter = emitters[emitterName];
+                var emitters = dataUtils.data(element, EMITTER_DATA);
+                var emitter = emitters[emitterName];
 
                 emitter.configure(extend({
                     delegateSelector: handleObj.selector
@@ -268,10 +265,9 @@ var registerEmitter = function(emitterConfig) {
             },
 
             teardown: function(element) {
-                var subscriptions = dataUtils.data(element, EMITTER_SUBSCRIPTION_DATA),
-
-                    emitters = dataUtils.data(element, EMITTER_DATA),
-                    emitter = emitters[emitterName];
+                var subscriptions = dataUtils.data(element, EMITTER_SUBSCRIPTION_DATA);
+                var emitters = dataUtils.data(element, EMITTER_DATA);
+                var emitter = emitters[emitterName];
 
                 delete subscriptions[eventName];
 

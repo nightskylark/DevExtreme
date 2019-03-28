@@ -55,8 +55,8 @@ var ModuleItem = Class.inherit({
     },
 
     option: function(name) {
-        var component = this.component,
-            optionCache = component._optionCache;
+        var component = this.component;
+        var optionCache = component._optionCache;
 
         if(arguments.length === 1 && optionCache) {
             if(!(name in optionCache)) {
@@ -101,8 +101,8 @@ var ModuleItem = Class.inherit({
     },
 
     setAria: function(name, value, $target) {
-        var target = $target.get(0),
-            prefix = (name !== "role" && name !== "id") ? "aria-" : "";
+        var target = $target.get(0);
+        var prefix = (name !== "role" && name !== "id") ? "aria-" : "";
 
         if(target.setAttribute) {
             target.setAttribute(prefix + name, value);
@@ -220,9 +220,9 @@ var View = ModuleItem.inherit({
 
         if(!$element) return 0;
 
-        var marginTop = parseFloat($element.css("marginTop")) || 0,
-            marginBottom = parseFloat($element.css("marginBottom")) || 0,
-            offsetHeight = $element.get(0).offsetHeight;
+        var marginTop = parseFloat($element.css("marginTop")) || 0;
+        var marginBottom = parseFloat($element.css("marginBottom")) || 0;
+        var offsetHeight = $element.get(0).offsetHeight;
 
         return offsetHeight + marginTop + marginBottom;
     },
@@ -236,8 +236,8 @@ var View = ModuleItem.inherit({
     },
 
     render: function($parent, options) {
-        var $element = this._$element,
-            isVisible = this.isVisible();
+        var $element = this._$element;
+        var isVisible = this.isVisible();
 
         if(!$element && !$parent) return;
 
@@ -273,10 +273,10 @@ var View = ModuleItem.inherit({
 var MODULES_ORDER_MAX_INDEX = 1000000;
 
 var processModules = function(that, componentClass) {
-    var modules = componentClass.modules,
-        modulesOrder = componentClass.modulesOrder,
-        controllerTypes = componentClass.controllerTypes || {},
-        viewTypes = componentClass.viewTypes || {};
+    var modules = componentClass.modules;
+    var modulesOrder = componentClass.modulesOrder;
+    var controllerTypes = componentClass.controllerTypes || {};
+    var viewTypes = componentClass.viewTypes || {};
 
     if(!componentClass.controllerTypes) {
         if(modulesOrder) {
@@ -297,9 +297,9 @@ var processModules = function(that, componentClass) {
         }
 
         each(modules, function() {
-            var controllers = this.controllers,
-                moduleName = this.name,
-                views = this.views;
+            var controllers = this.controllers;
+            var moduleName = this.name;
+            var views = this.views;
 
             controllers && each(controllers, function(name, type) {
                 if(controllerTypes[name]) {
@@ -402,8 +402,8 @@ module.exports = {
     Controller: Controller,
 
     registerModule: function(name, module) {
-        var modules = this.modules,
-            i;
+        var modules = this.modules;
+        var i;
 
         for(i = 0; i < modules.length; i++) {
             if(modules[i].name === name) {

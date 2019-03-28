@@ -13,8 +13,8 @@ import { getElementMaxHeightByWindow } from "../ui/overlay/utils";
 import registerComponent from "../core/component_registrator";
 import { normalizeKeyName } from "../events/utils";
 
-var DROP_DOWN_BOX_CLASS = "dx-dropdownbox",
-    ANONYMOUS_TEMPLATE_NAME = "content";
+var DROP_DOWN_BOX_CLASS = "dx-dropdownbox";
+var ANONYMOUS_TEMPLATE_NAME = "content";
 
 /**
  * @name dxDropDownBox
@@ -32,8 +32,8 @@ var DropDownBox = DropDownEditor.inherit({
                     return;
                 }
 
-                var $tabbableElements = this._getTabbableElements(),
-                    $focusableElement = e.shiftKey ? $tabbableElements.last() : $tabbableElements.first();
+                var $tabbableElements = this._getTabbableElements();
+                var $focusableElement = e.shiftKey ? $tabbableElements.last() : $tabbableElements.first();
 
                 $focusableElement && eventsEngine.trigger($focusableElement, "focus");
                 e.preventDefault();
@@ -163,8 +163,8 @@ var DropDownBox = DropDownEditor.inherit({
     },
 
     _setSubmitValue: function() {
-        var value = this.option("value"),
-            submitValue = this.option("valueExpr") === "this" ? this._displayGetter(value) : value;
+        var value = this.option("value");
+        var submitValue = this.option("valueExpr") === "this" ? this._displayGetter(value) : value;
 
         this._$submitElement.val(submitValue);
     },
@@ -174,16 +174,16 @@ var DropDownBox = DropDownEditor.inherit({
     },
 
     _renderInputValue: function() {
-        var callBase = this.callBase.bind(this),
-            values = [];
+        var callBase = this.callBase.bind(this);
+        var values = [];
 
         if(!this._dataSource) {
             callBase(values);
             return new Deferred().resolve();
         }
 
-        var currentValue = this._getCurrentValue(),
-            keys = commonUtils.ensureDefined(currentValue, []);
+        var currentValue = this._getCurrentValue();
+        var keys = commonUtils.ensureDefined(currentValue, []);
 
         keys = Array.isArray(keys) ? keys : [keys];
 
@@ -204,8 +204,8 @@ var DropDownBox = DropDownEditor.inherit({
     },
 
     _loadItem: function(value) {
-        var deferred = new Deferred(),
-            that = this;
+        var deferred = new Deferred();
+        var that = this;
 
         var selectedItem = grep(this.option("items") || [], (function(item) {
             return this._isValueEquals(this._valueGetter(item), value);
@@ -237,11 +237,11 @@ var DropDownBox = DropDownEditor.inherit({
     _popupElementTabHandler: function(e) {
         if(normalizeKeyName(e) !== "tab") return;
 
-        var $firstTabbable = this._getTabbableElements().first().get(0),
-            $lastTabbable = this._getTabbableElements().last().get(0),
-            $target = e.originalEvent.target,
-            moveBackward = !!($target === $firstTabbable && e.shift),
-            moveForward = !!($target === $lastTabbable && !e.shift);
+        var $firstTabbable = this._getTabbableElements().first().get(0);
+        var $lastTabbable = this._getTabbableElements().last().get(0);
+        var $target = e.originalEvent.target;
+        var moveBackward = !!($target === $firstTabbable && e.shift);
+        var moveForward = !!($target === $lastTabbable && !e.shift);
 
         if(moveBackward || moveForward) {
             this.close();

@@ -1,7 +1,7 @@
-var extend = require("../../../core/utils/extend").extend,
-    symbolPoint = require("./symbol_point"),
-    _extend = extend,
-    MIN_BUBBLE_HEIGHT = 20;
+var extend = require("../../../core/utils/extend").extend;
+var symbolPoint = require("./symbol_point");
+var _extend = extend;
+var MIN_BUBBLE_HEIGHT = 20;
 
 module.exports = _extend({}, symbolPoint, {
     correctCoordinates: function(diameter) {
@@ -9,8 +9,8 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _drawMarker: function(renderer, group, animationEnabled) {
-        var that = this,
-            attr = _extend({ translateX: that.x, translateY: that.y }, that._getStyle());
+        var that = this;
+        var attr = _extend({ translateX: that.x, translateY: that.y }, that._getStyle());
 
         that.graphic = renderer.circle(0, 0, animationEnabled ? 0 : that.bubbleSize)
             .smartAttr(attr)
@@ -19,9 +19,9 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     getTooltipParams: function(location) {
-        var that = this,
-            graphic = that.graphic,
-            height;
+        var that = this;
+        var graphic = that.graphic;
+        var height;
 
         if(!graphic) {
             return;

@@ -1,26 +1,25 @@
-var Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    commonUtils = require("../../core/utils/common"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    ajax = require("../../core/utils/ajax"),
-    typeUtils = require("../../core/utils/type"),
-    dataUtils = require("../utils"),
-    arrayUtils = require("../array_utils"),
-    Store = require("../abstract_store"),
-    ArrayStore = require("../array_store"),
-    CustomStore = require("../custom_store"),
-    EventsMixin = require("../../core/events_mixin"),
-    errors = require("../errors").errors,
-    array = require("../../core/utils/array"),
-    queue = require("../../core/utils/queue"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-
-    __isString = typeUtils.isString,
-    __isNumber = typeUtils.isNumeric,
-    __isBoolean = typeUtils.isBoolean,
-    __isDefined = typeUtils.isDefined;
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var commonUtils = require("../../core/utils/common");
+var iteratorUtils = require("../../core/utils/iterator");
+var ajax = require("../../core/utils/ajax");
+var typeUtils = require("../../core/utils/type");
+var dataUtils = require("../utils");
+var arrayUtils = require("../array_utils");
+var Store = require("../abstract_store");
+var ArrayStore = require("../array_store");
+var CustomStore = require("../custom_store");
+var EventsMixin = require("../../core/events_mixin");
+var errors = require("../errors").errors;
+var array = require("../../core/utils/array");
+var queue = require("../../core/utils/queue");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var __isString = typeUtils.isString;
+var __isNumber = typeUtils.isNumeric;
+var __isBoolean = typeUtils.isBoolean;
+var __isDefined = typeUtils.isDefined;
 
 var CANCELED_TOKEN = "canceled";
 
@@ -406,9 +405,9 @@ var DataSource = Class.inherit({
     },
 
     _extractLoadOptions: function(options) {
-        var result = {},
-            names = ["sort", "filter", "select", "group", "requireTotalCount"],
-            customNames = this._store._customLoadOptions();
+        var result = {};
+        var names = ["sort", "filter", "select", "group", "requireTotalCount"];
+        var customNames = this._store._customLoadOptions();
 
         if(customNames) {
             names = names.concat(customNames);
@@ -700,8 +699,8 @@ var DataSource = Class.inherit({
     },
 
     _changeLoadingCount: function(increment) {
-        var oldLoading = this.isLoading(),
-            newLoading;
+        var oldLoading = this.isLoading();
+        var newLoading;
 
         this._loadingCount += increment;
         newLoading = this.isLoading();
@@ -748,20 +747,21 @@ var DataSource = Class.inherit({
     loadSingle: function(propName, propValue) {
         var that = this;
 
-        var d = new Deferred(),
-            key = this.key(),
-            store = this._store,
-            options = this._createStoreLoadOptions(),
-            handleDone = function(data) {
-                if(!__isDefined(data) || array.isEmpty(data)) {
-                    d.reject(new errors.Error("E4009"));
-                } else {
-                    if(!Array.isArray(data)) {
-                        data = [data];
-                    }
-                    d.resolve(that._applyMapFunction(data)[0]);
+        var d = new Deferred();
+        var key = this.key();
+        var store = this._store;
+        var options = this._createStoreLoadOptions();
+
+        var handleDone = function(data) {
+            if(!__isDefined(data) || array.isEmpty(data)) {
+                d.reject(new errors.Error("E4009"));
+            } else {
+                if(!Array.isArray(data)) {
+                    data = [data];
                 }
-            };
+                d.resolve(that._applyMapFunction(data)[0]);
+            }
+        };
 
         this._scheduleFailCallbacks(d);
 
@@ -805,9 +805,9 @@ var DataSource = Class.inherit({
     * @return Promise<any>
     */
     load: function() {
-        var that = this,
-            d = new Deferred(),
-            loadOperation;
+        var that = this;
+        var d = new Deferred();
+        var loadOperation;
 
         function loadTask() {
             if(that._disposed) {
@@ -849,10 +849,10 @@ var DataSource = Class.inherit({
         } else {
             this.fireEvent("changing", [{ changes: changes }]);
 
-            let group = this.group(),
-                items = this.items(),
-                groupLevel = 0,
-                dataSourceChanges = this.paginate() || group ? changes.filter(item => item.type === "update") : changes;
+            let group = this.group();
+            let items = this.items();
+            let groupLevel = 0;
+            let dataSourceChanges = this.paginate() || group ? changes.filter(item => item.type === "update") : changes;
 
             if(group) {
                 groupLevel = Array.isArray(group) ? group.length : 1;
@@ -864,8 +864,8 @@ var DataSource = Class.inherit({
     },
 
     _createLoadOperation: function(deferred) {
-        var id = this._operationManager.add(deferred),
-            options = this._createStoreLoadOptions();
+        var id = this._operationManager.add(deferred);
+        var options = this._createStoreLoadOptions();
 
         deferred.always(function() {
             this._operationManager.remove(id);
@@ -936,10 +936,10 @@ var DataSource = Class.inherit({
     },
 
     _addSearchFilter: function(storeLoadOptions) {
-        var value = this._searchValue,
-            op = this._searchOperation,
-            selector = this._searchExpr,
-            searchFilter = [];
+        var value = this._searchValue;
+        var op = this._searchOperation;
+        var selector = this._searchExpr;
+        var searchFilter = [];
 
         if(!value) {
             return;
@@ -1019,10 +1019,10 @@ var DataSource = Class.inherit({
     },
 
     _processStoreLoadResult: function(loadResult, pendingDeferred) {
-        var that = this,
-            data = loadResult.data,
-            extra = loadResult.extra,
-            storeLoadOptions = loadResult.storeLoadOptions;
+        var that = this;
+        var data = loadResult.data;
+        var extra = loadResult.extra;
+        var storeLoadOptions = loadResult.storeLoadOptions;
 
         function resolvePendingDeferred() {
             that._isLoaded = true;

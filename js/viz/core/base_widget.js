@@ -1,30 +1,25 @@
-var noop = require("../../core/utils/common").noop,
-    windowUtils = require("../../core/utils/window"),
-    domAdapter = require("../../core/dom_adapter"),
-    typeUtils = require("../../core/utils/type"),
-    each = require("../../core/utils/iterator").each,
-    version = require("../../core/version"),
-    _windowResizeCallbacks = require("../../core/utils/resize_callbacks"),
-    _stringFormat = require("../../core/utils/string").format,
-    _isObject = require("../../core/utils/type").isObject,
-    extend = require("../../core/utils/extend").extend,
-    themeManagerModule = require("../core/base_theme_manager"),
-
-    _floor = Math.floor,
-    DOMComponent = require("../../core/dom_component"),
-    helpers = require("./helpers"),
-    _parseScalar = require("./utils").parseScalar,
-    errors = require("./errors_warnings"),
-    _log = errors.log,
-    rendererModule = require("./renderers/renderer"),
-
-    _Layout = require("./layout"),
-
-    OPTION_RTL_ENABLED = "rtlEnabled",
-
-    SIZED_ELEMENT_CLASS = "dx-sized-element",
-
-    _option = DOMComponent.prototype.option;
+var noop = require("../../core/utils/common").noop;
+var windowUtils = require("../../core/utils/window");
+var domAdapter = require("../../core/dom_adapter");
+var typeUtils = require("../../core/utils/type");
+var each = require("../../core/utils/iterator").each;
+var version = require("../../core/version");
+var _windowResizeCallbacks = require("../../core/utils/resize_callbacks");
+var _stringFormat = require("../../core/utils/string").format;
+var _isObject = require("../../core/utils/type").isObject;
+var extend = require("../../core/utils/extend").extend;
+var themeManagerModule = require("../core/base_theme_manager");
+var _floor = Math.floor;
+var DOMComponent = require("../../core/dom_component");
+var helpers = require("./helpers");
+var _parseScalar = require("./utils").parseScalar;
+var errors = require("./errors_warnings");
+var _log = errors.log;
+var rendererModule = require("./renderers/renderer");
+var _Layout = require("./layout");
+var OPTION_RTL_ENABLED = "rtlEnabled";
+var SIZED_ELEMENT_CLASS = "dx-sized-element";
+var _option = DOMComponent.prototype.option;
 
 function getTrue() {
     return true;
@@ -40,11 +35,12 @@ function areCanvasesDifferent(canvas1, canvas2) {
 }
 
 function createResizeHandler(callback) {
-    var timeout,
-        handler = function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(callback, 100);
-        };
+    var timeout;
+
+    var handler = function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(callback, 100);
+    };
 
     handler.dispose = function() {
         clearTimeout(timeout);
@@ -154,8 +150,8 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     _useLinks: true,
 
     _init: function() {
-        var that = this,
-            linkTarget;
+        var that = this;
+        var linkTarget;
 
         that._$element.children("." + SIZED_ELEMENT_CLASS).remove();
 
@@ -244,8 +240,8 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     },
 
     _applyQueuedOptions: function() {
-        var that = this,
-            queue = that._optionsQueue;
+        var that = this;
+        var queue = that._optionsQueue;
 
         that._optionsQueue = null;
         that.beginUpdate();
@@ -262,11 +258,11 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     },
 
     _applyChanges: function() {
-        var that = this,
-            changes = that._changes,
-            order = that._totalChangesOrder,
-            i,
-            ii = order.length;
+        var that = this;
+        var changes = that._changes;
+        var order = that._totalChangesOrder;
+        var i;
+        var ii = order.length;
 
         for(i = 0; i < ii; ++i) {
             if(changes.has(order[i])) {
@@ -311,8 +307,8 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     },
 
     _change_DISABLED: function() {
-        var renderer = this._renderer,
-            root = renderer.root;
+        var renderer = this._renderer;
+        var root = renderer.root;
 
         if(this.option("disabled")) {
             this._initDisabledState = root.attr("pointer-events");
@@ -377,20 +373,22 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     },
 
     _calculateCanvas: function() {
-        var that = this,
-            size = that.option("size") || {},
-            margin = that.option("margin") || {},
-            defaultCanvas = that._getDefaultSize() || {},
-            elementWidth = !sizeIsValid(size.width) && windowUtils.hasWindow() ? that._$element.width() : 0,
-            elementHeight = !sizeIsValid(size.height) && windowUtils.hasWindow() ? that._$element.height() : 0,
-            canvas = {
-                width: size.width <= 0 ? 0 : _floor(pickPositiveValue([size.width, elementWidth, defaultCanvas.width])),
-                height: size.height <= 0 ? 0 : _floor(pickPositiveValue([size.height, elementHeight, defaultCanvas.height])),
-                left: pickPositiveValue([margin.left, defaultCanvas.left]),
-                top: pickPositiveValue([margin.top, defaultCanvas.top]),
-                right: pickPositiveValue([margin.right, defaultCanvas.right]),
-                bottom: pickPositiveValue([margin.bottom, defaultCanvas.bottom])
-            };
+        var that = this;
+        var size = that.option("size") || {};
+        var margin = that.option("margin") || {};
+        var defaultCanvas = that._getDefaultSize() || {};
+        var elementWidth = !sizeIsValid(size.width) && windowUtils.hasWindow() ? that._$element.width() : 0;
+        var elementHeight = !sizeIsValid(size.height) && windowUtils.hasWindow() ? that._$element.height() : 0;
+
+        var canvas = {
+            width: size.width <= 0 ? 0 : _floor(pickPositiveValue([size.width, elementWidth, defaultCanvas.width])),
+            height: size.height <= 0 ? 0 : _floor(pickPositiveValue([size.height, elementHeight, defaultCanvas.height])),
+            left: pickPositiveValue([margin.left, defaultCanvas.left]),
+            top: pickPositiveValue([margin.top, defaultCanvas.top]),
+            right: pickPositiveValue([margin.right, defaultCanvas.right]),
+            bottom: pickPositiveValue([margin.bottom, defaultCanvas.bottom])
+        };
+
         // This for backward compatibility - widget was not rendered when canvas is empty.
         // Now it will be rendered but because of "width" and "height" of the root both set to 0 it will not be visible.
         if(canvas.width - canvas.left - canvas.right <= 0 || canvas.height - canvas.top - canvas.bottom <= 0) {
@@ -400,8 +398,8 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     },
 
     _updateSize: function() {
-        var that = this,
-            canvas = that._calculateCanvas();
+        var that = this;
+        var canvas = that._calculateCanvas();
 
         that._renderer.fixPlacement();
         if(areCanvasesDifferent(that._canvas, canvas) || that.__forceRender /* for charts */) {
@@ -421,10 +419,10 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     _getAlignmentRect: noop,
 
     _setContentSize: function() {
-        var canvas = this._canvas,
-            layout = this._layout,
-            rect = canvas.width > 0 && canvas.height > 0 ? [canvas.left, canvas.top, canvas.width - canvas.right, canvas.height - canvas.bottom] : [0, 0, 0, 0],
-            nextRect;
+        var canvas = this._canvas;
+        var layout = this._layout;
+        var rect = canvas.width > 0 && canvas.height > 0 ? [canvas.left, canvas.top, canvas.width - canvas.right, canvas.height - canvas.bottom] : [0, 0, 0, 0];
+        var nextRect;
 
         rect = layout.forward(rect, this._getMinSize());
         nextRect = this._applySize(rect) || rect;
@@ -442,14 +440,14 @@ module.exports = isServerSide ? getEmptyComponent() : DOMComponent.inherit({
     ///#ENDDEBUG
 
     _getOption: function(name, isScalar) {
-        var theme = this._themeManager.theme(name),
-            option = this.option(name);
+        var theme = this._themeManager.theme(name);
+        var option = this.option(name);
         return isScalar ? (option !== undefined ? option : theme) : extend(true, {}, theme, option);
     },
 
     _setupResizeHandler: function() {
-        var that = this,
-            redrawOnResize = _parseScalar(this._getOption("redrawOnResize", true), true);
+        var that = this;
+        var redrawOnResize = _parseScalar(this._getOption("redrawOnResize", true), true);
 
         if(that._resizeHandler) {
             that._removeResizeHandler();

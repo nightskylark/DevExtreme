@@ -1,16 +1,14 @@
-var eventsEngine = require("../events/core/events_engine"),
-    domUtils = require("../core/utils/dom"),
-    domAdapter = require("../core/dom_adapter"),
-    Class = require("../core/class"),
-    registerEvent = require("./core/event_registrator"),
-    clickEvent = require("./click"),
-    eventUtils = require("./utils");
-
-var DBLCLICK_EVENT_NAME = "dxdblclick",
-    DBLCLICK_NAMESPACE = "dxDblClick",
-    NAMESPACED_CLICK_EVENT = eventUtils.addNamespace(clickEvent.name, DBLCLICK_NAMESPACE),
-
-    DBLCLICK_TIMEOUT = 300;
+var eventsEngine = require("../events/core/events_engine");
+var domUtils = require("../core/utils/dom");
+var domAdapter = require("../core/dom_adapter");
+var Class = require("../core/class");
+var registerEvent = require("./core/event_registrator");
+var clickEvent = require("./click");
+var eventUtils = require("./utils");
+var DBLCLICK_EVENT_NAME = "dxdblclick";
+var DBLCLICK_NAMESPACE = "dxDblClick";
+var NAMESPACED_CLICK_EVENT = eventUtils.addNamespace(clickEvent.name, DBLCLICK_NAMESPACE);
+var DBLCLICK_TIMEOUT = 300;
 
 
 var DblClick = Class.inherit({

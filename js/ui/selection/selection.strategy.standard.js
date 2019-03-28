@@ -1,13 +1,13 @@
-var commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    getKeyHash = commonUtils.getKeyHash,
-    dataQuery = require("../../data/query"),
-    deferredUtils = require("../../core/utils/deferred"),
-    SelectionFilterCreator = require("../../core/utils/selection_filter").SelectionFilterCreator,
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-    errors = require("../widget/ui.errors"),
-    SelectionStrategy = require("./selection.strategy");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var getKeyHash = commonUtils.getKeyHash;
+var dataQuery = require("../../data/query");
+var deferredUtils = require("../../core/utils/deferred");
+var SelectionFilterCreator = require("../../core/utils/selection_filter").SelectionFilterCreator;
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var errors = require("../widget/ui.errors");
+var SelectionStrategy = require("./selection.strategy");
 
 module.exports = SelectionStrategy.inherit({
     ctor: function(options) {
@@ -28,10 +28,10 @@ module.exports = SelectionStrategy.inherit({
     },
 
     _preserveSelectionUpdate: function(items, isDeselect) {
-        var keyOf = this.options.keyOf,
-            keyIndicesToRemoveMap,
-            keyIndex,
-            i;
+        var keyOf = this.options.keyOf;
+        var keyIndicesToRemoveMap;
+        var keyIndex;
+        var i;
 
         if(!keyOf) return;
 
@@ -42,8 +42,8 @@ module.exports = SelectionStrategy.inherit({
         }
 
         for(i = 0; i < items.length; i++) {
-            var item = items[i],
-                key = keyOf(item);
+            var item = items[i];
+            var key = keyOf(item);
             if(isDeselect) {
                 keyIndex = this.removeSelectedItem(key, keyIndicesToRemoveMap);
                 if(keyIndicesToRemoveMap && keyIndex >= 0) {
@@ -78,8 +78,8 @@ module.exports = SelectionStrategy.inherit({
     },
 
     _loadSelectedItemsCore: function(keys, isDeselect, isSelectAll) {
-        var deferred = new Deferred(),
-            key = this.options.key();
+        var deferred = new Deferred();
+        var key = this.options.key();
 
         if(!keys.length && !isSelectAll) {
             deferred.resolve([]);
@@ -92,8 +92,8 @@ module.exports = SelectionStrategy.inherit({
             return deferred;
         }
 
-        var selectionFilterCreator = new SelectionFilterCreator(keys, isSelectAll),
-            combinedFilter = selectionFilterCreator.getCombinedFilter(key, filter);
+        var selectionFilterCreator = new SelectionFilterCreator(keys, isSelectAll);
+        var combinedFilter = selectionFilterCreator.getCombinedFilter(key, filter);
 
         var deselectedItems = [];
         if(isDeselect) {
@@ -116,14 +116,14 @@ module.exports = SelectionStrategy.inherit({
     },
 
     _replaceSelectionUpdate: function(items) {
-        var internalKeys = [],
-            keyOf = this.options.keyOf;
+        var internalKeys = [];
+        var keyOf = this.options.keyOf;
 
         if(!keyOf) return;
 
         for(var i = 0; i < items.length; i++) {
-            var item = items[i],
-                key = keyOf(item);
+            var item = items[i];
+            var key = keyOf(item);
 
             internalKeys.push(key);
         }
@@ -140,8 +140,8 @@ module.exports = SelectionStrategy.inherit({
     },
 
     _loadSelectedItems: function(keys, isDeselect, isSelectAll) {
-        var that = this,
-            deferred = new Deferred();
+        var that = this;
+        var deferred = new Deferred();
 
         when(that._lastLoadDeferred).always(function() {
             that._loadSelectedItemsCore(keys, isDeselect, isSelectAll)
@@ -155,8 +155,8 @@ module.exports = SelectionStrategy.inherit({
     },
 
     selectedItemKeys: function(keys, preserve, isDeselect, isSelectAll) {
-        var that = this,
-            deferred = that._loadSelectedItems(keys, isDeselect, isSelectAll);
+        var that = this;
+        var deferred = that._loadSelectedItems(keys, isDeselect, isSelectAll);
 
         deferred.done(function(items) {
             if(preserve) {
@@ -229,9 +229,9 @@ module.exports = SelectionStrategy.inherit({
 
     _shiftSelectedKeyIndices: function(keyIndex) {
         for(var currentKeyIndex = keyIndex; currentKeyIndex < this.options.selectedItemKeys.length; currentKeyIndex++) {
-            var currentKey = this.options.selectedItemKeys[currentKeyIndex],
-                currentKeyHash = getKeyHash(currentKey),
-                currentKeyIndices = this.options.keyHashIndices[currentKeyHash];
+            var currentKey = this.options.selectedItemKeys[currentKeyIndex];
+            var currentKeyHash = getKeyHash(currentKey);
+            var currentKeyIndices = this.options.keyHashIndices[currentKeyHash];
 
             if(!currentKeyIndices) continue;
 
@@ -244,9 +244,9 @@ module.exports = SelectionStrategy.inherit({
     },
 
     removeSelectedItem: function(key, keyIndicesToRemoveMap) {
-        var keyHash = this._getKeyHash(key),
-            isBatchDeselect = !!keyIndicesToRemoveMap,
-            keyIndex = this._indexOfSelectedItemKey(keyHash, keyIndicesToRemoveMap);
+        var keyHash = this._getKeyHash(key);
+        var isBatchDeselect = !!keyIndicesToRemoveMap;
+        var keyIndex = this._indexOfSelectedItemKey(keyHash, keyIndicesToRemoveMap);
 
         if(keyIndex < 0) {
             return keyIndex;
@@ -308,8 +308,8 @@ module.exports = SelectionStrategy.inherit({
     setSelectedItems: function(keys, items) {
         this._updateAddedItemKeys(keys, items);
 
-        var oldSelectedKeys = this.options.selectedItemKeys,
-            oldSelectedItems = this.options.selectedItems;
+        var oldSelectedKeys = this.options.selectedItemKeys;
+        var oldSelectedItems = this.options.selectedItems;
 
         if(!this.options.equalByReference) {
             this._initSelectedItemKeyHash();

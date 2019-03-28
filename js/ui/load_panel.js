@@ -1,20 +1,19 @@
-var $ = require("../core/renderer"),
-    noop = require("../core/utils/common").noop,
-    messageLocalization = require("../localization/message"),
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    LoadIndicator = require("./load_indicator"),
-    Overlay = require("./overlay"),
-    Deferred = require("../core/utils/deferred").Deferred,
-    themes = require("./themes");
-
-var LOADPANEL_CLASS = "dx-loadpanel",
-    LOADPANEL_WRAPPER_CLASS = "dx-loadpanel-wrapper",
-    LOADPANEL_INDICATOR_CLASS = "dx-loadpanel-indicator",
-    LOADPANEL_MESSAGE_CLASS = "dx-loadpanel-message",
-    LOADPANEL_CONTENT_CLASS = "dx-loadpanel-content",
-    LOADPANEL_CONTENT_WRAPPER_CLASS = "dx-loadpanel-content-wrapper",
-    LOADPANEL_PANE_HIDDEN_CLASS = "dx-loadpanel-pane-hidden";
+var $ = require("../core/renderer");
+var noop = require("../core/utils/common").noop;
+var messageLocalization = require("../localization/message");
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var LoadIndicator = require("./load_indicator");
+var Overlay = require("./overlay");
+var Deferred = require("../core/utils/deferred").Deferred;
+var themes = require("./themes");
+var LOADPANEL_CLASS = "dx-loadpanel";
+var LOADPANEL_WRAPPER_CLASS = "dx-loadpanel-wrapper";
+var LOADPANEL_INDICATOR_CLASS = "dx-loadpanel-indicator";
+var LOADPANEL_MESSAGE_CLASS = "dx-loadpanel-message";
+var LOADPANEL_CONTENT_CLASS = "dx-loadpanel-content";
+var LOADPANEL_CONTENT_WRAPPER_CLASS = "dx-loadpanel-content-wrapper";
+var LOADPANEL_PANE_HIDDEN_CLASS = "dx-loadpanel-pane-hidden";
 
 /**
 * @name dxLoadPanel

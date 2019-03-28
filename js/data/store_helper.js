@@ -1,8 +1,8 @@
-var grep = require("../core/utils/common").grep,
-    extend = require("../core/utils/extend").extend,
-    each = require("../core/utils/iterator").each,
-    arrayQuery = require("./array_query"),
-    normalizeSortingInfo = require("./utils").normalizeSortingInfo;
+var grep = require("../core/utils/common").grep;
+var extend = require("../core/utils/extend").extend;
+var each = require("../core/utils/iterator").each;
+var arrayQuery = require("./array_query");
+var normalizeSortingInfo = require("./utils").normalizeSortingInfo;
 
 function multiLevelGroup(query, groupInfo) {
     query = query.groupBy(groupInfo[0].selector);
@@ -45,11 +45,11 @@ function queryByOptions(query, options, isCountQuery) {
         return query;
     }
 
-    var sort = options.sort,
-        select = options.select,
-        group = options.group,
-        skip = options.skip,
-        take = options.take;
+    var sort = options.sort;
+    var select = options.select;
+    var group = options.group;
+    var skip = options.skip;
+    var take = options.take;
 
     if(group) {
         group = normalizeSortingInfo(group);

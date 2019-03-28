@@ -35,12 +35,12 @@ var registerComponent = function(name, namespace, componentClass) {
 
 var registerRendererComponent = function(name, componentClass) {
     $.fn[name] = function(options) {
-        var isMemberInvoke = typeof options === "string",
-            result;
+        var isMemberInvoke = typeof options === "string";
+        var result;
 
         if(isMemberInvoke) {
-            var memberName = options,
-                memberArgs = [].slice.call(arguments).slice(1);
+            var memberName = options;
+            var memberArgs = [].slice.call(arguments).slice(1);
 
             this.each(function() {
                 var instance = componentClass.getInstance(this);
@@ -49,8 +49,8 @@ var registerRendererComponent = function(name, componentClass) {
                     throw errors.Error("E0009", name);
                 }
 
-                var member = instance[memberName],
-                    memberValue = member.apply(instance, memberArgs);
+                var member = instance[memberName];
+                var memberValue = member.apply(instance, memberArgs);
 
                 if(result === undefined) {
                     result = memberValue;

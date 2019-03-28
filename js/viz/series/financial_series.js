@@ -1,13 +1,12 @@
 // there are stock, candlestick
-var scatterSeries = require("./scatter_series").chart,
-    barSeries = require("./bar_series").chart.bar,
-    _extend = require("../../core/utils/extend").extend,
+var scatterSeries = require("./scatter_series").chart;
 
-    _isDefined = require("../../core/utils/type").isDefined,
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-    _noop = require("../../core/utils/common").noop,
-
-    DEFAULT_FINANCIAL_POINT_SIZE = 10;
+var barSeries = require("./bar_series").chart.bar;
+var _extend = require("../../core/utils/extend").extend;
+var _isDefined = require("../../core/utils/type").isDefined;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var _noop = require("../../core/utils/common").noop;
+var DEFAULT_FINANCIAL_POINT_SIZE = 10;
 
 exports.stock = _extend({}, scatterSeries, {
     _animate: _noop,
@@ -29,14 +28,14 @@ exports.stock = _extend({}, scatterSeries, {
     _createGroups: scatterSeries._createGroups,
 
     _setMarkerGroupSettings: function() {
-        var that = this,
-            markersGroup = that._markersGroup,
-            styles = that._createPointStyles(that._getMarkerGroupOptions()),
-            defaultStyle = _extend(styles.normal, { "class": "default-markers" }),
-            defaultPositiveStyle = _extend(styles.positive.normal, { "class": "default-positive-markers" }),
-            reductionStyle = _extend(styles.reduction.normal, { "class": "reduction-markers" }),
-            reductionPositiveStyle = _extend(styles.reductionPositive.normal, { "class": "reduction-positive-markers" }),
-            markerSettings = { "class": "dxc-markers" };
+        var that = this;
+        var markersGroup = that._markersGroup;
+        var styles = that._createPointStyles(that._getMarkerGroupOptions());
+        var defaultStyle = _extend(styles.normal, { "class": "default-markers" });
+        var defaultPositiveStyle = _extend(styles.positive.normal, { "class": "default-positive-markers" });
+        var reductionStyle = _extend(styles.reduction.normal, { "class": "reduction-markers" });
+        var reductionPositiveStyle = _extend(styles.reductionPositive.normal, { "class": "reduction-positive-markers" });
+        var markerSettings = { "class": "dxc-markers" };
 
         that._applyMarkerClipRect(markerSettings);
         markersGroup.attr(markerSettings);
@@ -51,9 +50,9 @@ exports.stock = _extend({}, scatterSeries, {
     },
 
     _getCreatingPointOptions: function() {
-        var that = this,
-            defaultPointOptions,
-            creatingPointOptions = that._predefinedPointOptions;
+        var that = this;
+        var defaultPointOptions;
+        var creatingPointOptions = that._predefinedPointOptions;
 
         if(!creatingPointOptions) {
             defaultPointOptions = this._getPointOptions();
@@ -83,14 +82,14 @@ exports.stock = _extend({}, scatterSeries, {
     },
 
     _getPointDataSelector: function(data, options) {
-        var that = this,
-            level,
-            valueFields = that.getValueFields(),
-            argumentField = that.getArgumentField(),
-            openValueField = valueFields[0],
-            highValueField = valueFields[1],
-            lowValueField = valueFields[2],
-            closeValueField = valueFields[3];
+        var that = this;
+        var level;
+        var valueFields = that.getValueFields();
+        var argumentField = that.getArgumentField();
+        var openValueField = valueFields[0];
+        var highValueField = valueFields[1];
+        var lowValueField = valueFields[2];
+        var closeValueField = valueFields[3];
 
         that.level = that._options.reduction.level;
 
@@ -147,8 +146,8 @@ exports.stock = _extend({}, scatterSeries, {
     },
 
     _getDefaultStyle: function(options) {
-        var that = this,
-            mainPointColor = options.color || that._options.mainSeriesColor;
+        var that = this;
+        var mainPointColor = options.color || that._options.mainSeriesColor;
 
         return {
             normal: that._parsePointStyle(options, mainPointColor, mainPointColor),
@@ -158,8 +157,8 @@ exports.stock = _extend({}, scatterSeries, {
     },
 
     _getReductionStyle: function(options) {
-        var that = this,
-            reductionColor = options.reduction.color;
+        var that = this;
+        var reductionColor = options.reduction.color;
         return {
             normal: that._parsePointStyle({ color: reductionColor, width: options.width, hatching: options.hatching }, reductionColor, reductionColor),
             hover: that._parsePointStyle(options.hoverStyle, reductionColor, reductionColor),
@@ -168,12 +167,12 @@ exports.stock = _extend({}, scatterSeries, {
     },
 
     _createPointStyles: function(pointOptions) {
-        var that = this,
-            innerColor = that._options.innerColor,
-            styles = that._getDefaultStyle(pointOptions),
-            positiveStyle,
-            reductionStyle,
-            reductionPositiveStyle;
+        var that = this;
+        var innerColor = that._options.innerColor;
+        var styles = that._getDefaultStyle(pointOptions);
+        var positiveStyle;
+        var reductionStyle;
+        var reductionPositiveStyle;
 
         positiveStyle = _extend(true, {}, styles);
         reductionStyle = that._getReductionStyle(pointOptions);
@@ -200,10 +199,10 @@ exports.stock = _extend({}, scatterSeries, {
             if(!data.length) {
                 return;
             }
-            var result = {},
-                valueFields = series.getValueFields(),
-                highValueField = valueFields[1],
-                lowValueField = valueFields[2];
+            var result = {};
+            var valueFields = series.getValueFields();
+            var highValueField = valueFields[1];
+            var lowValueField = valueFields[2];
 
             result[highValueField] = -Infinity;
             result[lowValueField] = Infinity;
@@ -241,12 +240,13 @@ exports.stock = _extend({}, scatterSeries, {
     },
 
     _patchMarginOptions: function(options) {
-        var pointOptions = this._getCreatingPointOptions(),
-            styles = pointOptions.styles,
-            border = [styles.normal, styles.hover, styles.selection]
-                .reduce(function(max, style) {
-                    return Math.max(max, style["stroke-width"]);
-                }, 0);
+        var pointOptions = this._getCreatingPointOptions();
+        var styles = pointOptions.styles;
+
+        var border = [styles.normal, styles.hover, styles.selection]
+            .reduce(function(max, style) {
+                return Math.max(max, style["stroke-width"]);
+            }, 0);
 
         options.size = DEFAULT_FINANCIAL_POINT_SIZE + border;
         options.sizePointNormalState = DEFAULT_FINANCIAL_POINT_SIZE;
@@ -282,8 +282,8 @@ exports.stock = _extend({}, scatterSeries, {
 exports.candlestick = _extend({}, exports.stock, {
 
     _parsePointStyle: function(style, defaultColor, innerColor) {
-        var color = style.color || innerColor,
-            base = exports.stock._parsePointStyle.call(this, style, defaultColor, color);
+        var color = style.color || innerColor;
+        var base = exports.stock._parsePointStyle.call(this, style, defaultColor, color);
         base.fill = color;
         base.hatching = style.hatching;
         return base;

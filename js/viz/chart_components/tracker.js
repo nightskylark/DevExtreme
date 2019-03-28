@@ -1,43 +1,39 @@
-var $ = require("../../core/renderer"),
-    window = require("../../core/utils/window").getWindow(),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    clickEvent = require("../../events/click"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    consts = require("../components/consts"),
-    eventsConsts = consts.events,
-
-    vizUtils = require("../core/utils"),
-    pointerEvents = require("../../events/pointer"),
-    holdEvent = require("../../events/hold"),
-    addNamespace = require("../../events/utils").addNamespace,
-    devices = require("../../core/devices"),
-    isDefined = require("../../core/utils/type").isDefined,
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-    _floor = Math.floor,
-    _each = each,
-    _noop = require("../../core/utils/common").noop,
-
-    HOVER_STATE = consts.states.hoverMark,
-    NORMAL_STATE = consts.states.normalMark,
-
-    EVENT_NS = "dxChartTracker",
-    DOT_EVENT_NS = "." + EVENT_NS,
-    POINTER_ACTION = addNamespace([pointerEvents.down, pointerEvents.move], EVENT_NS),
-    LEGEND_CLICK = "legendClick",
-    SERIES_CLICK = "seriesClick",
-    POINT_CLICK = "pointClick",
-    POINT_DATA = "chart-data-point",
-    SERIES_DATA = "chart-data-series",
-    ARG_DATA = "chart-data-argument",
-    DELAY = 100,
-
-    NONE_MODE = "none",
-    ALL_ARGUMENT_POINTS_MODE = "allargumentpoints",
-    INCLUDE_POINTS_MODE = "includepoints",
-    EXLUDE_POINTS_MODE = "excludepoints",
-    LEGEND_HOVER_MODES = [INCLUDE_POINTS_MODE, EXLUDE_POINTS_MODE, NONE_MODE];
+var $ = require("../../core/renderer");
+var window = require("../../core/utils/window").getWindow();
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var clickEvent = require("../../events/click");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var consts = require("../components/consts");
+var eventsConsts = consts.events;
+var vizUtils = require("../core/utils");
+var pointerEvents = require("../../events/pointer");
+var holdEvent = require("../../events/hold");
+var addNamespace = require("../../events/utils").addNamespace;
+var devices = require("../../core/devices");
+var isDefined = require("../../core/utils/type").isDefined;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var _floor = Math.floor;
+var _each = each;
+var _noop = require("../../core/utils/common").noop;
+var HOVER_STATE = consts.states.hoverMark;
+var NORMAL_STATE = consts.states.normalMark;
+var EVENT_NS = "dxChartTracker";
+var DOT_EVENT_NS = "." + EVENT_NS;
+var POINTER_ACTION = addNamespace([pointerEvents.down, pointerEvents.move], EVENT_NS);
+var LEGEND_CLICK = "legendClick";
+var SERIES_CLICK = "seriesClick";
+var POINT_CLICK = "pointClick";
+var POINT_DATA = "chart-data-point";
+var SERIES_DATA = "chart-data-series";
+var ARG_DATA = "chart-data-argument";
+var DELAY = 100;
+var NONE_MODE = "none";
+var ALL_ARGUMENT_POINTS_MODE = "allargumentpoints";
+var INCLUDE_POINTS_MODE = "includepoints";
+var EXLUDE_POINTS_MODE = "excludepoints";
+var LEGEND_HOVER_MODES = [INCLUDE_POINTS_MODE, EXLUDE_POINTS_MODE, NONE_MODE];
 
 function getData(event, dataKey) {
     var target = event.target;
@@ -68,8 +64,8 @@ function correctHoverMode(target) {
 
 var baseTrackerPrototype = {
     ctor: function(options) {
-        var that = this,
-            data = { tracker: that };
+        var that = this;
+        var data = { tracker: that };
 
         that._renderer = options.renderer;
         that._legend = options.legend;
@@ -132,8 +128,8 @@ var baseTrackerPrototype = {
     },
 
     _toggleParentsScrollSubscription: function(subscribe) {
-        var $parents = $(this._renderer.root.element).parents(),
-            scrollEvents = addNamespace("scroll", EVENT_NS);
+        var $parents = $(this._renderer.root.element).parents();
+        var scrollEvents = addNamespace("scroll", EVENT_NS);
 
         if(devices.real().platform === "generic") {
             $parents = $parents.add(window);
@@ -218,9 +214,9 @@ var baseTrackerPrototype = {
     },
 
     _showTooltip: function(point) {
-        var that = this,
-            tooltipFormatObject,
-            eventData;
+        var that = this;
+        var tooltipFormatObject;
+        var eventData;
 
         if(point && point.getOptions()) {
             tooltipFormatObject = point.getTooltipFormatObject(that._tooltip);
@@ -231,8 +227,8 @@ var baseTrackerPrototype = {
                 eventData = { target: point };
             }
 
-            var coords = point.getTooltipParams(that._tooltip.getLocation()),
-                rootOffset = that._renderer.getRootOffset();
+            var coords = point.getTooltipParams(that._tooltip.getLocation());
+            var rootOffset = that._renderer.getRootOffset();
             coords.x += rootOffset.left;
             coords.y += rootOffset.top;
             if(!that._tooltip.show(tooltipFormatObject, coords, eventData)) {
@@ -243,8 +239,8 @@ var baseTrackerPrototype = {
     },
 
     _showPointTooltip: function(event, point) {
-        var that = event.data.tracker,
-            pointWithTooltip = that.pointAtShownTooltip;
+        var that = event.data.tracker;
+        var pointWithTooltip = that.pointAtShownTooltip;
 
         if(pointWithTooltip && pointWithTooltip !== point) {
             that._hideTooltip(pointWithTooltip);
@@ -260,16 +256,17 @@ var baseTrackerPrototype = {
         if(this._outHandler) {
             return;
         }
-        var that = this,
-            handler = function(e) {
-                var rootOffset = that._renderer.getRootOffset(),
-                    x = _floor(e.pageX - rootOffset.left),
-                    y = _floor(e.pageY - rootOffset.top);
-                if(!inCanvas(that._mainCanvas, x, y)) {
-                    that._pointerOut();
-                    that._disableOutHandler();
-                }
-            };
+        var that = this;
+
+        var handler = function(e) {
+            var rootOffset = that._renderer.getRootOffset(),
+                x = _floor(e.pageX - rootOffset.left),
+                y = _floor(e.pageY - rootOffset.top);
+            if(!inCanvas(that._mainCanvas, x, y)) {
+                that._pointerOut();
+                that._disableOutHandler();
+            }
+        };
 
         eventsEngine.on(domAdapter.getDocument(), POINTER_ACTION, handler);
         this._outHandler = handler;
@@ -298,10 +295,10 @@ var baseTrackerPrototype = {
     },
 
     _hoverLegendItem: function(x, y) {
-        var that = this,
-            item = that._legend.getItemByCoord(x, y),
-            series,
-            legendHoverMode = correctLegendHoverMode(that._legend.getOptions().hoverMode);
+        var that = this;
+        var item = that._legend.getItemByCoord(x, y);
+        var series;
+        var legendHoverMode = correctLegendHoverMode(that._legend.getOptions().hoverMode);
 
         if(item) {
             series = that._storedSeries[item.id];
@@ -315,8 +312,8 @@ var baseTrackerPrototype = {
     },
 
     _hoverArgument: function(argument, argumentIndex) {
-        var that = this,
-            hoverMode = that._getArgumentHoverMode();
+        var that = this;
+        var hoverMode = that._getArgumentHoverMode();
 
         if(isDefined(argument)) {
             that._releaseHoveredPoint();
@@ -338,8 +335,8 @@ var baseTrackerPrototype = {
     },
 
     _resetHoveredArgument: function() {
-        var that = this,
-            hoverMode;
+        var that = this;
+        var hoverMode;
 
         if(isDefined(that._hoveredArgument)) {
             hoverMode = that._getArgumentHoverMode();
@@ -366,13 +363,13 @@ var baseTrackerPrototype = {
     },
 
     _pointerHandler: function(e) {
-        var that = e.data.tracker,
-            rootOffset = that._renderer.getRootOffset(),
-            x = _floor(e.pageX - rootOffset.left),
-            y = _floor(e.pageY - rootOffset.top),
-            canvas = that._getCanvas(x, y),
-            series = getData(e, SERIES_DATA),
-            point = getData(e, POINT_DATA) || series && series.getPointByCoord(x, y);
+        var that = e.data.tracker;
+        var rootOffset = that._renderer.getRootOffset();
+        var x = _floor(e.pageX - rootOffset.left);
+        var y = _floor(e.pageY - rootOffset.top);
+        var canvas = that._getCanvas(x, y);
+        var series = getData(e, SERIES_DATA);
+        var point = getData(e, POINT_DATA) || series && series.getPointByCoord(x, y);
 
         if(point && !point.getMarkerVisibility()) {
             point = undefined;
@@ -448,13 +445,13 @@ var baseTrackerPrototype = {
     },
 
     _clickHandler: function(e) {
-        var that = e.data.tracker,
-            rootOffset = that._renderer.getRootOffset(),
-            x = _floor(e.pageX - rootOffset.left),
-            y = _floor(e.pageY - rootOffset.top),
-            point = getData(e, POINT_DATA),
-            series = that._stuckSeries || getData(e, SERIES_DATA) || point && point.series,
-            axis = that._argumentAxis;
+        var that = e.data.tracker;
+        var rootOffset = that._renderer.getRootOffset();
+        var x = _floor(e.pageX - rootOffset.left);
+        var y = _floor(e.pageY - rootOffset.top);
+        var point = getData(e, POINT_DATA);
+        var series = that._stuckSeries || getData(e, SERIES_DATA) || point && point.series;
+        var axis = that._argumentAxis;
 
         if(that._legend.coordsIn(x, y)) {
             var item = that._legend.getItemByCoord(x, y);
@@ -491,9 +488,9 @@ var ChartTracker = function(options) {
 
 extend(ChartTracker.prototype, baseTrackerPrototype, {
     _pointClick: function(point, event) {
-        var that = this,
-            eventTrigger = that._eventTrigger,
-            series = point.series;
+        var that = this;
+        var eventTrigger = that._eventTrigger;
+        var series = point.series;
 
         eventTrigger(POINT_CLICK, { target: point, event: event }, function() {
             !eventCanceled(event, series) && eventTrigger(SERIES_CLICK, { target: series, event: event });
@@ -515,8 +512,8 @@ extend(ChartTracker.prototype, baseTrackerPrototype, {
     },
 
     _getCanvas: function(x, y) {
-        var that = this,
-            canvases = that._canvases || [];
+        var that = this;
+        var canvases = that._canvases || [];
         for(var i = 0; i < canvases.length; i++) {
             var c = canvases[i];
             if(inCanvas(c, x, y)) {
@@ -548,10 +545,10 @@ extend(ChartTracker.prototype, baseTrackerPrototype, {
     },
 
     _getSeriesForShared: function(x, y) {
-        var that = this,
-            points = [],
-            point = null,
-            distance = Infinity;
+        var that = this;
+        var points = [];
+        var point = null;
+        var distance = Infinity;
 
         if(that._tooltip.isShared() && !that.hoveredSeries) {
             _each(that._storedSeries, function(_, series) {
@@ -559,8 +556,8 @@ extend(ChartTracker.prototype, baseTrackerPrototype, {
                 point && points.push(point);
             });
             _each(points, function(_, p) {
-                var coords = p.getCrosshairData(x, y),
-                    d = vizUtils.getDistance(x, y, coords.x, coords.y);
+                var coords = p.getCrosshairData(x, y);
+                var d = vizUtils.getDistance(x, y, coords.x, coords.y);
                 if(d < distance) {
                     point = p;
                     distance = d;
@@ -667,8 +664,8 @@ extend(PieTracker.prototype, baseTrackerPrototype, {
     },
 
     _legendClick: function(item, e) {
-        var that = this,
-            points = [];
+        var that = this;
+        var points = [];
 
         that._storedSeries.forEach(s => points.push.apply(points, s.getPointsByKeys(item.argument, item.argumentIndex)));
         that._eventTrigger(LEGEND_CLICK, { target: item.argument, points, event: e });
@@ -679,8 +676,8 @@ extend(PieTracker.prototype, baseTrackerPrototype, {
     },
 
     _hoverLegendItem: function(x, y) {
-        var that = this,
-            item = that._legend.getItemByCoord(x, y);
+        var that = this;
+        var item = that._legend.getItemByCoord(x, y);
 
         that._resetHoveredArgument();
         if(item) {

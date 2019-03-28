@@ -1,33 +1,32 @@
-var $ = require("../../core/renderer"),
-    AsyncTemplateMixin = require("../shared/async_template_mixin"),
-    eventsEngine = require("../../events/core/events_engine"),
-    Guid = require("../../core/guid"),
-    registerComponent = require("../../core/component_registrator"),
-    commonUtils = require("../../core/utils/common"),
-    domUtils = require("../../core/utils/dom"),
-    focused = require("../widget/selectors").focused,
-    each = require("../../core/utils/iterator").each,
-    isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend,
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    errors = require("../widget/ui.errors"),
-    positionUtils = require("../../animation/position"),
-    getDefaultAlignment = require("../../core/utils/position").getDefaultAlignment,
-    DropDownButton = require("./ui.drop_down_button").default,
-    messageLocalization = require("../../localization/message"),
-    eventUtils = require("../../events/utils"),
-    TextBox = require("../text_box"),
-    clickEvent = require("../../events/click"),
-    FunctionTemplate = require("../widget/function_template"),
-    Popup = require("../popup");
-
-var DROP_DOWN_EDITOR_CLASS = "dx-dropdowneditor",
-    DROP_DOWN_EDITOR_INPUT_WRAPPER_CLASS = "dx-dropdowneditor-input-wrapper",
-    DROP_DOWN_EDITOR_BUTTON_ICON = "dx-dropdowneditor-icon",
-    DROP_DOWN_EDITOR_OVERLAY = "dx-dropdowneditor-overlay",
-    DROP_DOWN_EDITOR_OVERLAY_FLIPPED = "dx-dropdowneditor-overlay-flipped",
-    DROP_DOWN_EDITOR_ACTIVE = "dx-dropdowneditor-active",
-    DROP_DOWN_EDITOR_FIELD_CLICKABLE = "dx-dropdowneditor-field-clickable";
+var $ = require("../../core/renderer");
+var AsyncTemplateMixin = require("../shared/async_template_mixin");
+var eventsEngine = require("../../events/core/events_engine");
+var Guid = require("../../core/guid");
+var registerComponent = require("../../core/component_registrator");
+var commonUtils = require("../../core/utils/common");
+var domUtils = require("../../core/utils/dom");
+var focused = require("../widget/selectors").focused;
+var each = require("../../core/utils/iterator").each;
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var errors = require("../widget/ui.errors");
+var positionUtils = require("../../animation/position");
+var getDefaultAlignment = require("../../core/utils/position").getDefaultAlignment;
+var DropDownButton = require("./ui.drop_down_button").default;
+var messageLocalization = require("../../localization/message");
+var eventUtils = require("../../events/utils");
+var TextBox = require("../text_box");
+var clickEvent = require("../../events/click");
+var FunctionTemplate = require("../widget/function_template");
+var Popup = require("../popup");
+var DROP_DOWN_EDITOR_CLASS = "dx-dropdowneditor";
+var DROP_DOWN_EDITOR_INPUT_WRAPPER_CLASS = "dx-dropdowneditor-input-wrapper";
+var DROP_DOWN_EDITOR_BUTTON_ICON = "dx-dropdowneditor-icon";
+var DROP_DOWN_EDITOR_OVERLAY = "dx-dropdowneditor-overlay";
+var DROP_DOWN_EDITOR_OVERLAY_FLIPPED = "dx-dropdowneditor-overlay-flipped";
+var DROP_DOWN_EDITOR_ACTIVE = "dx-dropdowneditor-active";
+var DROP_DOWN_EDITOR_FIELD_CLICKABLE = "dx-dropdowneditor-field-clickable";
 
 /**
 * @name dxDropDownEditor
@@ -262,8 +261,8 @@ var DropDownEditor = TextBox.inherit({
         return this.callBase().concat([
             {
                 device: function(device) {
-                    var isGeneric = device.platform === "generic",
-                        isWin10 = device.platform === "win" && device.version && device.version[0] === 10;
+                    var isGeneric = device.platform === "generic";
+                    var isWin10 = device.platform === "win" && device.version && device.version[0] === 10;
                     return isGeneric || isWin10;
                 },
                 options: {
@@ -415,10 +414,10 @@ var DropDownEditor = TextBox.inherit({
     },
 
     _renderOpenHandler: function() {
-        var that = this,
-            $inputWrapper = that._inputWrapper(),
-            eventName = eventUtils.addNamespace(clickEvent.name, that.NAME),
-            openOnFieldClick = that.option("openOnFieldClick");
+        var that = this;
+        var $inputWrapper = that._inputWrapper();
+        var eventName = eventUtils.addNamespace(clickEvent.name, that.NAME);
+        var openOnFieldClick = that.option("openOnFieldClick");
 
         eventsEngine.off($inputWrapper, eventName);
         eventsEngine.on($inputWrapper, eventName, that._getInputClickHandler(openOnFieldClick));
@@ -586,8 +585,8 @@ var DropDownEditor = TextBox.inherit({
         var positionRequest = "below";
 
         if(this._popup && this._popup.option("visible")) {
-            var myTop = positionUtils.setup(this.$element()).top,
-                popupTop = positionUtils.setup(this._popup.$content()).top;
+            var myTop = positionUtils.setup(this.$element()).top;
+            var popupTop = positionUtils.setup(this._popup.$content()).top;
 
             positionRequest = (myTop + this.option("popupPosition").offset.v) > popupTop ? "below" : "above";
         }
@@ -602,11 +601,12 @@ var DropDownEditor = TextBox.inherit({
             return;
         }
 
-        var $popupContent = this._popup.$content(),
-            templateData = {
-                value: this._fieldRenderData(),
-                component: this
-            };
+        var $popupContent = this._popup.$content();
+
+        var templateData = {
+            value: this._fieldRenderData(),
+            component: this
+        };
 
         $popupContent.empty();
 
@@ -707,8 +707,8 @@ var DropDownEditor = TextBox.inherit({
     },
 
     _applyButtonsLocation: function(buttonsConfig) {
-        var buttonsLocation = this.option("buttonsLocation"),
-            resultConfig = buttonsConfig;
+        var buttonsLocation = this.option("buttonsLocation");
+        var resultConfig = buttonsConfig;
 
         if(buttonsLocation !== "default") {
             var position = commonUtils.splitPair(buttonsLocation);

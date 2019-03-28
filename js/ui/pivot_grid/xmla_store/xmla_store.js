@@ -1,50 +1,49 @@
-var $ = require("../../../core/renderer"),
-    window = require("../../../core/utils/window").getWindow(),
-    Class = require("../../../core/class"),
-    stringFormat = require("../../../core/utils/string").format,
-    errors = require("../../../data/errors").errors,
-    noop = require("../../../core/utils/common").noop,
-    typeUtils = require("../../../core/utils/type"),
-    iteratorUtils = require("../../../core/utils/iterator"),
-    inArray = require("../../../core/utils/array").inArray,
-    pivotGridUtils = require("../ui.pivot_grid.utils"),
-    deferredUtils = require("../../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-    getLanguageId = require("../../../localization/language_codes").getLanguageId;
+var $ = require("../../../core/renderer");
+var window = require("../../../core/utils/window").getWindow();
+var Class = require("../../../core/class");
+var stringFormat = require("../../../core/utils/string").format;
+var errors = require("../../../data/errors").errors;
+var noop = require("../../../core/utils/common").noop;
+var typeUtils = require("../../../core/utils/type");
+var iteratorUtils = require("../../../core/utils/iterator");
+var inArray = require("../../../core/utils/array").inArray;
+var pivotGridUtils = require("../ui.pivot_grid.utils");
+var deferredUtils = require("../../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var getLanguageId = require("../../../localization/language_codes").getLanguageId;
 
 exports.XmlaStore = Class.inherit((function() {
-
-    var discover = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><Discover xmlns="urn:schemas-microsoft-com:xml-analysis"><RequestType>{2}</RequestType><Restrictions><RestrictionList><CATALOG_NAME>{0}</CATALOG_NAME><CUBE_NAME>{1}</CUBE_NAME></RestrictionList></Restrictions><Properties><PropertyList><Catalog>{0}</Catalog>{3}</PropertyList></Properties></Discover></Body></Envelope>',
-        execute = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><Execute xmlns="urn:schemas-microsoft-com:xml-analysis"><Command><Statement>{0}</Statement></Command><Properties><PropertyList><Catalog>{1}</Catalog><ShowHiddenCubes>True</ShowHiddenCubes><SspropInitAppName>Microsoft SQL Server Management Studio</SspropInitAppName><Timeout>3600</Timeout>{2}</PropertyList></Properties></Execute></Body></Envelope>',
-        mdx = "SELECT {2} FROM {0} {1} CELL PROPERTIES VALUE, FORMAT_STRING, LANGUAGE, BACK_COLOR, FORE_COLOR, FONT_FLAGS",
-        mdxFilterSelect = "(SELECT {0} FROM {1})",
-        mdxSubset = "Subset({0}, {1}, {2})",
-        mdxWith = "{0} {1} as {2}",
-        mdxSlice = "WHERE ({0})",
-        mdxNonEmpty = "NonEmpty({0}, {1})",
-        mdxAxis = "{0} DIMENSION PROPERTIES PARENT_UNIQUE_NAME,HIERARCHY_UNIQUE_NAME, MEMBER_VALUE ON {1}",
-        mdxCrossJoin = "CrossJoin({0})",
-        mdxSet = "{{0}}",
-        each = iteratorUtils.each,
-
-        MEASURE_DEMENSION_KEY = "DX_MEASURES",
-        MD_DIMTYPE_MEASURE = "2";
+    var discover = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><Discover xmlns="urn:schemas-microsoft-com:xml-analysis"><RequestType>{2}</RequestType><Restrictions><RestrictionList><CATALOG_NAME>{0}</CATALOG_NAME><CUBE_NAME>{1}</CUBE_NAME></RestrictionList></Restrictions><Properties><PropertyList><Catalog>{0}</Catalog>{3}</PropertyList></Properties></Discover></Body></Envelope>';
+    var execute = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><Execute xmlns="urn:schemas-microsoft-com:xml-analysis"><Command><Statement>{0}</Statement></Command><Properties><PropertyList><Catalog>{1}</Catalog><ShowHiddenCubes>True</ShowHiddenCubes><SspropInitAppName>Microsoft SQL Server Management Studio</SspropInitAppName><Timeout>3600</Timeout>{2}</PropertyList></Properties></Execute></Body></Envelope>';
+    var mdx = "SELECT {2} FROM {0} {1} CELL PROPERTIES VALUE, FORMAT_STRING, LANGUAGE, BACK_COLOR, FORE_COLOR, FONT_FLAGS";
+    var mdxFilterSelect = "(SELECT {0} FROM {1})";
+    var mdxSubset = "Subset({0}, {1}, {2})";
+    var mdxWith = "{0} {1} as {2}";
+    var mdxSlice = "WHERE ({0})";
+    var mdxNonEmpty = "NonEmpty({0}, {1})";
+    var mdxAxis = "{0} DIMENSION PROPERTIES PARENT_UNIQUE_NAME,HIERARCHY_UNIQUE_NAME, MEMBER_VALUE ON {1}";
+    var mdxCrossJoin = "CrossJoin({0})";
+    var mdxSet = "{{0}}";
+    var each = iteratorUtils.each;
+    var MEASURE_DEMENSION_KEY = "DX_MEASURES";
+    var MD_DIMTYPE_MEASURE = "2";
 
     function execXMLA(requestOptions, data) {
-        var deferred = new Deferred(),
-            beforeSend = requestOptions.beforeSend,
-            ajaxSettings = {
-                url: requestOptions.url,
-                dataType: "text",
-                data: data,
-                headers: {
-                    'Content-Type': 'text/xml'
-                },
-                xhrFields: {
-                },
-                method: "POST"
-            };
+        var deferred = new Deferred();
+        var beforeSend = requestOptions.beforeSend;
+
+        var ajaxSettings = {
+            url: requestOptions.url,
+            dataType: "text",
+            data: data,
+            headers: {
+                'Content-Type': 'text/xml'
+            },
+            xhrFields: {
+            },
+            method: "POST"
+        };
 
         if(typeUtils.isFunction(beforeSend)) {
             beforeSend(ajaxSettings);
@@ -112,21 +111,21 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function generateCrossJoin(path, expandLevel, expandAllCount, expandIndex, slicePath, options, axisName) {
-        var crossJoinArgs = [],
-            dimensions = options[axisName],
-            dataField,
-            allMember,
-            fields = [],
-            hierarchyName,
-            arg,
-            prevDimension,
-            prevHierarchyName,
-            isLastDimensionInGroup,
-            isFirstDimensionInGroup,
-            expandAllIndex,
-            field,
-            member,
-            i;
+        var crossJoinArgs = [];
+        var dimensions = options[axisName];
+        var dataField;
+        var allMember;
+        var fields = [];
+        var hierarchyName;
+        var arg;
+        var prevDimension;
+        var prevHierarchyName;
+        var isLastDimensionInGroup;
+        var isFirstDimensionInGroup;
+        var expandAllIndex;
+        var field;
+        var member;
+        var i;
 
         for(i = expandIndex; i <= expandLevel; i++) {
             field = dimensions[i];
@@ -191,9 +190,9 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function fillCrossJoins(crossJoins, path, expandLevel, expandIndex, slicePath, options, axisName, cellsString) {
-        var expandAllCount = -1,
-            dimensions = options[axisName],
-            dimensionIndex;
+        var expandAllCount = -1;
+        var dimensions = options[axisName];
+        var dimensionIndex;
 
         do {
             expandAllCount++;
@@ -211,14 +210,14 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function generateAxisMdx(options, axisName, cells, withArray, parseOptions) {
-        var dimensions = options[axisName],
-            crossJoins = [],
-            path = [],
-            expandedPaths = [],
-            expandIndex = 0,
-            expandLevel = 0,
-            result = [],
-            cellsString = stringFormat(mdxSet, cells.join(","));
+        var dimensions = options[axisName];
+        var crossJoins = [];
+        var path = [];
+        var expandedPaths = [];
+        var expandIndex = 0;
+        var expandLevel = 0;
+        var result = [];
+        var cellsString = stringFormat(mdxSet, cells.join(","));
 
         if(dimensions && dimensions.length) {
             if(options.headerName === axisName) {
@@ -270,10 +269,10 @@ exports.XmlaStore = Class.inherit((function() {
         var filterMembers = [];
 
         each(fields, function(_, field) {
-            var dataField = field.dataField,
-                filterExpression = [],
-                filterValues = field.filterValues || [],
-                filterStringExpression;
+            var dataField = field.dataField;
+            var filterExpression = [];
+            var filterValues = field.filterValues || [];
+            var filterStringExpression;
 
             if(field.hierarchyName && typeUtils.isNumeric(field.groupIndex)) {
                 return;
@@ -316,8 +315,8 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function generateMdxCore(axisStrings, withArray, columns, rows, filters, slice, cubeName, options = {}) {
-        var mdxString = "",
-            withString = (withArray.length ? "with " + withArray.join(" ") : "") + " ";
+        var mdxString = "";
+        var withString = (withArray.length ? "with " + withArray.join(" ") : "") + " ";
 
         if(axisStrings.length) {
             let select;
@@ -352,13 +351,13 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function generateMDX(options, cubeName, parseOptions) {
-        var columns = options.columns || [],
-            rows = options.rows || [],
-            values = options.values && options.values.length ? options.values : [{ dataField: '[Measures]' }],
-            slice = [],
-            withArray = [],
-            axisStrings = [],
-            dataFields = prepareDataFields(withArray, values);
+        var columns = options.columns || [];
+        var rows = options.rows || [];
+        var values = options.values && options.values.length ? options.values : [{ dataField: '[Measures]' }];
+        var slice = [];
+        var withArray = [];
+        var axisStrings = [];
+        var dataFields = prepareDataFields(withArray, values);
 
         parseOptions.measureCount = options.skipValues ? 1 : values.length;
         parseOptions.visibleLevels = {};
@@ -394,17 +393,17 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function generateDrillDownMDX(options, cubeName, params) {
-        var columns = options.columns || [],
-            rows = options.rows || [],
-            values = options.values && options.values.length ? options.values : [{ dataField: '[Measures]' }],
-            slice = [],
-            withArray = [],
-            axisStrings = [],
-            dataFields = prepareDataFields(withArray, values),
-            maxRowCount = params.maxRowCount,
-            customColumns = params.customColumns || [],
-            customColumnsString = customColumns.length > 0 ? " return " + customColumns.join(",") : "",
-            coreMDX;
+        var columns = options.columns || [];
+        var rows = options.rows || [];
+        var values = options.values && options.values.length ? options.values : [{ dataField: '[Measures]' }];
+        var slice = [];
+        var withArray = [];
+        var axisStrings = [];
+        var dataFields = prepareDataFields(withArray, values);
+        var maxRowCount = params.maxRowCount;
+        var customColumns = params.customColumns || [];
+        var customColumnsString = customColumns.length > 0 ? " return " + customColumns.join(",") : "";
+        var coreMDX;
 
         createDrillDownAxisSlice(slice, columns, params.columnPath || []);
 
@@ -440,23 +439,23 @@ exports.XmlaStore = Class.inherit((function() {
         var axes = [];
 
         each(xml.getElementsByTagName("Axis"), function(_, axisElement) {
-            var name = axisElement.getAttribute("name"),
-                axis = [],
-                index = 0;
+            var name = axisElement.getAttribute("name");
+            var axis = [];
+            var index = 0;
 
             if(name.indexOf("Axis") === 0 && typeUtils.isNumeric(getNumber(name.substr(4)))) {
 
                 axes.push(axis);
 
                 each(axisElement.getElementsByTagName("Tuple"), function(_, tupleElement) {
-                    var tupleMembers = tupleElement.childNodes,
-                        tuple,
-                        levelSum = 0,
-                        members = [],
-                        level,
-                        membersCount = skipValues ? tupleMembers.length : tupleMembers.length - 1,
-                        isAxisWithMeasure = axes.length === 1,
-                        i;
+                    var tupleMembers = tupleElement.childNodes;
+                    var tuple;
+                    var levelSum = 0;
+                    var members = [];
+                    var level;
+                    var membersCount = skipValues ? tupleMembers.length : tupleMembers.length - 1;
+                    var isAxisWithMeasure = axes.length === 1;
+                    var i;
 
                     if(isAxisWithMeasure) {
                         membersCount--;
@@ -501,23 +500,23 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function parseCells(xml, axes, measureCount) {
-        var cells = [],
-            cell = [],
-            index = 0,
-            measureIndex,
-            cellsOriginal = [],
-            cellElements = xml.getElementsByTagName("Cell"),
-            errorDictionary = {},
-            row;
+        var cells = [];
+        var cell = [];
+        var index = 0;
+        var measureIndex;
+        var cellsOriginal = [];
+        var cellElements = xml.getElementsByTagName("Cell");
+        var errorDictionary = {};
+        var row;
 
         for(var i = 0; i < cellElements.length; i++) {
-            var xmlCell = cellElements[i],
-                valueElement = xmlCell.getElementsByTagName("Value")[0],
-                errorElements = valueElement && valueElement.getElementsByTagName("Error") || [],
-                text = errorElements.length === 0 ? getNodeText(valueElement) : "#N/A",
-                value = parseFloat(text),
-                isNumeric = (text - value + 1) > 0,
-                cellOrdinal = getNumber(xmlCell.getAttribute("CellOrdinal"));
+            var xmlCell = cellElements[i];
+            var valueElement = xmlCell.getElementsByTagName("Value")[0];
+            var errorElements = valueElement && valueElement.getElementsByTagName("Error") || [];
+            var text = errorElements.length === 0 ? getNodeText(valueElement) : "#N/A";
+            var value = parseFloat(text);
+            var isNumeric = (text - value + 1) > 0;
+            var cellOrdinal = getNumber(xmlCell.getAttribute("CellOrdinal"));
 
             if(errorElements.length) {
                 errorDictionary[getNodeText(errorElements[0].getElementsByTagName("ErrorCode")[0])] = getNodeText(errorElements[0].getElementsByTagName("Description")[0]);
@@ -585,11 +584,13 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function getVisibleChildren(item, visibleLevels) {
-        var result = [],
-            children = item.children && (item.children.length ? item.children : Object.keys(item.children.grandTotalHash || {}).reduce((result, name) => {
-                return result.concat(item.children.grandTotalHash[name].children);
-            }, [])),
-            firstChild = children && children[0];
+        var result = [];
+
+        var children = item.children && (item.children.length ? item.children : Object.keys(item.children.grandTotalHash || {}).reduce((result, name) => {
+            return result.concat(item.children.grandTotalHash[name].children);
+        }, []));
+
+        var firstChild = children && children[0];
 
         if(firstChild && (visibleLevels[firstChild.hierarchyName] && (inArray(firstChild.levelName, visibleLevels[firstChild.hierarchyName]) !== -1) || !visibleLevels[firstChild.hierarchyName] || firstChild.level === 0)) {
             var newChildren = children.filter(child => child.hierarchyName === firstChild.hierarchyName);
@@ -606,10 +607,10 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function processMember(dataIndex, member, parentItem) {
-        var currentItem,
-            children = parentItem.children = parentItem.children || [],
-            hash = children.hash = children.hash || {},
-            grandTotalHash = children.grandTotalHash = children.grandTotalHash || {};
+        var currentItem;
+        var children = parentItem.children = parentItem.children || [];
+        var hash = children.hash = children.hash || {};
+        var grandTotalHash = children.grandTotalHash = children.grandTotalHash || {};
 
         if(member.parentName) {
             parentItem = getItem(hash, member.parentName);
@@ -653,14 +654,15 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function fillDataSourceAxes(dataSourceAxis, axisTuples, measureCount, visibleLevels) {
-        var grandTotalIndex,
-            result = [];
+        var grandTotalIndex;
+        var result = [];
 
         each(axisTuples, function(tupleIndex, members) {
             var parentItem = {
                     children: result
-                },
-                dataIndex = typeUtils.isDefined(measureCount) ? Math.floor(tupleIndex / measureCount) : tupleIndex;
+                };
+
+            var dataIndex = typeUtils.isDefined(measureCount) ? Math.floor(tupleIndex / measureCount) : tupleIndex;
 
             each(members, function(_, member) {
                 parentItem = processMember(dataIndex, member, parentItem);
@@ -676,8 +678,8 @@ exports.XmlaStore = Class.inherit((function() {
         grandTotalIndex = getGrandTotalIndex(parentItem, visibleLevels);
 
         pivotGridUtils.foreachTree(parentItem.children, function(items) {
-            var item = items[0],
-                children = getVisibleChildren(item, visibleLevels);
+            var item = items[0];
+            var children = getVisibleChildren(item, visibleLevels);
 
             if(children.length) {
                 item.children = children;
@@ -699,11 +701,11 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function checkError(xml) {
-        var faultElementNS = xml.getElementsByTagName("soap:Fault"),
-            faultElement = xml.getElementsByTagName("Fault"),
-            errorElement = $([].slice.call(faultElement.length ? faultElement : faultElementNS)).find("Error"),
-            description,
-            error;
+        var faultElementNS = xml.getElementsByTagName("soap:Fault");
+        var faultElement = xml.getElementsByTagName("Fault");
+        var errorElement = $([].slice.call(faultElement.length ? faultElement : faultElementNS)).find("Error");
+        var description;
+        var error;
 
         if(errorElement.length) {
             description = errorElement.attr("Description");
@@ -718,10 +720,10 @@ exports.XmlaStore = Class.inherit((function() {
         var dataSource = {
                 columns: [],
                 rows: []
-            },
-            axes,
+            };
 
-            measureCount = parseOptions.measureCount;
+        var axes;
+        var measureCount = parseOptions.measureCount;
 
         axes = parseAxes(xml, parseOptions.skipValues);
 
@@ -735,22 +737,22 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function parseDiscoverRowSet(xml, schema, dimensions, translatedDisplayFolders) {
-        var result = [],
-            isMeasure = schema === "MEASURE",
-            displayFolderField = isMeasure ? "MEASUREGROUP_NAME" : schema + "_DISPLAY_FOLDER";
+        var result = [];
+        var isMeasure = schema === "MEASURE";
+        var displayFolderField = isMeasure ? "MEASUREGROUP_NAME" : schema + "_DISPLAY_FOLDER";
 
         each(xml.getElementsByTagName("row"), function(_, row) {
-            var hierarchyName = schema === "LEVEL" ? getFirstChildText(row, "HIERARCHY_UNIQUE_NAME") : undefined,
-                levelNumber = getFirstChildText(row, "LEVEL_NUMBER"),
-                displayFolder = getFirstChildText(row, displayFolderField);
+            var hierarchyName = schema === "LEVEL" ? getFirstChildText(row, "HIERARCHY_UNIQUE_NAME") : undefined;
+            var levelNumber = getFirstChildText(row, "LEVEL_NUMBER");
+            var displayFolder = getFirstChildText(row, displayFolderField);
 
             if(isMeasure) {
                 displayFolder = translatedDisplayFolders[displayFolder] || displayFolder;
             }
 
             if((levelNumber !== "0" || getFirstChildText(row, schema + "_IS_VISIBLE") !== "true") && (getFirstChildText(row, "DIMENSION_TYPE") !== MD_DIMTYPE_MEASURE)) {
-                var dimension = isMeasure ? MEASURE_DEMENSION_KEY : getFirstChildText(row, "DIMENSION_UNIQUE_NAME"),
-                    dataField = getFirstChildText(row, schema + "_UNIQUE_NAME");
+                var dimension = isMeasure ? MEASURE_DEMENSION_KEY : getFirstChildText(row, "DIMENSION_UNIQUE_NAME");
+                var dataField = getFirstChildText(row, schema + "_UNIQUE_NAME");
                 result.push({
                     dimension: dimensions.names[dimension] || dimension,
                     groupIndex: levelNumber ? getNumber(levelNumber) - 1 : undefined,
@@ -783,9 +785,9 @@ exports.XmlaStore = Class.inherit((function() {
         };
 
         each($(xml).find("row"), function() {
-            var $row = $(this),
-                type = $row.children("DIMENSION_TYPE").text(),
-                dimensionName = type === MD_DIMTYPE_MEASURE ? MEASURE_DEMENSION_KEY : $row.children("DIMENSION_UNIQUE_NAME").text();
+            var $row = $(this);
+            var type = $row.children("DIMENSION_TYPE").text();
+            var dimensionName = type === MD_DIMTYPE_MEASURE ? MEASURE_DEMENSION_KEY : $row.children("DIMENSION_UNIQUE_NAME").text();
 
             result.names[dimensionName] = $row.children("DIMENSION_CAPTION").text();
             result.defaultHierarchies[$row.children("DEFAULT_HIERARCHY").text()] = true;
@@ -811,17 +813,17 @@ exports.XmlaStore = Class.inherit((function() {
     }
 
     function parseDrillDownRowSet(xml) {
-        var rows = xml.getElementsByTagName("row"),
-            result = [],
-            columnNames = {};
+        var rows = xml.getElementsByTagName("row");
+        var result = [];
+        var columnNames = {};
 
         for(var i = 0; i < rows.length; i++) {
-            var children = rows[i].childNodes,
-                item = {};
+            var children = rows[i].childNodes;
+            var item = {};
 
             for(var j = 0; j < children.length; j++) {
-                var tagName = children[j].tagName,
-                    name = columnNames[tagName] = columnNames[tagName] || parseStringWithUnicodeSymbols(tagName);
+                var tagName = children[j].tagName;
+                var name = columnNames[tagName] = columnNames[tagName] || parseStringWithUnicodeSymbols(tagName);
                 item[name] = getNodeText(children[j]);
             }
             result.push(item);
@@ -919,25 +921,25 @@ exports.XmlaStore = Class.inherit((function() {
         },
 
         getFields: function() {
-            var options = this._options,
-                catalog = options.catalog,
-                cube = options.cube,
-                localeIdProperty = getLocaleIdProperty(),
-                dimensionsRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_DIMENSIONS", localeIdProperty)),
-                measuresRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_MEASURES", localeIdProperty)),
-                hierarchiesRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_HIERARCHIES", localeIdProperty)),
-                levelsRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_LEVELS", localeIdProperty)),
-                result = new Deferred();
+            var options = this._options;
+            var catalog = options.catalog;
+            var cube = options.cube;
+            var localeIdProperty = getLocaleIdProperty();
+            var dimensionsRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_DIMENSIONS", localeIdProperty));
+            var measuresRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_MEASURES", localeIdProperty));
+            var hierarchiesRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_HIERARCHIES", localeIdProperty));
+            var levelsRequest = execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_LEVELS", localeIdProperty));
+            var result = new Deferred();
 
 
             when(dimensionsRequest, measuresRequest, hierarchiesRequest, levelsRequest).then(function(dimensionsResponse, measuresResponse, hierarchiesResponse, levelsResponse) {
                 execXMLA(options, stringFormat(discover, catalog, cube, "MDSCHEMA_MEASUREGROUPS", localeIdProperty)).done(function(measureGroupsResponse) {
-                    var dimensions = parseDimensionsDiscoverRowSet(dimensionsResponse),
-                        hierarchies = parseDiscoverRowSet(hierarchiesResponse, "HIERARCHY", dimensions),
-                        levels = parseDiscoverRowSet(levelsResponse, "LEVEL", dimensions),
-                        measureGroups = parseMeasureGroupDiscoverRowSet(measureGroupsResponse),
-                        fields = parseDiscoverRowSet(measuresResponse, "MEASURE", dimensions, measureGroups).concat(hierarchies),
-                        levelsByHierarchy = {};
+                    var dimensions = parseDimensionsDiscoverRowSet(dimensionsResponse);
+                    var hierarchies = parseDiscoverRowSet(hierarchiesResponse, "HIERARCHY", dimensions);
+                    var levels = parseDiscoverRowSet(levelsResponse, "LEVEL", dimensions);
+                    var measureGroups = parseMeasureGroupDiscoverRowSet(measureGroupsResponse);
+                    var fields = parseDiscoverRowSet(measuresResponse, "MEASURE", dimensions, measureGroups).concat(hierarchies);
+                    var levelsByHierarchy = {};
 
                     each(levels, function(_, level) {
                         levelsByHierarchy[level.hierarchyName] = levelsByHierarchy[level.hierarchyName] || [];
@@ -959,12 +961,14 @@ exports.XmlaStore = Class.inherit((function() {
         },
 
         load: function(options) {
-            var result = new Deferred(),
-                storeOptions = this._options,
-                parseOptions = {
-                    skipValues: options.skipValues
-                },
-                mdxString = generateMDX(options, storeOptions.cube, parseOptions);
+            var result = new Deferred();
+            var storeOptions = this._options;
+
+            var parseOptions = {
+                skipValues: options.skipValues
+            };
+
+            var mdxString = generateMDX(options, storeOptions.cube, parseOptions);
 
             let rowCountMdx;
             if(options.rowSkip || options.rowTake || options.columnTake || options.columnSkip) {
@@ -1016,9 +1020,9 @@ exports.XmlaStore = Class.inherit((function() {
         },
 
         getDrillDownItems: function(options, params) {
-            var result = new Deferred(),
-                storeOptions = this._options,
-                mdxString = generateDrillDownMDX(options, storeOptions.cube, params);
+            var result = new Deferred();
+            var storeOptions = this._options;
+            var mdxString = generateDrillDownMDX(options, storeOptions.cube, params);
 
             if(mdxString) {
                 when(sendQuery(storeOptions, mdxString)).done(function(executeXml) {

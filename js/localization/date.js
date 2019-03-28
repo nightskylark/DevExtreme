@@ -1,13 +1,13 @@
-var dependencyInjector = require("../core/utils/dependency_injector"),
-    isString = require("../core/utils/type").isString,
-    iteratorUtils = require("../core/utils/iterator"),
-    inArray = require("../core/utils/array").inArray,
-    getLDMLDateFormatter = require("./ldml/date.formatter").getFormatter,
-    getLDMLDateFormat = require("./ldml/date.format").getFormat,
-    getLDMLDateParser = require("./ldml/date.parser").getParser,
-    defaultDateNames = require("./default_date_names"),
-    numberLocalization = require("./number"),
-    errors = require("../core/errors");
+var dependencyInjector = require("../core/utils/dependency_injector");
+var isString = require("../core/utils/type").isString;
+var iteratorUtils = require("../core/utils/iterator");
+var inArray = require("../core/utils/array").inArray;
+var getLDMLDateFormatter = require("./ldml/date.formatter").getFormatter;
+var getLDMLDateFormat = require("./ldml/date.format").getFormat;
+var getLDMLDateParser = require("./ldml/date.parser").getParser;
+var defaultDateNames = require("./default_date_names");
+var numberLocalization = require("./number");
+var errors = require("../core/errors");
 
 require("./core");
 
@@ -60,8 +60,8 @@ var dateLocalization = dependencyInjector({
         return this._expandPattern(format).indexOf("EEEE") !== -1;
     },
     getFormatParts: function(format) {
-        var pattern = this._getPatternByFormat(format) || format,
-            result = [];
+        var pattern = this._getPatternByFormat(format) || format;
+        var result = [];
 
         iteratorUtils.each(pattern.split(/\W+/), function(_, formatPart) {
             iteratorUtils.each(possiblePartPatterns, function(partName, possiblePatterns) {
@@ -90,10 +90,10 @@ var dateLocalization = dependencyInjector({
     },
 
     is24HourFormat: function(format) {
-        var amTime = new Date(2017, 0, 20, 11, 0, 0, 0),
-            pmTime = new Date(2017, 0, 20, 23, 0, 0, 0),
-            amTimeFormatted = this.format(amTime, format),
-            pmTimeFormatted = this.format(pmTime, format);
+        var amTime = new Date(2017, 0, 20, 11, 0, 0, 0);
+        var pmTime = new Date(2017, 0, 20, 23, 0, 0, 0);
+        var amTimeFormatted = this.format(amTime, format);
+        var pmTimeFormatted = this.format(pmTime, format);
 
         for(var i = 0; i < amTimeFormatted.length; i++) {
             if(amTimeFormatted[i] !== pmTimeFormatted[i]) {
@@ -134,10 +134,10 @@ var dateLocalization = dependencyInjector({
     },
 
     parse: function(text, format) {
-        var that = this,
-            result,
-            ldmlFormat,
-            formatter;
+        var that = this;
+        var result;
+        var ldmlFormat;
+        var formatter;
 
         if(!text) {
             return;

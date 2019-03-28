@@ -1,9 +1,9 @@
-var queryAdapters = require("./query_adapters"),
-    errorsModule = require("./errors"),
-    each = require("../core/utils/iterator").each,
-    isFunction = require("../core/utils/type").isFunction,
-    Deferred = require("../core/utils/deferred").Deferred,
-    arrayQueryImpl = require("./array_query");
+var queryAdapters = require("./query_adapters");
+var errorsModule = require("./errors");
+var each = require("../core/utils/iterator").each;
+var isFunction = require("../core/utils/type").isFunction;
+var Deferred = require("../core/utils/deferred").Deferred;
+var arrayQueryImpl = require("./array_query");
 
 var remoteQueryImpl = function(url, queryOptions, tasks) {
     tasks = tasks || [];
@@ -14,12 +14,12 @@ var remoteQueryImpl = function(url, queryOptions, tasks) {
     };
 
     var exec = function(executorTask) {
-        var d = new Deferred(),
-            _adapterFactory,
-            _adapter,
-            _taskQueue,
-            _currentTask,
-            _mergedSortArgs;
+        var d = new Deferred();
+        var _adapterFactory;
+        var _adapter;
+        var _taskQueue;
+        var _currentTask;
+        var _mergedSortArgs;
 
         var rejectWithNotify = function(error) {
             var handler = queryOptions.errorHandler;
@@ -50,8 +50,8 @@ var remoteQueryImpl = function(url, queryOptions, tasks) {
         }
 
         function unmergeSortTasks() {
-            var head = _taskQueue[0],
-                unmergedTasks = [ ];
+            var head = _taskQueue[0];
+            var unmergedTasks = [ ];
 
             if(head && head.name === "multiSort") {
                 _taskQueue.shift();

@@ -1,8 +1,8 @@
 var tiling = require("./tiling");
 
 function sliceAndDice(data) {
-    var items = data.items,
-        sidesData = tiling.buildSidesData(data.rect, data.directions, data.isRotated ? 1 : 0);
+    var items = data.items;
+    var sidesData = tiling.buildSidesData(data.rect, data.directions, data.isRotated ? 1 : 0);
 
     tiling.calculateRectangles(items, 0, data.rect, sidesData, {
         sum: data.sum,

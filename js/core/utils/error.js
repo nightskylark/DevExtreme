@@ -1,7 +1,7 @@
-var extend = require("./extend").extend,
-    consoleUtils = require("./console"),
-    stringUtils = require("./string"),
-    version = require("../version");
+var extend = require("./extend").extend;
+var consoleUtils = require("./console");
+var stringUtils = require("./string");
+var version = require("../version");
 
 var ERROR_URL = "http://js.devexpress.com/error/" + version.split(".").slice(0, 2).join("_") + "/";
 
@@ -44,7 +44,10 @@ module.exports = function(baseErrors, errors) {
     };
 
     var makeError = function(args) {
-        var id, details, message, url;
+        var id;
+        var details;
+        var message;
+        var url;
 
         id = args[0];
         args = args.slice(1);

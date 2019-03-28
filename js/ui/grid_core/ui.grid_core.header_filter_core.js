@@ -9,8 +9,8 @@ import Popup from "../popup";
 import TreeView from "../tree_view";
 import List from "../list";
 
-var HEADER_FILTER_CLASS = "dx-header-filter",
-    HEADER_FILTER_MENU_CLASS = "dx-header-filter-menu";
+var HEADER_FILTER_CLASS = "dx-header-filter";
+var HEADER_FILTER_MENU_CLASS = "dx-header-filter-menu";
 
 var DEFAULT_SEARCH_EXPRESSION = "text";
 
@@ -71,10 +71,10 @@ exports.HeaderFilterView = modules.View.inherit({
     },
 
     applyHeaderFilter: function(options) {
-        var that = this,
-            list = that.getListContainer(),
-            isSelectAll = !list.option("searchValue") && !options.isFilterBuilder && list.$element().find(".dx-checkbox").eq(0).hasClass("dx-checkbox-checked"),
-            filterValues = [];
+        var that = this;
+        var list = that.getListContainer();
+        var isSelectAll = !list.option("searchValue") && !options.isFilterBuilder && list.$element().find(".dx-checkbox").eq(0).hasClass("dx-checkbox-checked");
+        var filterValues = [];
 
         var fillSelectedItemKeys = function(filterValues, items, isExclude) {
             each(items, function(_, item) {
@@ -110,8 +110,8 @@ exports.HeaderFilterView = modules.View.inherit({
     },
 
     showHeaderFilterMenu: function($columnElement, options) {
-        var that = this,
-            popupContainer;
+        var that = this;
+        var popupContainer;
 
         if(options) {
             that._initializePopupContainer(options);
@@ -132,8 +132,8 @@ exports.HeaderFilterView = modules.View.inherit({
     },
 
     updatePopup: function($element, options) {
-        var that = this,
-            alignment = options.alignment === "right" ? "left" : "right";
+        var that = this;
+        var alignment = options.alignment === "right" ? "left" : "right";
 
         if(that._popupContainer) {
             that._cleanPopupContent();
@@ -147,9 +147,9 @@ exports.HeaderFilterView = modules.View.inherit({
     },
 
     _getSearchExpr: function(options) {
-        var lookup = options.lookup,
-            useDefaultSearchExpr = options.useDefaultSearchExpr,
-            headerFilterDataSource = options.headerFilter && options.headerFilter.dataSource;
+        var lookup = options.lookup;
+        var useDefaultSearchExpr = options.useDefaultSearchExpr;
+        var headerFilterDataSource = options.headerFilter && options.headerFilter.dataSource;
 
         if(useDefaultSearchExpr || isDefined(headerFilterDataSource) && !isFunction(headerFilterDataSource)) {
             return DEFAULT_SEARCH_EXPRESSION;
@@ -176,54 +176,55 @@ exports.HeaderFilterView = modules.View.inherit({
     },
 
     _initializePopupContainer: function(options) {
-        var that = this,
-            $element = that.element(),
-            headerFilterOptions = that.option("headerFilter"),
-            width = options.headerFilter && options.headerFilter.width || headerFilterOptions && headerFilterOptions.width,
-            height = options.headerFilter && options.headerFilter.height || headerFilterOptions && headerFilterOptions.height,
-            dxPopupOptions = {
-                width: width,
-                height: height,
-                visible: false,
-                shading: false,
-                showTitle: false,
-                showCloseButton: false,
-                closeOnTargetScroll: true,
-                dragEnabled: false,
-                closeOnOutsideClick: true,
-                focusStateEnabled: false,
-                toolbarItems: [
-                    {
-                        toolbar: "bottom", location: "after", widget: "dxButton", options: {
-                            text: headerFilterOptions.texts.ok, onClick: function() {
-                                that.applyHeaderFilter(options);
-                            }
-                        }
-                    },
-                    {
-                        toolbar: "bottom", location: "after", widget: "dxButton", options: {
-                            text: headerFilterOptions.texts.cancel, onClick: function() {
-                                that.hideHeaderFilterMenu();
-                            }
+        var that = this;
+        var $element = that.element();
+        var headerFilterOptions = that.option("headerFilter");
+        var width = options.headerFilter && options.headerFilter.width || headerFilterOptions && headerFilterOptions.width;
+        var height = options.headerFilter && options.headerFilter.height || headerFilterOptions && headerFilterOptions.height;
+
+        var dxPopupOptions = {
+            width: width,
+            height: height,
+            visible: false,
+            shading: false,
+            showTitle: false,
+            showCloseButton: false,
+            closeOnTargetScroll: true,
+            dragEnabled: false,
+            closeOnOutsideClick: true,
+            focusStateEnabled: false,
+            toolbarItems: [
+                {
+                    toolbar: "bottom", location: "after", widget: "dxButton", options: {
+                        text: headerFilterOptions.texts.ok, onClick: function() {
+                            that.applyHeaderFilter(options);
                         }
                     }
-                ],
-                resizeEnabled: true,
-                onShowing: function(e) {
-                    e.component.$content().parent().addClass("dx-dropdowneditor-overlay");
-                    that._initializeListContainer(options);
-                    options.onShowing && options.onShowing(e);
                 },
-                onShown: function(e) {
-                    eventsEngine.trigger(e.component.$content().find(".dx-checkbox").first(), "focus");
-                },
-                onHidden: options.onHidden,
-                onInitialized: function(e) {
-                    var component = e.component;
-                    // T321243
-                    component.option("animation", component._getDefaultOptions().animation);
+                {
+                    toolbar: "bottom", location: "after", widget: "dxButton", options: {
+                        text: headerFilterOptions.texts.cancel, onClick: function() {
+                            that.hideHeaderFilterMenu();
+                        }
+                    }
                 }
-            };
+            ],
+            resizeEnabled: true,
+            onShowing: function(e) {
+                e.component.$content().parent().addClass("dx-dropdowneditor-overlay");
+                that._initializeListContainer(options);
+                options.onShowing && options.onShowing(e);
+            },
+            onShown: function(e) {
+                eventsEngine.trigger(e.component.$content().find(".dx-checkbox").first(), "focus");
+            },
+            onHidden: options.onHidden,
+            onInitialized: function(e) {
+                var component = e.component;
+                // T321243
+                component.option("animation", component._getDefaultOptions().animation);
+            }
+        };
 
         if(!isDefined(that._popupContainer)) {
             that._popupContainer = that._createComponent($element, Popup, dxPopupOptions);
@@ -233,25 +234,26 @@ exports.HeaderFilterView = modules.View.inherit({
     },
 
     _initializeListContainer: function(options) {
-        var that = this,
-            $content = that._popupContainer.$content(),
-            widgetOptions = {
-                searchEnabled: isSearchEnabled(that, options),
-                searchTimeout: that.option("headerFilter.searchTimeout"),
-                searchMode: options.headerFilter && options.headerFilter.searchMode || "",
-                dataSource: options.dataSource,
-                onContentReady: function() {
-                    that.renderCompleted.fire();
-                },
-                itemTemplate: function(data, _, element) {
-                    var $element = $(element);
-                    if(options.encodeHtml) {
-                        return $element.text(data.text);
-                    }
+        var that = this;
+        var $content = that._popupContainer.$content();
 
-                    return $element.html(data.text);
+        var widgetOptions = {
+            searchEnabled: isSearchEnabled(that, options),
+            searchTimeout: that.option("headerFilter.searchTimeout"),
+            searchMode: options.headerFilter && options.headerFilter.searchMode || "",
+            dataSource: options.dataSource,
+            onContentReady: function() {
+                that.renderCompleted.fire();
+            },
+            itemTemplate: function(data, _, element) {
+                var $element = $(element);
+                if(options.encodeHtml) {
+                    return $element.text(data.text);
                 }
-            };
+
+                return $element.html(data.text);
+            }
+        };
 
         if(options.type === "tree") {
             that._listContainer = that._createComponent($("<div>").appendTo($content),
@@ -267,8 +269,8 @@ exports.HeaderFilterView = modules.View.inherit({
                     showSelectionControls: true,
                     selectionMode: options.isFilterBuilder ? "multiple" : "all",
                     onSelectionChanged: function(e) {
-                        var items = e.component.option("items"),
-                            selectedItems = e.component.option("selectedItems");
+                        var items = e.component.option("items");
+                        var selectedItems = e.component.option("selectedItems");
 
                         if(!e.component._selectedItemsUpdating && !e.component.option("searchValue") && !options.isFilterBuilder) {
                             if(selectedItems.length === 0 && items.length && (!options.filterValues || options.filterValues.length <= 1)) {
@@ -281,9 +283,9 @@ exports.HeaderFilterView = modules.View.inherit({
                         }
 
                         each(items, function(index, item) {
-                            var selected = gridCoreUtils.getIndexByKey(item, selectedItems, null) >= 0,
-                                oldSelected = !!item.selected,
-                                filterValueIndex;
+                            var selected = gridCoreUtils.getIndexByKey(item, selectedItems, null) >= 0;
+                            var oldSelected = !!item.selected;
+                            var filterValueIndex;
 
                             if(oldSelected !== selected) {
                                 item.selected = selected;
@@ -303,9 +305,9 @@ exports.HeaderFilterView = modules.View.inherit({
                         updateSelectAllState(e, options.filterValues);
                     },
                     onContentReady: function(e) {
-                        var component = e.component,
-                            items = component.option("items"),
-                            selectedItems = [];
+                        var component = e.component;
+                        var items = component.option("items");
+                        var selectedItems = [];
 
                         each(items, function() {
                             if(this.selected) {
@@ -334,9 +336,9 @@ var allowHeaderFiltering = exports.allowHeaderFiltering = function(column) {
 
 exports.headerFilterMixin = {
     _applyColumnState: function(options) {
-        var $headerFilterIndicator,
-            rootElement = options.rootElement,
-            column = options.column;
+        var $headerFilterIndicator;
+        var rootElement = options.rootElement;
+        var column = options.column;
 
         if(options.name === "headerFilter") {
             rootElement.find("." + HEADER_FILTER_CLASS).remove();
@@ -363,9 +365,9 @@ exports.headerFilterMixin = {
     },
 
     _renderIndicator: function(options) {
-        var rtlEnabled,
-            $container = options.container,
-            $indicator = options.indicator;
+        var rtlEnabled;
+        var $container = options.container;
+        var $indicator = options.indicator;
 
         if(options.name === "headerFilter") {
             rtlEnabled = this.option("rtlEnabled");

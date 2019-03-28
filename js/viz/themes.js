@@ -1,17 +1,17 @@
-var extend = require("../core/utils/extend").extend,
-    each = require("../core/utils/iterator").each,
-    vizUtils = require("./core/utils"),
-    uiThemes = require("../ui/themes"),
-    themes = {},
-    themesMapping = {},
-    themesSchemeMapping = {},
-    _extend = extend,
-    _each = each,
-    _normalizeEnum = vizUtils.normalizeEnum,
-    currentThemeName = null,
-    defaultTheme,
-    nextCacheUid = 0,
-    widgetsCache = {};
+var extend = require("../core/utils/extend").extend;
+var each = require("../core/utils/iterator").each;
+var vizUtils = require("./core/utils");
+var uiThemes = require("../ui/themes");
+var themes = {};
+var themesMapping = {};
+var themesSchemeMapping = {};
+var _extend = extend;
+var _each = each;
+var _normalizeEnum = vizUtils.normalizeEnum;
+var currentThemeName = null;
+var defaultTheme;
+var nextCacheUid = 0;
+var widgetsCache = {};
 
 function getTheme(themeName) {
     var name = _normalizeEnum(themeName);
@@ -43,9 +43,9 @@ function getThemeInfo(themeName, splitter) {
 }
 
 function registerThemeName(themeName, targetThemeName) {
-    var themeInfo = getThemeInfo(themeName, '.') || { name: themeName },
-        name = themeInfo.name,
-        scheme = themeInfo.scheme;
+    var themeInfo = getThemeInfo(themeName, '.') || { name: themeName };
+    var name = themeInfo.name;
+    var scheme = themeInfo.scheme;
     if(scheme) {
         themesMapping[name] = themesMapping[name] || targetThemeName;
         themesMapping[name + '.' + scheme] = targetThemeName;
@@ -150,8 +150,8 @@ function patchTheme(theme) {
 }
 
 function patchAxes(theme) {
-    var commonAxisSettings = theme["chart:common:axis"],
-        colorFieldName = "color";
+    var commonAxisSettings = theme["chart:common:axis"];
+    var colorFieldName = "color";
     _each([commonAxisSettings, commonAxisSettings.grid, commonAxisSettings.minorGrid, commonAxisSettings.tick, commonAxisSettings.minorTick], function(_, obj) {
         mergeScalar(obj, colorFieldName, null, theme.axisColor);
     });

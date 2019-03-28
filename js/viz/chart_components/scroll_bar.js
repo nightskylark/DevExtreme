@@ -84,11 +84,11 @@ ScrollBar.prototype = {
     },
 
     update: function(options) {
-        var that = this,
-            position = options.position,
-            isVertical = options.rotated,
-            defaultPosition = isVertical ? "right" : "top",
-            secondaryPosition = isVertical ? "left" : "bottom";
+        var that = this;
+        var position = options.position;
+        var isVertical = options.rotated;
+        var defaultPosition = isVertical ? "right" : "top";
+        var secondaryPosition = isVertical ? "left" : "bottom";
 
         if(position !== defaultPosition && position !== secondaryPosition) {
             position = defaultPosition;
@@ -133,8 +133,8 @@ ScrollBar.prototype = {
     },
 
     setPane: function(panes) {
-        var position = this._layoutOptions.position,
-            pane;
+        var position = this._layoutOptions.position;
+        var pane;
 
         if(position === "left" || position === "top") {
             pane = panes[0];
@@ -149,10 +149,10 @@ ScrollBar.prototype = {
     updateSize: function(canvas) {
         this._canvas = extend({}, canvas);
 
-        var options = this._layoutOptions,
-            pos = options.position,
-            offset = options.offset,
-            width = options.width;
+        var options = this._layoutOptions;
+        var pos = options.position;
+        var offset = options.offset;
+        var width = options.width;
 
         this._scroll.attr({
             translateX: _getXCoord(canvas, pos, offset, width),
@@ -167,8 +167,8 @@ ScrollBar.prototype = {
     estimateMargins: function() { return this.getMargins(); },
 
     getMargins: function() {
-        var options = this._layoutOptions,
-            margins = { left: 0, top: 0, right: 0, bottom: 0 };
+        var options = this._layoutOptions;
+        var margins = { left: 0, top: 0, right: 0, bottom: 0 };
 
         margins[options.position] = options.width + options.offset;
 
@@ -188,10 +188,10 @@ ScrollBar.prototype = {
     // Axis like functions
 
     setPosition: function(min, max) {
-        var that = this,
-            translator = that._translator,
-            minPoint = isDefined(min) ? translator.translate(min, -that._translateWithOffset) : translator.translate("canvas_position_start"),
-            maxPoint = isDefined(max) ? translator.translate(max, that._translateWithOffset) : translator.translate("canvas_position_end");
+        var that = this;
+        var translator = that._translator;
+        var minPoint = isDefined(min) ? translator.translate(min, -that._translateWithOffset) : translator.translate("canvas_position_start");
+        var maxPoint = isDefined(max) ? translator.translate(max, that._translateWithOffset) : translator.translate("canvas_position_end");
 
         that._offset = _min(minPoint, maxPoint);
         that._scale = translator.getScale(min, max);
@@ -205,9 +205,9 @@ ScrollBar.prototype = {
     },
 
     _applyPosition: function(x1, x2) {
-        var that = this,
-            visibleArea = that._translator.getCanvasVisibleArea(),
-            height;
+        var that = this;
+        var visibleArea = that._translator.getCanvasVisibleArea();
+        var height;
 
         x1 = _max(x1, visibleArea.min);
         x1 = _min(x1, visibleArea.max);

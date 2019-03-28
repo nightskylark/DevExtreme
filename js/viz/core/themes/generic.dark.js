@@ -1,15 +1,14 @@
-var themeModule = require("../../themes"),
-    registerTheme = themeModule.registerTheme,
-
-    WHITE = "#ffffff",
-    BLACK = "#000000",
-    SOME_GREY = "#2b2b2b",
-    RANGE_COLOR = "#b5b5b5",
-    GREY_GREEN = "#303030",
-    AREA_LAYER_COLOR = "#686868",
-    LINE_COLOR = "#c7c7c7",
-    TARGET_COLOR = "#8e8e8e",
-    POSITIVE_COLOR = "#b8b8b8";
+var themeModule = require("../../themes");
+var registerTheme = themeModule.registerTheme;
+var WHITE = "#ffffff";
+var BLACK = "#000000";
+var SOME_GREY = "#2b2b2b";
+var RANGE_COLOR = "#b5b5b5";
+var GREY_GREEN = "#303030";
+var AREA_LAYER_COLOR = "#686868";
+var LINE_COLOR = "#c7c7c7";
+var TARGET_COLOR = "#8e8e8e";
+var POSITIVE_COLOR = "#b8b8b8";
 
 registerTheme({
     name: "generic.dark",

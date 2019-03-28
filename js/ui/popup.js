@@ -1,58 +1,51 @@
-var $ = require("../core/renderer"),
-    window = require("../core/utils/window").getWindow(),
-    translator = require("../animation/translator"),
-    camelize = require("../core/utils/inflector").camelize,
-    noop = require("../core/utils/common").noop,
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    each = require("../core/utils/iterator").each,
-    isDefined = require("../core/utils/type").isDefined,
-    inArray = require("../core/utils/array").inArray,
-    extend = require("../core/utils/extend").extend,
-    browser = require("../core/utils/browser"),
-    messageLocalization = require("../localization/message"),
-    devices = require("../core/devices"),
-    registerComponent = require("../core/component_registrator"),
-    Button = require("./button"),
-    themes = require("./themes"),
-    Overlay = require("./overlay"),
-    EmptyTemplate = require("./widget/empty_template"),
-    domUtils = require("../core/utils/dom"),
-    sizeUtils = require("../core/utils/size"),
-    windowUtils = require("../core/utils/window");
+var $ = require("../core/renderer");
+var window = require("../core/utils/window").getWindow();
+var translator = require("../animation/translator");
+var camelize = require("../core/utils/inflector").camelize;
+var noop = require("../core/utils/common").noop;
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var each = require("../core/utils/iterator").each;
+var isDefined = require("../core/utils/type").isDefined;
+var inArray = require("../core/utils/array").inArray;
+var extend = require("../core/utils/extend").extend;
+var browser = require("../core/utils/browser");
+var messageLocalization = require("../localization/message");
+var devices = require("../core/devices");
+var registerComponent = require("../core/component_registrator");
+var Button = require("./button");
+var themes = require("./themes");
+var Overlay = require("./overlay");
+var EmptyTemplate = require("./widget/empty_template");
+var domUtils = require("../core/utils/dom");
+var sizeUtils = require("../core/utils/size");
+var windowUtils = require("../core/utils/window");
 
 require("./toolbar/ui.toolbar.base");
 
-var POPUP_CLASS = "dx-popup",
-    POPUP_WRAPPER_CLASS = "dx-popup-wrapper",
-    POPUP_FULL_SCREEN_CLASS = "dx-popup-fullscreen",
-    POPUP_FULL_SCREEN_WIDTH_CLASS = "dx-popup-fullscreen-width",
-    POPUP_NORMAL_CLASS = "dx-popup-normal",
-    POPUP_CONTENT_CLASS = "dx-popup-content",
-
-    POPUP_DRAGGABLE_CLASS = "dx-popup-draggable",
-
-    POPUP_TITLE_CLASS = "dx-popup-title",
-    POPUP_TITLE_CLOSEBUTTON_CLASS = "dx-closebutton",
-
-    POPUP_BOTTOM_CLASS = "dx-popup-bottom",
-
-    TEMPLATE_WRAPPER_CLASS = "dx-template-wrapper",
-
-    ALLOWED_TOOLBAR_ITEM_ALIASES = ["cancel", "clear", "done"],
-
-    BUTTON_DEFAULT_TYPE = "default",
-    BUTTON_NORMAL_TYPE = "normal",
-    BUTTON_TEXT_MODE = "text",
-    BUTTON_CONTAINED_MODE = "contained";
+var POPUP_CLASS = "dx-popup";
+var POPUP_WRAPPER_CLASS = "dx-popup-wrapper";
+var POPUP_FULL_SCREEN_CLASS = "dx-popup-fullscreen";
+var POPUP_FULL_SCREEN_WIDTH_CLASS = "dx-popup-fullscreen-width";
+var POPUP_NORMAL_CLASS = "dx-popup-normal";
+var POPUP_CONTENT_CLASS = "dx-popup-content";
+var POPUP_DRAGGABLE_CLASS = "dx-popup-draggable";
+var POPUP_TITLE_CLASS = "dx-popup-title";
+var POPUP_TITLE_CLOSEBUTTON_CLASS = "dx-closebutton";
+var POPUP_BOTTOM_CLASS = "dx-popup-bottom";
+var TEMPLATE_WRAPPER_CLASS = "dx-template-wrapper";
+var ALLOWED_TOOLBAR_ITEM_ALIASES = ["cancel", "clear", "done"];
+var BUTTON_DEFAULT_TYPE = "default";
+var BUTTON_NORMAL_TYPE = "normal";
+var BUTTON_TEXT_MODE = "text";
+var BUTTON_CONTAINED_MODE = "contained";
 
 var isIE11 = (browser.msie && parseInt(browser.version) === 11);
 
 var getButtonPlace = function(name) {
-
-    var device = devices.current(),
-        platform = device.platform,
-        toolbar = "bottom",
-        location = "before";
+    var device = devices.current();
+    var platform = device.platform;
+    var toolbar = "bottom";
+    var location = "before";
 
     if(platform === "ios") {
         switch(name) {
@@ -386,11 +379,12 @@ var Popup = Overlay.inherit({
         var fullScreenConfig = {
                 show: { type: "slide", duration: 300, from: { top: "30%", opacity: 0 }, to: { top: 0, opacity: 1 } },
                 hide: { type: "slide", duration: 300, from: { top: 0, opacity: 1 }, to: { top: "30%", opacity: 0 } }
-            },
-            defaultConfig = {
-                show: { type: "fade", duration: 400, from: 0, to: 1 },
-                hide: { type: "fade", duration: 400, from: 1, to: 0 }
             };
+
+        var defaultConfig = {
+            show: { type: "fade", duration: 400, from: 0, to: 1 },
+            hide: { type: "fade", duration: 400, from: 1, to: 0 }
+        };
 
         return this.option("fullScreen") ? fullScreenConfig : defaultConfig;
     },
@@ -432,9 +426,9 @@ var Popup = Overlay.inherit({
     },
 
     _renderTitle: function() {
-        var items = this._getToolbarItems("top"),
-            titleText = this.option("title"),
-            showTitle = this.option("showTitle");
+        var items = this._getToolbarItems("top");
+        var titleText = this.option("title");
+        var showTitle = this.option("showTitle");
 
         if(showTitle && !!titleText) {
             items.unshift({
@@ -455,8 +449,8 @@ var Popup = Overlay.inherit({
     },
 
     _renderTemplateByType: function(optionName, data, $container, additionalToolbarOptions) {
-        var template = this._getTemplateByOption(optionName),
-            toolbarTemplate = template instanceof EmptyTemplate;
+        var template = this._getTemplateByOption(optionName);
+        var toolbarTemplate = template instanceof EmptyTemplate;
 
         if(toolbarTemplate) {
             var toolbarOptions = extend(additionalToolbarOptions, {
@@ -524,19 +518,18 @@ var Popup = Overlay.inherit({
     },
 
     _getToolbarItems: function(toolbar) {
-
         var toolbarItems = this.option("toolbarItems");
 
         var toolbarsItems = [];
 
         this._toolbarItemClasses = [];
 
-        var currentPlatform = devices.current().platform,
-            index = 0;
+        var currentPlatform = devices.current().platform;
+        var index = 0;
 
         each(toolbarItems, (function(_, data) {
-            var isShortcut = isDefined(data.shortcut),
-                item = isShortcut ? getButtonPlace(data.shortcut) : data;
+            var isShortcut = isDefined(data.shortcut);
+            var item = isShortcut ? getButtonPlace(data.shortcut) : data;
 
             if(isShortcut && currentPlatform === "ios" && index < 2) {
                 item.toolbar = "top";
@@ -572,8 +565,8 @@ var Popup = Overlay.inherit({
     },
 
     _getToolbarItemByAlias: function(data) {
-        var that = this,
-            itemType = data.shortcut;
+        var that = this;
+        var itemType = data.shortcut;
 
         if(inArray(itemType, ALLOWED_TOOLBAR_ITEM_ALIASES) < 0) {
             return false;
@@ -671,20 +664,22 @@ var Popup = Overlay.inherit({
     _setContentHeight: function() {
         (this.option("forceApplyBindings") || noop)();
 
-        var popupHeightParts = this._splitPopupHeight(),
-            toolbarsAndVerticalOffsetsHeight = popupHeightParts.header
-                + popupHeightParts.footer
-                + popupHeightParts.contentVerticalOffsets
-                + popupHeightParts.popupVerticalOffsets,
-            overlayContent = this.overlayContent().get(0),
-            cssStyles = {};
+        var popupHeightParts = this._splitPopupHeight();
+
+        var toolbarsAndVerticalOffsetsHeight = popupHeightParts.header
+            + popupHeightParts.footer
+            + popupHeightParts.contentVerticalOffsets
+            + popupHeightParts.popupVerticalOffsets;
+
+        var overlayContent = this.overlayContent().get(0);
+        var cssStyles = {};
 
         if(this.option("autoResizeEnabled") && this._isAutoHeight() && !isIE11) {
-            var container = $(this._getContainer()).get(0),
-                contentMaxHeight = this._getOptionValue("maxHeight", overlayContent),
-                contentMinHeight = this._getOptionValue("minHeight", overlayContent),
-                maxHeightValue = sizeUtils.addOffsetToMaxHeight(contentMaxHeight, -toolbarsAndVerticalOffsetsHeight, container),
-                minHeightValue = sizeUtils.addOffsetToMinHeight(contentMinHeight, -toolbarsAndVerticalOffsetsHeight, container);
+            var container = $(this._getContainer()).get(0);
+            var contentMaxHeight = this._getOptionValue("maxHeight", overlayContent);
+            var contentMinHeight = this._getOptionValue("minHeight", overlayContent);
+            var maxHeightValue = sizeUtils.addOffsetToMaxHeight(contentMaxHeight, -toolbarsAndVerticalOffsetsHeight, container);
+            var minHeightValue = sizeUtils.addOffsetToMinHeight(contentMinHeight, -toolbarsAndVerticalOffsetsHeight, container);
 
             cssStyles = extend(cssStyles, {
                 minHeight: minHeightValue,
@@ -703,8 +698,8 @@ var Popup = Overlay.inherit({
     },
 
     _splitPopupHeight: function() {
-        var topToolbar = this.topToolbar(),
-            bottomToolbar = this.bottomToolbar();
+        var topToolbar = this.topToolbar();
+        var bottomToolbar = this.bottomToolbar();
 
         return {
             header: sizeUtils.getVisibleHeight(topToolbar && topToolbar.get(0)),

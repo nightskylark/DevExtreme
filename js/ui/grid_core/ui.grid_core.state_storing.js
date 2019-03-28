@@ -6,17 +6,17 @@ import { Deferred } from "../../core/utils/deferred";
 
 // TODO move processLoadState to target modules (data, columns, pagerView)
 var processLoadState = function(that) {
-    var columnsController = that.getController("columns"),
-        selectionController = that.getController("selection"),
-        exportController = that.getController("export"),
-        dataController = that.getController("data"),
-        pagerView = that.getView("pagerView");
+    var columnsController = that.getController("columns");
+    var selectionController = that.getController("selection");
+    var exportController = that.getController("export");
+    var dataController = that.getController("data");
+    var pagerView = that.getView("pagerView");
 
     if(columnsController) {
         columnsController.columnsChanged.add(function() {
-            var columnsState = columnsController.getUserState(),
-                columnsStateHash = getKeyHash(columnsState),
-                currentColumnsStateHash = getKeyHash(that._state.columns);
+            var columnsState = columnsController.getUserState();
+            var columnsStateHash = getKeyHash(columnsState);
+            var currentColumnsStateHash = getKeyHash(that._state.columns);
 
             if(!equalByValue(currentColumnsStateHash, columnsStateHash)) {
                 extend(that._state, {
@@ -40,8 +40,8 @@ var processLoadState = function(that) {
     if(dataController) {
         that._initialPageSize = that.option("paging.pageSize");
         dataController.changed.add(function() {
-            var userState = dataController.getUserState(),
-                focusedRowEnabled = that.option("focusedRowEnabled");
+            var userState = dataController.getUserState();
+            var focusedRowEnabled = that.option("focusedRowEnabled");
 
             extend(that._state, userState, {
                 allowedPageSizes: pagerView ? pagerView.getPageSizes() : undefined,
@@ -164,18 +164,18 @@ module.exports = {
                     return result;
                 },
                 applyState: function(state) {
-                    var that = this,
-                        allowedPageSizes = state.allowedPageSizes,
-                        searchText = state.searchText,
-                        selectedRowKeys = state.selectedRowKeys,
-                        selectionFilter = state.selectionFilter,
-                        exportController = that.getController("export"),
-                        columnsController = that.getController("columns"),
-                        dataController = that.getController("data"),
-                        filterSyncController = that.getController("filterSync"),
-                        scrollingMode = that.option("scrolling.mode"),
-                        isVirtualScrollingMode = scrollingMode === "virtual" || scrollingMode === "infinite",
-                        showPageSizeSelector = that.option("pager.visible") === true && that.option("pager.showPageSizeSelector");
+                    var that = this;
+                    var allowedPageSizes = state.allowedPageSizes;
+                    var searchText = state.searchText;
+                    var selectedRowKeys = state.selectedRowKeys;
+                    var selectionFilter = state.selectionFilter;
+                    var exportController = that.getController("export");
+                    var columnsController = that.getController("columns");
+                    var dataController = that.getController("data");
+                    var filterSyncController = that.getController("filterSync");
+                    var scrollingMode = that.option("scrolling.mode");
+                    var isVirtualScrollingMode = scrollingMode === "virtual" || scrollingMode === "infinite";
+                    var showPageSizeSelector = that.option("pager.visible") === true && that.option("pager.showPageSizeSelector");
 
                     that.component.beginUpdate();
 
@@ -215,8 +215,8 @@ module.exports = {
             },
             columns: {
                 getVisibleColumns: function() {
-                    var visibleColumns = this.callBase.apply(this, arguments),
-                        stateStoringController = this.getController("stateStoring");
+                    var visibleColumns = this.callBase.apply(this, arguments);
+                    var stateStoringController = this.getController("stateStoring");
 
                     return stateStoringController.isEnabled() && !stateStoringController.isLoaded() ? [] : visibleColumns;
                 }
@@ -226,9 +226,9 @@ module.exports = {
                     return this.callBase().concat(["stateLoaded"]);
                 },
                 _refreshDataSource: function() {
-                    var that = this,
-                        callBase = that.callBase,
-                        stateStoringController = that.getController("stateStoring");
+                    var that = this;
+                    var callBase = that.callBase;
+                    var stateStoringController = that.getController("stateStoring");
 
                     if(stateStoringController.isEnabled() && !stateStoringController.isLoaded()) {
                         clearTimeout(that._restoreStateTimeoutID);
@@ -249,8 +249,8 @@ module.exports = {
                 },
 
                 isLoading: function() {
-                    var that = this,
-                        stateStoringController = that.getController("stateStoring");
+                    var that = this;
+                    var stateStoringController = that.getController("stateStoring");
 
                     return this.callBase() || stateStoringController.isLoading();
                 },

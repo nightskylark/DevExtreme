@@ -17,10 +17,10 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var processGroupItems = function(that, items, groupsCount, expandedInfo, path, isCustomLoading, isLastGroupExpanded) {
-        var i,
-            item,
-            groupInfo,
-            isExpanded;
+        var i;
+        var item;
+        var groupInfo;
+        var isExpanded;
 
         expandedInfo.items = expandedInfo.items || [];
         expandedInfo.paths = expandedInfo.paths || [];
@@ -60,8 +60,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
 
 
     var updateGroupInfoItem = function(that, item, isLastGroupLevel, path, offset) {
-        var groupInfo = that.findGroupInfo(path),
-            count;
+        var groupInfo = that.findGroupInfo(path);
+        var count;
 
         if(!groupInfo) {
             if(isLastGroupLevel) {
@@ -85,14 +85,14 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var updateGroupInfos = function(that, options, items, loadedGroupCount, groupIndex, path, parentIndex) {
-        var item,
-            groupCount = options.group ? options.group.length : 0,
-            isLastGroupLevel = groupCount === loadedGroupCount,
-            remotePaging = options.remoteOperations.paging,
-            offset = 0,
-            totalCount = 0,
-            count,
-            i;
+        var item;
+        var groupCount = options.group ? options.group.length : 0;
+        var isLastGroupLevel = groupCount === loadedGroupCount;
+        var remotePaging = options.remoteOperations.paging;
+        var offset = 0;
+        var totalCount = 0;
+        var count;
+        var i;
 
         groupIndex = groupIndex || 0;
         path = path || [];
@@ -130,9 +130,9 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var getTotalOffset = function(groupInfos, pageSize, offset) {
-        var groupIndex,
-            groupSize,
-            totalOffset = offset;
+        var groupIndex;
+        var groupSize;
+        var totalOffset = offset;
 
         for(groupIndex = 0; groupIndex < groupInfos.length; groupIndex++) {
             groupSize = groupInfos[groupIndex].offset + 1;
@@ -166,13 +166,13 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     ///#ENDDEBUG
 
     function applyContinuationToGroupItem(options, expandedInfo, groupLevel, expandedItemIndex) {
-        var item = expandedInfo.items[expandedItemIndex],
-            skip = options.skips && options.skips[groupLevel],
-            take = options.takes && options.takes[groupLevel],
-            isLastExpandedItem = expandedItemIndex === expandedInfo.items.length - 1,
-            isFirstExpandedItem = expandedItemIndex === 0,
-            lastExpandedItemSkip = isFirstExpandedItem && skip || 0,
-            isItemsTruncatedByTake = item.count > take + lastExpandedItemSkip;
+        var item = expandedInfo.items[expandedItemIndex];
+        var skip = options.skips && options.skips[groupLevel];
+        var take = options.takes && options.takes[groupLevel];
+        var isLastExpandedItem = expandedItemIndex === expandedInfo.items.length - 1;
+        var isFirstExpandedItem = expandedItemIndex === 0;
+        var lastExpandedItemSkip = isFirstExpandedItem && skip || 0;
+        var isItemsTruncatedByTake = item.count > take + lastExpandedItemSkip;
 
         if(isFirstExpandedItem && skip !== undefined) {
             item.isContinuation = true;
@@ -184,8 +184,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     }
 
     function fillSkipTakeInExpandedInfo(options, expandedInfo, currentGroupCount) {
-        var currentGroupIndex = currentGroupCount - 1,
-            groupCount = options.group ? options.group.length : 0;
+        var currentGroupIndex = currentGroupCount - 1;
+        var groupCount = options.group ? options.group.length : 0;
 
         expandedInfo.skip = options.skips && options.skips[currentGroupIndex];
         if(options.takes && options.takes[currentGroupIndex] !== undefined) {
@@ -231,9 +231,9 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     }
 
     function loadExpandedGroups(that, options, expandedInfo, loadedGroupCount, groupLevel, data) {
-        var groups = options.group || [],
-            currentGroup = groups[groupLevel + 1],
-            deferreds = [];
+        var groups = options.group || [];
+        var currentGroup = groups[groupLevel + 1];
+        var deferreds = [];
 
         each(expandedInfo.paths, function(expandedItemIndex) {
             var loadOptions = {
@@ -277,8 +277,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     }
 
     function loadLastLevelGroupItems(that, options, expandedInfo, data) {
-        var expandedFilters = [],
-            groups = options.group || [];
+        var expandedFilters = [];
+        var groups = options.group || [];
 
         each(expandedInfo.paths, function(_, expandedPath) {
             expandedFilters.push(createGroupFilter(expandedPath, {
@@ -314,8 +314,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
                 items = expandedInfo.take ? items.slice(0, expandedInfo.take) : items;
             }
             each(expandedInfo.items, function(index, item) {
-                var itemCount = item.count - (index === 0 && expandedInfo.skip || 0),
-                    expandedItems = items.splice(0, itemCount);
+                var itemCount = item.count - (index === 0 && expandedInfo.skip || 0);
+                var expandedItems = items.splice(0, itemCount);
 
                 applyContinuationToGroupItem(options, expandedInfo, groups.length - 1, index);
                 item.items = expandedItems;
@@ -325,9 +325,9 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     }
 
     var loadGroupTotalCount = function(dataSource, options) {
-        var d = new Deferred(),
-            isGrouping = !!(options.group && options.group.length),
-            loadOptions = extend({ skip: 0, take: 1, requireGroupCount: isGrouping, requireTotalCount: !isGrouping }, options, { group: isGrouping ? options.group : null });
+        var d = new Deferred();
+        var isGrouping = !!(options.group && options.group.length);
+        var loadOptions = extend({ skip: 0, take: 1, requireGroupCount: isGrouping, requireTotalCount: !isGrouping }, options, { group: isGrouping ? options.group : null });
 
         dataSource.load(loadOptions).done(function(data, extra) {
             var count = extra && (isGrouping ? extra.groupCount : extra.totalCount);
@@ -342,19 +342,19 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
 
     return {
         updateTotalItemsCount: function(options) {
-            var totalItemsCount = 0,
-                totalCount = options.extra && options.extra.totalCount || 0,
-                groupCount = options.extra && options.extra.groupCount || 0,
-                pageSize = this._dataSource.pageSize(),
-                isVirtualPaging = this._isVirtualPaging();
+            var totalItemsCount = 0;
+            var totalCount = options.extra && options.extra.totalCount || 0;
+            var groupCount = options.extra && options.extra.groupCount || 0;
+            var pageSize = this._dataSource.pageSize();
+            var isVirtualPaging = this._isVirtualPaging();
 
             foreachExpandedGroups(this, function(groupInfo) {
                 groupInfo.childrenTotalCount = 0;
             });
 
             foreachExpandedGroups(this, function(groupInfo, parents) {
-                var totalOffset = getTotalOffset(parents, isVirtualPaging ? 0 : pageSize, totalItemsCount),
-                    count = groupInfo.count + groupInfo.childrenTotalCount;
+                var totalOffset = getTotalOffset(parents, isVirtualPaging ? 0 : pageSize, totalItemsCount);
+                var count = groupInfo.count + groupInfo.childrenTotalCount;
 
                 if(!isVirtualPaging) {
                     count += getContinuationGroupCount(totalOffset, pageSize, count, parents.length - 1);
@@ -372,13 +372,13 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             return isGroupExpanded(groups, groupIndex);
         },
         _updatePagingOptions: function(options, callback) {
-            var that = this,
-                isVirtualPaging = that._isVirtualPaging(),
-                pageSize = that._dataSource.pageSize(),
-                skips = [],
-                takes = [],
-                skipChildrenTotalCount = 0,
-                childrenTotalCount = 0;
+            var that = this;
+            var isVirtualPaging = that._isVirtualPaging();
+            var pageSize = that._dataSource.pageSize();
+            var skips = [];
+            var takes = [];
+            var skipChildrenTotalCount = 0;
+            var childrenTotalCount = 0;
 
             if(options.take) {
                 foreachExpandedGroups(this, function(groupInfo) {
@@ -386,15 +386,15 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
                     groupInfo.skipChildrenTotalCount = 0;
                 });
                 foreachExpandedGroups(that, function(groupInfo, parents) {
-                    var skip,
-                        take,
-                        takeCorrection = 0,
-                        parentTakeCorrection = 0,
-                        totalOffset = getTotalOffset(parents, isVirtualPaging ? 0 : pageSize, childrenTotalCount),
-                        continuationGroupCount = 0,
-                        skipContinuationGroupCount = 0,
-                        groupInfoCount = groupInfo.count + groupInfo.childrenTotalCount,
-                        childrenGroupInfoCount = groupInfoCount;
+                    var skip;
+                    var take;
+                    var takeCorrection = 0;
+                    var parentTakeCorrection = 0;
+                    var totalOffset = getTotalOffset(parents, isVirtualPaging ? 0 : pageSize, childrenTotalCount);
+                    var continuationGroupCount = 0;
+                    var skipContinuationGroupCount = 0;
+                    var groupInfoCount = groupInfo.count + groupInfo.childrenTotalCount;
+                    var childrenGroupInfoCount = groupInfoCount;
 
                     callback && callback(groupInfo, totalOffset);
 
@@ -451,11 +451,11 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             options.takes = takes;
         },
         changeRowExpand: function(path) {
-            var that = this,
-                groupInfo = that.findGroupInfo(path),
-                dataSource = that._dataSource,
-                remoteGroupPaging = dataSource.remoteOperations().groupPaging,
-                groups = normalizeSortingInfo(dataSource.group());
+            var that = this;
+            var groupInfo = that.findGroupInfo(path);
+            var dataSource = that._dataSource;
+            var remoteGroupPaging = dataSource.remoteOperations().groupPaging;
+            var groups = normalizeSortingInfo(dataSource.group());
 
             if(groupInfo) {
                 groupInfo.isExpanded = !groupInfo.isExpanded;
@@ -479,9 +479,9 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             return new Deferred().reject();
         },
         handleDataLoading: function(options) {
-            var that = this,
-                storeLoadOptions = options.storeLoadOptions,
-                groups = normalizeSortingInfo(storeLoadOptions.group || options.loadOptions.group);
+            var that = this;
+            var storeLoadOptions = options.storeLoadOptions;
+            var groups = normalizeSortingInfo(storeLoadOptions.group || options.loadOptions.group);
 
             if(options.isCustomLoading || !groups.length) {
                 return;
@@ -513,11 +513,11 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             }
         },
         handleDataLoadedCore: function(options, callBase) {
-            var that = this,
-                loadedGroupCount = normalizeSortingInfo(options.storeLoadOptions.group || options.loadOptions.group).length,
-                groupCount = options.group ? options.group.length : 0,
-                totalCount,
-                expandedInfo = {};
+            var that = this;
+            var loadedGroupCount = normalizeSortingInfo(options.storeLoadOptions.group || options.loadOptions.group).length;
+            var groupCount = options.group ? options.group.length : 0;
+            var totalCount;
+            var expandedInfo = {};
 
             if(options.isCustomLoading) {
                 callBase(options);
@@ -559,9 +559,9 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
         _processSkips: function(items, skips, groupCount) {
             if(!groupCount) return;
 
-            var firstItem = items[0],
-                skip = skips[0],
-                children = firstItem && firstItem.items;
+            var firstItem = items[0];
+            var skip = skips[0];
+            var children = firstItem && firstItem.items;
 
             if(skip !== undefined) {
                 firstItem.isContinuation = true;
@@ -578,10 +578,10 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
 
             parents = parents || [];
 
-            var lastItem = items[items.length - 1],
-                children = lastItem && lastItem.items,
-                take = takes[0],
-                skip = skips[0];
+            var lastItem = items[items.length - 1];
+            var children = lastItem && lastItem.items;
+            var take = takes[0];
+            var skip = skips[0];
 
             if(lastItem) {
                 var maxTakeCount = (lastItem.count - (lastItem.isContinuation && skip || 0)) || children.length;
@@ -615,13 +615,13 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
         },
 
         refresh: function(options, isReload, operationTypes) {
-            var that = this,
-                dataSource = that._dataSource,
-                storeLoadOptions = options.storeLoadOptions,
-                group = options.group || options.storeLoadOptions.group,
-                oldGroups = normalizeSortingInfo(that._group),
-                isExpanded,
-                groupIndex;
+            var that = this;
+            var dataSource = that._dataSource;
+            var storeLoadOptions = options.storeLoadOptions;
+            var group = options.group || options.storeLoadOptions.group;
+            var oldGroups = normalizeSortingInfo(that._group);
+            var isExpanded;
+            var groupIndex;
 
             function handleGroup(groupInfo, parents) {
                 if(parents.length === groupIndex + 1) {
@@ -646,14 +646,15 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
                                 group: group
                             }),
                             group: group.slice(groupInfo.path.length)
-                        }),
-                        groupOffsetQuery = loadGroupTotalCount(dataSource, {
-                            filter: createOffsetFilter(groupInfo.path, {
-                                filter: storeLoadOptions.filter,
-                                group: group
-                            }),
-                            group: group.slice(groupInfo.path.length - 1, 1)
                         });
+
+                    var groupOffsetQuery = loadGroupTotalCount(dataSource, {
+                        filter: createOffsetFilter(groupInfo.path, {
+                            filter: storeLoadOptions.filter,
+                            group: group
+                        }),
+                        group: group.slice(groupInfo.path.length - 1, 1)
+                    });
 
                     return when(groupOffsetQuery, groupCountQuery).done(function(offset, count) {
                         offset = parseInt(offset.length ? offset[0] : offset);

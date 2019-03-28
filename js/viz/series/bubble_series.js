@@ -1,15 +1,14 @@
-var lineSeries = require("./line_series").chart.line,
-    scatterSeries = require("./scatter_series").chart,
-    areaSeries = require("./area_series").chart.area,
-    barSeries = require("./bar_series"),
-    chartBarSeries = barSeries.chart.bar,
-    polarBarSeries = barSeries.polar.bar,
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-
-    _extend = extend,
-    _each = each,
-    _noop = require("../../core/utils/common").noop;
+var lineSeries = require("./line_series").chart.line;
+var scatterSeries = require("./scatter_series").chart;
+var areaSeries = require("./area_series").chart.area;
+var barSeries = require("./bar_series");
+var chartBarSeries = barSeries.chart.bar;
+var polarBarSeries = barSeries.polar.bar;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var _extend = extend;
+var _each = each;
+var _noop = require("../../core/utils/common").noop;
 
 exports.chart = {};
 exports.chart.bubble = _extend({}, scatterSeries, {
@@ -119,12 +118,13 @@ exports.chart.bubble = _extend({}, scatterSeries, {
     },
 
     _animate: function() {
-        var that = this,
-            lastPointIndex = that._drawnPoints.length - 1,
-            labelsGroup = that._labelsGroup,
-            labelAnimFunc = function() {
-                labelsGroup && labelsGroup.animate({ opacity: 1 }, { duration: that._defaultDuration });
-            };
+        var that = this;
+        var lastPointIndex = that._drawnPoints.length - 1;
+        var labelsGroup = that._labelsGroup;
+
+        var labelAnimFunc = function() {
+            labelsGroup && labelsGroup.animate({ opacity: 1 }, { duration: that._defaultDuration });
+        };
 
         _each(that._drawnPoints || [], function(i, p) {
             p.animate(i === lastPointIndex ? labelAnimFunc : undefined, { r: p.bubbleSize, translateX: p.x, translateY: p.y });

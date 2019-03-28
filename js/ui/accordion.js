@@ -1,33 +1,31 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    fx = require("../animation/fx"),
-    clickEvent = require("../events/click"),
-    devices = require("../core/devices"),
-    extend = require("../core/utils/extend").extend,
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    iteratorUtils = require("../core/utils/iterator"),
-    isPlainObject = require("../core/utils/type").isPlainObject,
-    registerComponent = require("../core/component_registrator"),
-    eventUtils = require("../events/utils"),
-    CollectionWidget = require("./collection/ui.collection_widget.live_update").default,
-    deferredUtils = require("../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-    BindableTemplate = require("./widget/bindable_template"),
-    iconUtils = require("../core/utils/icon"),
-    isDefined = require("../core/utils/type").isDefined,
-    themes = require("./themes");
-
-var ACCORDION_CLASS = "dx-accordion",
-    ACCORDION_WRAPPER_CLASS = "dx-accordion-wrapper",
-    ACCORDION_ITEM_CLASS = "dx-accordion-item",
-    ACCORDION_ITEM_OPENED_CLASS = "dx-accordion-item-opened",
-    ACCORDION_ITEM_CLOSED_CLASS = "dx-accordion-item-closed",
-    ACCORDION_ITEM_TITLE_CLASS = "dx-accordion-item-title",
-    ACCORDION_ITEM_BODY_CLASS = "dx-accordion-item-body",
-    ACCORDION_ITEM_TITLE_CAPTION_CLASS = "dx-accordion-item-title-caption",
-
-    ACCORDION_ITEM_DATA_KEY = "dxAccordionItemData";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var fx = require("../animation/fx");
+var clickEvent = require("../events/click");
+var devices = require("../core/devices");
+var extend = require("../core/utils/extend").extend;
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var iteratorUtils = require("../core/utils/iterator");
+var isPlainObject = require("../core/utils/type").isPlainObject;
+var registerComponent = require("../core/component_registrator");
+var eventUtils = require("../events/utils");
+var CollectionWidget = require("./collection/ui.collection_widget.live_update").default;
+var deferredUtils = require("../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var BindableTemplate = require("./widget/bindable_template");
+var iconUtils = require("../core/utils/icon");
+var isDefined = require("../core/utils/type").isDefined;
+var themes = require("./themes");
+var ACCORDION_CLASS = "dx-accordion";
+var ACCORDION_WRAPPER_CLASS = "dx-accordion-wrapper";
+var ACCORDION_ITEM_CLASS = "dx-accordion-item";
+var ACCORDION_ITEM_OPENED_CLASS = "dx-accordion-item-opened";
+var ACCORDION_ITEM_CLOSED_CLASS = "dx-accordion-item-closed";
+var ACCORDION_ITEM_TITLE_CLASS = "dx-accordion-item-title";
+var ACCORDION_ITEM_BODY_CLASS = "dx-accordion-item-body";
+var ACCORDION_ITEM_TITLE_CAPTION_CLASS = "dx-accordion-item-title-caption";
+var ACCORDION_ITEM_DATA_KEY = "dxAccordionItemData";
 
 /**
 * @name dxAccordion
@@ -337,8 +335,8 @@ var Accordion = CollectionWidget.inherit({
     },
 
     _updateItems: function(addedSelection, removedSelection) {
-        var $items = this._itemElements(),
-            that = this;
+        var $items = this._itemElements();
+        var that = this;
 
         iteratorUtils.each(addedSelection, function(_, index) {
             that._deferredItems[index].resolve();
@@ -367,9 +365,9 @@ var Accordion = CollectionWidget.inherit({
     },
 
     _updateItemHeights: function(skipAnimation) {
-        var that = this,
-            deferredAnimate = that._deferredAnimate,
-            itemHeight = this._splitFreeSpace(this._calculateFreeSpace());
+        var that = this;
+        var deferredAnimate = that._deferredAnimate;
+        var itemHeight = this._splitFreeSpace(this._calculateFreeSpace());
 
         clearTimeout(this._animationTimer);
 
@@ -389,10 +387,11 @@ var Accordion = CollectionWidget.inherit({
             fx.stop($item);
         }
 
-        var startItemHeight = $item.outerHeight(),
-            finalItemHeight = $item.hasClass(ACCORDION_ITEM_OPENED_CLASS)
-                ? itemHeight + $title.outerHeight() || $item.height("auto").outerHeight()
-                : $title.outerHeight();
+        var startItemHeight = $item.outerHeight();
+
+        var finalItemHeight = $item.hasClass(ACCORDION_ITEM_OPENED_CLASS)
+            ? itemHeight + $title.outerHeight() || $item.height("auto").outerHeight()
+            : $title.outerHeight();
 
         return this._animateItem($item, startItemHeight, finalItemHeight, skipAnimation, !!itemHeight);
     },
@@ -437,8 +436,8 @@ var Accordion = CollectionWidget.inherit({
             return;
         }
 
-        var $titles = this._itemTitles(),
-            itemsHeight = 0;
+        var $titles = this._itemTitles();
+        var itemsHeight = 0;
 
         iteratorUtils.each($titles, function(_, title) {
             itemsHeight += $(title).outerHeight();

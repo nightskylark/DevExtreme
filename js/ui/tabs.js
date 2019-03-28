@@ -1,50 +1,41 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    devices = require("../core/devices"),
-    registerComponent = require("../core/component_registrator"),
-    Button = require("./button"),
-    inkRipple = require("./widget/utils.ink_ripple"),
-    eventUtils = require("../events/utils"),
-    extend = require("../core/utils/extend").extend,
-    isPlainObject = require("../core/utils/type").isPlainObject,
-    pointerEvents = require("../events/pointer"),
-    iteratorUtils = require("../core/utils/iterator"),
-    TabsItem = require("./tabs/item"),
-    themes = require("./themes"),
-    holdEvent = require("../events/hold"),
-    Scrollable = require("./scroll_view/ui.scrollable"),
-    CollectionWidget = require("./collection/ui.collection_widget.live_update").default,
-    iconUtils = require("../core/utils/icon"),
-    BindableTemplate = require("./widget/bindable_template");
-
-var TABS_CLASS = "dx-tabs",
-    TABS_WRAPPER_CLASS = "dx-tabs-wrapper",
-    TABS_EXPANDED_CLASS = "dx-tabs-expanded",
-    TABS_STRETCHED_CLASS = "dx-tabs-stretched",
-    TABS_SCROLLABLE_CLASS = "dx-tabs-scrollable",
-    TABS_NAV_BUTTONS_CLASS = "dx-tabs-nav-buttons",
-
-    OVERFLOW_HIDDEN_CLASS = "dx-overflow-hidden",
-
-    TABS_ITEM_CLASS = "dx-tab",
-    TABS_ITEM_SELECTED_CLASS = "dx-tab-selected",
-
-    TABS_NAV_BUTTON_CLASS = "dx-tabs-nav-button",
-    TABS_LEFT_NAV_BUTTON_CLASS = "dx-tabs-nav-button-left",
-    TABS_RIGHT_NAV_BUTTON_CLASS = "dx-tabs-nav-button-right",
-
-    TABS_ITEM_TEXT_CLASS = "dx-tab-text",
-
-    TABS_ITEM_DATA_KEY = "dxTabData",
-
-    BUTTON_NEXT_ICON = "chevronnext",
-    BUTTON_PREV_ICON = "chevronprev",
-
-    FEEDBACK_HIDE_TIMEOUT = 100,
-    FEEDBACK_DURATION_INTERVAL = 5,
-    FEEDBACK_SCROLL_TIMEOUT = 300,
-
-    TAB_OFFSET = 30;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var devices = require("../core/devices");
+var registerComponent = require("../core/component_registrator");
+var Button = require("./button");
+var inkRipple = require("./widget/utils.ink_ripple");
+var eventUtils = require("../events/utils");
+var extend = require("../core/utils/extend").extend;
+var isPlainObject = require("../core/utils/type").isPlainObject;
+var pointerEvents = require("../events/pointer");
+var iteratorUtils = require("../core/utils/iterator");
+var TabsItem = require("./tabs/item");
+var themes = require("./themes");
+var holdEvent = require("../events/hold");
+var Scrollable = require("./scroll_view/ui.scrollable");
+var CollectionWidget = require("./collection/ui.collection_widget.live_update").default;
+var iconUtils = require("../core/utils/icon");
+var BindableTemplate = require("./widget/bindable_template");
+var TABS_CLASS = "dx-tabs";
+var TABS_WRAPPER_CLASS = "dx-tabs-wrapper";
+var TABS_EXPANDED_CLASS = "dx-tabs-expanded";
+var TABS_STRETCHED_CLASS = "dx-tabs-stretched";
+var TABS_SCROLLABLE_CLASS = "dx-tabs-scrollable";
+var TABS_NAV_BUTTONS_CLASS = "dx-tabs-nav-buttons";
+var OVERFLOW_HIDDEN_CLASS = "dx-overflow-hidden";
+var TABS_ITEM_CLASS = "dx-tab";
+var TABS_ITEM_SELECTED_CLASS = "dx-tab-selected";
+var TABS_NAV_BUTTON_CLASS = "dx-tabs-nav-button";
+var TABS_LEFT_NAV_BUTTON_CLASS = "dx-tabs-nav-button-left";
+var TABS_RIGHT_NAV_BUTTON_CLASS = "dx-tabs-nav-button-right";
+var TABS_ITEM_TEXT_CLASS = "dx-tab-text";
+var TABS_ITEM_DATA_KEY = "dxTabData";
+var BUTTON_NEXT_ICON = "chevronnext";
+var BUTTON_PREV_ICON = "chevronprev";
+var FEEDBACK_HIDE_TIMEOUT = 100;
+var FEEDBACK_DURATION_INTERVAL = 5;
+var FEEDBACK_SCROLL_TIMEOUT = 300;
+var TAB_OFFSET = 30;
 
 
 /**
@@ -306,9 +297,9 @@ var Tabs = CollectionWidget.inherit({
     },
 
     _needStretchItems: function() {
-        var $visibleItems = this._getVisibleItems(),
-            elementWidth = this.$element().width(),
-            itemsWidth = [];
+        var $visibleItems = this._getVisibleItems();
+        var elementWidth = this.$element().width();
+        var itemsWidth = [];
 
         iteratorUtils.each($visibleItems, (_, item) => {
             itemsWidth.push($(item).outerWidth(true));
@@ -435,11 +426,11 @@ var Tabs = CollectionWidget.inherit({
                 that._holdInterval = setInterval(function() {
                     that._updateScrollPosition(offset, FEEDBACK_DURATION_INTERVAL);
                 }, FEEDBACK_DURATION_INTERVAL);
-            }),
+            });
 
-            holdEventName = eventUtils.addNamespace(holdEvent.name, "dxNavButton"),
-            pointerUpEventName = eventUtils.addNamespace(pointerEvents.up, "dxNavButton"),
-            pointerOutEventName = eventUtils.addNamespace(pointerEvents.out, "dxNavButton");
+        var holdEventName = eventUtils.addNamespace(holdEvent.name, "dxNavButton");
+        var pointerUpEventName = eventUtils.addNamespace(pointerEvents.up, "dxNavButton");
+        var pointerOutEventName = eventUtils.addNamespace(pointerEvents.out, "dxNavButton");
 
         var navButton = this._createComponent($("<div>").addClass(TABS_NAV_BUTTON_CLASS), Button, {
             focusStateEnabled: false,

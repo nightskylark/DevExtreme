@@ -10,8 +10,8 @@ import dataQuery from "../../data/query";
 import { when, Deferred } from "../../core/utils/deferred";
 
 var loadTotalCount = function(dataSource, options) {
-    var d = new Deferred(),
-        loadOptions = extend({ skip: 0, take: 1, requireTotalCount: true }, options);
+    var d = new Deferred();
+    var loadOptions = extend({ skip: 0, take: 1, requireTotalCount: true }, options);
 
     dataSource.load(loadOptions).done(function(data, extra) {
         d.resolve(extra && extra.totalCount);
@@ -34,8 +34,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var correctSkipLoadOption = function(that, skip) {
-        var skipCorrection = 0,
-            resultSkip = skip || 0;
+        var skipCorrection = 0;
+        var resultSkip = skip || 0;
 
         if(skip) {
             foreachCollapsedGroups(that, function(groupInfo) {
@@ -50,11 +50,11 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var processGroupItems = function(that, items, path, offset, skipFirstItem, take) {
-        var i,
-            item,
-            offsetInfo,
-            removeLastItemsCount = 0,
-            needRemoveFirstItem = false;
+        var i;
+        var item;
+        var offsetInfo;
+        var removeLastItemsCount = 0;
+        var needRemoveFirstItem = false;
 
         for(i = 0; i < items.length; i++) {
             item = items[i];
@@ -130,8 +130,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var updateGroupOffsets = function(that, items, path, offset, additionalGroupInfo) {
-        var i,
-            item;
+        var i;
+        var item;
 
         if(!items) return;
 
@@ -160,8 +160,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var removeGroupLoadOption = function(storeLoadOptions, loadOptions) {
-        var groups,
-            sorts;
+        var groups;
+        var sorts;
 
         if(loadOptions.group) {
             groups = normalizeSortingInfo(loadOptions.group);
@@ -172,11 +172,11 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var createNotGroupFilter = function(path, storeLoadOptions, group) {
-        var groups = normalizeSortingInfo(group || storeLoadOptions.group),
-            i,
-            j,
-            filterElement,
-            filter = [];
+        var groups = normalizeSortingInfo(group || storeLoadOptions.group);
+        var i;
+        var j;
+        var filterElement;
+        var filter = [];
 
         for(i = 0; i < path.length; i++) {
             filterElement = [];
@@ -191,8 +191,8 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
     };
 
     var getGroupCount = function(item, groupCount) {
-        var count = item.count || item.items.length,
-            i;
+        var count = item.count || item.items.length;
+        var i;
 
         if(!item.count && groupCount > 1) {
             count = 0;
@@ -206,15 +206,15 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
 
     return {
         handleDataLoading: function(options) {
-            var that = this,
-                storeLoadOptions = options.storeLoadOptions,
-                loadOptions,
-                collapsedGroups = [],
-                collapsedItemsCount = 0,
-                skipFirstItem = false,
-                take,
-                group = options.loadOptions.group,
-                skipCorrection = 0;
+            var that = this;
+            var storeLoadOptions = options.storeLoadOptions;
+            var loadOptions;
+            var collapsedGroups = [];
+            var collapsedItemsCount = 0;
+            var skipFirstItem = false;
+            var take;
+            var group = options.loadOptions.group;
+            var skipCorrection = 0;
 
             removeGroupLoadOption(storeLoadOptions, options.loadOptions);
 
@@ -261,20 +261,20 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             options.take = take;
         },
         handleDataLoaded: function(options, callBase) {
-            var that = this,
-                data = options.data,
-                pathIndex,
-                query,
-                collapsedGroups = options.collapsedGroups,
-                groups = normalizeSortingInfo(options.group),
-                groupCount = groups.length;
+            var that = this;
+            var data = options.data;
+            var pathIndex;
+            var query;
+            var collapsedGroups = options.collapsedGroups;
+            var groups = normalizeSortingInfo(options.group);
+            var groupCount = groups.length;
 
             function appendCollapsedPath(data, path, groups, collapsedGroup, offset) {
                 if(!data || !path.length || !groups.length) return;
 
-                var i,
-                    keyValue,
-                    pathValue = toComparable(path[0], true);
+                var i;
+                var keyValue;
+                var pathValue = toComparable(path[0], true);
 
                 for(i = 0; i < data.length; i++) {
                     keyValue = toComparable(data[i].key, true);
@@ -327,13 +327,13 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             this.callBase(itemsCountCorrection);
         },
         changeRowExpand: function(path) {
-            var that = this,
-                dataSource = that._dataSource,
-                beginPageIndex = dataSource.beginPageIndex ? dataSource.beginPageIndex() : dataSource.pageIndex(),
-                dataSourceItems = dataSource.items(),
-                offset = correctSkipLoadOption(that, beginPageIndex * dataSource.pageSize()),
-                groupInfo = that.findGroupInfo(path),
-                groupCountQuery;
+            var that = this;
+            var dataSource = that._dataSource;
+            var beginPageIndex = dataSource.beginPageIndex ? dataSource.beginPageIndex() : dataSource.pageIndex();
+            var dataSourceItems = dataSource.items();
+            var offset = correctSkipLoadOption(that, beginPageIndex * dataSource.pageSize());
+            var groupInfo = that.findGroupInfo(path);
+            var groupCountQuery;
 
             if(groupInfo && !groupInfo.isExpanded) {
                 groupCountQuery = new Deferred().resolve(groupInfo.count);
@@ -373,16 +373,16 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             return false;
         },
         refresh: function(options, isReload, operationTypes) {
-            var that = this,
-                storeLoadOptions = options.storeLoadOptions,
-                dataSource = that._dataSource;
+            var that = this;
+            var storeLoadOptions = options.storeLoadOptions;
+            var dataSource = that._dataSource;
 
             this.callBase.apply(this, arguments);
 
             if(isReload || operationTypes.reload) {
                 return foreachCollapsedGroups(that, function(groupInfo) {
-                    var groupCountQuery = loadTotalCount(dataSource, { filter: createGroupFilter(groupInfo.path, storeLoadOptions) }),
-                        groupOffsetQuery = loadTotalCount(dataSource, { filter: createOffsetFilter(groupInfo.path, storeLoadOptions) });
+                    var groupCountQuery = loadTotalCount(dataSource, { filter: createGroupFilter(groupInfo.path, storeLoadOptions) });
+                    var groupOffsetQuery = loadTotalCount(dataSource, { filter: createOffsetFilter(groupInfo.path, storeLoadOptions) });
 
                     return when(groupOffsetQuery, groupCountQuery).done(function(offset, count) {
                         offset = parseInt(offset.length ? offset[0] : offset);

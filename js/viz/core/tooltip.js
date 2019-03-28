@@ -1,17 +1,17 @@
-var domAdapter = require("../../core/dom_adapter"),
-    windowUtils = require("../../core/utils/window"),
-    inflector = require("../../core/utils/inflector"),
-    window = windowUtils.getWindow(),
-    $ = require("../../core/renderer"),
-    rendererModule = require("./renderers/renderer"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    HALF_ARROW_WIDTH = 10,
-    vizUtils = require("./utils"),
-    _format = require("../../format_helper").format,
-    mathCeil = Math.ceil,
-    mathMax = Math.max,
-    mathMin = Math.min;
+var domAdapter = require("../../core/dom_adapter");
+var windowUtils = require("../../core/utils/window");
+var inflector = require("../../core/utils/inflector");
+var window = windowUtils.getWindow();
+var $ = require("../../core/renderer");
+var rendererModule = require("./renderers/renderer");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var HALF_ARROW_WIDTH = 10;
+var vizUtils = require("./utils");
+var _format = require("../../format_helper").format;
+var mathCeil = Math.ceil;
+var mathMax = Math.max;
+var mathMin = Math.min;
 
 function hideElement($element) {
     $element.css({ left: "-9999px" }).detach();
@@ -31,9 +31,9 @@ function getSpecialFormatOptions(options, specialFormat) {
 }
 
 function Tooltip(params) {
-    var that = this,
-        renderer,
-        root;
+    var that = this;
+    var renderer;
+    var root;
 
     that._eventTrigger = params.eventTrigger;
     that._widgetRoot = params.widgetRoot;
@@ -68,8 +68,8 @@ Tooltip.prototype = {
     },
 
     _getContainer: function() {
-        var options = this._options,
-            container = $(this._widgetRoot).closest(options.container);
+        var options = this._options;
+        var container = $(this._widgetRoot).closest(options.container);
         if(container.length === 0) {
             container = $(options.container);
         }
@@ -79,9 +79,9 @@ Tooltip.prototype = {
     setOptions: function(options) {
         options = options || {};
 
-        var that = this,
-            cloudSettings = that._cloudSettings = { opacity: options.opacity, filter: that._shadow.id, "stroke-width": null, stroke: null },
-            borderOptions = options.border || {};
+        var that = this;
+        var cloudSettings = that._cloudSettings = { opacity: options.opacity, filter: that._shadow.id, "stroke-width": null, stroke: null };
+        var borderOptions = options.border || {};
 
         that._shadowSettings = extend({ x: "-50%", y: "-50%", width: "200%", height: "200%" }, options.shadow);
 
@@ -136,8 +136,8 @@ Tooltip.prototype = {
     },
 
     _prepare: function(formatObject, state) {
-        var options = this._options,
-            customize = {};
+        var options = this._options;
+        var customize = {};
 
         if(this._customizeTooltip) {
             customize = this._customizeTooltip.call(formatObject, formatObject);
@@ -159,20 +159,20 @@ Tooltip.prototype = {
     },
 
     show: function(formatObject, params, eventData) {
-        var that = this,
-            state = {},
-            options = that._options,
-            paddingLeftRight = options.paddingLeftRight,
-            paddingTopBottom = options.paddingTopBottom,
-            textGroupHtml = that._textGroupHtml,
-            textHtml = that._textHtml,
-            bBox,
-            contentSize,
-            ss = that._shadowSettings,
-            xOff = ss.offsetX,
-            yOff = ss.offsetY,
-            blur = ss.blur * 2 + 1,
-            getComputedStyle = window.getComputedStyle;
+        var that = this;
+        var state = {};
+        var options = that._options;
+        var paddingLeftRight = options.paddingLeftRight;
+        var paddingTopBottom = options.paddingTopBottom;
+        var textGroupHtml = that._textGroupHtml;
+        var textHtml = that._textHtml;
+        var bBox;
+        var contentSize;
+        var ss = that._shadowSettings;
+        var xOff = ss.offsetX;
+        var yOff = ss.offsetY;
+        var blur = ss.blur * 2 + 1;
+        var getComputedStyle = window.getComputedStyle;
 
         if(!that._prepare(formatObject, state)) {
             return false;
@@ -248,11 +248,11 @@ Tooltip.prototype = {
 
     move: function(x, y, offset) {
         offset = offset || 0;
-        var that = this,
-            canvas = that._getCanvas(),
-            state = that._state,
-            coords = state.tc,
-            contentSize = state.contentSize;
+        var that = this;
+        var canvas = that._getCanvas();
+        var state = that._state;
+        var coords = state.tc;
+        var contentSize = state.contentSize;
 
         if(that._calculatePosition(x, y, offset, canvas)) {
             that._cloud.attr({ points: coords.cloudPoints }).move(contentSize.lm, contentSize.tm);
@@ -294,39 +294,36 @@ Tooltip.prototype = {
     },
 
     _calculatePosition: function(x, y, offset, canvas) {
-        var that = this,
-            options = that._options,
-            arrowLength = options.arrowLength,
-            state = that._state,
-            coords = state.tc,
-            contentSize = state.contentSize,
-            contentWidth = contentSize.width,
-            halfContentWidth = contentWidth / 2,
-            contentHeight = contentSize.height,
-
-            cTop = y - canvas.top,
-            cBottom = canvas.top + canvas.height - y,
-            cLeft = x - canvas.left,
-            cRight = canvas.width + canvas.left - x,
-
-            tTop = contentHeight + arrowLength + offset + contentSize.tm,
-            tBottom = contentHeight + arrowLength + offset + contentSize.bm,
-            tLeft = contentWidth + contentSize.lm,
-            tRight = contentWidth + contentSize.rm,
-            tHalfLeft = halfContentWidth + contentSize.lm,
-            tHalfRight = halfContentWidth + contentSize.rm,
-
-            correction = 0,
-            cloudPoints,
-            arrowPoints = [6, 0],
-            x1 = halfContentWidth + HALF_ARROW_WIDTH,
-            x2 = halfContentWidth,
-            x3 = halfContentWidth - HALF_ARROW_WIDTH,
-            y1,
-            y3,
-            y2 = contentHeight + arrowLength,
-            hp = "center",
-            vp = "bottom";
+        var that = this;
+        var options = that._options;
+        var arrowLength = options.arrowLength;
+        var state = that._state;
+        var coords = state.tc;
+        var contentSize = state.contentSize;
+        var contentWidth = contentSize.width;
+        var halfContentWidth = contentWidth / 2;
+        var contentHeight = contentSize.height;
+        var cTop = y - canvas.top;
+        var cBottom = canvas.top + canvas.height - y;
+        var cLeft = x - canvas.left;
+        var cRight = canvas.width + canvas.left - x;
+        var tTop = contentHeight + arrowLength + offset + contentSize.tm;
+        var tBottom = contentHeight + arrowLength + offset + contentSize.bm;
+        var tLeft = contentWidth + contentSize.lm;
+        var tRight = contentWidth + contentSize.rm;
+        var tHalfLeft = halfContentWidth + contentSize.lm;
+        var tHalfRight = halfContentWidth + contentSize.rm;
+        var correction = 0;
+        var cloudPoints;
+        var arrowPoints = [6, 0];
+        var x1 = halfContentWidth + HALF_ARROW_WIDTH;
+        var x2 = halfContentWidth;
+        var x3 = halfContentWidth - HALF_ARROW_WIDTH;
+        var y1;
+        var y3;
+        var y2 = contentHeight + arrowLength;
+        var hp = "center";
+        var vp = "bottom";
 
         y1 = y3 = contentHeight;
 
@@ -400,12 +397,12 @@ Tooltip.prototype = {
     },
 
     _getCanvas: function() {
-        var container = this._getContainer(),
-            containerBox = container.getBoundingClientRect(),
-            html = domAdapter.getDocumentElement(),
-            body = domAdapter.getBody(),
-            left = window.pageXOffset || html.scrollLeft || 0,
-            top = window.pageYOffset || html.scrollTop || 0;
+        var container = this._getContainer();
+        var containerBox = container.getBoundingClientRect();
+        var html = domAdapter.getDocumentElement();
+        var body = domAdapter.getBody();
+        var left = window.pageXOffset || html.scrollLeft || 0;
+        var top = window.pageYOffset || html.scrollTop || 0;
 
         var box = {
             left: left,

@@ -6,18 +6,18 @@ function foreachColumnInfo(info, callback, rowIndex, offsets, columnCount, lastP
     lastProcessedIndexes = lastProcessedIndexes || [];
     offsets[rowIndex] = offsets[rowIndex] || 0;
 
-    var row = info[rowIndex],
-        startIndex = lastProcessedIndexes[rowIndex] + 1 || 0,
-        processedColumnCount = 0;
+    var row = info[rowIndex];
+    var startIndex = lastProcessedIndexes[rowIndex] + 1 || 0;
+    var processedColumnCount = 0;
 
     if(!row) {
         return;
     }
 
     for(var colIndex = startIndex; colIndex < row.length; colIndex++) {
-        var cell = row[colIndex],
-            visibleIndex = colIndex + offsets[rowIndex],
-            colspan = cell.colspan || 1;
+        var cell = row[colIndex];
+        var visibleIndex = colIndex + offsets[rowIndex];
+        var colspan = cell.colspan || 1;
 
         foreachColumnInfo(info, callback, rowIndex + (cell.rowspan || 1), offsets, colspan, lastProcessedIndexes);
 
@@ -47,10 +47,10 @@ function createColumnsInfo(info, startIndex, endIndex) {
     var newInfo = [];
 
     foreachColumnInfo(info, function(columnInfo, visibleIndex, rowIndex) {
-        var cell = columnInfo,
-            colspan,
-            cellColspan = cell.colspan || 1,
-            isVisible = visibleIndex + cellColspan - 1 >= startIndex && visibleIndex < endIndex;
+        var cell = columnInfo;
+        var colspan;
+        var cellColspan = cell.colspan || 1;
+        var isVisible = visibleIndex + cellColspan - 1 >= startIndex && visibleIndex < endIndex;
 
         newInfo[rowIndex] = newInfo[rowIndex] || [];
 

@@ -8,6 +8,7 @@
             {
                 "patterns": ["*.js"]
             }
-        ]
+        ],
+        "one-var": ["error", "never"]
     }
 }

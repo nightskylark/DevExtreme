@@ -1,14 +1,14 @@
-var $ = require("../../core/renderer"),
-    each = require("../../core/utils/iterator").each,
-    eventsEngine = require("../../events/core/events_engine"),
-    translator = require("../../animation/translator"),
-    fx = require("../../animation/fx"),
-    dragEvents = require("../../events/drag"),
-    mathUtils = require("../../core/utils/math"),
-    Animator = require("../scroll_view/animator"),
-    eventUtils = require("../../events/utils"),
-    registerDecorator = require("./ui.list.edit.decorator_registry").register,
-    EditDecorator = require("./ui.list.edit.decorator");
+var $ = require("../../core/renderer");
+var each = require("../../core/utils/iterator").each;
+var eventsEngine = require("../../events/core/events_engine");
+var translator = require("../../animation/translator");
+var fx = require("../../animation/fx");
+var dragEvents = require("../../events/drag");
+var mathUtils = require("../../core/utils/math");
+var Animator = require("../scroll_view/animator");
+var eventUtils = require("../../events/utils");
+var registerDecorator = require("./ui.list.edit.decorator_registry").register;
+var EditDecorator = require("./ui.list.edit.decorator");
 
 
 var ReorderScrollAnimator = Animator.inherit({
@@ -30,16 +30,14 @@ var ReorderScrollAnimator = Animator.inherit({
 });
 
 
-var LIST_EDIT_DECORATOR = "dxListEditDecorator",
-    DRAG_START_EVENT_NAME = eventUtils.addNamespace(dragEvents.start, LIST_EDIT_DECORATOR),
-    DRAG_UPDATE_EVENT_NAME = eventUtils.addNamespace(dragEvents.move, LIST_EDIT_DECORATOR),
-    DRAG_END_EVENT_NAME = eventUtils.addNamespace(dragEvents.end, LIST_EDIT_DECORATOR),
-
-    REORDER_HANDLE_CONTAINER_CLASS = "dx-list-reorder-handle-container",
-    REORDER_HANDLE_CLASS = "dx-list-reorder-handle",
-
-    REOREDERING_ITEM_CLASS = "dx-list-item-reordering",
-    REOREDERING_ITEM_GHOST_CLASS = "dx-list-item-ghost-reordering";
+var LIST_EDIT_DECORATOR = "dxListEditDecorator";
+var DRAG_START_EVENT_NAME = eventUtils.addNamespace(dragEvents.start, LIST_EDIT_DECORATOR);
+var DRAG_UPDATE_EVENT_NAME = eventUtils.addNamespace(dragEvents.move, LIST_EDIT_DECORATOR);
+var DRAG_END_EVENT_NAME = eventUtils.addNamespace(dragEvents.end, LIST_EDIT_DECORATOR);
+var REORDER_HANDLE_CONTAINER_CLASS = "dx-list-reorder-handle-container";
+var REORDER_HANDLE_CLASS = "dx-list-reorder-handle";
+var REOREDERING_ITEM_CLASS = "dx-list-item-reordering";
+var REOREDERING_ITEM_GHOST_CLASS = "dx-list-item-ghost-reordering";
 
 registerDecorator(
     "reorder",
@@ -67,8 +65,8 @@ registerDecorator(
         },
 
         afterBag: function(config) {
-            var $itemElement = config.$itemElement,
-                $container = config.$container;
+            var $itemElement = config.$itemElement;
+            var $container = config.$container;
 
             var $handle = $("<div>").addClass(REORDER_HANDLE_CLASS);
 
@@ -195,13 +193,11 @@ registerDecorator(
                 return;
             }
 
-            var minOffset = this._elementHeight * 0.7,
-
-                topOffset = (this._clientHeight - (pointerPosition - this._scrollTop())),
-                topOffsetRatio = topOffset / minOffset,
-
-                bottomOffset = (pointerPosition - this._scrollTop()),
-                bottomOffsetRatio = bottomOffset / minOffset;
+            var minOffset = this._elementHeight * 0.7;
+            var topOffset = (this._clientHeight - (pointerPosition - this._scrollTop()));
+            var topOffsetRatio = topOffset / minOffset;
+            var bottomOffset = (pointerPosition - this._scrollTop());
+            var bottomOffsetRatio = bottomOffset / minOffset;
 
             if(topOffsetRatio < 1) {
                 this._stepSize = this._adjustRationIntoRange(topOffsetRatio);
@@ -238,26 +234,23 @@ registerDecorator(
                 return;
             }
 
-            var currentIndexOffset = currentIndex - this._startIndex,
-                currentDirection = mathUtils.sign(currentIndexOffset),
-
-                minIndex = Math.min(currentIndex, this._lastIndex),
-                maxIndex = Math.max(currentIndex, this._lastIndex);
+            var currentIndexOffset = currentIndex - this._startIndex;
+            var currentDirection = mathUtils.sign(currentIndexOffset);
+            var minIndex = Math.min(currentIndex, this._lastIndex);
+            var maxIndex = Math.max(currentIndex, this._lastIndex);
 
             for(var itemIndex = minIndex; itemIndex <= maxIndex; itemIndex++) {
                 if(itemIndex === this._startIndex) {
                     continue;
                 }
 
-                var $item = this._list.getItemElementByFlatIndex(itemIndex),
-                    itemIndexOffset = itemIndex - this._startIndex,
-                    itemDirection = mathUtils.sign(itemIndexOffset),
-
-                    offsetsDifference = Math.abs(itemIndexOffset) <= Math.abs(currentIndexOffset),
-                    sameDirections = currentDirection === itemDirection,
-
-                    setupPosition = offsetsDifference && sameDirections,
-                    resetPosition = !offsetsDifference || !sameDirections;
+                var $item = this._list.getItemElementByFlatIndex(itemIndex);
+                var itemIndexOffset = itemIndex - this._startIndex;
+                var itemDirection = mathUtils.sign(itemIndexOffset);
+                var offsetsDifference = Math.abs(itemIndexOffset) <= Math.abs(currentIndexOffset);
+                var sameDirections = currentDirection === itemDirection;
+                var setupPosition = offsetsDifference && sameDirections;
+                var resetPosition = !offsetsDifference || !sameDirections;
 
                 fx.stop($item);
                 if(setupPosition) {
@@ -280,8 +273,8 @@ registerDecorator(
         },
 
         _sameParent: function(index) {
-            var $dragging = this._list.getItemElementByFlatIndex(this._startIndex),
-                $over = this._list.getItemElementByFlatIndex(index);
+            var $dragging = this._list.getItemElementByFlatIndex(this._startIndex);
+            var $over = this._list.getItemElementByFlatIndex(index);
 
             return $over.parent().get(0) === $dragging.parent().get(0);
         },
@@ -294,10 +287,9 @@ registerDecorator(
         },
 
         scrollFinished: function() {
-            var scrollTop = this._scrollTop(),
-
-                rejectScrollTop = scrollTop <= 0 && this._stepSize < 0,
-                rejectScrollBottom = scrollTop >= this._scrollHeight - this._clientHeight && this._stepSize > 0;
+            var scrollTop = this._scrollTop();
+            var rejectScrollTop = scrollTop <= 0 && this._stepSize < 0;
+            var rejectScrollBottom = scrollTop >= this._scrollHeight - this._clientHeight && this._stepSize > 0;
 
             return rejectScrollTop || rejectScrollBottom;
         },
@@ -328,8 +320,8 @@ registerDecorator(
         },
 
         _resetPositions: function() {
-            var minIndex = Math.min(this._startIndex, this._lastIndex),
-                maxIndex = Math.max(this._startIndex, this._lastIndex);
+            var minIndex = Math.min(this._startIndex, this._lastIndex);
+            var maxIndex = Math.max(this._startIndex, this._lastIndex);
 
             for(var itemIndex = minIndex; itemIndex <= maxIndex; itemIndex++) {
                 var $item = this._list.getItemElementByFlatIndex(itemIndex);

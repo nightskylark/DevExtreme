@@ -1,7 +1,7 @@
 var TabsItem = require("../tabs/item");
 
-var TABS_ITEM_BADGE_CLASS = "dx-tabs-item-badge",
-    NAVBAR_ITEM_BADGE_CLASS = "dx-navbar-item-badge";
+var TABS_ITEM_BADGE_CLASS = "dx-tabs-item-badge";
+var NAVBAR_ITEM_BADGE_CLASS = "dx-navbar-item-badge";
 
 var NavBarItem = TabsItem.inherit({
 

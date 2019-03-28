@@ -6,43 +6,38 @@ import title from "../core/title";
 import { clone } from "../../core/utils/object";
 import { noop } from "../../core/utils/common";
 
-var _Number = Number,
-
-    _math = Math,
-    _round = _math.round,
-    _max = _math.max,
-    _min = _math.min,
-    _ceil = _math.ceil,
-
-    _isDefined = isDefined,
-    _isFunction = isFunction,
-    _enumParser = enumParser,
-    _normalizeEnum = normalizeEnum,
-
-    _extend = extend,
-
-    DEFAULT_MARGIN = 10,
-    DEFAULT_MARKER_HATCHING_WIDTH = 2,
-    DEFAULT_MARKER_HATCHING_STEP = 5,
-    CENTER = "center",
-    RIGHT = "right",
-    LEFT = "left",
-    TOP = "top",
-    BOTTOM = "bottom",
-    HORIZONTAL = "horizontal",
-    VERTICAL = "vertical",
-    INSIDE = "inside",
-    OUTSIDE = "outside",
-    NONE = "none",
-    HEIGHT = "height",
-    WIDTH = "width",
-
-    parseHorizontalAlignment = _enumParser([LEFT, CENTER, RIGHT]),
-    parseVerticalAlignment = _enumParser([TOP, BOTTOM]),
-    parseOrientation = _enumParser([VERTICAL, HORIZONTAL]),
-    parseItemTextPosition = _enumParser([LEFT, RIGHT, TOP, BOTTOM]),
-    parsePosition = _enumParser([OUTSIDE, INSIDE]),
-    parseItemsAlignment = _enumParser([LEFT, CENTER, RIGHT]);
+var _Number = Number;
+var _math = Math;
+var _round = _math.round;
+var _max = _math.max;
+var _min = _math.min;
+var _ceil = _math.ceil;
+var _isDefined = isDefined;
+var _isFunction = isFunction;
+var _enumParser = enumParser;
+var _normalizeEnum = normalizeEnum;
+var _extend = extend;
+var DEFAULT_MARGIN = 10;
+var DEFAULT_MARKER_HATCHING_WIDTH = 2;
+var DEFAULT_MARKER_HATCHING_STEP = 5;
+var CENTER = "center";
+var RIGHT = "right";
+var LEFT = "left";
+var TOP = "top";
+var BOTTOM = "bottom";
+var HORIZONTAL = "horizontal";
+var VERTICAL = "vertical";
+var INSIDE = "inside";
+var OUTSIDE = "outside";
+var NONE = "none";
+var HEIGHT = "height";
+var WIDTH = "width";
+var parseHorizontalAlignment = _enumParser([LEFT, CENTER, RIGHT]);
+var parseVerticalAlignment = _enumParser([TOP, BOTTOM]);
+var parseOrientation = _enumParser([VERTICAL, HORIZONTAL]);
+var parseItemTextPosition = _enumParser([LEFT, RIGHT, TOP, BOTTOM]);
+var parsePosition = _enumParser([OUTSIDE, INSIDE]);
+var parseItemsAlignment = _enumParser([LEFT, CENTER, RIGHT]);
 
 function getState(state, color) {
     if(!state) {
@@ -76,10 +71,10 @@ function parseMargins(options) {
 }
 
 function getSizeItem(options, markerSize, labelBBox) {
-    var defaultXMargin = 7,
-        defaultTopMargin = 4,
-        width,
-        height;
+    var defaultXMargin = 7;
+    var defaultTopMargin = 4;
+    var width;
+    var height;
 
     switch(options.itemTextPosition) {
         case LEFT:
@@ -162,10 +157,10 @@ function inRect(rect, x, y) {
 }
 
 function checkLinesSize(lines, layoutOptions, countItems, margins) {
-    var position = { x: 0, y: 0 },
-        maxMeasureLength = 0,
-        maxAltMeasureLength = 0,
-        margin = 0;
+    var position = { x: 0, y: 0 };
+    var maxMeasureLength = 0;
+    var maxAltMeasureLength = 0;
+    var margin = 0;
 
     if(layoutOptions.direction === "y") {
         margin = margins.top + margins.bottom;
@@ -174,8 +169,8 @@ function checkLinesSize(lines, layoutOptions, countItems, margins) {
     }
 
     lines.forEach(function(line, i) {
-        var firstItem = line[0],
-            lineLength = line.length;
+        var firstItem = line[0];
+        var lineLength = line.length;
 
         line.forEach(function(item, index) {
             var offset = item.offset || layoutOptions.spacing;
@@ -214,8 +209,8 @@ function getMaxLineLength(lines, layoutOptions) {
 }
 
 function getInitPositionForDirection(line, layoutOptions, maxLineLength) {
-    var lineLength = getLineLength(line, layoutOptions),
-        initPosition;
+    var lineLength = getLineLength(line, layoutOptions);
+    var initPosition;
 
     switch(layoutOptions.itemsAlignment) {
         case RIGHT:
@@ -291,11 +286,11 @@ function setMaxInLine(line, measure) {
 }
 
 function transpose(array) {
-    var width = array.length,
-        height = array[0].length,
-        i,
-        j,
-        transposeArray = [];
+    var width = array.length;
+    var height = array[0].length;
+    var i;
+    var j;
+    var transposeArray = [];
 
     for(i = 0; i < height; i++) {
         transposeArray[i] = [];
@@ -369,9 +364,10 @@ extend(legendPrototype, {
 
     draw: function(width, height) {
         // TODO check multiple groups creation
-        const that = this,
-            options = that._options,
-            items = that._getItemData();
+        const that = this;
+
+        const options = that._options;
+        const items = that._getItemData();
 
         that._size = { width: width, height: height };
         that.erase();
@@ -410,33 +406,37 @@ extend(legendPrototype, {
     },
 
     _createItems: function(items) {
-        var that = this,
-            options = that._options,
-            initMarkerSize = options.markerSize,
-            renderer = that._renderer,
-            bBox,
-            maxBBoxHeight = 0,
-            createMarker = getMarkerCreator(options.markerShape);
+        var that = this;
+        var options = that._options;
+        var initMarkerSize = options.markerSize;
+        var renderer = that._renderer;
+        var bBox;
+        var maxBBoxHeight = 0;
+        var createMarker = getMarkerCreator(options.markerShape);
 
         that._markersId = {};
 
 
         that._items = (items || []).map((dataItem, i) => {
-            var group = that._markersGroup,
-                markerSize = _Number(dataItem.size > 0 ? dataItem.size : initMarkerSize),
-                stateOfDataItem = dataItem.states,
-                normalState = stateOfDataItem.normal,
-                normalStateFill = normalState.fill,
-                marker = createMarker(renderer, markerSize)
-                    .attr({ fill: normalStateFill || options.markerColor || options.defaultColor, opacity: normalState.opacity })
-                    .append(group),
-                label = that._createLabel(dataItem, group),
-                states = {
-                    normal: { fill: normalStateFill },
-                    hovered: getState(stateOfDataItem.hover, normalStateFill),
-                    selected: getState(stateOfDataItem.selection, normalStateFill)
-                },
-                labelBBox = label.getBBox();
+            var group = that._markersGroup;
+            var markerSize = _Number(dataItem.size > 0 ? dataItem.size : initMarkerSize);
+            var stateOfDataItem = dataItem.states;
+            var normalState = stateOfDataItem.normal;
+            var normalStateFill = normalState.fill;
+
+            var marker = createMarker(renderer, markerSize)
+                .attr({ fill: normalStateFill || options.markerColor || options.defaultColor, opacity: normalState.opacity })
+                .append(group);
+
+            var label = that._createLabel(dataItem, group);
+
+            var states = {
+                normal: { fill: normalStateFill },
+                hovered: getState(stateOfDataItem.hover, normalStateFill),
+                selected: getState(stateOfDataItem.selection, normalStateFill)
+            };
+
+            var labelBBox = label.getBBox();
 
             if(dataItem.id !== undefined) {
                 that._markersId[dataItem.id] = i;
@@ -483,8 +483,8 @@ extend(legendPrototype, {
 
     // The name is chosen to be opposite for `draw`
     erase: function() {
-        var that = this,
-            insideLegendGroup = that._insideLegendGroup;
+        var that = this;
+        var insideLegendGroup = that._insideLegendGroup;
 
         insideLegendGroup && insideLegendGroup.dispose();
         that._insideLegendGroup = that._markersGroup = that._x1 = that._x2 = that._y2 = that._y2 = null;
@@ -518,10 +518,10 @@ extend(legendPrototype, {
     },
 
     _createLabel: function(data, group) {
-        var labelFormatObject = this._getCustomizeObject(data),
-            align = getAlign(this._options.itemTextPosition),
-            text = this._options.customizeText.call(labelFormatObject, labelFormatObject),
-            fontStyle = _isDefined(data.textOpacity) ? _extend({}, this._options.font, { opacity: data.textOpacity }) : this._options.font;
+        var labelFormatObject = this._getCustomizeObject(data);
+        var align = getAlign(this._options.itemTextPosition);
+        var text = this._options.customizeText.call(labelFormatObject, labelFormatObject);
+        var fontStyle = _isDefined(data.textOpacity) ? _extend({}, this._options.font, { opacity: data.textOpacity }) : this._options.font;
         return this._renderer.text(text, 0, 0)
             .css(patchFontOptions(fontStyle))
             .attr({ align: align })
@@ -529,8 +529,8 @@ extend(legendPrototype, {
     },
 
     _createHint: function(data, label, marker) {
-        var labelFormatObject = this._getCustomizeObject(data),
-            text = this._options.customizeHint.call(labelFormatObject, labelFormatObject);
+        var labelFormatObject = this._getCustomizeObject(data);
+        var text = this._options.customizeHint.call(labelFormatObject, labelFormatObject);
         if(_isDefined(text) && text !== "") {
             label.setTitle(text);
             marker.setTitle(text);
@@ -538,10 +538,10 @@ extend(legendPrototype, {
     },
 
     _createBackground: function() {
-        var that = this,
-            isInside = that._options.position === INSIDE,
-            color = that._options.backgroundColor,
-            fill = color || (isInside ? that._options.containerBackgroundColor : NONE);
+        var that = this;
+        var isInside = that._options.position === INSIDE;
+        var color = that._options.backgroundColor;
+        var fill = color || (isInside ? that._options.containerBackgroundColor : NONE);
 
         if(that._options.border.visible || ((isInside || color) && color !== NONE)) {
             that._background = that._renderer.rect(0, 0, 0, 0)
@@ -551,11 +551,11 @@ extend(legendPrototype, {
     },
 
     _locateRowsColumns: function(options) {
-        var that = this,
-            iteration = 0,
-            layoutOptions = that._getItemsLayoutOptions(),
-            countItems = that._items.length,
-            lines;
+        var that = this;
+        var iteration = 0;
+        var layoutOptions = that._getItemsLayoutOptions();
+        var countItems = that._items.length;
+        var lines;
 
         do {
             lines = [];
@@ -570,29 +570,32 @@ extend(legendPrototype, {
     _createLines: function(lines, layoutOptions) {
 
         this._items.forEach((item, i) => {
-            var tableLine = getLines(lines, layoutOptions, i),
-                labelBox = {
-                    width: item.labelBBox.width,
-                    height: item.labelBBox.height,
-                    element: item.label,
-                    bBox: item.labelBBox,
-                    pos: getPos(layoutOptions),
-                    itemIndex: i
+            var tableLine = getLines(lines, layoutOptions, i);
+
+            var labelBox = {
+                width: item.labelBBox.width,
+                height: item.labelBBox.height,
+                element: item.label,
+                bBox: item.labelBBox,
+                pos: getPos(layoutOptions),
+                itemIndex: i
+            };
+
+            var markerBox = {
+                width: item.markerSize,
+                height: item.markerSize,
+                element: item.marker,
+                pos: {
+                    horizontal: CENTER,
+                    vertical: CENTER
                 },
-                markerBox = {
-                    width: item.markerSize,
-                    height: item.markerSize,
-                    element: item.marker,
-                    pos: {
-                        horizontal: CENTER,
-                        vertical: CENTER
-                    },
-                    bBox: { width: item.markerSize, height: item.markerSize, x: 0, y: 0 },
-                    itemIndex: i
-                },
-                firstItem,
-                secondItem,
-                offsetDirection = layoutOptions.markerOffset ? "altOffset" : "offset";
+                bBox: { width: item.markerSize, height: item.markerSize, x: 0, y: 0 },
+                itemIndex: i
+            };
+
+            var firstItem;
+            var secondItem;
+            var offsetDirection = layoutOptions.markerOffset ? "altOffset" : "offset";
 
             if(layoutOptions.inverseLabelPosition) {
                 firstItem = labelBox;
@@ -609,8 +612,8 @@ extend(legendPrototype, {
     },
 
     _alignLines: function(lines, layoutOptions) {
-        var i,
-            measure = layoutOptions.altMeasure;
+        var i;
+        var measure = layoutOptions.altMeasure;
         lines.forEach(line => setMaxInLine(line, measure));
         measure = layoutOptions.measure;
         if(layoutOptions.itemsAlignment) {
@@ -633,27 +636,29 @@ extend(legendPrototype, {
     },
 
     _applyItemPosition: function(lines, layoutOptions) {
-        var that = this,
-            position = { x: 0, y: 0 },
-            titleX = this._getTitleBBox().x,
-            maxLineLength = getMaxLineLength(lines, layoutOptions);
+        var that = this;
+        var position = { x: 0, y: 0 };
+        var titleX = this._getTitleBBox().x;
+        var maxLineLength = getMaxLineLength(lines, layoutOptions);
 
         lines.forEach(line => {
-            var firstItem = line[0],
-                altOffset = firstItem.altOffset || layoutOptions.altSpacing;
+            var firstItem = line[0];
+            var altOffset = firstItem.altOffset || layoutOptions.altSpacing;
             position[layoutOptions.direction] = getInitPositionForDirection(line, layoutOptions, maxLineLength);
 
             line.forEach(item => {
-                var offset = item.offset || layoutOptions.spacing,
-                    wrap = new WrapperLayoutElement(item.element, item.bBox),
-                    itemBBoxOptions = {
-                        x: position.x + titleX,
-                        y: position.y,
-                        width: item.width,
-                        height: item.height
-                    },
-                    itemBBox = new WrapperLayoutElement(null, itemBBoxOptions),
-                    itemLegend = that._items[item.itemIndex];
+                var offset = item.offset || layoutOptions.spacing;
+                var wrap = new WrapperLayoutElement(item.element, item.bBox);
+
+                var itemBBoxOptions = {
+                    x: position.x + titleX,
+                    y: position.y,
+                    width: item.width,
+                    height: item.height
+                };
+
+                var itemBBox = new WrapperLayoutElement(null, itemBBoxOptions);
+                var itemLegend = that._items[item.itemIndex];
 
                 wrap.position({
                     of: itemBBox,
@@ -667,9 +672,9 @@ extend(legendPrototype, {
         });
 
         this._items.forEach(item => {
-            var itemBBox = calculateBBoxLabelAndMarker(item.bBoxes[0].getLayoutOptions(), item.bBoxes[1].getLayoutOptions()),
-                horizontal = that._options.columnItemSpacing / 2,
-                vertical = that._options.rowItemSpacing / 2;
+            var itemBBox = calculateBBoxLabelAndMarker(item.bBoxes[0].getLayoutOptions(), item.bBoxes[1].getLayoutOptions());
+            var horizontal = that._options.columnItemSpacing / 2;
+            var vertical = that._options.rowItemSpacing / 2;
 
             item.tracker.left = itemBBox.left - horizontal;
             item.tracker.right = itemBBox.right + horizontal;
@@ -679,15 +684,17 @@ extend(legendPrototype, {
     },
 
     _getItemsLayoutOptions: function() {
-        var that = this,
-            options = that._options,
-            orientation = options.orientation,
-            layoutOptions = {
-                itemsAlignment: options.itemsAlignment,
-                orientation: options.orientation
-            },
-            width = that._size.width - (that._background ? 2 * options.paddingLeftRight : 0),
-            height = that._size.height - (that._background ? 2 * options.paddingTopBottom : 0);
+        var that = this;
+        var options = that._options;
+        var orientation = options.orientation;
+
+        var layoutOptions = {
+            itemsAlignment: options.itemsAlignment,
+            orientation: options.orientation
+        };
+
+        var width = that._size.width - (that._background ? 2 * options.paddingLeftRight : 0);
+        var height = that._size.height - (that._background ? 2 * options.paddingTopBottom : 0);
 
         if(orientation === HORIZONTAL) {
             layoutOptions.length = width;
@@ -744,15 +751,16 @@ extend(legendPrototype, {
 
     _adjustBackgroundSettings: function(locationOptions) {
         if(!this._background) return;
-        var border = locationOptions.border,
-            legendBox = this._calculateTotalBox(),
-            backgroundSettings = {
-                x: _round(legendBox.x - locationOptions.paddingLeftRight),
-                y: _round(legendBox.y - locationOptions.paddingTopBottom),
-                width: _round(legendBox.width) + 2 * locationOptions.paddingLeftRight,
-                height: _round(legendBox.height),
-                opacity: locationOptions.backgroundOpacity
-            };
+        var border = locationOptions.border;
+        var legendBox = this._calculateTotalBox();
+
+        var backgroundSettings = {
+            x: _round(legendBox.x - locationOptions.paddingLeftRight),
+            y: _round(legendBox.y - locationOptions.paddingTopBottom),
+            width: _round(legendBox.width) + 2 * locationOptions.paddingLeftRight,
+            height: _round(legendBox.height),
+            opacity: locationOptions.backgroundOpacity
+        };
 
         if(border.visible && border.width && border.color && border.color !== NONE) {
             backgroundSettings["stroke-width"] = border.width;
@@ -808,13 +816,14 @@ extend(legendPrototype, {
     },
 
     getLayoutOptions: function() {
-        var options = this._options,
-            boundingRect = this._insideLegendGroup ? this._boundingRect : {
-                width: 0,
-                height: 0,
-                x: 0,
-                y: 0
-            };
+        var options = this._options;
+
+        var boundingRect = this._insideLegendGroup ? this._boundingRect : {
+            width: 0,
+            height: 0,
+            x: 0,
+            y: 0
+        };
 
         if(options) {
             boundingRect.verticalAlignment = options.verticalAlignment;
@@ -842,8 +851,8 @@ extend(legendPrototype, {
     },
 
     shift: function(x, y) {
-        var that = this,
-            box = {};
+        var that = this;
+        var box = {};
 
         if(that._insideLegendGroup) {
             that._insideLegendGroup.attr({ translateX: x - that._boundingRect.x, translateY: y - that._boundingRect.y });
@@ -868,11 +877,11 @@ extend(legendPrototype, {
             return;
         }
 
-        const options = this._options,
-            paddingLeftRight = this._background ? 2 * options.paddingLeftRight : 0,
-            titleOptions = title.getOptions(),
-            width = boxWidth - paddingLeftRight,
-            titleX = options.horizontalAlignment === CENTER ? titleBox.x + (width / 2) - (titleBox.width / 2) : titleBox.x;
+        const options = this._options;
+        const paddingLeftRight = this._background ? 2 * options.paddingLeftRight : 0;
+        const titleOptions = title.getOptions();
+        const width = boxWidth - paddingLeftRight;
+        const titleX = options.horizontalAlignment === CENTER ? titleBox.x + (width / 2) - (titleBox.width / 2) : titleBox.x;
 
         let titleY = titleBox.y + titleOptions.margin.top;
         if(titleOptions.verticalAlignment === BOTTOM) {
@@ -918,8 +927,8 @@ extend(legendPrototype, {
     },
 
     getItemByCoord: function(x, y) {
-        var items = this._items,
-            legendGroup = this._insideLegendGroup;
+        var items = this._items;
+        var legendGroup = this._insideLegendGroup;
         x = x - legendGroup.attr("translateX");
         y = y - legendGroup.attr("translateY");
 
@@ -971,13 +980,14 @@ extend(legendPrototype, {
 exports.plugin = {
     name: "legend",
     init: function() {
-        var that = this,
-            group = this._renderer.g()
-                .attr({
-                    class: this._rootClassPrefix + "-legend"
-                })
-                .enableLinks()
-                .append(that._renderer.root);
+        var that = this;
+
+        var group = this._renderer.g()
+            .attr({
+                class: this._rootClassPrefix + "-legend"
+            })
+            .enableLinks()
+            .append(that._renderer.root);
 
         that._legend = new exports.Legend({
             renderer: that._renderer,

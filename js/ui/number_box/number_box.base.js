@@ -1,16 +1,16 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    commonUtils = require("../../core/utils/common"),
-    mathUtils = require("../../core/utils/math"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    devices = require("../../core/devices"),
-    TextEditor = require("../text_box/ui.text_editor"),
-    eventUtils = require("../../events/utils"),
-    SpinButtons = require("./number_box.spins").default,
-    messageLocalization = require("../../localization/message"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var commonUtils = require("../../core/utils/common");
+var mathUtils = require("../../core/utils/math");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var devices = require("../../core/devices");
+var TextEditor = require("../text_box/ui.text_editor");
+var eventUtils = require("../../events/utils");
+var SpinButtons = require("./number_box.spins").default;
+var messageLocalization = require("../../localization/message");
+var Deferred = require("../../core/utils/deferred").Deferred;
 
 var math = Math;
 
@@ -198,9 +198,12 @@ var NumberBoxBase = TextEditor.inherit({
     _keyPressHandler: function(e) {
         this.callBase(e);
 
-        var char = eventUtils.getChar(e),
-            validCharRegExp = /[\d.,eE\-+]|Subtract/, // Workaround for IE (T592690)
-            isInputCharValid = validCharRegExp.test(char);
+        var char = eventUtils.getChar(e);
+
+        var // Workaround for IE (T592690)
+        validCharRegExp = /[\d.,eE\-+]|Subtract/;
+
+        var isInputCharValid = validCharRegExp.test(char);
 
         if(!isInputCharValid) {
             var keyName = eventUtils.normalizeKeyName(e);
@@ -238,9 +241,9 @@ var NumberBoxBase = TextEditor.inherit({
     },
 
     _forceValueRender: function() {
-        var value = this.option("value"),
-            number = Number(value),
-            formattedValue = isNaN(number) ? "" : this._applyValueFormat(value);
+        var value = this.option("value");
+        var number = Number(value);
+        var formattedValue = isNaN(number) ? "" : this._applyValueFormat(value);
 
         this._renderDisplayText(formattedValue);
     },
@@ -284,13 +287,13 @@ var NumberBoxBase = TextEditor.inherit({
     },
 
     _spinValueChange: function(sign, dxEvent) {
-        var value = parseFloat(this._normalizeInputValue()) || 0,
-            step = parseFloat(this.option("step"));
+        var value = parseFloat(this._normalizeInputValue()) || 0;
+        var step = parseFloat(this.option("step"));
 
         value = this._correctRounding(value, step * sign);
 
-        var min = this.option("min"),
-            max = this.option("max");
+        var min = this.option("min");
+        var max = this.option("max");
 
         if(min !== undefined) {
             value = Math.max(min, value);
@@ -306,13 +309,13 @@ var NumberBoxBase = TextEditor.inherit({
 
     _correctRounding: function(value, step) {
         var regex = /[,.](.*)/;
-        var isFloatValue = regex.test(value),
-            isFloatStep = regex.test(step);
+        var isFloatValue = regex.test(value);
+        var isFloatStep = regex.test(step);
 
         if(isFloatValue || isFloatStep) {
-            var valueAccuracy = (isFloatValue) ? regex.exec(value)[0].length : 0,
-                stepAccuracy = (isFloatStep) ? regex.exec(step)[0].length : 0,
-                accuracy = math.max(valueAccuracy, stepAccuracy);
+            var valueAccuracy = (isFloatValue) ? regex.exec(value)[0].length : 0;
+            var stepAccuracy = (isFloatStep) ? regex.exec(step)[0].length : 0;
+            var accuracy = math.max(valueAccuracy, stepAccuracy);
 
             value = this._round(value + step, accuracy);
 
@@ -343,18 +346,18 @@ var NumberBoxBase = TextEditor.inherit({
             return;
         }
 
-        var $input = this._input(),
-            formattedValue = this._applyValueFormat(this.option("value"));
+        var $input = this._input();
+        var formattedValue = this._applyValueFormat(this.option("value"));
 
         $input.val(null);
         $input.val(formattedValue);
     },
 
     _valueChangeEventHandler: function(e) {
-        var $input = this._input(),
-            inputValue = this._normalizeText(),
-            value = this._parseValue(inputValue),
-            valueHasDigits = inputValue !== "." && inputValue !== "-";
+        var $input = this._input();
+        var inputValue = this._normalizeText();
+        var value = this._parseValue(inputValue);
+        var valueHasDigits = inputValue !== "." && inputValue !== "-";
 
         if(this._isValueValid() && !this._validateValue(value)) {
             $input.val(this._applyValueFormat(value));
@@ -374,8 +377,8 @@ var NumberBoxBase = TextEditor.inherit({
     },
 
     _applyValueBoundaries: function(inputValue, parsedValue) {
-        var isValueIncomplete = this._isValueIncomplete(inputValue),
-            isValueCorrect = this._isValueInRange(inputValue);
+        var isValueIncomplete = this._isValueIncomplete(inputValue);
+        var isValueCorrect = this._isValueInRange(inputValue);
 
         if(!isValueIncomplete && !isValueCorrect && parsedValue !== null) {
             if(Number(inputValue) !== parsedValue) {
@@ -417,10 +420,10 @@ var NumberBoxBase = TextEditor.inherit({
     },
 
     _validateValue: function(value) {
-        var inputValue = this._normalizeText(),
-            isValueValid = this._isValueValid(),
-            isValid = true,
-            isNumber = this._isNumber(inputValue);
+        var inputValue = this._normalizeText();
+        var isValueValid = this._isValueValid();
+        var isValid = true;
+        var isNumber = this._isNumber(inputValue);
 
         if(isNaN(Number(value))) {
             isValid = false;

@@ -23,8 +23,8 @@ function createGroupingOptions(dimensionOptions, useSortOrder) {
 }
 
 function getFieldFilterSelector(field) {
-    var selector = field.dataField,
-        groupInterval = field.groupInterval;
+    var selector = field.dataField;
+    var groupInterval = field.groupInterval;
 
     if(field.dataType === "date" && typeof groupInterval === "string") {
         if(groupInterval.toLowerCase() === "quarter") {
@@ -37,16 +37,16 @@ function getFieldFilterSelector(field) {
 }
 
 function getIntervalFilterExpression(selector, numericInterval, numericValue, isExcludedFilterType) {
-    var startFilterValue = [selector, isExcludedFilterType ? "<" : ">=", numericValue],
-        endFilterValue = [selector, isExcludedFilterType ? ">=" : "<", numericValue + numericInterval];
+    var startFilterValue = [selector, isExcludedFilterType ? "<" : ">=", numericValue];
+    var endFilterValue = [selector, isExcludedFilterType ? ">=" : "<", numericValue + numericInterval];
 
     return [startFilterValue, isExcludedFilterType ? "or" : "and", endFilterValue];
 }
 
 function getFilterExpressionForFilterValue(field, filterValue) {
-    var selector = getFieldFilterSelector(field),
-        isExcludedFilterType = field.filterType === "exclude",
-        expression = [selector, isExcludedFilterType ? "<>" : "=", filterValue];
+    var selector = getFieldFilterSelector(field);
+    var isExcludedFilterType = field.filterType === "exclude";
+    var expression = [selector, isExcludedFilterType ? "<>" : "=", filterValue];
 
     if(isDefined(field.groupInterval)) {
         if(typeof field.groupInterval === "string" && field.groupInterval.toLowerCase() === "quarter") {
@@ -69,8 +69,8 @@ function createFieldFilterExpressions(field, operation) {
     }
 
     each(field.filterValues, function(index, filterValue) {
-        var currentExpression = [],
-            currentField = field.levels ? field.levels[index] : field;
+        var currentExpression = [];
+        var currentField = field.levels ? field.levels[index] : field;
 
         if(Array.isArray(filterValue)) {
             var parseLevelsRecursive = field.levels && field.levels.length;
@@ -125,10 +125,11 @@ function createFilterExpressions(fields) {
 }
 
 function mergeFilters(filter1, filter2) {
-    var mergedFilter,
-        notEmpty = function(filter) {
-            return filter && filter.length;
-        };
+    var mergedFilter;
+
+    var notEmpty = function(filter) {
+        return filter && filter.length;
+    };
 
     if(notEmpty(filter1) && notEmpty(filter2)) {
         mergedFilter = [filter1, "and", filter2];
@@ -140,14 +141,15 @@ function mergeFilters(filter1, filter2) {
 }
 
 function createLoadOptions(options, externalFilterExpr, hasRows) {
-    var filterExpressions = createFilterExpressions(options.filters),
-        groupingOptions = createGroupingOptions(options.rows, options.rowTake).concat(createGroupingOptions(options.columns, options.columnTake)),
-        loadOptions = {
-            groupSummary: [],
-            totalSummary: [],
-            group: groupingOptions.length ? groupingOptions : undefined,
-            take: groupingOptions.length ? undefined : 1
-        };
+    var filterExpressions = createFilterExpressions(options.filters);
+    var groupingOptions = createGroupingOptions(options.rows, options.rowTake).concat(createGroupingOptions(options.columns, options.columnTake));
+
+    var loadOptions = {
+        groupSummary: [],
+        totalSummary: [],
+        group: groupingOptions.length ? groupingOptions : undefined,
+        take: groupingOptions.length ? undefined : 1
+    };
 
     if(options.rows.length && options.rowTake) {
         loadOptions.skip = options.rowSkip;
@@ -215,10 +217,10 @@ function parseValue(value, field) {
 }
 
 function parseResult(data, total, descriptions, result) {
-    var rowPath = [],
-        columnPath = [],
-        rowHash = result.rowHash,
-        columnHash = result.columnHash;
+    var rowPath = [];
+    var columnPath = [];
+    var rowHash = result.rowHash;
+    var columnHash = result.columnHash;
 
     if(total && total.summary) {
         each(total.summary, function(index, summary) {
@@ -233,12 +235,12 @@ function parseResult(data, total, descriptions, result) {
     }
 
     function getItem(dataItem, dimensionName, path, level, field) {
-        var dimensionHash = result[dimensionName + "Hash"],
-            parentItem,
-            parentItemChildren,
-            item,
-            pathValue = path.slice(0, level + 1).join("/"),
-            parentPathValue;
+        var dimensionHash = result[dimensionName + "Hash"];
+        var parentItem;
+        var parentItemChildren;
+        var item;
+        var pathValue = path.slice(0, level + 1).join("/");
+        var parentPathValue;
 
         if(dimensionHash[pathValue] !== undefined) {
             item = dimensionHash[pathValue];
@@ -265,10 +267,10 @@ function parseResult(data, total, descriptions, result) {
     }
 
     forEachGroup(data, function(item, level) {
-        var rowLevel = level >= descriptions.rows.length ? descriptions.rows.length : level,
-            columnLevel = level >= descriptions.rows.length ? level - descriptions.rows.length : 0,
-            columnItem,
-            rowItem;
+        var rowLevel = level >= descriptions.rows.length ? descriptions.rows.length : level;
+        var columnLevel = level >= descriptions.rows.length ? level - descriptions.rows.length : 0;
+        var columnItem;
+        var rowItem;
 
         if(level >= descriptions.rows.length && columnLevel >= descriptions.columns.length) {
             return;
@@ -296,8 +298,8 @@ function parseResult(data, total, descriptions, result) {
             }
         }
 
-        var currentRowIndex = rowItem && rowItem.index || result.grandTotalRowIndex,
-            currentColumnIndex = columnItem && columnItem.index || result.grandTotalColumnIndex;
+        var currentRowIndex = rowItem && rowItem.index || result.grandTotalRowIndex;
+        var currentColumnIndex = columnItem && columnItem.index || result.grandTotalColumnIndex;
 
         each(item && item.summary || [], function(i, summary) {
             setValue(result.values, summary, currentRowIndex, currentColumnIndex, i);
@@ -323,10 +325,10 @@ function getFiltersForExpandedDimension(options) {
 }
 
 function getExpandedPathSliceFilter(options, dimensionName, level, firstCollapsedFieldIndex) {
-    var result = [],
-        startSliceIndex = level > firstCollapsedFieldIndex ? 0 : firstCollapsedFieldIndex,
-        fields = options.headerName !== dimensionName ? options[dimensionName].slice(startSliceIndex, level) : [],
-        paths = dimensionName === "rows" ? options.rowExpandedPaths : options.columnExpandedPaths;
+    var result = [];
+    var startSliceIndex = level > firstCollapsedFieldIndex ? 0 : firstCollapsedFieldIndex;
+    var fields = options.headerName !== dimensionName ? options[dimensionName].slice(startSliceIndex, level) : [];
+    var paths = dimensionName === "rows" ? options.rowExpandedPaths : options.columnExpandedPaths;
 
     each(fields, function(index, field) {
         var filterValues = [];
@@ -349,11 +351,11 @@ function getExpandedPathSliceFilter(options, dimensionName, level, firstCollapse
 }
 
 function getGrandTotalRequest(options, dimensionName, expandedIndex, expandedLevel, commonFilters, firstCollapsedFieldIndex) {
-    var expandedPaths = (dimensionName === "columns" ? options.columnExpandedPaths : options.rowExpandedPaths) || [],
-        oppositeDimensionName = dimensionName === "columns" ? "rows" : "columns",
-        fields = options[dimensionName],
-        result = [],
-        newOptions;
+    var expandedPaths = (dimensionName === "columns" ? options.columnExpandedPaths : options.rowExpandedPaths) || [];
+    var oppositeDimensionName = dimensionName === "columns" ? "rows" : "columns";
+    var fields = options[dimensionName];
+    var result = [];
+    var newOptions;
 
     if(expandedPaths.length) {
         for(var i = expandedIndex; i < expandedLevel + 1; i++) {
@@ -397,15 +399,15 @@ function getFirstCollapsedIndex(fields) {
 }
 
 function getRequestsData(options) {
-    var rowExpandedLevel = pivotGridUtils.getExpandedLevel(options, "rows"),
-        columnExpandedLevel = pivotGridUtils.getExpandedLevel(options, "columns"),
-        columnTotalsOptions,
-        filters = options.filters || [],
-        columnExpandedIndex = getExpandedIndex(options, "columns"),
-        firstCollapsedColumnIndex = getFirstCollapsedIndex(options.columns),
-        firstCollapsedRowIndex = getFirstCollapsedIndex(options.rows),
-        rowExpandedIndex = getExpandedIndex(options, "rows"),
-        data = [];
+    var rowExpandedLevel = pivotGridUtils.getExpandedLevel(options, "rows");
+    var columnExpandedLevel = pivotGridUtils.getExpandedLevel(options, "columns");
+    var columnTotalsOptions;
+    var filters = options.filters || [];
+    var columnExpandedIndex = getExpandedIndex(options, "columns");
+    var firstCollapsedColumnIndex = getFirstCollapsedIndex(options.columns);
+    var firstCollapsedRowIndex = getFirstCollapsedIndex(options.rows);
+    var rowExpandedIndex = getExpandedIndex(options, "rows");
+    var data = [];
 
     filters = filters.concat(getFiltersForDimension(options.rows))
         .concat(getFiltersForDimension(options.columns))
@@ -419,8 +421,8 @@ function getRequestsData(options) {
         }
 
         for(var i = rowExpandedIndex; i < rowExpandedLevel + 1; i++) {
-            var rows = options.rows.slice(rowExpandedIndex, i + 1),
-                rowFilterByExpandedPaths = getExpandedPathSliceFilter(options, "rows", i, firstCollapsedRowIndex);
+            var rows = options.rows.slice(rowExpandedIndex, i + 1);
+            var rowFilterByExpandedPaths = getExpandedPathSliceFilter(options, "rows", i, firstCollapsedRowIndex);
 
             for(var j = columnExpandedIndex; j < columnExpandedLevel + 1; j++) {
                 var preparedOptions = extend({}, options, {
@@ -476,24 +478,26 @@ module.exports = Class.inherit((function() {
         },
 
         load: function(options) {
-            var that = this,
-                d = new Deferred(),
-                result = {
-                    rows: [],
-                    columns: [],
-                    values: [
-                        [[]]
-                    ],
-                    grandTotalRowIndex: 0,
-                    grandTotalColumnIndex: 0,
+            var that = this;
+            var d = new Deferred();
 
-                    rowHash: {},
-                    columnHash: {},
-                    rowIndex: 1,
-                    columnIndex: 1
-                },
-                requestsData = getRequestsData(options),
-                deferreds = [];
+            var result = {
+                rows: [],
+                columns: [],
+                values: [
+                    [[]]
+                ],
+                grandTotalRowIndex: 0,
+                grandTotalColumnIndex: 0,
+
+                rowHash: {},
+                columnHash: {},
+                rowIndex: 1,
+                columnIndex: 1
+            };
+
+            var requestsData = getRequestsData(options);
+            var deferreds = [];
 
             prepareFields(options.rows);
             prepareFields(options.columns);
@@ -537,14 +541,15 @@ module.exports = Class.inherit((function() {
             loadOptions = loadOptions || {};
             params = params || {};
 
-            var store = this._store,
-                filters = getFiltersByPath(loadOptions.rows, params.rowPath)
-                    .concat(getFiltersByPath(loadOptions.columns, params.columnPath))
-                    .concat(getFiltersForDimension(loadOptions.rows))
-                    .concat(loadOptions.filters || [])
-                    .concat(getFiltersForDimension(loadOptions.columns)),
+            var store = this._store;
 
-                filterExp = createFilterExpressions(filters);
+            var filters = getFiltersByPath(loadOptions.rows, params.rowPath)
+                .concat(getFiltersByPath(loadOptions.columns, params.columnPath))
+                .concat(getFiltersForDimension(loadOptions.rows))
+                .concat(loadOptions.filters || [])
+                .concat(getFiltersForDimension(loadOptions.columns));
+
+            var filterExp = createFilterExpressions(filters);
 
             return new DataSourceModule.DataSource({
                 load: function(loadOptions) {

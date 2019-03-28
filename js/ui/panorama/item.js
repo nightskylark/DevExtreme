@@ -1,5 +1,5 @@
-var $ = require("../../core/renderer"),
-    CollectionWidgetItem = require("../collection/item");
+var $ = require("../../core/renderer");
+var CollectionWidgetItem = require("../collection/item");
 
 var PANORAMA_ITEM_TITLE_CLASS = "dx-panorama-item-title";
 

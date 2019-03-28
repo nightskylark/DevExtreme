@@ -1,12 +1,12 @@
-var extend = require("../../core/utils/extend").extend,
-    layoutElementModule = require("../core/layout_element"),
-    _isNumber = require("../../core/utils/type").isNumeric,
-    _min = Math.min,
-    _max = Math.max,
-    _floor = Math.floor,
-    _sqrt = Math.sqrt,
-    consts = require("../components/consts"),
-    RADIAL_LABEL_INDENT = consts.radialLabelIndent;
+var extend = require("../../core/utils/extend").extend;
+var layoutElementModule = require("../core/layout_element");
+var _isNumber = require("../../core/utils/type").isNumeric;
+var _min = Math.min;
+var _max = Math.max;
+var _floor = Math.floor;
+var _sqrt = Math.sqrt;
+var consts = require("../components/consts");
+var RADIAL_LABEL_INDENT = consts.radialLabelIndent;
 
 function getNearestCoord(firstCoord, secondCoord, pointCenterCoord) {
     var nearestCoord;
@@ -31,8 +31,8 @@ function getPieRadius(series, paneCenterX, paneCenterY, accessibleRadius, minR) 
         return singleSeries.getVisiblePoints().reduce(function(radiusIsFound, point) {
             var labelBBox = getLabelLayout(point);
             if(labelBBox) {
-                var xCoords = getNearestCoord(labelBBox.x, labelBBox.x + labelBBox.width, paneCenterX),
-                    yCoords = getNearestCoord(labelBBox.y, labelBBox.y + labelBBox.height, paneCenterY);
+                var xCoords = getNearestCoord(labelBBox.x, labelBBox.x + labelBBox.width, paneCenterX);
+                var yCoords = getNearestCoord(labelBBox.y, labelBBox.y + labelBBox.height, paneCenterY);
 
                 accessibleRadius = _min(_max(getLengthFromCenter(xCoords, yCoords, paneCenterX, paneCenterY) - RADIAL_LABEL_INDENT, minR), accessibleRadius);
                 radiusIsFound = true;
@@ -70,11 +70,11 @@ function getSizeLabels(series) {
 }
 
 function correctLabelRadius(labelSizes, radius, series, canvas, averageWidthLabels, centerX) {
-    var curRadius,
-        i,
-        runningWidth = 0,
-        sizes = labelSizes.sizes,
-        rSizes = labelSizes.rSizes;
+    var curRadius;
+    var i;
+    var runningWidth = 0;
+    var sizes = labelSizes.sizes;
+    var rSizes = labelSizes.rSizes;
 
     for(i = 0; i < series.length; i++) {
         if(sizes[i] === 0) {
@@ -125,11 +125,12 @@ function downSize(canvas, layoutOptions) {
 }
 
 function getOffset(layoutOptions, offsets) {
-    var side = layoutOptions.cutLayoutSide,
-        offset = {
-            horizontal: 0,
-            vertical: 0
-        };
+    var side = layoutOptions.cutLayoutSide;
+
+    var offset = {
+        horizontal: 0,
+        vertical: 0
+    };
 
     switch(side) {
         case "top":
@@ -166,9 +167,9 @@ function getFullRadiusWithLabels(centerX, canvas, sizeLabels) {
 }
 
 function correctAvailableRadius(availableRadius, canvas, series, minR, paneCenterX, paneCenterY) {
-    var sizeLabels = getSizeLabels(series),
-        averageWidthLabels,
-        fullRadiusWithLabels = getFullRadiusWithLabels(paneCenterX, canvas, sizeLabels);
+    var sizeLabels = getSizeLabels(series);
+    var averageWidthLabels;
+    var fullRadiusWithLabels = getFullRadiusWithLabels(paneCenterX, canvas, sizeLabels);
 
     if(fullRadiusWithLabels < minR) {
         availableRadius = minR;
@@ -189,13 +190,13 @@ LayoutManager.prototype = {
     },
 
     applyPieChartSeriesLayout: function(canvas, series, hideLayoutLabels) {
-        var paneSpaceHeight = canvas.height - canvas.top - canvas.bottom,
-            paneSpaceWidth = canvas.width - canvas.left - canvas.right,
-            paneCenterX = paneSpaceWidth / 2 + canvas.left,
-            paneCenterY = paneSpaceHeight / 2 + canvas.top,
-            piePercentage = this._options.piePercentage,
-            availableRadius,
-            minR;
+        var paneSpaceHeight = canvas.height - canvas.top - canvas.bottom;
+        var paneSpaceWidth = canvas.width - canvas.left - canvas.right;
+        var paneCenterX = paneSpaceWidth / 2 + canvas.left;
+        var paneCenterY = paneSpaceHeight / 2 + canvas.top;
+        var piePercentage = this._options.piePercentage;
+        var availableRadius;
+        var minR;
 
         if(_isNumber(piePercentage)) {
             availableRadius = minR = piePercentage * _min(canvas.height, canvas.width) / 2;
@@ -239,19 +240,19 @@ LayoutManager.prototype = {
     },
 
     needMoreSpaceForPanesCanvas: function(panes, rotated) {
-        var options = this._options,
-            width = options.width,
-            height = options.height,
-            piePercentage = options.piePercentage,
-            percentageIsValid = _isNumber(piePercentage),
-            needHorizontalSpace = 0,
-            needVerticalSpace = 0;
+        var options = this._options;
+        var width = options.width;
+        var height = options.height;
+        var piePercentage = options.piePercentage;
+        var percentageIsValid = _isNumber(piePercentage);
+        var needHorizontalSpace = 0;
+        var needVerticalSpace = 0;
 
         panes.forEach(function(pane) {
-            var paneCanvas = pane.canvas,
-                minSize = percentageIsValid ? _min(paneCanvas.width, paneCanvas.height) * piePercentage : undefined,
-                needPaneHorizontalSpace = (percentageIsValid ? minSize : width) - (paneCanvas.width - paneCanvas.left - paneCanvas.right),
-                needPaneVerticalSpace = (percentageIsValid ? minSize : height) - (paneCanvas.height - paneCanvas.top - paneCanvas.bottom);
+            var paneCanvas = pane.canvas;
+            var minSize = percentageIsValid ? _min(paneCanvas.width, paneCanvas.height) * piePercentage : undefined;
+            var needPaneHorizontalSpace = (percentageIsValid ? minSize : width) - (paneCanvas.width - paneCanvas.left - paneCanvas.right);
+            var needPaneVerticalSpace = (percentageIsValid ? minSize : height) - (paneCanvas.height - paneCanvas.top - paneCanvas.bottom);
 
             if(rotated) {
                 needHorizontalSpace += needPaneHorizontalSpace > 0 ? needPaneHorizontalSpace : 0;
@@ -277,9 +278,9 @@ LayoutManager.prototype = {
     },
 
     _processAdaptiveLayout: function(panes, rotated, canvas, funcAxisDrawer) {
-        var that = this,
-            size = that.needMoreSpaceForPanesCanvas(panes, rotated),
-            items = this._elements;
+        var that = this;
+        var size = that.needMoreSpaceForPanesCanvas(panes, rotated);
+        var items = this._elements;
 
         if(!size) return;
 
@@ -291,10 +292,10 @@ LayoutManager.prototype = {
         }
 
         items.slice().reverse().forEach(function(item) {
-            var layoutOptions = item.getLayoutOptions(),
-                needRedraw = false,
-                sizeObject,
-                cutSide;
+            var layoutOptions = item.getLayoutOptions();
+            var needRedraw = false;
+            var sizeObject;
+            var cutSide;
 
             if(!layoutOptions) {
                 return;
@@ -324,7 +325,6 @@ LayoutManager.prototype = {
 
             }
             processCanvases(item, layoutOptions, cutSide);
-
         });
 
         funcAxisDrawer(size);
@@ -333,8 +333,8 @@ LayoutManager.prototype = {
     _probeDrawing: function(canvas) {
         var that = this;
         this._elements.forEach(function(item) {
-            var layoutOptions = item.getLayoutOptions(),
-                sizeObject;
+            var layoutOptions = item.getLayoutOptions();
+            var sizeObject;
 
             if(!layoutOptions) {
                 return;
@@ -354,10 +354,10 @@ LayoutManager.prototype = {
 
     _drawElements: function(canvas) {
         this._elements.slice().reverse().forEach(function(item) {
-            var layoutOptions = item.getLayoutOptions(),
-                sizeObject,
-                cutSide,
-                length;
+            var layoutOptions = item.getLayoutOptions();
+            var sizeObject;
+            var cutSide;
+            var length;
 
             if(!layoutOptions) {
                 return;
@@ -384,10 +384,10 @@ LayoutManager.prototype = {
         };
 
         this._elements.slice().reverse().forEach(function(item) {
-            var layoutOptions = item.getLayoutOptions(),
-                position,
-                cutSide,
-                my;
+            var layoutOptions = item.getLayoutOptions();
+            var position;
+            var cutSide;
+            var my;
 
             if(!layoutOptions) {
                 return;

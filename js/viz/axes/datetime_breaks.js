@@ -1,5 +1,5 @@
-var dateUtils = require("../../core/utils/date"),
-    days = [0, 1, 2, 3, 4, 5, 6];
+var dateUtils = require("../../core/utils/date");
+var days = [0, 1, 2, 3, 4, 5, 6];
 
 function getWeekendDays(workdays) {
     return days.filter(function(day) {
@@ -14,8 +14,8 @@ function getNextDayIndex(dayIndex) {
 }
 
 function dayBetweenWeekend(weekend, day) {
-    var start = weekend.start,
-        end = weekend.end;
+    var start = weekend.start;
+    var end = weekend.end;
 
     while(start !== end) {
         if(start === day) {
@@ -39,8 +39,8 @@ function getDaysDistance(day, end) {
 }
 
 function separateBreak(scaleBreak, day) {
-    var result = [],
-        dayEnd = new Date(day);
+    var result = [];
+    var dayEnd = new Date(day);
 
     dayEnd.setDate(day.getDate() + 1);
 
@@ -74,29 +74,30 @@ function getWeekEndDayIndices(workDays) {
 }
 
 function generateDateBreaksForWeekend(min, max, weekendDayIndices) {
-    var day = min.getDate(),
-        breaks = [],
-        weekends = weekendDayIndices.reduce(function(obj, day) {
-            var currentWeekEnd = obj[1];
-            if(currentWeekEnd.start === undefined) {
-                currentWeekEnd = {
-                    start: day,
-                    end: getNextDayIndex(day)
-                };
-                obj[0].push(currentWeekEnd);
-                return [obj[0], currentWeekEnd];
-            } else if(currentWeekEnd.end === day) {
-                currentWeekEnd.end = getNextDayIndex(day);
-                return obj;
-            }
+    var day = min.getDate();
+    var breaks = [];
+
+    var weekends = weekendDayIndices.reduce(function(obj, day) {
+        var currentWeekEnd = obj[1];
+        if(currentWeekEnd.start === undefined) {
             currentWeekEnd = {
                 start: day,
                 end: getNextDayIndex(day)
             };
             obj[0].push(currentWeekEnd);
             return [obj[0], currentWeekEnd];
+        } else if(currentWeekEnd.end === day) {
+            currentWeekEnd.end = getNextDayIndex(day);
+            return obj;
+        }
+        currentWeekEnd = {
+            start: day,
+            end: getNextDayIndex(day)
+        };
+        obj[0].push(currentWeekEnd);
+        return [obj[0], currentWeekEnd];
 
-        }, [[], {}]);
+    }, [[], {}]);
 
     weekends[0].forEach(function(weekend) {
         var currentDate = new Date(min);
@@ -108,8 +109,8 @@ function generateDateBreaksForWeekend(min, max, weekendDayIndices) {
             var date = currentDate.getDate();
 
             if(dayBetweenWeekend(weekend, day)) {
-                var from = new Date(currentDate),
-                    to;
+                var from = new Date(currentDate);
+                var to;
 
                 currentDate.setDate(date + getDaysDistance(day, weekend.end));
 
@@ -129,21 +130,22 @@ function generateDateBreaksForWeekend(min, max, weekendDayIndices) {
 }
 
 function excludeWorkDaysFromWeekEndBreaks(breaks, exactWorkDays) {
-    var result = breaks.slice(),
-        i,
-        processWorkDay = function(workday) {
-            workday = dateUtils.trimTime(new Date(workday));
-            if(result[i].from <= workday && result[i].to > workday) {
-                var separatedBreak = separateBreak(result[i], workday);
-                if(separatedBreak.length === 2) {
-                    result.splice(i, 1, separatedBreak[0], separatedBreak[1]);
-                } else if(separatedBreak.length === 1) {
-                    result.splice(i, 1, separatedBreak[0]);
-                } else {
-                    result.splice(i, 1);
-                }
+    var result = breaks.slice();
+    var i;
+
+    var processWorkDay = function(workday) {
+        workday = dateUtils.trimTime(new Date(workday));
+        if(result[i].from <= workday && result[i].to > workday) {
+            var separatedBreak = separateBreak(result[i], workday);
+            if(separatedBreak.length === 2) {
+                result.splice(i, 1, separatedBreak[0], separatedBreak[1]);
+            } else if(separatedBreak.length === 1) {
+                result.splice(i, 1, separatedBreak[0]);
+            } else {
+                result.splice(i, 1);
             }
-        };
+        }
+    };
 
     for(i = 0; i < result.length; i++) {
         exactWorkDays.forEach(processWorkDay);
@@ -153,18 +155,20 @@ function excludeWorkDaysFromWeekEndBreaks(breaks, exactWorkDays) {
 }
 
 function generateBreaksForHolidays(min, max, holidays, weekendDayIndices) {
-    var day,
-        dayInWeekend = function(dayIndex) {
-            return dayIndex === day;
-        },
-        adjustedMin = dateUtils.trimTime(min),
-        adjustedMax = dateUtils.trimTime(max);
+    var day;
+
+    var dayInWeekend = function(dayIndex) {
+        return dayIndex === day;
+    };
+
+    var adjustedMin = dateUtils.trimTime(min);
+    var adjustedMax = dateUtils.trimTime(max);
 
     adjustedMax.setDate(max.getDate() + 1);
 
     return holidays.reduce(function(breaks, holiday) {
-        var holidayStart,
-            holidayEnd;
+        var holidayStart;
+        var holidayEnd;
 
         holiday = new Date(holiday);
         day = holiday.getDay();
@@ -194,8 +198,8 @@ function calculateGaps(breaks) {
 }
 
 exports.generateDateBreaks = function(min, max, workWeek, singleWorkdays, holidays) {
-    var weekendDayIndices = getWeekEndDayIndices(workWeek),
-        breaks = generateDateBreaksForWeekend(min, max, weekendDayIndices);
+    var weekendDayIndices = getWeekEndDayIndices(workWeek);
+    var breaks = generateDateBreaksForWeekend(min, max, weekendDayIndices);
 
     breaks.push.apply(breaks, generateBreaksForHolidays(min, max, holidays || [], weekendDayIndices));
 

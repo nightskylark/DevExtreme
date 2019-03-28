@@ -1,5 +1,5 @@
-var errors = require("./errors"),
-    typeUtils = require("./utils/type");
+var errors = require("./errors");
+var typeUtils = require("./utils/type");
 
 var wrapOverridden = function(baseProto, methodName, method) {
     return function() {
@@ -20,10 +20,10 @@ var clonePrototype = function(obj) {
 };
 
 var redefine = function(members) {
-    var that = this,
-        overridden,
-        memberName,
-        member;
+    var that = this;
+    var overridden;
+    var memberName;
+    var member;
 
     if(!members) {
         return that;
@@ -39,10 +39,10 @@ var redefine = function(members) {
 };
 
 var include = function() {
-    var classObj = this,
-        argument,
-        name,
-        i;
+    var classObj = this;
+    var argument;
+    var name;
+    var i;
 
     // NOTE: For ES6 classes. They don't have _includedCtors/_includedPostCtors
     // properties and get them from the ancestor class.
@@ -114,11 +114,11 @@ classImpl.inherit = function(members) {
             throw errors.Error("E0003");
         }
 
-        var instance = this,
-            ctor = instance.ctor,
-            includedCtors = instance.constructor._includedCtors,
-            includedPostCtors = instance.constructor._includedPostCtors,
-            i;
+        var instance = this;
+        var ctor = instance.ctor;
+        var includedCtors = instance.constructor._includedCtors;
+        var includedPostCtors = instance.constructor._includedPostCtors;
+        var i;
 
         for(i = 0; i < includedCtors.length; i++) {
             includedCtors[i].call(instance);

@@ -1,24 +1,20 @@
-var themeModule = require("../../themes"),
-    registerTheme = themeModule.registerTheme,
-
-    FONT_FAMILY = "'Roboto', 'RobotoFallback', 'Helvetica', 'Arial', sans-serif",
-
-    LIGHT_TITLE_COLOR = "rgba(0,0,0,0.87)",
-    LIGHT_LABEL_COLOR = "rgba(0,0,0,0.54)",
-
-    DARK_TITLE_COLOR = "rgba(255,255,255,0.87)",
-    DARK_LABEL_COLOR = "rgba(255,255,255,0.54)",
-    DARK_BACKGROUND_COLOR = "#363640",
-
-    WHITE = "#ffffff",
-    BLACK = "#000000",
-    RANGE_COLOR = "#b5b5b5",
-    AREA_LAYER_COLOR = "#686868",
-    LINE_COLOR = "#c7c7c7",
-    TARGET_COLOR = "#8e8e8e",
-    POSITIVE_COLOR = "#b8b8b8",
-    LABEL_BORDER_COLOR = "#494949",
-    BREAK_STYLE_COLOR = "#818181";
+var themeModule = require("../../themes");
+var registerTheme = themeModule.registerTheme;
+var FONT_FAMILY = "'Roboto', 'RobotoFallback', 'Helvetica', 'Arial', sans-serif";
+var LIGHT_TITLE_COLOR = "rgba(0,0,0,0.87)";
+var LIGHT_LABEL_COLOR = "rgba(0,0,0,0.54)";
+var DARK_TITLE_COLOR = "rgba(255,255,255,0.87)";
+var DARK_LABEL_COLOR = "rgba(255,255,255,0.54)";
+var DARK_BACKGROUND_COLOR = "#363640";
+var WHITE = "#ffffff";
+var BLACK = "#000000";
+var RANGE_COLOR = "#b5b5b5";
+var AREA_LAYER_COLOR = "#686868";
+var LINE_COLOR = "#c7c7c7";
+var TARGET_COLOR = "#8e8e8e";
+var POSITIVE_COLOR = "#b8b8b8";
+var LABEL_BORDER_COLOR = "#494949";
+var BREAK_STYLE_COLOR = "#818181";
 
 registerTheme({
     name: "material",

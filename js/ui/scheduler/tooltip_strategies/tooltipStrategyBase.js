@@ -3,13 +3,13 @@ import dateUtils from "../../../core/utils/date";
 import FunctionTemplate from "../../widget/function_template";
 import $ from "../../../core/renderer";
 
-const APPOINTMENT_TOOLTIP_CLASS = "dx-scheduler-appointment-tooltip",
-    APPOINTMENT_TOOLTIP_TITLE_CLASS = "dx-scheduler-appointment-tooltip-title",
-    APPOINTMENT_TOOLTIP_DATE_CLASS = "dx-scheduler-appointment-tooltip-date",
-    APPOINTMENT_TOOLTIP_BUTTONS_CLASS = "dx-scheduler-appointment-tooltip-buttons",
-    APPOINTMENT_TOOLTIP_OPEN_BUTTON_CLASS = "dx-scheduler-appointment-tooltip-open-button",
-    APPOINTMENT_TOOLTIP_CLOSE_BUTTON_CLASS = "dx-scheduler-appointment-tooltip-close-button",
-    APPOINTMENT_TOOLTIP_DELETE_BUTTONS_CLASS = "dx-scheduler-appointment-tooltip-delete-button";
+const APPOINTMENT_TOOLTIP_CLASS = "dx-scheduler-appointment-tooltip";
+const APPOINTMENT_TOOLTIP_TITLE_CLASS = "dx-scheduler-appointment-tooltip-title";
+const APPOINTMENT_TOOLTIP_DATE_CLASS = "dx-scheduler-appointment-tooltip-date";
+const APPOINTMENT_TOOLTIP_BUTTONS_CLASS = "dx-scheduler-appointment-tooltip-buttons";
+const APPOINTMENT_TOOLTIP_OPEN_BUTTON_CLASS = "dx-scheduler-appointment-tooltip-open-button";
+const APPOINTMENT_TOOLTIP_CLOSE_BUTTON_CLASS = "dx-scheduler-appointment-tooltip-close-button";
+const APPOINTMENT_TOOLTIP_DELETE_BUTTONS_CLASS = "dx-scheduler-appointment-tooltip-delete-button";
 
 export class TooltipStrategyBase {
     constructor(scheduler) {
@@ -40,16 +40,16 @@ export class TooltipStrategyBase {
     }
 
     _isAppointmentInAllDayPanel(appointmentData) {
-        const workSpace = this.scheduler._workSpace,
-            itTakesAllDay = this.scheduler.appointmentTakesAllDay(appointmentData);
+        const workSpace = this.scheduler._workSpace;
+        const itTakesAllDay = this.scheduler.appointmentTakesAllDay(appointmentData);
 
         return itTakesAllDay && workSpace.supportAllDayRow() && workSpace.option("showAllDayPanel");
     }
 
     _createTemplate(appointmentData, singleAppointmentData, $appointment) {
         this.scheduler._defaultTemplates["appointmentTooltip"] = new FunctionTemplate(options => {
-            const $container = $(options.container),
-                $content = this._createTemplateContent(appointmentData, singleAppointmentData, $appointment);
+            const $container = $(options.container);
+            const $content = this._createTemplateContent(appointmentData, singleAppointmentData, $appointment);
 
             $content.addClass($container.attr("class"));
             $container.replaceWith($content);
@@ -60,12 +60,12 @@ export class TooltipStrategyBase {
     _createTemplateContent(appointmentData, singleAppointmentData, $appointment) {
         const $content = $("<div>").addClass(APPOINTMENT_TOOLTIP_CLASS);
 
-        let isAllDay = this.scheduler.fire("getField", "allDay", appointmentData),
-            startDate = this.scheduler.fire("getField", "startDate", singleAppointmentData),
-            endDate = this.scheduler.fire("getField", "endDate", singleAppointmentData),
-            text = this.scheduler.fire("getField", "text", appointmentData),
-            startDateTimeZone = this.scheduler.fire("getField", "startDateTimeZone", appointmentData),
-            endDateTimeZone = this.scheduler.fire("getField", "endDateTimeZone", appointmentData);
+        let isAllDay = this.scheduler.fire("getField", "allDay", appointmentData);
+        let startDate = this.scheduler.fire("getField", "startDate", singleAppointmentData);
+        let endDate = this.scheduler.fire("getField", "endDate", singleAppointmentData);
+        let text = this.scheduler.fire("getField", "text", appointmentData);
+        let startDateTimeZone = this.scheduler.fire("getField", "startDateTimeZone", appointmentData);
+        let endDateTimeZone = this.scheduler.fire("getField", "endDateTimeZone", appointmentData);
 
         startDate = this.scheduler.fire("convertDateByTimezone", startDate, startDateTimeZone);
         endDate = this.scheduler.fire("convertDateByTimezone", endDate, endDateTimeZone);
@@ -151,8 +151,8 @@ export class TooltipStrategyBase {
     }
 
     _createOpenButton(appointmentData, singleAppointmentData) {
-        const allowUpdating = this.scheduler._editing.allowUpdating,
-            text = this.scheduler.option("_appointmentTooltipOpenButtonText");
+        const allowUpdating = this.scheduler._editing.allowUpdating;
+        const text = this.scheduler.option("_appointmentTooltipOpenButtonText");
 
         return new Button($("<div>").addClass(APPOINTMENT_TOOLTIP_OPEN_BUTTON_CLASS), {
             icon: allowUpdating ? "edit" : this.scheduler.option("_appointmentTooltipOpenButtonIcon"),

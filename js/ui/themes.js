@@ -1,29 +1,27 @@
-var $ = require("../core/renderer"),
-    domAdapter = require("../core/dom_adapter"),
-    windowUtils = require("../core/utils/window"),
-    window = windowUtils.getWindow(),
-    Deferred = require("../core/utils/deferred").Deferred,
-    errors = require("./widget/ui.errors"),
-    domUtils = require("../core/utils/dom"),
-    readyCallbacks = require("../core/utils/ready_callbacks"),
-    ready = readyCallbacks.add,
-    each = require("../core/utils/iterator").each,
-    devices = require("../core/devices"),
-    viewPortUtils = require("../core/utils/view_port"),
-    themeReadyCallback = require("./themes_callback"),
-    viewPort = viewPortUtils.value,
-    viewPortChanged = viewPortUtils.changeCallback;
-
-var DX_LINK_SELECTOR = "link[rel=dx-theme]",
-    THEME_ATTR = "data-theme",
-    ACTIVE_ATTR = "data-active",
-    DX_HAIRLINES_CLASS = "dx-hairlines";
-
-var context,
-    $activeThemeLink,
-    knownThemes,
-    currentThemeName,
-    pendingThemeName;
+var $ = require("../core/renderer");
+var domAdapter = require("../core/dom_adapter");
+var windowUtils = require("../core/utils/window");
+var window = windowUtils.getWindow();
+var Deferred = require("../core/utils/deferred").Deferred;
+var errors = require("./widget/ui.errors");
+var domUtils = require("../core/utils/dom");
+var readyCallbacks = require("../core/utils/ready_callbacks");
+var ready = readyCallbacks.add;
+var each = require("../core/utils/iterator").each;
+var devices = require("../core/devices");
+var viewPortUtils = require("../core/utils/view_port");
+var themeReadyCallback = require("./themes_callback");
+var viewPort = viewPortUtils.value;
+var viewPortChanged = viewPortUtils.changeCallback;
+var DX_LINK_SELECTOR = "link[rel=dx-theme]";
+var THEME_ATTR = "data-theme";
+var ACTIVE_ATTR = "data-active";
+var DX_HAIRLINES_CLASS = "dx-hairlines";
+var context;
+var $activeThemeLink;
+var knownThemes;
+var currentThemeName;
+var pendingThemeName;
 
 var timerId;
 
@@ -33,8 +31,8 @@ function readThemeMarker() {
     if(!windowUtils.hasWindow()) {
         return null;
     }
-    var element = $("<div>", context).addClass("dx-theme-marker").appendTo(context.documentElement),
-        result;
+    var element = $("<div>", context).addClass("dx-theme-marker").appendTo(context.documentElement);
+    var result;
 
     try {
         result = element.css("fontFamily");
@@ -72,8 +70,8 @@ function waitForThemeLoad(themeName) {
     } else {
         waitStartTime = Date.now();
         timerId = setInterval(function() {
-            var isLoaded = isPendingThemeLoaded(),
-                isTimeout = !isLoaded && Date.now() - waitStartTime > 15 * 1000;
+            var isLoaded = isPendingThemeLoaded();
+            var isTimeout = !isLoaded && Date.now() - waitStartTime > 15 * 1000;
 
             if(isTimeout) {
                 errors.log("W0004", pendingThemeName);
@@ -103,10 +101,10 @@ function processMarkup() {
     $activeThemeLink = $(domUtils.createMarkupFromString("<link rel=stylesheet>"), context);
 
     $allThemeLinks.each(function() {
-        var link = $(this, context),
-            fullThemeName = link.attr(THEME_ATTR),
-            url = link.attr("href"),
-            isActive = link.attr(ACTIVE_ATTR) === "true";
+        var link = $(this, context);
+        var fullThemeName = link.attr(THEME_ATTR);
+        var url = link.attr("href");
+        var isActive = link.attr(ACTIVE_ATTR) === "true";
 
         knownThemes[fullThemeName] = {
             url: url,
@@ -119,8 +117,8 @@ function processMarkup() {
 }
 
 function resolveFullThemeName(desiredThemeName) {
-    var desiredThemeParts = desiredThemeName.split("."),
-        result = null;
+    var desiredThemeParts = desiredThemeName.split(".");
+    var result = null;
 
     if(knownThemes) {
         if(desiredThemeName in knownThemes) {
@@ -191,9 +189,9 @@ function current(options) {
         options = { theme: options };
     }
 
-    var isAutoInit = options._autoInit,
-        loadCallback = options.loadCallback,
-        currentThemeData;
+    var isAutoInit = options._autoInit;
+    var loadCallback = options.loadCallback;
+    var currentThemeData;
 
     currentThemeName = options.theme || currentThemeName;
     if(isAutoInit && !currentThemeName) {
@@ -260,8 +258,8 @@ function themeNameFromDevice(device) {
 function getCssClasses(themeName) {
     themeName = themeName || current();
 
-    var result = [],
-        themeNameParts = themeName && themeName.split(".");
+    var result = [];
+    var themeNameParts = themeName && themeName.split(".");
 
     if(themeNameParts) {
         result.push(

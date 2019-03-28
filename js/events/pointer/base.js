@@ -1,8 +1,8 @@
-var eventsEngine = require("../../events/core/events_engine"),
-    browser = require("../../core/utils/browser"),
-    domAdapter = require("../../core/dom_adapter"),
-    Class = require("../../core/class"),
-    eventUtils = require("../utils");
+var eventsEngine = require("../../events/core/events_engine");
+var browser = require("../../core/utils/browser");
+var domAdapter = require("../../core/dom_adapter");
+var Class = require("../../core/class");
+var eventUtils = require("../utils");
 
 var POINTER_EVENTS_NAMESPACE = "dxPointerEvents";
 

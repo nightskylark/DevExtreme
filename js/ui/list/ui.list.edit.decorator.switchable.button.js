@@ -1,26 +1,24 @@
-var $ = require("../../core/renderer"),
-    fx = require("../../animation/fx"),
-    Button = require("../button"),
-    messageLocalization = require("../../localization/message"),
-    registerDecorator = require("./ui.list.edit.decorator_registry").register,
-    SwitchableEditDecorator = require("./ui.list.edit.decorator.switchable");
-
-var SWITCHABLE_DELETE_BUTTON_CONTAINER_CLASS = "dx-list-switchable-delete-button-container",
-    SWITCHABLE_DELETE_BUTTON_WRAPPER_CLASS = "dx-list-switchable-delete-button-wrapper",
-    SWITCHABLE_DELETE_BUTTON_INNER_WRAPPER_CLASS = "dx-list-switchable-delete-button-inner-wrapper",
-    SWITCHABLE_DELETE_BUTTON_CLASS = "dx-list-switchable-delete-button",
-
-    SWITCHABLE_DELETE_BUTTON_ANIMATION_DURATION = 200;
+var $ = require("../../core/renderer");
+var fx = require("../../animation/fx");
+var Button = require("../button");
+var messageLocalization = require("../../localization/message");
+var registerDecorator = require("./ui.list.edit.decorator_registry").register;
+var SwitchableEditDecorator = require("./ui.list.edit.decorator.switchable");
+var SWITCHABLE_DELETE_BUTTON_CONTAINER_CLASS = "dx-list-switchable-delete-button-container";
+var SWITCHABLE_DELETE_BUTTON_WRAPPER_CLASS = "dx-list-switchable-delete-button-wrapper";
+var SWITCHABLE_DELETE_BUTTON_INNER_WRAPPER_CLASS = "dx-list-switchable-delete-button-inner-wrapper";
+var SWITCHABLE_DELETE_BUTTON_CLASS = "dx-list-switchable-delete-button";
+var SWITCHABLE_DELETE_BUTTON_ANIMATION_DURATION = 200;
 
 var SwitchableButtonEditDecorator = SwitchableEditDecorator.inherit({
 
     _init: function() {
         this.callBase.apply(this, arguments);
 
-        var $buttonContainer = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_CONTAINER_CLASS),
-            $buttonWrapper = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_WRAPPER_CLASS),
-            $buttonInnerWrapper = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_INNER_WRAPPER_CLASS),
-            $button = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_CLASS);
+        var $buttonContainer = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_CONTAINER_CLASS);
+        var $buttonWrapper = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_WRAPPER_CLASS);
+        var $buttonInnerWrapper = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_INNER_WRAPPER_CLASS);
+        var $button = $("<div>").addClass(SWITCHABLE_DELETE_BUTTON_CLASS);
 
         this._list._createComponent($button, Button, {
             text: messageLocalization.format("dxListEditDecorator-delete"),
@@ -53,11 +51,11 @@ var SwitchableButtonEditDecorator = SwitchableEditDecorator.inherit({
     },
 
     _animatePrepareDeleteReady: function() {
-        var rtl = this._isRtlEnabled(),
-            listWidth = this._list.$element().width(),
-            buttonWidth = this._buttonWidth(),
-            fromValue = rtl ? listWidth : -buttonWidth,
-            toValue = rtl ? listWidth - buttonWidth : 0;
+        var rtl = this._isRtlEnabled();
+        var listWidth = this._list.$element().width();
+        var buttonWidth = this._buttonWidth();
+        var fromValue = rtl ? listWidth : -buttonWidth;
+        var toValue = rtl ? listWidth - buttonWidth : 0;
 
         return fx.animate(this._$buttonContainer, {
             type: "custom",
@@ -68,11 +66,11 @@ var SwitchableButtonEditDecorator = SwitchableEditDecorator.inherit({
     },
 
     _animateForgetDeleteReady: function() {
-        var rtl = this._isRtlEnabled(),
-            listWidth = this._list.$element().width(),
-            buttonWidth = this._buttonWidth(),
-            fromValue = rtl ? listWidth - buttonWidth : 0,
-            toValue = rtl ? listWidth : -buttonWidth;
+        var rtl = this._isRtlEnabled();
+        var listWidth = this._list.$element().width();
+        var buttonWidth = this._buttonWidth();
+        var fromValue = rtl ? listWidth - buttonWidth : 0;
+        var toValue = rtl ? listWidth : -buttonWidth;
 
         return fx.animate(this._$buttonContainer, {
             type: "custom",
@@ -100,8 +98,8 @@ var SwitchableButtonEditDecorator = SwitchableEditDecorator.inherit({
 });
 
 
-var TOGGLE_DELETE_SWITCH_CONTAINER_CLASS = "dx-list-toggle-delete-switch-container",
-    TOGGLE_DELETE_SWITCH_CLASS = "dx-list-toggle-delete-switch";
+var TOGGLE_DELETE_SWITCH_CONTAINER_CLASS = "dx-list-toggle-delete-switch-container";
+var TOGGLE_DELETE_SWITCH_CLASS = "dx-list-toggle-delete-switch";
 
 registerDecorator(
     "delete",
@@ -109,8 +107,8 @@ registerDecorator(
     SwitchableButtonEditDecorator.inherit({
 
         beforeBag: function(config) {
-            var $itemElement = config.$itemElement,
-                $container = config.$container;
+            var $itemElement = config.$itemElement;
+            var $container = config.$container;
 
             var $toggle = $("<div>").addClass(TOGGLE_DELETE_SWITCH_CLASS);
             this._list._createComponent($toggle, Button, {

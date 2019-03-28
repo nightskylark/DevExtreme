@@ -1,6 +1,5 @@
-var isFunction = require("../core/utils/type").isFunction,
-
-    CSS_TRANSITION_EASING_REGEX = /cubic-bezier\((\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\)/;
+var isFunction = require("../core/utils/type").isFunction;
+var CSS_TRANSITION_EASING_REGEX = /cubic-bezier\((\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\)/;
 
 var TransitionTimingFuncMap = {
     "linear": "cubic-bezier(0, 0, 1, 1)",
@@ -12,13 +11,12 @@ var TransitionTimingFuncMap = {
 };
 
 var polynomBezier = function(x1, y1, x2, y2) {
-    var Cx = 3 * x1,
-        Bx = 3 * (x2 - x1) - Cx,
-        Ax = 1 - Cx - Bx,
-
-        Cy = 3 * y1,
-        By = 3 * (y2 - y1) - Cy,
-        Ay = 1 - Cy - By;
+    var Cx = 3 * x1;
+    var Bx = 3 * (x2 - x1) - Cx;
+    var Ax = 1 - Cx - Bx;
+    var Cy = 3 * y1;
+    var By = 3 * (y2 - y1) - Cy;
+    var Ay = 1 - Cy - By;
 
     var bezierX = function(t) {
         return t * (Cx + t * (Bx + t * Ax));
@@ -29,9 +27,9 @@ var polynomBezier = function(x1, y1, x2, y2) {
     };
 
     var findXFor = function(t) {
-        var x = t,
-            i = 0,
-            z;
+        var x = t;
+        var i = 0;
+        var z;
 
         while(i < 14) {
             z = bezierX(x) - t;

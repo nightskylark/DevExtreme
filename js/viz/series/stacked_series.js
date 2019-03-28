@@ -1,21 +1,23 @@
 // there stackedline, fullstackedline, stackedbar, fullstackedbar, stackedarea, fullstackedarea
-var _noop = require("../../core/utils/common").noop,
-    _extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    areaSeries = require("./area_series").chart,
-    chartAreaSeries = areaSeries.area,
-    barSeries = require("./bar_series"),
-    chartBarSeries = barSeries.chart.bar,
-    lineSeries = require("./line_series").chart,
-    vizUtils = require("../core/utils"),
-    objectUtils = require("../../core/utils/object"),
-    baseStackedSeries = {
-        getErrorBarRangeCorrector: _noop,
-        _calculateErrorBars: _noop,
-        _updateOptions: function(options) {
-            this._stackName = "axis_" + (options.axis || "default");
-        }
-    };
+var _noop = require("../../core/utils/common").noop;
+
+var _extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var areaSeries = require("./area_series").chart;
+var chartAreaSeries = areaSeries.area;
+var barSeries = require("./bar_series");
+var chartBarSeries = barSeries.chart.bar;
+var lineSeries = require("./line_series").chart;
+var vizUtils = require("../core/utils");
+var objectUtils = require("../../core/utils/object");
+
+var baseStackedSeries = {
+    getErrorBarRangeCorrector: _noop,
+    _calculateErrorBars: _noop,
+    _updateOptions: function(options) {
+        this._stackName = "axis_" + (options.axis || "default");
+    }
+};
 
 exports.chart = {};
 exports.polar = {};
@@ -53,11 +55,11 @@ function clonePoint(point, value, minValue, position) {
 }
 
 function preparePointsForStackedAreaSegment(points) {
-    var i = 0,
-        p,
-        result = [],
-        array,
-        len = points.length;
+    var i = 0;
+    var p;
+    var result = [];
+    var array;
+    var len = points.length;
 
     while(i < len) {
         p = points[i];
@@ -95,22 +97,24 @@ function getPointsByArgFromPrevSeries(prevSeries, argument) {
 
 exports.chart["stackedsplinearea"] = _extend({}, areaSeries["splinearea"], baseStackedSeries, {
     _prepareSegment: function(points, rotated) {
-        var that = this,
-            areaSegment;
+        var that = this;
+        var areaSegment;
         points = preparePointsForStackedAreaSegment(points);
         if(!this._prevSeries || points.length === 1) {
             areaSegment = areaSeries["splinearea"]._prepareSegment.call(this, points, rotated);
         } else {
-            var forwardPoints = lineSeries.spline._calculateBezierPoints(points, rotated),
-                backwardPoints = vizUtils.map(points, function(p) {
-                    var point = p.getCoords(true);
-                    point.argument = p.argument;
-                    return point;
-                }),
-                prevSeriesForwardPoints = [],
-                pointByArg = {},
-                i = 0,
-                len = that._prevSeries._segments.length;
+            var forwardPoints = lineSeries.spline._calculateBezierPoints(points, rotated);
+
+            var backwardPoints = vizUtils.map(points, function(p) {
+                var point = p.getCoords(true);
+                point.argument = p.argument;
+                return point;
+            });
+
+            var prevSeriesForwardPoints = [];
+            var pointByArg = {};
+            var i = 0;
+            var len = that._prevSeries._segments.length;
 
             while(i < len) {
                 prevSeriesForwardPoints = prevSeriesForwardPoints.concat(that._prevSeries._segments[i].line);
@@ -130,8 +134,8 @@ exports.chart["stackedsplinearea"] = _extend({}, areaSeries["splinearea"], baseS
             that._prevSeries._segmentByArg = pointByArg;
             backwardPoints = lineSeries.spline._calculateBezierPoints(backwardPoints, rotated);
             each(backwardPoints, function(i, p) {
-                var argument = p.argument.valueOf(),
-                    prevSeriesPoints;
+                var argument = p.argument.valueOf();
+                var prevSeriesPoints;
                 if(i % 3 === 0) {
                     prevSeriesPoints = pointByArg[argument] || getPointsByArgFromPrevSeries(that._prevSeries, argument);
                     if(prevSeriesPoints) {

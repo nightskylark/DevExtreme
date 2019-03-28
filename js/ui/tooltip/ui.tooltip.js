@@ -1,8 +1,8 @@
-var $ = require("../../core/renderer"),
-    Tooltip = require("./tooltip"),
-    extend = require("../../core/utils/extend").extend,
-    Deferred = require("../../core/utils/deferred").Deferred,
-    viewPortUtils = require("../../core/utils/view_port");
+var $ = require("../../core/renderer");
+var Tooltip = require("./tooltip");
+var extend = require("../../core/utils/extend").extend;
+var Deferred = require("../../core/utils/deferred").Deferred;
+var viewPortUtils = require("../../core/utils/view_port");
 
 var tooltip = null;
 var removeTooltipElement = null;

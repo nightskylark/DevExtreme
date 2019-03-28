@@ -1,7 +1,7 @@
-var $ = require("../../core/renderer"),
-    ListStrategy = require("./ui.toolbar.strategy.list_base"),
-    extend = require("../../core/utils/extend").extend,
-    translator = require("../../animation/translator");
+var $ = require("../../core/renderer");
+var ListStrategy = require("./ui.toolbar.strategy.list_base");
+var extend = require("../../core/utils/extend").extend;
+var translator = require("../../animation/translator");
 
 var ListTopStrategy = ListStrategy.inherit({
 

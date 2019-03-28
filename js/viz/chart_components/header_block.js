@@ -1,5 +1,5 @@
-var LayoutElementModule = require("../core/layout_element"),
-    extend = require("../../core/utils/extend").extend;
+var LayoutElementModule = require("../core/layout_element");
+var extend = require("../../core/utils/extend").extend;
 
 function HeaderBlock() { }
 
@@ -15,9 +15,9 @@ extend(HeaderBlock.prototype, LayoutElementModule.LayoutElement.prototype, {
     },
 
     measure: function() {
-        var that = this,
-            layoutOptions = that.getLayoutOptions(),
-            result;
+        var that = this;
+        var layoutOptions = that.getLayoutOptions();
+        var result;
 
         if(layoutOptions) {
             result = {
@@ -34,13 +34,13 @@ extend(HeaderBlock.prototype, LayoutElementModule.LayoutElement.prototype, {
     },
 
     getLayoutOptions: function() {
-        var that = this,
-            elements = that._elements,
-            length = elements.length,
-            firstElement,
-            layout,
-            elementLayout,
-            i = 1;
+        var that = this;
+        var elements = that._elements;
+        var length = elements.length;
+        var firstElement;
+        var layout;
+        var elementLayout;
+        var i = 1;
 
         if(!length) {
             return null;

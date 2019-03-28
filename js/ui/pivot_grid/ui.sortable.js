@@ -1,24 +1,23 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    eventUtils = require("../../events/utils"),
-    addNamespace = eventUtils.addNamespace,
-    registerComponent = require("../../core/component_registrator"),
-    DOMComponent = require("../../core/dom_component"),
-    dragEvents = require("../../events/drag"),
-    getSwatchContainer = require("../widget/swatch_container").getSwatchContainer;
-
-var SORTABLE_NAMESPACE = "dxSortable",
-    SORTABLE_CLASS = "dx-sortable",
-    SCROLL_STEP = 2,
-    START_SCROLL_OFFSET = 20,
-    SCROLL_TIMEOUT = 10;
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var eventUtils = require("../../events/utils");
+var addNamespace = eventUtils.addNamespace;
+var registerComponent = require("../../core/component_registrator");
+var DOMComponent = require("../../core/dom_component");
+var dragEvents = require("../../events/drag");
+var getSwatchContainer = require("../widget/swatch_container").getSwatchContainer;
+var SORTABLE_NAMESPACE = "dxSortable";
+var SORTABLE_CLASS = "dx-sortable";
+var SCROLL_STEP = 2;
+var START_SCROLL_OFFSET = 20;
+var SCROLL_TIMEOUT = 10;
 
 function elementHasPoint(element, x, y) {
-    var $item = $(element),
-        offset = $item.offset();
+    var $item = $(element);
+    var offset = $item.offset();
 
     if(x >= offset.left && x <= offset.left + $item.outerWidth(true)) {
         if(y >= offset.top && y <= offset.top + $item.outerHeight(true)) {
@@ -36,8 +35,8 @@ function checkHorizontalPosition(position, itemOffset, rtl) {
 }
 
 function getIndex($items, $item) {
-    var index = -1,
-        itemElement = $item.get(0);
+    var index = -1;
+    var itemElement = $item.get(0);
 
     each($items, function(elementIndex, element) {
         var $element = $(element);
@@ -67,8 +66,8 @@ function getTargetGroup(e, $groups) {
 }
 
 function getItemsOffset($elements, isVertical, $itemsContainer) {
-    var result = [],
-        $item = [];
+    var result = [];
+    var $item = [];
 
     for(var i = 0; i < $elements.length; i += $item.length) {
         $item = $elements.eq(i);
@@ -96,12 +95,12 @@ function getItemsOffset($elements, isVertical, $itemsContainer) {
 }
 
 function getScrollWrapper(scrollable) {
-    var timeout = null,
-        scrollTop = scrollable.scrollTop(),
-        $element = scrollable.$element(),
-        top = $element.offset().top,
-        height = $element.height(),
-        delta = 0;
+    var timeout = null;
+    var scrollTop = scrollable.scrollTop();
+    var $element = scrollable.$element();
+    var top = $element.offset().top;
+    var height = $element.height();
+    var delta = 0;
 
     function onScroll(e) {
         scrollTop = e.scrollOffset.top;
@@ -165,8 +164,8 @@ var Sortable = DOMComponent.inherit({
     },
 
     _renderItem: function($sourceItem, target) {
-        var itemRender = this.option("itemRender"),
-            $item;
+        var itemRender = this.option("itemRender");
+        var $item;
 
         if(itemRender) {
             $item = itemRender($sourceItem, target);
@@ -181,10 +180,10 @@ var Sortable = DOMComponent.inherit({
     },
 
     _renderIndicator: function($item, isVertical, $targetGroup, isLast) {
-        var height = $item.outerHeight(true),
-            width = $item.outerWidth(true),
-            top = $item.offset().top - $targetGroup.offset().top,
-            left = $item.offset().left - $targetGroup.offset().left;
+        var height = $item.outerHeight(true);
+        var width = $item.outerWidth(true);
+        var top = $item.offset().top - $targetGroup.offset().top;
+        var left = $item.offset().left - $targetGroup.offset().left;
 
         this._indicator
             .css({
@@ -220,8 +219,8 @@ var Sortable = DOMComponent.inherit({
 
     _getItemOffset: function(isVertical, itemsOffset, e) {
         for(var i = 0; i < itemsOffset.length; i++) {
-            var shouldInsert,
-                sameLine = e.pageY < itemsOffset[i].posVertical;
+            var shouldInsert;
+            var sameLine = e.pageY < itemsOffset[i].posVertical;
 
             if(isVertical) {
                 shouldInsert = sameLine;
@@ -239,31 +238,31 @@ var Sortable = DOMComponent.inherit({
     },
 
     _getEventListener: function() {
-        var groupSelector = this.option("groupSelector"),
-            element = this.$element();
+        var groupSelector = this.option("groupSelector");
+        var element = this.$element();
 
         return groupSelector ? element.find(groupSelector) : element;
     },
 
     _attachEventHandlers: function() {
-        var that = this,
-            itemSelector = that.option("itemSelector"),
-            itemContainerSelector = that.option("itemContainerSelector"),
-            groupSelector = that.option("groupSelector"),
-            sourceClass = that.option("sourceClass"),
-            targetClass = that.option("targetClass"),
-            onDragging = that.option("onDragging"),
-            groupFilter = that.option("groupFilter"),
-            $sourceItem,
-            sourceIndex,
-            $targetItem,
-            $targetGroup,
-            startPositions,
-            sourceGroup,
-            element = that.$element(),
-            $groups,
-            scrollWrapper = null,
-            targetIndex = -1;
+        var that = this;
+        var itemSelector = that.option("itemSelector");
+        var itemContainerSelector = that.option("itemContainerSelector");
+        var groupSelector = that.option("groupSelector");
+        var sourceClass = that.option("sourceClass");
+        var targetClass = that.option("targetClass");
+        var onDragging = that.option("onDragging");
+        var groupFilter = that.option("groupFilter");
+        var $sourceItem;
+        var sourceIndex;
+        var $targetItem;
+        var $targetGroup;
+        var startPositions;
+        var sourceGroup;
+        var element = that.$element();
+        var $groups;
+        var scrollWrapper = null;
+        var targetIndex = -1;
 
         var setStartPositions = function() {
             startPositions = [];
@@ -328,14 +327,14 @@ var Sortable = DOMComponent.inherit({
                 that._indicator = $("<div>").addClass("dx-position-indicator");
             });
             eventsEngine.on($eventListener, addNamespace(dragEvents.move, SORTABLE_NAMESPACE), function(e) {
-                var $item,
-                    $itemContainer,
-                    $items,
-                    $lastItem,
-                    itemsOffset = [],
-                    isVertical,
-                    itemOffset,
-                    $prevItem;
+                var $item;
+                var $itemContainer;
+                var $items;
+                var $lastItem;
+                var itemsOffset = [];
+                var isVertical;
+                var itemOffset;
+                var $prevItem;
 
                 if(!$sourceItem) {
                     return;
@@ -376,8 +375,8 @@ var Sortable = DOMComponent.inherit({
                 $itemContainer = $targetGroup.find(itemContainerSelector);
                 $items = $itemContainer.find(itemSelector);
 
-                var targetSortable = $targetGroup.closest("." + SORTABLE_CLASS).data("dxSortable"),
-                    useIndicator = targetSortable.option("useIndicator");
+                var targetSortable = $targetGroup.closest("." + SORTABLE_CLASS).data("dxSortable");
+                var useIndicator = targetSortable.option("useIndicator");
 
                 isVertical = (targetSortable || that).option("direction") === "vertical";
                 itemsOffset = getItemsOffset($items, isVertical, $itemContainer);
@@ -401,9 +400,9 @@ var Sortable = DOMComponent.inherit({
                         return;
                     }
 
-                    var isAnotherGroup = $targetGroup.attr("group") !== sourceGroup,
-                        isSameIndex = targetIndex === sourceIndex,
-                        isNextIndex = targetIndex === (sourceIndex + 1);
+                    var isAnotherGroup = $targetGroup.attr("group") !== sourceGroup;
+                    var isSameIndex = targetIndex === sourceIndex;
+                    var isNextIndex = targetIndex === (sourceIndex + 1);
 
                     if(isAnotherGroup) {
                         that._renderIndicator($item, isVertical, $targetGroup, that.option("rtlEnabled") && !isVertical);
@@ -428,7 +427,6 @@ var Sortable = DOMComponent.inherit({
                         $targetItem.appendTo($itemContainer);
                     }
                 }
-
             });
             eventsEngine.on($eventListener, addNamespace(dragEvents.end, SORTABLE_NAMESPACE), function() {
                 disposeScrollWrapper();
@@ -437,16 +435,17 @@ var Sortable = DOMComponent.inherit({
                     return;
                 }
 
-                var onChanged = that.option("onChanged"),
-                    changedArgs = {
-                        sourceIndex: sourceIndex,
-                        sourceElement: $sourceItem,
-                        sourceGroup: sourceGroup,
-                        targetIndex: targetIndex,
-                        removeSourceElement: true,
-                        removeTargetElement: false,
-                        removeSourceClass: true
-                    };
+                var onChanged = that.option("onChanged");
+
+                var changedArgs = {
+                    sourceIndex: sourceIndex,
+                    sourceElement: $sourceItem,
+                    sourceGroup: sourceGroup,
+                    targetIndex: targetIndex,
+                    removeSourceElement: true,
+                    removeTargetElement: false,
+                    removeSourceClass: true
+                };
 
                 if($targetGroup) {
                     $targetGroup.removeClass(targetClass);
@@ -467,7 +466,6 @@ var Sortable = DOMComponent.inherit({
                 changedArgs.removeTargetElement && $targetItem.remove();
                 $targetItem.removeClass(targetClass);
                 $targetItem = null;
-
             });
         }
     },

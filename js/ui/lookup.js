@@ -1,36 +1,35 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    window = require("../core/utils/window").getWindow(),
-    support = require("../core/utils/support"),
-    commonUtils = require("../core/utils/common"),
-    domUtils = require("../core/utils/dom"),
-    each = require("../core/utils/iterator").each,
-    extend = require("../core/utils/extend").extend,
-    inkRipple = require("./widget/utils.ink_ripple"),
-    messageLocalization = require("../localization/message"),
-    devices = require("../core/devices"),
-    registerComponent = require("../core/component_registrator"),
-    eventUtils = require("../events/utils"),
-    DropDownList = require("./drop_down_editor/ui.drop_down_list"),
-    themes = require("./themes"),
-    clickEvent = require("../events/click"),
-    Popover = require("./popover"),
-    TextBox = require("./text_box"),
-    ChildDefaultTemplate = require("./widget/child_default_template"),
-    translator = require("../animation/translator");
-
-var LOOKUP_CLASS = "dx-lookup",
-    LOOKUP_SEARCH_CLASS = "dx-lookup-search",
-    LOOKUP_SEARCH_WRAPPER_CLASS = "dx-lookup-search-wrapper",
-    LOOKUP_FIELD_CLASS = "dx-lookup-field",
-    LOOKUP_ARROW_CLASS = "dx-lookup-arrow",
-    LOOKUP_FIELD_WRAPPER_CLASS = "dx-lookup-field-wrapper",
-    LOOKUP_POPUP_CLASS = "dx-lookup-popup",
-    LOOKUP_POPUP_WRAPPER_CLASS = "dx-lookup-popup-wrapper",
-    LOOKUP_POPUP_SEARCH_CLASS = "dx-lookup-popup-search",
-    LOOKUP_POPOVER_MODE = "dx-lookup-popover-mode",
-    LOOKUP_EMPTY_CLASS = "dx-lookup-empty",
-    LOOKUP_POPOVER_FLIP_VERTICAL_CLASS = "dx-popover-flipped-vertical";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var window = require("../core/utils/window").getWindow();
+var support = require("../core/utils/support");
+var commonUtils = require("../core/utils/common");
+var domUtils = require("../core/utils/dom");
+var each = require("../core/utils/iterator").each;
+var extend = require("../core/utils/extend").extend;
+var inkRipple = require("./widget/utils.ink_ripple");
+var messageLocalization = require("../localization/message");
+var devices = require("../core/devices");
+var registerComponent = require("../core/component_registrator");
+var eventUtils = require("../events/utils");
+var DropDownList = require("./drop_down_editor/ui.drop_down_list");
+var themes = require("./themes");
+var clickEvent = require("../events/click");
+var Popover = require("./popover");
+var TextBox = require("./text_box");
+var ChildDefaultTemplate = require("./widget/child_default_template");
+var translator = require("../animation/translator");
+var LOOKUP_CLASS = "dx-lookup";
+var LOOKUP_SEARCH_CLASS = "dx-lookup-search";
+var LOOKUP_SEARCH_WRAPPER_CLASS = "dx-lookup-search-wrapper";
+var LOOKUP_FIELD_CLASS = "dx-lookup-field";
+var LOOKUP_ARROW_CLASS = "dx-lookup-arrow";
+var LOOKUP_FIELD_WRAPPER_CLASS = "dx-lookup-field-wrapper";
+var LOOKUP_POPUP_CLASS = "dx-lookup-popup";
+var LOOKUP_POPUP_WRAPPER_CLASS = "dx-lookup-popup-wrapper";
+var LOOKUP_POPUP_SEARCH_CLASS = "dx-lookup-popup-search";
+var LOOKUP_POPOVER_MODE = "dx-lookup-popover-mode";
+var LOOKUP_EMPTY_CLASS = "dx-lookup-empty";
+var LOOKUP_POPOVER_FLIP_VERTICAL_CLASS = "dx-popover-flipped-vertical";
 
 var POPUP_OPTION_MAP = {
     "popupWidth": "width",
@@ -786,9 +785,9 @@ var Lookup = DropDownList.inherit({
     },
 
     _scrollToSelectedItem: function() {
-        var selectedIndex = this._list.option("selectedIndex"),
-            listItems = this._list.option("items"),
-            itemsCount = listItems.length;
+        var selectedIndex = this._list.option("selectedIndex");
+        var listItems = this._list.option("items");
+        var itemsCount = listItems.length;
 
         if(itemsCount !== 0) {
             if(this._list.option("grouped")) {
@@ -806,12 +805,12 @@ var Lookup = DropDownList.inherit({
         var flipped = this._popup._$wrapper.hasClass(LOOKUP_POPOVER_FLIP_VERTICAL_CLASS);
         if(selectedIndex === -1 || flipped) return;
 
-        var selectedListItem = $(this._list.element()).find("." + LIST_ITEM_SELECTED_CLASS),
-            differenceOfHeights = (selectedListItem.height() - $(this.element()).height()) / 2,
-            popupContentParent = $(this._popup.content()).parent(),
-            differenceOfOffsets = selectedListItem.offset().top - popupContentParent.offset().top,
-            lookupTop = $(this.element()).offset().top,
-            popupOffsetY = differenceOfHeights;
+        var selectedListItem = $(this._list.element()).find("." + LIST_ITEM_SELECTED_CLASS);
+        var differenceOfHeights = (selectedListItem.height() - $(this.element()).height()) / 2;
+        var popupContentParent = $(this._popup.content()).parent();
+        var differenceOfOffsets = selectedListItem.offset().top - popupContentParent.offset().top;
+        var lookupTop = $(this.element()).offset().top;
+        var popupOffsetY = differenceOfHeights;
 
         if(lookupTop > differenceOfOffsets) {
             popupOffsetY += differenceOfOffsets;
@@ -1021,8 +1020,8 @@ var Lookup = DropDownList.inherit({
             var $searchBox = this._$searchBox = $("<div>").addClass(LOOKUP_SEARCH_CLASS)
                 .appendTo($searchWrapper);
 
-            var currentDevice = devices.current(),
-                searchMode = currentDevice.android && currentDevice.version[0] >= 5 ? "text" : "search";
+            var currentDevice = devices.current();
+            var searchMode = currentDevice.android && currentDevice.version[0] >= 5 ? "text" : "search";
 
             this._searchBox = this._createComponent($searchBox, TextBox, {
                 mode: searchMode,
@@ -1184,8 +1183,8 @@ var Lookup = DropDownList.inherit({
     },
 
     _setSubmitValue: function() {
-        var value = this.option("value"),
-            submitValue = this.option("valueExpr") === "this" ? this._displayGetter(value) : value;
+        var value = this.option("value");
+        var submitValue = this.option("valueExpr") === "this" ? this._displayGetter(value) : value;
 
         this._$submitElement.val(submitValue);
     },

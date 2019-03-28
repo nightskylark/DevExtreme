@@ -1,7 +1,7 @@
-var isDefined = require("./type").isDefined,
-    each = require("./iterator").each,
-    objectUtils = require("./object"),
-    config = require("../config");
+var isDefined = require("./type").isDefined;
+var each = require("./iterator").each;
+var objectUtils = require("./object");
+var config = require("../config");
 
 var isEmpty = function(entity) {
     return Array.isArray(entity) && !entity.length;
@@ -53,9 +53,9 @@ var removeDuplicates = function(from, what) {
 };
 
 var normalizeIndexes = function(items, indexParameterName, currentItem, needIndexCallback) {
-    var indexedItems = {},
-        parameterIndex = 0,
-        useLegacyVisibleIndex = config().useLegacyVisibleIndex;
+    var indexedItems = {};
+    var parameterIndex = 0;
+    var useLegacyVisibleIndex = config().useLegacyVisibleIndex;
 
     each(items, function(index, item) {
         index = item[indexParameterName];

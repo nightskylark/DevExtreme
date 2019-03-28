@@ -9,11 +9,11 @@ function discreteColorizer(options, themeManager, root) {
 }
 
 function getLeafsCount(root) {
-    var allNodes = root.nodes.slice(),
-        i,
-        ii = allNodes.length,
-        count = 0,
-        node;
+    var allNodes = root.nodes.slice();
+    var i;
+    var ii = allNodes.length;
+    var count = 0;
+    var node;
 
     for(i = 0; i < ii; ++i) {
         node = allNodes[i];
@@ -36,11 +36,11 @@ function discreteLeafColorizer(palette) {
 }
 
 function getNodesCount(root) {
-    var allNodes = root.nodes.slice(),
-        i,
-        ii = allNodes.length,
-        count = 0,
-        node;
+    var allNodes = root.nodes.slice();
+    var i;
+    var ii = allNodes.length;
+    var count = 0;
+    var node;
 
     for(i = 0; i < ii; ++i) {
         node = allNodes[i];
@@ -53,11 +53,11 @@ function getNodesCount(root) {
 }
 
 function prepareDiscreteGroupColors(palette, root) {
-    var colors = {},
-        allNodes = root.nodes.slice(),
-        i,
-        ii = allNodes.length,
-        node;
+    var colors = {};
+    var allNodes = root.nodes.slice();
+    var i;
+    var ii = allNodes.length;
+    var node;
 
     for(i = 0; i < ii; ++i) {
         node = allNodes[i];

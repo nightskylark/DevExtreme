@@ -1,26 +1,25 @@
-var $ = require("../core/renderer"),
-    window = require("../core/utils/window").getWindow(),
-    eventsEngine = require("../events/core/events_engine"),
-    stringUtils = require("../core/utils/string"),
-    registerComponent = require("../core/component_registrator"),
-    translator = require("../animation/translator"),
-    dasherize = require("../core/utils/inflector").dasherize,
-    extend = require("../core/utils/extend").extend,
-    DOMComponent = require("../core/dom_component"),
-    eventUtils = require("../events/utils"),
-    pointerEvents = require("../events/pointer"),
-    dragEvents = require("../events/drag"),
-    positionUtils = require("../animation/position"),
-    isFunction = require("../core/utils/type").isFunction,
-    noop = require("../core/utils/common").noop;
-
-var DRAGGABLE = "dxDraggable",
-    DRAGSTART_EVENT_NAME = eventUtils.addNamespace(dragEvents.start, DRAGGABLE),
-    DRAG_EVENT_NAME = eventUtils.addNamespace(dragEvents.move, DRAGGABLE),
-    DRAGEND_EVENT_NAME = eventUtils.addNamespace(dragEvents.end, DRAGGABLE),
-    POINTERDOWN_EVENT_NAME = eventUtils.addNamespace(pointerEvents.down, DRAGGABLE),
-    DRAGGABLE_CLASS = dasherize(DRAGGABLE),
-    DRAGGABLE_DRAGGING_CLASS = DRAGGABLE_CLASS + "-dragging";
+var $ = require("../core/renderer");
+var window = require("../core/utils/window").getWindow();
+var eventsEngine = require("../events/core/events_engine");
+var stringUtils = require("../core/utils/string");
+var registerComponent = require("../core/component_registrator");
+var translator = require("../animation/translator");
+var dasherize = require("../core/utils/inflector").dasherize;
+var extend = require("../core/utils/extend").extend;
+var DOMComponent = require("../core/dom_component");
+var eventUtils = require("../events/utils");
+var pointerEvents = require("../events/pointer");
+var dragEvents = require("../events/drag");
+var positionUtils = require("../animation/position");
+var isFunction = require("../core/utils/type").isFunction;
+var noop = require("../core/utils/common").noop;
+var DRAGGABLE = "dxDraggable";
+var DRAGSTART_EVENT_NAME = eventUtils.addNamespace(dragEvents.start, DRAGGABLE);
+var DRAG_EVENT_NAME = eventUtils.addNamespace(dragEvents.move, DRAGGABLE);
+var DRAGEND_EVENT_NAME = eventUtils.addNamespace(dragEvents.end, DRAGGABLE);
+var POINTERDOWN_EVENT_NAME = eventUtils.addNamespace(pointerEvents.down, DRAGGABLE);
+var DRAGGABLE_CLASS = dasherize(DRAGGABLE);
+var DRAGGABLE_DRAGGING_CLASS = DRAGGABLE_CLASS + "-dragging";
 
 
 var Draggable = DOMComponent.inherit({
@@ -47,9 +46,9 @@ var Draggable = DOMComponent.inherit({
             return;
         }
 
-        var $element = this.$element().css("position", "absolute"),
-            eventHandlers = {},
-            allowMoveByClick = this.option("allowMoveByClick");
+        var $element = this.$element().css("position", "absolute");
+        var eventHandlers = {};
+        var allowMoveByClick = this.option("allowMoveByClick");
 
         eventHandlers[DRAGSTART_EVENT_NAME] = this._dragStartHandler.bind(this);
         eventHandlers[DRAG_EVENT_NAME] = this._dragHandler.bind(this);
@@ -80,9 +79,9 @@ var Draggable = DOMComponent.inherit({
             return;
         }
 
-        var areaOffset = this._getAreaOffset($(e.currentTarget)),
-            direction = this.option("direction"),
-            position = {};
+        var areaOffset = this._getAreaOffset($(e.currentTarget));
+        var direction = this.option("direction");
+        var position = {};
 
         if(direction === "horizontal" || direction === "both") {
             position.left = e.pageX - this.$element().width() / 2 - areaOffset.left;
@@ -104,13 +103,13 @@ var Draggable = DOMComponent.inherit({
             return;
         }
 
-        var $area = this._getArea(),
-            areaOffset = this._getAreaOffset($area),
-            boundOffset = this._getBoundOffset(),
-            areaWidth = $area.outerWidth(),
-            areaHeight = $area.outerHeight(),
-            elementWidth = $element.width(),
-            elementHeight = $element.height();
+        var $area = this._getArea();
+        var areaOffset = this._getAreaOffset($area);
+        var boundOffset = this._getBoundOffset();
+        var areaWidth = $area.outerWidth();
+        var areaHeight = $area.outerHeight();
+        var elementWidth = $element.width();
+        var elementHeight = $element.height();
 
         this._toggleDraggingClass(true);
 
@@ -157,8 +156,8 @@ var Draggable = DOMComponent.inherit({
     },
 
     _dragHandler: function(e) {
-        var offset = e.offset,
-            startPosition = this._startPosition;
+        var offset = e.offset;
+        var startPosition = this._startPosition;
 
         this._move({
             left: startPosition.left + offset.x,

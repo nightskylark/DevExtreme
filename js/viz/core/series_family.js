@@ -1,16 +1,16 @@
-var isNumeric = require("../../core/utils/type").isNumeric,
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    isDefined = require("../../core/utils/type").isDefined,
-    _math = Math,
-    _round = _math.round,
-    _abs = _math.abs,
-    _pow = _math.pow,
-    _each = each,
-    _noop = require("../../core/utils/common").noop,
-    vizUtils = require("./utils"),
-    DEFAULT_BAR_GROUP_PADDING = 0.3,
-    _normalizeEnum = vizUtils.normalizeEnum;
+var isNumeric = require("../../core/utils/type").isNumeric;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var isDefined = require("../../core/utils/type").isDefined;
+var _math = Math;
+var _round = _math.round;
+var _abs = _math.abs;
+var _pow = _math.pow;
+var _each = each;
+var _noop = require("../../core/utils/common").noop;
+var vizUtils = require("./utils");
+var DEFAULT_BAR_GROUP_PADDING = 0.3;
+var _normalizeEnum = vizUtils.normalizeEnum;
 
 function validateBarPadding(barPadding) {
     return (barPadding < 0 || barPadding > 1) ? undefined : barPadding;
@@ -30,13 +30,13 @@ function isStackExist(series, arg, equalBarWidth) {
 
 function correctStackCoordinates(series, currentStacks, arg, stack, parameters, barsArea, seriesStackIndexCallback) {
     series.forEach(function(series) {
-        var stackIndex = seriesStackIndexCallback(currentStacks.indexOf(stack), currentStacks.length),
-            points = series.getPointsByArg(arg, true),
-            barPadding = validateBarPadding(series.getOptions().barPadding),
-            barWidth = series.getOptions().barWidth,
-            offset = getOffset(stackIndex, parameters),
-            width = parameters.width,
-            extraParameters;
+        var stackIndex = seriesStackIndexCallback(currentStacks.indexOf(stack), currentStacks.length);
+        var points = series.getPointsByArg(arg, true);
+        var barPadding = validateBarPadding(series.getOptions().barPadding);
+        var barWidth = series.getOptions().barWidth;
+        var offset = getOffset(stackIndex, parameters);
+        var width = parameters.width;
+        var extraParameters;
 
         if(stackIndex === -1) {
             return;
@@ -53,17 +53,17 @@ function correctStackCoordinates(series, currentStacks, arg, stack, parameters, 
 }
 
 function adjustBarSeriesDimensionsCore(series, options, seriesStackIndexCallback) {
-    var commonStacks = [],
-        allArguments = [],
-        seriesInStacks = {},
-        barWidth = options.barWidth,
-        barGroupWidth = options.barGroupWidth,
-        interval = series[0] && series[0].getArgumentAxis().getTranslator().getInterval(),
-        barsArea = barGroupWidth ? (interval > barGroupWidth ? barGroupWidth : interval) : (interval * (1 - validateBarGroupPadding(options.barGroupPadding)));
+    var commonStacks = [];
+    var allArguments = [];
+    var seriesInStacks = {};
+    var barWidth = options.barWidth;
+    var barGroupWidth = options.barGroupWidth;
+    var interval = series[0] && series[0].getArgumentAxis().getTranslator().getInterval();
+    var barsArea = barGroupWidth ? (interval > barGroupWidth ? barGroupWidth : interval) : (interval * (1 - validateBarGroupPadding(options.barGroupPadding)));
 
     series.forEach(function(s, i) {
-        var stackName = s.getStackName() || s.getBarOverlapGroup() || i.toString(),
-            argument;
+        var stackName = s.getStackName() || s.getBarOverlapGroup() || i.toString();
+        var argument;
 
         for(argument in s.pointsByArgument) {
             if(allArguments.indexOf(argument.valueOf()) === -1) {
@@ -94,8 +94,8 @@ function adjustBarSeriesDimensionsCore(series, options, seriesStackIndexCallback
 }
 
 function calculateParams(barsArea, count, percentWidth, fixedBarWidth) {
-    var spacing,
-        width;
+    var spacing;
+    var width;
 
     if(fixedBarWidth) {
         width = Math.min(fixedBarWidth, _round(barsArea / count));
@@ -135,14 +135,14 @@ function getVisibleSeries(that) {
 }
 
 function getAbsStackSumByArg(stackKeepers, stackName, argument) {
-    var positiveStackValue = (stackKeepers.positive[stackName] || {})[argument] || 0,
-        negativeStackValue = (-(stackKeepers.negative[stackName] || {})[argument]) || 0;
+    var positiveStackValue = (stackKeepers.positive[stackName] || {})[argument] || 0;
+    var negativeStackValue = (-(stackKeepers.negative[stackName] || {})[argument]) || 0;
     return positiveStackValue + negativeStackValue;
 }
 
 function getStackSumByArg(stackKeepers, stackName, argument) {
-    var positiveStackValue = (stackKeepers.positive[stackName] || {})[argument] || 0,
-        negativeStackValue = (stackKeepers.negative[stackName] || {})[argument] || 0;
+    var positiveStackValue = (stackKeepers.positive[stackName] || {})[argument] || 0;
+    var negativeStackValue = (stackKeepers.negative[stackName] || {})[argument] || 0;
     return positiveStackValue + negativeStackValue;
 }
 
@@ -159,22 +159,25 @@ function adjustBarSeriesDimensions() {
 }
 
 function adjustStackedSeriesValues() {
-    var that = this,
-        negativesAsZeroes = that._options.negativesAsZeroes,
-        series = getVisibleSeries(that),
-        stackKeepers = {
-            positive: {},
-            negative: {}
-        },
-        holesStack = {
-            left: {},
-            right: {}
-        },
-        lastSeriesInStack = {};
+    var that = this;
+    var negativesAsZeroes = that._options.negativesAsZeroes;
+    var series = getVisibleSeries(that);
+
+    var stackKeepers = {
+        positive: {},
+        negative: {}
+    };
+
+    var holesStack = {
+        left: {},
+        right: {}
+    };
+
+    var lastSeriesInStack = {};
 
     series.forEach(function(singleSeries) {
-        var stackName = singleSeries.getStackName() || singleSeries.getBarOverlapGroup(),
-            hole = false;
+        var stackName = singleSeries.getStackName() || singleSeries.getBarOverlapGroup();
+        var hole = false;
 
         singleSeries._prevSeries = lastSeriesInStack[stackName];
         lastSeriesInStack[stackName] = singleSeries;
@@ -182,11 +185,11 @@ function adjustStackedSeriesValues() {
         singleSeries.holes = extend(true, {}, holesStack);
 
         singleSeries.getPoints().forEach(function(point, index, points) {
-            var value = point.initialValue,
-                argument = point.argument.valueOf(),
-                stacks = (value >= 0) ? stackKeepers.positive : stackKeepers.negative,
-                isNotBarSeries = singleSeries.type !== "bar",
-                currentStack;
+            var value = point.initialValue;
+            var argument = point.argument.valueOf();
+            var stacks = (value >= 0) ? stackKeepers.positive : stackKeepers.negative;
+            var isNotBarSeries = singleSeries.type !== "bar";
+            var currentStack;
 
             if(negativesAsZeroes && value < 0) {
                 stacks = stackKeepers.positive;
@@ -218,7 +221,6 @@ function adjustStackedSeriesValues() {
                 point._skipSetLeftHole = true;
             }
         });
-
     });
     series.forEach(function(singleSeries) {
         var holes = singleSeries.holes;
@@ -235,10 +237,10 @@ function adjustStackedSeriesValues() {
     that._stackKeepers = stackKeepers;
     series.forEach(function(singleSeries) {
         singleSeries.getPoints().forEach(function(point) {
-            var argument = point.argument.valueOf(),
-                stackName = singleSeries.getStackName() || singleSeries.getBarOverlapGroup(),
-                absTotal = getAbsStackSumByArg(stackKeepers, stackName, argument),
-                total = getStackSumByArg(stackKeepers, stackName, argument);
+            var argument = point.argument.valueOf();
+            var stackName = singleSeries.getStackName() || singleSeries.getBarOverlapGroup();
+            var absTotal = getAbsStackSumByArg(stackKeepers, stackName, argument);
+            var total = getStackSumByArg(stackKeepers, stackName, argument);
 
             point.setPercentValue(absTotal, total, holesStack.left[argument], holesStack.right[argument]);
         });
@@ -246,28 +248,30 @@ function adjustStackedSeriesValues() {
 }
 
 function updateStackedSeriesValues() {
-    var that = this,
-        series = getVisibleSeries(that),
-        stack = that._stackKeepers,
-        stackKeepers = {
-            positive: {},
-            negative: {}
-        };
+    var that = this;
+    var series = getVisibleSeries(that);
+    var stack = that._stackKeepers;
+
+    var stackKeepers = {
+        positive: {},
+        negative: {}
+    };
+
     _each(series, function(_, singleSeries) {
-        var minBarSize = singleSeries.getOptions().minBarSize,
-            valueAxisTranslator = singleSeries.getValueAxis().getTranslator(),
-            minShownBusinessValue = minBarSize && valueAxisTranslator.getMinBarSize(minBarSize),
-            stackName = singleSeries.getStackName();
+        var minBarSize = singleSeries.getOptions().minBarSize;
+        var valueAxisTranslator = singleSeries.getValueAxis().getTranslator();
+        var minShownBusinessValue = minBarSize && valueAxisTranslator.getMinBarSize(minBarSize);
+        var stackName = singleSeries.getStackName();
 
         _each(singleSeries.getPoints(), function(index, point) {
             if(!point.hasValue()) {
                 return;
             }
-            var value = point.initialValue,
-                argument = point.argument.valueOf(),
-                updateValue,
-                valueType,
-                currentStack;
+            var value = point.initialValue;
+            var argument = point.argument.valueOf();
+            var updateValue;
+            var valueType;
+            var currentStack;
 
             if(that.fullStacked) {
                 value = ((value / (getAbsStackSumByArg(stack, stackName, argument))) || 0);
@@ -308,9 +312,9 @@ function updateFullStackedSeriesValues(series, stackKeepers) {
 
 function updateBarSeriesValues() {
     _each(this.series, function(_, singleSeries) {
-        var minBarSize = singleSeries.getOptions().minBarSize,
-            valueAxisTranslator = singleSeries.getValueAxis().getTranslator(),
-            minShownBusinessValue = minBarSize && valueAxisTranslator.getMinBarSize(minBarSize);
+        var minBarSize = singleSeries.getOptions().minBarSize;
+        var valueAxisTranslator = singleSeries.getValueAxis().getTranslator();
+        var minShownBusinessValue = minBarSize && valueAxisTranslator.getMinBarSize(minBarSize);
 
         if(minShownBusinessValue) {
             _each(singleSeries.getPoints(), function(index, point) {
@@ -333,20 +337,20 @@ function adjustBubbleSeriesDimensions() {
         return;
     }
 
-    var options = this._options,
-        visibleAreaX = series[0].getArgumentAxis().getVisibleArea(),
-        visibleAreaY = series[0].getValueAxis().getVisibleArea(),
-        min = _math.min((visibleAreaX[1] - visibleAreaX[0]), (visibleAreaY[1] - visibleAreaY[0])),
-        minBubbleArea = _pow(options.minBubbleSize, 2),
-        maxBubbleArea = _pow(min * options.maxBubbleSize, 2),
-        equalBubbleSize = (min * options.maxBubbleSize + options.minBubbleSize) / 2,
-        minPointSize = Infinity,
-        maxPointSize = -Infinity,
-        pointSize,
-        bubbleArea,
-        sizeProportion,
-        sizeDispersion,
-        areaDispersion;
+    var options = this._options;
+    var visibleAreaX = series[0].getArgumentAxis().getVisibleArea();
+    var visibleAreaY = series[0].getValueAxis().getVisibleArea();
+    var min = _math.min((visibleAreaX[1] - visibleAreaX[0]), (visibleAreaY[1] - visibleAreaY[0]));
+    var minBubbleArea = _pow(options.minBubbleSize, 2);
+    var maxBubbleArea = _pow(min * options.maxBubbleSize, 2);
+    var equalBubbleSize = (min * options.maxBubbleSize + options.minBubbleSize) / 2;
+    var minPointSize = Infinity;
+    var maxPointSize = -Infinity;
+    var pointSize;
+    var bubbleArea;
+    var sizeProportion;
+    var sizeDispersion;
+    var areaDispersion;
 
     _each(series, function(_, seriesItem) {
         _each(seriesItem.getPoints(), function(_, point) {

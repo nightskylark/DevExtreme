@@ -1,17 +1,14 @@
-var proto = require("./tree_map.base").prototype,
-    nodeProto = require("./node").prototype,
-    expand = require("../core/helpers").expand,
-    common = require("./common"),
-
-    _buildRectAppearance = common.buildRectAppearance,
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-    _inArray = require("../../core/utils/array").inArray,
-
-    MODE_NONE = 0,
-    MODE_SINGLE = 1,
-    MODE_MULTIPLE = 2,
-
-    STATE_CODE = 2;
+var proto = require("./tree_map.base").prototype;
+var nodeProto = require("./node").prototype;
+var expand = require("../core/helpers").expand;
+var common = require("./common");
+var _buildRectAppearance = common.buildRectAppearance;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var _inArray = require("../../core/utils/array").inArray;
+var MODE_NONE = 0;
+var MODE_SINGLE = 1;
+var MODE_MULTIPLE = 2;
+var STATE_CODE = 2;
 
 require("./api");
 require("./states");
@@ -44,11 +41,11 @@ expand(proto, "_extendProxyType", function(proto) {
 require("./tree_map.base").addChange({
     code: "SELECTION_MODE",
     handler: function() {
-        var that = this,
-            option = _normalizeEnum(that._getOption("selectionMode", true)),
-            mode,
-            selectionList = that._selectionList,
-            tmp;
+        var that = this;
+        var option = _normalizeEnum(that._getOption("selectionMode", true));
+        var mode;
+        var selectionList = that._selectionList;
+        var tmp;
 
         mode = option === "none" ? MODE_NONE : (option === "multiple" ? MODE_MULTIPLE : MODE_SINGLE);
         if(mode === MODE_SINGLE && selectionList.length > 1) {
@@ -72,9 +69,9 @@ expand(proto, "_applyTilesAppearance", function() {
 });
 
 function bringSelectedTilesToForeground(nodes, selectionList) {
-    var i,
-        ii = selectionList.length,
-        node;
+    var i;
+    var ii = selectionList.length;
+    var node;
 
     for(i = 0; i < ii; ++i) {
         node = nodes[selectionList[i]];
@@ -101,10 +98,10 @@ proto._applySelectionState = function(index, state) {
 };
 
 proto._selectNode = function(index, state) {
-    var that = this,
-        selectionList,
-        k,
-        tmp;
+    var that = this;
+    var selectionList;
+    var k;
+    var tmp;
 
     if(that._selectionMode !== MODE_NONE) {
         that._context.suspend();
@@ -128,10 +125,10 @@ proto._selectNode = function(index, state) {
 };
 
 proto.clearSelection = function() {
-    var that = this,
-        selectionList = that._selectionList,
-        i,
-        ii = selectionList.length;
+    var that = this;
+    var selectionList = that._selectionList;
+    var i;
+    var ii = selectionList.length;
 
     if(that._selectionMode !== MODE_NONE) {
         that._context.suspend();

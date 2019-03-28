@@ -1,24 +1,21 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    noop = require("../../core/utils/common").noop,
-    EditDecorator = require("./ui.list.edit.decorator"),
-    abstract = EditDecorator.abstract,
-    eventUtils = require("../../events/utils"),
-    pointerEvents = require("../../events/pointer"),
-    feedbackEvents = require("../../events/core/emitter.feedback");
-
-var LIST_EDIT_DECORATOR = "dxListEditDecorator",
-    POINTER_DOWN_EVENT_NAME = eventUtils.addNamespace(pointerEvents.down, LIST_EDIT_DECORATOR),
-    ACTIVE_EVENT_NAME = eventUtils.addNamespace(feedbackEvents.active, LIST_EDIT_DECORATOR),
-
-    LIST_ITEM_CONTENT_CLASS = "dx-list-item-content",
-
-    SWITCHABLE_DELETE_READY_CLASS = "dx-list-switchable-delete-ready",
-    SWITCHABLE_MENU_SHIELD_POSITIONING_CLASS = "dx-list-switchable-menu-shield-positioning",
-    SWITCHABLE_DELETE_TOP_SHIELD_CLASS = "dx-list-switchable-delete-top-shield",
-    SWITCHABLE_DELETE_BOTTOM_SHIELD_CLASS = "dx-list-switchable-delete-bottom-shield",
-    SWITCHABLE_MENU_ITEM_SHIELD_POSITIONING_CLASS = "dx-list-switchable-menu-item-shield-positioning",
-    SWITCHABLE_DELETE_ITEM_CONTENT_SHIELD_CLASS = "dx-list-switchable-delete-item-content-shield";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var noop = require("../../core/utils/common").noop;
+var EditDecorator = require("./ui.list.edit.decorator");
+var abstract = EditDecorator.abstract;
+var eventUtils = require("../../events/utils");
+var pointerEvents = require("../../events/pointer");
+var feedbackEvents = require("../../events/core/emitter.feedback");
+var LIST_EDIT_DECORATOR = "dxListEditDecorator";
+var POINTER_DOWN_EVENT_NAME = eventUtils.addNamespace(pointerEvents.down, LIST_EDIT_DECORATOR);
+var ACTIVE_EVENT_NAME = eventUtils.addNamespace(feedbackEvents.active, LIST_EDIT_DECORATOR);
+var LIST_ITEM_CONTENT_CLASS = "dx-list-item-content";
+var SWITCHABLE_DELETE_READY_CLASS = "dx-list-switchable-delete-ready";
+var SWITCHABLE_MENU_SHIELD_POSITIONING_CLASS = "dx-list-switchable-menu-shield-positioning";
+var SWITCHABLE_DELETE_TOP_SHIELD_CLASS = "dx-list-switchable-delete-top-shield";
+var SWITCHABLE_DELETE_BOTTOM_SHIELD_CLASS = "dx-list-switchable-delete-bottom-shield";
+var SWITCHABLE_MENU_ITEM_SHIELD_POSITIONING_CLASS = "dx-list-switchable-menu-item-shield-positioning";
+var SWITCHABLE_DELETE_ITEM_CONTENT_SHIELD_CLASS = "dx-list-switchable-delete-item-content-shield";
 
 var SwitchableEditDecorator = EditDecorator.inherit({
 
@@ -79,15 +76,13 @@ var SwitchableEditDecorator = EditDecorator.inherit({
     },
 
     _updateShieldsHeight: function($itemElement) {
-        var $list = this._list.$element(),
-
-            listTopOffset = $list.offset().top,
-            listHeight = $list.outerHeight(),
-            itemTopOffset = $itemElement.offset().top,
-            itemHeight = $itemElement.outerHeight(),
-
-            dirtyTopShieldHeight = itemTopOffset - listTopOffset,
-            dirtyBottomShieldHeight = listHeight - itemHeight - dirtyTopShieldHeight;
+        var $list = this._list.$element();
+        var listTopOffset = $list.offset().top;
+        var listHeight = $list.outerHeight();
+        var itemTopOffset = $itemElement.offset().top;
+        var itemHeight = $itemElement.outerHeight();
+        var dirtyTopShieldHeight = itemTopOffset - listTopOffset;
+        var dirtyBottomShieldHeight = listHeight - itemHeight - dirtyTopShieldHeight;
 
         this._$topShield.height(Math.max(dirtyTopShieldHeight, 0));
         this._$bottomShield.height(Math.max(dirtyBottomShieldHeight, 0));

@@ -1,10 +1,9 @@
-var proto = require("./tree_map.base").prototype,
-    nodeProto = require("./node").prototype,
-
-    handlers = proto._handlers,
-    _calculateState = handlers.calculateState,
-    _buildState = nodeProto._buildState,
-    _extend = require("../../core/utils/extend").extend;
+var proto = require("./tree_map.base").prototype;
+var nodeProto = require("./node").prototype;
+var handlers = proto._handlers;
+var _calculateState = handlers.calculateState;
+var _buildState = nodeProto._buildState;
+var _extend = require("../../core/utils/extend").extend;
 
 handlers.calculateState = function(options) {
     var states = { 0: _calculateState(options) };
@@ -44,8 +43,8 @@ nodeProto.setState = function(code, state) {
 };
 
 function buildAdditionalStates(states, base, source, list) {
-    var i,
-        ii = list.length;
+    var i;
+    var ii = list.length;
 
     for(i = 0; i < ii; ++i) {
         states[list[i]] = _extend({}, base, source[list[i]]);

@@ -29,10 +29,10 @@ core.registerModule("focus", extend(true, {}, focusModule, {
                     return this.callBase.apply(this, arguments);
                 },
                 _isFocusedRowInside: function(parentKey) {
-                    var focusedRowKey = this.option("focusedRowKey"),
-                        rowIndex = this.getRowIndexByKey(focusedRowKey),
-                        focusedRow = rowIndex >= 0 && this.getVisibleRows()[rowIndex],
-                        parent = focusedRow && focusedRow.node.parent;
+                    var focusedRowKey = this.option("focusedRowKey");
+                    var rowIndex = this.getRowIndexByKey(focusedRowKey);
+                    var focusedRow = rowIndex >= 0 && this.getVisibleRows()[rowIndex];
+                    var parent = focusedRow && focusedRow.node.parent;
 
                     while(parent) {
                         if(parent.key === parentKey) {
@@ -44,10 +44,10 @@ core.registerModule("focus", extend(true, {}, focusModule, {
                     return false;
                 },
                 getParentKey: function(key) {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        node = that.getNodeByKey(key),
-                        d = new Deferred();
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var node = that.getNodeByKey(key);
+                    var d = new Deferred();
 
                     if(node) {
                         d.resolve(node.parent ? node.parent.key : undefined);
@@ -68,9 +68,9 @@ core.registerModule("focus", extend(true, {}, focusModule, {
                     return d.promise();
                 },
                 expandAscendants: function(key) {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        d = new Deferred();
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var d = new Deferred();
 
                     that.getParentKey(key).done(function(parentKey) {
                         if(dataSource && parentKey !== undefined && parentKey !== that.option("rootValue")) {
@@ -86,9 +86,9 @@ core.registerModule("focus", extend(true, {}, focusModule, {
                     return d.promise();
                 },
                 getPageIndexByKey: function(key) {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        d = new Deferred();
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var d = new Deferred();
 
                     that.expandAscendants(key).done(function() {
                         dataSource.load({

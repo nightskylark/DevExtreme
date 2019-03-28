@@ -1,10 +1,10 @@
-var $ = require("./renderer"),
-    config = require("./config"),
-    window = require("./utils/window").getWindow(),
-    typeUtils = require("./utils/type"),
-    each = require("./utils/iterator").each,
-    Class = require("./class"),
-    errors = require("./errors");
+var $ = require("./renderer");
+var config = require("./config");
+var window = require("./utils/window").getWindow();
+var typeUtils = require("./utils/type");
+var each = require("./utils/iterator").each;
+var Class = require("./class");
+var errors = require("./errors");
 
 var Action = Class.inherit({
 
@@ -36,8 +36,8 @@ var Action = Class.inherit({
             handled: false
         };
 
-        var beforeExecute = this._beforeExecute,
-            afterExecute = this._afterExecute;
+        var beforeExecute = this._beforeExecute;
+        var afterExecute = this._afterExecute;
 
         var argsBag = e.args[0] || {};
 
@@ -82,8 +82,8 @@ var Action = Class.inherit({
     },
 
     _validateAction: function(e) {
-        var excludeValidators = this._excludeValidators,
-            executors = Action.executors;
+        var excludeValidators = this._excludeValidators;
+        var executors = Action.executors;
 
         for(var name in executors) {
             if(!excludeValidators[name]) {
@@ -102,8 +102,8 @@ var Action = Class.inherit({
     },
 
     _executeAction: function(e) {
-        var result,
-            executors = Action.executors;
+        var result;
+        var executors = Action.executors;
 
         for(var name in executors) {
             var executor = executors[name];
@@ -166,8 +166,8 @@ var createValidatorByTargetElement = function(condition) {
             return;
         }
 
-        var args = e.args[0],
-            element = args[e.validatingTargetName] || args.element;
+        var args = e.args[0];
+        var element = args[e.validatingTargetName] || args.element;
 
         if(element && condition($(element))) {
             e.cancel = true;

@@ -1,21 +1,17 @@
-var extend = require("../../../core/utils/extend").extend,
-    _extend = extend,
-
-    symbolPoint = require("./symbol_point"),
-    barPoint = require("./bar_point"),
-    piePoint = require("./pie_point"),
-    isDefined = require("../../../core/utils/type").isDefined,
-    vizUtils = require("../../core/utils"),
-    normalizeAngle = vizUtils.normalizeAngle,
-
-    _math = Math,
-    _max = _math.max,
-
-    RADIAL_LABEL_INDENT = require("../../components/consts").radialLabelIndent,
-
-    ERROR_BARS_ANGLE_OFFSET = 90,
-    CANVAS_POSITION_END = "canvas_position_end",
-    CANVAS_POSITION_DEFAULT = "canvas_position_default";
+var extend = require("../../../core/utils/extend").extend;
+var _extend = extend;
+var symbolPoint = require("./symbol_point");
+var barPoint = require("./bar_point");
+var piePoint = require("./pie_point");
+var isDefined = require("../../../core/utils/type").isDefined;
+var vizUtils = require("../../core/utils");
+var normalizeAngle = vizUtils.normalizeAngle;
+var _math = Math;
+var _max = _math.max;
+var RADIAL_LABEL_INDENT = require("../../components/consts").radialLabelIndent;
+var ERROR_BARS_ANGLE_OFFSET = 90;
+var CANVAS_POSITION_END = "canvas_position_end";
+var CANVAS_POSITION_DEFAULT = "canvas_position_default";
 
 exports.polarSymbolPoint = _extend({}, symbolPoint, {
 
@@ -28,11 +24,11 @@ exports.polarSymbolPoint = _extend({}, symbolPoint, {
     },
 
     _getCoords: function(argument, value) {
-        var axis = this.series.getValueAxis(),
-            startAngle = axis.getAngles()[0],
-            angle = this._getArgTranslator().translate(argument),
-            radius = this._getValTranslator().translate(value),
-            coords = vizUtils.convertPolarToXY(axis.getCenter(), axis.getAngles()[0], angle, radius);
+        var axis = this.series.getValueAxis();
+        var startAngle = axis.getAngles()[0];
+        var angle = this._getArgTranslator().translate(argument);
+        var radius = this._getValTranslator().translate(value);
+        var coords = vizUtils.convertPolarToXY(axis.getCenter(), axis.getAngles()[0], angle, radius);
 
         coords.angle = angle + startAngle - 90,
         coords.radius = radius;
@@ -41,9 +37,9 @@ exports.polarSymbolPoint = _extend({}, symbolPoint, {
     },
 
     _translate: function() {
-        var that = this,
-            center = that.series.getValueAxis().getCenter(),
-            coord = that._getCoords(that.argument, that.value);
+        var that = this;
+        var center = that.series.getValueAxis().getCenter();
+        var coord = that._getCoords(that.argument, that.value);
 
         that.vx = normalizeAngle(coord.angle);
         that.vy = that.radiusOuter = that.radiusLabels = coord.radius;
@@ -64,9 +60,9 @@ exports.polarSymbolPoint = _extend({}, symbolPoint, {
     },
 
     _translateErrorBars: function() {
-        var that = this,
-            errorBars = that._options.errorBars,
-            translator = that._getValTranslator();
+        var that = this;
+        var errorBars = that._options.errorBars;
+        var translator = that._getValTranslator();
 
         if(!errorBars) {
             return;
@@ -84,10 +80,10 @@ exports.polarSymbolPoint = _extend({}, symbolPoint, {
     },
 
     getDefaultCoords: function() {
-        var cosSin = vizUtils.getCosAndSin(-this.angle),
-            radius = this._getValTranslator().translate(CANVAS_POSITION_DEFAULT),
-            x = this.defaultX + radius * cosSin.cos,
-            y = this.defaultY + radius * cosSin.sin;
+        var cosSin = vizUtils.getCosAndSin(-this.angle);
+        var radius = this._getValTranslator().translate(CANVAS_POSITION_DEFAULT);
+        var x = this.defaultX + radius * cosSin.cos;
+        var y = this.defaultY + radius * cosSin.sin;
 
         return { x: x, y: y };
     },
@@ -97,9 +93,9 @@ exports.polarSymbolPoint = _extend({}, symbolPoint, {
     },
 
     _checkLabelPosition: function(label, coord) {
-        var that = this,
-            visibleArea = that._getVisibleArea(),
-            graphicBBox = that._getGraphicBBox();
+        var that = this;
+        var visibleArea = that._getVisibleArea();
+        var graphicBBox = that._getGraphicBBox();
 
         if(that._isPointInVisibleArea(visibleArea, graphicBBox)) {
             coord = that._moveLabelOnCanvas(coord, visibleArea, label.getBoundingRect());
@@ -142,9 +138,9 @@ exports.polarBarPoint = _extend({}, barPoint, {
     _getCoords: exports.polarSymbolPoint._getCoords,
 
     _translate: function() {
-        var that = this,
-            translator = that._getValTranslator(),
-            maxRadius = translator.translate(CANVAS_POSITION_END);
+        var that = this;
+        var translator = that._getValTranslator();
+        var maxRadius = translator.translate(CANVAS_POSITION_END);
 
         that.radiusInner = translator.translate(that.minValue);
 
@@ -180,15 +176,14 @@ exports.polarBarPoint = _extend({}, barPoint, {
     },
 
     _drawMarker: function(renderer, group, animationEnabled) {
-        var that = this,
-            styles = that._getStyle(),
-            coords = that.getMarkerCoords(),
-            innerRadius = coords.innerRadius,
-            outerRadius = coords.outerRadius,
-
-            start = that._getCoords(that.argument, CANVAS_POSITION_DEFAULT),
-            x = coords.x,
-            y = coords.y;
+        var that = this;
+        var styles = that._getStyle();
+        var coords = that.getMarkerCoords();
+        var innerRadius = coords.innerRadius;
+        var outerRadius = coords.outerRadius;
+        var start = that._getCoords(that.argument, CANVAS_POSITION_DEFAULT);
+        var x = coords.x;
+        var y = coords.y;
 
         if(animationEnabled) {
             innerRadius = 0;
@@ -201,11 +196,11 @@ exports.polarBarPoint = _extend({}, barPoint, {
     },
 
     _checkLabelPosition: function(label, coord) {
-        var that = this,
-            visibleArea = that._getVisibleArea(),
-            angleFunctions = vizUtils.getCosAndSin(that.middleAngle),
-            x = that.centerX + that.defaultRadius * angleFunctions.cos,
-            y = that.centerY - that.defaultRadius * angleFunctions.sin;
+        var that = this;
+        var visibleArea = that._getVisibleArea();
+        var angleFunctions = vizUtils.getCosAndSin(that.middleAngle);
+        var x = that.centerX + that.defaultRadius * angleFunctions.cos;
+        var y = that.centerY - that.defaultRadius * angleFunctions.sin;
 
         if(x > visibleArea.minX && x < visibleArea.maxX && y > visibleArea.minY && y < visibleArea.maxY) {
             coord = that._moveLabelOnCanvas(coord, visibleArea, label.getBoundingRect());
@@ -223,11 +218,12 @@ exports.polarBarPoint = _extend({}, barPoint, {
     },
 
     coordsIn: function(x, y) {
-        var val = vizUtils.convertXYToPolar(this.series.getValueAxis().getCenter(), x, y),
-            coords = this.getMarkerCoords(),
-            isBetweenAngles = coords.startAngle < coords.endAngle ?
-                -val.phi >= coords.startAngle && -val.phi <= coords.endAngle :
-                -val.phi <= coords.startAngle && -val.phi >= coords.endAngle;
+        var val = vizUtils.convertXYToPolar(this.series.getValueAxis().getCenter(), x, y);
+        var coords = this.getMarkerCoords();
+
+        var isBetweenAngles = coords.startAngle < coords.endAngle ?
+            -val.phi >= coords.startAngle && -val.phi <= coords.endAngle :
+            -val.phi <= coords.startAngle && -val.phi >= coords.endAngle;
 
         return (val.r >= coords.innerRadius && val.r <= coords.outerRadius && isBetweenAngles);
     }

@@ -53,8 +53,8 @@ var FilterBuilderView = modules.View.inherit({
     },
 
     _getPopupContentTemplate: function(contentElement) {
-        var $contentElement = $(contentElement),
-            $filterBuilderContainer = $("<div>").appendTo($(contentElement));
+        var $contentElement = $(contentElement);
+        var $filterBuilderContainer = $("<div>").appendTo($(contentElement));
 
         this._filterBuilder = this._createComponent($filterBuilderContainer, FilterBuilder, extend({
             value: this.option("filterValue"),

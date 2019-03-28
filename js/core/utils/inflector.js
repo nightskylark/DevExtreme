@@ -48,11 +48,11 @@ var titleize = function(text) {
 var DIGIT_CHARS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 var captionize = function(name) {
-    var captionList = [],
-        i,
-        char,
-        isPrevCharNewWord = false,
-        isNewWord = false;
+    var captionList = [];
+    var i;
+    var char;
+    var isPrevCharNewWord = false;
+    var isNewWord = false;
 
     for(i = 0; i < name.length; i++) {
         char = name.charAt(i);

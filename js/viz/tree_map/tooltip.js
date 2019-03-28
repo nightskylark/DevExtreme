@@ -1,5 +1,5 @@
-var proto = require("./tree_map.base").prototype,
-    expand = require("../core/helpers").expand;
+var proto = require("./tree_map.base").prototype;
+var expand = require("../core/helpers").expand;
 
 require("./api");
 
@@ -30,14 +30,15 @@ function getCoords(rect, renderer) {
 }
 
 proto._showTooltip = function(index, coords) {
-    var that = this,
-        tooltip = that._tooltip,
-        node = that._nodes[index],
-        state = that._tooltipIndex === index || tooltip.show({
-            value: node.value,
-            valueText: tooltip.formatValue(node.value),
-            node: node.proxy
-        }, { x: 0, y: 0, offset: 0 }, { node: node.proxy });
+    var that = this;
+    var tooltip = that._tooltip;
+    var node = that._nodes[index];
+
+    var state = that._tooltipIndex === index || tooltip.show({
+        value: node.value,
+        valueText: tooltip.formatValue(node.value),
+        node: node.proxy
+    }, { x: 0, y: 0, offset: 0 }, { node: node.proxy });
 
     if(state) {
         that._moveTooltip(node, coords);
@@ -45,7 +46,6 @@ proto._showTooltip = function(index, coords) {
         tooltip.hide();
     }
     that._tooltipIndex = state ? index : -1;
-
 };
 
 proto._moveTooltip = function(node, coords) {

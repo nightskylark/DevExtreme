@@ -1,72 +1,72 @@
-var mixins = {},
-    statesConsts = require("../../components/consts").states,
-    symbolPoint = require("./symbol_point"),
-    barPoint = require("./bar_point"),
-    bubblePoint = require("./bubble_point"),
-    piePoint = require("./pie_point"),
-    rangeSymbolPoint = require("./range_symbol_point"),
-    rangeBarPoint = require("./range_bar_point"),
-    candlestickPoint = require("./candlestick_point"),
-    stockPoint = require("./stock_point"),
-    polarPoints = require("./polar_point"),
-    _normalizeEnum = require("../../core/utils").normalizeEnum,
-    extend = require("../../../core/utils/extend").extend,
-    each = require("../../../core/utils/iterator").each,
-    _each = each,
-    _extend = extend,
-    _isDefined = require("../../../core/utils/type").isDefined,
-    _noop = require("../../../core/utils/common").noop,
-    SYMBOL_POINT = "symbolPoint",
-    POLAR_SYMBOL_POINT = "polarSymbolPoint",
-    BAR_POINT = "barPoint",
-    POLAR_BAR_POINT = "polarBarPoint",
-    PIE_POINT = "piePoint",
-    SELECTED_STATE = statesConsts.selectedMark,
-    HOVER_STATE = statesConsts.hoverMark,
-    NORMAL_STATE = statesConsts.normalMark,
-    HOVER = statesConsts.hover,
-    NORMAL = statesConsts.normal,
-    SELECTION = statesConsts.selection,
+var mixins = {};
+var statesConsts = require("../../components/consts").states;
+var symbolPoint = require("./symbol_point");
+var barPoint = require("./bar_point");
+var bubblePoint = require("./bubble_point");
+var piePoint = require("./pie_point");
+var rangeSymbolPoint = require("./range_symbol_point");
+var rangeBarPoint = require("./range_bar_point");
+var candlestickPoint = require("./candlestick_point");
+var stockPoint = require("./stock_point");
+var polarPoints = require("./polar_point");
+var _normalizeEnum = require("../../core/utils").normalizeEnum;
+var extend = require("../../../core/utils/extend").extend;
+var each = require("../../../core/utils/iterator").each;
+var _each = each;
+var _extend = extend;
+var _isDefined = require("../../../core/utils/type").isDefined;
+var _noop = require("../../../core/utils/common").noop;
+var SYMBOL_POINT = "symbolPoint";
+var POLAR_SYMBOL_POINT = "polarSymbolPoint";
+var BAR_POINT = "barPoint";
+var POLAR_BAR_POINT = "polarBarPoint";
+var PIE_POINT = "piePoint";
+var SELECTED_STATE = statesConsts.selectedMark;
+var HOVER_STATE = statesConsts.hoverMark;
+var NORMAL_STATE = statesConsts.normalMark;
+var HOVER = statesConsts.hover;
+var NORMAL = statesConsts.normal;
+var SELECTION = statesConsts.selection;
 
-    pointTypes = {
-        chart: {
-            "scatter": SYMBOL_POINT,
-            "line": SYMBOL_POINT,
-            "spline": SYMBOL_POINT,
-            "stepline": SYMBOL_POINT,
-            "stackedline": SYMBOL_POINT,
-            "fullstackedline": SYMBOL_POINT,
-            "stackedspline": SYMBOL_POINT,
-            "fullstackedspline": SYMBOL_POINT,
-            "stackedsplinearea": SYMBOL_POINT,
-            "fullstackedsplinearea": SYMBOL_POINT,
-            "area": SYMBOL_POINT,
-            "splinearea": SYMBOL_POINT,
-            "steparea": SYMBOL_POINT,
-            "stackedarea": SYMBOL_POINT,
-            "fullstackedarea": SYMBOL_POINT,
-            "rangearea": "rangeSymbolPoint",
-            "bar": BAR_POINT,
-            "stackedbar": BAR_POINT,
-            "fullstackedbar": BAR_POINT,
-            "rangebar": "rangeBarPoint",
-            "bubble": "bubblePoint",
-            "stock": "stockPoint",
-            "candlestick": "candlestickPoint"
-        },
-        pie: {
-            "pie": PIE_POINT,
-            "doughnut": PIE_POINT,
-            "donut": PIE_POINT
-        },
-        polar: {
-            "scatter": POLAR_SYMBOL_POINT,
-            "line": POLAR_SYMBOL_POINT,
-            "area": POLAR_SYMBOL_POINT,
-            "bar": POLAR_BAR_POINT,
-            "stackedbar": POLAR_BAR_POINT
-        }
-    };
+var pointTypes = {
+    chart: {
+        "scatter": SYMBOL_POINT,
+        "line": SYMBOL_POINT,
+        "spline": SYMBOL_POINT,
+        "stepline": SYMBOL_POINT,
+        "stackedline": SYMBOL_POINT,
+        "fullstackedline": SYMBOL_POINT,
+        "stackedspline": SYMBOL_POINT,
+        "fullstackedspline": SYMBOL_POINT,
+        "stackedsplinearea": SYMBOL_POINT,
+        "fullstackedsplinearea": SYMBOL_POINT,
+        "area": SYMBOL_POINT,
+        "splinearea": SYMBOL_POINT,
+        "steparea": SYMBOL_POINT,
+        "stackedarea": SYMBOL_POINT,
+        "fullstackedarea": SYMBOL_POINT,
+        "rangearea": "rangeSymbolPoint",
+        "bar": BAR_POINT,
+        "stackedbar": BAR_POINT,
+        "fullstackedbar": BAR_POINT,
+        "rangebar": "rangeBarPoint",
+        "bubble": "bubblePoint",
+        "stock": "stockPoint",
+        "candlestick": "candlestickPoint"
+    },
+    pie: {
+        "pie": PIE_POINT,
+        "doughnut": PIE_POINT,
+        "donut": PIE_POINT
+    },
+    polar: {
+        "scatter": POLAR_SYMBOL_POINT,
+        "line": POLAR_SYMBOL_POINT,
+        "area": POLAR_SYMBOL_POINT,
+        "bar": POLAR_BAR_POINT,
+        "stackedbar": POLAR_BAR_POINT
+    }
+};
 
 function isNoneMode(mode) {
     return _normalizeEnum(mode) === "none";
@@ -176,9 +176,9 @@ Point.prototype = {
     },
 
     _getViewStyle: function() {
-        var state = NORMAL_STATE,
-            fullState = this.fullState,
-            styles = [NORMAL, HOVER, SELECTION, SELECTION];
+        var state = NORMAL_STATE;
+        var fullState = this.fullState;
+        var styles = [NORMAL, HOVER, SELECTION, SELECTION];
 
         if(this._viewCounters.hover) {
             state |= HOVER_STATE;
@@ -269,8 +269,8 @@ Point.prototype = {
     },
 
     _checkLabelsChanging: function(oldType, newType) {
-        var isNewRange = ~newType.indexOf("range"),
-            isOldRange = ~oldType.indexOf("range");
+        var isNewRange = ~newType.indexOf("range");
+        var isOldRange = ~oldType.indexOf("range");
 
         return (isOldRange && !isNewRange) || (!isOldRange && isNewRange);
     },
@@ -280,12 +280,12 @@ Point.prototype = {
             return;
         }
 
-        var that = this,
-            oldOptions = that._options,
-            widgetType = newOptions.widgetType,
-            oldType = oldOptions && oldOptions.type,
-            newType = newOptions.type,
-            newPointTypeMixin = pointTypes[widgetType][newType];
+        var that = this;
+        var oldOptions = that._options;
+        var widgetType = newOptions.widgetType;
+        var oldType = oldOptions && oldOptions.type;
+        var newType = newOptions.type;
+        var newPointTypeMixin = pointTypes[widgetType][newType];
 
         if(oldType !== newType) {
             that._needDeletingOnDraw = true;
@@ -400,9 +400,9 @@ Point.prototype = {
     },
 
     _calculateVisibility: function(x, y, width, height) {
-        var that = this,
-            visibleArea = that._getVisibleArea(),
-            rotated = that._options.rotated;
+        var that = this;
+        var visibleArea = that._getVisibleArea();
+        var rotated = that._options.rotated;
 
         if(((visibleArea.minX) > (x + (width || 0)) || ((visibleArea.maxX) < x) ||
             ((visibleArea.minY) > (y + (height || 0))) || ((visibleArea.maxY) < y)) ||
@@ -491,8 +491,8 @@ Point.prototype = {
     },
 
     setHole: function(holeValue, position) {
-        var that = this,
-            minValue = isFinite(that.minValue) ? that.minValue : 0;
+        var that = this;
+        var minValue = isFinite(that.minValue) ? that.minValue : 0;
         if(_isDefined(holeValue)) {
             if(position === "left") {
                 that.leftHole = that.value - holeValue;

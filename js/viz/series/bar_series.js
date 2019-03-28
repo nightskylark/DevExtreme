@@ -1,11 +1,11 @@
-var extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    scatterSeries = require("./scatter_series"),
-    areaSeries = require("./area_series").chart.area,
-    chartSeries = scatterSeries.chart,
-    polarSeries = scatterSeries.polar,
-    _extend = extend,
-    _each = each;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var scatterSeries = require("./scatter_series");
+var areaSeries = require("./area_series").chart.area;
+var chartSeries = scatterSeries.chart;
+var polarSeries = scatterSeries.polar;
+var _extend = extend;
+var _each = each;
 
 exports.chart = {};
 exports.polar = {};
@@ -19,8 +19,8 @@ var baseBarSeriesMethods = {
     },
 
     _parsePointStyle: function(style, defaultColor, defaultBorderColor) {
-        var color = style.color || defaultColor,
-            base = chartSeries._parsePointStyle.call(this, style, color, defaultBorderColor);
+        var color = style.color || defaultColor;
+        var base = chartSeries._parsePointStyle.call(this, style, color, defaultBorderColor);
         base.fill = color;
         base.hatching = style.hatching;
         base.dashStyle = style.border && style.border.dashStyle || "solid";
@@ -34,8 +34,8 @@ var baseBarSeriesMethods = {
     },
 
     _setGroupsSettings: function(animationEnabled, firstDrawing) {
-        var that = this,
-            settings = {};
+        var that = this;
+        var settings = {};
         chartSeries._setGroupsSettings.apply(that, arguments);
         if(animationEnabled && firstDrawing) {
             settings = this._getAffineCoordOptions();
@@ -56,8 +56,8 @@ var baseBarSeriesMethods = {
     },
 
     _createPointStyles: function(pointOptions) {
-        var that = this,
-            mainColor = pointOptions.color || that._getMainColor();
+        var that = this;
+        var mainColor = pointOptions.color || that._getMainColor();
 
         return {
             normal: that._parsePointStyle(pointOptions, mainColor, mainColor),
@@ -78,16 +78,19 @@ var baseBarSeriesMethods = {
     },
 
     _animate: function(firstDrawing) {
-        var that = this,
-            complete = function() {
-                that._animateComplete();
-            },
-            animateFunc = function(drawnPoints, complete) {
-                var lastPointIndex = drawnPoints.length - 1;
-                _each(drawnPoints || [], function(i, point) {
-                    point.animate(i === lastPointIndex ? complete : undefined, point.getMarkerCoords());
-                });
-            };
+        var that = this;
+
+        var complete = function() {
+            that._animateComplete();
+        };
+
+        var animateFunc = function(drawnPoints, complete) {
+            var lastPointIndex = drawnPoints.length - 1;
+            _each(drawnPoints || [], function(i, point) {
+                point.animate(i === lastPointIndex ? complete : undefined, point.getMarkerCoords());
+            });
+        };
+
         that._animatePoints(firstDrawing, complete, animateFunc);
     },
 
@@ -105,12 +108,13 @@ var baseBarSeriesMethods = {
 
 exports.chart.bar = _extend({}, chartSeries, baseBarSeriesMethods, {
     _getAffineCoordOptions: function() {
-        var rotated = this._options.rotated,
-            direction = rotated ? "X" : "Y",
-            settings = {
-                scaleX: rotated ? 0.001 : 1,
-                scaleY: rotated ? 1 : 0.001
-            };
+        var rotated = this._options.rotated;
+        var direction = rotated ? "X" : "Y";
+
+        var settings = {
+            scaleX: rotated ? 0.001 : 1,
+            scaleY: rotated ? 1 : 0.001
+        };
 
         settings["translate" + direction] = this.getValueAxis().getTranslator().translate("canvas_position_default");
 
@@ -198,9 +202,9 @@ exports.polar.bar = _extend({}, polarSeries, baseBarSeriesMethods, {
     _createGroups: chartSeries._createGroups,
 
     _setMarkerGroupSettings: function() {
-        var that = this,
-            markersSettings = that._createPointStyles(that._getMarkerGroupOptions()).normal,
-            groupSettings;
+        var that = this;
+        var markersSettings = that._createPointStyles(that._getMarkerGroupOptions()).normal;
+        var groupSettings;
 
         markersSettings["class"] = "dxc-markers";
         that._applyMarkerClipRect(markersSettings);

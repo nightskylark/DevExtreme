@@ -1,11 +1,10 @@
-var $ = require("../../core/renderer"),
-    areaItem = require("./ui.pivot_grid.area_item");
-
-var PIVOTGRID_AREA_CLASS = "dx-pivotgrid-area",
-    PIVOTGRID_AREA_DATA_CLASS = "dx-pivotgrid-area-data",
-    PIVOTGRID_TOTAL_CLASS = "dx-total",
-    PIVOTGRID_GRAND_TOTAL_CLASS = "dx-grandtotal",
-    PIVOTGRID_ROW_TOTAL_CLASS = "dx-row-total";
+var $ = require("../../core/renderer");
+var areaItem = require("./ui.pivot_grid.area_item");
+var PIVOTGRID_AREA_CLASS = "dx-pivotgrid-area";
+var PIVOTGRID_AREA_DATA_CLASS = "dx-pivotgrid-area-data";
+var PIVOTGRID_TOTAL_CLASS = "dx-total";
+var PIVOTGRID_GRAND_TOTAL_CLASS = "dx-grandtotal";
+var PIVOTGRID_ROW_TOTAL_CLASS = "dx-row-total";
 
 exports.DataArea = areaItem.AreaItem.inherit({
     _getAreaName: function() {
@@ -18,8 +17,8 @@ exports.DataArea = areaItem.AreaItem.inherit({
     },
 
     _applyCustomStyles: function(options) {
-        var cell = options.cell,
-            classArray = options.classArray;
+        var cell = options.cell;
+        var classArray = options.classArray;
 
         if(cell.rowType === 'T' || cell.columnType === 'T') {
             classArray.push(PIVOTGRID_TOTAL_CLASS);

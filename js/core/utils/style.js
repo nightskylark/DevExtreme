@@ -1,19 +1,20 @@
-var camelize = require("./inflector").camelize,
-    callOnce = require("./call_once"),
-    typeUtils = require("./type"),
-    domAdapter = require("../dom_adapter");
+var camelize = require("./inflector").camelize;
+var callOnce = require("./call_once");
+var typeUtils = require("./type");
+var domAdapter = require("../dom_adapter");
+var jsPrefixes = ["", "Webkit", "Moz", "O", "Ms"];
 
-var jsPrefixes = ["", "Webkit", "Moz", "O", "Ms"],
-    cssPrefixes = {
-        "": "",
-        "Webkit": "-webkit-",
-        "Moz": "-moz-",
-        "O": "-o-",
-        "ms": "-ms-"
-    },
-    getStyles = callOnce(function() {
-        return domAdapter.createElement("dx").style;
-    });
+var cssPrefixes = {
+    "": "",
+    "Webkit": "-webkit-",
+    "Moz": "-moz-",
+    "O": "-o-",
+    "ms": "-ms-"
+};
+
+var getStyles = callOnce(function() {
+    return domAdapter.createElement("dx").style;
+});
 
 var forEachPrefixes = function(prop, callBack) {
     prop = camelize(prop, true);

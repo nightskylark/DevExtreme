@@ -1,14 +1,13 @@
-var $ = require("../core/renderer"),
-    Editor = require("./editor/editor"),
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    windowUtils = require("../core/utils/window"),
-    fx = require("../animation/fx");
-
-var TRACKBAR_CLASS = "dx-trackbar",
-    TRACKBAR_CONTAINER_CLASS = "dx-trackbar-container",
-    TRACKBAR_RANGE_CLASS = "dx-trackbar-range",
-    TRACKBAR_WRAPPER_CLASS = "dx-trackbar-wrapper";
+var $ = require("../core/renderer");
+var Editor = require("./editor/editor");
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var windowUtils = require("../core/utils/window");
+var fx = require("../animation/fx");
+var TRACKBAR_CLASS = "dx-trackbar";
+var TRACKBAR_CONTAINER_CLASS = "dx-trackbar-container";
+var TRACKBAR_RANGE_CLASS = "dx-trackbar-range";
+var TRACKBAR_WRAPPER_CLASS = "dx-trackbar-wrapper";
 
 /**
 * @name dxTrackBar
@@ -73,9 +72,9 @@ var TrackBar = Editor.inherit({
     },
 
     _renderValue: function() {
-        var val = this.option("value"),
-            min = this.option("min"),
-            max = this.option("max");
+        var val = this.option("value");
+        var min = this.option("min");
+        var max = this.option("max");
 
         if(min > max) {
             return;

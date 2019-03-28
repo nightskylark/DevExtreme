@@ -8,8 +8,8 @@ import treeListCore from './ui.tree_list.core';
 import themes from '../themes';
 var callModuleItemsMethod = treeListCore.callModuleItemsMethod;
 
-var DATAGRID_ROW_SELECTOR = ".dx-row",
-    TREELIST_CLASS = "dx-treelist";
+var DATAGRID_ROW_SELECTOR = ".dx-row";
+var TREELIST_CLASS = "dx-treelist";
 
 import './ui.tree_list.column_headers';
 import './ui.tree_list.columns_controller';
@@ -55,8 +55,8 @@ var TreeList = Widget.inherit({
     _activeStateUnit: DATAGRID_ROW_SELECTOR,
 
     _getDefaultOptions: function() {
-        var that = this,
-            result = that.callBase();
+        var that = this;
+        var result = that.callBase();
 
         each(treeListCore.modules, function() {
             if(typeUtils.isFunction(this.defaultOptions)) {

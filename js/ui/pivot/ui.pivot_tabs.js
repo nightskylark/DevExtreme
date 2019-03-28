@@ -1,27 +1,21 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    when = require("../../core/utils/deferred").when,
-    fx = require("../../animation/fx"),
-    swipeEvents = require("../../events/swipe"),
-    translator = require("../../animation/translator"),
-    eventUtils = require("../../events/utils"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    CollectionWidget = require("../collection/ui.collection_widget.edit"),
-    BindableTemplate = require("../widget/bindable_template");
-
-
-var PIVOT_TABS_CLASS = "dx-pivottabs",
-
-    PIVOT_TAB_CLASS = "dx-pivottabs-tab",
-    PIVOT_TAB_SELECTED_CLASS = "dx-pivottabs-tab-selected",
-
-    PIVOT_GHOST_TAB_CLASS = "dx-pivottabs-ghosttab",
-
-    PIVOT_TAB_DATA_KEY = "dxPivotTabData",
-
-    PIVOT_TAB_MOVE_DURATION = 200,
-    PIVOT_TAB_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var when = require("../../core/utils/deferred").when;
+var fx = require("../../animation/fx");
+var swipeEvents = require("../../events/swipe");
+var translator = require("../../animation/translator");
+var eventUtils = require("../../events/utils");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var CollectionWidget = require("../collection/ui.collection_widget.edit");
+var BindableTemplate = require("../widget/bindable_template");
+var PIVOT_TABS_CLASS = "dx-pivottabs";
+var PIVOT_TAB_CLASS = "dx-pivottabs-tab";
+var PIVOT_TAB_SELECTED_CLASS = "dx-pivottabs-tab-selected";
+var PIVOT_GHOST_TAB_CLASS = "dx-pivottabs-ghosttab";
+var PIVOT_TAB_DATA_KEY = "dxPivotTabData";
+var PIVOT_TAB_MOVE_DURATION = 200;
+var PIVOT_TAB_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)";
 
 var animation = {
 
@@ -123,8 +117,8 @@ var PivotTabs = CollectionWidget.inherit({
 
     _itemWidths: function() {
         if(!this._itemWidthsCache) {
-            var $tabs = this._itemElements(),
-                widths = [];
+            var $tabs = this._itemElements();
+            var widths = [];
 
             $tabs.each(function() {
                 widths.push($(this).outerWidth());
@@ -203,8 +197,8 @@ var PivotTabs = CollectionWidget.inherit({
     _updateGhostTabContent: function(prevIndex) {
         prevIndex = prevIndex === undefined ? this._previousIndex() : prevIndex;
 
-        var $ghostTab = this._$ghostTab,
-            $items = this._itemElements();
+        var $ghostTab = this._$ghostTab;
+        var $items = this._itemElements();
 
         $ghostTab.html($items.eq(prevIndex).html());
     },
@@ -212,8 +206,8 @@ var PivotTabs = CollectionWidget.inherit({
     _updateTabsPositions: function(offset) {
         offset = this._applyOffsetBoundaries(offset);
 
-        var isPrevSwipeHandled = this.option("rtlEnabled") ^ (offset > 0) && (offset !== 0),
-            tabPositions = this._calculateTabPositions(isPrevSwipeHandled ? "replace" : "append");
+        var isPrevSwipeHandled = this.option("rtlEnabled") ^ (offset > 0) && (offset !== 0);
+        var tabPositions = this._calculateTabPositions(isPrevSwipeHandled ? "replace" : "append");
 
         this._moveTabs(tabPositions, offset);
 
@@ -237,10 +231,9 @@ var PivotTabs = CollectionWidget.inherit({
     },
 
     _animateRollback: function() {
-        var that = this,
-
-            $tabs = this._itemElements(),
-            positions = this._calculateTabPositions("prepend");
+        var that = this;
+        var $tabs = this._itemElements();
+        var positions = this._calculateTabPositions("prepend");
 
         if(this._isGhostTabVisible()) {
             this._swapGhostWithTab($tabs.eq(this._previousIndex()));
@@ -252,12 +245,11 @@ var PivotTabs = CollectionWidget.inherit({
         $tabs.each(function(index) {
             animation.moveTo($(this), positions[index]);
         });
-
     },
 
     _animateComplete: function(newIndex, currentIndex) {
-        var $tabs = this._itemElements(),
-            isPrevSwipeHandled = this._isGhostTabVisible();
+        var $tabs = this._itemElements();
+        var isPrevSwipeHandled = this._isGhostTabVisible();
 
         $tabs.eq(currentIndex).removeClass(PIVOT_TAB_SELECTED_CLASS);
 
@@ -271,10 +263,9 @@ var PivotTabs = CollectionWidget.inherit({
     },
 
     _animateIndexDecreasing: function(newIndex) {
-        var $tabs = this._itemElements(),
-            positions = this._calculateTabPositions("append", newIndex),
-
-            animations = [];
+        var $tabs = this._itemElements();
+        var positions = this._calculateTabPositions("append", newIndex);
+        var animations = [];
 
         $tabs.each(function(index) {
             animations.push(
@@ -290,22 +281,16 @@ var PivotTabs = CollectionWidget.inherit({
     },
 
     _animateIndexIncreasing: function(newIndex) {
-        var that = this,
-
-            $tabs = this._itemElements(),
-
-            positions = this._calculateTabPositions("prepend", newIndex),
-
-            previousIndex = this._previousIndex(newIndex),
-            $prevTab = $tabs.eq(previousIndex),
-            prevTabPosition = translator.locate($prevTab).left,
-
-            rtl = this.option("rtlEnabled"),
-
-            bound = rtl ? this._elementWidth() - this._itemWidths()[previousIndex] : 0,
-            isNextSwipeHandled = (prevTabPosition - bound) * this._getRTLSignCorrection() < 0,
-
-            animations = [];
+        var that = this;
+        var $tabs = this._itemElements();
+        var positions = this._calculateTabPositions("prepend", newIndex);
+        var previousIndex = this._previousIndex(newIndex);
+        var $prevTab = $tabs.eq(previousIndex);
+        var prevTabPosition = translator.locate($prevTab).left;
+        var rtl = this.option("rtlEnabled");
+        var bound = rtl ? this._elementWidth() - this._itemWidths()[previousIndex] : 0;
+        var isNextSwipeHandled = (prevTabPosition - bound) * this._getRTLSignCorrection() < 0;
+        var animations = [];
 
         if(!isNextSwipeHandled) {
             this._moveTabs(this._calculateTabPositions("append", previousIndex));
@@ -315,8 +300,8 @@ var PivotTabs = CollectionWidget.inherit({
         this._swapGhostWithTab($tabs.eq(previousIndex));
 
         $tabs.each(function(index) {
-            var $tab = $(this),
-                newPosition = positions[index];
+            var $tab = $(this);
+            var newPosition = positions[index];
 
             animations.push((index === previousIndex) ?
                 animation.slideAppear($tab, newPosition) :
@@ -334,9 +319,9 @@ var PivotTabs = CollectionWidget.inherit({
     },
 
     _swapGhostWithTab: function($tab) {
-        var $ghostTab = this._$ghostTab,
-            lastTabPosition = translator.locate($tab).left,
-            lastTabOpacity = $tab.css("opacity");
+        var $ghostTab = this._$ghostTab;
+        var lastTabPosition = translator.locate($tab).left;
+        var lastTabOpacity = $tab.css("opacity");
 
         translator.move($tab, { left: translator.locate($ghostTab).left });
         $tab.css("opacity", $ghostTab.css("opacity"));
@@ -358,16 +343,13 @@ var PivotTabs = CollectionWidget.inherit({
     },
 
     _calculateTabPositionsImpl: function(currentIndex, ghostPosition) {
-        var prevIndex = this._normalizeIndex(currentIndex - 1),
-            widths = this._itemWidths();
-
-        var rtl = this.option("rtlEnabled"),
-            signCorrection = this._getRTLSignCorrection(),
-
-            tabsContainerWidth = this._elementWidth(),
-
-            nextPosition = rtl ? tabsContainerWidth : 0,
-            positions = [];
+        var prevIndex = this._normalizeIndex(currentIndex - 1);
+        var widths = this._itemWidths();
+        var rtl = this.option("rtlEnabled");
+        var signCorrection = this._getRTLSignCorrection();
+        var tabsContainerWidth = this._elementWidth();
+        var nextPosition = rtl ? tabsContainerWidth : 0;
+        var positions = [];
 
         var calculateTabPosition = function(currentIndex, width) {
             var rtlOffset = rtl * width;
@@ -481,8 +463,8 @@ var PivotTabs = CollectionWidget.inherit({
     },
 
     _updateSelection: function(addedItems, removedItems) {
-        var newIndex = addedItems[0],
-            oldIndex = removedItems[0];
+        var newIndex = addedItems[0];
+        var oldIndex = removedItems[0];
 
         this._calculateMaxOffsets(newIndex);
 
@@ -496,10 +478,9 @@ var PivotTabs = CollectionWidget.inherit({
     },
 
     _calculateMaxOffsets: function(index) {
-        var currentTabWidth = this._itemWidths()[index],
-            prevTabWidth = this._itemWidths()[this._previousIndex(index)],
-
-            rtl = this.option("rtlEnabled");
+        var currentTabWidth = this._itemWidths()[index];
+        var prevTabWidth = this._itemWidths()[this._previousIndex(index)];
+        var rtl = this.option("rtlEnabled");
 
         this._maxLeftOffset = rtl ? prevTabWidth : currentTabWidth;
         this._maxRightOffset = rtl ? currentTabWidth : prevTabWidth;

@@ -1,12 +1,11 @@
-var $ = require("../../core/renderer"),
-    noop = require("../../core/utils/common").noop,
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    positionUtils = require("../../animation/position"),
-    extend = require("../../core/utils/extend").extend,
-    ContextMenu = require("../context_menu");
-
-var DX_CONTEXT_MENU_CONTENT_DELIMITER_CLASS = "dx-context-menu-content-delimiter",
-    DX_SUBMENU_CLASS = "dx-submenu";
+var $ = require("../../core/renderer");
+var noop = require("../../core/utils/common").noop;
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var positionUtils = require("../../animation/position");
+var extend = require("../../core/utils/extend").extend;
+var ContextMenu = require("../context_menu");
+var DX_CONTEXT_MENU_CONTENT_DELIMITER_CLASS = "dx-context-menu-content-delimiter";
+var DX_SUBMENU_CLASS = "dx-submenu";
 
 var Submenu = ContextMenu.inherit({
 
@@ -98,21 +97,23 @@ var Submenu = ContextMenu.inherit({
             return;
         }
 
-        var $submenu = this._itemContainer().children("." + DX_SUBMENU_CLASS).eq(0),
-            $rootItem = this.option("position").of,
-            position = {
-                of: $submenu
-            },
-            containerOffset = arg.position,
-            vLocation = containerOffset.v.location,
-            hLocation = containerOffset.h.location,
-            rootOffset = $rootItem.offset(),
-            offsetLeft = Math.round(rootOffset.left),
-            offsetTop = Math.round(rootOffset.top),
-            rootWidth = $rootItem.width(),
-            rootHeight = $rootItem.height(),
-            submenuWidth = $submenu.width(),
-            submenuHeight = $submenu.height();
+        var $submenu = this._itemContainer().children("." + DX_SUBMENU_CLASS).eq(0);
+        var $rootItem = this.option("position").of;
+
+        var position = {
+            of: $submenu
+        };
+
+        var containerOffset = arg.position;
+        var vLocation = containerOffset.v.location;
+        var hLocation = containerOffset.h.location;
+        var rootOffset = $rootItem.offset();
+        var offsetLeft = Math.round(rootOffset.left);
+        var offsetTop = Math.round(rootOffset.top);
+        var rootWidth = $rootItem.width();
+        var rootHeight = $rootItem.height();
+        var submenuWidth = $submenu.width();
+        var submenuHeight = $submenu.height();
 
         this.$contentDelimiter.css("display", "block");
         this.$contentDelimiter.width(this._isMenuHorizontal() ? (rootWidth < submenuWidth ? rootWidth - 2 : submenuWidth) : 2);

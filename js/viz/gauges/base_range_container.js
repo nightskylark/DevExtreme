@@ -1,12 +1,11 @@
-var iterateUtils = require("../../core/utils/iterator"),
-    BaseElement = require("./base_indicators").BaseElement,
-
-    _Number = Number,
-    _abs = Math.abs,
-    _isString = require("../../core/utils/type").isString,
-    _isArray = Array.isArray,
-    _isFinite = isFinite,
-    _each = iterateUtils.each;
+var iterateUtils = require("../../core/utils/iterator");
+var BaseElement = require("./base_indicators").BaseElement;
+var _Number = Number;
+var _abs = Math.abs;
+var _isString = require("../../core/utils/type").isString;
+var _isArray = Array.isArray;
+var _isFinite = isFinite;
+var _each = iterateUtils.each;
 
 var BaseRangeContainer = BaseElement.inherit({
     _init: function() {
@@ -24,24 +23,24 @@ var BaseRangeContainer = BaseElement.inherit({
     },
 
     _getRanges: function() {
-        var that = this,
-            options = that._options,
-            translator = that._translator,
-            totalStart = translator.getDomain()[0],
-            totalEnd = translator.getDomain()[1],
-            totalDelta = totalEnd - totalStart,
-            isNotEmptySegment = totalDelta >= 0 ? isNotEmptySegmentAsc : isNotEmptySegmentDesc,
-            subtractSegment = totalDelta >= 0 ? subtractSegmentAsc : subtractSegmentDesc,
-            list = [],
-            ranges = [],
-            backgroundRanges = [{ start: totalStart, end: totalEnd }],
-            threshold = _abs(totalDelta) / 1E4,
-            palette,
-            backgroundColor = _isString(options.backgroundColor) ? options.backgroundColor : 'none',
-            width = options.width || {},
-            startWidth = _Number(width > 0 ? width : width.start),
-            endWidth = _Number(width > 0 ? width : width.end),
-            deltaWidth = endWidth - startWidth;
+        var that = this;
+        var options = that._options;
+        var translator = that._translator;
+        var totalStart = translator.getDomain()[0];
+        var totalEnd = translator.getDomain()[1];
+        var totalDelta = totalEnd - totalStart;
+        var isNotEmptySegment = totalDelta >= 0 ? isNotEmptySegmentAsc : isNotEmptySegmentDesc;
+        var subtractSegment = totalDelta >= 0 ? subtractSegmentAsc : subtractSegmentDesc;
+        var list = [];
+        var ranges = [];
+        var backgroundRanges = [{ start: totalStart, end: totalEnd }];
+        var threshold = _abs(totalDelta) / 1E4;
+        var palette;
+        var backgroundColor = _isString(options.backgroundColor) ? options.backgroundColor : 'none';
+        var width = options.width || {};
+        var startWidth = _Number(width > 0 ? width : width.start);
+        var endWidth = _Number(width > 0 ? width : width.end);
+        var deltaWidth = endWidth - startWidth;
 
         if(options.ranges !== undefined && !_isArray(options.ranges)) {
             return null;
@@ -51,8 +50,8 @@ var BaseRangeContainer = BaseElement.inherit({
         }
         list = (_isArray(options.ranges) ? options.ranges : []).reduce((result, rangeOptions, i) => {
             rangeOptions = rangeOptions || {};
-            var start = translator.adjust(rangeOptions.startValue),
-                end = translator.adjust(rangeOptions.endValue);
+            var start = translator.adjust(rangeOptions.startValue);
+            var end = translator.adjust(rangeOptions.endValue);
             if(_isFinite(start) && _isFinite(end) && isNotEmptySegment(start, end, threshold)) {
                 result.push({ start: start, end: end, color: rangeOptions.color, classIndex: i });
             }
@@ -74,12 +73,13 @@ var BaseRangeContainer = BaseElement.inherit({
         });
 
         _each(list, function(_, item) {
-            var i, ii,
-                sub,
-                subs,
-                range,
-                newRanges = [],
-                newBackgroundRanges = [];
+            var i;
+            var ii;
+            var sub;
+            var subs;
+            var range;
+            var newRanges = [];
+            var newBackgroundRanges = [];
 
             for(i = 0, ii = ranges.length; i < ii; ++i) {
                 range = ranges[i];

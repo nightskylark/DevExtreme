@@ -1,8 +1,7 @@
-var Class = require("../../../core/class"),
-    abstract = Class.abstract;
-
-var LAST_GROUP_CELL_CLASS = "dx-scheduler-last-group-cell",
-    FIRST_GROUP_CELL_CLASS = "dx-scheduler-first-group-cell";
+var Class = require("../../../core/class");
+var abstract = Class.abstract;
+var LAST_GROUP_CELL_CLASS = "dx-scheduler-last-group-cell";
+var FIRST_GROUP_CELL_CLASS = "dx-scheduler-first-group-cell";
 
 var GroupedStrategy = Class.inherit({
 

@@ -1,16 +1,13 @@
-var $ = require("../../core/renderer"),
-    isNumeric = require("../../core/utils/type").isNumeric,
-    each = require("../../core/utils/iterator").each,
-    queryByOptions = require("../../data/store_helper").queryByOptions,
-    query = require("../../data/query"),
-    EditStrategy = require("../collection/ui.collection_widget.edit.strategy.plain");
-
-
-var LIST_ITEM_CLASS = "dx-list-item",
-    LIST_GROUP_CLASS = "dx-list-group";
-
-var SELECTION_SHIFT = 20,
-    SELECTION_MASK = 0x8FF;
+var $ = require("../../core/renderer");
+var isNumeric = require("../../core/utils/type").isNumeric;
+var each = require("../../core/utils/iterator").each;
+var queryByOptions = require("../../data/store_helper").queryByOptions;
+var query = require("../../data/query");
+var EditStrategy = require("../collection/ui.collection_widget.edit.strategy.plain");
+var LIST_ITEM_CLASS = "dx-list-item";
+var LIST_GROUP_CLASS = "dx-list-group";
+var SELECTION_SHIFT = 20;
+var SELECTION_MASK = 0x8FF;
 
 var combineIndex = function(indices) {
     return (indices.group << SELECTION_SHIFT) + indices.item;
@@ -34,8 +31,8 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     getIndexByItemData: function(itemData) {
-        var groups = this._collectionWidget.option("items"),
-            index = false;
+        var groups = this._collectionWidget.option("items");
+        var index = false;
 
         if(!itemData) return false;
 
@@ -78,8 +75,8 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     itemsGetter: function() {
-        var resultItems = [],
-            items = this._collectionWidget.option("items");
+        var resultItems = [];
+        var items = this._collectionWidget.option("items");
 
         for(var i = 0; i < items.length; i++) {
             if(items[i] && items[i].items) {
@@ -92,8 +89,8 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     deleteItemAtIndex: function(index) {
-        var indices = splitIndex(index),
-            itemGroup = this._collectionWidget.option("items")[indices.group].items;
+        var indices = splitIndex(index);
+        var itemGroup = this._collectionWidget.option("items")[indices.group].items;
 
         itemGroup.splice(indices.item, 1);
     },
@@ -118,9 +115,9 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     getIndexByKey: function(key, items) {
-        var groups = items || this._collectionWidget.option("items"),
-            index = -1,
-            that = this;
+        var groups = items || this._collectionWidget.option("items");
+        var index = -1;
+        var that = this;
 
         each(groups, function(groupIndex, group) {
             if(!group.items) return;
@@ -145,8 +142,8 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     _getGroups: function(items) {
-        var dataSource = this._collectionWidget.getDataSource(),
-            group = dataSource && dataSource.group();
+        var dataSource = this._collectionWidget.getDataSource();
+        var group = dataSource && dataSource.group();
 
         if(group) {
             return queryByOptions(query(items), { group: group }).toArray();
@@ -197,15 +194,12 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     moveItemAtIndexToIndex: function(movingIndex, destinationIndex) {
-        var items = this._collectionWidget.option("items"),
-
-            movingIndices = splitIndex(movingIndex),
-            destinationIndices = splitIndex(destinationIndex),
-
-            movingItemGroup = items[movingIndices.group].items,
-            destinationItemGroup = items[destinationIndices.group].items,
-
-            movedItemData = movingItemGroup[movingIndices.item];
+        var items = this._collectionWidget.option("items");
+        var movingIndices = splitIndex(movingIndex);
+        var destinationIndices = splitIndex(destinationIndex);
+        var movingItemGroup = items[movingIndices.group].items;
+        var destinationItemGroup = items[destinationIndices.group].items;
+        var movedItemData = movingItemGroup[movingIndices.item];
 
         movingItemGroup.splice(movingIndices.item, 1);
         destinationItemGroup.splice(destinationIndices.item, 0, movedItemData);
@@ -216,8 +210,8 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     _getNormalizedItemIndex: function(itemElement) {
-        var $item = $(itemElement),
-            $group = $item.closest("." + LIST_GROUP_CLASS);
+        var $item = $(itemElement);
+        var $group = $item.closest("." + LIST_GROUP_CLASS);
 
         if(!$group.length) {
             return -1;
@@ -238,8 +232,8 @@ var GroupedEditStrategy = EditStrategy.inherit({
     },
 
     _getItemByNormalizedIndex: function(index) {
-        var indices = splitIndex(index),
-            $group = this._groupElements().eq(indices.group);
+        var indices = splitIndex(index);
+        var $group = this._groupElements().eq(indices.group);
 
         return this._groupItemElements($group).eq(indices.item);
     },

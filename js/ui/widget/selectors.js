@@ -1,17 +1,17 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter");
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
 
 var focusable = function(element, tabIndex) {
     if(!visible(element)) {
         return false;
     }
-    var nodeName = element.nodeName.toLowerCase(),
-        isTabIndexNotNaN = !isNaN(tabIndex),
-        isDisabled = element.disabled,
-        isDefaultFocus = /^(input|select|textarea|button|object|iframe)$/.test(nodeName),
-        isHyperlink = nodeName === "a",
-        isFocusable = true,
-        isContentEditable = element.isContentEditable;
+    var nodeName = element.nodeName.toLowerCase();
+    var isTabIndexNotNaN = !isNaN(tabIndex);
+    var isDisabled = element.disabled;
+    var isDefaultFocus = /^(input|select|textarea|button|object|iframe)$/.test(nodeName);
+    var isHyperlink = nodeName === "a";
+    var isFocusable = true;
+    var isContentEditable = element.isContentEditable;
 
     if(isDefaultFocus || isContentEditable) {
         isFocusable = !isDisabled;

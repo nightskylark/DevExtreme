@@ -1,22 +1,18 @@
-var mathUtils = require("../core/utils/math"),
-    iteratorUtils = require("../core/utils/iterator"),
-    errors = require("../core/errors"),
-    eventUtils = require("./utils"),
-    Emitter = require("./core/emitter"),
-    registerEmitter = require("./core/emitter_registrator");
-
-
-var DX_PREFIX = "dx",
-
-    TRANSFORM = "transform",
-    TRANSLATE = "translate",
-    ZOOM = "zoom",
-    PINCH = "pinch",
-    ROTATE = "rotate",
-
-    START_POSTFIX = "start",
-    UPDATE_POSTFIX = "",
-    END_POSTFIX = "end";
+var mathUtils = require("../core/utils/math");
+var iteratorUtils = require("../core/utils/iterator");
+var errors = require("../core/errors");
+var eventUtils = require("./utils");
+var Emitter = require("./core/emitter");
+var registerEmitter = require("./core/emitter_registrator");
+var DX_PREFIX = "dx";
+var TRANSFORM = "transform";
+var TRANSLATE = "translate";
+var ZOOM = "zoom";
+var PINCH = "pinch";
+var ROTATE = "rotate";
+var START_POSTFIX = "start";
+var UPDATE_POSTFIX = "";
+var END_POSTFIX = "end";
 
 
 var eventAliases = [];
@@ -126,8 +122,8 @@ var TransformEmitter = Emitter.inherit({
     },
 
     move: function(e) {
-        var currentVector = getEventVector(e),
-            eventArgs = this._getEventArgs(currentVector);
+        var currentVector = getEventVector(e);
+        var eventArgs = this._getEventArgs(currentVector);
 
         this._fireEventAliases(UPDATE_POSTFIX, e, eventArgs);
         this._prevVector = currentVector;

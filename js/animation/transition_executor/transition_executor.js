@@ -1,22 +1,23 @@
-var $ = require("../../core/renderer"),
-    Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    fx = require("../fx"),
-    animationPresetsModule = require("../presets/presets"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred;
+var $ = require("../../core/renderer");
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var iteratorUtils = require("../../core/utils/iterator");
+var fx = require("../fx");
+var animationPresetsModule = require("../presets/presets");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
 
 var directionPostfixes = {
         forward: " dx-forward",
         backward: " dx-backward",
         none: " dx-no-direction",
         undefined: " dx-no-direction"
-    },
-    DX_ANIMATING_CLASS = "dx-animating";
+    };
+
+var DX_ANIMATING_CLASS = "dx-animating";
 
 var TransitionExecutor = Class.inherit({
     ctor: function() {
@@ -29,9 +30,9 @@ var TransitionExecutor = Class.inherit({
     },
 
     _createAnimations: function($elements, initialConfig, configModifier, type) {
-        var that = this,
-            result = [],
-            animationConfig;
+        var that = this;
+        var result = [];
+        var animationConfig;
 
         configModifier = configModifier || {};
         animationConfig = this._prepareElementAnimationConfig(initialConfig, configModifier, type);
@@ -69,8 +70,8 @@ var TransitionExecutor = Class.inherit({
             }, config, configModifier);
 
             if(!result.type || result.type === "css") {
-                var cssClass = "dx-" + type,
-                    extraCssClasses = (result.extraCssClasses ? " " + result.extraCssClasses : "") + directionPostfixes[result.direction];
+                var cssClass = "dx-" + type;
+                var extraCssClasses = (result.extraCssClasses ? " " + result.extraCssClasses : "") + directionPostfixes[result.direction];
 
                 result.type = "css";
                 result.from = (result.from || cssClass) + extraCssClasses;
@@ -164,8 +165,8 @@ var TransitionExecutor = Class.inherit({
     * @return Promise<void>
     */
     start: function() {
-        var that = this,
-            result;
+        var that = this;
+        var result;
 
         if(!this._animations.length) {
             that.reset();

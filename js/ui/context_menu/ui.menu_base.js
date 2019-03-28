@@ -1,33 +1,32 @@
-var $ = require("../../core/renderer"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    each = require("../../core/utils/iterator").each,
-    extend = require("../../core/utils/extend").extend,
-    inkRipple = require("../widget/utils.ink_ripple"),
-    HierarchicalCollectionWidget = require("../hierarchical_collection/ui.hierarchical_collection_widget"),
-    MenuBaseEditStrategy = require("./ui.menu_base.edit.strategy"),
-    devices = require("../../core/devices"),
-    themes = require("../themes");
-
-var DX_MENU_CLASS = "dx-menu",
-    DX_MENU_NO_ICONS_CLASS = DX_MENU_CLASS + "-no-icons",
-    DX_MENU_BASE_CLASS = "dx-menu-base",
-    ITEM_CLASS = DX_MENU_CLASS + "-item",
-    DX_ITEM_CONTENT_CLASS = ITEM_CLASS + "-content",
-    DX_MENU_SELECTED_ITEM_CLASS = ITEM_CLASS + "-selected",
-    DX_MENU_ITEM_WRAPPER_CLASS = ITEM_CLASS + "-wrapper",
-    DX_MENU_ITEMS_CONTAINER_CLASS = DX_MENU_CLASS + "-items-container",
-    DX_MENU_ITEM_EXPANDED_CLASS = ITEM_CLASS + "-expanded",
-    DX_MENU_SEPARATOR_CLASS = DX_MENU_CLASS + "-separator",
-    DX_MENU_ITEM_LAST_GROUP_ITEM = DX_MENU_CLASS + "-last-group-item",
-    DX_ITEM_HAS_TEXT = ITEM_CLASS + "-has-text",
-    DX_ITEM_HAS_ICON = ITEM_CLASS + "-has-icon",
-    DX_ITEM_HAS_SUBMENU = ITEM_CLASS + "-has-submenu",
-    DX_MENU_ITEM_POPOUT_CLASS = ITEM_CLASS + "-popout",
-    DX_MENU_ITEM_POPOUT_CONTAINER_CLASS = DX_MENU_ITEM_POPOUT_CLASS + "-container",
-    DX_MENU_ITEM_CAPTION_CLASS = ITEM_CLASS + "-text",
-    SINGLE_SELECTION_MODE = "single",
-    DEFAULT_DELAY = { "show": 50, "hide": 300 };
+var $ = require("../../core/renderer");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var each = require("../../core/utils/iterator").each;
+var extend = require("../../core/utils/extend").extend;
+var inkRipple = require("../widget/utils.ink_ripple");
+var HierarchicalCollectionWidget = require("../hierarchical_collection/ui.hierarchical_collection_widget");
+var MenuBaseEditStrategy = require("./ui.menu_base.edit.strategy");
+var devices = require("../../core/devices");
+var themes = require("../themes");
+var DX_MENU_CLASS = "dx-menu";
+var DX_MENU_NO_ICONS_CLASS = DX_MENU_CLASS + "-no-icons";
+var DX_MENU_BASE_CLASS = "dx-menu-base";
+var ITEM_CLASS = DX_MENU_CLASS + "-item";
+var DX_ITEM_CONTENT_CLASS = ITEM_CLASS + "-content";
+var DX_MENU_SELECTED_ITEM_CLASS = ITEM_CLASS + "-selected";
+var DX_MENU_ITEM_WRAPPER_CLASS = ITEM_CLASS + "-wrapper";
+var DX_MENU_ITEMS_CONTAINER_CLASS = DX_MENU_CLASS + "-items-container";
+var DX_MENU_ITEM_EXPANDED_CLASS = ITEM_CLASS + "-expanded";
+var DX_MENU_SEPARATOR_CLASS = DX_MENU_CLASS + "-separator";
+var DX_MENU_ITEM_LAST_GROUP_ITEM = DX_MENU_CLASS + "-last-group-item";
+var DX_ITEM_HAS_TEXT = ITEM_CLASS + "-has-text";
+var DX_ITEM_HAS_ICON = ITEM_CLASS + "-has-icon";
+var DX_ITEM_HAS_SUBMENU = ITEM_CLASS + "-has-submenu";
+var DX_MENU_ITEM_POPOUT_CLASS = ITEM_CLASS + "-popout";
+var DX_MENU_ITEM_POPOUT_CONTAINER_CLASS = DX_MENU_ITEM_POPOUT_CLASS + "-container";
+var DX_MENU_ITEM_CAPTION_CLASS = ITEM_CLASS + "-text";
+var SINGLE_SELECTION_MODE = "single";
+var DEFAULT_DELAY = { "show": 50, "hide": 300 };
 
 /**
 * @name dxMenuBase
@@ -327,16 +326,16 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _getTextContainer: function(itemData) {
-        var itemText = itemData.text,
-            $itemContainer = $('<span>').addClass(DX_MENU_ITEM_CAPTION_CLASS),
-            itemContent = typeUtils.isPlainObject(itemData) ? itemText : String(itemData);
+        var itemText = itemData.text;
+        var $itemContainer = $('<span>').addClass(DX_MENU_ITEM_CAPTION_CLASS);
+        var itemContent = typeUtils.isPlainObject(itemData) ? itemText : String(itemData);
 
         return itemText && $itemContainer.text(itemContent);
     },
 
     _getPopoutContainer: function(itemData) {
-        var items = itemData.items,
-            $popOutContainer;
+        var items = itemData.items;
+        var $popOutContainer;
 
         if(items && items.length) {
             var $popOutImage = $('<div>').addClass(DX_MENU_ITEM_POPOUT_CLASS);
@@ -364,9 +363,9 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _renderSelectedItem: function() {
-        var selectedKeys = this._dataAdapter.getSelectedNodesKeys(),
-            selectedKey = selectedKeys.length && selectedKeys[0],
-            selectedItem = this.option("selectedItem");
+        var selectedKeys = this._dataAdapter.getSelectedNodesKeys();
+        var selectedKey = selectedKeys.length && selectedKeys[0];
+        var selectedItem = this.option("selectedItem");
 
         if(!selectedKey) {
             this._selectByItem(selectedItem);
@@ -420,8 +419,8 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _getShowSubmenuMode: function() {
-        var defaultValue = "onClick",
-            optionValue = this.option("showSubmenuMode");
+        var defaultValue = "onClick";
+        var optionValue = this.option("showSubmenuMode");
 
         optionValue = typeUtils.isObject(optionValue) ? optionValue.name : optionValue;
 
@@ -448,8 +447,8 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _hoverStartHandler: function(e) {
-        var that = this,
-            $itemElement = that._getItemElementByEventArgs(e);
+        var that = this;
+        var $itemElement = that._getItemElementByEventArgs(e);
 
         if(!$itemElement || that._isItemDisabled($itemElement)) return;
 
@@ -520,16 +519,16 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _renderItems: function(nodes, submenuContainer) {
-        var that = this,
-            $nodeContainer;
+        var that = this;
+        var $nodeContainer;
 
         if(nodes.length) {
             this.hasIcons = false;
 
             $nodeContainer = this._renderContainer(this.$element(), submenuContainer);
 
-            var firstVisibleIndex = -1,
-                nextGroupFirstIndex = -1;
+            var firstVisibleIndex = -1;
+            var nextGroupFirstIndex = -1;
 
             each(nodes, function(index, node) {
                 var isVisibleNode = node.visible !== false;
@@ -553,7 +552,6 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
 
             if(!this.hasIcons) $nodeContainer.addClass(DX_MENU_NO_ICONS_CLASS);
         }
-
     },
 
     _renderContainer: function($wrapper) {
@@ -571,8 +569,8 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _renderItem: function(index, node, $nodeContainer, $nodeElement) {
-        var items = this.option("items"),
-            $itemFrame;
+        var items = this.option("items");
+        var $itemFrame;
 
         if(node.internalFields.item.visible === false) return;
         var $node = $nodeElement || this._createDOMElement($nodeContainer);
@@ -599,17 +597,17 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _refreshItem: function($item, item) {
-        var node = this._dataAdapter.getNodeByItem(item),
-            index = $item.data(this._itemIndexKey()),
-            $nodeContainer = $item.closest("ul"),
-            $nodeElement = $item.closest("li");
+        var node = this._dataAdapter.getNodeByItem(item);
+        var index = $item.data(this._itemIndexKey());
+        var $nodeContainer = $item.closest("ul");
+        var $nodeElement = $item.closest("li");
         this._renderItem(index, node, $nodeContainer, $nodeElement);
     },
 
     _addContentClasses: function(itemData, $itemFrame) {
-        var hasText = itemData.text ? !!itemData.text.length : false,
-            hasIcon = !!itemData.icon,
-            hasSubmenu = itemData.items ? !!itemData.items.length : false;
+        var hasText = itemData.text ? !!itemData.text.length : false;
+        var hasIcon = !!itemData.icon;
+        var hasSubmenu = itemData.items ? !!itemData.items.length : false;
 
         $itemFrame.toggleClass(DX_ITEM_HAS_TEXT, hasText);
         $itemFrame.toggleClass(DX_ITEM_HAS_ICON, hasIcon);
@@ -630,9 +628,9 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _postprocessRenderItem: function(args) {
-        var $itemElement = $(args.itemElement),
-            selectedIndex = this._dataAdapter.getSelectedNodesKeys(),
-            node;
+        var $itemElement = $(args.itemElement);
+        var selectedIndex = this._dataAdapter.getSelectedNodesKeys();
+        var node;
 
         if(!selectedIndex.length || !this._selectedGetter(args.itemData) || !this._isItemSelectable(args.itemData)) {
             this._setAriaSelected($itemElement, "false");
@@ -675,8 +673,8 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _updateSelectedItemOnClick: function(actionArgs) {
-        var args = actionArgs.args ? actionArgs.args[0] : actionArgs,
-            selectedItemKey;
+        var args = actionArgs.args ? actionArgs.args[0] : actionArgs;
+        var selectedItemKey;
 
         if(!this._isItemSelectionAllowed(args.itemData)) {
             return;
@@ -695,7 +693,6 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
             this._fireSelectionChangeEvent(null, this.option("selectedItem"));
             this._setOptionSilent("selectedItem", null);
         }
-
     },
 
     _isItemSelectionAllowed: function(item) {
@@ -714,9 +711,9 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
             case "showSubmenuMode":
                 break;
             case "selectedItem":
-                var itemData = args.value,
-                    node = this._dataAdapter.getNodeByItem(itemData),
-                    selectedKey = this._dataAdapter.getSelectedNodesKeys()[0];
+                var itemData = args.value;
+                var node = this._dataAdapter.getNodeByItem(itemData);
+                var selectedKey = this._dataAdapter.getSelectedNodesKeys()[0];
 
                 if(node && node.internalFields.key !== selectedKey) {
                     if(node.selectable === false) break;
@@ -747,8 +744,8 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     },
 
     _getElementByItem: function(itemData) {
-        var that = this,
-            result;
+        var that = this;
+        var result;
 
         each(this._itemElements(), function(_, itemElement) {
             if($(itemElement).data(that._itemDataKey()) !== itemData) {
@@ -783,10 +780,10 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
         * @param1 itemElement:Node
     */
     selectItem: function(itemElement) {
-        var itemData = (itemElement.nodeType) ? this._getItemData(itemElement) : itemElement,
-            node = this._dataAdapter.getNodeByItem(itemData),
-            selectedKey = this._dataAdapter.getSelectedNodesKeys()[0],
-            selectedItem = this.option("selectedItem");
+        var itemData = (itemElement.nodeType) ? this._getItemData(itemElement) : itemElement;
+        var node = this._dataAdapter.getNodeByItem(itemData);
+        var selectedKey = this._dataAdapter.getSelectedNodesKeys()[0];
+        var selectedItem = this.option("selectedItem");
 
         if(node.internalFields.key !== selectedKey) {
             if(selectedKey) {
@@ -804,16 +801,15 @@ var MenuBase = HierarchicalCollectionWidget.inherit({
     * @param1 itemElement:Node
     */
     unselectItem: function(itemElement) {
-        var itemData = (itemElement.nodeType) ? this._getItemData(itemElement) : itemElement,
-            node = this._dataAdapter.getNodeByItem(itemData),
-            selectedItem = this.option("selectedItem");
+        var itemData = (itemElement.nodeType) ? this._getItemData(itemElement) : itemElement;
+        var node = this._dataAdapter.getNodeByItem(itemData);
+        var selectedItem = this.option("selectedItem");
 
         if(node.internalFields.selected) {
             this._toggleItemSelection(node, false);
             this._updateSelectedItems(selectedItem, null);
             this._setOptionSilent("selectedItem", null);
         }
-
     }
 });
 

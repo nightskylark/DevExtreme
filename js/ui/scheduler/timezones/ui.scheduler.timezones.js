@@ -1,6 +1,6 @@
-var query = require("../../../data/query"),
-    errors = require("../../../core/errors"),
-    tzData = require("./ui.scheduler.timezones_data");
+var query = require("../../../data/query");
+var errors = require("../../../core/errors");
+var tzData = require("./ui.scheduler.timezones_data");
 
 var SchedulerTimezones = {
     _displayNames: tzData.displayNames,
@@ -16,9 +16,9 @@ var SchedulerTimezones = {
         return query(this.getTimezones());
     },
     getTimezoneById: function(id) {
-        var result,
-            i = 0,
-            tzList = this.getTimezones();
+        var result;
+        var i = 0;
+        var tzList = this.getTimezones();
 
         if(id) {
             while(!result) {
@@ -36,11 +36,11 @@ var SchedulerTimezones = {
         return result;
     },
     getTimezoneOffsetById: function(id, dateTimeStamp) {
-        var tz = this.getTimezoneById(id),
-            offsets,
-            offsetIndices,
-            untils,
-            result;
+        var tz = this.getTimezoneById(id);
+        var offsets;
+        var offsetIndices;
+        var untils;
+        var result;
 
         if(tz) {
             if(tz.link) {
@@ -89,8 +89,8 @@ var SchedulerTimezones = {
         return offsets[Number(offsetIndicesList[index])];
     },
     getTimezoneShortDisplayNameById: function(id) {
-        var tz = this.getTimezoneById(id),
-            result;
+        var tz = this.getTimezoneById(id);
+        var result;
 
         if(tz) {
             result = tz.DisplayName.substring(0, 11);

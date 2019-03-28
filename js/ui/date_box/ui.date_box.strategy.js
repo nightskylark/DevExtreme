@@ -1,8 +1,8 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    noop = require("../../core/utils/common").noop,
-    Class = require("../../core/class"),
-    dateLocalization = require("../../localization/date");
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var noop = require("../../core/utils/common").noop;
+var Class = require("../../core/class");
+var dateLocalization = require("../../localization/date");
 
 var abstract = Class.abstract;
 

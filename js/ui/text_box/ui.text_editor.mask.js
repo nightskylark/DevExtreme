@@ -1,19 +1,19 @@
-var $ = require("../../core/renderer"),
-    caret = require("./utils.caret"),
-    domUtils = require("../../core/utils/dom"),
-    each = require("../../core/utils/iterator").each,
-    eventUtils = require("../../events/utils"),
-    eventsEngine = require("../../events/core/events_engine"),
-    extend = require("../../core/utils/extend").extend,
-    focused = require("../widget/selectors").focused,
-    inArray = require("../../core/utils/array").inArray,
-    isDefined = require("../../core/utils/type").isDefined,
-    messageLocalization = require("../../localization/message"),
-    noop = require("../../core/utils/common").noop,
-    stringUtils = require("../../core/utils/string"),
-    wheelEvent = require("../../events/core/wheel"),
-    MaskRules = require("./ui.text_editor.mask.rule"),
-    TextEditorBase = require("./ui.text_editor.base");
+var $ = require("../../core/renderer");
+var caret = require("./utils.caret");
+var domUtils = require("../../core/utils/dom");
+var each = require("../../core/utils/iterator").each;
+var eventUtils = require("../../events/utils");
+var eventsEngine = require("../../events/core/events_engine");
+var extend = require("../../core/utils/extend").extend;
+var focused = require("../widget/selectors").focused;
+var inArray = require("../../core/utils/array").inArray;
+var isDefined = require("../../core/utils/type").isDefined;
+var messageLocalization = require("../../localization/message");
+var noop = require("../../core/utils/common").noop;
+var stringUtils = require("../../core/utils/string");
+var wheelEvent = require("../../events/core/wheel");
+var MaskRules = require("./ui.text_editor.mask.rule");
+var TextEditorBase = require("./ui.text_editor.base");
 
 var stubCaret = function() {
     return {};
@@ -247,8 +247,8 @@ var TextEditorMask = TextEditorBase.inherit({
     },
 
     _changeHandler: function(e) {
-        var $input = this._input(),
-            inputValue = $input.val();
+        var $input = this._input();
+        var inputValue = $input.val();
 
         if(inputValue === this._changedValue) {
             return;
@@ -318,9 +318,9 @@ var TextEditorMask = TextEditorBase.inherit({
             return text;
         }
 
-        var textBefore = text.slice(0, selection.start),
-            textAfter = text.slice(selection.end),
-            edited = textBefore + char + textAfter;
+        var textBefore = text.slice(0, selection.start);
+        var textAfter = text.slice(selection.end);
+        var edited = textBefore + char + textAfter;
 
         return edited;
     },
@@ -366,8 +366,8 @@ var TextEditorMask = TextEditorBase.inherit({
             this._showMaskPlaceholder();
 
             if(this._$hiddenElement) {
-                var value = this._maskRulesChain.value(),
-                    hiddenElementValue = this._isMaskedValueMode() ? text : value;
+                var value = this._maskRulesChain.value();
+                var hiddenElementValue = this._isMaskedValueMode() ? text : value;
 
                 this._$hiddenElement.val(!stringUtils.isEmpty(value) ? hiddenElementValue : "");
             }

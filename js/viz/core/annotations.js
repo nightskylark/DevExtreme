@@ -152,8 +152,8 @@ const chartPlugin = {
             this.clearHover();
 
             const tooltipFormatObject = annotation.getTooltipFormatObject(this._annotations.tooltip);
-            const coords = annotation.getTooltipParams(this._annotations.tooltip.getLocation()),
-                rootOffset = this._renderer.getRootOffset();
+            const coords = annotation.getTooltipParams(this._annotations.tooltip.getLocation());
+            const rootOffset = this._renderer.getRootOffset();
             coords.x += rootOffset.left;
             coords.y += rootOffset.top;
 

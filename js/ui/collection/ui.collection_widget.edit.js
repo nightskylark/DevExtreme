@@ -1,21 +1,20 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    BaseCollectionWidget = require("./ui.collection_widget.base"),
-    errors = require("../widget/ui.errors"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    noop = require("../../core/utils/common").noop,
-    isDefined = require("../../core/utils/type").isDefined,
-    PlainEditStrategy = require("./ui.collection_widget.edit.strategy.plain"),
-    compileGetter = require("../../core/utils/data").compileGetter,
-    DataSource = require("../../data/data_source/data_source").DataSource,
-    Selection = require("../selection/selection"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred;
-
-var ITEM_DELETING_DATA_KEY = "dxItemDeleting",
-    NOT_EXISTING_INDEX = -1;
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var BaseCollectionWidget = require("./ui.collection_widget.base");
+var errors = require("../widget/ui.errors");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var noop = require("../../core/utils/common").noop;
+var isDefined = require("../../core/utils/type").isDefined;
+var PlainEditStrategy = require("./ui.collection_widget.edit.strategy.plain");
+var compileGetter = require("../../core/utils/data").compileGetter;
+var DataSource = require("../../data/data_source/data_source").DataSource;
+var Selection = require("../selection/selection");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var ITEM_DELETING_DATA_KEY = "dxItemDeleting";
+var NOT_EXISTING_INDEX = -1;
 
 var indexExists = function(index) {
     return index !== NOT_EXISTING_INDEX;
@@ -211,8 +210,8 @@ var CollectionWidget = BaseCollectionWidget.inherit({
     },
 
     keyOf: function(item) {
-        var key = item,
-            store = this._dataSource && this._dataSource.store();
+        var key = item;
+        var store = this._dataSource && this._dataSource.store();
 
         if(this.option("keyExpr")) {
             key = this._keyGetter(item);
@@ -224,8 +223,8 @@ var CollectionWidget = BaseCollectionWidget.inherit({
     },
 
     _initSelectionModule: function() {
-        var that = this,
-            itemsGetter = that._editStrategy.itemsGetter;
+        var that = this;
+        var itemsGetter = that._editStrategy.itemsGetter;
 
         this._selection = new Selection({
             mode: this.option("selectionMode"),
@@ -269,8 +268,8 @@ var CollectionWidget = BaseCollectionWidget.inherit({
     },
 
     _getSelectedItemIndices: function(keys) {
-        var that = this,
-            indices = [];
+        var that = this;
+        var indices = [];
 
         keys = keys || this._selection.getSelectedItemKeys();
 
@@ -315,7 +314,8 @@ var CollectionWidget = BaseCollectionWidget.inherit({
     _syncSelectionOptions: function(byOption) {
         byOption = byOption || this._chooseSelectOption();
 
-        var selectedItem, selectedIndex;
+        var selectedItem;
+        var selectedIndex;
 
         switch(byOption) {
             case "selectedIndex":
@@ -385,8 +385,8 @@ var CollectionWidget = BaseCollectionWidget.inherit({
         var optionName = "selectedIndex";
 
         var isOptionDefined = function(optionName) {
-            var optionValue = this.option(optionName),
-                length = isDefined(optionValue) && optionValue.length;
+            var optionValue = this.option(optionName);
+            var length = isDefined(optionValue) && optionValue.length;
             return length || optionName in this._userOptions;
         }.bind(this);
 
@@ -489,9 +489,9 @@ var CollectionWidget = BaseCollectionWidget.inherit({
 
     _postprocessRenderItem: function(args) {
         if(this.option("selectionMode") !== "none") {
-            var $itemElement = $(args.itemElement),
-                normalizedItemIndex = this._editStrategy.getNormalizedIndex($itemElement),
-                isItemSelected = this._isItemSelected(normalizedItemIndex);
+            var $itemElement = $(args.itemElement);
+            var normalizedItemIndex = this._editStrategy.getNormalizedIndex($itemElement);
+            var isItemSelected = this._isItemSelected(normalizedItemIndex);
 
             this._processSelectableItem($itemElement, isItemSelected);
         }
@@ -503,16 +503,17 @@ var CollectionWidget = BaseCollectionWidget.inherit({
     },
 
     _updateSelectedItems: function(args) {
-        var that = this,
-            addedItemKeys = args.addedItemKeys,
-            removedItemKeys = args.removedItemKeys;
+        var that = this;
+        var addedItemKeys = args.addedItemKeys;
+        var removedItemKeys = args.removedItemKeys;
 
         if(that._rendered && (addedItemKeys.length || removedItemKeys.length)) {
             var selectionChangePromise = that._selectionChangePromise;
             if(!that._rendering) {
-                var addedSelection = [],
-                    normalizedIndex, i,
-                    removedSelection = [];
+                var addedSelection = [];
+                var normalizedIndex;
+                var i;
+                var removedSelection = [];
 
                 that._editStrategy.beginCache();
 
@@ -633,16 +634,15 @@ var CollectionWidget = BaseCollectionWidget.inherit({
 
         $itemElement.data(ITEM_DELETING_DATA_KEY, true);
 
-        var deferred = new Deferred(),
-            deletingActionArgs = { cancel: false },
-            deletePromise = this._itemEventHandler($itemElement, "onItemDeleting", deletingActionArgs, { excludeValidators: ["disabled", "readOnly"] });
+        var deferred = new Deferred();
+        var deletingActionArgs = { cancel: false };
+        var deletePromise = this._itemEventHandler($itemElement, "onItemDeleting", deletingActionArgs, { excludeValidators: ["disabled", "readOnly"] });
 
         when(deletePromise).always((function(value) {
-            var deletePromiseExists = !deletePromise,
-                deletePromiseResolved = !deletePromiseExists && deletePromise.state() === "resolved",
-                argumentsSpecified = !!arguments.length,
-
-                shouldDelete = deletePromiseExists || deletePromiseResolved && !argumentsSpecified || deletePromiseResolved && value;
+            var deletePromiseExists = !deletePromise;
+            var deletePromiseResolved = !deletePromiseExists && deletePromise.state() === "resolved";
+            var argumentsSpecified = !!arguments.length;
+            var shouldDelete = deletePromiseExists || deletePromiseResolved && !argumentsSpecified || deletePromiseResolved && value;
 
             when(deferredUtils.fromPromise(deletingActionArgs.cancel))
                 .always(function() {
@@ -662,9 +662,9 @@ var CollectionWidget = BaseCollectionWidget.inherit({
             return new Deferred().resolve().promise();
         }
 
-        var deferred = new Deferred(),
-            disabledState = this.option("disabled"),
-            dataStore = this._dataSource.store();
+        var deferred = new Deferred();
+        var disabledState = this.option("disabled");
+        var dataStore = this._dataSource.store();
 
         this.option("disabled", true);
 
@@ -825,12 +825,11 @@ var CollectionWidget = BaseCollectionWidget.inherit({
     * @hidden
     */
     deleteItem: function(itemElement) {
-        var that = this,
-
-            deferred = new Deferred(),
-            $item = this._editStrategy.getItemElement(itemElement),
-            index = this._editStrategy.getNormalizedIndex(itemElement),
-            itemResponseWaitClass = this._itemResponseWaitClass();
+        var that = this;
+        var deferred = new Deferred();
+        var $item = this._editStrategy.getItemElement(itemElement);
+        var index = this._editStrategy.getNormalizedIndex(itemElement);
+        var itemResponseWaitClass = this._itemResponseWaitClass();
 
         if(indexExists(index)) {
             this._waitDeletingPrepare($item).done(function() {
@@ -865,17 +864,14 @@ var CollectionWidget = BaseCollectionWidget.inherit({
     * @hidden
     */
     reorderItem: function(itemElement, toItemElement) {
-        var deferred = new Deferred(),
-
-            that = this,
-            strategy = this._editStrategy,
-
-            $movingItem = strategy.getItemElement(itemElement),
-            $destinationItem = strategy.getItemElement(toItemElement),
-            movingIndex = strategy.getNormalizedIndex(itemElement),
-            destinationIndex = strategy.getNormalizedIndex(toItemElement),
-
-            changingOption = this._dataSource ? "dataSource" : "items";
+        var deferred = new Deferred();
+        var that = this;
+        var strategy = this._editStrategy;
+        var $movingItem = strategy.getItemElement(itemElement);
+        var $destinationItem = strategy.getItemElement(toItemElement);
+        var movingIndex = strategy.getNormalizedIndex(itemElement);
+        var destinationIndex = strategy.getNormalizedIndex(toItemElement);
+        var changingOption = this._dataSource ? "dataSource" : "items";
 
         var canMoveItems = indexExists(movingIndex) && indexExists(destinationIndex) && movingIndex !== destinationIndex;
         if(canMoveItems) {

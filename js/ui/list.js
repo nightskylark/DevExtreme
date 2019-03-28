@@ -1,5 +1,5 @@
-var ListEdit = require("./list/ui.list.edit.search"),
-    registerComponent = require("../core/component_registrator");
+var ListEdit = require("./list/ui.list.edit.search");
+var registerComponent = require("../core/component_registrator");
 /**
 * @name dxList
 * @inherits CollectionWidget, SearchBoxMixin

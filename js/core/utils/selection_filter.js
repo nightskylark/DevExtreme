@@ -1,6 +1,6 @@
-var getKeyHash = require("./common").getKeyHash,
-    equalByValue = require("./common").equalByValue,
-    typeUtils = require("./type");
+var getKeyHash = require("./common").getKeyHash;
+var equalByValue = require("./common").equalByValue;
+var typeUtils = require("./type");
 
 var SelectionFilterCreator = function(selectedItemKeys, isSelectAll) {
 
@@ -42,8 +42,8 @@ var SelectionFilterCreator = function(selectedItemKeys, isSelectAll) {
     };
 
     this.getCombinedFilter = function(keyExpr, dataSourceFilter) {
-        var filterExpr = this.getExpr(keyExpr),
-            combinedFilter = filterExpr;
+        var filterExpr = this.getExpr(keyExpr);
+        var combinedFilter = filterExpr;
 
         if(isSelectAll && dataSourceFilter) {
             if(filterExpr) {
@@ -75,9 +75,9 @@ var SelectionFilterCreator = function(selectedItemKeys, isSelectAll) {
     };
 
     var functionFilter = function(equalKeys, keyOf, equalByReference, keyExpr, item) {
-        var key = keyOf(item),
-            keyHash,
-            i;
+        var key = keyOf(item);
+        var keyHash;
+        var i;
 
         if(!equalByReference) {
             keyHash = getKeyHash(key);
@@ -109,9 +109,9 @@ var SelectionFilterCreator = function(selectedItemKeys, isSelectAll) {
         var filterExpr = [];
 
         for(var i = 0, length = keyExpr.length; i < length; i++) {
-            var currentKeyExpr = keyExpr[i],
-                currentKeyValue = itemKeyValue && itemKeyValue[currentKeyExpr],
-                filterExprPart = getFilterForPlainKey(currentKeyExpr, currentKeyValue);
+            var currentKeyExpr = keyExpr[i];
+            var currentKeyValue = itemKeyValue && itemKeyValue[currentKeyExpr];
+            var filterExprPart = getFilterForPlainKey(currentKeyExpr, currentKeyValue);
 
             if(!filterExprPart) {
                 break;

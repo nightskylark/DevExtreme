@@ -1,5 +1,5 @@
-var errorUtils = require("../../core/utils/error"),
-    errors = require("../../core/errors");
+var errorUtils = require("../../core/utils/error");
+var errors = require("../../core/errors");
 /**
 * @docid
 * @name ErrorsViz

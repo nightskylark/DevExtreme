@@ -1,24 +1,23 @@
-var $ = require("../core/renderer"),
-    window = require("../core/utils/window").getWindow(),
-    noop = require("../core/utils/common").noop,
-    messageLocalization = require("../localization/message"),
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    Button = require("./button"),
-    CollectionWidget = require("./collection/ui.collection_widget.edit"),
-    Popup = require("./popup"),
-    Popover = require("./popover"),
-    BindableTemplate = require("./widget/bindable_template"),
-    Deferred = require("../core/utils/deferred").Deferred;
-
-var ACTION_SHEET_CLASS = "dx-actionsheet",
-    ACTION_SHEET_CONTAINER_CLASS = "dx-actionsheet-container",
-    ACTION_SHEET_POPUP_WRAPPER_CLASS = "dx-actionsheet-popup-wrapper",
-    ACTION_SHEET_POPOVER_WRAPPER_CLASS = "dx-actionsheet-popover-wrapper",
-    ACTION_SHEET_CANCEL_BUTTON_CLASS = "dx-actionsheet-cancel",
-    ACTION_SHEET_ITEM_CLASS = "dx-actionsheet-item",
-    ACTION_SHEET_ITEM_DATA_KEY = "dxActionSheetItemData",
-    ACTION_SHEET_WITHOUT_TITLE_CLASS = "dx-actionsheet-without-title";
+var $ = require("../core/renderer");
+var window = require("../core/utils/window").getWindow();
+var noop = require("../core/utils/common").noop;
+var messageLocalization = require("../localization/message");
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var Button = require("./button");
+var CollectionWidget = require("./collection/ui.collection_widget.edit");
+var Popup = require("./popup");
+var Popover = require("./popover");
+var BindableTemplate = require("./widget/bindable_template");
+var Deferred = require("../core/utils/deferred").Deferred;
+var ACTION_SHEET_CLASS = "dx-actionsheet";
+var ACTION_SHEET_CONTAINER_CLASS = "dx-actionsheet-container";
+var ACTION_SHEET_POPUP_WRAPPER_CLASS = "dx-actionsheet-popup-wrapper";
+var ACTION_SHEET_POPOVER_WRAPPER_CLASS = "dx-actionsheet-popover-wrapper";
+var ACTION_SHEET_CANCEL_BUTTON_CLASS = "dx-actionsheet-cancel";
+var ACTION_SHEET_ITEM_CLASS = "dx-actionsheet-item";
+var ACTION_SHEET_ITEM_DATA_KEY = "dxActionSheetItemData";
+var ACTION_SHEET_WITHOUT_TITLE_CLASS = "dx-actionsheet-without-title";
 
 
 /**
@@ -390,8 +389,8 @@ var ActionSheet = CollectionWidget.inherit({
         }
 
         if(this.option("showCancelButton")) {
-            var cancelClickAction = this._createActionByOption("onCancelClick") || noop,
-                that = this;
+            var cancelClickAction = this._createActionByOption("onCancelClick") || noop;
+            var that = this;
 
             this._$cancelButton = $("<div>").addClass(ACTION_SHEET_CANCEL_BUTTON_CLASS)
                 .appendTo(this._popup && this._popup.$content());
@@ -465,8 +464,8 @@ var ActionSheet = CollectionWidget.inherit({
     * @return Promise<void>
     */
     toggle: function(showing) {
-        var that = this,
-            d = new Deferred();
+        var that = this;
+        var d = new Deferred();
 
         that._popup.toggle(showing).done(function() {
             that.option("visible", showing);

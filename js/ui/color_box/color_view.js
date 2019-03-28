@@ -1,143 +1,144 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    translator = require("../../animation/translator"),
-    extend = require("../../core/utils/extend").extend,
-    Color = require("../../color"),
-    messageLocalization = require("../../localization/message"),
-    devices = require("../../core/devices"),
-    registerComponent = require("../../core/component_registrator"),
-    Editor = require("../editor/editor"),
-    NumberBox = require("../number_box"),
-    TextBox = require("../text_box"),
-    Draggable = require("../draggable"),
-    clickEvent = require("../../events/click");
-
-var COLOR_VIEW_CLASS = "dx-colorview",
-    COLOR_VIEW_CONTAINER_CLASS = "dx-colorview-container",
-
-    COLOR_VIEW_ROW_CLASS = "dx-colorview-container-row",
-    COLOR_VIEW_CELL_CLASS = "dx-colorview-container-cell",
-
-    COLOR_VIEW_PALETTE_CLASS = "dx-colorview-palette",
-    COLOR_VIEW_PALETTE_CELL_CLASS = "dx-colorview-palette-cell",
-    COLOR_VIEW_PALETTE_HANDLE_CLASS = "dx-colorview-palette-handle",
-    COLOR_VIEW_PALETTE_GRADIENT_CLASS = "dx-colorview-palette-gradient",
-    COLOR_VIEW_PALETTE_GRADIENT_WHITE_CLASS = "dx-colorview-palette-gradient-white",
-    COLOR_VIEW_PALETTE_GRADIENT_BLACK_CLASS = "dx-colorview-palette-gradient-black",
-
-    COLOR_VIEW_HUE_SCALE_CLASS = "dx-colorview-hue-scale",
-    COLOR_VIEW_HUE_SCALE_CELL_CLASS = "dx-colorview-hue-scale-cell",
-    COLOR_VIEW_HUE_SCALE_HANDLE_CLASS = "dx-colorview-hue-scale-handle",
-    COLOR_VIEW_HUE_SCALE_WRAPPER_CLASS = "dx-colorview-hue-scale-wrapper",
-
-    COLOR_VIEW_CONTROLS_CONTAINER_CLASS = "dx-colorview-controls-container",
-
-    COLOR_VIEW_RED_LABEL_CLASS = "dx-colorview-label-red",
-    COLOR_VIEW_GREEN_LABEL_CLASS = "dx-colorview-label-green",
-    COLOR_VIEW_BLUE_LABEL_CLASS = "dx-colorview-label-blue",
-    COLOR_VIEW_HEX_LABEL_CLASS = "dx-colorview-label-hex",
-
-    COLOR_VIEW_ALPHA_CHANNEL_SCALE_CLASS = "dx-colorview-alpha-channel-scale",
-    COLOR_VIEW_APLHA_CHANNEL_ROW_CLASS = "dx-colorview-alpha-channel-row",
-    COLOR_VIEW_ALPHA_CHANNEL_SCALE_WRAPPER_CLASS = "dx-colorview-alpha-channel-wrapper",
-    COLOR_VIEW_ALPHA_CHANNEL_LABEL_CLASS = "dx-colorview-alpha-channel-label",
-    COLOR_VIEW_ALPHA_CHANNEL_HANDLE_CLASS = "dx-colorview-alpha-channel-handle",
-    COLOR_VIEW_ALPHA_CHANNEL_CELL_CLASS = "dx-colorview-alpha-channel-cell",
-    COLOR_VIEW_ALPHA_CHANNEL_BORDER_CLASS = "dx-colorview-alpha-channel-border",
-
-    COLOR_VIEW_COLOR_PREVIEW = "dx-colorview-color-preview",
-    COLOR_VIEW_COLOR_PREVIEW_CONTAINER_CLASS = "dx-colorview-color-preview-container",
-    COLOR_VIEW_COLOR_PREVIEW_CONTAINER_INNER_CLASS = "dx-colorview-color-preview-container-inner",
-    COLOR_VIEW_COLOR_PREVIEW_COLOR_CURRENT = "dx-colorview-color-preview-color-current",
-    COLOR_VIEW_COLOR_PREVIEW_COLOR_NEW = "dx-colorview-color-preview-color-new";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var translator = require("../../animation/translator");
+var extend = require("../../core/utils/extend").extend;
+var Color = require("../../color");
+var messageLocalization = require("../../localization/message");
+var devices = require("../../core/devices");
+var registerComponent = require("../../core/component_registrator");
+var Editor = require("../editor/editor");
+var NumberBox = require("../number_box");
+var TextBox = require("../text_box");
+var Draggable = require("../draggable");
+var clickEvent = require("../../events/click");
+var COLOR_VIEW_CLASS = "dx-colorview";
+var COLOR_VIEW_CONTAINER_CLASS = "dx-colorview-container";
+var COLOR_VIEW_ROW_CLASS = "dx-colorview-container-row";
+var COLOR_VIEW_CELL_CLASS = "dx-colorview-container-cell";
+var COLOR_VIEW_PALETTE_CLASS = "dx-colorview-palette";
+var COLOR_VIEW_PALETTE_CELL_CLASS = "dx-colorview-palette-cell";
+var COLOR_VIEW_PALETTE_HANDLE_CLASS = "dx-colorview-palette-handle";
+var COLOR_VIEW_PALETTE_GRADIENT_CLASS = "dx-colorview-palette-gradient";
+var COLOR_VIEW_PALETTE_GRADIENT_WHITE_CLASS = "dx-colorview-palette-gradient-white";
+var COLOR_VIEW_PALETTE_GRADIENT_BLACK_CLASS = "dx-colorview-palette-gradient-black";
+var COLOR_VIEW_HUE_SCALE_CLASS = "dx-colorview-hue-scale";
+var COLOR_VIEW_HUE_SCALE_CELL_CLASS = "dx-colorview-hue-scale-cell";
+var COLOR_VIEW_HUE_SCALE_HANDLE_CLASS = "dx-colorview-hue-scale-handle";
+var COLOR_VIEW_HUE_SCALE_WRAPPER_CLASS = "dx-colorview-hue-scale-wrapper";
+var COLOR_VIEW_CONTROLS_CONTAINER_CLASS = "dx-colorview-controls-container";
+var COLOR_VIEW_RED_LABEL_CLASS = "dx-colorview-label-red";
+var COLOR_VIEW_GREEN_LABEL_CLASS = "dx-colorview-label-green";
+var COLOR_VIEW_BLUE_LABEL_CLASS = "dx-colorview-label-blue";
+var COLOR_VIEW_HEX_LABEL_CLASS = "dx-colorview-label-hex";
+var COLOR_VIEW_ALPHA_CHANNEL_SCALE_CLASS = "dx-colorview-alpha-channel-scale";
+var COLOR_VIEW_APLHA_CHANNEL_ROW_CLASS = "dx-colorview-alpha-channel-row";
+var COLOR_VIEW_ALPHA_CHANNEL_SCALE_WRAPPER_CLASS = "dx-colorview-alpha-channel-wrapper";
+var COLOR_VIEW_ALPHA_CHANNEL_LABEL_CLASS = "dx-colorview-alpha-channel-label";
+var COLOR_VIEW_ALPHA_CHANNEL_HANDLE_CLASS = "dx-colorview-alpha-channel-handle";
+var COLOR_VIEW_ALPHA_CHANNEL_CELL_CLASS = "dx-colorview-alpha-channel-cell";
+var COLOR_VIEW_ALPHA_CHANNEL_BORDER_CLASS = "dx-colorview-alpha-channel-border";
+var COLOR_VIEW_COLOR_PREVIEW = "dx-colorview-color-preview";
+var COLOR_VIEW_COLOR_PREVIEW_CONTAINER_CLASS = "dx-colorview-color-preview-container";
+var COLOR_VIEW_COLOR_PREVIEW_CONTAINER_INNER_CLASS = "dx-colorview-color-preview-container-inner";
+var COLOR_VIEW_COLOR_PREVIEW_COLOR_CURRENT = "dx-colorview-color-preview-color-current";
+var COLOR_VIEW_COLOR_PREVIEW_COLOR_NEW = "dx-colorview-color-preview-color-new";
 
 var ColorView = Editor.inherit({
 
     _supportedKeys: function() {
         var isRTL = this.option("rtlEnabled");
 
-        var that = this,
-            getHorizontalPaletteStep = function(e) {
-                var step = 100 / that._paletteWidth;
-                if(e.shiftKey) {
-                    step = step * that.option("keyStep");
-                }
+        var that = this;
 
-                step = step > 1 ? step : 1;
-                return Math.round(step);
-            },
-            updateHorizontalPaletteValue = function(step) {
-                var value = that._currentColor.hsv.s + step;
+        var getHorizontalPaletteStep = function(e) {
+            var step = 100 / that._paletteWidth;
+            if(e.shiftKey) {
+                step = step * that.option("keyStep");
+            }
 
-                if(value > 100) {
-                    value = 100;
-                } else if(value < 0) {
-                    value = 0;
-                }
+            step = step > 1 ? step : 1;
+            return Math.round(step);
+        };
 
-                that._currentColor.hsv.s = value;
-                updatePaletteValue();
-            },
-            getVerticalPaletteStep = function(e) {
-                var step = 100 / that._paletteHeight;
-                if(e.shiftKey) {
-                    step = step * that.option("keyStep");
-                }
+        var updateHorizontalPaletteValue = function(step) {
+            var value = that._currentColor.hsv.s + step;
 
-                step = step > 1 ? step : 1;
-                return Math.round(step);
-            },
-            updateVerticalPaletteValue = function(step) {
-                var value = that._currentColor.hsv.v + step;
+            if(value > 100) {
+                value = 100;
+            } else if(value < 0) {
+                value = 0;
+            }
 
-                if(value > 100) {
-                    value = 100;
-                } else if(value < 0) {
-                    value = 0;
-                }
+            that._currentColor.hsv.s = value;
+            updatePaletteValue();
+        };
 
-                that._currentColor.hsv.v = value;
-                updatePaletteValue();
-            },
-            updatePaletteValue = function() {
-                that._placePaletteHandle();
-                that._updateColorFromHsv(
-                    that._currentColor.hsv.h,
-                    that._currentColor.hsv.s,
-                    that._currentColor.hsv.v
-                );
-            },
-            getHueScaleStep = function(e) {
-                var step = 360 / (that._hueScaleWrapperHeight - that._hueScaleHandleHeight);
-                if(e.shiftKey) {
-                    step = step * that.option("keyStep");
-                }
+        var getVerticalPaletteStep = function(e) {
+            var step = 100 / that._paletteHeight;
+            if(e.shiftKey) {
+                step = step * that.option("keyStep");
+            }
 
-                step = step > 1 ? step : 1;
-                return step;
-            },
-            updateHueScaleValue = function(step) {
-                that._currentColor.hsv.h += step;
-                that._placeHueScaleHandle();
-                var handleLocation = translator.locate(that._$hueScaleHandle);
-                that._updateColorHue(handleLocation.top + that._hueScaleHandleHeight / 2);
-            },
-            getAlphaScaleStep = function(e) {
-                var step = 1 / (that._alphaChannelScaleWorkWidth);
-                if(e.shiftKey) {
-                    step = step * that.option("keyStep");
-                }
+            step = step > 1 ? step : 1;
+            return Math.round(step);
+        };
 
-                step = step > 0.01 ? step : 0.01;
-                step = isRTL ? -step : step;
-                return step;
-            },
-            updateAlphaScaleValue = function(step) {
-                that._currentColor.a += step;
-                that._placeAlphaChannelHandle();
-                var handleLocation = translator.locate(that._$alphaChannelHandle);
-                that._calculateColorTransparencyByScaleWidth(handleLocation.left + that._alphaChannelHandleWidth / 2);
-            };
+        var updateVerticalPaletteValue = function(step) {
+            var value = that._currentColor.hsv.v + step;
+
+            if(value > 100) {
+                value = 100;
+            } else if(value < 0) {
+                value = 0;
+            }
+
+            that._currentColor.hsv.v = value;
+            updatePaletteValue();
+        };
+
+        var updatePaletteValue = function() {
+            that._placePaletteHandle();
+            that._updateColorFromHsv(
+                that._currentColor.hsv.h,
+                that._currentColor.hsv.s,
+                that._currentColor.hsv.v
+            );
+        };
+
+        var getHueScaleStep = function(e) {
+            var step = 360 / (that._hueScaleWrapperHeight - that._hueScaleHandleHeight);
+            if(e.shiftKey) {
+                step = step * that.option("keyStep");
+            }
+
+            step = step > 1 ? step : 1;
+            return step;
+        };
+
+        var updateHueScaleValue = function(step) {
+            that._currentColor.hsv.h += step;
+            that._placeHueScaleHandle();
+            var handleLocation = translator.locate(that._$hueScaleHandle);
+            that._updateColorHue(handleLocation.top + that._hueScaleHandleHeight / 2);
+        };
+
+        var getAlphaScaleStep = function(e) {
+            var step = 1 / (that._alphaChannelScaleWorkWidth);
+            if(e.shiftKey) {
+                step = step * that.option("keyStep");
+            }
+
+            step = step > 0.01 ? step : 0.01;
+            step = isRTL ? -step : step;
+            return step;
+        };
+
+        var updateAlphaScaleValue = function(step) {
+            that._currentColor.a += step;
+            that._placeAlphaChannelHandle();
+            var handleLocation = translator.locate(that._$alphaChannelHandle);
+            that._calculateColorTransparencyByScaleWidth(handleLocation.left + that._alphaChannelHandleWidth / 2);
+        };
 
         return extend(this.callBase(), {
             upArrow: function(e) {
@@ -313,18 +314,18 @@ var ColorView = Editor.inherit({
     },
 
     _renderHtmlRows: function(updatedOption) {
-        var $renderedRows = this._$colorPickerContainer.find("." + COLOR_VIEW_ROW_CLASS),
-            renderedRowsCount = $renderedRows.length,
-            rowCount = this.option("editAlphaChannel") ? 2 : 1,
-            delta = renderedRowsCount - rowCount;
+        var $renderedRows = this._$colorPickerContainer.find("." + COLOR_VIEW_ROW_CLASS);
+        var renderedRowsCount = $renderedRows.length;
+        var rowCount = this.option("editAlphaChannel") ? 2 : 1;
+        var delta = renderedRowsCount - rowCount;
 
         if(delta > 0) {
             $renderedRows.eq(-1).remove();
         }
         if(delta < 0) {
             delta = Math.abs(delta);
-            var rows = [],
-                i;
+            var rows = [];
+            var i;
             for(i = 0; i < delta; i++) {
                 rows.push($("<div>").addClass(COLOR_VIEW_ROW_CLASS));
             }
@@ -347,9 +348,9 @@ var ColorView = Editor.inherit({
     },
 
     _renderPalette: function() {
-        var $paletteCell = this._renderHtmlCellInsideRow(0, this._$colorPickerContainer, COLOR_VIEW_PALETTE_CELL_CLASS),
-            $paletteGradientWhite = $("<div>").addClass([COLOR_VIEW_PALETTE_GRADIENT_CLASS, COLOR_VIEW_PALETTE_GRADIENT_WHITE_CLASS].join(" ")),
-            $paletteGradientBlack = $("<div>").addClass([COLOR_VIEW_PALETTE_GRADIENT_CLASS, COLOR_VIEW_PALETTE_GRADIENT_BLACK_CLASS].join(" "));
+        var $paletteCell = this._renderHtmlCellInsideRow(0, this._$colorPickerContainer, COLOR_VIEW_PALETTE_CELL_CLASS);
+        var $paletteGradientWhite = $("<div>").addClass([COLOR_VIEW_PALETTE_GRADIENT_CLASS, COLOR_VIEW_PALETTE_GRADIENT_WHITE_CLASS].join(" "));
+        var $paletteGradientBlack = $("<div>").addClass([COLOR_VIEW_PALETTE_GRADIENT_CLASS, COLOR_VIEW_PALETTE_GRADIENT_BLACK_CLASS].join(" "));
 
         this._$palette = $("<div>")
             .addClass(COLOR_VIEW_PALETTE_CLASS)
@@ -452,9 +453,9 @@ var ColorView = Editor.inherit({
     },
 
     _placeHueScaleHandle: function() {
-        var hueScaleHeight = this._hueScaleWrapperHeight,
-            handleHeight = this._hueScaleHandleHeight,
-            top = (hueScaleHeight - handleHeight) * (360 - this._currentColor.hsv.h) / 360;
+        var hueScaleHeight = this._hueScaleWrapperHeight;
+        var handleHeight = this._hueScaleHandleHeight;
+        var top = (hueScaleHeight - handleHeight) * (360 - this._currentColor.hsv.h) / 360;
 
         if(hueScaleHeight < top + handleHeight) {
             top = hueScaleHeight - handleHeight;
@@ -467,9 +468,9 @@ var ColorView = Editor.inherit({
     },
 
     _updateColorHue: function(handlePosition) {
-        var hue = 360 - Math.round((handlePosition - this._hueScaleHandleHeight / 2) * 360 / (this._hueScaleWrapperHeight - this._hueScaleHandleHeight)),
-            saturation = this._currentColor.hsv.s,
-            value = this._currentColor.hsv.v;
+        var hue = 360 - Math.round((handlePosition - this._hueScaleHandleHeight / 2) * 360 / (this._hueScaleWrapperHeight - this._hueScaleHandleHeight));
+        var saturation = this._currentColor.hsv.s;
+        var value = this._currentColor.hsv.v;
 
         this._isTopColorHue = false;
 
@@ -622,13 +623,15 @@ var ColorView = Editor.inherit({
     },
 
     _renderAlphaChannelScale: function() {
-        var $alphaChannelScaleCell = this._renderHtmlCellInsideRow(1, this._$colorPickerContainer, COLOR_VIEW_ALPHA_CHANNEL_CELL_CLASS),
-            $alphaChannelBorder = $("<div>")
-                .addClass(COLOR_VIEW_ALPHA_CHANNEL_BORDER_CLASS)
-                .appendTo($alphaChannelScaleCell),
-            $alphaChannelScaleWrapper = $("<div>")
-                .addClass(COLOR_VIEW_ALPHA_CHANNEL_SCALE_WRAPPER_CLASS)
-                .appendTo($alphaChannelBorder);
+        var $alphaChannelScaleCell = this._renderHtmlCellInsideRow(1, this._$colorPickerContainer, COLOR_VIEW_ALPHA_CHANNEL_CELL_CLASS);
+
+        var $alphaChannelBorder = $("<div>")
+            .addClass(COLOR_VIEW_ALPHA_CHANNEL_BORDER_CLASS)
+            .appendTo($alphaChannelScaleCell);
+
+        var $alphaChannelScaleWrapper = $("<div>")
+            .addClass(COLOR_VIEW_ALPHA_CHANNEL_SCALE_WRAPPER_CLASS)
+            .appendTo($alphaChannelBorder);
 
         this._$alphaChannelScale = $("<div>").addClass(COLOR_VIEW_ALPHA_CHANNEL_SCALE_CLASS)
             .appendTo($alphaChannelScaleWrapper);
@@ -639,16 +642,16 @@ var ColorView = Editor.inherit({
     },
 
     _makeCSSLinearGradient: function($el) {
-        var color = this._currentColor,
-            colorAsRgb = [color.r, color.g, color.b].join(","),
-            colorAsHex = color.toHex().replace("#", "");
+        var color = this._currentColor;
+        var colorAsRgb = [color.r, color.g, color.b].join(",");
+        var colorAsHex = color.toHex().replace("#", "");
 
         var combineGradientString = function(colorAsRgb, colorAsHex) {
-            var rtlEnabled = this.option("rtlEnabled"),
-                startColor = "rgba(" + colorAsRgb + ", " + (rtlEnabled ? "1" : "0") + ")",
-                finishColor = "rgba(" + colorAsRgb + ", " + (rtlEnabled ? "0" : "1") + ")",
-                startColorIE = "'#" + (rtlEnabled ? "00" : "") + colorAsHex + "'",
-                finishColorIE = "'#" + (rtlEnabled ? "" : "00") + colorAsHex + "'";
+            var rtlEnabled = this.option("rtlEnabled");
+            var startColor = "rgba(" + colorAsRgb + ", " + (rtlEnabled ? "1" : "0") + ")";
+            var finishColor = "rgba(" + colorAsRgb + ", " + (rtlEnabled ? "0" : "1") + ")";
+            var startColorIE = "'#" + (rtlEnabled ? "00" : "") + colorAsHex + "'";
+            var finishColorIE = "'#" + (rtlEnabled ? "" : "00") + colorAsHex + "'";
 
             return [
                 "background-image: -webkit-linear-gradient(180deg, " + startColor + ", " + finishColor + ")",
@@ -663,8 +666,8 @@ var ColorView = Editor.inherit({
     },
 
     _renderAlphaChannelInput: function() {
-        var that = this,
-            $alphaChannelInputCell = this._renderHtmlCellInsideRow(1, this._$colorPickerContainer);
+        var that = this;
+        var $alphaChannelInputCell = this._renderHtmlCellInsideRow(1, this._$colorPickerContainer);
 
         that._alphaChannelInput = this._renderEditorWithLabel({
             editorType: NumberBox,
@@ -701,8 +704,8 @@ var ColorView = Editor.inherit({
             direction: "horizontal",
             onDrag: (function() {
                 this._updateByDrag = true;
-                var $alphaChannelHandle = this._$alphaChannelHandle,
-                    alphaChannelHandlePosition = translator.locate($alphaChannelHandle).left + this._alphaChannelHandleWidth / 2;
+                var $alphaChannelHandle = this._$alphaChannelHandle;
+                var alphaChannelHandlePosition = translator.locate($alphaChannelHandle).left + this._alphaChannelHandleWidth / 2;
 
                 this._calculateColorTransparencyByScaleWidth(alphaChannelHandlePosition);
             }).bind(this)
@@ -716,8 +719,8 @@ var ColorView = Editor.inherit({
     },
 
     _calculateColorTransparencyByScaleWidth: function(handlePosition) {
-        var transparency = (handlePosition - this._alphaChannelHandleWidth / 2) / (this._alphaChannelScaleWorkWidth),
-            rtlEnabled = this.option("rtlEnabled");
+        var transparency = (handlePosition - this._alphaChannelHandleWidth / 2) / (this._alphaChannelScaleWorkWidth);
+        var rtlEnabled = this.option("rtlEnabled");
 
         transparency = rtlEnabled ? transparency : 1 - transparency;
 
@@ -760,7 +763,8 @@ var ColorView = Editor.inherit({
     },
 
     _updateColor: function(isHex, e) {
-        var rgba, newColor;
+        var rgba;
+        var newColor;
 
         if(isHex) {
             newColor = this._validateHex("#" + this._hexInput.option("value"));
@@ -786,9 +790,9 @@ var ColorView = Editor.inherit({
     },
 
     _validateRgb: function() {
-        var r = this._rgbInputs[0].option("value"),
-            g = this._rgbInputs[1].option("value"),
-            b = this._rgbInputs[2].option("value");
+        var r = this._rgbInputs[0].option("value");
+        var g = this._rgbInputs[1].option("value");
+        var b = this._rgbInputs[2].option("value");
 
         if(!this._currentColor.isValidRGB(r, g, b)) {
             r = this._currentColor.r;

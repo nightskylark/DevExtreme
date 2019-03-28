@@ -1,8 +1,8 @@
-var registerComponent = require("../../../core/component_registrator"),
-    dateUtils = require("../../../core/utils/date"),
-    toMs = dateUtils.dateToMilliseconds,
-    SchedulerWorkSpaceWeek = require("./ui.scheduler.work_space_week"),
-    dateLocalization = require("../../../localization/date");
+var registerComponent = require("../../../core/component_registrator");
+var dateUtils = require("../../../core/utils/date");
+var toMs = dateUtils.dateToMilliseconds;
+var SchedulerWorkSpaceWeek = require("./ui.scheduler.work_space_week");
+var dateLocalization = require("../../../localization/date");
 
 var WORK_WEEK_CLASS = "dx-scheduler-work-space-work-week";
 
@@ -61,8 +61,8 @@ var SchedulerWorkSpaceWorkWeek = SchedulerWorkSpaceWeek.inherit({
     },
 
     _getOffsetByCount: function(cellIndex) {
-        var cellsInGroup = this._getCellCount(),
-            inGroup = Math.floor(cellIndex / cellsInGroup);
+        var cellsInGroup = this._getCellCount();
+        var inGroup = Math.floor(cellIndex / cellsInGroup);
 
         cellIndex = cellIndex - cellsInGroup * inGroup;
 

@@ -11,38 +11,42 @@ import messageLocalization from "../../localization/message";
 import { DataSource } from "../../data/data_source/data_source";
 import filterOperationsDictionary from "./ui.filter_operations_dictionary";
 
-var DEFAULT_DATA_TYPE = "string",
-    EMPTY_MENU_ICON = "icon-none",
-    AND_GROUP_OPERATION = "and",
-    EQUAL_OPERATION = "=",
-    NOT_EQUAL_OPERATION = "<>",
-    DATATYPE_OPERATIONS = {
-        "number": ["=", "<>", "<", ">", "<=", ">=", "isblank", "isnotblank"],
-        "string": ["contains", "notcontains", "startswith", "endswith", "=", "<>", "isblank", "isnotblank"],
-        "date": ["=", "<>", "<", ">", "<=", ">=", "isblank", "isnotblank"],
-        "datetime": ["=", "<>", "<", ">", "<=", ">=", "isblank", "isnotblank"],
-        "boolean": ["=", "<>", "isblank", "isnotblank"],
-        "object": ["isblank", "isnotblank"]
-    },
-    DEFAULT_FORMAT = {
-        "date": "shortDate",
-        "datetime": "shortDateShortTime"
-    },
-    LOOKUP_OPERATIONS = ["=", "<>", "isblank", "isnotblank"],
-    AVAILABLE_FIELD_PROPERTIES = [
-        "caption",
-        "customizeText",
-        "dataField",
-        "dataType",
-        "editorTemplate",
-        "falseText",
-        "editorOptions",
-        "filterOperations",
-        "format",
-        "lookup",
-        "trueText",
-        "calculateFilterExpression"
-    ];
+var DEFAULT_DATA_TYPE = "string";
+var EMPTY_MENU_ICON = "icon-none";
+var AND_GROUP_OPERATION = "and";
+var EQUAL_OPERATION = "=";
+var NOT_EQUAL_OPERATION = "<>";
+
+var DATATYPE_OPERATIONS = {
+    "number": ["=", "<>", "<", ">", "<=", ">=", "isblank", "isnotblank"],
+    "string": ["contains", "notcontains", "startswith", "endswith", "=", "<>", "isblank", "isnotblank"],
+    "date": ["=", "<>", "<", ">", "<=", ">=", "isblank", "isnotblank"],
+    "datetime": ["=", "<>", "<", ">", "<=", ">=", "isblank", "isnotblank"],
+    "boolean": ["=", "<>", "isblank", "isnotblank"],
+    "object": ["isblank", "isnotblank"]
+};
+
+var DEFAULT_FORMAT = {
+    "date": "shortDate",
+    "datetime": "shortDateShortTime"
+};
+
+var LOOKUP_OPERATIONS = ["=", "<>", "isblank", "isnotblank"];
+
+var AVAILABLE_FIELD_PROPERTIES = [
+    "caption",
+    "customizeText",
+    "dataField",
+    "dataType",
+    "editorTemplate",
+    "falseText",
+    "editorOptions",
+    "filterOperations",
+    "format",
+    "lookup",
+    "trueText",
+    "calculateFilterExpression"
+];
 
 function getFormattedValueText(field, value) {
     var fieldFormat = field.format || DEFAULT_FORMAT[field.dataType];
@@ -72,17 +76,19 @@ function setGroupCriteria(group, criteria) {
 function convertGroupToNewStructure(group, value) {
     var isNegationValue = function(value) {
             return value.indexOf("!") !== -1;
-        },
-        convertGroupToNegationGroup = function(group) {
-            var criteria = group.slice(0);
-            group.length = 0;
-            group.push("!", criteria);
-        },
-        convertNegationGroupToGroup = function(group) {
-            var criteria = getGroupCriteria(group);
-            group.length = 0;
-            [].push.apply(group, criteria);
         };
+
+    var convertGroupToNegationGroup = function(group) {
+        var criteria = group.slice(0);
+        group.length = 0;
+        group.push("!", criteria);
+    };
+
+    var convertNegationGroupToGroup = function(group) {
+        var criteria = getGroupCriteria(group);
+        group.length = 0;
+        [].push.apply(group, criteria);
+    };
 
     if(isNegationValue(value)) {
         if(!isNegationGroup(group)) {
@@ -96,18 +102,20 @@ function convertGroupToNewStructure(group, value) {
 function setGroupValue(group, value) {
     convertGroupToNewStructure(group, value);
 
-    var criteria = getGroupCriteria(group),
-        i,
-        getNormalizedGroupValue = function(value) {
-            return value.indexOf("!") === -1 ? value : value.substring(1);
-        },
-        changeCriteriaValue = function(criteria, value) {
-            for(i = 0; i < criteria.length; i++) {
-                if(!Array.isArray(criteria[i])) {
-                    criteria[i] = value;
-                }
+    var criteria = getGroupCriteria(group);
+    var i;
+
+    var getNormalizedGroupValue = function(value) {
+        return value.indexOf("!") === -1 ? value : value.substring(1);
+    };
+
+    var changeCriteriaValue = function(criteria, value) {
+        for(i = 0; i < criteria.length; i++) {
+            if(!Array.isArray(criteria[i])) {
+                criteria[i] = value;
             }
-        };
+        }
+    };
 
     value = getNormalizedGroupValue(value);
     changeCriteriaValue(criteria, value);
@@ -144,8 +152,8 @@ function getCriteriaOperation(criteria) {
 }
 
 function getGroupValue(group) {
-    var criteria = getGroupCriteria(group),
-        value = getCriteriaOperation(criteria);
+    var criteria = getGroupCriteria(group);
+    var value = getCriteriaOperation(criteria);
 
     if(!value) {
         value = AND_GROUP_OPERATION;
@@ -226,8 +234,8 @@ function getDefaultOperation(field) {
 }
 
 function createCondition(field, customOperations) {
-    var condition = [field.dataField, "", ""],
-        filterOperation = getDefaultOperation(field);
+    var condition = [field.dataField, "", ""];
+    var filterOperation = getDefaultOperation(field);
 
     updateConditionByOperation(condition, filterOperation, customOperations);
 
@@ -235,8 +243,8 @@ function createCondition(field, customOperations) {
 }
 
 function removeItem(group, item) {
-    var criteria = getGroupCriteria(group),
-        index = criteria.indexOf(item);
+    var criteria = getGroupCriteria(group);
+    var index = criteria.indexOf(item);
 
     criteria.splice(index, 1);
 
@@ -265,8 +273,8 @@ function isEmptyGroup(group) {
 }
 
 function addItem(item, group) {
-    var criteria = getGroupCriteria(group),
-        groupValue = getGroupValue(criteria);
+    var criteria = getGroupCriteria(group);
+    var groupValue = getGroupValue(criteria);
 
     criteria.length === 1 ? criteria.unshift(item) : criteria.push(item, groupValue);
 
@@ -305,8 +313,8 @@ function isCondition(criteria) {
 }
 
 function convertToInnerGroup(group, customOperations) {
-    var groupOperation = getCriteriaOperation(group).toLowerCase() || AND_GROUP_OPERATION,
-        innerGroup = [];
+    var groupOperation = getCriteriaOperation(group).toLowerCase() || AND_GROUP_OPERATION;
+    var innerGroup = [];
     for(var i = 0; i < group.length; i++) {
         if(isGroup(group[i])) {
             innerGroup.push(convertToInnerStructure(group[i], customOperations));
@@ -379,9 +387,9 @@ function getNormalizedFields(fields) {
 }
 
 function getConditionFilterExpression(condition, fields, customOperations, target) {
-    var field = getField(condition[0], fields),
-        filterExpression = convertToInnerCondition(condition, customOperations),
-        customOperation = customOperations.length && getCustomOperation(customOperations, filterExpression[1]);
+    var field = getField(condition[0], fields);
+    var filterExpression = convertToInnerCondition(condition, customOperations);
+    var customOperation = customOperations.length && getCustomOperation(customOperations, filterExpression[1]);
 
     if(customOperation && customOperation.calculateFilterExpression) {
         return customOperation.calculateFilterExpression.apply(customOperation, [filterExpression[2], field, target]);
@@ -405,9 +413,9 @@ function getFilterExpression(value, fields, customOperations, target) {
     if(isCondition(criteria)) {
         return getConditionFilterExpression(criteria, fields, customOperations, target) || null;
     } else {
-        let filterExpression,
-            groupValue = getGroupValue(criteria),
-            result = [];
+        let filterExpression;
+        let groupValue = getGroupValue(criteria);
+        let result = [];
 
         for(var i = 0; i < criteria.length; i++) {
             if(isGroup(criteria[i])) {
@@ -429,8 +437,8 @@ function getFilterExpression(value, fields, customOperations, target) {
 }
 
 function getNormalizedFilter(group) {
-    var criteria = getGroupCriteria(group),
-        i;
+    var criteria = getGroupCriteria(group);
+    var i;
 
     if(criteria.length === 0) {
         return null;
@@ -667,8 +675,8 @@ function isValidCondition(condition) {
 }
 
 function getMergedOperations(customOperations, betweenCaption) {
-    var result = extend(true, [], customOperations),
-        betweenIndex = -1;
+    var result = extend(true, [], customOperations);
+    var betweenIndex = -1;
     result.some(function(customOperation, index) {
         if(customOperation.name === "between") {
             betweenIndex = index;

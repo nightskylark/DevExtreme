@@ -1,64 +1,67 @@
-var DataSourceModule = require("../../data/data_source/data_source"),
-    Store = require("../../data/abstract_store"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    iteratorUtils = require("../../core/utils/iterator"),
-    isDefined = typeUtils.isDefined,
-    each = iteratorUtils.each,
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-    Class = require("../../core/class"),
-    EventsMixin = require("../../core/events_mixin"),
-    inflector = require("../../core/utils/inflector"),
-    normalizeIndexes = require("../../core/utils/array").normalizeIndexes,
-    localStore = require("./local_store"),
-    RemoteStore = require("./remote_store"),
-    xmlaStore = require("./xmla_store/xmla_store"),
-    summaryDisplayModes = require("./ui.pivot_grid.summary_display_modes"),
-    pivotGridUtils = require("./ui.pivot_grid.utils"),
-    foreachTree = pivotGridUtils.foreachTree,
-    foreachTreeAsync = pivotGridUtils.foreachTreeAsync,
-    findField = pivotGridUtils.findField,
-    formatValue = pivotGridUtils.formatValue,
-    getCompareFunction = pivotGridUtils.getCompareFunction,
-    createPath = pivotGridUtils.createPath,
-    foreachDataLevel = pivotGridUtils.foreachDataLevel,
-    setFieldProperty = pivotGridUtils.setFieldProperty,
+var DataSourceModule = require("../../data/data_source/data_source");
+var Store = require("../../data/abstract_store");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var iteratorUtils = require("../../core/utils/iterator");
+var isDefined = typeUtils.isDefined;
+var each = iteratorUtils.each;
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var Class = require("../../core/class");
+var EventsMixin = require("../../core/events_mixin");
+var inflector = require("../../core/utils/inflector");
+var normalizeIndexes = require("../../core/utils/array").normalizeIndexes;
+var localStore = require("./local_store");
+var RemoteStore = require("./remote_store");
+var xmlaStore = require("./xmla_store/xmla_store");
+var summaryDisplayModes = require("./ui.pivot_grid.summary_display_modes");
+var pivotGridUtils = require("./ui.pivot_grid.utils");
+var foreachTree = pivotGridUtils.foreachTree;
+var foreachTreeAsync = pivotGridUtils.foreachTreeAsync;
+var findField = pivotGridUtils.findField;
+var formatValue = pivotGridUtils.formatValue;
+var getCompareFunction = pivotGridUtils.getCompareFunction;
+var createPath = pivotGridUtils.createPath;
+var foreachDataLevel = pivotGridUtils.foreachDataLevel;
+var setFieldProperty = pivotGridUtils.setFieldProperty;
 
-    DESCRIPTION_NAME_BY_AREA = {
-        row: "rows",
-        column: "columns",
-        data: "values",
-        filter: "filters"
-    },
-    STATE_PROPERTIES = [
-        "area",
-        "areaIndex",
-        "sortOrder",
-        "filterType",
-        "filterValues",
-        "sortBy",
-        "sortBySummaryField",
-        "sortBySummaryPath",
-        "expanded",
-        "summaryType",
-        "summaryDisplayMode"
-    ],
-    CALCULATED_PROPERTIES = [
-        "format",
-        "selector",
-        "customizeText",
-        "caption"
-    ],
-    ALL_CALCULATED_PROPERTIES = CALCULATED_PROPERTIES
-        .concat(["allowSorting", "allowSortingBySummary", "allowFiltering", "allowExpandAll"]);
+var DESCRIPTION_NAME_BY_AREA = {
+    row: "rows",
+    column: "columns",
+    data: "values",
+    filter: "filters"
+};
+
+var STATE_PROPERTIES = [
+    "area",
+    "areaIndex",
+    "sortOrder",
+    "filterType",
+    "filterValues",
+    "sortBy",
+    "sortBySummaryField",
+    "sortBySummaryPath",
+    "expanded",
+    "summaryType",
+    "summaryDisplayMode"
+];
+
+var CALCULATED_PROPERTIES = [
+    "format",
+    "selector",
+    "customizeText",
+    "caption"
+];
+
+var ALL_CALCULATED_PROPERTIES = CALCULATED_PROPERTIES
+    .concat(["allowSorting", "allowSortingBySummary", "allowFiltering", "allowExpandAll"]);
 
 function createCaption(field) {
-    var caption = field.dataField || field.groupName || "",
-        summaryType = (field.summaryType || "").toLowerCase();
+    var caption = field.dataField || field.groupName || "";
+    var summaryType = (field.summaryType || "").toLowerCase();
 
     if(typeUtils.isString(field.groupInterval)) {
         caption += "_" + field.groupInterval;
@@ -114,9 +117,9 @@ module.exports = Class.inherit((function() {
     };
 
     var getHeaderItemsLastIndex = function(headerItems, grandTotalIndex) {
-        var i,
-            lastIndex = -1,
-            headerItem;
+        var i;
+        var lastIndex = -1;
+        var headerItem;
 
         if(headerItems) {
             for(i = 0; i < headerItems.length; i++) {
@@ -139,11 +142,11 @@ module.exports = Class.inherit((function() {
     };
 
     var updateHeaderItemChildren = function(headerItems, headerItem, children, grandTotalIndex) {
-        var applyingHeaderItemsCount = getHeaderItemsLastIndex(children) + 1,
-            emptyIndex = getHeaderItemsLastIndex(headerItems, grandTotalIndex) + 1,
-            index,
-            applyingItemIndexesToCurrent = [],
-            d = new Deferred();
+        var applyingHeaderItemsCount = getHeaderItemsLastIndex(children) + 1;
+        var emptyIndex = getHeaderItemsLastIndex(headerItems, grandTotalIndex) + 1;
+        var index;
+        var applyingItemIndexesToCurrent = [];
+        var d = new Deferred();
 
         for(index = 0; index < applyingHeaderItemsCount; index++) {
             applyingItemIndexesToCurrent[index] = emptyIndex++;
@@ -183,13 +186,13 @@ module.exports = Class.inherit((function() {
     };
 
     var updateDataSourceCells = function(dataSource, newDataSourceCells, newRowItemIndexesToCurrent, newColumnItemIndexesToCurrent) {
-        var newRowIndex,
-            newColumnIndex,
-            newRowCells,
-            newCell,
-            rowIndex,
-            columnIndex,
-            dataSourceCells = dataSource.values;
+        var newRowIndex;
+        var newColumnIndex;
+        var newRowCells;
+        var newCell;
+        var rowIndex;
+        var columnIndex;
+        var dataSourceCells = dataSource.values;
 
         if(newDataSourceCells) {
             for(newRowIndex = 0; newRowIndex <= newDataSourceCells.length; newRowIndex++) {
@@ -228,8 +231,8 @@ module.exports = Class.inherit((function() {
     }
 
     function createStore(dataSourceOptions, notifyProgress) {
-        var store,
-            storeOptions;
+        var store;
+        var storeOptions;
 
         if(typeUtils.isPlainObject(dataSourceOptions) && dataSourceOptions.load) {
             store = createLocalOrRemoteStore(dataSourceOptions, notifyProgress);
@@ -263,13 +266,13 @@ module.exports = Class.inherit((function() {
     }
 
     function getExpandedPaths(dataSource, loadOptions, dimensionName, prevLoadOptions) {
-        var result = [],
-            fields = (loadOptions && loadOptions[dimensionName]) || [],
-            prevFields = (prevLoadOptions && prevLoadOptions[dimensionName]) || [];
+        var result = [];
+        var fields = (loadOptions && loadOptions[dimensionName]) || [];
+        var prevFields = (prevLoadOptions && prevLoadOptions[dimensionName]) || [];
 
         foreachTree(dataSource[dimensionName], function(items) {
-            var item = items[0],
-                path = createPath(items);
+            var item = items[0];
+            var path = createPath(items);
 
             if(item.children && fields[path.length - 1] && !fields[path.length - 1].expanded) {
                 if(path.length < fields.length && (!prevLoadOptions || equalFields(fields, prevFields, path.length))) {
@@ -347,8 +350,8 @@ module.exports = Class.inherit((function() {
 
     function setFieldsState(stateFields, fields) {
         stateFields = stateFields || [];
-        var fieldsById = {},
-            id;
+        var fieldsById = {};
+        var id;
 
         each(fields, function(_, field) {
             id = getFieldStateId(field);
@@ -405,11 +408,11 @@ module.exports = Class.inherit((function() {
     }
 
     function mergeFields(fields, storeFields, retrieveFieldsOptionValue) {
-        var result = [],
-            fieldsDictionary = {},
-            removedFields = {},
-            mergedGroups = [],
-            dataTypes = pivotGridUtils.getFieldsDataType(fields);
+        var result = [];
+        var fieldsDictionary = {};
+        var removedFields = {};
+        var mergedGroups = [];
+        var dataTypes = pivotGridUtils.getFieldsDataType(fields);
 
         if(storeFields) {
             each(storeFields, function(_, field) {
@@ -417,9 +420,9 @@ module.exports = Class.inherit((function() {
             });
 
             each(fields, function(_, field) {
-                var fieldKey = getFieldId(field, retrieveFieldsOptionValue),
-                    storeField = fieldsDictionary[fieldKey] || removedFields[fieldKey],
-                    mergedField;
+                var fieldKey = getFieldId(field, retrieveFieldsOptionValue);
+                var storeField = fieldsDictionary[fieldKey] || removedFields[fieldKey];
+                var mergedField;
 
                 if(storeField) {
                     if(storeField._initProperties) {
@@ -451,10 +454,10 @@ module.exports = Class.inherit((function() {
     }
 
     function getFields(that) {
-        var result = new Deferred(),
-            store = that._store,
-            storeFields = store && store.getFields(that._fields),
-            mergedFields;
+        var result = new Deferred();
+        var store = that._store;
+        var storeFields = store && store.getFields(that._fields);
+        var mergedFields;
 
         when(storeFields).done(function(storeFields) {
             that._storeFields = storeFields;
@@ -466,14 +469,14 @@ module.exports = Class.inherit((function() {
     }
 
     function getSliceIndex(items, path) {
-        var index = null,
-            pathValue = (path || []).join(".");
+        var index = null;
+        var pathValue = (path || []).join(".");
 
         if(pathValue.length) {
             foreachTree(items, function(items) {
-                var item = items[0],
-                    itemPath = createPath(items).join("."),
-                    textPath = iteratorUtils.map(items, function(item) { return item.text; }).reverse().join(".");
+                var item = items[0];
+                var itemPath = createPath(items).join(".");
+                var textPath = iteratorUtils.map(items, function(item) { return item.text; }).reverse().join(".");
 
                 if(pathValue === itemPath || (item.key && textPath === pathValue)) {
                     index = items[0].index;
@@ -486,19 +489,19 @@ module.exports = Class.inherit((function() {
     }
 
     function getFieldSummaryValueSelector(field, dataSource, loadOptions, dimensionName) {
-        var values = dataSource.values,
-            sortBySummaryFieldIndex = findField(loadOptions.values, field.sortBySummaryField),
-            areRows = dimensionName === "rows",
-            sortByDimension = areRows ? dataSource.columns : dataSource.rows,
-            grandTotalIndex = areRows ? dataSource.grandTotalRowIndex : dataSource.grandTotalColumnIndex,
-            sortBySummaryPath = field.sortBySummaryPath || [],
-            sliceIndex = sortBySummaryPath.length ? getSliceIndex(sortByDimension, sortBySummaryPath) : grandTotalIndex;
+        var values = dataSource.values;
+        var sortBySummaryFieldIndex = findField(loadOptions.values, field.sortBySummaryField);
+        var areRows = dimensionName === "rows";
+        var sortByDimension = areRows ? dataSource.columns : dataSource.rows;
+        var grandTotalIndex = areRows ? dataSource.grandTotalRowIndex : dataSource.grandTotalColumnIndex;
+        var sortBySummaryPath = field.sortBySummaryPath || [];
+        var sliceIndex = sortBySummaryPath.length ? getSliceIndex(sortByDimension, sortBySummaryPath) : grandTotalIndex;
 
         if(values && values.length && sortBySummaryFieldIndex >= 0 && isDefined(sliceIndex)) {
             return function(field) {
-                var rowIndex = areRows ? field.index : sliceIndex,
-                    columnIndex = areRows ? sliceIndex : field.index,
-                    value = ((values[rowIndex] || [[]])[columnIndex] || [])[sortBySummaryFieldIndex];
+                var rowIndex = areRows ? field.index : sliceIndex;
+                var columnIndex = areRows ? sliceIndex : field.index;
+                var value = ((values[rowIndex] || [[]])[columnIndex] || [])[sortBySummaryFieldIndex];
 
                 return isDefined(value) ? value : null;
             };
@@ -516,29 +519,32 @@ module.exports = Class.inherit((function() {
     }
 
     function getSortingMethod(field, dataSource, loadOptions, dimensionName, getAscOrder) {
-        var sortOrder = getAscOrder ? "asc" : field.sortOrder,
-            sortBy = getMemberForSortBy(field.sortBy, getAscOrder),
-            defaultCompare = field.sortingMethod ? function(a, b) {
-                return field.sortingMethod(a, b);
-            } : getCompareFunction(function(item) { return item[sortBy]; }),
-            summaryValueSelector = !getAscOrder && getFieldSummaryValueSelector(field, dataSource, loadOptions, dimensionName),
-            summaryCompare = summaryValueSelector && getCompareFunction(summaryValueSelector),
-            sortingMethod = function(a, b) {
-                var result = summaryCompare && summaryCompare(a, b) || defaultCompare(a, b);
-                return sortOrder === "desc" ? -result : result;
-            };
+        var sortOrder = getAscOrder ? "asc" : field.sortOrder;
+        var sortBy = getMemberForSortBy(field.sortBy, getAscOrder);
+
+        var defaultCompare = field.sortingMethod ? function(a, b) {
+            return field.sortingMethod(a, b);
+        } : getCompareFunction(function(item) { return item[sortBy]; });
+
+        var summaryValueSelector = !getAscOrder && getFieldSummaryValueSelector(field, dataSource, loadOptions, dimensionName);
+        var summaryCompare = summaryValueSelector && getCompareFunction(summaryValueSelector);
+
+        var sortingMethod = function(a, b) {
+            var result = summaryCompare && summaryCompare(a, b) || defaultCompare(a, b);
+            return sortOrder === "desc" ? -result : result;
+        };
 
         return sortingMethod;
     }
 
     function sortDimension(dataSource, loadOptions, dimensionName, getAscOrder) {
-        var fields = loadOptions[dimensionName] || [],
-            baseIndex = loadOptions.headerName === dimensionName ? loadOptions.path.length : 0,
-            sortingMethodByLevel = [];
+        var fields = loadOptions[dimensionName] || [];
+        var baseIndex = loadOptions.headerName === dimensionName ? loadOptions.path.length : 0;
+        var sortingMethodByLevel = [];
 
         foreachDataLevel(dataSource[dimensionName], function(item, index) {
-            var field = fields[index] || {},
-                sortingMethod = sortingMethodByLevel[index] = sortingMethodByLevel[index] || getSortingMethod(field, dataSource, loadOptions, dimensionName, getAscOrder);
+            var field = fields[index] || {};
+            var sortingMethod = sortingMethodByLevel[index] = sortingMethodByLevel[index] || getSortingMethod(field, dataSource, loadOptions, dimensionName, getAscOrder);
 
             item.sort(sortingMethod);
         }, baseIndex);
@@ -605,10 +611,11 @@ module.exports = Class.inherit((function() {
         ctor: function(options) {
             options = options || {};
 
-            var that = this,
-                store = createStore(options, function(progress) {
-                    that.fireEvent("progressChanged", [progress]);
-                });
+            var that = this;
+
+            var store = createStore(options, function(progress) {
+                that.fireEvent("progressChanged", [progress]);
+            });
 
             /**
             * @name PivotGridDataSourceOptions.store
@@ -949,8 +956,8 @@ module.exports = Class.inherit((function() {
         * @return Array<PivotGridDataSourceOptions.fields>
         */
         getAreaFields: function(area, collectGroups) {
-            var areaFields = [],
-                descriptions;
+            var areaFields = [];
+            var descriptions;
 
             if(collectGroups || area === "data") {
                 areaFields = getAreaFields(this._fields, area);
@@ -996,10 +1003,10 @@ module.exports = Class.inherit((function() {
          * @param2 options:object
          */
         field: function(id, options) {
-            var that = this,
-                fields = that._fields,
-                field = fields && fields[typeUtils.isNumeric(id) ? id : findField(fields, id)],
-                levels;
+            var that = this;
+            var fields = that._fields;
+            var field = fields && fields[typeUtils.isNumeric(id) ? id : findField(fields, id)];
+            var levels;
 
             if(field && options) {
                 each(options, function(optionName, optionValue) {
@@ -1023,18 +1030,20 @@ module.exports = Class.inherit((function() {
         },
 
         getFieldValues: function(index) {
-            var that = this,
-                field = this._fields && this._fields[index],
-                store = this.store(),
-                loadFields = [],
-                loadOptions = {
-                    columns: loadFields,
-                    rows: [],
-                    values: this.getAreaFields("data"),
-                    filters: [],
-                    skipValues: true
-                },
-                d = new Deferred();
+            var that = this;
+            var field = this._fields && this._fields[index];
+            var store = this.store();
+            var loadFields = [];
+
+            var loadOptions = {
+                columns: loadFields,
+                rows: [],
+                values: this.getAreaFields("data"),
+                filters: [],
+                skipValues: true
+            };
+
+            var d = new Deferred();
 
             if(field && store) {
                 each(field.levels || [field], function() {
@@ -1083,8 +1092,8 @@ module.exports = Class.inherit((function() {
         * @return Promise<any>
         */
         load: function(options) {
-            var that = this,
-                d = new Deferred();
+            var that = this;
+            var d = new Deferred();
             options = options || {};
 
             that.beginLoading();
@@ -1131,23 +1140,24 @@ module.exports = Class.inherit((function() {
         },
 
         _createDescriptions: function(currentField) {
-            var that = this,
-                fields = that.fields(),
-                descriptions = {
-                    rows: [],
-                    columns: [],
-                    values: [],
-                    filters: []
-                };
+            var that = this;
+            var fields = that.fields();
+
+            var descriptions = {
+                rows: [],
+                columns: [],
+                values: [],
+                filters: []
+            };
 
             each(["row", "column", "data", "filter"], function(_, areaName) {
                 normalizeIndexes(getAreaFields(fields, areaName), 'areaIndex', currentField);
             });
 
             each(fields || [], function(_, field) {
-                var descriptionName = DESCRIPTION_NAME_BY_AREA[field.area],
-                    dimension = descriptions[descriptionName],
-                    groupName = field.groupName;
+                var descriptionName = DESCRIPTION_NAME_BY_AREA[field.area];
+                var dimension = descriptions[descriptionName];
+                var groupName = field.groupName;
 
                 if(groupName && !typeUtils.isNumeric(field.groupIndex)) {
                     field.levels = getFieldsByGroup(fields, field);
@@ -1266,8 +1276,8 @@ module.exports = Class.inherit((function() {
         },
 
         _changeLoadingCount: function(increment) {
-            var oldLoading = this.isLoading(),
-                newLoading;
+            var oldLoading = this.isLoading();
+            var newLoading;
 
             this._loadingCount += increment;
             newLoading = this.isLoading();
@@ -1278,10 +1288,10 @@ module.exports = Class.inherit((function() {
         },
 
         _loadCore: function(options, deferred) {
-            var that = this,
-                store = this._store,
-                descriptions = this._descriptions,
-                headerName = DESCRIPTION_NAME_BY_AREA[options.area];
+            var that = this;
+            var store = this._store;
+            var descriptions = this._descriptions;
+            var headerName = DESCRIPTION_NAME_BY_AREA[options.area];
 
             options = options || {};
 
@@ -1306,9 +1316,9 @@ module.exports = Class.inherit((function() {
                 when.apply(null, results).done(function() {
                     let results = arguments;
                     for(let i = 0; i < results.length; i++) {
-                        var options = storeLoadOptions[i],
-                            data = results[i],
-                            isLast = i === results.length - 1;
+                        var options = storeLoadOptions[i];
+                        var data = results[i];
+                        var isLast = i === results.length - 1;
 
                         if(options.path) {
                             that.applyPartialDataSource(options.area, options.path, data, isLast ? deferred : false);
@@ -1337,17 +1347,17 @@ module.exports = Class.inherit((function() {
         },
 
         isEmpty: function() {
-            var dataFields = this.getAreaFields("data"),
-                data = this.getData();
+            var dataFields = this.getAreaFields("data");
+            var data = this.getData();
             return !dataFields.length || !data.values.length;
         },
 
         _update: function(deferred) {
-            var that = this,
-                descriptions = that._descriptions,
-                loadedData = that._data,
-                dataFields = descriptions.values,
-                expressionsUsed = areExpressionsUsed(dataFields);
+            var that = this;
+            var descriptions = that._descriptions;
+            var loadedData = that._data;
+            var dataFields = descriptions.values;
+            var expressionsUsed = areExpressionsUsed(dataFields);
 
             when(formatHeaders(descriptions, loadedData), updateCache(loadedData.rows), updateCache(loadedData.columns)).done(function() {
                 if(expressionsUsed) {
@@ -1385,10 +1395,10 @@ module.exports = Class.inherit((function() {
          * @param2 path:Array<string, number, Date>
          */
         collapseHeaderItem: function(area, path) {
-            var that = this,
-                headerItems = area === 'column' ? that._data.columns : that._data.rows,
-                headerItem = findHeaderItem(headerItems, path),
-                field = that.getAreaFields(area)[path.length - 1];
+            var that = this;
+            var headerItems = area === 'column' ? that._data.columns : that._data.rows;
+            var headerItem = findHeaderItem(headerItems, path);
+            var field = that.getAreaFields(area)[path.length - 1];
 
             if(headerItem && headerItem.children) {
                 that.fireEvent("expandValueChanging", [{
@@ -1416,9 +1426,9 @@ module.exports = Class.inherit((function() {
         * @param1 id:number|string
         */
         collapseAll: function(id) {
-            var dataChanged = false,
-                field = this.field(id) || {},
-                areaOffsets = [inArray(field, this.getAreaFields(field.area))];
+            var dataChanged = false;
+            var field = this.field(id) || {};
+            var areaOffsets = [inArray(field, this.getAreaFields(field.area))];
 
             field.expanded = false;
             if(field && field.levels) {
@@ -1430,8 +1440,8 @@ module.exports = Class.inherit((function() {
             }
 
             foreachTree(this._data[field.area + "s"], function(items) {
-                var item = items[0],
-                    path = createPath(items);
+                var item = items[0];
+                var path = createPath(items);
 
                 if(item && item.children && areaOffsets.indexOf(path.length - 1) !== -1) {
                     item.collapsedChildren = item.children;
@@ -1468,11 +1478,11 @@ module.exports = Class.inherit((function() {
          * @param2 path:Array<Object>
          */
         expandHeaderItem: function(area, path) {
-            var that = this,
-                hasCache,
-                headerItems = area === 'column' ? that._data.columns : that._data.rows,
-                headerItem = findHeaderItem(headerItems, path),
-                options;
+            var that = this;
+            var hasCache;
+            var headerItems = area === 'column' ? that._data.columns : that._data.rows;
+            var headerItem = findHeaderItem(headerItems, path);
+            var options;
 
             if(headerItem && !headerItem.children) {
                 hasCache = !!headerItem.collapsedChildren;
@@ -1496,12 +1506,12 @@ module.exports = Class.inherit((function() {
         },
 
         applyPartialDataSource: function(area, path, dataSource, deferred) {
-            var that = this,
-                loadedData = that._data,
-                headerItems = area === 'column' ? loadedData.columns : loadedData.rows,
-                headerItem,
-                newRowItemIndexesToCurrent,
-                newColumnItemIndexesToCurrent;
+            var that = this;
+            var loadedData = that._data;
+            var headerItems = area === 'column' ? loadedData.columns : loadedData.rows;
+            var headerItem;
+            var newRowItemIndexesToCurrent;
+            var newColumnItemIndexesToCurrent;
 
             if(dataSource && dataSource.values) {
                 dataSource.rows = dataSource.rows || [];
@@ -1530,8 +1540,8 @@ module.exports = Class.inherit((function() {
          * @publicName dispose()
          */
         dispose: function() {
-            var that = this,
-                delayedLoadTask = that._delayedLoadTask;
+            var that = this;
+            var delayedLoadTask = that._delayedLoadTask;
 
             this._disposeEvents();
             if(delayedLoadTask) {

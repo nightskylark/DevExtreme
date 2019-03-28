@@ -4,7 +4,8 @@ const BLACK = 'black';
 
 let routines = {
     maxOfArray: function(arr, callback) {
-        let m = 0, callback_function = (v) => { return v; };
+        let m = 0;
+        let callback_function = (v) => { return v; };
         if(callback) {
             callback_function = callback;
         }
@@ -62,7 +63,8 @@ let struct = {
         // sorts the vertices (modifies the _sortedList variable)
         this._hasCycle = false;
         this._sortedList = [];
-        let vertices = {}, allVertices = getVertices(links);
+        let vertices = {};
+        let allVertices = getVertices(links);
         allVertices.forEach((vertex) => {
             vertices[vertex] = {
                 color: WHITE

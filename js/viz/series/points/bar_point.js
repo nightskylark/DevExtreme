@@ -1,20 +1,16 @@
-var extend = require("../../../core/utils/extend").extend,
-
-    _extend = extend,
-
-    _math = Math,
-    _floor = _math.floor,
-    _abs = _math.abs,
-
-    symbolPoint = require("./symbol_point"),
-
-    CANVAS_POSITION_DEFAULT = "canvas_position_default",
-    DEFAULT_BAR_TRACKER_SIZE = 9,
-    CORRECTING_BAR_TRACKER_VALUE = 4,
-    RIGHT = "right",
-    LEFT = "left",
-    TOP = "top",
-    BOTTOM = "bottom";
+var extend = require("../../../core/utils/extend").extend;
+var _extend = extend;
+var _math = Math;
+var _floor = _math.floor;
+var _abs = _math.abs;
+var symbolPoint = require("./symbol_point");
+var CANVAS_POSITION_DEFAULT = "canvas_position_default";
+var DEFAULT_BAR_TRACKER_SIZE = 9;
+var CORRECTING_BAR_TRACKER_VALUE = 4;
+var RIGHT = "right";
+var LEFT = "left";
+var TOP = "top";
+var BOTTOM = "bottom";
 
 module.exports = _extend({}, symbolPoint, {
 
@@ -47,16 +43,17 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getLabelPosition: function() {
-        var that = this,
-            position,
-            initialValue = that.initialValue,
-            invert = that._getValTranslator().getBusinessRange().invert,
-            isDiscreteValue = that.series.valueAxisType === "discrete",
-            isFullStacked = that.series.isFullStackedSeries(),
-            notAxisInverted = (!isDiscreteValue && ((initialValue >= 0 && !invert) ||
-                (initialValue < 0 && invert))) ||
-                (isDiscreteValue && !invert) ||
-                (isFullStacked);
+        var that = this;
+        var position;
+        var initialValue = that.initialValue;
+        var invert = that._getValTranslator().getBusinessRange().invert;
+        var isDiscreteValue = that.series.valueAxisType === "discrete";
+        var isFullStacked = that.series.isFullStackedSeries();
+
+        var notAxisInverted = (!isDiscreteValue && ((initialValue >= 0 && !invert) ||
+            (initialValue < 0 && invert))) ||
+            (isDiscreteValue && !invert) ||
+            (isFullStacked);
 
         if(!that._options.rotated) {
             position = notAxisInverted ? TOP : BOTTOM;
@@ -68,8 +65,8 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getLabelCoords: function(label) {
-        var that = this,
-            coords;
+        var that = this;
+        var coords;
 
         if(that.initialValue === 0 && that.series.isFullStackedSeries()) {
             if(!this._options.rotated) {
@@ -86,8 +83,8 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _checkLabelPosition: function(label, coord) {
-        var that = this,
-            visibleArea = that._getVisibleArea();
+        var that = this;
+        var visibleArea = that._getVisibleArea();
 
         if(that._isPointInVisibleArea(visibleArea, that._getGraphicBBox())) {
             return that._moveLabelOnCanvas(coord, visibleArea, label.getBoundingRect());
@@ -97,8 +94,8 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     hideInsideLabel: function(label, coord) {
-        var graphicBBox = this._getGraphicBBox(),
-            labelBBox = label.getBoundingRect();
+        var graphicBBox = this._getGraphicBBox();
+        var labelBBox = label.getBoundingRect();
 
         if(this._options.resolveLabelsOverlapping) {
             if(((coord.y <= graphicBBox.y && coord.y + labelBBox.height >= graphicBBox.y + graphicBBox.height) ||
@@ -114,8 +111,8 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _moveLabelOnCanvas: function(coord, visibleArea, labelBBox) {
-        var x = coord.x,
-            y = coord.y;
+        var x = coord.x;
+        var y = coord.y;
         if(visibleArea.minX > x) {
             x = visibleArea.minX;
         }
@@ -137,13 +134,13 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _drawMarker: function(renderer, group, animationEnabled) {
-        var that = this,
-            style = that._getStyle(),
-            x = that.x,
-            y = that.y,
-            width = that.width,
-            height = that.height,
-            r = that._options.cornerRadius;
+        var that = this;
+        var style = that._getStyle();
+        var x = that.x;
+        var y = that.y;
+        var width = that.width;
+        var height = that.height;
+        var r = that._options.cornerRadius;
         if(animationEnabled) {
             if(that._options.rotated) {
                 width = 0;
@@ -162,11 +159,11 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getSettingsForTracker: function() {
-        var that = this,
-            y = that.y,
-            height = that.height,
-            x = that.x,
-            width = that.width;
+        var that = this;
+        var y = that.y;
+        var height = that.height;
+        var x = that.x;
+        var width = that.width;
 
         if(that._options.rotated) {
             if(width === 1) {
@@ -199,10 +196,10 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getEdgeTooltipParams: function(x, y, width, height) {
-        var isPositive = this.value >= 0,
-            xCoord,
-            yCoord,
-            invertedBusinessRange = this._getValTranslator().getBusinessRange().invert;
+        var isPositive = this.value >= 0;
+        var xCoord;
+        var yCoord;
+        var invertedBusinessRange = this._getValTranslator().getBusinessRange().invert;
 
         if(this._options.rotated) {
             yCoord = y + height / 2;
@@ -224,10 +221,10 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     getTooltipParams: function(location) {
-        var x = this.x,
-            y = this.y,
-            width = this.width,
-            height = this.height;
+        var x = this.x;
+        var y = this.y;
+        var width = this.width;
+        var height = this.height;
 
         return location === 'edge' ? this._getEdgeTooltipParams(x, y, width, height) : { x: x + width / 2, y: y + height / 2, offset: 0 };
     },
@@ -258,19 +255,19 @@ module.exports = _extend({}, symbolPoint, {
 
     // TODO check & rework
     _translate: function() {
-        var that = this,
-            rotated = that._options.rotated,
-            valAxis = rotated ? "x" : "y",
-            argAxis = rotated ? "y" : "x",
-            valIntervalName = rotated ? "width" : "height",
-            argIntervalName = rotated ? "height" : "width",
-            argTranslator = that._getArgTranslator(),
-            valTranslator = that._getValTranslator(),
-            argVisibleArea = that.series.getArgumentAxis().getVisibleArea(),
-            valVisibleArea = that.series.getValueAxis().getVisibleArea(),
-            arg,
-            val,
-            minVal;
+        var that = this;
+        var rotated = that._options.rotated;
+        var valAxis = rotated ? "x" : "y";
+        var argAxis = rotated ? "y" : "x";
+        var valIntervalName = rotated ? "width" : "height";
+        var argIntervalName = rotated ? "height" : "width";
+        var argTranslator = that._getArgTranslator();
+        var valTranslator = that._getValTranslator();
+        var argVisibleArea = that.series.getArgumentAxis().getVisibleArea();
+        var valVisibleArea = that.series.getValueAxis().getVisibleArea();
+        var arg;
+        var val;
+        var minVal;
 
         arg = argTranslator.translate(that.argument);
 

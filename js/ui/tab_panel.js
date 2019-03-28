@@ -1,21 +1,19 @@
-var $ = require("../core/renderer"),
-    support = require("../core/utils/support"),
-    extend = require("../core/utils/extend").extend,
-    devices = require("../core/devices"),
-    registerComponent = require("../core/component_registrator"),
-    MultiView = require("./multi_view"),
-    Tabs = require("./tabs"),
-    TabPanelItem = require("./tab_panel/item").default,
-    iconUtils = require("../core/utils/icon"),
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    BindableTemplate = require("./widget/bindable_template"),
-    windowUtils = require("../core/utils/window");
-
-var TABPANEL_CLASS = "dx-tabpanel",
-    TABPANEL_TABS_CLASS = "dx-tabpanel-tabs",
-    TABPANEL_CONTAINER_CLASS = "dx-tabpanel-container",
-
-    TABS_ITEM_TEXT_CLASS = "dx-tab-text";
+var $ = require("../core/renderer");
+var support = require("../core/utils/support");
+var extend = require("../core/utils/extend").extend;
+var devices = require("../core/devices");
+var registerComponent = require("../core/component_registrator");
+var MultiView = require("./multi_view");
+var Tabs = require("./tabs");
+var TabPanelItem = require("./tab_panel/item").default;
+var iconUtils = require("../core/utils/icon");
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var BindableTemplate = require("./widget/bindable_template");
+var windowUtils = require("../core/utils/window");
+var TABPANEL_CLASS = "dx-tabpanel";
+var TABPANEL_TABS_CLASS = "dx-tabpanel-tabs";
+var TABPANEL_CONTAINER_CLASS = "dx-tabpanel-container";
+var TABS_ITEM_TEXT_CLASS = "dx-tab-text";
 
 /**
 * @name dxTabPanel
@@ -289,10 +287,10 @@ var TabPanel = MultiView.inherit({
             return;
         }
 
-        var tabs = this._tabs,
-            tabItems = tabs.itemElements(),
-            $activeTab = $(tabItems[tabs.option("selectedIndex")]),
-            id = this.getFocusedItemId();
+        var tabs = this._tabs;
+        var tabItems = tabs.itemElements();
+        var $activeTab = $(tabItems[tabs.option("selectedIndex")]);
+        var id = this.getFocusedItemId();
 
         this.setAria("controls", undefined, $(tabItems));
         this.setAria("controls", id, $activeTab);
@@ -368,9 +366,9 @@ var TabPanel = MultiView.inherit({
     },
 
     _optionChanged: function(args) {
-        var name = args.name,
-            value = args.value,
-            fullName = args.fullName;
+        var name = args.name;
+        var value = args.value;
+        var fullName = args.fullName;
 
         switch(name) {
             case "dataSource":

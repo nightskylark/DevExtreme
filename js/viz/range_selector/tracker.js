@@ -1,28 +1,27 @@
-var eventsEngine = require("../../events/core/events_engine"),
-    pointerEvents = require("../../events/pointer"),
-    window = require("../../core/utils/window").getWindow(),
-    domAdapter = require("../../core/dom_adapter"),
-    each = require("../../core/utils/iterator").each,
-    msPointerEnabled = require("../../core/utils/support").pointer,
-
-    MIN_MANUAL_SELECTING_WIDTH = 10;
+var eventsEngine = require("../../events/core/events_engine");
+var pointerEvents = require("../../events/pointer");
+var window = require("../../core/utils/window").getWindow();
+var domAdapter = require("../../core/dom_adapter");
+var each = require("../../core/utils/iterator").each;
+var msPointerEnabled = require("../../core/utils/support").pointer;
+var MIN_MANUAL_SELECTING_WIDTH = 10;
 
 function isLeftButtonPressed(event) {
-    var e = event || window.event,
-        originalEvent = e.originalEvent,
-        touches = e.touches,
-        pointerType = (originalEvent ? originalEvent.pointerType : false),
-        eventTouches = (originalEvent ? originalEvent.touches : false),
-        isMSPointerLeftClick = originalEvent && pointerType !== undefined && (pointerType === (originalEvent.MSPOINTER_TYPE_TOUCH || "touch") || (pointerType === (originalEvent.MSPOINTER_TYPE_MOUSE || "mouse") && originalEvent.buttons === 1)),
-        isTouches = (touches && touches.length > 0) || (eventTouches && eventTouches.length > 0);
+    var e = event || window.event;
+    var originalEvent = e.originalEvent;
+    var touches = e.touches;
+    var pointerType = (originalEvent ? originalEvent.pointerType : false);
+    var eventTouches = (originalEvent ? originalEvent.touches : false);
+    var isMSPointerLeftClick = originalEvent && pointerType !== undefined && (pointerType === (originalEvent.MSPOINTER_TYPE_TOUCH || "touch") || (pointerType === (originalEvent.MSPOINTER_TYPE_MOUSE || "mouse") && originalEvent.buttons === 1));
+    var isTouches = (touches && touches.length > 0) || (eventTouches && eventTouches.length > 0);
 
     return (e.which === 1) || isMSPointerLeftClick || isTouches;
 }
 
 function isMultiTouches(event) {
-    var originalEvent = event.originalEvent,
-        touches = event.touches,
-        eventTouches = originalEvent && originalEvent.touches;
+    var originalEvent = event.originalEvent;
+    var touches = event.touches;
+    var eventTouches = originalEvent && originalEvent.touches;
 
     return (touches && touches.length > 1) || (eventTouches && eventTouches.length > 1) || null;
 }
@@ -46,8 +45,8 @@ function isTouchEventArgs(e) {
 }
 
 function getEventPageX(event) {
-    var originalEvent = event.originalEvent,
-        result = 0;
+    var originalEvent = event.originalEvent;
+    var result = 0;
     if(event.pageX) {
         result = event.pageX;
     } else if(originalEvent && originalEvent.pageX) {
@@ -64,15 +63,15 @@ function getEventPageX(event) {
 }
 
 function initializeAreaEvents(controller, area, state, getRootOffsetLeft) {
-    var isTouchEvent,
-        isActive = false,
-        initialPosition,
-        movingHandler = null,
-        docEvents = {};
+    var isTouchEvent;
+    var isActive = false;
+    var initialPosition;
+    var movingHandler = null;
+    var docEvents = {};
 
     docEvents[pointerEvents.move] = function(e) {
-        var position,
-            offset;
+        var position;
+        var offset;
         if(isTouchEvent !== isTouchEventArgs(e)) return;
 
         if(!isLeftButtonPressed(e)) {
@@ -122,10 +121,10 @@ function initializeAreaEvents(controller, area, state, getRootOffsetLeft) {
 }
 
 function initializeSelectedAreaEvents(controller, area, state, getRootOffsetLeft) {
-    var isTouchEvent,
-        isActive = false,
-        movingHandler = null,
-        docEvents = {};
+    var isTouchEvent;
+    var isActive = false;
+    var movingHandler = null;
+    var docEvents = {};
 
     docEvents[pointerEvents.move] = function(e) {
         if(isTouchEvent !== isTouchEventArgs(e)) return;
@@ -159,10 +158,10 @@ function initializeSelectedAreaEvents(controller, area, state, getRootOffsetLeft
 }
 
 function initializeSliderEvents(controller, sliders, state, getRootOffsetLeft) {
-    var isTouchEvent,
-        isActive = false,
-        movingHandler = null,
-        docEvents = {};
+    var isTouchEvent;
+    var isActive = false;
+    var movingHandler = null;
+    var docEvents = {};
 
     docEvents[pointerEvents.move] = function(e) {
         if(isTouchEvent !== isTouchEventArgs(e)) return;
@@ -207,8 +206,8 @@ function initializeSliderEvents(controller, sliders, state, getRootOffsetLeft) {
 }
 
 function Tracker(params) {
-    var state = this._state = {},
-        targets = params.controller.getTrackerTargets();
+    var state = this._state = {};
+    var targets = params.controller.getTrackerTargets();
     if(msPointerEnabled) {
         params.renderer.root.css({ "msTouchAction": "pinch-zoom" });
     }

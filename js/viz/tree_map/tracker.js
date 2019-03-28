@@ -1,9 +1,9 @@
-var proto = require("./tree_map.base").prototype,
-    Tracker = require("../components/tracker").Tracker,
-    expand = require("../core/helpers").expand,
-    _parseScalar = require("../core/utils").parseScalar,
-    DATA_KEY_BASE = "__treemap_data_",
-    dataKeyModifier = 0;
+var proto = require("./tree_map.base").prototype;
+var Tracker = require("../components/tracker").Tracker;
+var expand = require("../core/helpers").expand;
+var _parseScalar = require("../core/utils").parseScalar;
+var DATA_KEY_BASE = "__treemap_data_";
+var dataKeyModifier = 0;
 
 require("./api");
 require("./hover");
@@ -12,18 +12,19 @@ require("./tooltip");
 proto._eventsMap.onClick = { name: "click" };
 
 expand(proto, "_initCore", function() {
-    var that = this,
-        dataKey = DATA_KEY_BASE + dataKeyModifier++,
-        getProxy = function(index) {
-            return that._nodes[index].proxy;
-        };
+    var that = this;
+    var dataKey = DATA_KEY_BASE + dataKeyModifier++;
+
+    var getProxy = function(index) {
+        return that._nodes[index].proxy;
+    };
 
     that._tracker = new Tracker({
         widget: that,
         root: that._renderer.root,
         getNode: function(id) {
-            var proxy = getProxy(id),
-                interactWithGroup = _parseScalar(that._getOption("interactWithGroup", true));
+            var proxy = getProxy(id);
+            var interactWithGroup = _parseScalar(that._getOption("interactWithGroup", true));
 
             return interactWithGroup && proxy.isLeaf() && proxy.getParent().isActive() ? proxy.getParent() : proxy;
         },

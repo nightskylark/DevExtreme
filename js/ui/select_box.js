@@ -1,27 +1,26 @@
-var $ = require("../core/renderer"),
-    commonUtils = require("../core/utils/common"),
-    typeUtils = require("../core/utils/type"),
-    isDefined = typeUtils.isDefined,
-    isPromise = typeUtils.isPromise,
-    extend = require("../core/utils/extend").extend,
-    inArray = require("../core/utils/array").inArray,
-    each = require("../core/utils/iterator").each,
-    deferredUtils = require("../core/utils/deferred"),
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    Deferred = deferredUtils.Deferred,
-    errors = require("../core/errors"),
-    inkRipple = require("./widget/utils.ink_ripple"),
-    messageLocalization = require("../localization/message"),
-    registerComponent = require("../core/component_registrator"),
-    dataQuery = require("../data/query"),
-    DropDownList = require("./drop_down_editor/ui.drop_down_list"),
-    themes = require("./themes");
-
-var DISABLED_STATE_SELECTOR = ".dx-state-disabled",
-    SELECTBOX_CLASS = "dx-selectbox",
-    SELECTBOX_POPUP_CLASS = "dx-selectbox-popup",
-    SELECTBOX_CONTAINER_CLASS = "dx-selectbox-container",
-    SELECTBOX_POPUP_WRAPPER_CLASS = "dx-selectbox-popup-wrapper";
+var $ = require("../core/renderer");
+var commonUtils = require("../core/utils/common");
+var typeUtils = require("../core/utils/type");
+var isDefined = typeUtils.isDefined;
+var isPromise = typeUtils.isPromise;
+var extend = require("../core/utils/extend").extend;
+var inArray = require("../core/utils/array").inArray;
+var each = require("../core/utils/iterator").each;
+var deferredUtils = require("../core/utils/deferred");
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var Deferred = deferredUtils.Deferred;
+var errors = require("../core/errors");
+var inkRipple = require("./widget/utils.ink_ripple");
+var messageLocalization = require("../localization/message");
+var registerComponent = require("../core/component_registrator");
+var dataQuery = require("../data/query");
+var DropDownList = require("./drop_down_editor/ui.drop_down_list");
+var themes = require("./themes");
+var DISABLED_STATE_SELECTOR = ".dx-state-disabled";
+var SELECTBOX_CLASS = "dx-selectbox";
+var SELECTBOX_POPUP_CLASS = "dx-selectbox-popup";
+var SELECTBOX_CONTAINER_CLASS = "dx-selectbox-container";
+var SELECTBOX_POPUP_WRAPPER_CLASS = "dx-selectbox-popup-wrapper";
 
 /**
 * @name dxSelectBox
@@ -33,22 +32,23 @@ var DISABLED_STATE_SELECTOR = ".dx-state-disabled",
 var SelectBox = DropDownList.inherit({
 
     _supportedKeys: function() {
-        var that = this,
-            parent = this.callBase(),
-            clearSelectBox = function(e) {
-                var isEditable = this._isEditable();
+        var that = this;
+        var parent = this.callBase();
 
-                if(!isEditable) {
-                    if(this.option("showClearButton")) {
-                        e.preventDefault();
-                        this.reset();
-                    }
-                } else if(this._valueSubstituted()) {
-                    this._preventFiltering = true;
+        var clearSelectBox = function(e) {
+            var isEditable = this._isEditable();
+
+            if(!isEditable) {
+                if(this.option("showClearButton")) {
+                    e.preventDefault();
+                    this.reset();
                 }
+            } else if(this._valueSubstituted()) {
+                this._preventFiltering = true;
+            }
 
-                this._preventSubstitution = true;
-            };
+            this._preventSubstitution = true;
+        };
 
         var searchIfNeeded = function() {
             if(that.option("searchEnabled") && that._valueSubstituted()) {
@@ -134,9 +134,9 @@ var SelectBox = DropDownList.inherit({
                 }
             },
             space: function(e) {
-                var isOpened = this.option("opened"),
-                    isSearchEnabled = this.option("searchEnabled"),
-                    acceptCustomValue = this.option("acceptCustomValue");
+                var isOpened = this.option("opened");
+                var isSearchEnabled = this.option("searchEnabled");
+                var acceptCustomValue = this.option("acceptCustomValue");
                 if(!isOpened || isSearchEnabled || acceptCustomValue) {
                     return;
                 }
@@ -355,9 +355,9 @@ var SelectBox = DropDownList.inherit({
             return;
         }
 
-        var $listItems = this._list._itemElements(),
-            index = inArray(this.option("selectedItem"), this.option("items")),
-            focusedElement = index >= 0 && !this._isCustomItemSelected() ? $listItems.eq(index) : null;
+        var $listItems = this._list._itemElements();
+        var index = inArray(this.option("selectedItem"), this.option("items"));
+        var focusedElement = index >= 0 && !this._isCustomItemSelected() ? $listItems.eq(index) : null;
 
         this._focusListElement(focusedElement);
     },
@@ -374,8 +374,8 @@ var SelectBox = DropDownList.inherit({
             return;
         }
 
-        var $listItems = this._list._itemElements(),
-            focusedElement = $listItems.not(DISABLED_STATE_SELECTOR).eq(0);
+        var $listItems = this._list._itemElements();
+        var focusedElement = $listItems.not(DISABLED_STATE_SELECTOR).eq(0);
 
         this._focusListElement(focusedElement);
     },
@@ -410,8 +410,8 @@ var SelectBox = DropDownList.inherit({
     },
 
     _setSubmitValue: function() {
-        var value = this.option("value"),
-            submitValue = this.option("valueExpr") === "this" ? this._displayGetter(value) : value;
+        var value = this.option("value");
+        var submitValue = this.option("valueExpr") === "this" ? this._displayGetter(value) : value;
 
         this._$submitElement.val(submitValue);
     },
@@ -451,8 +451,8 @@ var SelectBox = DropDownList.inherit({
             : this._dataSource.load();
 
         dataSourceIsLoaded.done((function() {
-            var item = this._calcNextItem(step),
-                value = this._valueGetter(item);
+            var item = this._calcNextItem(step);
+            var value = this._valueGetter(item);
 
             this._setValue(value);
         }).bind(this));
@@ -524,9 +524,9 @@ var SelectBox = DropDownList.inherit({
             return;
         }
 
-        var list = e.component,
-            focusedElement = $(list.option("focusedElement")),
-            focusedItem = list._getItemData(focusedElement);
+        var list = e.component;
+        var focusedElement = $(list.option("focusedElement"));
+        var focusedItem = list._getItemData(focusedElement);
 
         this._updateField(focusedItem);
     },
@@ -721,8 +721,8 @@ var SelectBox = DropDownList.inherit({
     },
 
     _loadItem: function(value, cache) {
-        var that = this,
-            deferred = new Deferred();
+        var that = this;
+        var deferred = new Deferred();
 
         this.callBase(value, cache)
             .done((function(item) {
@@ -747,9 +747,9 @@ var SelectBox = DropDownList.inherit({
     },
 
     _isCustomItemSelected: function() {
-        var selectedItem = this.option("selectedItem"),
-            searchValue = this._searchValue(),
-            selectedItemText = this._displayGetter(selectedItem);
+        var selectedItem = this.option("selectedItem");
+        var searchValue = this._searchValue();
+        var selectedItemText = this._displayGetter(selectedItem);
 
         return !selectedItemText || searchValue !== selectedItemText.toString();
     },
@@ -767,9 +767,10 @@ var SelectBox = DropDownList.inherit({
     _createCustomItem: function(text) {
         var params = {
                 text: text
-            },
-            actionResult = this._customItemCreatingAction(params),
-            item = commonUtils.ensureDefined(actionResult, params.customItem);
+            };
+
+        var actionResult = this._customItemCreatingAction(params);
+        var item = commonUtils.ensureDefined(actionResult, params.customItem);
 
         if(isDefined(actionResult)) {
             errors.log("W0015", "onCustomItemCreating", "customItem");
@@ -779,8 +780,8 @@ var SelectBox = DropDownList.inherit({
     },
 
     _customItemAddedHandler: function() {
-        var searchValue = this._searchValue(),
-            item = this._createCustomItem(searchValue);
+        var searchValue = this._searchValue();
+        var item = this._createCustomItem(searchValue);
 
         if(item === undefined) {
             this._renderValue();
@@ -846,9 +847,9 @@ var SelectBox = DropDownList.inherit({
     },
 
     _valueSubstituted: function() {
-        var input = this._input().get(0),
-            isAllSelected = input.selectionStart === 0 && input.selectionEnd === this._searchValue().length,
-            inputHasSelection = input.selectionStart !== input.selectionEnd;
+        var input = this._input().get(0);
+        var isAllSelected = input.selectionStart === 0 && input.selectionEnd === this._searchValue().length;
+        var inputHasSelection = input.selectionStart !== input.selectionEnd;
 
         return this._wasSearch() && inputHasSelection && !isAllSelected;
     },
@@ -873,23 +874,23 @@ var SelectBox = DropDownList.inherit({
             return;
         }
 
-        var $input = this._input(),
-            valueLength = $input.val().length;
+        var $input = this._input();
+        var valueLength = $input.val().length;
 
         if(valueLength === 0) {
             return;
         }
 
-        var inputElement = $input.get(0),
-            displayValue = this._displayGetter(item).toString();
+        var inputElement = $input.get(0);
+        var displayValue = this._displayGetter(item).toString();
 
         inputElement.value = displayValue;
         this._caret({ start: valueLength, end: displayValue.length });
     },
 
     _cleanInputSelection: function() {
-        var inputElement = this._input().get(0),
-            endPosition = inputElement.value.length;
+        var inputElement = this._input().get(0);
+        var endPosition = inputElement.value.length;
         inputElement.selectionStart = endPosition;
         inputElement.selectionEnd = endPosition;
     },

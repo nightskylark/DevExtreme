@@ -1,19 +1,19 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    Promise = require("../core/polyfills/promise"),
-    fromPromise = require("../core/utils/deferred").fromPromise,
-    registerComponent = require("../core/component_registrator"),
-    errors = require("./widget/ui.errors"),
-    devices = require("../core/devices"),
-    Widget = require("./widget/ui.widget"),
-    inflector = require("../core/utils/inflector"),
-    each = require("../core/utils/iterator").each,
-    extend = require("../core/utils/extend").extend,
-    inArray = require("../core/utils/array").inArray,
-    isNumeric = require("../core/utils/type").isNumeric,
-    eventUtils = require("../events/utils"),
-    pointerEvents = require("../events/pointer"),
-    wrapToArray = require("../core/utils/array").wrapToArray;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var Promise = require("../core/polyfills/promise");
+var fromPromise = require("../core/utils/deferred").fromPromise;
+var registerComponent = require("../core/component_registrator");
+var errors = require("./widget/ui.errors");
+var devices = require("../core/devices");
+var Widget = require("./widget/ui.widget");
+var inflector = require("../core/utils/inflector");
+var each = require("../core/utils/iterator").each;
+var extend = require("../core/utils/extend").extend;
+var inArray = require("../core/utils/array").inArray;
+var isNumeric = require("../core/utils/type").isNumeric;
+var eventUtils = require("../events/utils");
+var pointerEvents = require("../events/pointer");
+var wrapToArray = require("../core/utils/array").wrapToArray;
 
 // NOTE external urls must have protocol explicitly specified (because inside Cordova package the protocol is "file:")
 
@@ -25,10 +25,10 @@ var PROVIDERS = {
 };
 
 
-var MAP_CLASS = "dx-map",
-    MAP_CONTAINER_CLASS = "dx-map-container",
-    MAP_SHIELD_CLASS = "dx-map-shield",
-    NATIVE_CLICK_CLASS = "dx-native-click";
+var MAP_CLASS = "dx-map";
+var MAP_CONTAINER_CLASS = "dx-map-container";
+var MAP_SHIELD_CLASS = "dx-map-shield";
+var NATIVE_CLICK_CLASS = "dx-native-click";
 
 /**
 * @name dxMap
@@ -426,7 +426,7 @@ var Map = Widget.inherit({
 
         this._saveRendered("markers");
         this._saveRendered("routes");
-        this._provider = new PROVIDERS[this.option("provider")](this, this._$container);
+        this._provider = new (PROVIDERS[this.option("provider")])(this, this._$container);
         this._queueAsyncAction("render", this._rendered.markers, this._rendered.routes);
     },
 
@@ -538,8 +538,8 @@ var Map = Widget.inherit({
     },
 
     _queueAsyncAction: function(name) {
-        var options = [].slice.call(arguments).slice(1),
-            isActionSuppressed = this._suppressAsyncAction;
+        var options = [].slice.call(arguments).slice(1);
+        var isActionSuppressed = this._suppressAsyncAction;
 
         this._lastAsyncAction = this._lastAsyncAction.then(function() {
             if(!this._provider || isActionSuppressed) {
@@ -622,8 +622,8 @@ var Map = Widget.inherit({
     },
 
     _addFunction: function(optionName, addingValue) {
-        var optionValue = this.option(optionName),
-            addingValues = wrapToArray(addingValue);
+        var optionValue = this.option(optionName);
+        var addingValues = wrapToArray(addingValue);
 
         optionValue.push.apply(optionValue, addingValues);
 
@@ -631,8 +631,8 @@ var Map = Widget.inherit({
     },
 
     _removeFunction: function(optionName, removingValue) {
-        var optionValue = this.option(optionName),
-            removingValues = wrapToArray(removingValue);
+        var optionValue = this.option(optionName);
+        var removingValues = wrapToArray(removingValue);
 
         each(removingValues, function(removingIndex, removingValue) {
             var index = isNumeric(removingValue)

@@ -41,8 +41,8 @@ export default CollectionWidget.inherit({
         let result = $();
         var keyExpr = this.key();
         this.itemElements().each((_, item) => {
-            let $item = $(item),
-                itemData = this._getItemData($item);
+            let $item = $(item);
+            let itemData = this._getItemData($item);
             if(keyExpr ? keysEqual(keyExpr, this.keyOf(itemData), key) : this._isItemEquals(itemData, key)) {
                 result = $item;
                 return false;
@@ -113,11 +113,11 @@ export default CollectionWidget.inherit({
     },
 
     _removeByChange: function(keyInfo, items, change, isPartialRefresh) {
-        let index = isPartialRefresh ? change.index : arrayUtils.indexByKey(keyInfo, items, change.key),
-            removedItem = isPartialRefresh ? change.oldItem : items[index];
+        let index = isPartialRefresh ? change.index : arrayUtils.indexByKey(keyInfo, items, change.key);
+        let removedItem = isPartialRefresh ? change.oldItem : items[index];
         if(removedItem) {
-            let $removedItemElement = this._findItemElementByKey(change.key),
-                deletedActionArgs = this._extendActionArgs($removedItemElement);
+            let $removedItemElement = this._findItemElementByKey(change.key);
+            let deletedActionArgs = this._extendActionArgs($removedItemElement);
 
             this._waitDeletingPrepare($removedItemElement).done(()=>{
                 if(isPartialRefresh) {
@@ -135,11 +135,11 @@ export default CollectionWidget.inherit({
     },
 
     _modifyByChanges: function(changes, isPartialRefresh) {
-        let items = this._editStrategy.itemsGetter(),
-            keyInfo = { key: this.key.bind(this), keyOf: this.keyOf.bind(this) },
-            dataSource = this._dataSource,
-            paginate = dataSource && dataSource.paginate(),
-            group = dataSource && dataSource.group();
+        let items = this._editStrategy.itemsGetter();
+        let keyInfo = { key: this.key.bind(this), keyOf: this.keyOf.bind(this) };
+        let dataSource = this._dataSource;
+        let paginate = dataSource && dataSource.paginate();
+        let group = dataSource && dataSource.group();
 
         if(paginate || group) {
             changes = changes.filter(item => item.type !== "insert" || item.index !== undefined);

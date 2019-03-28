@@ -1,12 +1,11 @@
-var _Number = Number,
-    _isString = require("../../core/utils/type").isString,
-    extend = require("../../core/utils/extend").extend,
-    _patchFontOptions = require("./utils").patchFontOptions,
-    parseHorizontalAlignment = require("./utils").enumParser(["left", "center", "right"]),
-    parseVerticalAlignment = require("./utils").enumParser(["top", "bottom"]),
-
-    DEFAULT_MARGIN = 10,
-    DEFAULT_GAP = 3;
+var _Number = Number;
+var _isString = require("../../core/utils/type").isString;
+var extend = require("../../core/utils/extend").extend;
+var _patchFontOptions = require("./utils").patchFontOptions;
+var parseHorizontalAlignment = require("./utils").enumParser(["left", "center", "right"]);
+var parseVerticalAlignment = require("./utils").enumParser(["top", "bottom"]);
+var DEFAULT_MARGIN = 10;
+var DEFAULT_GAP = 3;
 
 function hasText(text) {
     return !!(text && String(text).length > 0);
@@ -65,10 +64,10 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     _updateStructure: function() {
-        var that = this,
-            renderer = that._params.renderer,
-            group = that._group,
-            alignObj = { align: that._options.horizontalAlignment };
+        var that = this;
+        var renderer = that._params.renderer;
+        var group = that._group;
+        var alignObj = { align: that._options.horizontalAlignment };
 
         // Looks like the following "laziness" is only to avoid unnecessary DOM content creation -
         // for example when widget is created without "title" option.
@@ -84,14 +83,14 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     _updateTexts: function() {
-        var that = this,
-            options = that._options,
-            subtitleOptions = options.subtitle,
-            titleElement = that._titleElement,
-            subtitleElement = that._subtitleElement,
-            testText = "A",
-            titleBox,
-            y;
+        var that = this;
+        var options = that._options;
+        var subtitleOptions = options.subtitle;
+        var titleElement = that._titleElement;
+        var subtitleElement = that._subtitleElement;
+        var testText = "A";
+        var titleBox;
+        var y;
 
         titleElement.attr({ text: testText, y: 0 }).css(_patchFontOptions(options.font));
         titleBox = titleElement.getBBox(); // for multiline text
@@ -112,8 +111,8 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     _updateBoundingRectAlignment: function() {
-        var boundingRect = this._boundingRect,
-            options = this._options;
+        var boundingRect = this._boundingRect;
+        var options = this._options;
 
         boundingRect.verticalAlignment = options.verticalAlignment;
         boundingRect.horizontalAlignment = options.horizontalAlignment;
@@ -130,10 +129,10 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     update: function(themeOptions, userOptions) {
-        var that = this,
-            options = extend(true, {}, themeOptions, processTitleOptions(userOptions)),
-            _hasText = hasText(options.text),
-            isLayoutChanged = _hasText || _hasText !== that._hasText;
+        var that = this;
+        var options = extend(true, {}, themeOptions, processTitleOptions(userOptions));
+        var _hasText = hasText(options.text);
+        var isLayoutChanged = _hasText || _hasText !== that._hasText;
         if(_hasText) {
             that._updateOptions(options);
             that._updateStructure();
@@ -150,8 +149,8 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     draw: function(width, height) {
-        var that = this,
-            layoutOptions;
+        var that = this;
+        var layoutOptions;
 
         that._group.linkAppend();
         that._correctTitleLength(width);
@@ -171,10 +170,10 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     _correctTitleLength: function(width) {
-        var that = this,
-            options = that._options,
-            margin = options.margin,
-            maxWidth = width - margin.left - margin.right;
+        var that = this;
+        var options = that._options;
+        var margin = options.margin;
+        var maxWidth = width - margin.left - margin.right;
 
         processTitleLength(that._titleElement, options.text, maxWidth);
         that._subtitleElement && processTitleLength(that._subtitleElement, options.subtitle.text, maxWidth);
@@ -191,8 +190,8 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     shift: function(x, y) {
-        var that = this,
-            box = that.getLayoutOptions();
+        var that = this;
+        var box = that.getLayoutOptions();
 
         that._group.move(x - box.x, y - box.y);
         that._setClipRectSettings();
@@ -207,11 +206,11 @@ extend(Title.prototype, require("./layout_element").LayoutElement.prototype, {
     },
 
     _updateBoundingRect: function() {
-        var that = this,
-            options = that._options,
-            margin = options.margin,
-            boundingRect = that._boundingRect,
-            box;
+        var that = this;
+        var options = that._options;
+        var margin = options.margin;
+        var boundingRect = that._boundingRect;
+        var box;
 
         box = that._group.getBBox();
 

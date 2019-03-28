@@ -23,12 +23,12 @@ gridCore.registerModule("focus", extend(true, {}, focusModule, {
                     return this.callBase.apply(this, arguments);
                 },
                 _isFocusedRowInsideGroup: function(path) {
-                    var columnsController = this.getController("columns"),
-                        focusedRowKey = this.option("focusedRowKey"),
-                        rowIndex = this.getRowIndexByKey(focusedRowKey),
-                        focusedRow = rowIndex >= 0 && this.getVisibleRows()[rowIndex],
-                        groups = columnsController.getGroupDataSourceParameters(true),
-                        getter;
+                    var columnsController = this.getController("columns");
+                    var focusedRowKey = this.option("focusedRowKey");
+                    var rowIndex = this.getRowIndexByKey(focusedRowKey);
+                    var focusedRow = rowIndex >= 0 && this.getVisibleRows()[rowIndex];
+                    var groups = columnsController.getGroupDataSourceParameters(true);
+                    var getter;
 
                     if(focusedRow) {
                         for(var i = 0; i < path.length; ++i) {
@@ -43,8 +43,8 @@ gridCore.registerModule("focus", extend(true, {}, focusModule, {
                     return true;
                 },
                 _getGroupPath: function(group) {
-                    var groupPath = [group.key],
-                        items = group.items;
+                    var groupPath = [group.key];
+                    var items = group.items;
 
                     while(items && items[0]) {
                         var item = items[0];
@@ -73,12 +73,12 @@ gridCore.registerModule("focus", extend(true, {}, focusModule, {
                     return d.promise();
                 },
                 _calculateGlobalRowIndexByGroupedData: function(key) {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        filter = that._generateFilterByKey(key),
-                        deferred = new Deferred(),
-                        groupPath,
-                        group = dataSource.group();
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var filter = that._generateFilterByKey(key);
+                    var deferred = new Deferred();
+                    var groupPath;
+                    var group = dataSource.group();
 
                     if(!dataSource._grouping._updatePagingOptions) {
                         that._calculateGlobalRowIndexByFlatData(key, null, true)
@@ -108,12 +108,12 @@ gridCore.registerModule("focus", extend(true, {}, focusModule, {
                     return deferred.promise();
                 },
                 _calculateExpandedRowGlobalIndex: function(deferred, key, groupPath, group) {
-                    var groupFilter = createGroupFilter(groupPath, { group: group }),
-                        dataSource = this._dataSource,
-                        scrollingMode = this.option("scrolling.mode"),
-                        isVirtualScrolling = scrollingMode === "virtual" || scrollingMode === "infinite",
-                        pageSize = dataSource.pageSize(),
-                        groupOffset;
+                    var groupFilter = createGroupFilter(groupPath, { group: group });
+                    var dataSource = this._dataSource;
+                    var scrollingMode = this.option("scrolling.mode");
+                    var isVirtualScrolling = scrollingMode === "virtual" || scrollingMode === "infinite";
+                    var pageSize = dataSource.pageSize();
+                    var groupOffset;
 
                     dataSource._grouping._updatePagingOptions({ skip: 0, take: MAX_SAFE_INTEGER }, function(groupInfo, totalOffset) {
                         if(equalByValue(groupInfo.path, groupPath)) {
@@ -122,9 +122,9 @@ gridCore.registerModule("focus", extend(true, {}, focusModule, {
                     });
 
                     this._calculateGlobalRowIndexByFlatData(key, groupFilter).done(function(dataOffset) {
-                        var count,
-                            currentPageOffset,
-                            groupContinuationCount;
+                        var count;
+                        var currentPageOffset;
+                        var groupContinuationCount;
 
                         if(dataOffset < 0) {
                             deferred.resolve(-1);
@@ -144,7 +144,6 @@ gridCore.registerModule("focus", extend(true, {}, focusModule, {
                         count = groupOffset + dataOffset + groupContinuationCount;
 
                         deferred.resolve(count);
-
                     }).fail(deferred.reject);
                 }
             }

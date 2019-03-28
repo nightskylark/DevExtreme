@@ -1,14 +1,14 @@
-var $ = require("../../core/renderer"),
-    Class = require("../../core/class"),
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    extend = require("../../core/utils/extend").extend,
-    isDefined = require("../../core/utils/type").isDefined;
+var $ = require("../../core/renderer");
+var Class = require("../../core/class");
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var extend = require("../../core/utils/extend").extend;
+var isDefined = require("../../core/utils/type").isDefined;
 
 var PIVOTGRID_EXPAND_CLASS = "dx-expand";
 
 var getRealElementWidth = function(element) {
-    var width = 0,
-        clientRect;
+    var width = 0;
+    var clientRect;
 
     if(element.getBoundingClientRect) {
         clientRect = element.getBoundingClientRect();
@@ -27,9 +27,9 @@ var getRealElementWidth = function(element) {
 };
 
 function getFakeTableOffset(scrollPos, elementOffset, tableSize, viewPortSize) {
-    var offset = 0,
-        halfTableCount = 0,
-        halfTableSize = tableSize / 2;
+    var offset = 0;
+    var halfTableCount = 0;
+    var halfTableSize = tableSize / 2;
 
     if(scrollPos + viewPortSize - (elementOffset + tableSize) > 1) {
 
@@ -105,21 +105,21 @@ exports.AreaItem = Class.inherit({
     },
 
     _renderTableContent: function(tableElement, data) {
-        var that = this,
-            rowsCount = data.length,
-            row,
-            cell,
-            i,
-            j,
-            rowElement,
-            cellElement,
-            cellText,
-            rtlEnabled = that.option("rtlEnabled"),
-            markupArray = [],
-            encodeHtml = that.option("encodeHtml"),
-            rowClassNames,
-            colspan = "colspan='",
-            rowspan = "rowspan='";
+        var that = this;
+        var rowsCount = data.length;
+        var row;
+        var cell;
+        var i;
+        var j;
+        var rowElement;
+        var cellElement;
+        var cellText;
+        var rtlEnabled = that.option("rtlEnabled");
+        var markupArray = [];
+        var encodeHtml = that.option("encodeHtml");
+        var rowClassNames;
+        var colspan = "colspan='";
+        var rowspan = "rowspan='";
 
         tableElement.data("area", that._getAreaName());
         tableElement.data("data", data);
@@ -220,19 +220,19 @@ exports.AreaItem = Class.inherit({
     },
 
     _triggerOnCellPrepared: function(tableElement, data) {
-        var that = this,
-            rowElements = tableElement.find("tr"),
-            areaName = that._getAreaName(),
-            onCellPrepared = that.option("onCellPrepared"),
-            hasEvent = that.component.hasEvent("cellPrepared"),
-            rowElement,
-            $cellElement,
-            onCellPreparedArgs,
-            defaultActionArgs = this.component._defaultActionArgs(),
-            row,
-            cell,
-            rowIndex,
-            columnIndex;
+        var that = this;
+        var rowElements = tableElement.find("tr");
+        var areaName = that._getAreaName();
+        var onCellPrepared = that.option("onCellPrepared");
+        var hasEvent = that.component.hasEvent("cellPrepared");
+        var rowElement;
+        var $cellElement;
+        var onCellPreparedArgs;
+        var defaultActionArgs = this.component._defaultActionArgs();
+        var row;
+        var cell;
+        var rowIndex;
+        var columnIndex;
 
         if(onCellPrepared || hasEvent) {
             for(rowIndex = 0; rowIndex < data.length; rowIndex++) {
@@ -260,9 +260,9 @@ exports.AreaItem = Class.inherit({
     },
 
     _getRowHeight: function(index) {
-        var row = this._getRowElement(index),
-            clientRect,
-            height = 0;
+        var row = this._getRowElement(index);
+        var clientRect;
+        var height = 0;
 
         if(row && row.lastChild) {
             if(row.getBoundingClientRect) {
@@ -302,10 +302,10 @@ exports.AreaItem = Class.inherit({
     },
 
     getRowsHeight: function() {
-        var that = this,
-            result = [],
-            rowsLength = that.getRowsLength(),
-            i;
+        var that = this;
+        var result = [];
+        var rowsLength = that.getRowsLength();
+        var i;
 
         for(i = 0; i < rowsLength; i++) {
             result.push(that._getRowHeight(i));
@@ -314,10 +314,10 @@ exports.AreaItem = Class.inherit({
     },
 
     setRowsHeight: function(values) {
-        var that = this,
-            totalHeight = 0,
-            valuesLength = values.length,
-            i;
+        var that = this;
+        var totalHeight = 0;
+        var valuesLength = values.length;
+        var i;
 
         for(i = 0; i < valuesLength; i++) {
             totalHeight += values[i];
@@ -328,22 +328,23 @@ exports.AreaItem = Class.inherit({
     },
 
     getColumnsWidth: function() {
-        var rowsLength = this.getRowsLength(),
-            rowIndex,
-            row,
-            i,
-            columnIndex,
-            processedCells = [],
-            result = [],
-            fillCells = function(cells, rowIndex, columnIndex, rowSpan, colSpan) {
-                var rowOffset, columnOffset;
-                for(rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
-                    for(columnOffset = 0; columnOffset < colSpan; columnOffset++) {
-                        cells[rowIndex + rowOffset] = cells[rowIndex + rowOffset] || [];
-                        cells[rowIndex + rowOffset][columnIndex + columnOffset] = true;
-                    }
+        var rowsLength = this.getRowsLength();
+        var rowIndex;
+        var row;
+        var i;
+        var columnIndex;
+        var processedCells = [];
+        var result = [];
+
+        var fillCells = function(cells, rowIndex, columnIndex, rowSpan, colSpan) {
+            var rowOffset, columnOffset;
+            for(rowOffset = 0; rowOffset < rowSpan; rowOffset++) {
+                for(columnOffset = 0; columnOffset < colSpan; columnOffset++) {
+                    cells[rowIndex + rowOffset] = cells[rowIndex + rowOffset] || [];
+                    cells[rowIndex + rowOffset][columnIndex + columnOffset] = true;
                 }
-            };
+            }
+        };
 
         if(rowsLength) {
             for(rowIndex = 0; rowIndex < rowsLength; rowIndex++) {
@@ -363,12 +364,12 @@ exports.AreaItem = Class.inherit({
     },
 
     setColumnsWidth: function(values) {
-        var i,
-            totalWidth = 0,
-            tableElement = this._tableElement[0],
-            colgroupElementHTML = '',
-            columnsCount = this.getColumnsCount(),
-            columnWidth = [];
+        var i;
+        var totalWidth = 0;
+        var tableElement = this._tableElement[0];
+        var colgroupElementHTML = '';
+        var columnsCount = this.getColumnsCount();
+        var columnWidth = [];
 
         for(i = 0; i < columnsCount; i++) {
             columnWidth.push(values[i] || 0);
@@ -468,8 +469,8 @@ exports.AreaItem = Class.inherit({
     },
 
     reset: function() {
-        var that = this,
-            tableElement = that._tableElement[0];
+        var that = this;
+        var tableElement = that._tableElement[0];
 
         that._fakeTable && that._fakeTable.detach();
         that._fakeTable = null;
@@ -490,10 +491,10 @@ exports.AreaItem = Class.inherit({
     },
 
     _updateFakeTableVisibility: function() {
-        var that = this,
-            tableElement = that.tableElement()[0],
-            horizontalOffsetName = that.option("rtlEnabled") ? "right" : "left",
-            fakeTableElement = that._fakeTable[0];
+        var that = this;
+        var tableElement = that.tableElement()[0];
+        var horizontalOffsetName = that.option("rtlEnabled") ? "right" : "left";
+        var fakeTableElement = that._fakeTable[0];
 
         if(tableElement.style.top === fakeTableElement.style.top && fakeTableElement.style[horizontalOffsetName] === tableElement.style[horizontalOffsetName]) {
             that._fakeTable.addClass("dx-hidden");
@@ -503,20 +504,20 @@ exports.AreaItem = Class.inherit({
     },
 
     _moveFakeTableHorizontally: function(scrollPos) {
-        var that = this,
-            rtlEnabled = that.option("rtlEnabled"),
-            offsetStyleName = rtlEnabled ? "right" : "left",
-            tableElementOffset = parseFloat(that.tableElement()[0].style[offsetStyleName]),
-            offset = getFakeTableOffset(scrollPos, tableElementOffset, that._tableWidth, that._groupWidth);
+        var that = this;
+        var rtlEnabled = that.option("rtlEnabled");
+        var offsetStyleName = rtlEnabled ? "right" : "left";
+        var tableElementOffset = parseFloat(that.tableElement()[0].style[offsetStyleName]);
+        var offset = getFakeTableOffset(scrollPos, tableElementOffset, that._tableWidth, that._groupWidth);
         if(parseFloat(that._fakeTable[0].style[offsetStyleName]) !== offset) {
             that._fakeTable[0].style[offsetStyleName] = offset + "px";
         }
     },
 
     _moveFakeTableTop: function(scrollPos) {
-        var that = this,
-            tableElementOffsetTop = parseFloat(that.tableElement()[0].style.top),
-            offsetTop = getFakeTableOffset(scrollPos, tableElementOffsetTop, that._tableHeight, that._groupHeight);
+        var that = this;
+        var tableElementOffsetTop = parseFloat(that.tableElement()[0].style.top);
+        var offsetTop = getFakeTableOffset(scrollPos, tableElementOffsetTop, that._tableHeight, that._groupHeight);
 
         if(parseFloat(that._fakeTable[0].style.top) !== offsetTop) {
             that._fakeTable[0].style.top = offsetTop + "px";
@@ -568,8 +569,8 @@ exports.AreaItem = Class.inherit({
     },
 
     on: function(eventName, handler) {
-        var that = this,
-            scrollable = that._getScrollable();
+        var that = this;
+        var scrollable = that._getScrollable();
 
         if(scrollable) {
             scrollable.on(eventName, function(e) {
@@ -590,8 +591,8 @@ exports.AreaItem = Class.inherit({
         return this;
     },
     scrollTo: function(pos) {
-        var scrollable = this._getScrollable(),
-            scrollablePos = pos;
+        var scrollable = this._getScrollable();
+        var scrollablePos = pos;
 
         if(scrollable) {
             if(this.option("rtlEnabled")) {
@@ -617,9 +618,9 @@ exports.AreaItem = Class.inherit({
     },
 
     getColumnsCount: function() {
-        var columnCount = 0,
-            row = this._getRowElement(0),
-            cells;
+        var columnCount = 0;
+        var row = this._getRowElement(0);
+        var cells;
 
         if(row) {
             cells = row.cells;

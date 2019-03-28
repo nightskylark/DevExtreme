@@ -20,8 +20,8 @@ exports.compare = function(x, y, maxLevel) {
     }
 
     for(var i = 0; i < length; i++) {
-        var xItem = parseInt(x[i] || 0, 10),
-            yItem = parseInt(y[i] || 0, 10);
+        var xItem = parseInt(x[i] || 0, 10);
+        var yItem = parseInt(y[i] || 0, 10);
 
         if(xItem < yItem) {
             return -1;

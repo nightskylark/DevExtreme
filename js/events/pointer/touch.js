@@ -1,7 +1,7 @@
-var devices = require("../../core/devices"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    BaseStrategy = require("./base");
+var devices = require("../../core/devices");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var BaseStrategy = require("./base");
 
 var eventMap = {
     "dxpointerdown": "touchstart",

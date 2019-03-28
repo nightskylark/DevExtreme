@@ -1,14 +1,14 @@
-var windowUtils = require("./window"),
-    domAdapter = require("../dom_adapter"),
-    Callbacks = require("./callbacks"),
-    readyCallbacks = require("./ready_callbacks"),
-    callOnce = require("./call_once");
+var windowUtils = require("./window");
+var domAdapter = require("../dom_adapter");
+var Callbacks = require("./callbacks");
+var readyCallbacks = require("./ready_callbacks");
+var callOnce = require("./call_once");
 
 var resizeCallbacks = (function() {
-    var prevSize,
-        callbacks = Callbacks(),
-        originalCallbacksAdd = callbacks.add,
-        originalCallbacksRemove = callbacks.remove;
+    var prevSize;
+    var callbacks = Callbacks();
+    var originalCallbacksAdd = callbacks.add;
+    var originalCallbacksRemove = callbacks.remove;
 
     if(!windowUtils.hasWindow()) {
         return callbacks;

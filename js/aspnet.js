@@ -31,10 +31,10 @@
     var templateCompiler = createTemplateCompiler();
 
     function createTemplateCompiler() {
-        var OPEN_TAG = "<%",
-            CLOSE_TAG = "%>",
-            ENCODE_QUALIFIER = "-",
-            INTERPOLATE_QUALIFIER = "=";
+        var OPEN_TAG = "<%";
+        var CLOSE_TAG = "%>";
+        var ENCODE_QUALIFIER = "-";
+        var INTERPOLATE_QUALIFIER = "=";
 
         function acceptText(bag, text) {
             if(text) {
@@ -43,9 +43,9 @@
         }
 
         function acceptCode(bag, code) {
-            var encode = code.charAt(0) === ENCODE_QUALIFIER,
-                value = code.substr(1),
-                interpolate = code.charAt(0) === INTERPOLATE_QUALIFIER;
+            var encode = code.charAt(0) === ENCODE_QUALIFIER;
+            var value = code.substr(1);
+            var interpolate = code.charAt(0) === INTERPOLATE_QUALIFIER;
 
             if(encode || interpolate) {
                 bag.push("_.push(");
@@ -57,8 +57,8 @@
         }
 
         return function(text) {
-            var bag = ["var _ = [];", "with(obj||{}) {"],
-                chunks = text.split(OPEN_TAG);
+            var bag = ["var _ = [];", "with(obj||{}) {"];
+            var chunks = text.split(OPEN_TAG);
 
             acceptText(bag, chunks.shift());
 
@@ -120,8 +120,8 @@
 
     function createComponent(name, options, id, validatorOptions) {
         var render = function(_, container) {
-            var selector = "#" + id.replace(/[^\w-]/g, "\\$&"),
-                $component = $(selector, container)[name](options);
+            var selector = "#" + id.replace(/[^\w-]/g, "\\$&");
+            var $component = $(selector, container)[name](options);
             if($.isPlainObject(validatorOptions)) {
                 $component.dxValidator(validatorOptions);
             }
@@ -143,8 +143,8 @@
         getEditorValue: function(inputName) {
             var $widget = $("input[name='" + inputName + "']").closest(".dx-widget");
             if($widget.length) {
-                var dxComponents = $widget.data("dxComponents"),
-                    widget = $widget.data(dxComponents[0]);
+                var dxComponents = $widget.data("dxComponents");
+                var widget = $widget.data(dxComponents[0]);
 
                 if(widget) {
                     return widget.option("value");
@@ -159,9 +159,9 @@
         },
 
         createValidationSummaryItems: function(validationGroup, editorNames) {
-            var summary = getValidationSummary(validationGroup),
-                groupConfig,
-                items;
+            var summary = getValidationSummary(validationGroup);
+            var groupConfig;
+            var items;
 
             if(summary) {
                 groupConfig = validationEngine.getGroupConfig(validationGroup);

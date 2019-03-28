@@ -1,25 +1,25 @@
-var $ = require("../../core/renderer"),
-    iconUtils = require("../../core/utils/icon"),
-    hasWindow = require("../../core/utils/window").hasWindow(),
-    isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    iteratorUtils = require("../../core/utils/iterator"),
-    messageLocalization = require("../../localization/message"),
-    registerComponent = require("../../core/component_registrator"),
-    pivotGridUtils = require("./ui.pivot_grid.utils"),
-    TreeView = require("../tree_view"),
-    ContextMenu = require("../context_menu"),
-    BaseFieldChooser = require("./ui.pivot_grid.field_chooser_base"),
-    each = iteratorUtils.each,
-    DIV = "<div>";
+var $ = require("../../core/renderer");
+var iconUtils = require("../../core/utils/icon");
+var hasWindow = require("../../core/utils/window").hasWindow();
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var iteratorUtils = require("../../core/utils/iterator");
+var messageLocalization = require("../../localization/message");
+var registerComponent = require("../../core/component_registrator");
+var pivotGridUtils = require("./ui.pivot_grid.utils");
+var TreeView = require("../tree_view");
+var ContextMenu = require("../context_menu");
+var BaseFieldChooser = require("./ui.pivot_grid.field_chooser_base");
+var each = iteratorUtils.each;
+var DIV = "<div>";
 
 require("./data_source");
 
-var FIELDCHOOSER_CLASS = "dx-pivotgridfieldchooser",
-    FIELDCHOOSER_CONTAINER_CLASS = "dx-pivotgridfieldchooser-container",
-    FIELDS_CONTAINER_CLASS = "dx-pivotgrid-fields-container",
-    AREA_DRAG_CLASS = "dx-pivotgrid-drag-action";
+var FIELDCHOOSER_CLASS = "dx-pivotgridfieldchooser";
+var FIELDCHOOSER_CONTAINER_CLASS = "dx-pivotgridfieldchooser-container";
+var FIELDS_CONTAINER_CLASS = "dx-pivotgrid-fields-container";
+var AREA_DRAG_CLASS = "dx-pivotgrid-drag-action";
 
 function getDimensionFields(item, fields) {
     var result = [];
@@ -53,22 +53,22 @@ function getFirstItem(item, condition) {
 
 var compareOrder = [
     function(a, b) {
-        var aValue = -(!!(a.isMeasure)),
-            bValue = +(!!(b.isMeasure));
+        var aValue = -(!!(a.isMeasure));
+        var bValue = +(!!(b.isMeasure));
 
         return aValue + bValue;
     },
 
     function(a, b) {
-        var aValue = -(!!(a.items && a.items.length)),
-            bValue = +(!!(b.items && b.items.length));
+        var aValue = -(!!(a.items && a.items.length));
+        var bValue = +(!!(b.items && b.items.length));
 
         return aValue + bValue;
     },
 
     function(a, b) {
-        var aValue = +(!!(a.field && a.field.levels && a.field.levels.length)),
-            bValue = -(!!(b.field && b.field.levels && b.field.levels.length));
+        var aValue = +(!!(a.field && a.field.levels && a.field.levels.length));
+        var bValue = -(!!(b.field && b.field.levels && b.field.levels.length));
 
         return aValue + bValue;
     },
@@ -76,8 +76,8 @@ var compareOrder = [
 ];
 
 function compareItems(a, b) {
-    var result = 0,
-        i = 0;
+    var result = 0;
+    var i = 0;
 
     while(!result && compareOrder[i]) {
         result = compareOrder[i++](a, b);
@@ -305,9 +305,13 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _renderLayout0: function($container) {
-        var that = this,
-            $col1, $col2, $col3, $col4,
-            $row1, $row2;
+        var that = this;
+        var $col1;
+        var $col2;
+        var $col3;
+        var $col4;
+        var $row1;
+        var $row2;
 
         $container.addClass("dx-layout-0");
 
@@ -328,8 +332,9 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _renderLayout1: function($container) {
-        var that = this,
-            $col1, $col2;
+        var that = this;
+        var $col1;
+        var $col2;
 
         $col1 = $(DIV).addClass("dx-col").appendTo($container);
         $col2 = $(DIV).addClass("dx-col").appendTo($container);
@@ -342,9 +347,11 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _renderLayout2: function($container) {
-        var that = this,
-            $col1, $col2,
-            $row1, $row2;
+        var that = this;
+        var $col1;
+        var $col2;
+        var $row1;
+        var $row2;
 
         $container.addClass("dx-layout-2");
 
@@ -362,10 +369,10 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _initMarkup: function() {
-        var that = this,
-            $element = this.$element(),
-            $container = $(DIV).addClass(FIELDCHOOSER_CONTAINER_CLASS).appendTo($element),
-            layout = that.option("layout");
+        var that = this;
+        var $element = this.$element();
+        var $container = $(DIV).addClass(FIELDCHOOSER_CONTAINER_CLASS).appendTo($element);
+        var layout = that.option("layout");
 
         that.callBase();
 
@@ -406,10 +413,10 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _getContextMenuArgs: function(dxEvent) {
-        var targetFieldElement = $(dxEvent.target).closest(".dx-area-field"),
-            targetGroupElement = $(dxEvent.target).closest(".dx-area-fields"),
-            field,
-            area;
+        var targetFieldElement = $(dxEvent.target).closest(".dx-area-field");
+        var targetGroupElement = $(dxEvent.target).closest(".dx-area-fields");
+        var field;
+        var area;
 
         if(targetFieldElement.length) {
             field = targetFieldElement.data("field");
@@ -428,8 +435,8 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _renderContextMenu: function() {
-        var that = this,
-            $container = that.$element();
+        var that = this;
+        var $container = that.$element();
 
         if(that._contextMenu) {
             that._contextMenu.$element().remove();
@@ -437,8 +444,8 @@ var FieldChooser = BaseFieldChooser.inherit({
 
         that._contextMenu = that._createComponent($(DIV).appendTo($container), ContextMenu, {
             onPositioning: function(actionArgs) {
-                var event = actionArgs.event,
-                    args;
+                var event = actionArgs.event;
+                var args;
 
                 if(!event) {
                     return;
@@ -463,12 +470,12 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _createTreeItems: function(fields, groupFieldNames, path) {
-        var that = this,
-            isMeasure,
-            resultItems = [],
-            groupedItems = [],
-            groupFieldName = groupFieldNames[0],
-            fieldsByGroup = {};
+        var that = this;
+        var isMeasure;
+        var resultItems = [];
+        var groupedItems = [];
+        var groupFieldName = groupFieldNames[0];
+        var fieldsByGroup = {};
 
         if(!groupFieldName) {
             each(fields, function(index, field) {
@@ -530,8 +537,8 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _createFieldsDataSource: function(dataSource) {
-        var fields = dataSource && dataSource.fields() || [],
-            treeItems;
+        var fields = dataSource && dataSource.fields() || [];
+        var treeItems;
 
         fields = fields.filter(field => {
             return field.visible !== false && !isDefined(field.groupIndex);
@@ -547,101 +554,102 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _renderFieldsTreeView: function(container) {
-        var that = this,
-            dataSource = that._dataSource,
-            treeView = that._createComponent(container, TreeView, {
-                dataSource: that._createFieldsDataSource(dataSource),
-                showCheckBoxesMode: 'normal',
-                searchEnabled: that.option("allowSearch"),
-                searchTimeout: that.option("searchTimeout"),
-                itemTemplate: function(itemData, itemIndex, itemElement) {
-                    if(itemData.icon) {
-                        iconUtils.getImageContainer(itemData.icon).appendTo(itemElement);
+        var that = this;
+        var dataSource = that._dataSource;
+
+        var treeView = that._createComponent(container, TreeView, {
+            dataSource: that._createFieldsDataSource(dataSource),
+            showCheckBoxesMode: 'normal',
+            searchEnabled: that.option("allowSearch"),
+            searchTimeout: that.option("searchTimeout"),
+            itemTemplate: function(itemData, itemIndex, itemElement) {
+                if(itemData.icon) {
+                    iconUtils.getImageContainer(itemData.icon).appendTo(itemElement);
+                }
+
+                $('<span>')
+                    .toggleClass("dx-area-field", !itemData.items)
+                    .data("field", itemData.field)
+                    .text(itemData.text)
+                    .appendTo(itemElement);
+            },
+            onItemCollapsed: function(e) {
+                var index = inArray(e.itemData.path, that._expandedPaths);
+                if(index >= 0) {
+                    that._expandedPaths.splice(index, 1);
+                }
+            },
+            onItemExpanded: function(e) {
+                var index = inArray(e.itemData.path, that._expandedPaths);
+                if(index < 0) {
+                    that._expandedPaths.push(e.itemData.path);
+                }
+            },
+            onItemSelectionChanged: function(e) {
+                var data = e.itemData,
+                    field,
+                    fields,
+                    needSelectDefaultItem = true,
+                    area;
+
+                if(data.items) {
+                    if(data.selected) {
+                        treeView.unselectItem(data);
+                        return;
                     }
 
-                    $('<span>')
-                        .toggleClass("dx-area-field", !itemData.items)
-                        .data("field", itemData.field)
-                        .text(itemData.text)
-                        .appendTo(itemElement);
-                },
-                onItemCollapsed: function(e) {
-                    var index = inArray(e.itemData.path, that._expandedPaths);
-                    if(index >= 0) {
-                        that._expandedPaths.splice(index, 1);
-                    }
-                },
-                onItemExpanded: function(e) {
-                    var index = inArray(e.itemData.path, that._expandedPaths);
-                    if(index < 0) {
-                        that._expandedPaths.push(e.itemData.path);
-                    }
-                },
-                onItemSelectionChanged: function(e) {
-                    var data = e.itemData,
-                        field,
-                        fields,
-                        needSelectDefaultItem = true,
-                        area;
+                    that._processDemandState(() => {
+                        fields = getDimensionFields(data, dataSource.fields());
 
-                    if(data.items) {
-                        if(data.selected) {
-                            treeView.unselectItem(data);
-                            return;
-                        }
-
-                        that._processDemandState(() => {
-                            fields = getDimensionFields(data, dataSource.fields());
-
-                            for(var i = 0; i < fields.length; i++) {
-                                if(fields[i].area) {
-                                    needSelectDefaultItem = false;
-                                    break;
-                                }
+                        for(var i = 0; i < fields.length; i++) {
+                            if(fields[i].area) {
+                                needSelectDefaultItem = false;
+                                break;
                             }
-                        });
-
-                        if(needSelectDefaultItem) {
-                            var item = getFirstItem(data, function(item) { return item.isDefault; }) || getFirstItem(data, function(item) { return isDefined(item.index); });
-                            item && treeView.selectItem(item);
-                            return;
                         }
-                    } else {
-                        field = dataSource.fields()[data.index];
-                        if(data.selected) {
-                            area = (field.isMeasure ? "data" : "column");
-                        }
-                        if(field) {
-                            fields = [field];
-                        }
-                    }
-
-                    that._applyChanges(fields, {
-                        area: area,
-                        areaIndex: undefined
                     });
-                }
-            }),
 
-            dataChanged = function() {
-                var scrollable = getScrollable(container),
-                    scrollTop = scrollable ? scrollable.scrollTop() : 0;
-
-                treeView.option({ dataSource: that._createFieldsDataSource(dataSource) });
-                scrollable = getScrollable(container);
-                if(scrollable) {
-                    scrollable.scrollTo({ y: scrollTop });
-                    scrollable.update();
+                    if(needSelectDefaultItem) {
+                        var item = getFirstItem(data, function(item) { return item.isDefault; }) || getFirstItem(data, function(item) { return isDefined(item.index); });
+                        item && treeView.selectItem(item);
+                        return;
+                    }
+                } else {
+                    field = dataSource.fields()[data.index];
+                    if(data.selected) {
+                        area = (field.isMeasure ? "data" : "column");
+                    }
+                    if(field) {
+                        fields = [field];
+                    }
                 }
-            };
+
+                that._applyChanges(fields, {
+                    area: area,
+                    areaIndex: undefined
+                });
+            }
+        });
+
+        var dataChanged = function() {
+            var scrollable = getScrollable(container),
+                scrollTop = scrollable ? scrollable.scrollTop() : 0;
+
+            treeView.option({ dataSource: that._createFieldsDataSource(dataSource) });
+            scrollable = getScrollable(container);
+            if(scrollable) {
+                scrollable.scrollTo({ y: scrollTop });
+                scrollable.update();
+            }
+        };
 
         that._dataChangedHandlers.push(dataChanged);
     },
 
     _renderAreaFields: function($container, area) {
-        var that = this,
-            dataSource = that._dataSource,
-            fields = dataSource ? extend(true, [], dataSource.getAreaFields(area, true)) : [];
+        var that = this;
+        var dataSource = that._dataSource;
+        var fields = dataSource ? extend(true, [], dataSource.getAreaFields(area, true)) : [];
 
         $container.empty();
         each(fields, function(_, field) {
@@ -652,13 +660,13 @@ var FieldChooser = BaseFieldChooser.inherit({
     },
 
     _renderArea: function(container, area) {
-        var that = this,
-            $areaContainer = $(DIV).addClass("dx-area").appendTo(container),
-            $fieldsHeaderContainer = $(DIV).addClass("dx-area-fields-header").appendTo($areaContainer),
-            caption = that.option("texts." + area + "Fields"),
-            $fieldsContainer,
-            $fieldsContent,
-            render;
+        var that = this;
+        var $areaContainer = $(DIV).addClass("dx-area").appendTo(container);
+        var $fieldsHeaderContainer = $(DIV).addClass("dx-area-fields-header").appendTo($areaContainer);
+        var caption = that.option("texts." + area + "Fields");
+        var $fieldsContainer;
+        var $fieldsContent;
+        var render;
 
         $("<span>").addClass("dx-area-icon")
             .addClass("dx-area-icon-" + area)

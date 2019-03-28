@@ -258,8 +258,8 @@ module.exports = {
                     this._refreshDataSource();
                 },
                 optionChanged: function(args) {
-                    var that = this,
-                        dataSource;
+                    var that = this;
+                    var dataSource;
 
                     function handled() {
                         args.handled = true;
@@ -335,10 +335,10 @@ module.exports = {
                     return this.combinedFilter(undefined, returnDataField);
                 },
                 combinedFilter: function(filter, returnDataField) {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        columnsController = that._columnsController,
-                        additionalFilter;
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var columnsController = that._columnsController;
+                    var additionalFilter;
 
                     if(dataSource) {
                         if(filter === undefined) {
@@ -367,9 +367,9 @@ module.exports = {
                 },
                 // Handlers
                 _handleCustomizeStoreLoadOptions: function(e) {
-                    var columnsController = this._columnsController,
-                        dataSource = this._dataSource,
-                        storeLoadOptions = e.storeLoadOptions;
+                    var columnsController = this._columnsController;
+                    var dataSource = this._dataSource;
+                    var storeLoadOptions = e.storeLoadOptions;
 
                     if(e.isCustomLoading && !storeLoadOptions.isLoadingAll) {
                         return;
@@ -394,12 +394,12 @@ module.exports = {
                     e.group = columnsController.getGroupDataSourceParameters(!dataSource.remoteOperations().grouping);
                 },
                 _handleColumnsChanged: function(e) {
-                    var that = this,
-                        changeTypes = e.changeTypes,
-                        optionNames = e.optionNames,
-                        filterValue,
-                        filterValues,
-                        filterApplied;
+                    var that = this;
+                    var changeTypes = e.changeTypes;
+                    var optionNames = e.optionNames;
+                    var filterValue;
+                    var filterValues;
+                    var filterApplied;
 
                     // B255430
                     var updateItemsHandler = function() {
@@ -442,10 +442,10 @@ module.exports = {
                     }
                 },
                 _handleDataChanged: function(e) {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        columnsController = that._columnsController,
-                        isAsyncDataSourceApplying = false;
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var columnsController = that._columnsController;
+                    var isAsyncDataSourceApplying = false;
 
                     this._isFirstLoading = false;
 
@@ -466,8 +466,9 @@ module.exports = {
                             var hasAdditionalFilter = () => {
                                     var additionalFilter = that._calculateAdditionalFilter();
                                     return additionalFilter && additionalFilter.length;
-                                },
-                                needApplyFilter = that._needApplyFilter;
+                                };
+
+                            var needApplyFilter = that._needApplyFilter;
 
                             that._needApplyFilter = false;
 
@@ -500,14 +501,14 @@ module.exports = {
                     this.dataErrorOccurred.fire(errors.Error.apply(errors, arguments));
                 },
                 _setPagingOptions: function(dataSource) {
-                    var pageIndex = this.option("paging.pageIndex"),
-                        pageSize = this.option("paging.pageSize"),
-                        pagingEnabled = this.option("paging.enabled"),
-                        scrollingMode = this.option("scrolling.mode"),
-                        appendMode = scrollingMode === "infinite",
-                        virtualMode = scrollingMode === "virtual",
-                        paginate = pagingEnabled || virtualMode || appendMode,
-                        isChanged = false;
+                    var pageIndex = this.option("paging.pageIndex");
+                    var pageSize = this.option("paging.pageSize");
+                    var pagingEnabled = this.option("paging.enabled");
+                    var scrollingMode = this.option("scrolling.mode");
+                    var appendMode = scrollingMode === "infinite";
+                    var virtualMode = scrollingMode === "virtual";
+                    var paginate = pagingEnabled || virtualMode || appendMode;
+                    var isChanged = false;
 
                     dataSource.requireTotalCount(!appendMode);
                     if(pagingEnabled !== undefined && dataSource.paginate() !== paginate) {
@@ -541,9 +542,9 @@ module.exports = {
                     return dataSource;
                 },
                 _initDataSource: function() {
-                    var that = this,
-                        dataSource = this.option("dataSource"),
-                        oldDataSource = this._dataSource;
+                    var that = this;
+                    var dataSource = this.option("dataSource");
+                    var oldDataSource = this._dataSource;
 
                     that.callBase();
                     dataSource = that._dataSource;
@@ -556,9 +557,9 @@ module.exports = {
                     }
                 },
                 _loadDataSource: function() {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        result = new Deferred();
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var result = new Deferred();
 
                     when(this._columnsController.refresh(true)).always(function() {
                         if(dataSource) {
@@ -577,16 +578,18 @@ module.exports = {
                     return 0;
                 },
                 _processItems: function(items, changeType) {
-                    var that = this,
-                        rowIndexDelta = that.getRowIndexDelta(),
-                        visibleColumns = that._columnsController.getVisibleColumns(null, changeType === "loadingAll"),
-                        visibleItems = that._items,
-                        dataIndex = changeType === "append" && visibleItems.length > 0 ? visibleItems[visibleItems.length - 1].dataIndex + 1 : 0,
-                        options = {
-                            visibleColumns: visibleColumns,
-                            dataIndex: dataIndex
-                        },
-                        result = [];
+                    var that = this;
+                    var rowIndexDelta = that.getRowIndexDelta();
+                    var visibleColumns = that._columnsController.getVisibleColumns(null, changeType === "loadingAll");
+                    var visibleItems = that._items;
+                    var dataIndex = changeType === "append" && visibleItems.length > 0 ? visibleItems[visibleItems.length - 1].dataIndex + 1 : 0;
+
+                    var options = {
+                        visibleColumns: visibleColumns,
+                        dataIndex: dataIndex
+                    };
+
+                    var result = [];
 
                     each(items, function(index, item) {
                         if(typeUtils.isDefined(item)) {
@@ -615,9 +618,9 @@ module.exports = {
                     return dataItem;
                 },
                 generateDataValues: function(data, columns, isModified) {
-                    var values = [],
-                        column,
-                        value;
+                    var values = [];
+                    var column;
+                    var value;
 
                     for(var i = 0; i < columns.length; i++) {
                         column = columns[i];
@@ -649,14 +652,14 @@ module.exports = {
                     this._items = change.items.slice(0);
                 },
                 _applyChangeUpdate: function(change) {
-                    var that = this,
-                        items = change.items,
-                        rowIndices = change.rowIndices.slice(0),
-                        rowIndexDelta = that.getRowIndexDelta(),
-                        repaintChangesOnly = that.option("repaintChangesOnly"),
-                        prevIndex = -1,
-                        rowIndexCorrection = 0,
-                        changeType;
+                    var that = this;
+                    var items = change.items;
+                    var rowIndices = change.rowIndices.slice(0);
+                    var rowIndexDelta = that.getRowIndexDelta();
+                    var repaintChangesOnly = that.option("repaintChangesOnly");
+                    var prevIndex = -1;
+                    var rowIndexCorrection = 0;
+                    var changeType;
 
                     rowIndices.sort(function(a, b) { return a - b; });
 
@@ -681,12 +684,12 @@ module.exports = {
                     };
 
                     each(rowIndices, function(index, rowIndex) {
-                        var oldItem,
-                            newItem,
-                            oldNextItem,
-                            newNextItem,
-                            strict,
-                            columnIndices;
+                        var oldItem;
+                        var newItem;
+                        var oldNextItem;
+                        var newNextItem;
+                        var strict;
+                        var columnIndices;
 
                         rowIndex += rowIndexCorrection + rowIndexDelta;
 
@@ -771,11 +774,11 @@ module.exports = {
                     }
                 },
                 _applyChangesOnly: function(change) {
-                    var rowIndices = [],
-                        columnIndices = [],
-                        changeTypes = [],
-                        items = [],
-                        newIndexByKey = {};
+                    var rowIndices = [];
+                    var columnIndices = [];
+                    var changeTypes = [];
+                    var items = [];
+                    var newIndexByKey = {};
 
                     function getRowKey(row) {
                         if(row) {
@@ -827,10 +830,10 @@ module.exports = {
                     result.forEach((change) => {
                         switch(change.type) {
                             case "update": {
-                                let index = change.index,
-                                    newItem = change.data,
-                                    oldItem = change.oldItem,
-                                    currentColumnIndices = this._getChangedColumnIndices(oldItem, newItem, index, true);
+                                let index = change.index;
+                                let newItem = change.data;
+                                let oldItem = change.oldItem;
+                                let currentColumnIndices = this._getChangedColumnIndices(oldItem, newItem, index, true);
 
                                 rowIndices.push(index);
                                 changeTypes.push("update");
@@ -869,20 +872,20 @@ module.exports = {
                     }
 
                     this._correctRowIndices(function getRowIndexCorrection(rowIndex) {
-                        var oldItem = oldItems[rowIndex],
-                            key = getRowKey(oldItem),
-                            newRowIndex = newIndexByKey[key];
+                        var oldItem = oldItems[rowIndex];
+                        var key = getRowKey(oldItem);
+                        var newRowIndex = newIndexByKey[key];
 
                         return newRowIndex >= 0 ? newRowIndex - rowIndex : 0;
                     });
                 },
                 _correctRowIndices: noop,
                 _updateItemsCore: function(change) {
-                    var that = this,
-                        items,
-                        oldItems,
-                        dataSource = that._dataSource,
-                        changeType = change.changeType || "refresh";
+                    var that = this;
+                    var items;
+                    var oldItems;
+                    var dataSource = that._dataSource;
+                    var changeType = change.changeType || "refresh";
 
                     change.changeType = changeType;
 
@@ -907,15 +910,15 @@ module.exports = {
                     }
                 },
                 _handleChanging: function(e) {
-                    var that = this,
-                        rows = that.getVisibleRows(),
-                        dataSource = that.dataSource();
+                    var that = this;
+                    var rows = that.getVisibleRows();
+                    var dataSource = that.dataSource();
 
                     if(dataSource) {
                         e.changes.forEach(function(change) {
                             if(change.type === "insert" && change.index >= 0) {
-                                var dataIndex = 0,
-                                    row;
+                                var dataIndex = 0;
+                                var row;
 
                                 for(var i = 0; i < change.index; i++) {
                                     row = rows[i];
@@ -974,8 +977,8 @@ module.exports = {
                     return null;
                 },
                 _applyFilter: function() {
-                    var that = this,
-                        dataSource = that._dataSource;
+                    var that = this;
+                    var dataSource = that._dataSource;
 
                     if(dataSource) {
                         dataSource.pageIndex(0);
@@ -994,8 +997,8 @@ module.exports = {
                  * @return any
                  */
                 filter: function(filterExpr) {
-                    var dataSource = this._dataSource,
-                        filter = dataSource.filter();
+                    var dataSource = this._dataSource;
+                    var filter = dataSource.filter();
 
                     if(arguments.length === 0) {
                         return dataSource ? dataSource.filter() : undefined;
@@ -1021,16 +1024,17 @@ module.exports = {
                  * @param1 filterName:string
                  */
                 clearFilter: function(filterName) {
-                    var that = this,
-                        columnsController = that._columnsController,
-                        clearColumnOption = function(optionName) {
-                            var columnCount = columnsController.columnCount(),
-                                index;
+                    var that = this;
+                    var columnsController = that._columnsController;
 
-                            for(index = 0; index < columnCount; index++) {
-                                columnsController.columnOption(index, optionName, undefined);
-                            }
-                        };
+                    var clearColumnOption = function(optionName) {
+                        var columnCount = columnsController.columnCount(),
+                            index;
+
+                        for(index = 0; index < columnCount; index++) {
+                            columnsController.columnOption(index, optionName, undefined);
+                        }
+                    };
 
                     that.component.beginUpdate();
 
@@ -1070,8 +1074,8 @@ module.exports = {
                 },
                 _getDataSourceAdapter: noop,
                 _createDataSourceAdapterCore: function(dataSource, remoteOperations) {
-                    var dataSourceAdapterProvider = this._getDataSourceAdapter(),
-                        dataSourceAdapter = dataSourceAdapterProvider.create(this.component);
+                    var dataSourceAdapterProvider = this._getDataSourceAdapter();
+                    var dataSourceAdapter = dataSourceAdapterProvider.create(this.component);
 
                     dataSourceAdapter.init(dataSource, remoteOperations);
                     return dataSourceAdapter;
@@ -1085,9 +1089,9 @@ module.exports = {
                     return store instanceof CustomStore;
                 },
                 _createDataSourceAdapter: function(dataSource) {
-                    var remoteOperations = this.option("remoteOperations"),
-                        store = dataSource.store(),
-                        enabledRemoteOperations = { filtering: true, sorting: true, paging: true, grouping: true, summary: true };
+                    var remoteOperations = this.option("remoteOperations");
+                    var store = dataSource.store();
+                    var enabledRemoteOperations = { filtering: true, sorting: true, paging: true, grouping: true, summary: true };
 
                     if(remoteOperations && remoteOperations.groupPaging) {
                         remoteOperations = extend({}, enabledRemoteOperations, remoteOperations);
@@ -1103,8 +1107,8 @@ module.exports = {
                     return this._createDataSourceAdapterCore(dataSource, remoteOperations);
                 },
                 setDataSource: function(dataSource) {
-                    var that = this,
-                        oldDataSource = that._dataSource;
+                    var that = this;
+                    var oldDataSource = that._dataSource;
 
                     if(!dataSource && oldDataSource) {
                         oldDataSource.changed.remove(that._dataChangedHandler);
@@ -1156,9 +1160,9 @@ module.exports = {
                     return dataSource && dataSource.store();
                 },
                 loadAll: function(data) {
-                    var that = this,
-                        d = new Deferred(),
-                        dataSource = that._dataSource;
+                    var that = this;
+                    var d = new Deferred();
+                    var dataSource = that._dataSource;
 
                     if(dataSource) {
                         if(data) {
@@ -1234,9 +1238,9 @@ module.exports = {
                 * @return Promise<Object>
                 */
                 byKey: function(key) {
-                    var store = this.store(),
-                        rowIndex = this.getRowIndexByKey(key),
-                        result;
+                    var store = this.store();
+                    var rowIndex = this.getRowIndexByKey(key);
+                    var result;
 
                     if(!store) return;
 
@@ -1257,10 +1261,10 @@ module.exports = {
                     return 0;
                 },
                 getDataByKeys: function(rowKeys) {
-                    var that = this,
-                        result = new Deferred(),
-                        deferreds = [],
-                        data = [];
+                    var that = this;
+                    var result = new Deferred();
+                    var deferreds = [];
+                    var data = [];
 
                     each(rowKeys, function(index, key) {
                         deferreds.push(that.byKey(key).done(function(keyData) {
@@ -1338,10 +1342,10 @@ module.exports = {
                         options = { lookup: true, selection: true, reload: true };
                     }
 
-                    var that = this,
-                        dataSource = that.getDataSource(),
-                        changesOnly = options.changesOnly,
-                        d = new Deferred();
+                    var that = this;
+                    var dataSource = that.getDataSource();
+                    var changesOnly = options.changesOnly;
+                    var d = new Deferred();
 
 
                     var customizeLoadResult = function() {

@@ -1,23 +1,22 @@
-var $ = require("../core/renderer"),
-    dataUtils = require("./utils"),
-    arrayUtils = require("./array_utils"),
-    isFunction = require("../core/utils/type").isFunction,
-    config = require("../core/config"),
-    errors = require("./errors").errors,
-    Store = require("./abstract_store"),
-    arrayQuery = require("./array_query"),
-    queryByOptions = require("./store_helper").queryByOptions,
-    deferredUtils = require("../core/utils/deferred"),
-    Deferred = deferredUtils.Deferred,
-    when = deferredUtils.when,
-    fromPromise = deferredUtils.fromPromise;
-
-var TOTAL_COUNT = "totalCount",
-    LOAD = "load",
-    BY_KEY = "byKey",
-    INSERT = "insert",
-    UPDATE = "update",
-    REMOVE = "remove";
+var $ = require("../core/renderer");
+var dataUtils = require("./utils");
+var arrayUtils = require("./array_utils");
+var isFunction = require("../core/utils/type").isFunction;
+var config = require("../core/config");
+var errors = require("./errors").errors;
+var Store = require("./abstract_store");
+var arrayQuery = require("./array_query");
+var queryByOptions = require("./store_helper").queryByOptions;
+var deferredUtils = require("../core/utils/deferred");
+var Deferred = deferredUtils.Deferred;
+var when = deferredUtils.when;
+var fromPromise = deferredUtils.fromPromise;
+var TOTAL_COUNT = "totalCount";
+var LOAD = "load";
+var BY_KEY = "byKey";
+var INSERT = "insert";
+var UPDATE = "update";
+var REMOVE = "remove";
 
 function isPromise(obj) {
     return obj && isFunction(obj.then);
@@ -39,8 +38,8 @@ function throwInvalidUserFuncResult(name) {
 
 function createUserFuncFailureHandler(pendingDeferred) {
     function errorMessageFromXhr(promiseArguments) {
-        var xhr = promiseArguments[0],
-            textStatus = promiseArguments[1];
+        var xhr = promiseArguments[0];
+        var textStatus = promiseArguments[1];
 
         if(!xhr || !xhr.getResponseHeader) {
             return null;
@@ -65,8 +64,8 @@ function createUserFuncFailureHandler(pendingDeferred) {
 }
 
 function invokeUserLoad(store, options) {
-    var userFunc = store._loadFunc,
-        userResult;
+    var userFunc = store._loadFunc;
+    var userResult;
 
     ensureRequiredFuncOption(LOAD, userFunc);
     userResult = userFunc.apply(store, [options]);
@@ -85,8 +84,8 @@ function invokeUserLoad(store, options) {
 }
 
 function invokeUserTotalCountFunc(store, options) {
-    var userFunc = store._totalCountFunc,
-        userResult;
+    var userFunc = store._totalCountFunc;
+    var userResult;
 
     if(!isFunction(userFunc)) {
         throw errors.Error("E4021");
@@ -106,8 +105,8 @@ function invokeUserTotalCountFunc(store, options) {
 }
 
 function invokeUserByKeyFunc(store, key, extraOptions) {
-    var userFunc = store._byKeyFunc,
-        userResult;
+    var userFunc = store._byKeyFunc;
+    var userResult;
 
     ensureRequiredFuncOption(BY_KEY, userFunc);
     userResult = userFunc.apply(store, [key, extraOptions]);
@@ -143,13 +142,12 @@ function runRawLoadWithQuery(pendingDeferred, store, options, countOnly) {
     }
 
     runRawLoad(pendingDeferred, store, userFuncOptions, function(rawData) {
-        var rawDataQuery = arrayQuery(rawData, { errorHandler: store._errorHandler }),
-            itemsQuery,
-            totalCountQuery,
-            waitList = [];
-
-        var items,
-            totalCount;
+        var rawDataQuery = arrayQuery(rawData, { errorHandler: store._errorHandler });
+        var itemsQuery;
+        var totalCountQuery;
+        var waitList = [];
+        var items;
+        var totalCount;
 
         if(!countOnly) {
             itemsQuery = queryByOptions(rawDataQuery, options);
@@ -191,8 +189,8 @@ function runRawLoadWithQuery(pendingDeferred, store, options, countOnly) {
 
 function runRawLoadWithKey(pendingDeferred, store, key) {
     runRawLoad(pendingDeferred, store, {}, function(rawData) {
-        var keyExpr = store.key(),
-            item;
+        var keyExpr = store.key();
+        var item;
 
         for(var i = 0, len = rawData.length; i < len; i++) {
             item = rawData[i];
@@ -435,10 +433,10 @@ var CustomStore = Store.inherit({
     },
 
     _insertImpl: function(values) {
-        var that = this,
-            userFunc = that._insertFunc,
-            userResult,
-            d = new Deferred();
+        var that = this;
+        var userFunc = that._insertFunc;
+        var userResult;
+        var d = new Deferred();
 
         ensureRequiredFuncOption(INSERT, userFunc);
         userResult = userFunc.apply(that, [values]); // should return key or data
@@ -461,9 +459,9 @@ var CustomStore = Store.inherit({
     },
 
     _updateImpl: function(key, values) {
-        var userFunc = this._updateFunc,
-            userResult,
-            d = new Deferred();
+        var userFunc = this._updateFunc;
+        var userResult;
+        var d = new Deferred();
 
         ensureRequiredFuncOption(UPDATE, userFunc);
         userResult = userFunc.apply(this, [key, values]);
@@ -486,9 +484,9 @@ var CustomStore = Store.inherit({
     },
 
     _removeImpl: function(key) {
-        var userFunc = this._removeFunc,
-            userResult,
-            d = new Deferred();
+        var userFunc = this._removeFunc;
+        var userResult;
+        var d = new Deferred();
 
         ensureRequiredFuncOption(REMOVE, userFunc);
         userResult = userFunc.apply(this, [key]);

@@ -1,9 +1,8 @@
-var registerComponent = require("../../../core/component_registrator"),
-    SchedulerTimeline = require("./ui.scheduler.timeline"),
-    dateUtils = require("../../../core/utils/date");
-
-var TIMELINE_CLASS = "dx-scheduler-timeline-month",
-    DAY_IN_MILLISECONDS = 86400000;
+var registerComponent = require("../../../core/component_registrator");
+var SchedulerTimeline = require("./ui.scheduler.timeline");
+var dateUtils = require("../../../core/utils/date");
+var TIMELINE_CLASS = "dx-scheduler-timeline-month";
+var DAY_IN_MILLISECONDS = 86400000;
 
 var toMs = dateUtils.dateToMilliseconds;
 
@@ -40,8 +39,8 @@ var SchedulerTimelineMonth = SchedulerTimeline.inherit({
     },
 
     _getCellCount: function() {
-        var currentDate = this.option("currentDate"),
-            cellCount = 0;
+        var currentDate = this.option("currentDate");
+        var cellCount = 0;
         if(this._isWorkSpaceWithCount()) {
             var intervalCount = this.option("intervalCount");
 
@@ -76,8 +75,8 @@ var SchedulerTimelineMonth = SchedulerTimeline.inherit({
     },
 
     _getIntervalBetween: function(currentDate) {
-        var firstViewDate = this.getStartViewDate(),
-            timeZoneOffset = dateUtils.getTimezonesDifference(firstViewDate, currentDate);
+        var firstViewDate = this.getStartViewDate();
+        var timeZoneOffset = dateUtils.getTimezonesDifference(firstViewDate, currentDate);
 
         return currentDate.getTime() - (firstViewDate.getTime() - this.option("startDayHour") * 3600000) - timeZoneOffset;
     },

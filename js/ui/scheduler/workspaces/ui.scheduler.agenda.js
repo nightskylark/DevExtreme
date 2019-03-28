@@ -1,28 +1,23 @@
-var $ = require("../../../core/renderer"),
-    domAdapter = require("../../../core/dom_adapter"),
-    noop = require("../../../core/utils/common").noop,
-    each = require("../../../core/utils/iterator").each,
-    getPublicElement = require("../../../core/utils/dom").getPublicElement,
-    registerComponent = require("../../../core/component_registrator"),
-    SchedulerWorkSpace = require("./ui.scheduler.work_space"),
-    extend = require("../../../core/utils/extend").extend,
-    dateLocalization = require("../../../localization/date"),
-    tableCreator = require("../ui.scheduler.table_creator");
-
-var AGENDA_CLASS = "dx-scheduler-agenda",
-    AGENDA_DATE_CLASS = "dx-scheduler-agenda-date",
-    GROUP_TABLE_CLASS = "dx-scheduler-group-table",
-
-    AGENDA_GROUPED_ATTR = "dx-group-column-count",
-
-    TIME_PANEL_ROW_CLASS = "dx-scheduler-time-panel-row",
-    TIME_PANEL_CELL_CLASS = "dx-scheduler-time-panel-cell",
-    NODATA_CONTAINER_CLASS = "dx-scheduler-agenda-nodata",
-
-    LAST_ROW_CLASS = "dx-scheduler-date-table-last-row",
-
-    INNER_CELL_MARGIN = 5,
-    OUTER_CELL_MARGIN = 20;
+var $ = require("../../../core/renderer");
+var domAdapter = require("../../../core/dom_adapter");
+var noop = require("../../../core/utils/common").noop;
+var each = require("../../../core/utils/iterator").each;
+var getPublicElement = require("../../../core/utils/dom").getPublicElement;
+var registerComponent = require("../../../core/component_registrator");
+var SchedulerWorkSpace = require("./ui.scheduler.work_space");
+var extend = require("../../../core/utils/extend").extend;
+var dateLocalization = require("../../../localization/date");
+var tableCreator = require("../ui.scheduler.table_creator");
+var AGENDA_CLASS = "dx-scheduler-agenda";
+var AGENDA_DATE_CLASS = "dx-scheduler-agenda-date";
+var GROUP_TABLE_CLASS = "dx-scheduler-group-table";
+var AGENDA_GROUPED_ATTR = "dx-group-column-count";
+var TIME_PANEL_ROW_CLASS = "dx-scheduler-time-panel-row";
+var TIME_PANEL_CELL_CLASS = "dx-scheduler-time-panel-cell";
+var NODATA_CONTAINER_CLASS = "dx-scheduler-agenda-nodata";
+var LAST_ROW_CLASS = "dx-scheduler-date-table-last-row";
+var INNER_CELL_MARGIN = 5;
+var OUTER_CELL_MARGIN = 20;
 
 var SchedulerAgenda = SchedulerWorkSpace.inherit({
 
@@ -38,8 +33,8 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     },
 
     _optionChanged: function(args) {
-        var name = args.name,
-            value = args.value;
+        var name = args.name;
+        var value = args.value;
 
         switch(name) {
             case "agendaDuration":
@@ -171,8 +166,9 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     _setGroupHeaderCellsHeight: function() {
         var $cells = this._getGroupHeaderCells().filter(function(_, element) {
                 return !element.getAttribute("rowSpan");
-            }),
-            rows = this._removeEmptyRows(this._rows);
+            });
+
+        var rows = this._removeEmptyRows(this._rows);
 
         if(!rows.length) {
             return;
@@ -210,12 +206,13 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     },
 
     _removeEmptyRows: function(rows) {
-        var result = [],
-            isEmpty = function(data) {
-                return !data.some(function(value) {
-                    return value > 0;
-                });
-            };
+        var result = [];
+
+        var isEmpty = function(data) {
+            return !data.some(function(value) {
+                return value > 0;
+            });
+        };
 
         for(var i = 0; i < rows.length; i++) {
             if(rows[i].length && !isEmpty(rows[i])) {
@@ -231,10 +228,10 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     },
 
     _makeGroupRows: function() {
-        var tree = this.invoke("createReducedResourcesTree"),
-            cellTemplate = this.option("resourceCellTemplate"),
-            getGroupHeaderContentClass = this._getGroupHeaderContentClass(),
-            cellTemplates = [];
+        var tree = this.invoke("createReducedResourcesTree");
+        var cellTemplate = this.option("resourceCellTemplate");
+        var getGroupHeaderContentClass = this._getGroupHeaderContentClass();
+        var cellTemplates = [];
 
         var table = tableCreator.makeGroupedTableFromJSON(tableCreator.VERTICAL, tree, {
             cellTag: "th",
@@ -242,8 +239,8 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
             groupRowClass: this._getGroupRowClass(),
             groupCellClass: this._getGroupHeaderClass(),
             groupCellCustomContent: function(cell, cellText, index, data) {
-                var container = domAdapter.createElement("div"),
-                    contentWrapper = domAdapter.createElement("div");
+                var container = domAdapter.createElement("div");
+                var contentWrapper = domAdapter.createElement("div");
 
                 container.className = getGroupHeaderContentClass;
                 contentWrapper.appendChild(cellText);
@@ -324,9 +321,9 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     },
 
     _prepareCellTemplateOptions: function(text, date, rowIndex, $cell) {
-        var groupsOpt = this.option("groups"),
-            groups = {},
-            path = groupsOpt.length && this._getPathToLeaf(rowIndex) || [];
+        var groupsOpt = this.option("groups");
+        var groups = {};
+        var path = groupsOpt.length && this._getPathToLeaf(rowIndex) || [];
 
         path.forEach(function(resourceValue, resourceIndex) {
             var resourceName = groupsOpt[resourceIndex].name;
@@ -345,18 +342,18 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     },
 
     _renderTableBody: function(options) {
-        var cellTemplates = [],
-            cellTemplateOpt = options.cellTemplate;
+        var cellTemplates = [];
+        var cellTemplateOpt = options.cellTemplate;
 
         this._$rows = [];
 
         var fillTableBody = (function(rowIndex, rowSize) {
             if(rowSize) {
-                var date,
-                    cellDateNumber,
-                    cellDayName,
-                    $row = $("<tr>"),
-                    $td = $("<td>").height(this._getRowHeight(rowSize));
+                var date;
+                var cellDateNumber;
+                var cellDayName;
+                var $row = $("<tr>");
+                var $td = $("<td>").height(this._getRowHeight(rowSize));
 
                 if(options.getStartDate) {
                     date = options.getStartDate && options.getStartDate(rowIndex);
@@ -417,15 +414,15 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     },
 
     _getTimePanelStartDate: function(rowIndex) {
-        var current = new Date(this.option("currentDate")),
-            cellDate = new Date(current.setDate(current.getDate() + rowIndex));
+        var current = new Date(this.option("currentDate"));
+        var cellDate = new Date(current.setDate(current.getDate() + rowIndex));
 
         return cellDate;
     },
 
     _getRowHeight: function(rowSize) {
-        var baseHeight = this.option("rowHeight"),
-            innerOffset = (rowSize - 1) * INNER_CELL_MARGIN;
+        var baseHeight = this.option("rowHeight");
+        var innerOffset = (rowSize - 1) * INNER_CELL_MARGIN;
 
         return rowSize ? (baseHeight * rowSize) + innerOffset + OUTER_CELL_MARGIN : 0;
     },
@@ -450,8 +447,8 @@ var SchedulerAgenda = SchedulerWorkSpace.inherit({
     },
 
     getEndViewDate: function() {
-        var currentDate = new Date(this.option("currentDate")),
-            agendaDuration = this.option("agendaDuration");
+        var currentDate = new Date(this.option("currentDate"));
+        var agendaDuration = this.option("agendaDuration");
 
         currentDate.setHours(this.option("endDayHour"));
 

@@ -9,9 +9,9 @@ let AsyncCollectionWidget = CollectionWidgetEdit.inherit({
     },
 
     _renderItemContent(args) {
-        let renderContentDeferred = new Deferred(),
-            itemDeferred = new Deferred(),
-            that = this;
+        let renderContentDeferred = new Deferred();
+        let itemDeferred = new Deferred();
+        let that = this;
 
         this._deferredItems[args.index] = itemDeferred;
         let $itemContent = this.callBase.call(that, args);

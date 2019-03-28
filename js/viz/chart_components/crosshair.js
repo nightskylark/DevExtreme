@@ -1,19 +1,19 @@
-var math = Math,
-    mathAbs = math.abs,
-    mathMin = math.min,
-    mathMax = math.max,
-    mathFloor = math.floor,
-    vizUtils = require("../core/utils"),
-    extend = require("../../core/utils/extend").extend,
-    HORIZONTAL = "horizontal",
-    VERTICAL = "vertical",
-    LABEL_BACKGROUND_PADDING_X = 8,
-    LABEL_BACKGROUND_PADDING_Y = 4,
-    CENTER = "center",
-    RIGHT = "right",
-    LEFT = "left",
-    TOP = "top",
-    BOTTOM = "bottom";
+var math = Math;
+var mathAbs = math.abs;
+var mathMin = math.min;
+var mathMax = math.max;
+var mathFloor = math.floor;
+var vizUtils = require("../core/utils");
+var extend = require("../../core/utils/extend").extend;
+var HORIZONTAL = "horizontal";
+var VERTICAL = "vertical";
+var LABEL_BACKGROUND_PADDING_X = 8;
+var LABEL_BACKGROUND_PADDING_Y = 4;
+var CENTER = "center";
+var RIGHT = "right";
+var LEFT = "left";
+var TOP = "top";
+var BOTTOM = "bottom";
 
 exports.getMargins = function() {
     return {
@@ -35,9 +35,9 @@ function getLabelCheckerPosition(x, y, isHorizontal, canvas) {
     var params = isHorizontal ? ["x", "width", "y", "height", y, 0] : ["y", "height", "x", "width", x, 1];
 
     return function(bBox, position, coord) {
-        var labelCoord = { x: coord.x, y: coord.y },
-            rectangleBBox = getRectangleBBox(bBox),
-            delta = isHorizontal ? coord.y - bBox.y - bBox.height / 2 : coord.y - bBox.y;
+        var labelCoord = { x: coord.x, y: coord.y };
+        var rectangleBBox = getRectangleBBox(bBox);
+        var delta = isHorizontal ? coord.y - bBox.y - bBox.height / 2 : coord.y - bBox.y;
 
         labelCoord.y = isHorizontal || (!isHorizontal && position === BOTTOM) ? coord.y + delta : coord.y;
 
@@ -68,8 +68,8 @@ Crosshair.prototype = {
     constructor: Crosshair,
 
     update: function(options, params) {
-        var that = this,
-            canvas = params.canvas;
+        var that = this;
+        var canvas = params.canvas;
         that._canvas = {
             top: canvas.top,
             bottom: canvas.height - canvas.bottom,
@@ -108,9 +108,9 @@ Crosshair.prototype = {
     },
 
     _createLines: function(options, sharpParam, group) {
-        var lines = [],
-            canvas = this._canvas,
-            points = [canvas.left, canvas.top, canvas.left, canvas.top];
+        var lines = [];
+        var canvas = this._canvas;
+        var points = [canvas.left, canvas.top, canvas.left, canvas.top];
         for(var i = 0; i < 2; i++) {
             lines.push(this._renderer.path(points, "line").attr(options).sharp(sharpParam).append(group));
         }
@@ -118,14 +118,14 @@ Crosshair.prototype = {
     },
 
     render: function() {
-        var that = this,
-            renderer = that._renderer,
-            options = that._options,
-            verticalOptions = options.vertical,
-            horizontalOptions = options.horizontal,
-            extraOptions = horizontalOptions.visible ? horizontalOptions.line : verticalOptions.line,
-            circleOptions = { stroke: extraOptions.stroke, "stroke-width": extraOptions["stroke-width"], dashStyle: extraOptions.dashStyle, opacity: extraOptions.opacity },
-            canvas = that._canvas;
+        var that = this;
+        var renderer = that._renderer;
+        var options = that._options;
+        var verticalOptions = options.vertical;
+        var horizontalOptions = options.horizontal;
+        var extraOptions = horizontalOptions.visible ? horizontalOptions.line : verticalOptions.line;
+        var circleOptions = { stroke: extraOptions.stroke, "stroke-width": extraOptions["stroke-width"], dashStyle: extraOptions.dashStyle, opacity: extraOptions.opacity };
+        var canvas = that._canvas;
 
         that._horizontal = {};
         that._vertical = {};
@@ -147,21 +147,21 @@ Crosshair.prototype = {
     },
 
     _createLabels: function(axes, options, isHorizontal, group) {
-        var that = this,
-            canvas = that._canvas,
-            renderer = that._renderer,
-            x,
-            y,
-            text,
-            labels = [],
-            background,
-            currentLabelPos,
-            labelOptions = options.label;
+        var that = this;
+        var canvas = that._canvas;
+        var renderer = that._renderer;
+        var x;
+        var y;
+        var text;
+        var labels = [];
+        var background;
+        var currentLabelPos;
+        var labelOptions = options.label;
 
         if(labelOptions.visible) {
             axes.forEach(function(axis) {
-                var position = axis.getOptions().position,
-                    align;
+                var position = axis.getOptions().position;
+                var align;
                 if(axis.getTranslator().getBusinessRange().isEmpty()) {
                     return;
                 }
@@ -191,11 +191,11 @@ Crosshair.prototype = {
         var that = this;
 
         labels.forEach(function(label) {
-            var axis = label.axis,
-                coord = label.startXY,
-                textElement = label.text,
-                backgroundElement = label.background,
-                text = "";
+            var axis = label.axis;
+            var coord = label.startXY;
+            var textElement = label.text;
+            var backgroundElement = label.background;
+            var text = "";
 
             if(!axis.name || axis.name === axisName) {
                 text = axis.getFormattedValue(value, label.options, point);
@@ -224,26 +224,28 @@ Crosshair.prototype = {
     },
 
     _updateLinesCanvas: function(label) {
-        var position = label.pos.side,
-            labelCoord = label.pos.coord,
-            coords = this._linesCanvas,
-            canvas = this._canvas;
+        var position = label.pos.side;
+        var labelCoord = label.pos.coord;
+        var coords = this._linesCanvas;
+        var canvas = this._canvas;
 
         coords[position] = (coords[position] !== canvas[position] && mathAbs(coords[position] - canvas[position]) < mathAbs(labelCoord - canvas[position])) ? coords[position] : labelCoord;
     },
 
     _updateLines: function(lines, x, y, r, isHorizontal) {
-        var coords = this._linesCanvas,
-            canvas = this._canvas,
-            points = isHorizontal
-                ? [
-                    [mathMin(x - r, coords.left), canvas.top, x - r, canvas.top],
-                    [x + r, canvas.top, mathMax(coords.right, x + r), canvas.top]
-                ]
-                : [
-                    [canvas.left, mathMin(coords.top, y - r), canvas.left, y - r],
-                    [canvas.left, y + r, canvas.left, mathMax(coords.bottom, y + r)]
-                ];
+        var coords = this._linesCanvas;
+        var canvas = this._canvas;
+
+        var points = isHorizontal
+            ? [
+                [mathMin(x - r, coords.left), canvas.top, x - r, canvas.top],
+                [x + r, canvas.top, mathMax(coords.right, x + r), canvas.top]
+            ]
+            : [
+                [canvas.left, mathMin(coords.top, y - r), canvas.left, y - r],
+                [canvas.left, y + r, canvas.left, mathMax(coords.bottom, y + r)]
+            ];
+
         for(var i = 0; i < 2; i++) {
             lines[i].attr({ points: points[i] });
         }
@@ -260,9 +262,9 @@ Crosshair.prototype = {
     },
 
     _getClipRectForPane: function(x, y) {
-        var panes = this._panes,
-            i,
-            coords;
+        var panes = this._panes;
+        var i;
+        var coords;
         for(i = 0; i < panes.length; i++) {
             coords = panes[i].coords;
             if(coords.left <= x && coords.right >= x && coords.top <= y && coords.bottom >= y) {
@@ -273,16 +275,16 @@ Crosshair.prototype = {
     },
 
     show: function(data) {
-        var that = this,
-            point = data.point,
-            pointData = point.getCrosshairData(data.x, data.y),
-            r = point.getPointRadius(),
-            horizontal = that._horizontal,
-            vertical = that._vertical,
-            rad = !r ? 0 : r + 3,
-            canvas = that._canvas,
-            x = mathFloor(pointData.x),
-            y = mathFloor(pointData.y);
+        var that = this;
+        var point = data.point;
+        var pointData = point.getCrosshairData(data.x, data.y);
+        var r = point.getPointRadius();
+        var horizontal = that._horizontal;
+        var vertical = that._vertical;
+        var rad = !r ? 0 : r + 3;
+        var canvas = that._canvas;
+        var x = mathFloor(pointData.x);
+        var y = mathFloor(pointData.y);
 
         if(x >= canvas.left && x <= canvas.right && y >= canvas.top && y <= canvas.bottom) {
             that._crosshairGroup.attr({ visibility: "visible" });

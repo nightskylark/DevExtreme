@@ -8,11 +8,11 @@ var isDefined = require("./type").isDefined;
 var Promise = require("../polyfills/promise");
 var injector = require("./dependency_injector");
 
-var SUCCESS = "success",
-    ERROR = "error",
-    TIMEOUT = "timeout",
-    NO_CONTENT = "nocontent",
-    PARSER_ERROR = "parsererror";
+var SUCCESS = "success";
+var ERROR = "error";
+var TIMEOUT = "timeout";
+var NO_CONTENT = "nocontent";
+var PARSER_ERROR = "parsererror";
 
 
 var isStatusSuccess = function(status) {
@@ -88,18 +88,19 @@ var evalCrossDomainScript = function(url) {
 };
 
 var getAcceptHeader = function(options) {
+    var dataType = options.dataType || "*";
+    var scriptAccept = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript";
 
-    var dataType = options.dataType || "*",
-        scriptAccept = "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript",
-        accepts = {
-            "*": "*/*",
-            text: "text/plain",
-            html: "text/html",
-            xml: "application/xml, text/xml",
-            json: "application/json, text/javascript",
-            jsonp: scriptAccept,
-            script: scriptAccept
-        };
+    var accepts = {
+        "*": "*/*",
+        text: "text/plain",
+        html: "text/html",
+        xml: "application/xml, text/xml",
+        json: "application/json, text/javascript",
+        jsonp: scriptAccept,
+        script: scriptAccept
+    };
+
     extendFromObject(accepts, options.accepts, true);
 
     return accepts[dataType] ?
@@ -155,9 +156,9 @@ var isCrossDomain = function(url) {
         return true;
     }
 
-    var crossDomain = false,
-        originAnchor = domAdapter.createElement("a"),
-        urlAnchor = domAdapter.createElement("a");
+    var crossDomain = false;
+    var originAnchor = domAdapter.createElement("a");
+    var urlAnchor = domAdapter.createElement("a");
 
     originAnchor.href = window.location.href;
 
@@ -185,9 +186,9 @@ var setHttpTimeout = function(timeout, xhr) {
 
 var getJsonpOptions = function(options) {
     if(options.dataType === "jsonp") {
-        var random = Math.random().toString().replace(/\D/g, ""),
-            callbackName = options.jsonpCallback || "dxCallback" + Date.now() + "_" + random,
-            callbackParameter = options.jsonp || "callback";
+        var random = Math.random().toString().replace(/\D/g, "");
+        var callbackName = options.jsonpCallback || "dxCallback" + Date.now() + "_" + random;
+        var callbackParameter = options.jsonp || "callback";
 
         options.data = options.data || {};
         options.data[callbackParameter] = callbackName;
@@ -197,10 +198,9 @@ var getJsonpOptions = function(options) {
 };
 
 var getRequestOptions = function(options, headers) {
-
-    var params = options.data,
-        paramsAlreadyString = typeof params === "string",
-        url = options.url || window.location.href;
+    var params = options.data;
+    var paramsAlreadyString = typeof params === "string";
+    var url = options.url || window.location.href;
 
     if(!paramsAlreadyString && !options.cache) {
         params = params || {};
@@ -246,13 +246,13 @@ var getRequestHeaders = function(options) {
 
 
 var sendRequest = function(options) {
-    var xhr = httpRequest.getXhr(),
-        d = new Deferred(),
-        result = d.promise(),
-        async = isDefined(options.async) ? options.async : true,
-        dataType = options.dataType,
-        timeout = options.timeout || 0,
-        timeoutId;
+    var xhr = httpRequest.getXhr();
+    var d = new Deferred();
+    var result = d.promise();
+    var async = isDefined(options.async) ? options.async : true;
+    var dataType = options.dataType;
+    var timeout = options.timeout || 0;
+    var timeoutId;
 
     options.crossDomain = isCrossDomain(options.url);
     var needScriptEvaluation = dataType === "jsonp" || dataType === "script";
@@ -261,11 +261,11 @@ var sendRequest = function(options) {
         options.cache = !needScriptEvaluation;
     }
 
-    var callbackName = getJsonpOptions(options),
-        headers = getRequestHeaders(options),
-        requestOptions = getRequestOptions(options, headers),
-        url = requestOptions.url,
-        parameters = requestOptions.parameters;
+    var callbackName = getJsonpOptions(options);
+    var headers = getRequestHeaders(options);
+    var requestOptions = getRequestOptions(options, headers);
+    var url = requestOptions.url;
+    var parameters = requestOptions.parameters;
 
     if(callbackName) {
         window[callbackName] = function(data) {
@@ -276,11 +276,12 @@ var sendRequest = function(options) {
     if(options.crossDomain && needScriptEvaluation) {
         var reject = function() {
                 d.reject(xhr, ERROR);
-            },
-            resolve = function() {
-                if(dataType === "jsonp") return;
-                d.resolve(null, SUCCESS, xhr);
             };
+
+        var resolve = function() {
+            if(dataType === "jsonp") return;
+            d.resolve(null, SUCCESS, xhr);
+        };
 
         evalCrossDomainScript(url).then(resolve, reject);
         return result;

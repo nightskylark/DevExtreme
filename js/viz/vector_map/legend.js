@@ -1,17 +1,17 @@
-var extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    _extend = extend,
-    _each = each,
-    legendModule = require("../components/legend"),
-    _BaseLegend = legendModule.Legend;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var _extend = extend;
+var _each = each;
+var legendModule = require("../components/legend");
+var _BaseLegend = legendModule.Legend;
 
 var unknownSource = { category: "UNKNOWN", name: "UNKNOWN" };
 
 function buildData(partition, values, field) {
-    var i,
-        ii = values.length,
-        list = [],
-        item;
+    var i;
+    var ii = values.length;
+    var list = [];
+    var item;
     for(i = 0; i < ii; ++i) {
         list[i] = item = {
             start: partition[i],
@@ -116,12 +116,12 @@ LegendsControl.prototype = {
     },
 
     setOptions: function(options) {
-        var optionList = options && options.length ? options : [],
-            items = this._items,
-            i,
-            ii = optionList.length,
-            params = this._params,
-            theme = params.themeManager.theme("legend");
+        var optionList = options && options.length ? options : [];
+        var items = this._items;
+        var i;
+        var ii = optionList.length;
+        var params = this._params;
+        var theme = params.themeManager.theme("legend");
 
         for(i = items.length; i < ii; ++i) {
             items[i] = new Legend(params);

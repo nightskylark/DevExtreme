@@ -1,15 +1,14 @@
-var $ = require("../../core/renderer"),
-    extend = require("../../core/utils/extend").extend,
-    Widget = require("../widget/ui.widget"),
-    Button = require("../button");
-
-var CALENDAR_NAVIGATOR_CLASS = "dx-calendar-navigator",
-    CALENDAR_NAVIGATOR_PREVIOUS_MONTH_CLASS = "dx-calendar-navigator-previous-month",
-    CALENDAR_NAVIGATOR_NEXT_MONTH_CLASS = "dx-calendar-navigator-next-month",
-    CALENDAR_NAVIGATOR_PREVIOUS_VIEW_CLASS = "dx-calendar-navigator-previous-view",
-    CALENDAR_NAVIGATOR_NEXT_VIEW_CLASS = "dx-calendar-navigator-next-view",
-    CALENDAR_NAVIGATOR_DISABLED_LINK_CLASS = "dx-calendar-disabled-navigator-link",
-    CALENDAR_NAVIGATOR_CAPTION_BUTTON_CLASS = "dx-calendar-caption-button";
+var $ = require("../../core/renderer");
+var extend = require("../../core/utils/extend").extend;
+var Widget = require("../widget/ui.widget");
+var Button = require("../button");
+var CALENDAR_NAVIGATOR_CLASS = "dx-calendar-navigator";
+var CALENDAR_NAVIGATOR_PREVIOUS_MONTH_CLASS = "dx-calendar-navigator-previous-month";
+var CALENDAR_NAVIGATOR_NEXT_MONTH_CLASS = "dx-calendar-navigator-next-month";
+var CALENDAR_NAVIGATOR_PREVIOUS_VIEW_CLASS = "dx-calendar-navigator-previous-view";
+var CALENDAR_NAVIGATOR_NEXT_VIEW_CLASS = "dx-calendar-navigator-next-view";
+var CALENDAR_NAVIGATOR_DISABLED_LINK_CLASS = "dx-calendar-disabled-navigator-link";
+var CALENDAR_NAVIGATOR_CAPTION_BUTTON_CLASS = "dx-calendar-caption-button";
 
 var Navigator = Widget.inherit({
 
@@ -43,8 +42,8 @@ var Navigator = Widget.inherit({
     },
 
     _renderButtons: function() {
-        var that = this,
-            direction = this.option("rtlEnabled") ? -1 : 1;
+        var that = this;
+        var direction = this.option("rtlEnabled") ? -1 : 1;
 
         this._prevButton = this._createComponent($("<a>"),
             Button, {
@@ -87,8 +86,8 @@ var Navigator = Widget.inherit({
     },
 
     toggleButton: function(buttonPrefix, value) {
-        var buttonName = "_" + buttonPrefix + "Button",
-            button = this[buttonName];
+        var buttonName = "_" + buttonPrefix + "Button";
+        var button = this[buttonName];
 
         if(button) {
             button.option("disabled", value);

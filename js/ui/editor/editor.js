@@ -1,23 +1,20 @@
-var $ = require("../../core/renderer"),
-    dataUtils = require("../../core/element_data"),
-    Callbacks = require("../../core/utils/callbacks"),
-    commonUtils = require("../../core/utils/common"),
-    windowUtils = require("../../core/utils/window"),
-    getDefaultAlignment = require("../../core/utils/position").getDefaultAlignment,
-    extend = require("../../core/utils/extend").extend,
-    Widget = require("../widget/ui.widget"),
-    ValidationMixin = require("../validation/validation_mixin"),
-    Overlay = require("../overlay");
-
-var READONLY_STATE_CLASS = "dx-state-readonly",
-    INVALID_CLASS = "dx-invalid",
-    INVALID_MESSAGE = "dx-invalid-message",
-    INVALID_MESSAGE_AUTO = "dx-invalid-message-auto",
-    INVALID_MESSAGE_ALWAYS = "dx-invalid-message-always",
-
-    VALIDATION_TARGET = "dx-validation-target",
-
-    VALIDATION_MESSAGE_MIN_WIDTH = 100;
+var $ = require("../../core/renderer");
+var dataUtils = require("../../core/element_data");
+var Callbacks = require("../../core/utils/callbacks");
+var commonUtils = require("../../core/utils/common");
+var windowUtils = require("../../core/utils/window");
+var getDefaultAlignment = require("../../core/utils/position").getDefaultAlignment;
+var extend = require("../../core/utils/extend").extend;
+var Widget = require("../widget/ui.widget");
+var ValidationMixin = require("../validation/validation_mixin");
+var Overlay = require("../overlay");
+var READONLY_STATE_CLASS = "dx-state-readonly";
+var INVALID_CLASS = "dx-invalid";
+var INVALID_MESSAGE = "dx-invalid-message";
+var INVALID_MESSAGE_AUTO = "dx-invalid-message-auto";
+var INVALID_MESSAGE_ALWAYS = "dx-invalid-message-always";
+var VALIDATION_TARGET = "dx-validation-target";
+var VALIDATION_MESSAGE_MIN_WIDTH = 100;
 
 /**
 * @name Editor
@@ -201,10 +198,10 @@ var Editor = Widget.inherit({
     },
 
     _renderValidationState: function() {
-        var isValid = this.option("isValid"),
-            validationError = this.option("validationError"),
-            validationMessageMode = this.option("validationMessageMode"),
-            $element = this.$element();
+        var isValid = this.option("isValid");
+        var validationError = this.option("validationError");
+        var validationMessageMode = this.option("validationMessageMode");
+        var $element = this.$element();
 
         $element.toggleClass(INVALID_CLASS, !isValid);
         this.setAria("invalid", !isValid || undefined);
@@ -268,11 +265,11 @@ var Editor = Widget.inherit({
     },
 
     _getValidationMessagePosition: function(positionRequest) {
-        var rtlEnabled = this.option("rtlEnabled"),
-            messagePositionSide = getDefaultAlignment(rtlEnabled),
-            messageOriginalOffset = this.option("validationMessageOffset"),
-            messageOffset = { h: messageOriginalOffset.h, v: messageOriginalOffset.v },
-            verticalPositions = positionRequest === "below" ? [" top", " bottom"] : [" bottom", " top"];
+        var rtlEnabled = this.option("rtlEnabled");
+        var messagePositionSide = getDefaultAlignment(rtlEnabled);
+        var messageOriginalOffset = this.option("validationMessageOffset");
+        var messageOffset = { h: messageOriginalOffset.h, v: messageOriginalOffset.v };
+        var verticalPositions = positionRequest === "below" ? [" top", " bottom"] : [" bottom", " top"];
 
         if(rtlEnabled) messageOffset.h = -messageOffset.h;
         if(positionRequest !== "below") messageOffset.v = -messageOffset.v;

@@ -1,12 +1,12 @@
-var themeModule = require("../../themes"),
-    registerTheme = themeModule.registerTheme,
-    registerThemeSchemeAlias = themeModule.registerThemeSchemeAlias,
-    BLACK = "#000000",
-    WHITE = "#ffffff",
-    WIN10_WHITE = "win10.white",
-    WIN10_BLACK = "win10.black",
-    WIN8_WHITE = "win8.white",
-    WIN8_BLACK = "win8.black";
+var themeModule = require("../../themes");
+var registerTheme = themeModule.registerTheme;
+var registerThemeSchemeAlias = themeModule.registerThemeSchemeAlias;
+var BLACK = "#000000";
+var WHITE = "#ffffff";
+var WIN10_WHITE = "win10.white";
+var WIN10_BLACK = "win10.black";
+var WIN8_WHITE = "win8.white";
+var WIN8_BLACK = "win8.black";
 
 registerTheme({
     name: WIN10_BLACK,

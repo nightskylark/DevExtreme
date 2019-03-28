@@ -1,22 +1,20 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    commonUtils = require("../core/utils/common"),
-    typeUtils = require("../core/utils/type"),
-    errors = require("./widget/ui.errors"),
-    windowUtils = require("../core/utils/window"),
-    window = windowUtils.getWindow(),
-    iteratorUtils = require("../core/utils/iterator"),
-    extend = require("../core/utils/extend").extend,
-    registerComponent = require("../core/component_registrator"),
-    Box = require("./box"),
-    CollectionWidget = require("./collection/ui.collection_widget.edit");
-
-var RESPONSIVE_BOX_CLASS = "dx-responsivebox",
-    SCREEN_SIZE_CLASS_PREFIX = RESPONSIVE_BOX_CLASS + "-screen-",
-    BOX_ITEM_CLASS = "dx-box-item",
-    BOX_ITEM_DATA_KEY = "dxBoxItemData",
-
-    HD_SCREEN_WIDTH = 1920;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var commonUtils = require("../core/utils/common");
+var typeUtils = require("../core/utils/type");
+var errors = require("./widget/ui.errors");
+var windowUtils = require("../core/utils/window");
+var window = windowUtils.getWindow();
+var iteratorUtils = require("../core/utils/iterator");
+var extend = require("../core/utils/extend").extend;
+var registerComponent = require("../core/component_registrator");
+var Box = require("./box");
+var CollectionWidget = require("./collection/ui.collection_widget.edit");
+var RESPONSIVE_BOX_CLASS = "dx-responsivebox";
+var SCREEN_SIZE_CLASS_PREFIX = RESPONSIVE_BOX_CLASS + "-screen-";
+var BOX_ITEM_CLASS = "dx-box-item";
+var BOX_ITEM_DATA_KEY = "dxBoxItemData";
+var HD_SCREEN_WIDTH = 1920;
 
 /**
 * @name dxResponsiveBox
@@ -284,12 +282,12 @@ var ResponsiveBox = CollectionWidget.inherit({
     },
 
     getSingleColumnRows: function() {
-        var rows = this.option("rows"),
-            screenItemsLength = this._screenItems.length;
+        var rows = this.option("rows");
+        var screenItemsLength = this._screenItems.length;
 
         if(rows.length) {
-            var filteredRows = this._filterByScreen(rows),
-                result = [];
+            var filteredRows = this._filterByScreen(rows);
+            var result = [];
 
             for(var i = 0; i < screenItemsLength; i++) {
                 var sizeConfig = this._defaultSizeConfig();
@@ -459,8 +457,8 @@ var ResponsiveBox = CollectionWidget.inherit({
 
     _linkNodeToItem: function() {
         iteratorUtils.each(this._itemElements(), function(_, itemNode) {
-            var $item = $(itemNode),
-                item = $item.data(BOX_ITEM_DATA_KEY);
+            var $item = $(itemNode);
+            var item = $item.data(BOX_ITEM_DATA_KEY);
             if(!item.box) {
                 item.node = $item.children();
             }
@@ -622,8 +620,8 @@ var ResponsiveBox = CollectionWidget.inherit({
     },
 
     _blockSize: function(block, direction) {
-        var sizeConfigs = (direction === "row") ? this._rows : this._cols,
-            result = extend(this._createDefaultSizeConfig(), { ratio: 0 });
+        var sizeConfigs = (direction === "row") ? this._rows : this._cols;
+        var result = extend(this._createDefaultSizeConfig(), { ratio: 0 });
 
         for(var index = block[direction].start; index <= block[direction].end; index++) {
             var sizeConfig = sizeConfigs[index];

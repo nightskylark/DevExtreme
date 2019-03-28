@@ -1,38 +1,37 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    Class = require("../core/class"),
-    stringUtils = require("../core/utils/string"),
-    registerComponent = require("../core/component_registrator"),
-    commonUtils = require("../core/utils/common"),
-    each = require("../core/utils/iterator").each,
-    typeUtils = require("../core/utils/type"),
-    extend = require("../core/utils/extend").extend,
-    clickEvent = require("../events/click"),
-    pointerEvents = require("../events/pointer"),
-    messageLocalization = require("../localization/message"),
-    Widget = require("./widget/ui.widget"),
-    SelectBox = require("./select_box"),
-    NumberBox = require("./number_box"),
-    eventUtils = require("../events/utils");
-
-var PAGES_LIMITER = 4,
-    PAGER_CLASS = 'dx-pager',
-    PAGER_PAGE_CLASS = 'dx-page',
-    PAGER_PAGES_CLASS = 'dx-pages',
-    LIGHT_MODE_CLASS = "dx-light-mode",
-    LIGHT_PAGES_CLASS = "dx-light-pages",
-    PAGER_PAGE_INDEX_CLASS = "dx-page-index",
-    PAGER_PAGES_COUNT_CLASS = "dx-pages-count",
-    PAGER_SELECTION_CLASS = 'dx-selection',
-    PAGER_PAGE_SEPARATOR_CLASS = 'dx-separator',
-    PAGER_PAGE_SIZES_CLASS = 'dx-page-sizes',
-    PAGER_PAGE_SIZE_CLASS = 'dx-page-size',
-    PAGER_NAVIGATE_BUTTON = 'dx-navigate-button',
-    PAGER_PREV_BUTTON_CLASS = "dx-prev-button",
-    PAGER_NEXT_BUTTON_CLASS = "dx-next-button",
-    PAGER_INFO_CLASS = "dx-info",
-    PAGER_INFO_TEXT_CLASS = "dx-info-text",
-    PAGER_BUTTON_DISABLE_CLASS = "dx-button-disable";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var Class = require("../core/class");
+var stringUtils = require("../core/utils/string");
+var registerComponent = require("../core/component_registrator");
+var commonUtils = require("../core/utils/common");
+var each = require("../core/utils/iterator").each;
+var typeUtils = require("../core/utils/type");
+var extend = require("../core/utils/extend").extend;
+var clickEvent = require("../events/click");
+var pointerEvents = require("../events/pointer");
+var messageLocalization = require("../localization/message");
+var Widget = require("./widget/ui.widget");
+var SelectBox = require("./select_box");
+var NumberBox = require("./number_box");
+var eventUtils = require("../events/utils");
+var PAGES_LIMITER = 4;
+var PAGER_CLASS = 'dx-pager';
+var PAGER_PAGE_CLASS = 'dx-page';
+var PAGER_PAGES_CLASS = 'dx-pages';
+var LIGHT_MODE_CLASS = "dx-light-mode";
+var LIGHT_PAGES_CLASS = "dx-light-pages";
+var PAGER_PAGE_INDEX_CLASS = "dx-page-index";
+var PAGER_PAGES_COUNT_CLASS = "dx-pages-count";
+var PAGER_SELECTION_CLASS = 'dx-selection';
+var PAGER_PAGE_SEPARATOR_CLASS = 'dx-separator';
+var PAGER_PAGE_SIZES_CLASS = 'dx-page-sizes';
+var PAGER_PAGE_SIZE_CLASS = 'dx-page-size';
+var PAGER_NAVIGATE_BUTTON = 'dx-navigate-button';
+var PAGER_PREV_BUTTON_CLASS = "dx-prev-button";
+var PAGER_NEXT_BUTTON_CLASS = "dx-next-button";
+var PAGER_INFO_CLASS = "dx-info";
+var PAGER_INFO_TEXT_CLASS = "dx-info-text";
+var PAGER_BUTTON_DISABLE_CLASS = "dx-button-disable";
 
 var Page = Class.inherit({
     ctor: function(value, index) {
@@ -103,10 +102,10 @@ var Pager = Widget.inherit({
     },
 
     _getPages: function(currentPage, count) {
-        var pages = [],
-            showMoreButton = !this.option("hasKnownLastPage"),
-            firstValue,
-            i;
+        var pages = [];
+        var showMoreButton = !this.option("hasKnownLastPage");
+        var firstValue;
+        var i;
 
         ///#DEBUG
         this._testPagesCount = count;
@@ -137,9 +136,9 @@ var Pager = Widget.inherit({
     },
 
     _getPageByValue: function(value) {
-        var that = this,
-            page,
-            i;
+        var that = this;
+        var page;
+        var i;
 
         for(i = 0; i < that._pages.length; i++) {
             page = that._pages[i];
@@ -150,9 +149,9 @@ var Pager = Widget.inherit({
     },
 
     _processSelectedPage: function(maxPagesCount, pageIndex, pageCount) {
-        var that = this,
-            isPageIndexValid = false,
-            selectedPageIndex;
+        var that = this;
+        var isPageIndexValid = false;
+        var selectedPageIndex;
 
         if(that._pages) {
             each(that._pages, function(key, page) {
@@ -179,14 +178,14 @@ var Pager = Widget.inherit({
     },
 
     _selectPageByValue: function(value) {
-        var that = this,
-            i,
-            page = that._getPageByValue(value),
-            pages = that._pages,
-            pagesLength = pages.length,
-            prevPage,
-            nextPage,
-            morePage;
+        var that = this;
+        var i;
+        var page = that._getPageByValue(value);
+        var pages = that._pages;
+        var pagesLength = pages.length;
+        var prevPage;
+        var nextPage;
+        var morePage;
 
         if(!typeUtils.isDefined(page)) {
             return;
@@ -252,8 +251,8 @@ var Pager = Widget.inherit({
     },
 
     _nextPage: function(direction) {
-        var pageIndex = this.option("pageIndex"),
-            pageCount = this.option("pageCount");
+        var pageIndex = this.option("pageIndex");
+        var pageCount = this.option("pageCount");
 
         if(typeUtils.isDefined(pageIndex)) {
             pageIndex = direction === "next" ? ++pageIndex : --pageIndex;
@@ -264,21 +263,23 @@ var Pager = Widget.inherit({
     },
 
     _renderPages: function(pages) {
-        var that = this,
-            $separator,
-            pagesLength = pages.length,
-            clickPagesIndexAction = that._createAction(function(args) {
-                var e = args.event,
-                    pageNumber = $(e.target).text(),
-                    pageIndex = pageNumber === '>' ? that.option("pageCount") + 1 : Number(pageNumber);
+        var that = this;
+        var $separator;
+        var pagesLength = pages.length;
 
-                ///#DEBUG
-                that._testPageIndex = pageIndex;
-                ///#ENDDEBUG
+        var clickPagesIndexAction = that._createAction(function(args) {
+            var e = args.event,
+                pageNumber = $(e.target).text(),
+                pageIndex = pageNumber === '>' ? that.option("pageCount") + 1 : Number(pageNumber);
 
-                that.option("pageIndex", pageIndex);
-            }),
-            page;
+            ///#DEBUG
+            that._testPageIndex = pageIndex;
+            ///#ENDDEBUG
+
+            that.option("pageIndex", pageIndex);
+        });
+
+        var page;
 
         if(pagesLength > 1) {
             that._pageClickHandler = function(e) {
@@ -310,15 +311,17 @@ var Pager = Widget.inherit({
     },
 
     _renderLightPages: function() {
-        var that = this,
-            pageCount = this.option("pageCount"),
-            pageIndex = this.option("pageIndex"),
-            $pageCount,
-            $pageIndex,
-            clickAction = that._createAction(function() {
-                that.option("pageIndex", pageCount);
-            }),
-            pagesCountText = this.option("pagesCountText");
+        var that = this;
+        var pageCount = this.option("pageCount");
+        var pageIndex = this.option("pageIndex");
+        var $pageCount;
+        var $pageIndex;
+
+        var clickAction = that._createAction(function() {
+            that.option("pageIndex", pageCount);
+        });
+
+        var pagesCountText = this.option("pagesCountText");
 
         var $container = $("<div>")
             .addClass(LIGHT_PAGES_CLASS)
@@ -358,10 +361,10 @@ var Pager = Widget.inherit({
     },
 
     _renderPagesChooser: function() {
-        var that = this,
-            lightModeEnabled = that.option("lightModeEnabled"),
-            pagesNavigatorVisible = that.option("pagesNavigatorVisible"),
-            $element = that.$element();
+        var that = this;
+        var lightModeEnabled = that.option("lightModeEnabled");
+        var pagesNavigatorVisible = that.option("pagesNavigatorVisible");
+        var $element = that.$element();
 
         that._$pagesChooser && that._$pagesChooser.remove();
 
@@ -398,24 +401,25 @@ var Pager = Widget.inherit({
     },
 
     _renderPageSizes: function() {
-        var that = this,
-            i,
-            pageSizes = that.option("pageSizes"),
-            pagesSizesLength = pageSizes && pageSizes.length,
-            pageSizeValue,
-            currentPageSize = that.option("pageSize"),
-            $pageSize,
-            clickPagesSizeAction = that._createAction(function(args) {
-                var e = args.event;
+        var that = this;
+        var i;
+        var pageSizes = that.option("pageSizes");
+        var pagesSizesLength = pageSizes && pageSizes.length;
+        var pageSizeValue;
+        var currentPageSize = that.option("pageSize");
+        var $pageSize;
 
-                pageSizeValue = parseInt($(e.target).text());
+        var clickPagesSizeAction = that._createAction(function(args) {
+            var e = args.event;
 
-                ///#DEBUG
-                that._testPageSizeIndex = pageSizeValue;
-                ///#ENDDEBUG
+            pageSizeValue = parseInt($(e.target).text());
 
-                that.option("pageSize", pageSizeValue);
-            });
+            ///#DEBUG
+            that._testPageSizeIndex = pageSizeValue;
+            ///#ENDDEBUG
+
+            that.option("pageSize", pageSizeValue);
+        });
 
         ///#DEBUG
         that._testCurrentPageSize = currentPageSize;
@@ -447,9 +451,9 @@ var Pager = Widget.inherit({
     },
 
     _renderLightPageSizes: function() {
-        var that = this,
-            $editor,
-            pageSizes = that.option("pageSizes");
+        var that = this;
+        var $editor;
+        var pageSizes = that.option("pageSizes");
 
         $editor = $("<div>").appendTo(that._$pagesSizeChooser);
 
@@ -467,11 +471,11 @@ var Pager = Widget.inherit({
     },
 
     _renderPagesSizeChooser: function() {
-        var that = this,
-            pageSizes = that.option("pageSizes"),
-            showPageSizes = that.option("showPageSizes"),
-            pagesSizesLength = pageSizes && pageSizes.length,
-            $element = that.$element();
+        var that = this;
+        var pageSizes = that.option("pageSizes");
+        var showPageSizes = that.option("showPageSizes");
+        var pagesSizesLength = pageSizes && pageSizes.length;
+        var $element = that.$element();
 
         that._$pagesSizeChooser && that._$pagesSizeChooser.remove();
 
@@ -507,11 +511,13 @@ var Pager = Widget.inherit({
     },
 
     _renderNavigateButton: function(direction) {
-        var that = this,
-            clickAction = that._createAction(function() {
-                that._nextPage(direction);
-            }),
-            $button;
+        var that = this;
+
+        var clickAction = that._createAction(function() {
+            that._nextPage(direction);
+        });
+
+        var $button;
 
         if(that.option("showNavigationButtons") || that.option("lightModeEnabled")) {
             $button = $("<div>").addClass(PAGER_NAVIGATE_BUTTON);
@@ -570,9 +576,9 @@ var Pager = Widget.inherit({
     },
 
     _updatePageSizes: function(forceRender) {
-        var lightModeEnabled = this.option("lightModeEnabled"),
-            pageSize = this.option("pageSize"),
-            pageSizes = this.option("pageSizes");
+        var lightModeEnabled = this.option("lightModeEnabled");
+        var pageSize = this.option("pageSize");
+        var pageSizes = this.option("pageSizes");
 
         if(lightModeEnabled) {
             this._pageSizeEditor && this._pageSizeEditor.option({
@@ -588,9 +594,9 @@ var Pager = Widget.inherit({
     },
 
     _updatePages: function(forceRender) {
-        var pageCount = this.option("pageCount"),
-            pageIndex = this.option("pageIndex"),
-            lightModeEnabled = this.option("lightModeEnabled");
+        var pageCount = this.option("pageCount");
+        var pageIndex = this.option("pageIndex");
+        var lightModeEnabled = this.option("lightModeEnabled");
 
         if(!lightModeEnabled) {
             this._processSelectedPage(this.option("maxPagesCount"), pageIndex, pageCount);
@@ -610,8 +616,8 @@ var Pager = Widget.inherit({
     },
 
     _isPageIndexInvalid: function(direction, pageIndex) {
-        var isNextDirection = direction === "next",
-            rtlEnabled = this.option("rtlEnabled");
+        var isNextDirection = direction === "next";
+        var rtlEnabled = this.option("rtlEnabled");
 
         if((rtlEnabled && isNextDirection) || (!rtlEnabled && !isNextDirection)) {
             return pageIndex <= 1;
@@ -621,8 +627,8 @@ var Pager = Widget.inherit({
     },
 
     _updateButtonsState: function(pageIndex) {
-        var nextButton = this.$element().find("." + PAGER_NEXT_BUTTON_CLASS),
-            prevButton = this.$element().find("." + PAGER_PREV_BUTTON_CLASS);
+        var nextButton = this.$element().find("." + PAGER_NEXT_BUTTON_CLASS);
+        var prevButton = this.$element().find("." + PAGER_PREV_BUTTON_CLASS);
 
         nextButton.toggleClass(PAGER_BUTTON_DISABLE_CLASS, this._isPageIndexInvalid("next", pageIndex));
         prevButton.toggleClass(PAGER_BUTTON_DISABLE_CLASS, this._isPageIndexInvalid("prev", pageIndex));
@@ -674,8 +680,8 @@ var Pager = Widget.inherit({
     },
 
     _getMinPagerWidth: function() {
-        var pagesChooserWidth = typeUtils.isDefined(this._pagesChooserWidth) ? this._pagesChooserWidth : 0,
-            pagesSizeChooserWidth = typeUtils.isDefined(this._pagesSizeChooserWidth) ? this._pagesSizeChooserWidth : 0;
+        var pagesChooserWidth = typeUtils.isDefined(this._pagesChooserWidth) ? this._pagesChooserWidth : 0;
+        var pagesSizeChooserWidth = typeUtils.isDefined(this._pagesSizeChooserWidth) ? this._pagesSizeChooserWidth : 0;
 
         return pagesChooserWidth + pagesSizeChooserWidth;
     },
@@ -686,9 +692,9 @@ var Pager = Widget.inherit({
     }),
 
     _updateLightMode: commonUtils.deferUpdater(function() {
-        var that = this,
-            width = this.$element().width(),
-            infoWidth = typeUtils.isDefined(this._infoWidth) ? this._infoWidth : 0;
+        var that = this;
+        var width = this.$element().width();
+        var infoWidth = typeUtils.isDefined(this._infoWidth) ? this._infoWidth : 0;
 
         commonUtils.deferRender(function() {
             if(that._isInfoHide && width > that._getMinPagerWidth() + infoWidth) {

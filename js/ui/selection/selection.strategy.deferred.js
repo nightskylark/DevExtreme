@@ -1,8 +1,8 @@
-var typeUtils = require("../../core/utils/type"),
-    SelectionStrategy = require("./selection.strategy"),
-    errors = require("../widget/ui.errors"),
-    dataQuery = require("../../data/query"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var typeUtils = require("../../core/utils/type");
+var SelectionStrategy = require("./selection.strategy");
+var errors = require("../widget/ui.errors");
+var dataQuery = require("../../data/query");
+var Deferred = require("../../core/utils/deferred").Deferred;
 
 module.exports = SelectionStrategy.inherit({
 
@@ -11,10 +11,10 @@ module.exports = SelectionStrategy.inherit({
     },
 
     getSelectedItemKeys: function() {
-        var d = new Deferred(),
-            that = this,
-            key = this.options.key(),
-            select = typeUtils.isString(key) ? [key] : key;
+        var d = new Deferred();
+        var that = this;
+        var key = this.options.key();
+        var select = typeUtils.isString(key) ? [key] : key;
 
         this._loadFilteredData(this.options.selectionFilter, null, select).done(function(items) {
             var keys = items.map(function(item) {
@@ -78,8 +78,8 @@ module.exports = SelectionStrategy.inherit({
     },
 
     _processSelectedItem: function(key) {
-        var keyField = this.options.key(),
-            filter = [keyField, "=", key];
+        var keyField = this.options.key();
+        var filter = [keyField, "=", key];
 
 
         if(Array.isArray(keyField)) {
@@ -154,11 +154,11 @@ module.exports = SelectionStrategy.inherit({
     },
 
     _addSelectionFilter: function(isDeselect, filter, isUnique) {
-        var that = this,
-            needAddFilter = true,
-            currentFilter = isDeselect ? ["!", filter] : filter,
-            currentOperation = isDeselect ? "and" : "or",
-            selectionFilter = that.options.selectionFilter || [];
+        var that = this;
+        var needAddFilter = true;
+        var currentFilter = isDeselect ? ["!", filter] : filter;
+        var currentOperation = isDeselect ? "and" : "or";
+        var selectionFilter = that.options.selectionFilter || [];
 
         selectionFilter = that._denormalizeFilter(selectionFilter);
 
@@ -222,8 +222,8 @@ module.exports = SelectionStrategy.inherit({
     },
 
     getSelectAllState: function() {
-        var filter = this.options.filter(),
-            selectionFilter = this.options.selectionFilter;
+        var filter = this.options.filter();
+        var selectionFilter = this.options.selectionFilter;
 
         if(!selectionFilter) return true;
         if(!selectionFilter.length) return false;

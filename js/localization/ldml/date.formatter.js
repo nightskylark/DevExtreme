@@ -50,9 +50,9 @@ var LDML_FORMATTERS = {
         return dateParts.getDayNames(formatType)[day];
     },
     a: function(date, count, useUtc, dateParts) {
-        var hours = date[useUtc ? "getUTCHours" : "getHours"](),
-            period = hours < 12 ? 0 : 1,
-            formatType = FORMAT_TYPES[count];
+        var hours = date[useUtc ? "getUTCHours" : "getHours"]();
+        var period = hours < 12 ? 0 : 1;
+        var formatType = FORMAT_TYPES[count];
         return dateParts.getPeriodNames(formatType)[period];
     },
     d: function(date, count, useUtc) {
@@ -75,13 +75,13 @@ var LDML_FORMATTERS = {
         return leftPad(date[useUtc ? "getUTCMilliseconds" : "getMilliseconds"]().toString(), 3).substr(0, count);
     },
     x: function(date, count, useUtc) {
-        var timezoneOffset = useUtc ? 0 : date.getTimezoneOffset(),
-            signPart = timezoneOffset > 0 ? "-" : "+",
-            timezoneOffsetAbs = Math.abs(timezoneOffset),
-            hours = Math.floor(timezoneOffsetAbs / 60),
-            minutes = timezoneOffsetAbs % 60,
-            hoursPart = leftPad(hours.toString(), 2),
-            minutesPart = leftPad(minutes.toString(), 2);
+        var timezoneOffset = useUtc ? 0 : date.getTimezoneOffset();
+        var signPart = timezoneOffset > 0 ? "-" : "+";
+        var timezoneOffsetAbs = Math.abs(timezoneOffset);
+        var hours = Math.floor(timezoneOffsetAbs / 60);
+        var minutes = timezoneOffsetAbs % 60;
+        var hoursPart = leftPad(hours.toString(), 2);
+        var minutesPart = leftPad(minutes.toString(), 2);
 
         return signPart + hoursPart + (count >= 3 ? ":" : "") + (count > 1 || minutes ? minutesPart : "");
     },
@@ -98,14 +98,14 @@ var LDML_FORMATTERS = {
 
 var getFormatter = function(format, dateParts) {
     return function(date) {
-        var charIndex,
-            formatter,
-            char,
-            charCount = 0,
-            separator = "'",
-            isEscaping = false,
-            isCurrentCharEqualsNext,
-            result = "";
+        var charIndex;
+        var formatter;
+        var char;
+        var charCount = 0;
+        var separator = "'";
+        var isEscaping = false;
+        var isCurrentCharEqualsNext;
+        var result = "";
 
         if(!date) return null;
 

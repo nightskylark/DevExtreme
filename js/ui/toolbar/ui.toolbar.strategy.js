@@ -1,14 +1,13 @@
-var $ = require("../../core/renderer"),
-    noop = require("../../core/utils/common").noop,
-    each = require("../../core/utils/iterator").each,
-    errors = require("../../core/errors"),
-    compileGetter = require("../../core/utils/data").compileGetter,
-    Class = require("../../core/class"),
-    Button = require("../button"),
-    abstract = Class.abstract;
-
-var TOOLBAR_MENU_CONTAINER_CLASS = "dx-toolbar-menu-container",
-    TOOLBAR_MENU_BUTTON_CLASS = "dx-toolbar-menu-button";
+var $ = require("../../core/renderer");
+var noop = require("../../core/utils/common").noop;
+var each = require("../../core/utils/iterator").each;
+var errors = require("../../core/errors");
+var compileGetter = require("../../core/utils/data").compileGetter;
+var Class = require("../../core/class");
+var Button = require("../button");
+var abstract = Class.abstract;
+var TOOLBAR_MENU_CONTAINER_CLASS = "dx-toolbar-menu-container";
+var TOOLBAR_MENU_BUTTON_CLASS = "dx-toolbar-menu-button";
 
 var ToolbarStrategy = Class.inherit({
 
@@ -49,16 +48,15 @@ var ToolbarStrategy = Class.inherit({
     _menuWidgetClass: abstract,
 
     _hasVisibleMenuItems: function(items) {
-        var menuItems = items || this._toolbar.option("items"),
-            result = false;
-
-        var optionGetter = compileGetter("visible"),
-            overflowGetter = compileGetter("locateInMenu");
+        var menuItems = items || this._toolbar.option("items");
+        var result = false;
+        var optionGetter = compileGetter("visible");
+        var overflowGetter = compileGetter("locateInMenu");
 
         var menuLocation = false;
         each(menuItems, function(index, item) {
-            var itemVisible = optionGetter(item, { functionsAsIs: true }),
-                itemOverflow = overflowGetter(item, { functionsAsIs: true });
+            var itemVisible = optionGetter(item, { functionsAsIs: true });
+            var itemOverflow = overflowGetter(item, { functionsAsIs: true });
 
             if(item.location === "menu") {
                 menuLocation = true;

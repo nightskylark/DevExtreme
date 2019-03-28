@@ -61,8 +61,8 @@ Translator1D.prototype = {
     },
 
     adjust: function(value) {
-        var ratio = (_Number(value) - this._domain1) / this._domainDelta,
-            result = NaN;
+        var ratio = (_Number(value) - this._domain1) / this._domainDelta;
+        var result = NaN;
         if(ratio < 0) {
             result = this._domain1;
         } else if(ratio > 1) {

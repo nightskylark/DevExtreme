@@ -1,36 +1,30 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    noop = require("../../core/utils/common").noop,
-    clickEvent = require("../../events/click"),
-    messageLocalization = require("../../localization/message"),
-    translator = require("../../animation/translator"),
-    eventUtils = require("../../events/utils"),
-    feedbackEvents = require("../../events/core/emitter.feedback"),
-    EditDecoratorMenuHelperMixin = require("./ui.list.edit.decorator_menu_helper"),
-    registerDecorator = require("./ui.list.edit.decorator_registry").register,
-    SwitchableEditDecorator = require("./ui.list.edit.decorator.switchable"),
-    fx = require("../../animation/fx"),
-    themes = require("../themes"),
-    ActionSheet = require("../action_sheet");
-
-var LIST_EDIT_DECORATOR = "dxListEditDecorator",
-    CLICK_EVENT_NAME = eventUtils.addNamespace(clickEvent.name, LIST_EDIT_DECORATOR),
-    ACTIVE_EVENT_NAME = eventUtils.addNamespace(feedbackEvents.active, LIST_EDIT_DECORATOR),
-
-    SLIDE_MENU_CLASS = "dx-list-slide-menu",
-    SLIDE_MENU_WRAPPER_CLASS = "dx-list-slide-menu-wrapper",
-
-    SLIDE_MENU_CONTENT_CLASS = "dx-list-slide-menu-content",
-    SLIDE_MENU_BUTTONS_CONTAINER_CLASS = "dx-list-slide-menu-buttons-container",
-
-    SLIDE_MENU_BUTTONS_CLASS = "dx-list-slide-menu-buttons",
-    SLIDE_MENU_BUTTON_CLASS = "dx-list-slide-menu-button",
-
-    SLIDE_MENU_BUTTON_MENU_CLASS = "dx-list-slide-menu-button-menu",
-    SLIDE_MENU_BUTTON_DELETE_CLASS = "dx-list-slide-menu-button-delete",
-
-    SLIDE_MENU_ANIMATION_DURATION = 400,
-    SLIDE_MENU_ANIMATION_EASING = "cubic-bezier(0.075, 0.82, 0.165, 1)";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var noop = require("../../core/utils/common").noop;
+var clickEvent = require("../../events/click");
+var messageLocalization = require("../../localization/message");
+var translator = require("../../animation/translator");
+var eventUtils = require("../../events/utils");
+var feedbackEvents = require("../../events/core/emitter.feedback");
+var EditDecoratorMenuHelperMixin = require("./ui.list.edit.decorator_menu_helper");
+var registerDecorator = require("./ui.list.edit.decorator_registry").register;
+var SwitchableEditDecorator = require("./ui.list.edit.decorator.switchable");
+var fx = require("../../animation/fx");
+var themes = require("../themes");
+var ActionSheet = require("../action_sheet");
+var LIST_EDIT_DECORATOR = "dxListEditDecorator";
+var CLICK_EVENT_NAME = eventUtils.addNamespace(clickEvent.name, LIST_EDIT_DECORATOR);
+var ACTIVE_EVENT_NAME = eventUtils.addNamespace(feedbackEvents.active, LIST_EDIT_DECORATOR);
+var SLIDE_MENU_CLASS = "dx-list-slide-menu";
+var SLIDE_MENU_WRAPPER_CLASS = "dx-list-slide-menu-wrapper";
+var SLIDE_MENU_CONTENT_CLASS = "dx-list-slide-menu-content";
+var SLIDE_MENU_BUTTONS_CONTAINER_CLASS = "dx-list-slide-menu-buttons-container";
+var SLIDE_MENU_BUTTONS_CLASS = "dx-list-slide-menu-buttons";
+var SLIDE_MENU_BUTTON_CLASS = "dx-list-slide-menu-button";
+var SLIDE_MENU_BUTTON_MENU_CLASS = "dx-list-slide-menu-button-menu";
+var SLIDE_MENU_BUTTON_DELETE_CLASS = "dx-list-slide-menu-button-delete";
+var SLIDE_MENU_ANIMATION_DURATION = 400;
+var SLIDE_MENU_ANIMATION_EASING = "cubic-bezier(0.075, 0.82, 0.165, 1)";
 
 
 registerDecorator(
@@ -153,28 +147,28 @@ registerDecorator(
         },
 
         _swipeUpdateHandler: function($itemElement, args) {
-            var rtl = this._isRtlEnabled(),
-                signCorrection = rtl ? -1 : 1,
-                isItemReadyToDelete = this._isReadyToDelete($itemElement),
-                moveJustStarted = this._getCurrentPositions().content === this._getStartPositions().content;
+            var rtl = this._isRtlEnabled();
+            var signCorrection = rtl ? -1 : 1;
+            var isItemReadyToDelete = this._isReadyToDelete($itemElement);
+            var moveJustStarted = this._getCurrentPositions().content === this._getStartPositions().content;
 
             if(moveJustStarted && !isItemReadyToDelete && args.offset * signCorrection > 0) {
                 args.cancel = true;
                 return;
             }
 
-            var offset = this._cachedItemWidth * args.offset,
-                startOffset = isItemReadyToDelete ? -this._cachedButtonWidth * signCorrection : 0,
-                correctedOffset = (offset + startOffset) * signCorrection,
-                percent = correctedOffset < 0 ? Math.abs((offset + startOffset) / this._cachedButtonWidth) : 0;
+            var offset = this._cachedItemWidth * args.offset;
+            var startOffset = isItemReadyToDelete ? -this._cachedButtonWidth * signCorrection : 0;
+            var correctedOffset = (offset + startOffset) * signCorrection;
+            var percent = correctedOffset < 0 ? Math.abs((offset + startOffset) / this._cachedButtonWidth) : 0;
 
             this._setPositions(this._getPositions(percent));
             return true;
         },
 
         _getStartPositions: function() {
-            var rtl = this._isRtlEnabled(),
-                signCorrection = rtl ? -1 : 1;
+            var rtl = this._isRtlEnabled();
+            var signCorrection = rtl ? -1 : 1;
 
             return {
                 content: 0,
@@ -184,9 +178,9 @@ registerDecorator(
         },
 
         _getPositions: function(percent) {
-            var rtl = this._isRtlEnabled(),
-                signCorrection = rtl ? -1 : 1,
-                startPositions = this._getStartPositions();
+            var rtl = this._isRtlEnabled();
+            var signCorrection = rtl ? -1 : 1;
+            var startPositions = this._getStartPositions();
 
             return {
                 content: startPositions.content - percent * this._cachedButtonWidth * signCorrection,
@@ -231,10 +225,10 @@ registerDecorator(
         _swipeEndHandler: function($itemElement, args) {
             this._cacheItemData($itemElement);
 
-            var signCorrection = this._isRtlEnabled() ? 1 : -1,
-                offset = this._cachedItemWidth * args.offset,
-                endedAtReadyToDelete = !this._isReadyToDelete($itemElement) && (offset * signCorrection > this._cachedButtonWidth * 0.2),
-                readyToDelete = args.targetOffset === signCorrection && endedAtReadyToDelete;
+            var signCorrection = this._isRtlEnabled() ? 1 : -1;
+            var offset = this._cachedItemWidth * args.offset;
+            var endedAtReadyToDelete = !this._isReadyToDelete($itemElement) && (offset * signCorrection > this._cachedButtonWidth * 0.2);
+            var readyToDelete = args.targetOffset === signCorrection && endedAtReadyToDelete;
 
             this._toggleDeleteReady($itemElement, readyToDelete);
             return true;
@@ -265,10 +259,9 @@ registerDecorator(
         },
 
         _animateToPositions: function(positions) {
-            var that = this,
-
-                currentPosition = this._getCurrentPositions(),
-                durationTimePart = Math.min(Math.abs(currentPosition.content - positions.content) / this._cachedButtonWidth, 1);
+            var that = this;
+            var currentPosition = this._getCurrentPositions();
+            var durationTimePart = Math.min(Math.abs(currentPosition.content - positions.content) / this._cachedButtonWidth, 1);
 
             return fx.animate(this._$cachedContent, {
                 from: currentPosition,

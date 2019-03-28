@@ -1,9 +1,8 @@
-var dataUtils = require("../core/element_data"),
-    type = require("../core/utils/type").type;
-
-var TRANSLATOR_DATA_KEY = "dxTranslator",
-    TRANSFORM_MATRIX_REGEX = /matrix(3d)?\((.+?)\)/,
-    TRANSLATE_REGEX = /translate(?:3d)?\((.+?)\)/;
+var dataUtils = require("../core/element_data");
+var type = require("../core/utils/type").type;
+var TRANSLATOR_DATA_KEY = "dxTranslator";
+var TRANSFORM_MATRIX_REGEX = /matrix(3d)?\((.+?)\)/;
+var TRANSLATE_REGEX = /translate(?:3d)?\((.+?)\)/;
 
 var locate = function($element) {
     var translate = getTranslate($element);
@@ -15,9 +14,9 @@ var locate = function($element) {
 };
 
 var move = function($element, position) {
-    var left = position.left,
-        top = position.top,
-        translate;
+    var left = position.left;
+    var top = position.top;
+    var translate;
 
     if(left === undefined) {
         translate = getTranslate($element);
@@ -47,9 +46,9 @@ var getTranslate = function($element) {
     var result = $element.length ? dataUtils.data($element.get(0), TRANSLATOR_DATA_KEY) : null;
 
     if(!result) {
-        var transformValue = $element.css("transform") || getTranslateCss({ x: 0, y: 0 }),
-            matrix = transformValue.match(TRANSFORM_MATRIX_REGEX),
-            is3D = matrix && matrix[1];
+        var transformValue = $element.css("transform") || getTranslateCss({ x: 0, y: 0 });
+        var matrix = transformValue.match(TRANSFORM_MATRIX_REGEX);
+        var is3D = matrix && matrix[1];
 
         if(matrix) {
             matrix = matrix[2].split(",");
@@ -88,12 +87,13 @@ var clearCache = function($element) {
 };
 
 var resetPosition = function($element, finishTransition) {
-    var originalTransition,
-        stylesConfig = {
-            left: 0,
-            top: 0,
-            transform: "none",
-        };
+    var originalTransition;
+
+    var stylesConfig = {
+        left: 0,
+        top: 0,
+        transform: "none",
+    };
 
     if(finishTransition) {
         originalTransition = $element.css("transition");

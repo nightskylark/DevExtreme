@@ -1,18 +1,17 @@
-var extend = require("../../../core/utils/extend").extend,
-    symbolPoint = require("./symbol_point"),
-
-    _extend = extend,
-    _round = Math.round,
-    _sqrt = Math.sqrt,
-    _acos = Math.acos,
-    DEG = 180 / Math.PI,
-    _abs = Math.abs,
-    vizUtils = require("../../core/utils"),
-    _normalizeAngle = vizUtils.normalizeAngle,
-    _getCosAndSin = vizUtils.getCosAndSin,
-    _isDefined = require("../../../core/utils/type").isDefined,
-    getVerticallyShiftedAngularCoords = vizUtils.getVerticallyShiftedAngularCoords,
-    RADIAL_LABEL_INDENT = require("../../components/consts").radialLabelIndent;
+var extend = require("../../../core/utils/extend").extend;
+var symbolPoint = require("./symbol_point");
+var _extend = extend;
+var _round = Math.round;
+var _sqrt = Math.sqrt;
+var _acos = Math.acos;
+var DEG = 180 / Math.PI;
+var _abs = Math.abs;
+var vizUtils = require("../../core/utils");
+var _normalizeAngle = vizUtils.normalizeAngle;
+var _getCosAndSin = vizUtils.getCosAndSin;
+var _isDefined = require("../../../core/utils/type").isDefined;
+var getVerticallyShiftedAngularCoords = vizUtils.getVerticallyShiftedAngularCoords;
+var RADIAL_LABEL_INDENT = require("../../components/consts").radialLabelIndent;
 
 module.exports = _extend({}, symbolPoint, {
     _updateData: function(data, argumentChanged) {
@@ -70,10 +69,10 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getShiftLabelCoords: function() {
-        var that = this,
-            bBox = that._label.getBoundingRect(),
-            coord = that._getLabelCoords(that._label),
-            visibleArea = that._getVisibleArea();
+        var that = this;
+        var bBox = that._label.getBoundingRect();
+        var coord = that._getLabelCoords(that._label);
+        var visibleArea = that._getVisibleArea();
 
         if(that._isLabelDrawingWithoutPoints) {
             return that._checkLabelPosition(coord, bBox, visibleArea);
@@ -87,17 +86,17 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getLabelCoords: function(label) {
-        var that = this,
-            bBox = label.getBoundingRect(),
-            options = label.getLayoutOptions(),
-            angleFunctions = _getCosAndSin(that.middleAngle),
-            position = that._getLabelPosition(options),
-            radiusInner = that.radiusInner,
-            radiusOuter = that.radiusOuter,
-            radiusLabels = that.radiusLabels,
-            columnsPosition = position === 'columns',
-            rad,
-            x;
+        var that = this;
+        var bBox = label.getBoundingRect();
+        var options = label.getLayoutOptions();
+        var angleFunctions = _getCosAndSin(that.middleAngle);
+        var position = that._getLabelPosition(options);
+        var radiusInner = that.radiusInner;
+        var radiusOuter = that.radiusOuter;
+        var radiusLabels = that.radiusLabels;
+        var columnsPosition = position === 'columns';
+        var rad;
+        var x;
 
         if(position === 'inside') {
             rad = radiusInner + (radiusOuter - radiusInner) / 2 + options.radialOffset;
@@ -120,18 +119,18 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _correctLabelCoord: function(coord, moveLabelsFromCenter) {
-        var that = this,
-            label = that._label,
-            bBox = label.getBoundingRect(),
-            labelWidth = bBox.width,
-            options = label.getLayoutOptions(),
-            visibleArea = that._getVisibleArea(),
-            rightBorderX = visibleArea.maxX - labelWidth,
-            leftBorderX = visibleArea.minX,
-            angleOfPoint = _normalizeAngle(that.middleAngle),
-            centerX = that.centerX,
-            connectorOffset = options.connectorOffset,
-            x = coord.x;
+        var that = this;
+        var label = that._label;
+        var bBox = label.getBoundingRect();
+        var labelWidth = bBox.width;
+        var options = label.getLayoutOptions();
+        var visibleArea = that._getVisibleArea();
+        var rightBorderX = visibleArea.maxX - labelWidth;
+        var leftBorderX = visibleArea.minX;
+        var angleOfPoint = _normalizeAngle(that.middleAngle);
+        var centerX = that.centerX;
+        var connectorOffset = options.connectorOffset;
+        var x = coord.x;
 
         if(options.position === "columns") {
             if(angleOfPoint <= 90 || angleOfPoint >= 270) {
@@ -165,17 +164,17 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     updateLabelCoord: function(moveLabelsFromCenter) {
-        var that = this,
-            bBox = that._label.getBoundingRect(),
-            coord = that._correctLabelCoord(bBox, moveLabelsFromCenter);
+        var that = this;
+        var bBox = that._label.getBoundingRect();
+        var coord = that._correctLabelCoord(bBox, moveLabelsFromCenter);
 
         coord = that._checkHorizontalLabelPosition(coord, bBox, that._getVisibleArea());
         that._label.shift(_round(coord.x), _round(bBox.y));
     },
 
     _checkVerticalLabelPosition: function(coord, box, visibleArea) {
-        var x = coord.x,
-            y = coord.y;
+        var x = coord.x;
+        var y = coord.y;
 
         if(coord.y + box.height > visibleArea.maxY) {
             y = visibleArea.maxY - box.height;
@@ -190,8 +189,8 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _checkHorizontalLabelPosition: function(coord, box, visibleArea) {
-        var x = coord.x,
-            y = coord.y;
+        var x = coord.x;
+        var y = coord.y;
         if(coord.x + box.width > visibleArea.maxX) {
             x = visibleArea.maxX - box.width;
         } else if(coord.x < visibleArea.minX) {
@@ -201,12 +200,12 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     setLabelEllipsis: function(moveLabelsFromCenter) {
-        var that = this,
-            label = that._label,
-            box = label.getBoundingRect(),
-            visibleArea = that._getVisibleArea(),
-            position = label.getLayoutOptions().position,
-            width = box.width;
+        var that = this;
+        var label = that._label;
+        var box = label.getBoundingRect();
+        var visibleArea = that._getVisibleArea();
+        var position = label.getLayoutOptions().position;
+        var width = box.width;
 
         if(position === "columns" && that.series.index > 0) {
             width = visibleArea.maxX - that.centerX - that.radiusLabels;
@@ -238,12 +237,12 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getLabelConnector: function() {
-        var that = this,
-            rad = that.radiusOuter,
-            seriesStyle = that._options.styles.normal,
-            strokeWidthBy2 = seriesStyle["stroke-width"] / 2,
-            borderWidth = that.series.getOptions().containerBackgroundColor === seriesStyle.stroke ? _round(strokeWidthBy2) : _round(-strokeWidthBy2),
-            angleFunctions = _getCosAndSin(_round(that.middleAngle));
+        var that = this;
+        var rad = that.radiusOuter;
+        var seriesStyle = that._options.styles.normal;
+        var strokeWidthBy2 = seriesStyle["stroke-width"] / 2;
+        var borderWidth = that.series.getOptions().containerBackgroundColor === seriesStyle.stroke ? _round(strokeWidthBy2) : _round(-strokeWidthBy2);
+        var angleFunctions = _getCosAndSin(_round(that.middleAngle));
 
         return {
             x: _round(that.centerX + (rad - borderWidth) * angleFunctions.cos),
@@ -253,11 +252,11 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _drawMarker: function(renderer, group, animationEnabled, firstDrawing) {
-        var that = this,
-            radiusOuter = that.radiusOuter,
-            radiusInner = that.radiusInner,
-            fromAngle = that.fromAngle,
-            toAngle = that.toAngle;
+        var that = this;
+        var radiusOuter = that.radiusOuter;
+        var radiusInner = that.radiusInner;
+        var fromAngle = that.fromAngle;
+        var toAngle = that.toAngle;
 
         if(animationEnabled) {
             radiusInner = radiusOuter = 0;
@@ -274,10 +273,10 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     getTooltipParams: function() {
-        var that = this,
-            angleFunctions = _getCosAndSin(that.middleAngle),
-            radiusInner = that.radiusInner,
-            radiusOuter = that.radiusOuter;
+        var that = this;
+        var angleFunctions = _getCosAndSin(that.middleAngle);
+        var radiusInner = that.radiusInner;
+        var radiusOuter = that.radiusOuter;
         return {
             x: that.centerX + (radiusInner + (radiusOuter - radiusInner) / 2) * angleFunctions.cos,
             y: that.centerY - (radiusInner + (radiusOuter - radiusInner) / 2) * angleFunctions.sin,
@@ -286,11 +285,11 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _translate: function() {
-        var that = this,
-            angle = that.shiftedAngle || 0,
-            value = that.value,
-            minValue = that.minValue,
-            translator = that._getValTranslator();
+        var that = this;
+        var angle = that.shiftedAngle || 0;
+        var value = that.value;
+        var minValue = that.minValue;
+        var translator = that._getValTranslator();
 
         that.fromAngle = translator.translate(minValue) + angle;
         that.toAngle = translator.translate(value) + angle;
@@ -298,7 +297,6 @@ module.exports = _extend({}, symbolPoint, {
         if(!that.isVisible()) {
             that.middleAngle = that.toAngle = that.fromAngle = that.fromAngle || angle;
         }
-
     },
 
     getMarkerVisibility: function() {
@@ -357,8 +355,8 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     _getFormatObject: function(tooltip) {
-        var formatObject = symbolPoint._getFormatObject.call(this, tooltip),
-            percent = this.percent;
+        var formatObject = symbolPoint._getFormatObject.call(this, tooltip);
+        var percent = this.percent;
 
         formatObject.percent = percent;
         formatObject.percentText = tooltip.formatValue(percent, "percent");
@@ -371,13 +369,13 @@ module.exports = _extend({}, symbolPoint, {
     },
 
     coordsIn: function(x, y) {
-        var that = this,
-            lx = x - that.centerX,
-            ly = y - that.centerY,
-            r = _sqrt(lx * lx + ly * ly),
-            fromAngle = that.fromAngle % 360,
-            toAngle = that.toAngle % 360,
-            angle;
+        var that = this;
+        var lx = x - that.centerX;
+        var ly = y - that.centerY;
+        var r = _sqrt(lx * lx + ly * ly);
+        var fromAngle = that.fromAngle % 360;
+        var toAngle = that.toAngle % 360;
+        var angle;
 
         if(r < that.radiusInner || r > that.radiusOuter || r === 0) {
             return false;

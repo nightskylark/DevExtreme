@@ -1,11 +1,11 @@
-var themeModule = require("../../themes"),
-    registerTheme = themeModule.registerTheme,
-    ACCENT_COLOR = "#3debd3",
-    BACKGROUND_COLOR = "#465672",
-    TITLE_COLOR = "#fff",
-    SUBTITLE_COLOR = "#919bac",
-    TEXT_COLOR = "#c7ccd4",
-    BORDER_COLOR = "#596980";
+var themeModule = require("../../themes");
+var registerTheme = themeModule.registerTheme;
+var ACCENT_COLOR = "#3debd3";
+var BACKGROUND_COLOR = "#465672";
+var TITLE_COLOR = "#fff";
+var SUBTITLE_COLOR = "#919bac";
+var TEXT_COLOR = "#c7ccd4";
+var BORDER_COLOR = "#596980";
 
 registerTheme({
     name: "generic.darkmoon",

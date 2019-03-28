@@ -1,7 +1,7 @@
-var Callbacks = require("./utils/callbacks"),
-    isFunction = require("./utils/type").isFunction,
-    each = require("./utils/iterator").each,
-    Class = require("./class");
+var Callbacks = require("./utils/callbacks");
+var isFunction = require("./utils/type").isFunction;
+var each = require("./utils/iterator").each;
+var Class = require("./class");
 
 module.exports = Class.inherit({
     ctor: function(owner) {
@@ -25,8 +25,8 @@ module.exports = Class.inherit({
     },
 
     on: function(eventName, eventHandler) {
-        var callbacks = this._events[eventName],
-            addFn;
+        var callbacks = this._events[eventName];
+        var addFn;
 
         if(!callbacks) {
             callbacks = Callbacks();

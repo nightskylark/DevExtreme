@@ -1,14 +1,13 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    noop = require("../core/utils/common").noop,
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    eventUtils = require("../events/utils"),
-    pointerEvents = require("../events/pointer"),
-    TextBox = require("./text_box");
-
-var TEXTAREA_CLASS = "dx-textarea",
-    TEXTEDITOR_INPUT_CLASS = "dx-texteditor-input";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var noop = require("../core/utils/common").noop;
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var eventUtils = require("../events/utils");
+var pointerEvents = require("../events/pointer");
+var TextBox = require("./text_box");
+var TEXTAREA_CLASS = "dx-textarea";
+var TEXTEDITOR_INPUT_CLASS = "dx-texteditor-input";
 
 /**
 * @name dxTextArea
@@ -126,16 +125,16 @@ var TextArea = TextBox.inherit({
     },
 
     _renderScrollHandler: function() {
-        var $input = this._input(),
-            eventY = 0;
+        var $input = this._input();
+        var eventY = 0;
 
         eventsEngine.on($input, eventUtils.addNamespace(pointerEvents.down, this.NAME), function(e) {
             eventY = eventUtils.eventData(e).y;
         });
 
         eventsEngine.on($input, eventUtils.addNamespace(pointerEvents.move, this.NAME), function(e) {
-            var scrollTopPos = $input.scrollTop(),
-                scrollBottomPos = $input.prop("scrollHeight") - $input.prop("clientHeight") - scrollTopPos;
+            var scrollTopPos = $input.scrollTop();
+            var scrollBottomPos = $input.prop("scrollHeight") - $input.prop("clientHeight") - scrollTopPos;
 
             if(scrollTopPos === 0 && scrollBottomPos === 0) {
                 return;
@@ -143,9 +142,9 @@ var TextArea = TextBox.inherit({
 
             var currentEventY = eventUtils.eventData(e).y;
 
-            var isScrollFromTop = scrollTopPos === 0 && eventY >= currentEventY,
-                isScrollFromBottom = scrollBottomPos === 0 && eventY <= currentEventY,
-                isScrollFromMiddle = scrollTopPos > 0 && scrollBottomPos > 0;
+            var isScrollFromTop = scrollTopPos === 0 && eventY >= currentEventY;
+            var isScrollFromBottom = scrollBottomPos === 0 && eventY <= currentEventY;
+            var isScrollFromMiddle = scrollTopPos > 0 && scrollBottomPos > 0;
 
             if(isScrollFromTop || isScrollFromBottom || isScrollFromMiddle) {
                 e.isScrollingEvent = true;
@@ -206,9 +205,9 @@ var TextArea = TextBox.inherit({
         var heightDifference = this._$element.outerHeight() - $input.outerHeight();
         this._renderDimensions();
 
-        var minHeight = this.option("minHeight"),
-            maxHeight = this.option("maxHeight"),
-            inputHeight = $input[0].scrollHeight;
+        var minHeight = this.option("minHeight");
+        var maxHeight = this.option("maxHeight");
+        var inputHeight = $input[0].scrollHeight;
 
         if(minHeight !== undefined) {
             inputHeight = Math.max(inputHeight, minHeight - heightDifference);

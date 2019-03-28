@@ -1,23 +1,22 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    ready = require("../../core/utils/ready_callbacks").add,
-    translator = require("../../animation/translator"),
-    Widget = require("../widget/ui.widget"),
-    eventUtils = require("../../events/utils"),
-    commonUtils = require("../../core/utils/common"),
-    isPlainObject = require("../../core/utils/type").isPlainObject,
-    extend = require("../../core/utils/extend").extend,
-    pointerEvents = require("../../events/pointer");
-
-var SCROLLBAR = "dxScrollbar",
-    SCROLLABLE_SCROLLBAR_CLASS = "dx-scrollable-scrollbar",
-    SCROLLABLE_SCROLLBAR_ACTIVE_CLASS = SCROLLABLE_SCROLLBAR_CLASS + "-active",
-    SCROLLABLE_SCROLL_CLASS = "dx-scrollable-scroll",
-    SCROLLABLE_SCROLL_CONTENT_CLASS = "dx-scrollable-scroll-content",
-    HOVER_ENABLED_STATE = "dx-scrollbar-hoverable",
-    HORIZONTAL = "horizontal",
-    THUMB_MIN_SIZE = 15;
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var ready = require("../../core/utils/ready_callbacks").add;
+var translator = require("../../animation/translator");
+var Widget = require("../widget/ui.widget");
+var eventUtils = require("../../events/utils");
+var commonUtils = require("../../core/utils/common");
+var isPlainObject = require("../../core/utils/type").isPlainObject;
+var extend = require("../../core/utils/extend").extend;
+var pointerEvents = require("../../events/pointer");
+var SCROLLBAR = "dxScrollbar";
+var SCROLLABLE_SCROLLBAR_CLASS = "dx-scrollable-scrollbar";
+var SCROLLABLE_SCROLLBAR_ACTIVE_CLASS = SCROLLABLE_SCROLLBAR_CLASS + "-active";
+var SCROLLABLE_SCROLL_CLASS = "dx-scrollable-scroll";
+var SCROLLABLE_SCROLL_CONTENT_CLASS = "dx-scrollable-scroll-content";
+var HOVER_ENABLED_STATE = "dx-scrollbar-hoverable";
+var HORIZONTAL = "horizontal";
+var THUMB_MIN_SIZE = 15;
 
 var SCROLLBAR_VISIBLE = {
     onScroll: "onScroll",
@@ -169,8 +168,8 @@ var Scrollbar = Widget.inherit({
     },
 
     _update: function() {
-        var containerSize = Math.round(this.option("containerSize")),
-            contentSize = Math.round(this.option("contentSize"));
+        var containerSize = Math.round(this.option("containerSize"));
+        var contentSize = Math.round(this.option("contentSize"));
 
         this._containerToContentRatio = (contentSize ? containerSize / contentSize : containerSize);
         var thumbSize = Math.round(Math.max(Math.round(containerSize * this._containerToContentRatio), THUMB_MIN_SIZE));

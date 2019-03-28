@@ -1,8 +1,8 @@
-var $ = require("../renderer"),
-    readyCallbacks = require("./ready_callbacks"),
-    ready = readyCallbacks.add,
-    changeCallback = require("./callbacks")(),
-    $originalViewPort = $();
+var $ = require("../renderer");
+var readyCallbacks = require("./ready_callbacks");
+var ready = readyCallbacks.add;
+var changeCallback = require("./callbacks")();
+var $originalViewPort = $();
 
 var value = (function() {
     var $current;

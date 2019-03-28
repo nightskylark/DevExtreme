@@ -1,8 +1,7 @@
-var $ = require("../../core/renderer"),
-    CollectionWidgetItem = require("../collection/item");
-
-var TABS_ITEM_BADGE_CLASS = "dx-tabs-item-badge",
-    BADGE_CLASS = "dx-badge";
+var $ = require("../../core/renderer");
+var CollectionWidgetItem = require("../collection/item");
+var TABS_ITEM_BADGE_CLASS = "dx-tabs-item-badge";
+var BADGE_CLASS = "dx-badge";
 
 var TabsItem = CollectionWidgetItem.inherit({
 

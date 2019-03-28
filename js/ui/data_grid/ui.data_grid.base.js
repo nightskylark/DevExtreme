@@ -10,8 +10,8 @@ import Widget from "../widget/ui.widget";
 import gridCore, { callModuleItemsMethod } from "./ui.data_grid.core";
 import themes from "../themes";
 
-var DATAGRID_ROW_SELECTOR = ".dx-row",
-    DATAGRID_DEPRECATED_TEMPLATE_WARNING = "Specifying grid templates with the jQuery selector name is now deprecated. Use the DOM Node or the jQuery object that references this selector instead.";
+var DATAGRID_ROW_SELECTOR = ".dx-row";
+var DATAGRID_DEPRECATED_TEMPLATE_WARNING = "Specifying grid templates with the jQuery selector name is now deprecated. Use the DOM Node or the jQuery object that references this selector instead.";
 
 import "./ui.data_grid.column_headers";
 import "./ui.data_grid.columns_controller";
@@ -57,8 +57,8 @@ var DataGrid = Widget.inherit({
     _activeStateUnit: DATAGRID_ROW_SELECTOR,
 
     _getDefaultOptions: function() {
-        var that = this,
-            result = that.callBase();
+        var that = this;
+        var result = that.callBase();
 
         each(gridCore.modules, function() {
             if(typeUtils.isFunction(this.defaultOptions)) {

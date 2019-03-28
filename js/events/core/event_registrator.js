@@ -1,5 +1,5 @@
-var each = require("../../core/utils/iterator").each,
-    callbacks = require("./event_registrator_callbacks");
+var each = require("../../core/utils/iterator").each;
+var callbacks = require("./event_registrator_callbacks");
 
 var registerEvent = function(name, eventObject) {
     var strategy = {};

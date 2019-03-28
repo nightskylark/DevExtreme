@@ -1,22 +1,19 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    Widget = require("../widget/ui.widget"),
-    extend = require("../../core/utils/extend").extend,
-    eventUtils = require("../../events/utils"),
-    pointerEvents = require("../../events/pointer"),
-    feedbackEvents = require("../../events/core/emitter.feedback"),
-    holdEvent = require("../../events/hold"),
-    Deferred = require("../../core/utils/deferred").Deferred;
-
-var SPIN_CLASS = "dx-numberbox-spin",
-    SPIN_BUTTON_CLASS = "dx-numberbox-spin-button",
-
-    SPIN_HOLD_DELAY = 100,
-
-    NUMBER_BOX = 'dxNumberBox',
-    POINTERUP_EVENT_NAME = eventUtils.addNamespace(pointerEvents.up, NUMBER_BOX),
-    POINTERCANCEL_EVENT_NAME = eventUtils.addNamespace(pointerEvents.cancel, NUMBER_BOX);
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var Widget = require("../widget/ui.widget");
+var extend = require("../../core/utils/extend").extend;
+var eventUtils = require("../../events/utils");
+var pointerEvents = require("../../events/pointer");
+var feedbackEvents = require("../../events/core/emitter.feedback");
+var holdEvent = require("../../events/hold");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var SPIN_CLASS = "dx-numberbox-spin";
+var SPIN_BUTTON_CLASS = "dx-numberbox-spin-button";
+var SPIN_HOLD_DELAY = 100;
+var NUMBER_BOX = 'dxNumberBox';
+var POINTERUP_EVENT_NAME = eventUtils.addNamespace(pointerEvents.up, NUMBER_BOX);
+var POINTERCANCEL_EVENT_NAME = eventUtils.addNamespace(pointerEvents.cancel, NUMBER_BOX);
 
 var SpinButton = Widget.inherit({
 
@@ -44,8 +41,8 @@ var SpinButton = Widget.inherit({
     _render: function() {
         this.callBase();
 
-        var eventName = eventUtils.addNamespace(pointerEvents.down, this.NAME),
-            $element = this.$element();
+        var eventName = eventUtils.addNamespace(pointerEvents.down, this.NAME);
+        var $element = this.$element();
 
         eventsEngine.off($element, eventName);
         eventsEngine.on($element, eventName, this._spinDownHandler.bind(this));

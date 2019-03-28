@@ -8,10 +8,10 @@ var Callback = function(options) {
 };
 
 Callback.prototype._fireCore = function(context, args) {
-    var firingIndexes = this._firingIndexes,
-        list = this._list,
-        stopOnFalse = this._options.stopOnFalse,
-        step = firingIndexes.length;
+    var firingIndexes = this._firingIndexes;
+    var list = this._list;
+    var stopOnFalse = this._options.stopOnFalse;
+    var step = firingIndexes.length;
 
     for(firingIndexes[step] = 0; firingIndexes[step] < list.length; firingIndexes[step]++) {
         var result = list[firingIndexes[step]].apply(context, args);
@@ -33,9 +33,9 @@ Callback.prototype.add = function(fn) {
 };
 
 Callback.prototype.remove = function(fn) {
-    var list = this._list,
-        firingIndexes = this._firingIndexes,
-        index = list.indexOf(fn);
+    var list = this._list;
+    var firingIndexes = this._firingIndexes;
+    var index = list.indexOf(fn);
 
     if(index > -1) {
         list.splice(index, 1);

@@ -1,13 +1,13 @@
-var Class = require("../core/class"),
-    extend = require("../core/utils/extend").extend,
-    inArray = require("../core/utils/array").inArray,
-    each = require("../core/utils/iterator").each,
-    EventsMixin = require("../core/events_mixin"),
-    errors = require("../core/errors"),
-    commonUtils = require("../core/utils/common"),
-    typeUtils = require("../core/utils/type"),
-    numberLocalization = require("../localization/number"),
-    messageLocalization = require("../localization/message");
+var Class = require("../core/class");
+var extend = require("../core/utils/extend").extend;
+var inArray = require("../core/utils/array").inArray;
+var each = require("../core/utils/iterator").each;
+var EventsMixin = require("../core/events_mixin");
+var errors = require("../core/errors");
+var commonUtils = require("../core/utils/common");
+var typeUtils = require("../core/utils/type");
+var numberLocalization = require("../localization/number");
+var messageLocalization = require("../localization/message");
 
 var BaseRuleValidator = Class.inherit({
     NAME: "base",
@@ -20,8 +20,8 @@ var BaseRuleValidator = Class.inherit({
     },
 
     validate: function(value, rule) {
-        var valueArray = Array.isArray(value) ? value : [value],
-            result = true;
+        var valueArray = Array.isArray(value) ? value : [value];
+        var result = true;
 
         if(valueArray.length) {
             valueArray.every(function(itemValue) {
@@ -132,11 +132,11 @@ var RangeRuleValidator = BaseRuleValidator.inherit({
             return true;
         }
 
-        var validNumber = rulesValidators["numeric"].validate(value, rule),
-            validValue = typeUtils.isDefined(value) && value !== "",
-            number = validNumber ? parseFloat(value) : validValue && value.valueOf(),
-            min = rule.min,
-            max = rule.max;
+        var validNumber = rulesValidators["numeric"].validate(value, rule);
+        var validValue = typeUtils.isDefined(value) && value !== "";
+        var number = validNumber ? parseFloat(value) : validValue && value.valueOf();
+        var min = rule.min;
+        var max = rule.max;
 
         if(!(validNumber || typeUtils.isDate(value)) && !validValue) {
             return false;
@@ -239,14 +239,15 @@ var CustomRuleValidator = BaseRuleValidator.inherit({
             return true;
         }
 
-        var validator = rule.validator,
-            dataGetter = validator && typeUtils.isFunction(validator.option) && validator.option("dataGetter"),
-            data = typeUtils.isFunction(dataGetter) && dataGetter(),
-            params = {
-                value: value,
-                validator: validator,
-                rule: rule
-            };
+        var validator = rule.validator;
+        var dataGetter = validator && typeUtils.isFunction(validator.option) && validator.option("dataGetter");
+        var data = typeUtils.isFunction(dataGetter) && dataGetter();
+
+        var params = {
+            value: value,
+            validator: validator,
+            rule: rule
+        };
 
         if(data) {
             params.data = data;
@@ -299,8 +300,8 @@ var CompareRuleValidator = BaseRuleValidator.inherit({
 
         extend(rule, { reevaluate: true });
 
-        var otherValue = rule.comparisonTarget(),
-            type = rule.comparisonType || "==";
+        var otherValue = rule.comparisonTarget();
+        var type = rule.comparisonType || "==";
 
         switch(type) {
             case "==":
@@ -553,8 +554,8 @@ var ValidationEngine = {
     },
 
     removeGroup: function(group) {
-        var config = this.getGroupConfig(group),
-            index = inArray(config, this.groups);
+        var config = this.getGroupConfig(group);
+        var index = inArray(config, this.groups);
 
         if(index > -1) {
             this.groups.splice(index, 1);
@@ -600,12 +601,13 @@ var ValidationEngine = {
                  * @type Array<RequiredRule,NumericRule,RangeRule,StringLengthRule,CustomRule,CompareRule,PatternRule,EmailRule>
                  */
                 validationRules: rules
-            },
-            that = this;
+            };
+
+        var that = this;
 
         each(rules || [], function(_, rule) {
-            var ruleValidator = rulesValidators[rule.type],
-                ruleValidationResult;
+            var ruleValidator = rulesValidators[rule.type];
+            var ruleValidationResult;
 
             if(ruleValidator) {
                 if(typeUtils.isDefined(rule.isValid) && rule.value === value && !rule.reevaluate) {
@@ -650,15 +652,15 @@ var ValidationEngine = {
     },
 
     _shouldRemoveGroup: function(group, validatorsInGroup) {
-        var isDefaultGroup = group === undefined,
-            isValidationGroupInstance = group && group.NAME === "dxValidationGroup";
+        var isDefaultGroup = group === undefined;
+        var isValidationGroupInstance = group && group.NAME === "dxValidationGroup";
 
         return !isDefaultGroup && !isValidationGroupInstance && !validatorsInGroup.length;
     },
 
     removeRegisteredValidator: function(group, validator) {
-        var config = ValidationEngine.getGroupConfig(group),
-            validatorsInGroup = config && config.validators;
+        var config = ValidationEngine.getGroupConfig(group);
+        var validatorsInGroup = config && config.validators;
         var index = inArray(validator, validatorsInGroup);
         if(index > -1) {
             validatorsInGroup.splice(index, 1);

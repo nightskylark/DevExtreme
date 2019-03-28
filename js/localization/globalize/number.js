@@ -1,8 +1,8 @@
 require("./core");
 
-var Globalize = require("globalize"),
-    numberLocalization = require("../number"),
-    errors = require("../../core/errors");
+var Globalize = require("globalize");
+var numberLocalization = require("../number");
+var errors = require("../../core/errors");
 
 require("globalize/number");
 
@@ -166,8 +166,8 @@ if(Globalize && Globalize.formatNumber) {
     var formattersCache = {};
 
     var getFormatter = function(format) {
-        var formatter,
-            formatCacheKey;
+        var formatter;
+        var formatCacheKey;
 
         if(typeof format === "object") {
             formatCacheKey = Globalize.locale().locale + ":" + JSON.stringify(format);

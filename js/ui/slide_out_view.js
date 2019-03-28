@@ -1,31 +1,27 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    noop = require("../core/utils/common").noop,
-    fx = require("../animation/fx"),
-    clickEvent = require("../events/click"),
-    translator = require("../animation/translator"),
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    hideTopOverlayCallback = require("../mobile/hide_top_overlay").hideCallback,
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    AsyncTemplateMixin = require("./shared/async_template_mixin"),
-    Widget = require("./widget/ui.widget"),
-    Swipeable = require("../events/gesture/swipeable"),
-    EmptyTemplate = require("./widget/empty_template"),
-    Deferred = require("../core/utils/deferred").Deferred,
-    windowUtils = require("../core/utils/window");
-
-var SLIDEOUTVIEW_CLASS = "dx-slideoutview",
-    SLIDEOUTVIEW_WRAPPER_CLASS = "dx-slideoutview-wrapper",
-    SLIDEOUTVIEW_MENU_CONTENT_CLASS = "dx-slideoutview-menu-content",
-    SLIDEOUTVIEW_CONTENT_CLASS = "dx-slideoutview-content",
-    SLIDEOUTVIEW_SHIELD_CLASS = "dx-slideoutview-shield",
-
-    INVISIBLE_STATE_CLASS = "dx-state-invisible",
-
-    ANONYMOUS_TEMPLATE_NAME = "content",
-
-    ANIMATION_DURATION = 400;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var noop = require("../core/utils/common").noop;
+var fx = require("../animation/fx");
+var clickEvent = require("../events/click");
+var translator = require("../animation/translator");
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var hideTopOverlayCallback = require("../mobile/hide_top_overlay").hideCallback;
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var AsyncTemplateMixin = require("./shared/async_template_mixin");
+var Widget = require("./widget/ui.widget");
+var Swipeable = require("../events/gesture/swipeable");
+var EmptyTemplate = require("./widget/empty_template");
+var Deferred = require("../core/utils/deferred").Deferred;
+var windowUtils = require("../core/utils/window");
+var SLIDEOUTVIEW_CLASS = "dx-slideoutview";
+var SLIDEOUTVIEW_WRAPPER_CLASS = "dx-slideoutview-wrapper";
+var SLIDEOUTVIEW_MENU_CONTENT_CLASS = "dx-slideoutview-menu-content";
+var SLIDEOUTVIEW_CONTENT_CLASS = "dx-slideoutview-content";
+var SLIDEOUTVIEW_SHIELD_CLASS = "dx-slideoutview-shield";
+var INVISIBLE_STATE_CLASS = "dx-state-invisible";
+var ANONYMOUS_TEMPLATE_NAME = "content";
+var ANIMATION_DURATION = 400;
 
 
 var animation = {
@@ -192,9 +188,9 @@ var SlideOutView = Widget.inherit({
             }
         });
 
-        const contentTemplateOption = this.option("contentTemplate"),
-            contentTemplate = this._getTemplate(contentTemplateOption),
-            transclude = this._getAnonymousTemplateName() === contentTemplateOption;
+        const contentTemplateOption = this.option("contentTemplate");
+        const contentTemplate = this._getTemplate(contentTemplateOption);
+        const transclude = this._getAnonymousTemplateName() === contentTemplateOption;
 
         contentTemplate && contentTemplate.render({
             container: this.content(),
@@ -247,17 +243,17 @@ var SlideOutView = Widget.inherit({
     },
 
     _isRightMenuPosition: function() {
-        var invertedPosition = this.option("menuPosition") === "inverted",
-            rtl = this.option("rtlEnabled");
+        var invertedPosition = this.option("menuPosition") === "inverted";
+        var rtl = this.option("rtlEnabled");
 
         return (rtl && !invertedPosition) || (!rtl && invertedPosition);
     },
 
     _swipeStartHandler: function(e) {
         animation.complete($(this.content()));
-        var event = e.event,
-            menuVisible = this.option("menuVisible"),
-            rtl = this._isRightMenuPosition();
+        var event = e.event;
+        var menuVisible = this.option("menuVisible");
+        var rtl = this._isRightMenuPosition();
 
         event.maxLeftOffset = +(rtl ? !menuVisible : menuVisible);
         event.maxRightOffset = +(rtl ? menuVisible : !menuVisible);
@@ -266,16 +262,16 @@ var SlideOutView = Widget.inherit({
     },
 
     _swipeUpdateHandler: function(e) {
-        var event = e.event,
-            offset = this.option("menuVisible") ? event.offset + 1 * this._getRTLSignCorrection() : event.offset;
+        var event = e.event;
+        var offset = this.option("menuVisible") ? event.offset + 1 * this._getRTLSignCorrection() : event.offset;
 
         offset *= this._getRTLSignCorrection();
         this._renderPosition(offset, false);
     },
 
     _swipeEndHandler: function(e) {
-        var targetOffset = e.event.targetOffset * this._getRTLSignCorrection() + this.option("menuVisible"),
-            menuVisible = targetOffset !== 0;
+        var targetOffset = e.event.targetOffset * this._getRTLSignCorrection() + this.option("menuVisible");
+        var menuVisible = targetOffset !== 0;
 
         if(this.option("menuVisible") === menuVisible) {
             this._renderPosition(this.option("menuVisible"), true);
@@ -285,9 +281,9 @@ var SlideOutView = Widget.inherit({
     },
 
     _toggleMenuPositionClass: function() {
-        var left = SLIDEOUTVIEW_CLASS + "-left",
-            right = SLIDEOUTVIEW_CLASS + "-right",
-            menuPosition = this._isRightMenuPosition() ? "right" : "left";
+        var left = SLIDEOUTVIEW_CLASS + "-left";
+        var right = SLIDEOUTVIEW_CLASS + "-right";
+        var menuPosition = this._isRightMenuPosition() ? "right" : "left";
 
         this._$menu.removeClass(left + " " + right);
         this._$menu.addClass(SLIDEOUTVIEW_CLASS + "-" + menuPosition);
@@ -315,8 +311,8 @@ var SlideOutView = Widget.inherit({
 
     _getMenuWidth: function() {
         if(!this._menuWidth) {
-            var maxMenuWidth = this.$element().width() - this.option("contentOffset"),
-                menuContent = $(this.menuContent());
+            var maxMenuWidth = this.$element().width() - this.option("contentOffset");
+            var menuContent = $(this.menuContent());
             menuContent.css("maxWidth", maxMenuWidth < 0 ? 0 : maxMenuWidth);
             var currentMenuWidth = menuContent.width();
 

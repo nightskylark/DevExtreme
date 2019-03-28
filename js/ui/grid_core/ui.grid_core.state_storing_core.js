@@ -107,8 +107,8 @@ exports.StateStoringController = modules.ViewController.inherit((function() {
         },
 
         load: function() {
-            var that = this,
-                loadResult;
+            var that = this;
+            var loadResult;
 
             that._isLoading = true;
             loadResult = fromPromise(that._loadState());

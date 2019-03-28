@@ -10,9 +10,9 @@ exports.ColumnsController = columnsControllerModule.controllers.columns.inherit(
             });
         },
         getFirstDataColumnIndex: function() {
-            var visibleColumns = this.getVisibleColumns(),
-                visibleColumnsLength = visibleColumns.length,
-                firstDataColumnIndex = 0;
+            var visibleColumns = this.getVisibleColumns();
+            var visibleColumnsLength = visibleColumns.length;
+            var firstDataColumnIndex = 0;
 
             for(var i = 0; i <= visibleColumnsLength - 1; i++) {
                 if(!isDefined(visibleColumns[i].command)) {

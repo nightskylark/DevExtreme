@@ -1,23 +1,22 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    windowUtils = require("../core/utils/window"),
-    extend = require("./utils/extend").extend,
-    config = require("./config"),
-    errors = require("./errors"),
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    windowResizeCallbacks = require("../core/utils/resize_callbacks"),
-    commonUtils = require("./utils/common"),
-    each = require("./utils/iterator").each,
-    typeUtils = require("./utils/type"),
-    inArray = require("./utils/array").inArray,
-    publicComponentUtils = require("./utils/public_component"),
-    dataUtils = require("./element_data"),
-    Component = require("./component"),
-    abstract = Component.abstract;
-
-var RTL_DIRECTION_CLASS = "dx-rtl",
-    VISIBILITY_CHANGE_CLASS = "dx-visibility-change-handler",
-    VISIBILITY_CHANGE_EVENTNAMESPACE = "VisibilityChange";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var windowUtils = require("../core/utils/window");
+var extend = require("./utils/extend").extend;
+var config = require("./config");
+var errors = require("./errors");
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var windowResizeCallbacks = require("../core/utils/resize_callbacks");
+var commonUtils = require("./utils/common");
+var each = require("./utils/iterator").each;
+var typeUtils = require("./utils/type");
+var inArray = require("./utils/array").inArray;
+var publicComponentUtils = require("./utils/public_component");
+var dataUtils = require("./element_data");
+var Component = require("./component");
+var abstract = Component.abstract;
+var RTL_DIRECTION_CLASS = "dx-rtl";
+var VISIBILITY_CHANGE_CLASS = "dx-visibility-change-handler";
+var VISIBILITY_CHANGE_EVENTNAMESPACE = "VisibilityChange";
 
 /**
  * @name DOMComponent
@@ -147,8 +146,8 @@ var DOMComponent = Component.inherit({
     },
 
     _renderElementAttributes: function() {
-        var attributes = extend({}, this.option("elementAttr")),
-            classNames = attributes.class;
+        var attributes = extend({}, this.option("elementAttr"));
+        var classNames = attributes.class;
 
         delete attributes.class;
 

@@ -1,15 +1,15 @@
-var $ = require("../../core/renderer"),
-    TemplateBase = require("./ui.template_base"),
-    eventsEngine = require("../../events/core/events_engine"),
-    removeEvent = require("../../core/remove_event"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    isPrimitive = require("../../core/utils/type").isPrimitive;
+var $ = require("../../core/renderer");
+var TemplateBase = require("./ui.template_base");
+var eventsEngine = require("../../events/core/events_engine");
+var removeEvent = require("../../core/remove_event");
+var iteratorUtils = require("../../core/utils/iterator");
+var isPrimitive = require("../../core/utils/type").isPrimitive;
 
 var watchChanges = (function() {
 
     var start = function(rawData, watchMethod, fields, fieldsMap, callback) {
-        var globalDispose,
-            fieldsDispose;
+        var globalDispose;
+        var fieldsDispose;
 
         globalDispose = globalWatch(rawData, watchMethod, function(dataWithRawFields) {
             fieldsDispose && fieldsDispose();
@@ -38,8 +38,8 @@ var watchChanges = (function() {
     };
 
     var fieldsWatch = function(data, watchMethod, fields, fieldsMap, callback) {
-        var resolvedData = {},
-            missedFields = fields.slice();
+        var resolvedData = {};
+        var missedFields = fields.slice();
 
         var watchHandlers = iteratorUtils.map(fields, function(name) {
             var fieldGetter = fieldsMap[name];

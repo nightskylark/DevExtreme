@@ -7,9 +7,9 @@ import { combineFilters, getFormatOptionsByColumn, formatValue } from "./ui.grid
 import messageLocalization from "../../localization/message";
 import dataQuery from "../../data/query";
 
-var SEARCH_PANEL_CLASS = "search-panel",
-    SEARCH_TEXT_CLASS = "search-text",
-    FILTERING_TIMEOUT = 700;
+var SEARCH_PANEL_CLASS = "search-panel";
+var SEARCH_TEXT_CLASS = "search-text";
+var FILTERING_TIMEOUT = 700;
 
 
 function allowSearch(column) {
@@ -84,20 +84,20 @@ module.exports = {
         controllers: {
             data: (function() {
                 var calculateSearchFilter = function(that, text) {
-                    var i,
-                        column,
-                        columns = that._columnsController.getColumns(),
-                        searchVisibleColumnsOnly = that.option("searchPanel.searchVisibleColumnsOnly"),
-                        filterValue,
-                        lookup,
-                        filters = [];
+                    var i;
+                    var column;
+                    var columns = that._columnsController.getColumns();
+                    var searchVisibleColumnsOnly = that.option("searchPanel.searchVisibleColumnsOnly");
+                    var filterValue;
+                    var lookup;
+                    var filters = [];
 
                     if(!text) return null;
 
                     function onQueryDone(items) {
-                        var i,
-                            valueGetter = compileGetter(lookup.valueExpr),
-                            value;
+                        var i;
+                        var valueGetter = compileGetter(lookup.valueExpr);
+                        var value;
 
                         for(i = 0; i < items.length; i++) {
                             value = valueGetter(items[i]);
@@ -131,9 +131,9 @@ module.exports = {
                         return this.callBase().concat(["searchByText"]);
                     },
                     _calculateAdditionalFilter: function() {
-                        var that = this,
-                            filter = that.callBase(),
-                            searchFilter = calculateSearchFilter(that, that.option("searchPanel.text"));
+                        var that = this;
+                        var filter = that.callBase();
+                        var searchFilter = calculateSearchFilter(that, that.option("searchPanel.text"));
 
                         return combineFilters([filter, searchFilter]);
                     },
@@ -177,9 +177,9 @@ module.exports = {
                     },
 
                     _prepareSearchItem: function(items) {
-                        var that = this,
-                            dataController = that.getController("data"),
-                            searchPanelOptions = getSearchPanelOptions(that);
+                        var that = this;
+                        var dataController = that.getController("data");
+                        var searchPanelOptions = getSearchPanelOptions(that);
 
                         if(searchPanelOptions && searchPanelOptions.visible) {
                             var toolbarItem = {
@@ -259,8 +259,8 @@ module.exports = {
                 },
 
                 _getFormattedSearchText: function(column, searchText) {
-                    var value = parseValue(column, searchText),
-                        formatOptions = getFormatOptionsByColumn(column, "search");
+                    var value = parseValue(column, searchText);
+                    var formatOptions = getFormatOptionsByColumn(column, "search");
                     return formatValue(value, formatOptions);
                 },
 
@@ -272,12 +272,12 @@ module.exports = {
                 },
 
                 _findHighlightingTextNodes: function(column, cellElement, searchText) {
-                    var that = this,
-                        $parent = cellElement.parent(),
-                        $items,
-                        columnIndex,
-                        stringNormalizer = this._getStringNormalizer(),
-                        normalizedSearchText = stringNormalizer(searchText);
+                    var that = this;
+                    var $parent = cellElement.parent();
+                    var $items;
+                    var columnIndex;
+                    var stringNormalizer = this._getStringNormalizer();
+                    var normalizedSearchText = stringNormalizer(searchText);
 
                     if(!$parent.length) {
                         $parent = $("<div>").append(cellElement);
@@ -302,12 +302,12 @@ module.exports = {
                 },
 
                 _highlightSearchTextCore: function($textNode, searchText) {
-                    var that = this,
-                        $searchTextSpan = $("<span>").addClass(that.addWidgetPrefix(SEARCH_TEXT_CLASS)),
-                        text = $textNode.text(),
-                        firstContentElement = $textNode[0],
-                        stringNormalizer = this._getStringNormalizer(),
-                        index = stringNormalizer(text).indexOf(stringNormalizer(searchText));
+                    var that = this;
+                    var $searchTextSpan = $("<span>").addClass(that.addWidgetPrefix(SEARCH_TEXT_CLASS));
+                    var text = $textNode.text();
+                    var firstContentElement = $textNode[0];
+                    var stringNormalizer = this._getStringNormalizer();
+                    var index = stringNormalizer(text).indexOf(stringNormalizer(searchText));
 
                     if(index >= 0) {
                         if(firstContentElement.textContent) {
@@ -324,9 +324,9 @@ module.exports = {
                 },
 
                 _highlightSearchText: function(cellElement, isEquals, column) {
-                    var that = this,
-                        stringNormalizer = this._getStringNormalizer(),
-                        searchText = that.option("searchPanel.text");
+                    var that = this;
+                    var stringNormalizer = this._getStringNormalizer();
+                    var searchText = that.option("searchPanel.text");
 
                     if(isEquals && column) {
                         searchText = searchText && that._getFormattedSearchText(column, searchText);
@@ -366,9 +366,9 @@ module.exports = {
                 },
 
                 _updateCell: function($cell, parameters) {
-                    var column = parameters.column,
-                        dataType = column.lookup && column.lookup.dataType || column.dataType,
-                        isEquals = dataType !== "string";
+                    var column = parameters.column;
+                    var dataType = column.lookup && column.lookup.dataType || column.dataType;
+                    var isEquals = dataType !== "string";
 
                     if(allowSearch(column)) {
                         if(this.option("templatesRenderAsynchronously")) {

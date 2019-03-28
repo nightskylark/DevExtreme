@@ -1,12 +1,10 @@
-var proto = require("./tree_map.base").prototype,
-    nodeProto = require("./node").prototype,
-    expand = require("../core/helpers").expand,
-    common = require("./common"),
-
-    _parseScalar = require("../core/utils").parseScalar,
-    _buildRectAppearance = common.buildRectAppearance,
-
-    STATE_CODE = 1;
+var proto = require("./tree_map.base").prototype;
+var nodeProto = require("./node").prototype;
+var expand = require("../core/helpers").expand;
+var common = require("./common");
+var _parseScalar = require("../core/utils").parseScalar;
+var _buildRectAppearance = common.buildRectAppearance;
+var STATE_CODE = 1;
 
 require("./api");
 require("./states");
@@ -63,9 +61,9 @@ proto._applyHoverState = function(index, state) {
 };
 
 function setNodeStateRecursive(node, code, state) {
-    var nodes = node.isNode() && node.nodes,
-        i,
-        ii = nodes && nodes.length;
+    var nodes = node.isNode() && node.nodes;
+    var i;
+    var ii = nodes && nodes.length;
 
     node.setState(code, state);
     for(i = 0; i < ii; ++i) {
@@ -74,8 +72,8 @@ function setNodeStateRecursive(node, code, state) {
 }
 
 proto._hoverNode = function(index) {
-    var that = this,
-        currentIndex = that._hoverIndex;
+    var that = this;
+    var currentIndex = that._hoverIndex;
 
     if(that._hoverEnabled && currentIndex !== index) {
         if(!that._groupHoverEnabled && index >= 0 && that._nodes[index].isNode()) {

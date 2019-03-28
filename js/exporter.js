@@ -1,9 +1,9 @@
-var fileSaver = require("./exporter/file_saver").fileSaver,
-    excelCreator = require("./exporter/excel_creator"),
-    imageCreator = require("./exporter/image_creator"),
-    svgCreator = require("./exporter/svg_creator"),
-    exportDataGrid = require("./exporter/exceljs/exportDataGrid"),
-    _isFunction = require("./core/utils/type").isFunction;
+var fileSaver = require("./exporter/file_saver").fileSaver;
+var excelCreator = require("./exporter/excel_creator");
+var imageCreator = require("./exporter/image_creator");
+var svgCreator = require("./exporter/svg_creator");
+var exportDataGrid = require("./exporter/exceljs/exportDataGrid");
+var _isFunction = require("./core/utils/type").isFunction;
 
 exports.export = function(data, options, getData) {
     if(!data) {
@@ -11,14 +11,16 @@ exports.export = function(data, options, getData) {
     }
 
     // TODO: Can the following actions be not defined? (since they are provided by a widget not by a user)
-    var exportingAction = options.exportingAction,
-        exportedAction = options.exportedAction,
-        fileSavingAction = options.fileSavingAction,
-        eventArgs = {
-            fileName: options.fileName,
-            format: options.format,
-            cancel: false
-        };
+    var exportingAction = options.exportingAction;
+
+    var exportedAction = options.exportedAction;
+    var fileSavingAction = options.fileSavingAction;
+
+    var eventArgs = {
+        fileName: options.fileName,
+        format: options.format,
+        cancel: false
+    };
 
     _isFunction(exportingAction) && exportingAction(eventArgs);
 

@@ -6,10 +6,10 @@ import { equalByValue } from "../../core/utils/common";
 import { isDefined } from "../../core/utils/type";
 import { Deferred } from "../../core/utils/deferred";
 
-var ROW_FOCUSED_CLASS = "dx-row-focused",
-    FOCUSED_ROW_SELECTOR = ".dx-row" + "." + ROW_FOCUSED_CLASS,
-    CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled",
-    UPDATE_FOCUSED_ROW_CHANGE_TYPE = "updateFocusedRow";
+var ROW_FOCUSED_CLASS = "dx-row-focused";
+var FOCUSED_ROW_SELECTOR = ".dx-row" + "." + ROW_FOCUSED_CLASS;
+var CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled";
+var UPDATE_FOCUSED_ROW_CHANGE_TYPE = "updateFocusedRow";
 
 exports.FocusController = core.ViewController.inherit((function() {
     return {
@@ -48,20 +48,21 @@ exports.FocusController = core.ViewController.inherit((function() {
             }
         },
         _focusRowByIndexCore: function(index) {
-            let dataController = this.getController("data"),
-                isVirtualScrolling = this.getController("keyboardNavigation")._isVirtualScrolling(),
-                pageIndex = Math.floor(index / dataController.pageSize()),
-                visibleRowsCount = dataController.getVisibleRows().length + dataController.getRowIndexOffset(),
-                visiblePagesCount = Math.ceil(visibleRowsCount / dataController.pageSize()),
-                isLocalIndex = !isVirtualScrolling || visiblePagesCount > pageIndex,
-                setKeyByIndex = () => {
-                    if(this._isValidFocusedRowIndex(index)) {
-                        let focusedRowKey = dataController.getKeyByRowIndex(index - dataController.getRowIndexOffset());
-                        if(focusedRowKey !== undefined && !this.isRowFocused(focusedRowKey)) {
-                            this.option("focusedRowKey", focusedRowKey);
-                        }
+            let dataController = this.getController("data");
+            let isVirtualScrolling = this.getController("keyboardNavigation")._isVirtualScrolling();
+            let pageIndex = Math.floor(index / dataController.pageSize());
+            let visibleRowsCount = dataController.getVisibleRows().length + dataController.getRowIndexOffset();
+            let visiblePagesCount = Math.ceil(visibleRowsCount / dataController.pageSize());
+            let isLocalIndex = !isVirtualScrolling || visiblePagesCount > pageIndex;
+
+            let setKeyByIndex = () => {
+                if(this._isValidFocusedRowIndex(index)) {
+                    let focusedRowKey = dataController.getKeyByRowIndex(index - dataController.getRowIndexOffset());
+                    if(focusedRowKey !== undefined && !this.isRowFocused(focusedRowKey)) {
+                        this.option("focusedRowKey", focusedRowKey);
                     }
-                };
+                }
+            };
 
             if(!isLocalIndex) {
                 dataController.pageIndex(pageIndex).done(() => setKeyByIndex());
@@ -88,8 +89,8 @@ exports.FocusController = core.ViewController.inherit((function() {
         },
 
         _isValidFocusedRowIndex: function(rowIndex) {
-            var dataController = this.getController("data"),
-                row = dataController.getVisibleRows()[rowIndex];
+            var dataController = this.getController("data");
+            var row = dataController.getVisibleRows()[rowIndex];
 
             return !row || row.rowType === "data" || row.rowType === "group";
         },
@@ -104,10 +105,10 @@ exports.FocusController = core.ViewController.inherit((function() {
          * @param1 key:any
          */
         navigateToRow: function(key) {
-            var that = this,
-                dataController = this.getController("data"),
-                rowIndex = this.option("focusedRowIndex"),
-                result = new Deferred();
+            var that = this;
+            var dataController = this.getController("data");
+            var rowIndex = this.option("focusedRowIndex");
+            var result = new Deferred();
 
             if(key === undefined || !dataController.dataSource()) {
                 return result.reject().promise();
@@ -139,9 +140,9 @@ exports.FocusController = core.ViewController.inherit((function() {
         },
 
         _triggerUpdateFocusedRow: function(key, result) {
-            var dataController = this.getController("data"),
-                rowIndex = dataController.getRowIndexByKey(key),
-                focusedRowIndex = rowIndex + dataController.getRowIndexOffset();
+            var dataController = this.getController("data");
+            var rowIndex = dataController.getRowIndexByKey(key);
+            var focusedRowIndex = rowIndex + dataController.getRowIndexOffset();
 
             if(this._isValidFocusedRowIndex(focusedRowIndex)) {
                 this.getController("keyboardNavigation").setFocusedRowIndex(focusedRowIndex);
@@ -162,10 +163,10 @@ exports.FocusController = core.ViewController.inherit((function() {
         },
 
         _focusRowByKeyOrIndex: function() {
-            var focusedRowKey = this.option("focusedRowKey"),
-                currentFocusedRowIndex = this.option("focusedRowIndex"),
-                keyboardController = this.getController("keyboardNavigation"),
-                dataController = this.getController("data");
+            var focusedRowKey = this.option("focusedRowKey");
+            var currentFocusedRowIndex = this.option("focusedRowIndex");
+            var keyboardController = this.getController("keyboardNavigation");
+            var dataController = this.getController("data");
 
             if(focusedRowKey !== undefined) {
                 let visibleRowIndex = dataController.getRowIndexByKey(focusedRowKey);
@@ -202,11 +203,11 @@ exports.FocusController = core.ViewController.inherit((function() {
         },
 
         updateFocusedRow: function(change) {
-            var that = this,
-                focusedRowIndex = that._dataController.getRowIndexByKey(change.focusedRowKey),
-                rowsView = that.getView("rowsView"),
-                $focusedRow,
-                $tableElement;
+            var that = this;
+            var focusedRowIndex = that._dataController.getRowIndexByKey(change.focusedRowKey);
+            var rowsView = that.getView("rowsView");
+            var $focusedRow;
+            var $tableElement;
 
             each(rowsView.getTableElements(), function(_, element) {
                 $tableElement = $(element);
@@ -218,8 +219,8 @@ exports.FocusController = core.ViewController.inherit((function() {
             });
         },
         _clearPreviousFocusedRow: function($tableElement, focusedRowIndex) {
-            var $prevRowFocusedElement = $tableElement.find(FOCUSED_ROW_SELECTOR),
-                $firstRow;
+            var $prevRowFocusedElement = $tableElement.find(FOCUSED_ROW_SELECTOR);
+            var $firstRow;
             $prevRowFocusedElement
                 .removeClass(ROW_FOCUSED_CLASS)
                 .removeClass(CELL_FOCUS_DISABLED_CLASS)
@@ -231,8 +232,8 @@ exports.FocusController = core.ViewController.inherit((function() {
             }
         },
         _prepareFocusedRow: function(changedItem, $tableElement, focusedRowIndex) {
-            var $row,
-                tabIndex = this.option("tabindex") || 0;
+            var $row;
+            var tabIndex = this.option("tabindex") || 0;
 
             if(changedItem && (changedItem.rowType === "data" || changedItem.rowType === "group")) {
                 $row = $(this.getView("rowsView")._getRowElements($tableElement).eq(focusedRowIndex));
@@ -244,10 +245,10 @@ exports.FocusController = core.ViewController.inherit((function() {
         },
 
         _scrollToFocusedRow: function($row) {
-            var that = this,
-                rowsView = that.getView("rowsView"),
-                $rowsViewElement = rowsView.element(),
-                $focusedRow;
+            var that = this;
+            var rowsView = that.getView("rowsView");
+            var $rowsViewElement = rowsView.element();
+            var $focusedRow;
 
             if(!$rowsViewElement) {
                 return;
@@ -256,9 +257,9 @@ exports.FocusController = core.ViewController.inherit((function() {
             $focusedRow = $row || $rowsViewElement.find(FOCUSED_ROW_SELECTOR);
 
             if($focusedRow.length > 0) {
-                var focusedRowRect = $focusedRow[0].getBoundingClientRect(),
-                    rowsViewRect = rowsView.element()[0].getBoundingClientRect(),
-                    diff;
+                var focusedRowRect = $focusedRow[0].getBoundingClientRect();
+                var rowsViewRect = rowsView.element()[0].getBoundingClientRect();
+                var diff;
 
                 if(focusedRowRect.bottom > rowsViewRect.bottom) {
                     diff = focusedRowRect.bottom - rowsViewRect.bottom;
@@ -318,8 +319,8 @@ module.exports = {
         controllers: {
             keyboardNavigation: {
                 init: function() {
-                    var rowIndex = this.option("focusedRowIndex"),
-                        columnIndex = this.option("focusedColumnIndex");
+                    var rowIndex = this.option("focusedRowIndex");
+                    var columnIndex = this.option("focusedColumnIndex");
 
                     if(this.option("focusedRowEnabled")) {
                         this.createAction("onFocusedRowChanging", { excludeValidators: ["disabled", "readOnly"] });
@@ -368,8 +369,8 @@ module.exports = {
                 },
 
                 _updateFocusedCellPosition: function($cell, direction) {
-                    var prevRowIndex = this.option("focusedRowIndex"),
-                        prevColumnIndex = this.option("focusedColumnIndex");
+                    var prevRowIndex = this.option("focusedRowIndex");
+                    var prevColumnIndex = this.option("focusedColumnIndex");
 
                     this.callBase($cell, direction);
 
@@ -388,11 +389,11 @@ module.exports = {
 
             editorFactory: {
                 renderFocusOverlay: function($element, hideBorder) {
-                    var keyboardController = this.getController("keyboardNavigation"),
-                        focusedRowEnabled = this.option("focusedRowEnabled"),
-                        editingController = this.getController("editing"),
-                        isRowElement = keyboardController._getElementType($element) === "row",
-                        $cell;
+                    var keyboardController = this.getController("keyboardNavigation");
+                    var focusedRowEnabled = this.option("focusedRowEnabled");
+                    var editingController = this.getController("editing");
+                    var isRowElement = keyboardController._getElementType($element) === "row";
+                    var $cell;
 
                     if(!focusedRowEnabled || !keyboardController.isRowFocusType() || editingController.isEditing()) {
                         this.callBase($element, hideBorder);
@@ -407,13 +408,13 @@ module.exports = {
 
             columns: {
                 getSortDataSourceParameters: function() {
-                    var result = this.callBase.apply(this, arguments),
-                        dataController = this.getController("data"),
-                        dataSource = dataController._dataSource,
-                        store = dataController.store(),
-                        key = store && store.key(),
-                        remoteOperations = dataSource && dataSource.remoteOperations() || {},
-                        isLocalOperations = Object.keys(remoteOperations).every(operationName => !remoteOperations[operationName]);
+                    var result = this.callBase.apply(this, arguments);
+                    var dataController = this.getController("data");
+                    var dataSource = dataController._dataSource;
+                    var store = dataController.store();
+                    var key = store && store.key();
+                    var remoteOperations = dataSource && dataSource.remoteOperations() || {};
+                    var isLocalOperations = Object.keys(remoteOperations).every(operationName => !remoteOperations[operationName]);
 
                     if(this.option("focusedRowEnabled") && key) {
                         key = Array.isArray(key) ? key : [key];
@@ -462,13 +463,13 @@ module.exports = {
                     }
                 },
                 processUpdateFocusedRow: function() {
-                    var prevPageIndex = this._prevPageIndex,
-                        operationTypes = this._dataSource.operationTypes(),
-                        focusController = this.getController("focus"),
-                        reload = operationTypes && operationTypes.reload,
-                        isVirtualScrolling = this.getController("keyboardNavigation")._isVirtualScrolling(),
-                        focusedRowKey = this.option("focusedRowKey"),
-                        paging = prevPageIndex !== undefined && prevPageIndex !== this.pageIndex();
+                    var prevPageIndex = this._prevPageIndex;
+                    var operationTypes = this._dataSource.operationTypes();
+                    var focusController = this.getController("focus");
+                    var reload = operationTypes && operationTypes.reload;
+                    var isVirtualScrolling = this.getController("keyboardNavigation")._isVirtualScrolling();
+                    var focusedRowKey = this.option("focusedRowKey");
+                    var paging = prevPageIndex !== undefined && prevPageIndex !== this.pageIndex();
 
                     this._prevPageIndex = this.pageIndex();
                     if(reload && focusedRowKey !== undefined) {
@@ -487,8 +488,8 @@ module.exports = {
                 },
 
                 getPageIndexByKey: function(key) {
-                    var that = this,
-                        d = new Deferred();
+                    var that = this;
+                    var d = new Deferred();
 
                     that.getGlobalRowIndexByKey(key).done(function(globalIndex) {
                         d.resolve(globalIndex >= 0 ? Math.floor(globalIndex / that.pageSize()) : -1);
@@ -503,10 +504,10 @@ module.exports = {
                     return this._calculateGlobalRowIndexByFlatData(key);
                 },
                 _calculateGlobalRowIndexByFlatData: function(key, groupFilter, useGroup) {
-                    var that = this,
-                        deferred = new Deferred(),
-                        dataSource = that._dataSource,
-                        filter = that._generateFilterByKey(key);
+                    var that = this;
+                    var deferred = new Deferred();
+                    var dataSource = that._dataSource;
+                    var filter = that._generateFilterByKey(key);
 
                     dataSource.load({
                         filter: that._concatWithCombinedFilter(filter),
@@ -535,10 +536,10 @@ module.exports = {
                     return combineFilters([filter, combinedFilter, groupFilter]);
                 },
                 _generateOperationFilterByKey: function(key, rowData, useGroup) {
-                    var that = this,
-                        dataSource = that._dataSource,
-                        filter = that._generateFilterByKey(key, "<"),
-                        sort = that._columnsController.getSortDataSourceParameters(!dataSource.remoteOperations().filtering);
+                    var that = this;
+                    var dataSource = that._dataSource;
+                    var filter = that._generateFilterByKey(key, "<");
+                    var sort = that._columnsController.getSortDataSourceParameters(!dataSource.remoteOperations().filtering);
 
                     if(useGroup) {
                         var group = that._columnsController.getGroupDataSourceParameters(!dataSource.remoteOperations().filtering);
@@ -549,9 +550,9 @@ module.exports = {
 
                     if(sort) {
                         sort.slice().reverse().forEach(function(sortInfo) {
-                            var selector = sortInfo.selector,
-                                getter,
-                                value;
+                            var selector = sortInfo.selector;
+                            var getter;
+                            var value;
 
                             if(typeof selector === "function") {
                                 getter = selector;
@@ -569,9 +570,9 @@ module.exports = {
                     return filter;
                 },
                 _generateFilterByKey: function(key, operation) {
-                    var dataSourceKey = this._dataSource.key(),
-                        filter = [],
-                        keyPart;
+                    var dataSourceKey = this._dataSource.key();
+                    var filter = [];
+                    var keyPart;
 
                     if(!operation) {
                         operation = "=";
@@ -639,15 +640,15 @@ module.exports = {
                     }
                 },
                 _setFocusedRowElementTabIndex: function() {
-                    var that = this,
-                        focusedRowKey = that.option("focusedRowKey"),
-                        tabIndex = that.option("tabIndex"),
-                        rowIndex = that._dataController.getRowIndexByKey(focusedRowKey),
-                        columnIndex = that.option("focusedColumnIndex"),
-                        $cellElements = that.getCellElements(rowIndex >= 0 ? rowIndex : 0),
-                        $row = $cellElements.eq(0).parent(),
-                        dataSource = that.component.getController("data")._dataSource,
-                        operationTypes = dataSource && dataSource.operationTypes();
+                    var that = this;
+                    var focusedRowKey = that.option("focusedRowKey");
+                    var tabIndex = that.option("tabIndex");
+                    var rowIndex = that._dataController.getRowIndexByKey(focusedRowKey);
+                    var columnIndex = that.option("focusedColumnIndex");
+                    var $cellElements = that.getCellElements(rowIndex >= 0 ? rowIndex : 0);
+                    var $row = $cellElements.eq(0).parent();
+                    var dataSource = that.component.getController("data")._dataSource;
+                    var operationTypes = dataSource && dataSource.operationTypes();
 
                     that._scrollToFocusOnResize = that._scrollToFocusOnResize || function() {
                         that.getController("focus")._scrollToFocusedRow($row);

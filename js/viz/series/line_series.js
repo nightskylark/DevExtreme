@@ -1,20 +1,18 @@
 // there are line, stepline, stackedline, fullstackedline, spline
-var series = require("./scatter_series"),
-    chartScatterSeries = series.chart,
-    polarScatterSeries = series.polar,
-    objectUtils = require("../../core/utils/object"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    vizUtils = require("../core/utils"),
-    mathUtils = require("../../core/utils/math"),
-    normalizeAngle = vizUtils.normalizeAngle,
+var series = require("./scatter_series");
 
-    DISCRETE = "discrete",
-
-    _map = vizUtils.map,
-
-    _extend = extend,
-    _each = each;
+var chartScatterSeries = series.chart;
+var polarScatterSeries = series.polar;
+var objectUtils = require("../../core/utils/object");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var vizUtils = require("../core/utils");
+var mathUtils = require("../../core/utils/math");
+var normalizeAngle = vizUtils.normalizeAngle;
+var DISCRETE = "discrete";
+var _map = vizUtils.map;
+var _extend = extend;
+var _each = each;
 
 exports.chart = {};
 exports.polar = {};
@@ -28,10 +26,10 @@ function clonePoint(point, newX, newY, newAngle) {
 }
 
 function getTangentPoint(point, prevPoint, centerPoint, tan, nextStepAngle) {
-    var correctAngle = point.angle + nextStepAngle,
-        cosSin = vizUtils.getCosAndSin(correctAngle),
-        x = centerPoint.x + (point.radius + tan * nextStepAngle) * cosSin.cos,
-        y = centerPoint.y - (point.radius + tan * nextStepAngle) * cosSin.sin;
+    var correctAngle = point.angle + nextStepAngle;
+    var cosSin = vizUtils.getCosAndSin(correctAngle);
+    var x = centerPoint.x + (point.radius + tan * nextStepAngle) * cosSin.cos;
+    var y = centerPoint.y - (point.radius + tan * nextStepAngle) * cosSin.sin;
 
     return clonePoint(prevPoint, x, y, correctAngle);
 }
@@ -58,8 +56,8 @@ var lineMethods = {
     },
 
     _setGroupsSettings: function(animationEnabled) {
-        var that = this,
-            style = that._styles.normal;
+        var that = this;
+        var style = that._styles.normal;
 
         that._applyGroupSettings(style.elements, { "class": "dxc-elements" }, that._elementsGroup);
         that._bordersGroup && that._applyGroupSettings(style.border, { "class": "dxc-borders" }, that._bordersGroup);
@@ -120,8 +118,8 @@ var lineMethods = {
     },
 
     _updateElement: function(element, segment, animate, animationComplete) {
-        var params = { points: segment.line },
-            lineElement = element.line;
+        var params = { points: segment.line };
+        var lineElement = element.line;
 
         animate ? lineElement.animate(params, {}, animationComplete) : lineElement.attr(params);
     },
@@ -133,8 +131,8 @@ var lineMethods = {
     },
 
     _animate: function() {
-        var that = this,
-            lastIndex = that._graphics.length - 1;
+        var that = this;
+        var lastIndex = that._graphics.length - 1;
         _each(that._graphics || [], function(i, elem) {
             var complete;
             if(i === lastIndex) {
@@ -163,10 +161,10 @@ var lineMethods = {
     },
 
     _drawSegment: function(points, animationEnabled, segmentCount, lastSegment) {
-        var that = this,
-            rotated = that._options.rotated,
-            forceDefaultSegment = false,
-            segment = that._prepareSegment(points, rotated, lastSegment);
+        var that = this;
+        var rotated = that._options.rotated;
+        var forceDefaultSegment = false;
+        var segment = that._prepareSegment(points, rotated, lastSegment);
 
         that._segments.push(segment);
         if(!that._graphics[segmentCount]) {
@@ -179,9 +177,9 @@ var lineMethods = {
     },
 
     _getTrackerSettings: function() {
-        var that = this,
-            defaultTrackerWidth = that._defaultTrackerWidth,
-            strokeWidthFromElements = that._styles.normal.elements["stroke-width"];
+        var that = this;
+        var defaultTrackerWidth = that._defaultTrackerWidth;
+        var strokeWidthFromElements = that._styles.normal.elements["stroke-width"];
         return {
             "stroke-width": strokeWidthFromElements > defaultTrackerWidth ? strokeWidthFromElements : defaultTrackerWidth,
             fill: "none"
@@ -209,8 +207,8 @@ exports.chart["stepline"] = _extend({}, lineSeries, {
     _calculateStepLinePoints: function(points) {
         var segment = [];
         _each(points, function(i, pt) {
-            var stepY,
-                point;
+            var stepY;
+            var point;
 
             if(!i) {
                 segment.push(pt);
@@ -263,26 +261,37 @@ exports.chart["stepline"] = _extend({}, lineSeries, {
 exports.chart["spline"] = _extend({}, lineSeries, {
 
     _calculateBezierPoints: function(src, rotated) {
-        var bezierPoints = [],
-            pointsCopy = src,
-            checkExtremum = function(otherPointCoord, pointCoord, controlCoord) {
-                return ((otherPointCoord > pointCoord && controlCoord > otherPointCoord) || (otherPointCoord < pointCoord && controlCoord < otherPointCoord)) ? otherPointCoord : controlCoord;
-            };
+        var bezierPoints = [];
+        var pointsCopy = src;
+
+        var checkExtremum = function(otherPointCoord, pointCoord, controlCoord) {
+            return ((otherPointCoord > pointCoord && controlCoord > otherPointCoord) || (otherPointCoord < pointCoord && controlCoord < otherPointCoord)) ? otherPointCoord : controlCoord;
+        };
 
         if(pointsCopy.length !== 1) {
             pointsCopy.forEach(function(curPoint, i) {
-                var leftControlX, leftControlY,
-                    rightControlX, rightControlY,
-                    prevPoint = pointsCopy[i - 1],
-                    nextPoint = pointsCopy[i + 1],
-                    xCur,
-                    yCur,
-                    x1, x2,
-                    y1, y2,
-                    lambda = 0.5,
-                    curIsExtremum,
-                    leftPoint, rightPoint,
-                    a, b, c, xc, yc, shift;
+                var leftControlX;
+                var leftControlY;
+                var rightControlX;
+                var rightControlY;
+                var prevPoint = pointsCopy[i - 1];
+                var nextPoint = pointsCopy[i + 1];
+                var xCur;
+                var yCur;
+                var x1;
+                var x2;
+                var y1;
+                var y2;
+                var lambda = 0.5;
+                var curIsExtremum;
+                var leftPoint;
+                var rightPoint;
+                var a;
+                var b;
+                var c;
+                var xc;
+                var yc;
+                var shift;
 
                 if(!i || i === pointsCopy.length - 1) {
                     bezierPoints.push(curPoint, curPoint);
@@ -358,7 +367,6 @@ exports.chart["spline"] = _extend({}, lineSeries, {
                 rightPoint = clonePoint(curPoint, rightControlX, rightControlY);
 
                 bezierPoints.push(leftPoint, curPoint, rightPoint);
-
             });
         } else {
             bezierPoints.push(pointsCopy[0]);
@@ -446,9 +454,9 @@ exports.polar.line = _extend({}, polarScatterSeries, lineMethods, {
     },
 
     _prepareSegment: function(points, rotated, lastSegment) {
-        var preparedPoints = [],
-            centerPoint = this.getValueAxis().getCenter(),
-            i;
+        var preparedPoints = [];
+        var centerPoint = this.getValueAxis().getCenter();
+        var i;
         lastSegment && this._closeSegment(points);
 
         if(this.argumentAxisType !== DISCRETE && this.valueAxisType !== DISCRETE) {
@@ -471,8 +479,8 @@ exports.polar.line = _extend({}, polarScatterSeries, lineMethods, {
     },
 
     _closeSegment: function(points) {
-        var point,
-            differenceAngle;
+        var point;
+        var differenceAngle;
 
         if(this._segments.length) {
             point = this._segments[0].line[0];
@@ -491,10 +499,10 @@ exports.polar.line = _extend({}, polarScatterSeries, lineMethods, {
     },
 
     _getTangentPoints: function(point, prevPoint, centerPoint) {
-        var tangentPoints = [],
-            betweenAngle = Math.round(prevPoint.angle - point.angle),
-            tan = (prevPoint.radius - point.radius) / betweenAngle,
-            i;
+        var tangentPoints = [];
+        var betweenAngle = Math.round(prevPoint.angle - point.angle);
+        var tan = (prevPoint.radius - point.radius) / betweenAngle;
+        var i;
 
         if(betweenAngle === 0) {
             tangentPoints = [prevPoint, point];

@@ -1,23 +1,21 @@
-var $ = require("../../core/renderer"),
-    Callbacks = require("../../core/utils/callbacks"),
-    translator = require("../../animation/translator"),
-    NativeStrategy = require("./ui.scrollable.native"),
-    LoadIndicator = require("../load_indicator"),
-    each = require("../../core/utils/iterator").each,
-    Deferred = require("../../core/utils/deferred").Deferred;
-
-var SCROLLVIEW_PULLDOWN_REFRESHING_CLASS = "dx-scrollview-pull-down-loading",
-    SCROLLVIEW_PULLDOWN_READY_CLASS = "dx-scrollview-pull-down-ready",
-    SCROLLVIEW_PULLDOWN_IMAGE_CLASS = "dx-scrollview-pull-down-image",
-    SCROLLVIEW_PULLDOWN_INDICATOR_CLASS = "dx-scrollview-pull-down-indicator",
-    SCROLLVIEW_PULLDOWN_TEXT_CLASS = "dx-scrollview-pull-down-text",
-    SCROLLVIEW_PULLDOWN_VISIBLE_TEXT_CLASS = "dx-scrollview-pull-down-text-visible",
-
-    STATE_RELEASED = 0,
-    STATE_READY = 1,
-    STATE_REFRESHING = 2,
-    STATE_LOADING = 3,
-    PULLDOWN_RELEASE_TIME = 400;
+var $ = require("../../core/renderer");
+var Callbacks = require("../../core/utils/callbacks");
+var translator = require("../../animation/translator");
+var NativeStrategy = require("./ui.scrollable.native");
+var LoadIndicator = require("../load_indicator");
+var each = require("../../core/utils/iterator").each;
+var Deferred = require("../../core/utils/deferred").Deferred;
+var SCROLLVIEW_PULLDOWN_REFRESHING_CLASS = "dx-scrollview-pull-down-loading";
+var SCROLLVIEW_PULLDOWN_READY_CLASS = "dx-scrollview-pull-down-ready";
+var SCROLLVIEW_PULLDOWN_IMAGE_CLASS = "dx-scrollview-pull-down-image";
+var SCROLLVIEW_PULLDOWN_INDICATOR_CLASS = "dx-scrollview-pull-down-indicator";
+var SCROLLVIEW_PULLDOWN_TEXT_CLASS = "dx-scrollview-pull-down-text";
+var SCROLLVIEW_PULLDOWN_VISIBLE_TEXT_CLASS = "dx-scrollview-pull-down-text-visible";
+var STATE_RELEASED = 0;
+var STATE_READY = 1;
+var STATE_REFRESHING = 2;
+var STATE_LOADING = 3;
+var PULLDOWN_RELEASE_TIME = 400;
 
 
 var PullDownNativeScrollViewStrategy = NativeStrategy.inherit({
@@ -46,10 +44,10 @@ var PullDownNativeScrollViewStrategy = NativeStrategy.inherit({
     },
 
     _renderPullDown: function() {
-        var $image = $("<div>").addClass(SCROLLVIEW_PULLDOWN_IMAGE_CLASS),
-            $loadContainer = $("<div>").addClass(SCROLLVIEW_PULLDOWN_INDICATOR_CLASS),
-            $loadIndicator = new LoadIndicator($("<div>")).$element(),
-            $text = this._$pullDownText = $("<div>").addClass(SCROLLVIEW_PULLDOWN_TEXT_CLASS);
+        var $image = $("<div>").addClass(SCROLLVIEW_PULLDOWN_IMAGE_CLASS);
+        var $loadContainer = $("<div>").addClass(SCROLLVIEW_PULLDOWN_INDICATOR_CLASS);
+        var $loadIndicator = new LoadIndicator($("<div>")).$element();
+        var $text = this._$pullDownText = $("<div>").addClass(SCROLLVIEW_PULLDOWN_TEXT_CLASS);
 
         this._$pullingDownText = $("<div>").text(this.option("pullingDownText")).appendTo($text);
         this._$pulledDownText = $("<div>").text(this.option("pulledDownText")).appendTo($text);
@@ -74,17 +72,18 @@ var PullDownNativeScrollViewStrategy = NativeStrategy.inherit({
     },
 
     _refreshPullDownText: function() {
-        var that = this,
-            pullDownTextItems = [{
-                element: this._$pullingDownText,
-                visibleState: STATE_RELEASED
-            }, {
-                element: this._$pulledDownText,
-                visibleState: STATE_READY
-            }, {
-                element: this._$refreshingText,
-                visibleState: STATE_REFRESHING
-            }];
+        var that = this;
+
+        var pullDownTextItems = [{
+            element: this._$pullingDownText,
+            visibleState: STATE_RELEASED
+        }, {
+            element: this._$pulledDownText,
+            visibleState: STATE_READY
+        }, {
+            element: this._$refreshingText,
+            visibleState: STATE_REFRESHING
+        }];
 
         each(pullDownTextItems, function(_, item) {
             var action = that._state === item.visibleState ? "addClass" : "removeClass";
@@ -149,8 +148,8 @@ var PullDownNativeScrollViewStrategy = NativeStrategy.inherit({
             return;
         }
 
-        var currentLocation = this.location().top,
-            scrollDelta = (this._location || 0) - currentLocation;
+        var currentLocation = this.location().top;
+        var scrollDelta = (this._location || 0) - currentLocation;
 
         this._location = currentLocation;
 

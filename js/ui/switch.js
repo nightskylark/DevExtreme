@@ -1,29 +1,27 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    devices = require("../core/devices"),
-    extend = require("../core/utils/extend").extend,
-    inkRipple = require("./widget/utils.ink_ripple"),
-    registerComponent = require("../core/component_registrator"),
-    Editor = require("./editor/editor"),
-    eventUtils = require("../events/utils"),
-    feedbackEvents = require("../events/core/emitter.feedback"),
-    themes = require("./themes"),
-    fx = require("../animation/fx"),
-    messageLocalization = require("../localization/message"),
-    clickEvent = require("../events/click"),
-    Swipeable = require("../events/gesture/swipeable"),
-    Deferred = require("../core/utils/deferred").Deferred;
-
-var SWITCH_CLASS = "dx-switch",
-    SWITCH_WRAPPER_CLASS = SWITCH_CLASS + "-wrapper",
-    SWITCH_CONTAINER_CLASS = SWITCH_CLASS + "-container",
-    SWITCH_INNER_CLASS = SWITCH_CLASS + "-inner",
-    SWITCH_HANDLE_CLASS = SWITCH_CLASS + "-handle",
-    SWITCH_ON_VALUE_CLASS = SWITCH_CLASS + "-on-value",
-    SWITCH_ON_CLASS = SWITCH_CLASS + "-on",
-    SWITCH_OFF_CLASS = SWITCH_CLASS + "-off",
-
-    SWITCH_ANIMATION_DURATION = 100;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var devices = require("../core/devices");
+var extend = require("../core/utils/extend").extend;
+var inkRipple = require("./widget/utils.ink_ripple");
+var registerComponent = require("../core/component_registrator");
+var Editor = require("./editor/editor");
+var eventUtils = require("../events/utils");
+var feedbackEvents = require("../events/core/emitter.feedback");
+var themes = require("./themes");
+var fx = require("../animation/fx");
+var messageLocalization = require("../localization/message");
+var clickEvent = require("../events/click");
+var Swipeable = require("../events/gesture/swipeable");
+var Deferred = require("../core/utils/deferred").Deferred;
+var SWITCH_CLASS = "dx-switch";
+var SWITCH_WRAPPER_CLASS = SWITCH_CLASS + "-wrapper";
+var SWITCH_CONTAINER_CLASS = SWITCH_CLASS + "-container";
+var SWITCH_INNER_CLASS = SWITCH_CLASS + "-inner";
+var SWITCH_HANDLE_CLASS = SWITCH_CLASS + "-handle";
+var SWITCH_ON_VALUE_CLASS = SWITCH_CLASS + "-on-value";
+var SWITCH_ON_CLASS = SWITCH_CLASS + "-on";
+var SWITCH_OFF_CLASS = SWITCH_CLASS + "-off";
+var SWITCH_ANIMATION_DURATION = 100;
 
 /**
 * @name dxSwitch
@@ -39,12 +37,14 @@ var Switch = Editor.inherit({
         var click = function(e) {
                 e.preventDefault();
                 this._clickAction({ event: e });
-            },
-            move = function(value, e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this._animateValue(value);
             };
+
+        var move = function(value, e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this._animateValue(value);
+        };
+
         return extend(this.callBase(), {
             space: click,
             enter: click,
@@ -163,8 +163,9 @@ var Switch = Editor.inherit({
 
     _getLocalizationMessage: function(state) {
         // todo: remove this method when deprecated dxSwitchOptions.switchedOnText/switchedOffText will be removed
-        var newMessage = messageLocalization.format("dxSwitch-switched" + state + "Text"),
-            oldMessage = messageLocalization.format("dxSwitch-" + state.toLowerCase() + "Text");
+        var newMessage = messageLocalization.format("dxSwitch-switched" + state + "Text");
+
+        var oldMessage = messageLocalization.format("dxSwitch-" + state.toLowerCase() + "Text");
 
         return newMessage || oldMessage;
     },
@@ -311,8 +312,8 @@ var Switch = Editor.inherit({
     },
 
     _renderPosition: function(state, swipeOffset) {
-        var innerOffset = this._getInnerOffset(state, swipeOffset),
-            handleOffset = this._getHandleOffset(state, swipeOffset);
+        var innerOffset = this._getInnerOffset(state, swipeOffset);
+        var handleOffset = this._getHandleOffset(state, swipeOffset);
 
         if(this.option("_animateHandle")) {
             this._$switchInner.css("transform", " translateX(" + innerOffset + ")");
@@ -351,8 +352,8 @@ var Switch = Editor.inherit({
     },
 
     _animateValue: function(value) {
-        var startValue = this.option("value"),
-            endValue = value;
+        var startValue = this.option("value");
+        var endValue = value;
 
         if(startValue === endValue) {
             return;
@@ -360,16 +361,15 @@ var Switch = Editor.inherit({
 
         this._animating = true;
 
-        var fromInnerOffset = this._getInnerOffset(startValue, 0),
-            toInnerOffset = this._getInnerOffset(endValue, 0),
-            fromHandleOffset = this._getHandleOffset(startValue, 0),
-            toHandleOffset = this._getHandleOffset(endValue, 0);
-
-        var that = this,
-            fromInnerConfig = {},
-            toInnerConfig = {},
-            fromHandleConfig = {},
-            toHandlerConfig = {};
+        var fromInnerOffset = this._getInnerOffset(startValue, 0);
+        var toInnerOffset = this._getInnerOffset(endValue, 0);
+        var fromHandleOffset = this._getHandleOffset(startValue, 0);
+        var toHandleOffset = this._getHandleOffset(endValue, 0);
+        var that = this;
+        var fromInnerConfig = {};
+        var toInnerConfig = {};
+        var fromHandleConfig = {};
+        var toHandlerConfig = {};
 
         fromInnerConfig["transform"] = " translateX(" + fromInnerOffset + ")";
         toInnerConfig["transform"] = " translateX(" + toInnerOffset + ")";
@@ -396,10 +396,10 @@ var Switch = Editor.inherit({
     },
 
     _swipeStartHandler: function(e) {
-        var state = this.option("value"),
-            rtlEnabled = this.option("rtlEnabled"),
-            maxOffOffset = rtlEnabled ? 0 : 1,
-            maxOnOffset = rtlEnabled ? 1 : 0;
+        var state = this.option("value");
+        var rtlEnabled = this.option("rtlEnabled");
+        var maxOffOffset = rtlEnabled ? 0 : 1;
+        var maxOnOffset = rtlEnabled ? 1 : 0;
 
         e.event.maxLeftOffset = state ? maxOffOffset : maxOnOffset;
         e.event.maxRightOffset = state ? maxOnOffset : maxOffOffset;
@@ -415,13 +415,12 @@ var Switch = Editor.inherit({
     },
 
     _swipeEndHandler: function(e) {
-        var that = this,
-            offsetDirection = this._offsetDirection(),
-            toInnerConfig = {},
-            toHandleConfig = {};
-
-        var innerOffset = this._getInnerOffset(that.option("value"), e.event.targetOffset),
-            handleOffset = this._getHandleOffset(that.option("value"), e.event.targetOffset);
+        var that = this;
+        var offsetDirection = this._offsetDirection();
+        var toInnerConfig = {};
+        var toHandleConfig = {};
+        var innerOffset = this._getInnerOffset(that.option("value"), e.event.targetOffset);
+        var handleOffset = this._getHandleOffset(that.option("value"), e.event.targetOffset);
 
         toInnerConfig["transform"] = " translateX(" + innerOffset + ")";
         toHandleConfig["transform"] = " translateX(" + handleOffset + ")";

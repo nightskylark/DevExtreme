@@ -561,11 +561,11 @@ var weekData = {
 
 var ACCEPTABLE_JSON_FORMAT_PROPERTIES = ["skeleton", "date", "time", "datetime", "raw"];
 
-var Globalize = require("globalize"),
-    dateLocalization = require("../date"),
-    isObject = require("../../core/utils/type").isObject,
-    inArray = require("../../core/utils/array").inArray,
-    iteratorUtils = require("../../core/utils/iterator");
+var Globalize = require("globalize");
+var dateLocalization = require("../date");
+var isObject = require("../../core/utils/type").isObject;
+var inArray = require("../../core/utils/array").inArray;
+var iteratorUtils = require("../../core/utils/iterator");
 
 if(Globalize && Globalize.formatDate) {
 
@@ -649,9 +649,9 @@ if(Globalize && Globalize.formatDate) {
 
     var globalizeDateLocalization = {
         _getPatternByFormat: function(format) {
-            var that = this,
-                lowerFormat = format.toLowerCase(),
-                globalizeFormat = FORMATS_TO_GLOBALIZE_MAP[lowerFormat];
+            var that = this;
+            var lowerFormat = format.toLowerCase();
+            var globalizeFormat = FORMATS_TO_GLOBALIZE_MAP[lowerFormat];
 
             if(lowerFormat === "datetime-local") {
                 return "yyyy-MM-ddTHH':'mm':'ss";
@@ -705,8 +705,8 @@ if(Globalize && Globalize.formatDate) {
                 return date;
             }
 
-            var formatter,
-                formatCacheKey;
+            var formatter;
+            var formatCacheKey;
 
             if(typeof (format) === "function") {
                 return format(date);

@@ -7,8 +7,8 @@ import objectUtils from "../core/utils/object";
 import { keysEqual, rejectedPromise, trivialPromise } from "./utils";
 
 function hasKey(target, keyOrKeys) {
-    var key,
-        keys = typeof keyOrKeys === "string" ? keyOrKeys.split() : keyOrKeys.slice();
+    var key;
+    var keys = typeof keyOrKeys === "string" ? keyOrKeys.split() : keyOrKeys.slice();
 
     while(keys.length) {
         key = keys.shift();
@@ -21,8 +21,8 @@ function hasKey(target, keyOrKeys) {
 }
 
 function findItems(keyInfo, items, key, groupCount) {
-    var childItems,
-        result;
+    var childItems;
+    var result;
 
     if(groupCount) {
         for(var i = 0; i < items.length; i++) {
@@ -85,9 +85,9 @@ function applyBatch(keyInfo, array, batchData, groupCount, useInsertIndex) {
 }
 
 function update(keyInfo, array, key, data, isBatch) {
-    var target,
-        extendComplexObject = true,
-        keyExpr = keyInfo.key();
+    var target;
+    var extendComplexObject = true;
+    var keyExpr = keyInfo.key();
 
     if(keyExpr) {
         if(hasKey(data, keyExpr) && !keysEqual(keyExpr, key, keyInfo.keyOf(data))) {
@@ -115,9 +115,9 @@ function update(keyInfo, array, key, data, isBatch) {
 }
 
 function insert(keyInfo, array, data, index, isBatch) {
-    var keyValue,
-        obj,
-        keyExpr = keyInfo.key();
+    var keyValue;
+    var obj;
+    var keyExpr = keyInfo.key();
 
     obj = isPlainObject(data) ? extend({}, data) : data;
 

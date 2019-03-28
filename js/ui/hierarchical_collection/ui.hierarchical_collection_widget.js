@@ -1,14 +1,14 @@
-var $ = require("../../core/renderer"),
-    dataCoreUtils = require("../../core/utils/data"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    devices = require("../../core/devices"),
-    iconUtils = require("../../core/utils/icon"),
-    HierarchicalDataAdapter = require("./ui.data_adapter"),
-    CollectionWidget = require("../collection/ui.collection_widget.edit"),
-    BindableTemplate = require("../widget/bindable_template"),
-    isFunction = require("../../core/utils/type").isFunction,
-    noop = require("../../core/utils/common").noop;
+var $ = require("../../core/renderer");
+var dataCoreUtils = require("../../core/utils/data");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var devices = require("../../core/devices");
+var iconUtils = require("../../core/utils/icon");
+var HierarchicalDataAdapter = require("./ui.data_adapter");
+var CollectionWidget = require("../collection/ui.collection_widget.edit");
+var BindableTemplate = require("../widget/bindable_template");
+var isFunction = require("../../core/utils/type").isFunction;
+var noop = require("../../core/utils/common").noop;
 
 var DISABLED_STATE_CLASS = "dx-state-disabled";
 
@@ -160,8 +160,8 @@ var HierarchicalCollectionWidget = CollectionWidget.inherit({
     },
 
     _getChildNodes: function(node) {
-        var that = this,
-            arr = [];
+        var that = this;
+        var arr = [];
         each(node.internalFields.childrenKeys, function(_, key) {
             var childNode = that._dataAdapter.getNodeByKey(key);
             arr.push(childNode);
@@ -174,9 +174,9 @@ var HierarchicalCollectionWidget = CollectionWidget.inherit({
     },
 
     _compileAccessor: function(optionName) {
-        var getter = "_" + optionName + "Getter",
-            setter = "_" + optionName + "Setter",
-            optionExpr = this.option(optionName + "Expr");
+        var getter = "_" + optionName + "Getter";
+        var setter = "_" + optionName + "Setter";
+        var optionExpr = this.option(optionName + "Expr");
 
         if(!optionExpr) {
             this[getter] = noop;
@@ -193,16 +193,17 @@ var HierarchicalCollectionWidget = CollectionWidget.inherit({
     },
 
     _createDataAdapterAccessors: function() {
-        var that = this,
-            accessors = {
-                getters: {},
-                setters: {}
-            };
+        var that = this;
+
+        var accessors = {
+            getters: {},
+            setters: {}
+        };
 
         each(this._getAccessors(), function(_, accessor) {
-            var getterName = "_" + accessor + "Getter",
-                setterName = "_" + accessor + "Setter",
-                newAccessor = accessor === "parentId" ? "parentKey" : accessor;
+            var getterName = "_" + accessor + "Getter";
+            var setterName = "_" + accessor + "Setter";
+            var newAccessor = accessor === "parentId" ? "parentKey" : accessor;
 
             accessors.getters[newAccessor] = that[getterName];
             accessors.setters[newAccessor] = that[setterName];

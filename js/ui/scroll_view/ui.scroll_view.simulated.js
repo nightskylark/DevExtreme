@@ -1,23 +1,21 @@
-var $ = require("../../core/renderer"),
-    Callbacks = require("../../core/utils/callbacks"),
-    each = require("../../core/utils/iterator").each,
-    commonUtils = require("../../core/utils/common"),
-    extend = require("../../core/utils/extend").extend,
-    math = Math,
-    simulatedStrategy = require("./ui.scrollable.simulated"),
-    LoadIndicator = require("../load_indicator");
-
-var SCROLLVIEW_PULLDOWN_REFRESHING_CLASS = "dx-scrollview-pull-down-loading",
-    SCROLLVIEW_PULLDOWN_READY_CLASS = "dx-scrollview-pull-down-ready",
-    SCROLLVIEW_PULLDOWN_IMAGE_CLASS = "dx-scrollview-pull-down-image",
-    SCROLLVIEW_PULLDOWN_INDICATOR_CLASS = "dx-scrollview-pull-down-indicator",
-    SCROLLVIEW_PULLDOWN_TEXT_CLASS = "dx-scrollview-pull-down-text",
-    SCROLLVIEW_PULLDOWN_VISIBLE_TEXT_CLASS = "dx-scrollview-pull-down-text-visible",
-
-    STATE_RELEASED = 0,
-    STATE_READY = 1,
-    STATE_REFRESHING = 2,
-    STATE_LOADING = 3;
+var $ = require("../../core/renderer");
+var Callbacks = require("../../core/utils/callbacks");
+var each = require("../../core/utils/iterator").each;
+var commonUtils = require("../../core/utils/common");
+var extend = require("../../core/utils/extend").extend;
+var math = Math;
+var simulatedStrategy = require("./ui.scrollable.simulated");
+var LoadIndicator = require("../load_indicator");
+var SCROLLVIEW_PULLDOWN_REFRESHING_CLASS = "dx-scrollview-pull-down-loading";
+var SCROLLVIEW_PULLDOWN_READY_CLASS = "dx-scrollview-pull-down-ready";
+var SCROLLVIEW_PULLDOWN_IMAGE_CLASS = "dx-scrollview-pull-down-image";
+var SCROLLVIEW_PULLDOWN_INDICATOR_CLASS = "dx-scrollview-pull-down-indicator";
+var SCROLLVIEW_PULLDOWN_TEXT_CLASS = "dx-scrollview-pull-down-text";
+var SCROLLVIEW_PULLDOWN_VISIBLE_TEXT_CLASS = "dx-scrollview-pull-down-text-visible";
+var STATE_RELEASED = 0;
+var STATE_READY = 1;
+var STATE_REFRESHING = 2;
+var STATE_LOADING = 3;
 
 
 var ScrollViewScroller = simulatedStrategy.Scroller.inherit({
@@ -35,17 +33,18 @@ var ScrollViewScroller = simulatedStrategy.Scroller.inherit({
     },
 
     _refreshPullDownText: function() {
-        var that = this,
-            pullDownTextItems = [{
-                element: this._$pullingDownText,
-                visibleState: STATE_RELEASED
-            }, {
-                element: this._$pulledDownText,
-                visibleState: STATE_READY
-            }, {
-                element: this._$refreshingText,
-                visibleState: STATE_REFRESHING
-            }];
+        var that = this;
+
+        var pullDownTextItems = [{
+            element: this._$pullingDownText,
+            visibleState: STATE_RELEASED
+        }, {
+            element: this._$pulledDownText,
+            visibleState: STATE_READY
+        }, {
+            element: this._$refreshingText,
+            visibleState: STATE_REFRESHING
+        }];
 
         each(pullDownTextItems, function(_, item) {
             var action = that._state === item.visibleState ? "addClass" : "removeClass";
@@ -254,10 +253,10 @@ var SimulatedScrollViewStrategy = simulatedStrategy.SimulatedStrategy.inherit({
     },
 
     _renderPullDown: function() {
-        var $image = $("<div>").addClass(SCROLLVIEW_PULLDOWN_IMAGE_CLASS),
-            $loadContainer = $("<div>").addClass(SCROLLVIEW_PULLDOWN_INDICATOR_CLASS),
-            $loadIndicator = new LoadIndicator($("<div>")).$element(),
-            $text = this._$pullDownText = $("<div>").addClass(SCROLLVIEW_PULLDOWN_TEXT_CLASS);
+        var $image = $("<div>").addClass(SCROLLVIEW_PULLDOWN_IMAGE_CLASS);
+        var $loadContainer = $("<div>").addClass(SCROLLVIEW_PULLDOWN_INDICATOR_CLASS);
+        var $loadIndicator = new LoadIndicator($("<div>")).$element();
+        var $text = this._$pullDownText = $("<div>").addClass(SCROLLVIEW_PULLDOWN_TEXT_CLASS);
 
         this._$pullingDownText = $("<div>").text(this.option("pullingDownText")).appendTo($text);
         this._$pulledDownText = $("<div>").text(this.option("pulledDownText")).appendTo($text);

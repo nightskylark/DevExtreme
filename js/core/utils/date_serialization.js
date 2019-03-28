@@ -1,14 +1,13 @@
-var config = require("../config"),
-    getLDMLFormatter = require("../../localization/ldml/date.formatter").getFormatter,
-    defaultDateNames = require("../../localization/default_date_names"),
-    typeUtils = require("./type"),
-    isString = typeUtils.isString,
-    isDate = typeUtils.isDate,
-    isNumber = typeUtils.isNumeric;
-
-var NUMBER_SERIALIZATION_FORMAT = "number",
-    DATE_SERIALIZATION_FORMAT = "yyyy/MM/dd",
-    DATETIME_SERIALIZATION_FORMAT = "yyyy/MM/dd HH:mm:ss";
+var config = require("../config");
+var getLDMLFormatter = require("../../localization/ldml/date.formatter").getFormatter;
+var defaultDateNames = require("../../localization/default_date_names");
+var typeUtils = require("./type");
+var isString = typeUtils.isString;
+var isDate = typeUtils.isDate;
+var isNumber = typeUtils.isNumeric;
+var NUMBER_SERIALIZATION_FORMAT = "number";
+var DATE_SERIALIZATION_FORMAT = "yyyy/MM/dd";
+var DATETIME_SERIALIZATION_FORMAT = "yyyy/MM/dd HH:mm:ss";
 
 var ISO8601_PATTERN = /^(\d{4,})(-)?(\d{2})(-)?(\d{2})(?:T(\d{2})(:)?(\d{2})?(:)?(\d{2}(?:\.(\d{1,3})\d*)?)?)?(Z|([+-])(\d{2})(:)?(\d{2})?)?$/;
 var ISO8601_TIME_PATTERN = /^(\d{2}):(\d{2})(:(\d{2}))?$/;
@@ -48,11 +47,11 @@ var parseISO8601String = function(text) {
         return;
     }
 
-    var year = parts[1],
-        month = --parts[3],
-        day = parts[5],
-        timeZoneHour = 0,
-        timeZoneMinute = 0;
+    var year = parts[1];
+    var month = --parts[3];
+    var day = parts[5];
+    var timeZoneHour = 0;
+    var timeZoneMinute = 0;
 
     timeZoneHour = timePart(parts[14]);
     timeZoneMinute = timePart(parts[16]);
@@ -62,14 +61,16 @@ var parseISO8601String = function(text) {
         timeZoneMinute = -timeZoneMinute;
     }
 
-    var hour = timePart(parts[6]) - timeZoneHour,
-        minute = timePart(parts[8]) - timeZoneMinute,
-        second = timePart(parts[10]),
-        parseMilliseconds = function(part) {
-            part = part || "";
-            return timePart(part) * Math.pow(10, MILLISECOND_LENGHT - part.length);
-        },
-        millisecond = parseMilliseconds(parts[11]);
+    var hour = timePart(parts[6]) - timeZoneHour;
+    var minute = timePart(parts[8]) - timeZoneMinute;
+    var second = timePart(parts[10]);
+
+    var parseMilliseconds = function(part) {
+        part = part || "";
+        return timePart(part) * Math.pow(10, MILLISECOND_LENGHT - part.length);
+    };
+
+    var millisecond = parseMilliseconds(parts[11]);
 
     if(parts[12]) {
         return new Date(Date.UTC(year, month, day, hour, minute, second, millisecond));
@@ -79,8 +80,8 @@ var parseISO8601String = function(text) {
 };
 
 var getIso8601Format = function(text, useUtc) {
-    var parts = text.match(ISO8601_PATTERN),
-        result = "";
+    var parts = text.match(ISO8601_PATTERN);
+    var result = "";
 
     if(!parts) {
         parts = text.match(ISO8601_TIME_PATTERN);

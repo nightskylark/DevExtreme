@@ -1,31 +1,29 @@
-var noop = require("../../core/utils/common").noop,
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    adjust = require("../../core/utils/math").adjust,
-    dateToMilliseconds = require("../../core/utils/date").dateToMilliseconds,
-    isDefined = typeUtils.isDefined,
-    isNumber = typeUtils.isNumeric,
-    isExponential = typeUtils.isExponential,
-    _math = Math,
-    _round = _math.round,
-    _sqrt = Math.sqrt;
-
-var PI = Math.PI,
-    MAX_PIXEL_COUNT = 1E10,
-    PI_DIV_180 = PI / 180,
-    LN10 = Math.LN10;
-
-var cosFunc = Math.cos,
-    sinFunc = Math.sin,
-    abs = Math.abs,
-    log = Math.log,
-    floor = Math.floor,
-    ceil = Math.ceil,
-    max = Math.max,
-    _isNaN = isNaN,
-    _Number = Number,
-    _NaN = NaN;
+var noop = require("../../core/utils/common").noop;
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var adjust = require("../../core/utils/math").adjust;
+var dateToMilliseconds = require("../../core/utils/date").dateToMilliseconds;
+var isDefined = typeUtils.isDefined;
+var isNumber = typeUtils.isNumeric;
+var isExponential = typeUtils.isExponential;
+var _math = Math;
+var _round = _math.round;
+var _sqrt = Math.sqrt;
+var PI = Math.PI;
+var MAX_PIXEL_COUNT = 1E10;
+var PI_DIV_180 = PI / 180;
+var LN10 = Math.LN10;
+var cosFunc = Math.cos;
+var sinFunc = Math.sin;
+var abs = Math.abs;
+var log = Math.log;
+var floor = Math.floor;
+var ceil = Math.ceil;
+var max = Math.max;
+var _isNaN = isNaN;
+var _Number = Number;
+var _NaN = NaN;
 
 var getLog = function(value, base) {
     if(!value) {
@@ -74,13 +72,14 @@ var DECIMAL_ORDER_THRESHOLD = 1E-14;
 //   /       2          2
 // \/ (y2-y1)  + (x2-x1)
 var getDistance = function(x1, y1, x2, y2) {
-    var diffX = x2 - x1,
-        diffY = y2 - y1;
+    var diffX = x2 - x1;
+    var diffY = y2 - y1;
     return Math.sqrt(diffY * diffY + diffX * diffX);
 };
 
 var getDecimalOrder = function(number) {
-    var n = abs(number), cn;
+    var n = abs(number);
+    var cn;
     if(!_isNaN(n)) {
         if(n > 0) {
             n = log(n) / LN10;
@@ -93,9 +92,9 @@ var getDecimalOrder = function(number) {
 };
 
 var getAppropriateFormat = function(start, end, count) {
-    var order = max(getDecimalOrder(start), getDecimalOrder(end)),
-        precision = -getDecimalOrder(abs(end - start) / count),
-        format;
+    var order = max(getDecimalOrder(start), getDecimalOrder(end));
+    var precision = -getDecimalOrder(abs(end - start) / count);
+    var format;
 
     if(!_isNaN(order) && !_isNaN(precision)) {
         if(abs(order) <= 4) {
@@ -130,10 +129,10 @@ var getPower = function(value) {
 };
 
 function map(array, callback) {
-    var i = 0,
-        len = array.length,
-        result = [],
-        value;
+    var i = 0;
+    var len = array.length;
+    var result = [];
+    var value;
 
     while(i < len) {
         value = callback(array[i], i);
@@ -180,36 +179,40 @@ function normalizeBBoxField(value) {
 }
 
 function normalizeBBox(bBox) {
-    var xl = normalizeBBoxField(floor(bBox.x)),
-        yt = normalizeBBoxField(floor(bBox.y)),
-        xr = normalizeBBoxField(ceil(bBox.width + bBox.x)),
-        yb = normalizeBBoxField(ceil(bBox.height + bBox.y)),
-        result = {
-            x: xl,
-            y: yt,
-            width: xr - xl,
-            height: yb - yt
-        };
+    var xl = normalizeBBoxField(floor(bBox.x));
+    var yt = normalizeBBoxField(floor(bBox.y));
+    var xr = normalizeBBoxField(ceil(bBox.width + bBox.x));
+    var yb = normalizeBBoxField(ceil(bBox.height + bBox.y));
+
+    var result = {
+        x: xl,
+        y: yt,
+        width: xr - xl,
+        height: yb - yt
+    };
+
     result.isEmpty = !result.x && !result.y && !result.width && !result.height;
     return result;
 }
 
 // Angle is expected to be from right-handed cartesian (not svg) space - positive is counterclockwise
 function rotateBBox(bBox, center, angle) {
-    var cos = _Number(cosFunc(angle * PI_DIV_180).toFixed(3)),
-        sin = _Number(sinFunc(angle * PI_DIV_180).toFixed(3)),
-        w2 = bBox.width / 2,
-        h2 = bBox.height / 2,
-        centerX = bBox.x + w2,
-        centerY = bBox.y + h2,
-        w2_ = abs(w2 * cos) + abs(h2 * sin),
-        h2_ = abs(w2 * sin) + abs(h2 * cos),
-        // Note that the following slightly differs from theoretical formula:
-        // x' = x * cos - y * sin, y' = x * sin + y * cos
-        // That is because in svg y goes down (not up) - so sign of sin is reverted
-        // x' = x * cos + y * sin, y' = -x * sin + y * cos
-        centerX_ = center[0] + (centerX - center[0]) * cos + (centerY - center[1]) * sin,
-        centerY_ = center[1] - (centerX - center[0]) * sin + (centerY - center[1]) * cos;
+    var cos = _Number(cosFunc(angle * PI_DIV_180).toFixed(3));
+    var sin = _Number(sinFunc(angle * PI_DIV_180).toFixed(3));
+    var w2 = bBox.width / 2;
+    var h2 = bBox.height / 2;
+    var centerX = bBox.x + w2;
+    var centerY = bBox.y + h2;
+    var w2_ = abs(w2 * cos) + abs(h2 * sin);
+    var h2_ = abs(w2 * sin) + abs(h2 * cos);
+
+    var // Note that the following slightly differs from theoretical formula:
+    // x' = x * cos - y * sin, y' = x * sin + y * cos
+    // That is because in svg y goes down (not up) - so sign of sin is reverted
+    // x' = x * cos + y * sin, y' = -x * sin + y * cos
+    centerX_ = center[0] + (centerX - center[0]) * cos + (centerY - center[1]) * sin;
+
+    var centerY_ = center[1] - (centerX - center[0]) * sin + (centerY - center[1]) * cos;
     return normalizeBBox({
         x: centerX_ - w2_,
         y: centerY_ - h2_,
@@ -236,7 +239,9 @@ extend(exports, {
     },
 
     enumParser: function(values) {
-        var stored = {}, i, ii;
+        var stored = {};
+        var i;
+        var ii;
         for(i = 0, ii = values.length; i < ii; ++i) {
             stored[normalizeEnum(values[i])] = 1;
         }
@@ -262,8 +267,8 @@ extend(exports, {
     },
 
     convertPolarToXY: function(centerCoords, startAngle, angle, radius) {
-        var shiftAngle = 90,
-            cosSin;
+        var shiftAngle = 90;
+        var cosSin;
 
         angle = isDefined(angle) ? angle + startAngle - shiftAngle : 0;
         cosSin = getCosAndSin(angle);
@@ -272,21 +277,21 @@ extend(exports, {
     },
 
     convertXYToPolar: function(centerCoords, x, y) {
-        var radius = getDistance(centerCoords.x, centerCoords.y, x, y),
-            angle = _math.atan2(y - centerCoords.y, x - centerCoords.x);
+        var radius = getDistance(centerCoords.x, centerCoords.y, x, y);
+        var angle = _math.atan2(y - centerCoords.y, x - centerCoords.x);
 
         return { phi: _round(normalizeAngle(angle * 180 / _math.PI)), r: _round(radius) };
     },
 
     processSeriesTemplate: function(seriesTemplate, items) {
-        var customizeSeries = typeUtils.isFunction(seriesTemplate.customizeSeries) ? seriesTemplate.customizeSeries : noop,
-            nameField = seriesTemplate.nameField,
-            generatedSeries = {},
-            seriesOrder = [],
-            series,
-            i = 0,
-            length,
-            data;
+        var customizeSeries = typeUtils.isFunction(seriesTemplate.customizeSeries) ? seriesTemplate.customizeSeries : noop;
+        var nameField = seriesTemplate.nameField;
+        var generatedSeries = {};
+        var seriesOrder = [];
+        var series;
+        var i = 0;
+        var length;
+        var data;
 
         items = items || [];
         for(length = items.length; i < length; i++) {
@@ -314,13 +319,14 @@ extend(exports, {
 
         var categoriesValue = map(categories, function(category) {
                 return isDefined(category) ? category.valueOf() : null;
-            }),
-            visibleCategories,
-            indexStartValue = categoriesValue.indexOf(startValue.valueOf()),
-            indexEndValue = categoriesValue.indexOf(endValue.valueOf()),
-            swapBuf,
-            inverted = false,
-            lastIdx;
+            });
+
+        var visibleCategories;
+        var indexStartValue = categoriesValue.indexOf(startValue.valueOf());
+        var indexEndValue = categoriesValue.indexOf(endValue.valueOf());
+        var swapBuf;
+        var inverted = false;
+        var lastIdx;
 
         indexStartValue < 0 && (indexStartValue = 0);
         indexEndValue < 0 && (indexEndValue = categories.length - 1);
@@ -349,12 +355,12 @@ extend(exports, {
             pane.weight = pane.weight || 1;
             weightSum += pane.weight;
         });
-        var distributedSpace = 0,
-            padding = panes.padding || 10,
-            paneSpace = rotated ? canvas.width - canvas.left - canvas.right : canvas.height - canvas.top - canvas.bottom,
-            oneWeight = (paneSpace - padding * (panes.length - 1)) / weightSum,
-            startName = rotated ? "left" : "top",
-            endName = rotated ? "right" : "bottom";
+        var distributedSpace = 0;
+        var padding = panes.padding || 10;
+        var paneSpace = rotated ? canvas.width - canvas.left - canvas.right : canvas.height - canvas.top - canvas.bottom;
+        var oneWeight = (paneSpace - padding * (panes.length - 1)) / weightSum;
+        var startName = rotated ? "left" : "top";
+        var endName = rotated ? "right" : "bottom";
         each(panes, function(_, pane) {
             var calcLength = _round(pane.weight * oneWeight);
             pane.canvas = pane.canvas || {};
@@ -383,12 +389,13 @@ extend(exports, {
         //   horizontalOffset1 = bBox.x + bBox.width / 2 - center.x
         //   horizontalOffset2 = bBox.y + bBox.height / 2 - center.y
         //   verticalOffset2 = newCoord.y + bBox.height / 2 - center.y
-        var isPositive = bBox.x + bBox.width / 2 >= center.x,
-            horizontalOffset1 = (isPositive ? bBox.x : bBox.x + bBox.width) - center.x,
-            verticalOffset1 = bBox.y - center.y,
-            verticalOffset2 = verticalOffset1 + dy,
-            horizontalOffset2 = _round(_sqrt(horizontalOffset1 * horizontalOffset1 + verticalOffset1 * verticalOffset1 - verticalOffset2 * verticalOffset2)),
-            dx = (isPositive ? +horizontalOffset2 : -horizontalOffset2) || horizontalOffset1;
+        var isPositive = bBox.x + bBox.width / 2 >= center.x;
+
+        var horizontalOffset1 = (isPositive ? bBox.x : bBox.x + bBox.width) - center.x;
+        var verticalOffset1 = bBox.y - center.y;
+        var verticalOffset2 = verticalOffset1 + dy;
+        var horizontalOffset2 = _round(_sqrt(horizontalOffset1 * horizontalOffset1 + verticalOffset1 * verticalOffset1 - verticalOffset2 * verticalOffset2));
+        var dx = (isPositive ? +horizontalOffset2 : -horizontalOffset2) || horizontalOffset1;
         return { x: center.x + (isPositive ? dx : dx - bBox.width), y: bBox.y + dy };
     },
 

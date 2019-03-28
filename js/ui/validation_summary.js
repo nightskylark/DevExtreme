@@ -1,15 +1,14 @@
-var registerComponent = require("../core/component_registrator"),
-    eventsEngine = require("../events/core/events_engine"),
-    grep = require("../core/utils/common").grep,
-    extend = require("../core/utils/extend").extend,
-    iteratorUtils = require("../core/utils/iterator"),
-    ValidationMixin = require("./validation/validation_mixin"),
-    ValidationEngine = require("./validation_engine"),
-    CollectionWidget = require("./collection/ui.collection_widget.edit");
-
-var VALIDATION_SUMMARY_CLASS = "dx-validationsummary",
-    ITEM_CLASS = VALIDATION_SUMMARY_CLASS + "-item",
-    ITEM_DATA_KEY = VALIDATION_SUMMARY_CLASS + "-item-data";
+var registerComponent = require("../core/component_registrator");
+var eventsEngine = require("../events/core/events_engine");
+var grep = require("../core/utils/common").grep;
+var extend = require("../core/utils/extend").extend;
+var iteratorUtils = require("../core/utils/iterator");
+var ValidationMixin = require("./validation/validation_mixin");
+var ValidationEngine = require("./validation_engine");
+var CollectionWidget = require("./collection/ui.collection_widget.edit");
+var VALIDATION_SUMMARY_CLASS = "dx-validationsummary";
+var ITEM_CLASS = VALIDATION_SUMMARY_CLASS + "-item";
+var ITEM_DATA_KEY = VALIDATION_SUMMARY_CLASS + "-item-data";
 
 /**
 * @name dxValidationSummary
@@ -181,8 +180,8 @@ var ValidationSummary = CollectionWidget.inherit({
     },
 
     _initGroupRegistration: function() {
-        var group = this._findGroup(),
-            groupConfig = ValidationEngine.addGroup(group);
+        var group = this._findGroup();
+        var groupConfig = ValidationEngine.addGroup(group);
 
         this._unsubscribeGroup();
 
@@ -217,24 +216,27 @@ var ValidationSummary = CollectionWidget.inherit({
     },
 
     _groupValidationHandler: function(params) {
-        var that = this,
-            items = that._getOrderedItems(params.validators, iteratorUtils.map(params.brokenRules, function(rule) {
-                return {
-                    text: rule.message,
-                    validator: rule.validator
-                };
-            }));
+        var that = this;
+
+        var items = that._getOrderedItems(params.validators, iteratorUtils.map(params.brokenRules, function(rule) {
+            return {
+                text: rule.message,
+                validator: rule.validator
+            };
+        }));
 
         that.validators = params.validators;
 
         iteratorUtils.each(that.validators, function(_, validator) {
             if(validator._validationSummary !== this) {
-                var handler = that._itemValidationHandler.bind(that),
-                    disposingHandler = function() {
-                        validator.off("validated", handler);
-                        validator._validationSummary = null;
-                        handler = null;
-                    };
+                var handler = that._itemValidationHandler.bind(that);
+
+                var disposingHandler = function() {
+                    validator.off("validated", handler);
+                    validator._validationSummary = null;
+                    handler = null;
+                };
+
                 validator.on("validated", handler);
                 validator.on("disposing", disposingHandler);
                 validator._validationSummary = this;
@@ -245,12 +247,12 @@ var ValidationSummary = CollectionWidget.inherit({
     },
 
     _itemValidationHandler: function(itemValidationResult) {
-        var items = this.option("items"),
-            isValid = itemValidationResult.isValid,
-            elementIndex,
-            replacementFound = false,
-            newMessage = itemValidationResult.brokenRule && itemValidationResult.brokenRule.message,
-            validator = itemValidationResult.validator;
+        var items = this.option("items");
+        var isValid = itemValidationResult.isValid;
+        var elementIndex;
+        var replacementFound = false;
+        var newMessage = itemValidationResult.brokenRule && itemValidationResult.brokenRule.message;
+        var validator = itemValidationResult.validator;
 
         iteratorUtils.each(items, function(index, item) {
             if(item.validator === validator) {

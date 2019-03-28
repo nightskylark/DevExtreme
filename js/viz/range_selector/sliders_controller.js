@@ -1,13 +1,13 @@
-var noop = require("../../core/utils/common").noop,
-    commonModule = require("./common"),
-    animationSettings = commonModule.utils.animationSettings,
-    emptySliderMarkerText = commonModule.consts.emptySliderMarkerText,
-    Slider = require("./slider"),
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-    typeUtils = require("../../core/utils/type"),
-    isNumeric = typeUtils.isNumeric,
-    vizUtils = require("../core/utils"),
-    adjust = require("../../core/utils/math").adjust;
+var noop = require("../../core/utils/common").noop;
+var commonModule = require("./common");
+var animationSettings = commonModule.utils.animationSettings;
+var emptySliderMarkerText = commonModule.consts.emptySliderMarkerText;
+var Slider = require("./slider");
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var typeUtils = require("../../core/utils/type");
+var isNumeric = typeUtils.isNumeric;
+var vizUtils = require("../core/utils");
+var adjust = require("../../core/utils/math").adjust;
 
 function buildRectPoints(left, top, right, bottom) {
     return [left, top, right, top, right, bottom, left, bottom];
@@ -26,10 +26,10 @@ function isGreater(a, b) {
 }
 
 function selectClosestValue(target, values) {
-    var start = 0,
-        end = values ? values.length - 1 : 0,
-        middle,
-        val = target;
+    var start = 0;
+    var end = values ? values.length - 1 : 0;
+    var middle;
+    var val = target;
     while(end - start > 1) {
         middle = (start + end) >> 1;
         val = values[middle];
@@ -65,8 +65,8 @@ function restoreSetSelectedRange(controller) {
 }
 
 function SlidersController(params) {
-    var that = this,
-        sliderParams = { renderer: params.renderer, root: params.root, trackersGroup: params.trackersGroup, translator: params.translator };
+    var that = this;
+    var sliderParams = { renderer: params.renderer, root: params.root, trackersGroup: params.trackersGroup, translator: params.translator };
     that._params = params;
     that._areaTracker = params.renderer.path(null, "area").attr({ "class": "area-tracker", fill: "#000000", opacity: 0.0001 }).append(params.trackersGroup);
     that._selectedAreaTracker = params.renderer.path(null, "area").attr({ "class": "selected-area-tracker", fill: "#000000", opacity: 0.0001 }).append(params.trackersGroup);
@@ -95,8 +95,8 @@ SlidersController.prototype = {
     },
 
     _processSelectionChanged: function() {
-        var that = this,
-            selectedRange = that.getSelectedRange();
+        var that = this;
+        var selectedRange = that.getSelectedRange();
         if(valueOf(selectedRange.startValue) !== valueOf(that._lastSelectedRange.startValue) || valueOf(selectedRange.endValue) !== valueOf(that._lastSelectedRange.endValue)) {
             that._params.updateSelectedRange(selectedRange, that._lastSelectedRange);
             that._lastSelectedRange = selectedRange;
@@ -104,8 +104,8 @@ SlidersController.prototype = {
     },
 
     update: function(verticalRange, behavior, isCompactMode, sliderHandleOptions, sliderMarkerOptions, shutterOptions, rangeBounds, fullTicks, selectedRangeColor) {
-        var that = this,
-            screenRange = that._params.translator.getScreenRange();
+        var that = this;
+        var screenRange = that._params.translator.getScreenRange();
 
         that._verticalRange = verticalRange;
         that._minRange = rangeBounds.minRange;
@@ -147,8 +147,8 @@ SlidersController.prototype = {
     },
 
     _updateSelectedRange: function() {
-        var that = this,
-            sliders = that._sliders;
+        var that = this;
+        var sliders = that._sliders;
         sliders[0].cancelAnimation();
         sliders[1].cancelAnimation();
         that._shutter.stopAnimation();
@@ -166,8 +166,8 @@ SlidersController.prototype = {
     },
 
     _applyTotalPosition: function(isAnimated) {
-        var sliders = this._sliders,
-            areOverlapped;
+        var sliders = this._sliders;
+        var areOverlapped;
         isAnimated = this._animationEnabled && isAnimated;
         sliders[0].applyPosition(isAnimated);
         sliders[1].applyPosition(isAnimated);
@@ -179,21 +179,21 @@ SlidersController.prototype = {
     },
 
     _applyAreaTrackersPosition: function() {
-        var that = this,
-            position1 = that._sliders[0].getPosition(),
-            position2 = that._sliders[1].getPosition();
+        var that = this;
+        var position1 = that._sliders[0].getPosition();
+        var position2 = that._sliders[1].getPosition();
         that._selectedAreaTracker.attr({ points: buildRectPoints(position1, that._verticalRange[0], position2, that._verticalRange[1]) }).css({
             cursor: Math.abs(that._params.translator.getScreenRange()[1] - that._params.translator.getScreenRange()[0] - position2 + position1) < 0.001 ? "default" : "pointer"
         });
     },
 
     _applySelectedRangePosition: function(isAnimated) {
-        var that = this,
-            verticalRange = that._verticalRange,
-            pos1 = that._sliders[0].getPosition(),
-            pos2 = that._sliders[1].getPosition(),
-            screenRange,
-            points;
+        var that = this;
+        var verticalRange = that._verticalRange;
+        var pos1 = that._sliders[0].getPosition();
+        var pos2 = that._sliders[1].getPosition();
+        var screenRange;
+        var points;
         if(that._isCompactMode) {
             points = [pos1 + Math.ceil(that._shutterOffset), (verticalRange[0] + verticalRange[1]) / 2, pos2 - Math.floor(that._shutterOffset), (verticalRange[0] + verticalRange[1]) / 2];
         } else {
@@ -251,10 +251,10 @@ SlidersController.prototype = {
     },
 
     beginSelectedAreaMoving: function(initialPosition) {
-        var that = this,
-            sliders = that._sliders,
-            offset = (sliders[0].getPosition() + sliders[1].getPosition()) / 2 - initialPosition,
-            currentPosition = initialPosition;
+        var that = this;
+        var sliders = that._sliders;
+        var offset = (sliders[0].getPosition() + sliders[1].getPosition()) / 2 - initialPosition;
+        var currentPosition = initialPosition;
 
         move.complete = function() {
             that._dockSelectedArea();
@@ -270,8 +270,8 @@ SlidersController.prototype = {
     },
 
     _dockSelectedArea: function() {
-        var translator = this._params.translator,
-            sliders = this._sliders;
+        var translator = this._params.translator;
+        var sliders = this._sliders;
 
         sliders[0]._position = translator.to(sliders[0].getValue(), -1);
         sliders[1]._position = translator.to(sliders[1].getValue(), +1);
@@ -285,13 +285,13 @@ SlidersController.prototype = {
     },
 
     _moveSelectedArea: function(screenPosition, isAnimated) {
-        var that = this,
-            translator = that._params.translator,
-            sliders = that._sliders,
-            interval = sliders[1].getPosition() - sliders[0].getPosition(),
-            startPosition = screenPosition - interval / 2,
-            endPosition = screenPosition + interval / 2,
-            startValue;
+        var that = this;
+        var translator = that._params.translator;
+        var sliders = that._sliders;
+        var interval = sliders[1].getPosition() - sliders[0].getPosition();
+        var startPosition = screenPosition - interval / 2;
+        var endPosition = screenPosition + interval / 2;
+        var startValue;
         if(startPosition < translator.getScreenRange()[0]) {
             startPosition = translator.getScreenRange()[0];
             endPosition = startPosition + interval;
@@ -314,17 +314,17 @@ SlidersController.prototype = {
     },
 
     placeSliderAndBeginMoving: function(firstPosition, secondPosition) {
-        var that = this,
-            translator = that._params.translator,
-            sliders = that._sliders,
-            index = firstPosition < secondPosition ? 0 : 1,
-            dir = index > 0 ? +1 : -1,
-            compare = index > 0 ? isGreater : isLess,
-            antiCompare = index > 0 ? isLess : isGreater,
-            thresholdPosition,
-            positions = [],
-            values = [],
-            handler;
+        var that = this;
+        var translator = that._params.translator;
+        var sliders = that._sliders;
+        var index = firstPosition < secondPosition ? 0 : 1;
+        var dir = index > 0 ? +1 : -1;
+        var compare = index > 0 ? isGreater : isLess;
+        var antiCompare = index > 0 ? isLess : isGreater;
+        var thresholdPosition;
+        var positions = [];
+        var values = [];
+        var handler;
         values[index] = translator.from(firstPosition, dir);
         values[1 - index] = translator.from(secondPosition, -dir);
         positions[1 - index] = secondPosition;
@@ -373,19 +373,19 @@ SlidersController.prototype = {
     },
 
     beginSliderMoving: function(initialIndex, initialPosition) {
-        var that = this,
-            translator = that._params.translator,
-            sliders = that._sliders,
-            minPosition = translator.getScreenRange()[0],
-            maxPosition = translator.getScreenRange()[1],
-            index = initialIndex,
-            staticPosition = sliders[1 - index].getPosition(),
-            currentPosition = initialPosition,
-            dir = index > 0 ? +1 : -1,
-            compareMin = index > 0 ? isLess : isGreater,
-            compareMax = index > 0 ? isGreater : isLess,
-            moveOffset = sliders[index].getPosition() - initialPosition,
-            swapOffset = compareMin(sliders[index].getPosition(), initialPosition) ? -moveOffset : moveOffset;
+        var that = this;
+        var translator = that._params.translator;
+        var sliders = that._sliders;
+        var minPosition = translator.getScreenRange()[0];
+        var maxPosition = translator.getScreenRange()[1];
+        var index = initialIndex;
+        var staticPosition = sliders[1 - index].getPosition();
+        var currentPosition = initialPosition;
+        var dir = index > 0 ? +1 : -1;
+        var compareMin = index > 0 ? isLess : isGreater;
+        var compareMax = index > 0 ? isGreater : isLess;
+        var moveOffset = sliders[index].getPosition() - initialPosition;
+        var swapOffset = compareMin(sliders[index].getPosition(), initialPosition) ? -moveOffset : moveOffset;
 
         move.complete = function() {
             sliders[index]._setValid(true);
@@ -394,11 +394,11 @@ SlidersController.prototype = {
         return move;
 
         function move(position) {
-            var isValid,
-                temp,
-                pos,
-                slider,
-                value;
+            var isValid;
+            var temp;
+            var pos;
+            var slider;
+            var value;
 
             if(position !== currentPosition) {
                 if(compareMin(position + swapOffset, staticPosition)) {
@@ -451,12 +451,12 @@ SlidersController.prototype = {
     },
 
     _changeMovingSlider: function(index) {
-        var that = this,
-            translator = that._params.translator,
-            sliders = that._sliders,
-            position = sliders[1 - index].getPosition(),
-            dir = index > 0 ? +1 : -1,
-            newValue;
+        var that = this;
+        var translator = that._params.translator;
+        var sliders = that._sliders;
+        var position = sliders[1 - index].getPosition();
+        var dir = index > 0 ? +1 : -1;
+        var newValue;
         sliders[index].setDisplayValue(selectClosestValue(translator.from(position, dir), that._values));
         newValue = translator.from(position, -dir);
         if(translator.isValueProlonged) {

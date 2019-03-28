@@ -1,18 +1,16 @@
-var $ = require("../../core/renderer"),
-    extend = require("../../core/utils/extend").extend,
-    Deferred = require("../../core/utils/deferred").Deferred,
-    ToolbarStrategy = require("./ui.toolbar.strategy"),
-    translator = require("../../animation/translator"),
-    hideTopOverlayCallback = require("../../mobile/hide_top_overlay").hideCallback,
-    fx = require("../../animation/fx"),
-    Overlay = require("../overlay"),
-    List = require("../list/ui.list.base");
-
-var TOOLBAR_LIST_VISIBLE_CLASS = "dx-toolbar-list-visible",
-
-    SUBMENU_ANIMATION_EASING = "easeOutCubic",
-    SUBMENU_HIDE_DURATION = 200,
-    SUBMENU_SHOW_DURATION = 400;
+var $ = require("../../core/renderer");
+var extend = require("../../core/utils/extend").extend;
+var Deferred = require("../../core/utils/deferred").Deferred;
+var ToolbarStrategy = require("./ui.toolbar.strategy");
+var translator = require("../../animation/translator");
+var hideTopOverlayCallback = require("../../mobile/hide_top_overlay").hideCallback;
+var fx = require("../../animation/fx");
+var Overlay = require("../overlay");
+var List = require("../list/ui.list.base");
+var TOOLBAR_LIST_VISIBLE_CLASS = "dx-toolbar-list-visible";
+var SUBMENU_ANIMATION_EASING = "easeOutCubic";
+var SUBMENU_HIDE_DURATION = 200;
+var SUBMENU_SHOW_DURATION = 400;
 
 var ListStrategy = ToolbarStrategy.inherit({
 
@@ -79,8 +77,8 @@ var ListStrategy = ToolbarStrategy.inherit({
     },
 
     _getListHeight: function() {
-        var listHeight = this._listOverlay.$content().find(".dx-list").height(),
-            semiHiddenHeight = this._toolbar._$toolbarItemsContainer.height() - this._toolbar.$element().height();
+        var listHeight = this._listOverlay.$content().find(".dx-list").height();
+        var semiHiddenHeight = this._toolbar._$toolbarItemsContainer.height() - this._toolbar.$element().height();
 
         return listHeight + semiHiddenHeight;
     },
@@ -109,8 +107,8 @@ var ListStrategy = ToolbarStrategy.inherit({
     },
 
     _renderMenuPosition: function(offset, animate) {
-        var pos = this._calculatePixelOffset(offset),
-            element = this._listOverlay.$content();
+        var pos = this._calculatePixelOffset(offset);
+        var element = this._listOverlay.$content();
 
         if(animate) {
             return this._animateMenuToggling(element, pos, this._menuShown);

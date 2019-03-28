@@ -5,13 +5,13 @@ import { normalizeSortingInfo } from "../../data/utils";
 import { when } from "../../core/utils/deferred";
 
 exports.createOffsetFilter = function(path, storeLoadOptions) {
-    var groups = normalizeSortingInfo(storeLoadOptions.group),
-        i,
-        j,
-        filterElement,
-        selector,
-        currentFilter,
-        filter = [];
+    var groups = normalizeSortingInfo(storeLoadOptions.group);
+    var i;
+    var j;
+    var filterElement;
+    var selector;
+    var currentFilter;
+    var filter = [];
 
     for(i = 0; i < path.length; i++) {
         filterElement = [];
@@ -52,9 +52,9 @@ exports.GroupingHelper = Class.inherit((function() {
     };
 
     var getGroupInfoIndexByOffset = function(groupsInfo, offset) {
-        var index,
-            leftIndex = 0,
-            rightIndex = groupsInfo.length - 1;
+        var index;
+        var leftIndex = 0;
+        var rightIndex = groupsInfo.length - 1;
 
         if(!groupsInfo.length) {
             return 0;
@@ -78,8 +78,8 @@ exports.GroupingHelper = Class.inherit((function() {
     };
 
     var updateGroupInfoOffsets = function(groupsInfo, parents) {
-        var groupInfo,
-            index;
+        var groupInfo;
+        var index;
         parents = parents || [];
 
         for(index = 0; index < groupsInfo.length; index++) {
@@ -112,8 +112,8 @@ exports.GroupingHelper = Class.inherit((function() {
     };
 
     var calculateItemsCount = function(that, items, groupsCount) {
-        var i,
-            result = 0;
+        var i;
+        var result = 0;
 
         if(items) {
             if(!groupsCount) {
@@ -154,10 +154,10 @@ exports.GroupingHelper = Class.inherit((function() {
             return scrollingMode === "virtual" || scrollingMode === "infinite";
         },
         itemsCount: function() {
-            var dataSourceAdapter = this._dataSource,
-                dataSource = dataSourceAdapter._dataSource,
-                groupCount = gridCore.normalizeSortingInfo(dataSource.group() || []).length,
-                itemsCount = calculateItemsCount(this, dataSource.items(), groupCount);
+            var dataSourceAdapter = this._dataSource;
+            var dataSource = dataSourceAdapter._dataSource;
+            var groupCount = gridCore.normalizeSortingInfo(dataSource.group() || []).length;
+            var itemsCount = calculateItemsCount(this, dataSource.items(), groupCount);
 
             return itemsCount;
         },
@@ -165,9 +165,9 @@ exports.GroupingHelper = Class.inherit((function() {
             var that = this;
 
             function foreachGroupsCore(groupsInfo, callback, childrenAtFirst, parents) {
-                var i,
-                    callbackResult,
-                    callbackResults = [];
+                var i;
+                var callbackResult;
+                var callbackResults = [];
 
                 function executeCallback(callback, data, parents, callbackResults) {
                     var callbackResult = data && callback(data, parents);
@@ -205,10 +205,10 @@ exports.GroupingHelper = Class.inherit((function() {
             return foreachGroupsCore(that._groupsInfo, callback, childrenAtFirst, []);
         },
         findGroupInfo: function(path) {
-            var that = this,
-                pathIndex,
-                groupInfo,
-                groupsInfo = that._groupsInfo;
+            var that = this;
+            var pathIndex;
+            var groupInfo;
+            var groupsInfo = that._groupsInfo;
 
             for(pathIndex = 0; groupsInfo && pathIndex < path.length; pathIndex++) {
                 groupInfo = findGroupInfoByKey(groupsInfo, path[pathIndex]);
@@ -218,12 +218,12 @@ exports.GroupingHelper = Class.inherit((function() {
             return groupInfo && groupInfo.data;
         },
         addGroupInfo: function(groupInfoData) {
-            var that = this,
-                index,
-                groupInfo,
-                path = groupInfoData.path,
-                pathIndex,
-                groupsInfo = that._groupsInfo;
+            var that = this;
+            var index;
+            var groupInfo;
+            var path = groupInfoData.path;
+            var pathIndex;
+            var groupsInfo = that._groupsInfo;
 
             for(pathIndex = 0; pathIndex < path.length; pathIndex++) {
                 groupInfo = findGroupInfoByKey(groupsInfo, path[pathIndex]);
@@ -252,12 +252,12 @@ exports.GroupingHelper = Class.inherit((function() {
             return true;
         },
         refresh: function(options) {
-            var that = this,
-                groupIndex,
-                storeLoadOptions = options.storeLoadOptions,
-                groups = normalizeSortingInfo(storeLoadOptions.group || []),
-                oldGroups = "_group" in that ? normalizeSortingInfo(that._group || []) : groups,
-                groupsCount = Math.min(oldGroups.length, groups.length);
+            var that = this;
+            var groupIndex;
+            var storeLoadOptions = options.storeLoadOptions;
+            var groups = normalizeSortingInfo(storeLoadOptions.group || []);
+            var oldGroups = "_group" in that ? normalizeSortingInfo(that._group || []) : groups;
+            var groupsCount = Math.min(oldGroups.length, groups.length);
 
             that._group = storeLoadOptions.group;
 

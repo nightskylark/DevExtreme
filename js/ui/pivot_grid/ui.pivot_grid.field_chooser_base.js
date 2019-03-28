@@ -1,24 +1,24 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    ArrayStore = require("../../data/array_store"),
-    clickEvent = require("../../events/click"),
-    noop = require("../../core/utils/common").noop,
-    isDefined = require("../../core/utils/type").isDefined,
-    inArray = require("../../core/utils/array").inArray,
-    extend = require("../../core/utils/extend").extend,
-    iteratorUtils = require("../../core/utils/iterator"),
-    messageLocalization = require("../../localization/message"),
-    registerComponent = require("../../core/component_registrator"),
-    Widget = require("../widget/ui.widget"),
-    headerFilter = require("../grid_core/ui.grid_core.header_filter_core"),
-    columnStateMixin = require("../grid_core/ui.grid_core.column_state_mixin"),
-    sortingMixin = require("../grid_core/ui.grid_core.sorting_mixin"),
-    pivotGridUtils = require("./ui.pivot_grid.utils"),
-    Sortable = require("./ui.sortable"),
-    Deferred = require("../../core/utils/deferred").Deferred,
-    each = iteratorUtils.each,
-    IE_FIELD_WIDTH_CORRECTION = 1,
-    DIV = "<div>";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var ArrayStore = require("../../data/array_store");
+var clickEvent = require("../../events/click");
+var noop = require("../../core/utils/common").noop;
+var isDefined = require("../../core/utils/type").isDefined;
+var inArray = require("../../core/utils/array").inArray;
+var extend = require("../../core/utils/extend").extend;
+var iteratorUtils = require("../../core/utils/iterator");
+var messageLocalization = require("../../localization/message");
+var registerComponent = require("../../core/component_registrator");
+var Widget = require("../widget/ui.widget");
+var headerFilter = require("../grid_core/ui.grid_core.header_filter_core");
+var columnStateMixin = require("../grid_core/ui.grid_core.column_state_mixin");
+var sortingMixin = require("../grid_core/ui.grid_core.sorting_mixin");
+var pivotGridUtils = require("./ui.pivot_grid.utils");
+var Sortable = require("./ui.sortable");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var each = iteratorUtils.each;
+var IE_FIELD_WIDTH_CORRECTION = 1;
+var DIV = "<div>";
 
 var HeaderFilterView = headerFilter.HeaderFilterView.inherit({
     _getSearchExpr: function(options) {
@@ -28,9 +28,9 @@ var HeaderFilterView = headerFilter.HeaderFilterView.inherit({
 });
 
 var processItems = function(groupItems, field) {
-    var filterValues = [],
-        isTree = !!field.groupName,
-        isExcludeFilterType = (field.filterType === "exclude");
+    var filterValues = [];
+    var isTree = !!field.groupName;
+    var isExcludeFilterType = (field.filterType === "exclude");
 
     if(field.filterValues) {
         each(field.filterValues, function(_, filterValue) {
@@ -39,10 +39,10 @@ var processItems = function(groupItems, field) {
     }
 
     pivotGridUtils.foreachTree(groupItems, function(items) {
-        var item = items[0],
-            path = pivotGridUtils.createPath(items),
-            preparedFilterValueByText = isTree ? iteratorUtils.map(items, function(item) { return item.text; }).reverse().join("/") : item.text,
-            preparedFilterValue;
+        var item = items[0];
+        var path = pivotGridUtils.createPath(items);
+        var preparedFilterValueByText = isTree ? iteratorUtils.map(items, function(item) { return item.text; }).reverse().join("/") : item.text;
+        var preparedFilterValue;
 
         item.value = isTree ? path.slice(0) : (item.key || item.value);
         preparedFilterValue = isTree ? path.join("/") : item.value && item.value.valueOf();
@@ -53,7 +53,6 @@ var processItems = function(groupItems, field) {
         }
 
         headerFilter.updateHeaderFilterItemSelectionState(item, item.key && inArray(preparedFilterValueByText, filterValues) > -1 || inArray(preparedFilterValue, filterValues) > -1, isExcludeFilterType);
-
     });
 };
 
@@ -134,15 +133,18 @@ var FieldChooserBase = Widget.inherit(columnStateMixin).inherit(sortingMixin).in
     },
 
     renderField: function(field, showColumnLines) {
-        var that = this,
-            $fieldContent = $(DIV).addClass("dx-area-field-content")
-                .text(field.caption || field.dataField),
-            $fieldElement = $(DIV)
-                .addClass("dx-area-field")
-                .addClass("dx-area-box")
-                .data("field", field)
-                .append($fieldContent),
-            mainGroupField = getMainGroupField(that._dataSource, field);
+        var that = this;
+
+        var $fieldContent = $(DIV).addClass("dx-area-field-content")
+            .text(field.caption || field.dataField);
+
+        var $fieldElement = $(DIV)
+            .addClass("dx-area-field")
+            .addClass("dx-area-box")
+            .data("field", field)
+            .append($fieldContent);
+
+        var mainGroupField = getMainGroupField(that._dataSource, field);
 
         if(field.area !== "data") {
             if(field.allowSorting) {
@@ -193,10 +195,10 @@ var FieldChooserBase = Widget.inherit(columnStateMixin).inherit(sortingMixin).in
             itemContainerSelector: ".dx-area-field-container",
             groupSelector: ".dx-area-fields",
             groupFilter: function() {
-                var dataSource = that._dataSource,
-                    $sortable = $(this).closest(".dx-sortable"),
-                    pivotGrid = $sortable.data("dxPivotGrid"),
-                    pivotGridFieldChooser = $sortable.data("dxPivotGridFieldChooser");
+                var dataSource = that._dataSource;
+                var $sortable = $(this).closest(".dx-sortable");
+                var pivotGrid = $sortable.data("dxPivotGrid");
+                var pivotGridFieldChooser = $sortable.data("dxPivotGridFieldChooser");
 
                 if(pivotGrid) {
                     return pivotGrid.getDataSource() === dataSource;
@@ -235,8 +237,8 @@ var FieldChooserBase = Widget.inherit(columnStateMixin).inherit(sortingMixin).in
                 return $item;
             },
             onDragging: function(e) {
-                var field = e.sourceElement.data("field"),
-                    targetGroup = e.targetGroup;
+                var field = e.sourceElement.data("field");
+                var targetGroup = e.targetGroup;
                 e.cancel = false;
 
                 if(field.isMeasure === true) {
@@ -249,8 +251,8 @@ var FieldChooserBase = Widget.inherit(columnStateMixin).inherit(sortingMixin).in
             },
             useIndicator: true,
             onChanged: function(e) {
-                var dataSource = that._dataSource,
-                    field = e.sourceElement.data("field");
+                var dataSource = that._dataSource;
+                var field = e.sourceElement.data("field");
 
                 e.removeSourceElement = !!e.sourceGroup;
 
@@ -267,9 +269,9 @@ var FieldChooserBase = Widget.inherit(columnStateMixin).inherit(sortingMixin).in
     },
 
     _processDemandState: function(func) {
-        var that = this,
-            isInstantlyMode = that.option("applyChangesMode") === "instantly",
-            dataSource = that._dataSource;
+        var that = this;
+        var isInstantlyMode = that.option("applyChangesMode") === "instantly";
+        var dataSource = that._dataSource;
 
         if(isInstantlyMode) {
             func(dataSource, isInstantlyMode);
@@ -313,52 +315,53 @@ var FieldChooserBase = Widget.inherit(columnStateMixin).inherit(sortingMixin).in
     },
 
     subscribeToEvents: function(element) {
-        var that = this,
-            func = function(e) {
-                var field = $(e.currentTarget).data("field"),
-                    mainGroupField = extend(true, {}, getMainGroupField(that._dataSource, field)),
-                    isHeaderFilter = $(e.target).hasClass("dx-header-filter"),
-                    dataSource = that._dataSource;
+        var that = this;
 
-                if(isHeaderFilter) {
-                    that._headerFilterView.showHeaderFilterMenu($(e.currentTarget), extend(mainGroupField, {
-                        type: mainGroupField.groupName ? 'tree' : 'list',
-                        encodeHtml: that.option("encodeHtml"),
-                        dataSource: {
-                            useDefaultSearch: true,
-                            // paginate: false,
-                            load: function(options) {
-                                var userData = options.userData;
-                                if(userData.store) {
-                                    return userData.store.load(options);
-                                } else {
-                                    var d = new Deferred();
-                                    dataSource.getFieldValues(mainGroupField.index).done(function(data) {
-                                        userData.store = new ArrayStore(data);
-                                        userData.store.load(options).done(d.resolve).fail(d.reject);
-                                    }).fail(d.reject);
-                                    return d;
-                                }
-                            },
-                            postProcess: function(data) {
-                                processItems(data, mainGroupField);
-                                return data;
+        var func = function(e) {
+            var field = $(e.currentTarget).data("field"),
+                mainGroupField = extend(true, {}, getMainGroupField(that._dataSource, field)),
+                isHeaderFilter = $(e.target).hasClass("dx-header-filter"),
+                dataSource = that._dataSource;
+
+            if(isHeaderFilter) {
+                that._headerFilterView.showHeaderFilterMenu($(e.currentTarget), extend(mainGroupField, {
+                    type: mainGroupField.groupName ? 'tree' : 'list',
+                    encodeHtml: that.option("encodeHtml"),
+                    dataSource: {
+                        useDefaultSearch: true,
+                        // paginate: false,
+                        load: function(options) {
+                            var userData = options.userData;
+                            if(userData.store) {
+                                return userData.store.load(options);
+                            } else {
+                                var d = new Deferred();
+                                dataSource.getFieldValues(mainGroupField.index).done(function(data) {
+                                    userData.store = new ArrayStore(data);
+                                    userData.store.load(options).done(d.resolve).fail(d.reject);
+                                }).fail(d.reject);
+                                return d;
                             }
                         },
-
-                        apply: function() {
-                            that._applyChanges([mainGroupField], {
-                                filterValues: this.filterValues,
-                                filterType: this.filterType
-                            });
+                        postProcess: function(data) {
+                            processItems(data, mainGroupField);
+                            return data;
                         }
-                    }));
-                } else if(field.allowSorting && field.area !== "data") {
-                    that._applyChanges([field], {
-                        sortOrder: field.sortOrder === "desc" ? "asc" : "desc"
-                    });
-                }
-            };
+                    },
+
+                    apply: function() {
+                        that._applyChanges([mainGroupField], {
+                            filterValues: this.filterValues,
+                            filterType: this.filterType
+                        });
+                    }
+                }));
+            } else if(field.allowSorting && field.area !== "data") {
+                that._applyChanges([field], {
+                    sortOrder: field.sortOrder === "desc" ? "asc" : "desc"
+                });
+            }
+        };
 
         if(element) {
             eventsEngine.on(element, clickEvent.name, ".dx-area-field.dx-area-box", func);

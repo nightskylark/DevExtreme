@@ -184,8 +184,8 @@ initRender.prototype.toggleClass = function(className, value) {
         }
 
         if(domAdapter.isDocument(element)) {
-            var documentElement = domAdapter.getDocumentElement(),
-                body = domAdapter.getBody();
+            var documentElement = domAdapter.getDocumentElement();
+            var body = domAdapter.getBody();
 
             return Math.max(
                 body["scroll" + partialName],
@@ -259,9 +259,9 @@ var appendElements = function(element, nextSibling) {
     }
 
     for(var i = 0; i < element.length; i++) {
-        var item = element[i],
-            container = this[0],
-            wrapTR = container.tagName === "TABLE" && item.tagName === "TR";
+        var item = element[i];
+        var container = this[0];
+        var wrapTR = container.tagName === "TABLE" && item.tagName === "TR";
 
         if(wrapTR && container.tBodies && container.tBodies.length) {
             container = container.tBodies[0];
@@ -480,8 +480,8 @@ initRender.prototype.find = function(selector) {
         return result;
     }
 
-    var nodes = [],
-        i;
+    var nodes = [];
+    var i;
 
     if(typeof selector === "string") {
         selector = selector.trim();
@@ -489,8 +489,8 @@ initRender.prototype.find = function(selector) {
         for(i = 0; i < this.length; i++) {
             var element = this[i];
             if(domAdapter.isElementNode(element)) {
-                var elementId = element.getAttribute("id"),
-                    queryId = elementId || "dx-query-children";
+                var elementId = element.getAttribute("id");
+                var queryId = elementId || "dx-query-children";
 
                 if(!elementId) {
                     setAttributeValue(element, "id", queryId);
@@ -552,8 +552,8 @@ initRender.prototype.filter = function(selector) {
 };
 
 initRender.prototype.not = function(selector) {
-    var result = [],
-        nodes = this.filter(selector).toArray();
+    var result = [];
+    var nodes = this.filter(selector).toArray();
 
     for(var i = 0; i < this.length; i++) {
         if(nodes.indexOf(this[i]) === -1) {
@@ -590,8 +590,8 @@ initRender.prototype.siblings = function() {
         return renderer();
     }
 
-    var result = [],
-        parentChildNodes = element.parentNode.childNodes || [];
+    var result = [];
+    var parentChildNodes = element.parentNode.childNodes || [];
 
     for(var i = 0; i < parentChildNodes.length; i++) {
         var node = parentChildNodes[i];
@@ -644,8 +644,8 @@ initRender.prototype.parent = function(selector) {
 };
 
 initRender.prototype.parents = function(selector) {
-    var result = [],
-        parent = this.parent();
+    var result = [];
+    var parent = this.parent();
 
     while(parent && parent[0] && !domAdapter.isDocument(parent[0])) {
         if(domAdapter.isElementNode(parent[0])) {
@@ -693,8 +693,8 @@ initRender.prototype.prev = function() {
 };
 
 initRender.prototype.add = function(selector) {
-    var targets = renderer(selector),
-        result = this.toArray();
+    var targets = renderer(selector);
+    var result = this.toArray();
 
     for(var i = 0; i < targets.length; i++) {
         var target = targets[i];

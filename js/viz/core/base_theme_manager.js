@@ -1,16 +1,16 @@
-var Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    typeUtils = require("../../core/utils/type"),
-    each = require("../../core/utils/iterator").each,
-    paletteModule = require("../palette"),
-    _isString = typeUtils.isString,
-    _parseScalar = require("./utils").parseScalar,
-    themeModule = require("../themes"),
-    _getTheme = themeModule.getTheme,
-    _addCacheItem = themeModule.addCacheItem,
-    _removeCacheItem = themeModule.removeCacheItem,
-    _extend = extend,
-    _each = each;
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var typeUtils = require("../../core/utils/type");
+var each = require("../../core/utils/iterator").each;
+var paletteModule = require("../palette");
+var _isString = typeUtils.isString;
+var _parseScalar = require("./utils").parseScalar;
+var themeModule = require("../themes");
+var _getTheme = themeModule.getTheme;
+var _addCacheItem = themeModule.addCacheItem;
+var _removeCacheItem = themeModule.removeCacheItem;
+var _extend = extend;
+var _each = each;
 
 // register themes
 require("./themes/generic.light");
@@ -62,9 +62,9 @@ exports.BaseThemeManager = Class.inherit({// TODO: test hack
 
     // Officially we do not support objects as "theme" option value - we should stop doing it in code
     refresh: function() {
-        var that = this,
-            current = that._current || {},
-            theme = _getTheme(current.name || current);
+        var that = this;
+        var current = that._current || {};
+        var theme = _getTheme(current.name || current);
         that._themeName = theme.name;
         that._defaultPalette = theme.defaultPalette;
         that._font = _extend({}, theme.font, current.font);

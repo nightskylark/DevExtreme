@@ -1,42 +1,39 @@
 // TODOs
 // 1. animation
 
-var $ = require("../core/renderer"),
-    window = require("../core/utils/window").getWindow(),
-    domAdapter = require("../core/dom_adapter"),
-    eventsEngine = require("../events/core/events_engine"),
-    ready = require("../core/utils/ready_callbacks").add,
-    commonUtils = require("../core/utils/common"),
-    typeUtils = require("../core/utils/type"),
-    extend = require("../core/utils/extend").extend,
-    inArray = require("../core/utils/array").inArray,
-    pointerEvents = require("../events/pointer"),
-    registerComponent = require("../core/component_registrator"),
-    Overlay = require("./overlay"),
-    themes = require("./themes");
+var $ = require("../core/renderer");
 
-var TOAST_CLASS = "dx-toast",
-    TOAST_CLASS_PREFIX = TOAST_CLASS + "-",
-    TOAST_WRAPPER_CLASS = TOAST_CLASS_PREFIX + "wrapper",
-    TOAST_CONTENT_CLASS = TOAST_CLASS_PREFIX + "content",
-    TOAST_MESSAGE_CLASS = TOAST_CLASS_PREFIX + "message",
-    TOAST_ICON_CLASS = TOAST_CLASS_PREFIX + "icon",
+var window = require("../core/utils/window").getWindow();
+var domAdapter = require("../core/dom_adapter");
+var eventsEngine = require("../events/core/events_engine");
+var ready = require("../core/utils/ready_callbacks").add;
+var commonUtils = require("../core/utils/common");
+var typeUtils = require("../core/utils/type");
+var extend = require("../core/utils/extend").extend;
+var inArray = require("../core/utils/array").inArray;
+var pointerEvents = require("../events/pointer");
+var registerComponent = require("../core/component_registrator");
+var Overlay = require("./overlay");
+var themes = require("./themes");
+var TOAST_CLASS = "dx-toast";
+var TOAST_CLASS_PREFIX = TOAST_CLASS + "-";
+var TOAST_WRAPPER_CLASS = TOAST_CLASS_PREFIX + "wrapper";
+var TOAST_CONTENT_CLASS = TOAST_CLASS_PREFIX + "content";
+var TOAST_MESSAGE_CLASS = TOAST_CLASS_PREFIX + "message";
+var TOAST_ICON_CLASS = TOAST_CLASS_PREFIX + "icon";
+var WIDGET_NAME = "dxToast";
+var toastTypes = ["info", "warning", "error", "success"];
+var TOAST_STACK = [];
+var FIRST_Z_INDEX_OFFSET = 8000;
+var visibleToastInstance = null;
 
-    WIDGET_NAME = "dxToast",
-    toastTypes = ["info", "warning", "error", "success"],
-
-    TOAST_STACK = [],
-    FIRST_Z_INDEX_OFFSET = 8000,
-
-    visibleToastInstance = null,
-
-    POSITION_ALIASES = {
-        "top": { my: "top", at: "top", of: null, offset: "0 0" },
-        "bottom": { my: "bottom", at: "bottom", of: null, offset: "0 -20" },
-        "center": { my: "center", at: "center", of: null, offset: "0 0" },
-        "right": { my: "center right", at: "center right", of: null, offset: "0 0" },
-        "left": { my: "center left", at: "center left", of: null, offset: "0 0" }
-    };
+var POSITION_ALIASES = {
+    "top": { my: "top", at: "top", of: null, offset: "0 0" },
+    "bottom": { my: "bottom", at: "bottom", of: null, offset: "0 -20" },
+    "center": { my: "center", at: "center", of: null, offset: "0 0" },
+    "right": { my: "center right", at: "center right", of: null, offset: "0 0" },
+    "left": { my: "center left", at: "center left", of: null, offset: "0 0" }
+};
 
 ready(function() {
     eventsEngine.subscribeGlobal(domAdapter.getDocument(), pointerEvents.down, function(e) {
@@ -277,9 +274,9 @@ var Toast = Overlay.inherit({
             },
             {
                 device: function(device) {
-                    var isPhone = device.deviceType === "phone",
-                        isAndroid = device.platform === "android",
-                        isWin10 = device.platform === "win" && device.version && device.version[0] === 10;
+                    var isPhone = device.deviceType === "phone";
+                    var isAndroid = device.platform === "android";
+                    var isWin10 = device.platform === "win" && device.version && device.version[0] === 10;
 
                     return isPhone && (isAndroid || isWin10);
                 },
@@ -377,8 +374,8 @@ var Toast = Overlay.inherit({
     _posStringToObject: function() {
         if(!typeUtils.isString(this.option("position"))) return;
 
-        var verticalPosition = this.option("position").split(" ")[0],
-            horizontalPosition = this.option("position").split(" ")[1];
+        var verticalPosition = this.option("position").split(" ")[0];
+        var horizontalPosition = this.option("position").split(" ")[1];
 
         this.option("position", extend({}, POSITION_ALIASES[verticalPosition]));
 

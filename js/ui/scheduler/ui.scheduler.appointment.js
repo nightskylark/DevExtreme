@@ -1,39 +1,37 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    translator = require("../../animation/translator"),
-    recurrenceUtils = require("./utils.recurrence"),
-    extend = require("../../core/utils/extend").extend,
-    registerComponent = require("../../core/component_registrator"),
-    tooltip = require("../tooltip/ui.tooltip"),
-    publisherMixin = require("./ui.scheduler.publisher_mixin"),
-    eventUtils = require("../../events/utils"),
-    pointerEvents = require("../../events/pointer"),
-    DOMComponent = require("../../core/dom_component"),
-    Resizable = require("../resizable"),
-    messageLocalization = require("../../localization/message"),
-    dateLocalization = require("../../localization/date");
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var translator = require("../../animation/translator");
+var recurrenceUtils = require("./utils.recurrence");
+var extend = require("../../core/utils/extend").extend;
+var registerComponent = require("../../core/component_registrator");
+var tooltip = require("../tooltip/ui.tooltip");
+var publisherMixin = require("./ui.scheduler.publisher_mixin");
+var eventUtils = require("../../events/utils");
+var pointerEvents = require("../../events/pointer");
+var DOMComponent = require("../../core/dom_component");
+var Resizable = require("../resizable");
+var messageLocalization = require("../../localization/message");
+var dateLocalization = require("../../localization/date");
+var REDUCED_APPOINTMENT_POINTERENTER_EVENT_NAME = eventUtils.addNamespace(pointerEvents.enter, "dxSchedulerAppointment");
+var REDUCED_APPOINTMENT_POINTERLEAVE_EVENT_NAME = eventUtils.addNamespace(pointerEvents.leave, "dxSchedulerAppointment");
+var EMPTY_APPOINTMENT_CLASS = "dx-scheduler-appointment-empty";
+var APPOINTMENT_ALL_DAY_ITEM_CLASS = "dx-scheduler-all-day-appointment";
 
-var REDUCED_APPOINTMENT_POINTERENTER_EVENT_NAME = eventUtils.addNamespace(pointerEvents.enter, "dxSchedulerAppointment"),
-    REDUCED_APPOINTMENT_POINTERLEAVE_EVENT_NAME = eventUtils.addNamespace(pointerEvents.leave, "dxSchedulerAppointment");
+var DIRECTION_APPOINTMENT_CLASSES = {
+    horizontal: "dx-scheduler-appointment-horizontal",
+    vertical: "dx-scheduler-appointment-vertical"
+};
 
-var EMPTY_APPOINTMENT_CLASS = "dx-scheduler-appointment-empty",
+var RECURRENCE_APPOINTMENT_CLASS = "dx-scheduler-appointment-recurrence";
+var COMPACT_APPOINTMENT_CLASS = "dx-scheduler-appointment-compact";
+var REDUCED_APPOINTMENT_CLASS = "dx-scheduler-appointment-reduced";
+var REDUCED_APPOINTMENT_ICON = "dx-scheduler-appointment-reduced-icon";
 
-    APPOINTMENT_ALL_DAY_ITEM_CLASS = "dx-scheduler-all-day-appointment",
-    DIRECTION_APPOINTMENT_CLASSES = {
-        horizontal: "dx-scheduler-appointment-horizontal",
-        vertical: "dx-scheduler-appointment-vertical"
-    },
-
-    RECURRENCE_APPOINTMENT_CLASS = "dx-scheduler-appointment-recurrence",
-    COMPACT_APPOINTMENT_CLASS = "dx-scheduler-appointment-compact",
-
-    REDUCED_APPOINTMENT_CLASS = "dx-scheduler-appointment-reduced",
-    REDUCED_APPOINTMENT_ICON = "dx-scheduler-appointment-reduced-icon",
-    REDUCED_APPOINTMENT_PARTS_CLASSES = {
-        head: "dx-scheduler-appointment-head",
-        body: "dx-scheduler-appointment-body",
-        tail: "dx-scheduler-appointment-tail"
-    };
+var REDUCED_APPOINTMENT_PARTS_CLASSES = {
+    head: "dx-scheduler-appointment-head",
+    body: "dx-scheduler-appointment-body",
+    tail: "dx-scheduler-appointment-tail"
+};
 
 var Appointment = DOMComponent.inherit({
 
@@ -75,16 +73,18 @@ var Appointment = DOMComponent.inherit({
 
     _resizingRules: {
         horizontal: function() {
-            var width = this.invoke("getCellWidth"),
-                step = this.invoke("getResizableStep"),
-                isRTL = this.option("rtlEnabled"),
-                reducedHandles = {
-                    head: isRTL ? "right" : "left",
-                    body: "",
-                    tail: isRTL ? "left" : "right"
-                },
-                handles = "left right",
-                reducedPart = this.option("reduced");
+            var width = this.invoke("getCellWidth");
+            var step = this.invoke("getResizableStep");
+            var isRTL = this.option("rtlEnabled");
+
+            var reducedHandles = {
+                head: isRTL ? "right" : "left",
+                body: "",
+                tail: isRTL ? "left" : "right"
+            };
+
+            var handles = "left right";
+            var reducedPart = this.option("reduced");
 
             if(reducedPart) {
                 handles = reducedHandles[reducedPart];
@@ -127,8 +127,8 @@ var Appointment = DOMComponent.inherit({
     },
 
     _renderAppointmentGeometry: function() {
-        var geometry = this.option("geometry"),
-            $element = this.$element();
+        var geometry = this.option("geometry");
+        var $element = this.$element();
         if(this.option("allDay")) {
             $element.css("left", geometry.left);
             translator.move($element, {
@@ -172,11 +172,11 @@ var Appointment = DOMComponent.inherit({
     _renderAppointmentReducedIcon: function() {
         var $icon = $("<div>")
                 .addClass(REDUCED_APPOINTMENT_ICON)
-                .appendTo(this.$element()),
+                .appendTo(this.$element());
 
-            endDate = this._getEndDate();
-        var tooltipLabel = messageLocalization.format("dxScheduler-editorLabelEndDate"),
-            tooltipText = [tooltipLabel, ": ", dateLocalization.format(endDate, "monthAndDay"), ", ", dateLocalization.format(endDate, "year")].join("");
+        var endDate = this._getEndDate();
+        var tooltipLabel = messageLocalization.format("dxScheduler-editorLabelEndDate");
+        var tooltipText = [tooltipLabel, ": ", dateLocalization.format(endDate, "monthAndDay"), ", ", dateLocalization.format(endDate, "year")].join("");
 
         eventsEngine.off($icon, REDUCED_APPOINTMENT_POINTERENTER_EVENT_NAME);
         eventsEngine.on($icon, REDUCED_APPOINTMENT_POINTERENTER_EVENT_NAME, function() {

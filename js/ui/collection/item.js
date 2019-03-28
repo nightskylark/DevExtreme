@@ -1,11 +1,10 @@
-var $ = require("../../core/renderer"),
-    Class = require("../../core/class"),
-    each = require("../../core/utils/iterator").each,
-    publicComponentUtils = require("../../core/utils/public_component");
-
-var INVISIBLE_STATE_CLASS = "dx-state-invisible",
-    DISABLED_STATE_CLASS = "dx-state-disabled",
-    ITEM_CONTENT_PLACEHOLDER_CLASS = "dx-item-content-placeholder";
+var $ = require("../../core/renderer");
+var Class = require("../../core/class");
+var each = require("../../core/utils/iterator").each;
+var publicComponentUtils = require("../../core/utils/public_component");
+var INVISIBLE_STATE_CLASS = "dx-state-invisible";
+var DISABLED_STATE_CLASS = "dx-state-disabled";
+var ITEM_CONTENT_PLACEHOLDER_CLASS = "dx-item-content-placeholder";
 
 var forcibleWatcher = function(watchMethod, fn, callback) {
     var filteredCallback = (function() {
@@ -52,8 +51,8 @@ var CollectionItem = Class.inherit({
     },
 
     _startWatcher: function(field, render) {
-        var rawData = this._rawData,
-            exprGetter = this._options.fieldGetter(field);
+        var rawData = this._rawData;
+        var exprGetter = this._options.fieldGetter(field);
 
         var watcher = forcibleWatcher(this._options.watchMethod(), function() {
             return exprGetter(rawData);

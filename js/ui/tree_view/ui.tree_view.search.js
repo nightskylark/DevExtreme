@@ -1,7 +1,7 @@
-var registerComponent = require("../../core/component_registrator"),
-    searchBoxMixin = require("../widget/ui.search_box_mixin"),
-    extend = require("../../core/utils/extend").extend,
-    TreeViewBase = require("./ui.tree_view.base");
+var registerComponent = require("../../core/component_registrator");
+var searchBoxMixin = require("../widget/ui.search_box_mixin");
+var extend = require("../../core/utils/extend").extend;
+var TreeViewBase = require("./ui.tree_view.base");
 
 var NODE_CONTAINER_CLASS = "dx-treeview-node-container";
 
@@ -58,8 +58,8 @@ var TreeViewSearch = TreeViewBase.inherit(searchBoxMixin).inherit({
     },
 
     _repaintContainer: function() {
-        var $container = this.$element().find("." + NODE_CONTAINER_CLASS).first(),
-            rootNodes;
+        var $container = this.$element().find("." + NODE_CONTAINER_CLASS).first();
+        var rootNodes;
 
         if($container.length) {
             $container.empty();

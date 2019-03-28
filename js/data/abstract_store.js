@@ -1,16 +1,15 @@
-var Class = require("../core/class"),
-    abstract = Class.abstract,
-    EventsMixin = require("../core/events_mixin"),
-    each = require("../core/utils/iterator").each,
-    errorsModule = require("./errors"),
-    dataUtils = require("./utils"),
-    compileGetter = require("../core/utils/data").compileGetter,
-    storeHelper = require("./store_helper"),
-    queryByOptions = storeHelper.queryByOptions,
-    Deferred = require("../core/utils/deferred").Deferred,
-    noop = require("../core/utils/common").noop,
-
-    storeImpl = {};
+var Class = require("../core/class");
+var abstract = Class.abstract;
+var EventsMixin = require("../core/events_mixin");
+var each = require("../core/utils/iterator").each;
+var errorsModule = require("./errors");
+var dataUtils = require("./utils");
+var compileGetter = require("../core/utils/data").compileGetter;
+var storeHelper = require("./store_helper");
+var queryByOptions = storeHelper.queryByOptions;
+var Deferred = require("../core/utils/deferred").Deferred;
+var noop = require("../core/utils/common").noop;
+var storeImpl = {};
 
 /**
 * @name Store
@@ -201,15 +200,14 @@ var Store = Class.inherit({
         var result = new Deferred();
 
         task.done(function() {
-            var that = this,
-                args = arguments;
+            var that = this;
+            var args = arguments;
 
             dataUtils.processRequestResultLock
                 .promise()
                 .done(function() {
                     result.resolveWith(that, args);
                 });
-
         }).fail(function() {
             result.rejectWith(this, arguments);
         });

@@ -1,6 +1,6 @@
-var _max = Math.max,
-    _round = Math.round,
-    tiling = require("./tiling");
+var _max = Math.max;
+var _round = Math.round;
+var tiling = require("./tiling");
 
 function compare(a, b) { return b.value - a.value; }
 
@@ -9,15 +9,15 @@ function getAspectRatio(value) {
 }
 
 function findAppropriateCollection(nodes, head, context) {
-    var bestAspectRatio = Infinity,
-        nextAspectRatio,
-        sum = 0,
-        nextSum,
-        i,
-        j,
-        ii = nodes.length,
-        coeff = context.areaToValue / context.staticSide,
-        totalAspectRatio;
+    var bestAspectRatio = Infinity;
+    var nextAspectRatio;
+    var sum = 0;
+    var nextSum;
+    var i;
+    var j;
+    var ii = nodes.length;
+    var coeff = context.areaToValue / context.staticSide;
+    var totalAspectRatio;
 
     for(i = head; i < ii;) {
         nextSum = sum + nodes[i].value;
@@ -42,13 +42,14 @@ function getArea(rect) {
 }
 
 function doStep(nodes, head, context) {
-    var sidesData = tiling.buildSidesData(context.rect, context.directions, context.staticSideIndex),
-        area = getArea(context.rect),
-        rowData = area > 0 ? findAppropriateCollection(nodes, head, {
-            areaToValue: area / context.sum,
-            accumulate: context.accumulate,
-            staticSide: sidesData.staticSide
-        }) : { sum: 1, side: sidesData.variedSide, count: nodes.length - head };
+    var sidesData = tiling.buildSidesData(context.rect, context.directions, context.staticSideIndex);
+    var area = getArea(context.rect);
+
+    var rowData = area > 0 ? findAppropriateCollection(nodes, head, {
+        areaToValue: area / context.sum,
+        accumulate: context.accumulate,
+        staticSide: sidesData.staticSide
+    }) : { sum: 1, side: sidesData.variedSide, count: nodes.length - head };
 
     tiling.calculateRectangles(nodes, head, context.rect, sidesData, rowData);
     context.sum -= rowData.sum;
@@ -56,15 +57,17 @@ function doStep(nodes, head, context) {
 }
 
 module.exports = function(data, accumulate, isFixedStaticSide) {
-    var items = data.items,
-        ii = items.length,
-        i,
-        context = {
-            sum: data.sum,
-            rect: data.rect,
-            directions: data.directions,
-            accumulate: accumulate
-        };
+    var items = data.items;
+    var ii = items.length;
+    var i;
+
+    var context = {
+        sum: data.sum,
+        rect: data.rect,
+        directions: data.directions,
+        accumulate: accumulate
+    };
+
     if(isFixedStaticSide) {
         context.staticSideIndex = tiling.getStaticSideIndex(context.rect);
     }

@@ -1,7 +1,7 @@
-var $ = require("../../core/renderer"),
-    Class = require("../../core/class"),
-    commonUtils = require("../../core/utils/common"),
-    abstract = Class.abstract;
+var $ = require("../../core/renderer");
+var Class = require("../../core/class");
+var commonUtils = require("../../core/utils/common");
+var abstract = Class.abstract;
 
 
 var EditStrategy = Class.inherit({

@@ -79,9 +79,9 @@ Tracker.prototype = {
     },
 
     _endClick: function(event, data) {
-        var state = this._clickState,
-            threshold,
-            coords;
+        var state = this._clickState;
+        var threshold;
+        var coords;
 
         if(!state) { return; }
 
@@ -97,15 +97,15 @@ Tracker.prototype = {
 
     _startDrag: function(event, data) {
         if(!data) { return; }
-        var coords = getEventCoords(event),
-            state = this._dragState = { x: coords.x, y: coords.y, data: data };
+        var coords = getEventCoords(event);
+        var state = this._dragState = { x: coords.x, y: coords.y, data: data };
         this._fire(EVENT_START, { x: state.x, y: state.y, data: state.data });
     },
 
     _moveDrag: function(event, data) {
-        var state = this._dragState,
-            coords,
-            threshold;
+        var state = this._dragState;
+        var coords;
+        var threshold;
 
         if(!state) { return; }
 
@@ -129,11 +129,11 @@ Tracker.prototype = {
 
     _wheelZoom: function(event, data) {
         if(!data) { return; }
-        var that = this,
-            lock = that._wheelLock,
-            time = _now(),
-            delta,
-            coords;
+        var that = this;
+        var lock = that._wheelLock;
+        var time = _now();
+        var delta;
+        var coords;
 
         if(time - lock.time <= WHEEL_COOLDOWN) { return; }
         // T136650
@@ -155,9 +155,9 @@ Tracker.prototype = {
             return;
         }
 
-        var state = this._zoomState = this._zoomState || {},
-            coords,
-            pointer2;
+        var state = this._zoomState = this._zoomState || {};
+        var coords;
+        var pointer2;
 
         if(state.pointer1 && state.pointer2) { return; }
 
@@ -183,8 +183,8 @@ Tracker.prototype = {
     },
 
     _moveZoom: function(event) {
-        var state = this._zoomState,
-            coords;
+        var state = this._zoomState;
+        var coords;
 
         if(!state || !isTouchEvent(event)) {
             return;
@@ -207,9 +207,9 @@ Tracker.prototype = {
     },
 
     _endZoom: function(event) {
-        var state = this._zoomState,
-            startDistance,
-            currentDistance;
+        var state = this._zoomState;
+        var startDistance;
+        var currentDistance;
 
         if(!state || !isTouchEvent(event)) {
             return;
@@ -291,8 +291,8 @@ Tracker.prototype = {
 
         // Because of "stopPropagation" at any time only one of two handlers will be fully executed
         that._rootHandlers[EVENTS.start] /* T322560 */ = that._docHandlers[EVENTS.start] = function(event) {
-            var isTouch = isTouchEvent(event),
-                data = getData(event);
+            var isTouch = isTouchEvent(event);
+            var data = getData(event);
 
             if(isTouch && !that._isTouchEnabled) { return; }
             if(data) {
@@ -308,8 +308,8 @@ Tracker.prototype = {
         };
 
         that._docHandlers[EVENTS.move] = function(event) {
-            var isTouch = isTouchEvent(event),
-                data = getData(event);
+            var isTouch = isTouchEvent(event);
+            var data = getData(event);
 
             if(isTouch && !that._isTouchEnabled) { return; }
 
@@ -320,8 +320,8 @@ Tracker.prototype = {
         };
 
         that._docHandlers[EVENTS.end] = function(event) {
-            var isTouch = isTouchEvent(event),
-                data = getData(event);
+            var isTouch = isTouchEvent(event);
+            var data = getData(event);
 
             if(isTouch && !that._isTouchEnabled) { return; }
 
@@ -406,13 +406,13 @@ Tracker.prototype = {
 };
 
 var Focus = function(fire) {
-    var that = this,
-        _activeData = null,
-        _data = null,
-        _disabled = false,
-        _offTimer = null,
-        _x,
-        _y;
+    var that = this;
+    var _activeData = null;
+    var _data = null;
+    var _disabled = false;
+    var _offTimer = null;
+    var _x;
+    var _y;
 
     that.dispose = function() {
         clearTimeout(_offTimer);
@@ -487,15 +487,15 @@ function getDistance(x1, y1, x2, y2) {
 }
 
 function isTouchEvent(event) {
-    var type = event.originalEvent.type,
-        pointerType = event.originalEvent.pointerType;
+    var type = event.originalEvent.type;
+    var pointerType = event.originalEvent.pointerType;
     return /^touch/.test(type) || (/^MSPointer/.test(type) && pointerType !== 4) || (/^pointer/.test(type) && pointerType !== "mouse");
 }
 
 function selectItem(flags, items) {
-    var i = 0,
-        ii = flags.length,
-        item;
+    var i = 0;
+    var ii = flags.length;
+    var item;
     for(; i < ii; ++i) {
         if(flags[i]) {
             item = items[i];
@@ -525,8 +525,8 @@ function setupEvents() {
 }
 
 function getEventCoords(event) {
-    var originalEvent = event.originalEvent,
-        touch = (originalEvent.touches && originalEvent.touches[0]) || {};
+    var originalEvent = event.originalEvent;
+    var touch = (originalEvent.touches && originalEvent.touches[0]) || {};
     return { x: touch.pageX || originalEvent.pageX || event.pageX, y: touch.pageY || originalEvent.pageY || event.pageY };
 }
 
@@ -547,7 +547,8 @@ function getMultitouchEventCoords(event, pointerId) {
 function adjustWheelDelta(delta, lock) {
     if(delta === 0) { return 0; }
 
-    var _delta = _abs(delta), sign = _round(delta / _delta);
+    var _delta = _abs(delta);
+    var sign = _round(delta / _delta);
 
     if(lock.dir && sign !== lock.dir) { return 0; }
 

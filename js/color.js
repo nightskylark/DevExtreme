@@ -192,10 +192,10 @@ var standardColorTypes = [
     {
         re: /^hsv\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
         process: function(colorString) {
-            var h = parseInt(colorString[1], 10),
-                s = parseInt(colorString[2], 10),
-                v = parseInt(colorString[3], 10),
-                rgb = hsvToRgb(h, s, v);
+            var h = parseInt(colorString[1], 10);
+            var s = parseInt(colorString[2], 10);
+            var v = parseInt(colorString[3], 10);
+            var rgb = hsvToRgb(h, s, v);
 
             return [
                 rgb[0],
@@ -209,10 +209,10 @@ var standardColorTypes = [
     {
         re: /^hsl\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
         process: function(colorString) {
-            var h = parseInt(colorString[1], 10),
-                s = parseInt(colorString[2], 10),
-                l = parseInt(colorString[3], 10),
-                rgb = hslToRgb(h, s, l);
+            var h = parseInt(colorString[1], 10);
+            var s = parseInt(colorString[2], 10);
+            var l = parseInt(colorString[3], 10);
+            var rgb = hslToRgb(h, s, l);
 
             return [
                 rgb[0],
@@ -260,7 +260,9 @@ function parseColor(color) {
         return [0, 0, 0, 0];
     }
 
-    var i = 0, ii = standardColorTypes.length, str;
+    var i = 0;
+    var ii = standardColorTypes.length;
+    var str;
     for(; i < ii; ++i) {
         str = standardColorTypes[i].re.exec(color);
         if(str) {
@@ -281,12 +283,12 @@ function toHexFromRgb(r, g, b) {
 }
 
 function toHsvFromRgb(r, g, b) {
-    var max = Math.max(r, g, b),
-        min = Math.min(r, g, b),
-        delta = max - min,
-        H,
-        S,
-        V;
+    var max = Math.max(r, g, b);
+    var min = Math.min(r, g, b);
+    var delta = max - min;
+    var H;
+    var S;
+    var V;
 
     V = max;
     S = (max === 0 ? 0 : 1 - min / max);
@@ -321,14 +323,14 @@ function toHsvFromRgb(r, g, b) {
 }
 
 function hsvToRgb(h, s, v) {
-    var vDec,
-        vInc,
-        vMin,
-        index,
-        a,
-        r,
-        g,
-        b;
+    var vDec;
+    var vInc;
+    var vMin;
+    var index;
+    var a;
+    var r;
+    var g;
+    var b;
 
     index = Math.floor((h % 360) / 60);
     vMin = ((100 - s) * v) / 100;
@@ -367,12 +369,12 @@ function toHslFromRgb(r, g, b) {
     g = convertTo01Bounds(g, 255);
     b = convertTo01Bounds(b, 255);
 
-    var max = Math.max(r, g, b),
-        min = Math.min(r, g, b),
-        maxMinSum = max + min,
-        h,
-        s,
-        l = maxMinSum / 2;
+    var max = Math.max(r, g, b);
+    var min = Math.min(r, g, b);
+    var maxMinSum = max + min;
+    var h;
+    var s;
+    var l = maxMinSum / 2;
 
     if(max === min) {
         h = s = 0;
@@ -430,7 +432,9 @@ function hueToRgb(p, q, colorTint) {
 }
 
 function hslToRgb(h, s, l) {
-    var r, g, b;
+    var r;
+    var g;
+    var b;
 
     h = convertTo01Bounds(h, 360);
     s = convertTo01Bounds(s, 100);
@@ -439,8 +443,8 @@ function hslToRgb(h, s, l) {
     if(s === 0) {
         r = g = b = l;
     } else {
-        var q = l < 0.5 ? l * (1 + s) : l + s - l * s,
-            p = 2 * l - q;
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
         r = hueToRgb(p, q, makeColorTint("r", h));
         g = hueToRgb(p, q, makeColorTint("g", h));
         b = hueToRgb(p, q, makeColorTint("b", h));
@@ -497,8 +501,8 @@ Color.prototype = {
     },
 
     blend: function(blendColor, opacity) {
-        var other = blendColor instanceof Color ? blendColor : new Color(blendColor),
-            result = new Color();
+        var other = blendColor instanceof Color ? blendColor : new Color(blendColor);
+        var result = new Color();
         result.r = normalize(_round(this.r * (1 - opacity) + other.r * opacity));
         result.g = normalize(_round(this.g * (1 - opacity) + other.g * opacity));
         result.b = normalize(_round(this.b * (1 - opacity) + other.b * opacity));
@@ -535,8 +539,8 @@ Color.prototype = {
     colorIsInvalid: false,
 
     fromHSL: function(hsl) {
-        var color = new Color(),
-            rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+        var color = new Color();
+        var rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
 
         color.r = rgb[0];
         color.g = rgb[1];

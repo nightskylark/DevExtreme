@@ -1,9 +1,9 @@
-var $ = require("../core/renderer"),
-    registerComponent = require("../core/component_registrator"),
-    DOMComponent = require("../core/dom_component"),
-    ValidationSummary = require("./validation_summary"),
-    ValidationEngine = require("./validation_engine"),
-    Validator = require("./validator");
+var $ = require("../core/renderer");
+var registerComponent = require("../core/component_registrator");
+var DOMComponent = require("../core/dom_component");
+var ValidationSummary = require("./validation_summary");
+var ValidationEngine = require("./validation_engine");
+var Validator = require("./validator");
 
 var VALIDATION_ENGINE_CLASS = "dx-validationgroup";
 /**

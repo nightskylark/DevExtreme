@@ -32,11 +32,11 @@ var splitQuad = function(raw) {
 };
 
 var quadToObject = function(raw) {
-    var quad = splitQuad(raw),
-        left = parseInt(quad && quad[0], 10),
-        top = parseInt(quad && quad[1], 10),
-        right = parseInt(quad && quad[2], 10),
-        bottom = parseInt(quad && quad[3], 10);
+    var quad = splitQuad(raw);
+    var left = parseInt(quad && quad[0], 10);
+    var top = parseInt(quad && quad[1], 10);
+    var right = parseInt(quad && quad[2], 10);
+    var bottom = parseInt(quad && quad[3], 10);
 
     if(!isFinite(left)) {
         left = 0;
@@ -55,11 +55,11 @@ var quadToObject = function(raw) {
 };
 
 var stringFormat = function() {
-    var s = arguments[0],
-        values = [].slice.call(arguments).slice(1),
-        replaceDollarCount,
-        reg,
-        value;
+    var s = arguments[0];
+    var values = [].slice.call(arguments).slice(1);
+    var replaceDollarCount;
+    var reg;
+    var value;
 
     if(typeUtils.isFunction(s)) {
         return s.apply(this, values);

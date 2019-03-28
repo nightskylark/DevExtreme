@@ -1,36 +1,31 @@
-var _extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    _each = require("../../core/utils/iterator").each,
-    rangeCalculator = require("./helpers/range_data_calculator"),
-    typeUtils = require("../../core/utils/type"),
-    vizUtils = require("../core/utils"),
-
-    _noop = require("../../core/utils/common").noop,
-    _isDefined = typeUtils.isDefined,
-    _isString = typeUtils.isString,
-    _map = vizUtils.map,
-    _normalizeEnum = vizUtils.normalizeEnum,
-    math = Math,
-    _abs = math.abs,
-    _sqrt = math.sqrt,
-    _max = math.max,
-
-    DEFAULT_TRACKER_WIDTH = 12,
-    DEFAULT_DURATION = 400,
-
-    HIGH_ERROR = "highError",
-    LOW_ERROR = "lowError",
-
-    VARIANCE = "variance",
-    STANDARD_DEVIATION = "stddeviation",
-    STANDARD_ERROR = "stderror",
-    PERCENT = "percent",
-    FIXED = "fixed",
-    UNDEFINED = "undefined",
-
-    DISCRETE = "discrete",
-    LOGARITHMIC = "logarithmic",
-    DATETIME = "datetime";
+var _extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var _each = require("../../core/utils/iterator").each;
+var rangeCalculator = require("./helpers/range_data_calculator");
+var typeUtils = require("../../core/utils/type");
+var vizUtils = require("../core/utils");
+var _noop = require("../../core/utils/common").noop;
+var _isDefined = typeUtils.isDefined;
+var _isString = typeUtils.isString;
+var _map = vizUtils.map;
+var _normalizeEnum = vizUtils.normalizeEnum;
+var math = Math;
+var _abs = math.abs;
+var _sqrt = math.sqrt;
+var _max = math.max;
+var DEFAULT_TRACKER_WIDTH = 12;
+var DEFAULT_DURATION = 400;
+var HIGH_ERROR = "highError";
+var LOW_ERROR = "lowError";
+var VARIANCE = "variance";
+var STANDARD_DEVIATION = "stddeviation";
+var STANDARD_ERROR = "stderror";
+var PERCENT = "percent";
+var FIXED = "fixed";
+var UNDEFINED = "undefined";
+var DISCRETE = "discrete";
+var LOGARITHMIC = "logarithmic";
+var DATETIME = "datetime";
 
 exports.chart = {};
 exports.polar = {};
@@ -56,10 +51,10 @@ function variance(array, expectedValue) {
 }
 
 function calculateAvgErrorBars(result, data, series) {
-    var errorBarsOptions = series.getOptions().valueErrorBar,
-        valueField = series.getValueFields()[0],
-        lowValueField = errorBarsOptions.lowValueField || LOW_ERROR,
-        highValueField = errorBarsOptions.highValueField || HIGH_ERROR;
+    var errorBarsOptions = series.getOptions().valueErrorBar;
+    var valueField = series.getValueFields()[0];
+    var lowValueField = errorBarsOptions.lowValueField || LOW_ERROR;
+    var highValueField = errorBarsOptions.highValueField || HIGH_ERROR;
 
     if(series.areErrorBarsVisible() && errorBarsOptions.type === undefined) {
         var fusionData = data.reduce(function(result, item) {
@@ -86,9 +81,9 @@ function calculateAvgErrorBars(result, data, series) {
     return result;
 }
 function calculateSumErrorBars(result, data, series) {
-    var errorBarsOptions = series.getOptions().valueErrorBar,
-        lowValueField = errorBarsOptions.lowValueField || LOW_ERROR,
-        highValueField = errorBarsOptions.highValueField || HIGH_ERROR;
+    var errorBarsOptions = series.getOptions().valueErrorBar;
+    var lowValueField = errorBarsOptions.lowValueField || LOW_ERROR;
+    var highValueField = errorBarsOptions.highValueField || HIGH_ERROR;
 
     if(series.areErrorBarsVisible() && errorBarsOptions.type === undefined) {
         result[lowValueField] = 0;
@@ -199,8 +194,8 @@ var baseScatterMethods = {
     },
 
     _setMarkerGroupSettings: function() {
-        var that = this,
-            settings = that._createPointStyles(that._getMarkerGroupOptions()).normal;
+        var that = this;
+        var settings = that._createPointStyles(that._getMarkerGroupOptions()).normal;
         settings["class"] = "dxc-markers";
         settings.opacity = 1; // T172577
         that._applyMarkerClipRect(settings);
@@ -232,9 +227,9 @@ var baseScatterMethods = {
     },
 
     _createErrorBarGroup: function(animationEnabled) {
-        var that = this,
-            errorBarOptions = that._options.valueErrorBar,
-            settings;
+        var that = this;
+        var errorBarOptions = that._options.valueErrorBar;
+        var settings;
 
         if(that.areErrorBarsVisible()) {
             settings = {
@@ -258,10 +253,10 @@ var baseScatterMethods = {
     },
 
     _getCreatingPointOptions: function() {
-        var that = this,
-            defaultPointOptions,
-            creatingPointOptions = that._predefinedPointOptions,
-            normalStyle;
+        var that = this;
+        var defaultPointOptions;
+        var creatingPointOptions = that._predefinedPointOptions;
+        var normalStyle;
         if(!creatingPointOptions) {
             defaultPointOptions = that._getPointOptions();
             that._predefinedPointOptions = creatingPointOptions = _extend(true, { styles: {} }, defaultPointOptions);
@@ -287,8 +282,8 @@ var baseScatterMethods = {
     },
 
     _parsePointStyle: function(style, defaultColor, defaultBorderColor, defaultSize) {
-        var border = style.border || {},
-            sizeValue = style.size !== undefined ? style.size : defaultSize;
+        var border = style.border || {};
+        var sizeValue = style.size !== undefined ? style.size : defaultSize;
         return {
             fill: style.color || defaultColor,
             stroke: border.color || defaultBorderColor,
@@ -298,10 +293,10 @@ var baseScatterMethods = {
     },
 
     _createPointStyles: function(pointOptions) {
-        var that = this,
-            mainPointColor = pointOptions.color || that._options.mainSeriesColor,
-            containerColor = that._options.containerBackgroundColor,
-            normalStyle = that._parsePointStyle(pointOptions, mainPointColor, mainPointColor);
+        var that = this;
+        var mainPointColor = pointOptions.color || that._options.mainSeriesColor;
+        var containerColor = that._options.containerBackgroundColor;
+        var normalStyle = that._parsePointStyle(pointOptions, mainPointColor, mainPointColor);
 
         normalStyle.visibility = pointOptions.visible ? "visible" : "hidden";
 
@@ -319,14 +314,14 @@ var baseScatterMethods = {
     },
 
     getErrorBarRangeCorrector: function() {
-        var mode,
-            func;
+        var mode;
+        var func;
 
         if(this.areErrorBarsVisible()) {
             mode = _normalizeEnum(this._options.valueErrorBar.displayMode);
             func = function(point) {
-                var lowError = point.lowError,
-                    highError = point.highError;
+                var lowError = point.lowError;
+                var highError = point.highError;
                 switch(mode) {
                     case "low": return [lowError];
                     case "high": return [highError];
@@ -351,7 +346,8 @@ var baseScatterMethods = {
         const argumentField = this.getArgumentField();
         const tagField = this.getTagField();
         const areErrorBarsVisible = this.areErrorBarsVisible();
-        let lowValueField, highValueField;
+        let lowValueField;
+        let highValueField;
 
         if(areErrorBarsVisible) {
             const errorBarOptions = this._options.valueErrorBar;
@@ -392,16 +388,16 @@ var baseScatterMethods = {
     },
 
     _animateComplete: function() {
-        var that = this,
-            animationSettings = { duration: that._defaultDuration };
+        var that = this;
+        var animationSettings = { duration: that._defaultDuration };
 
         that._labelsGroup && that._labelsGroup.animate({ opacity: 1 }, animationSettings);
         that._errorBarGroup && that._errorBarGroup.animate({ opacity: (that._options.valueErrorBar).opacity || 1 }, animationSettings);
     },
 
     _animate: function() {
-        var that = this,
-            lastPointIndex = that._drawnPoints.length - 1;
+        var that = this;
+        var lastPointIndex = that._drawnPoints.length - 1;
 
         _each(that._drawnPoints || [], function(i, p) {
             p.animate(i === lastPointIndex ? function() { that._animateComplete(); } : undefined, { translateX: p.x, translateY: p.y });
@@ -491,11 +487,11 @@ var baseScatterMethods = {
     },
 
     getValueFields: function() {
-        var options = this._options,
-            errorBarsOptions = options.valueErrorBar,
-            valueFields = [options.valueField || "val"],
-            lowValueField,
-            highValueField;
+        var options = this._options;
+        var errorBarsOptions = options.valueErrorBar;
+        var valueFields = [options.valueField || "val"];
+        var lowValueField;
+        var highValueField;
 
         if(errorBarsOptions) {
             lowValueField = errorBarsOptions.lowValueField;
@@ -511,24 +507,25 @@ var baseScatterMethods = {
             return;
         }
 
-        var that = this,
-            options = that._options,
-            errorBarsOptions = options.valueErrorBar,
-            errorBarType = _normalizeEnum(errorBarsOptions.type),
-            floatErrorValue = parseFloat(errorBarsOptions.value),
-            valueField = that.getValueFields()[0],
-            value,
-            lowValueField = errorBarsOptions.lowValueField || LOW_ERROR,
-            highValueField = errorBarsOptions.highValueField || HIGH_ERROR,
-            valueArray,
-            valueArrayLength,
-            meanValue,
-            processDataItem,
-            addSubError = function(_i, item) {
-                value = item.value;
-                item.lowError = value - floatErrorValue;
-                item.highError = value + floatErrorValue;
-            };
+        var that = this;
+        var options = that._options;
+        var errorBarsOptions = options.valueErrorBar;
+        var errorBarType = _normalizeEnum(errorBarsOptions.type);
+        var floatErrorValue = parseFloat(errorBarsOptions.value);
+        var valueField = that.getValueFields()[0];
+        var value;
+        var lowValueField = errorBarsOptions.lowValueField || LOW_ERROR;
+        var highValueField = errorBarsOptions.highValueField || HIGH_ERROR;
+        var valueArray;
+        var valueArrayLength;
+        var meanValue;
+        var processDataItem;
+
+        var addSubError = function(_i, item) {
+            value = item.value;
+            item.lowError = value - floatErrorValue;
+            item.highError = value + floatErrorValue;
+        };
 
         switch(errorBarType) {
             case FIXED:
@@ -576,12 +573,13 @@ var baseScatterMethods = {
     },
 
     _patchMarginOptions: function(options) {
-        var pointOptions = this._getCreatingPointOptions(),
-            styles = pointOptions.styles,
-            maxSize = [styles.normal, styles.hover, styles.selection]
-                .reduce(function(max, style) {
-                    return _max(max, style.r * 2 + style["stroke-width"]);
-                }, 0);
+        var pointOptions = this._getCreatingPointOptions();
+        var styles = pointOptions.styles;
+
+        var maxSize = [styles.normal, styles.hover, styles.selection]
+            .reduce(function(max, style) {
+                return _max(max, style.r * 2 + style["stroke-width"]);
+            }, 0);
 
         options.size = pointOptions.visible ? maxSize : 0;
         options.sizePointNormalState = pointOptions.visible ? styles.normal.r * 2 + styles.normal["stroke-width"] : 2;
@@ -592,11 +590,11 @@ var baseScatterMethods = {
 
 exports.chart = _extend({}, baseScatterMethods, {
     drawTrackers: function() {
-        var that = this,
-            trackers,
-            trackersGroup,
-            segments = that._segments || [],
-            rotated = that._options.rotated;
+        var that = this;
+        var trackers;
+        var trackersGroup;
+        var segments = that._segments || [];
+        var rotated = that._options.rotated;
 
         if(!that.isVisible()) {
             return;
@@ -714,13 +712,13 @@ exports.chart = _extend({}, baseScatterMethods, {
     },
 
     getNeighborPoint: function(x, y) {
-        var pCoord = this._options.rotated ? y : x,
-            nCoord = pCoord,
-            cat = this._trackersTranslator,
-            point = null,
-            minDistance,
-            oppositeCoord = this._options.rotated ? x : y,
-            oppositeCoordName = this._options.rotated ? "vx" : "vy";
+        var pCoord = this._options.rotated ? y : x;
+        var nCoord = pCoord;
+        var cat = this._trackersTranslator;
+        var point = null;
+        var minDistance;
+        var oppositeCoord = this._options.rotated ? x : y;
+        var oppositeCoordName = this._options.rotated ? "vx" : "vy";
 
         if(this.isVisible() && cat) {
             point = cat[pCoord];
@@ -746,10 +744,10 @@ exports.chart = _extend({}, baseScatterMethods, {
     },
 
     _applyVisibleArea: function() {
-        var that = this,
-            rotated = that._options.rotated,
-            visibleX = (rotated ? that.getValueAxis() : that.getArgumentAxis()).getVisibleArea(),
-            visibleY = (rotated ? that.getArgumentAxis() : that.getValueAxis()).getVisibleArea();
+        var that = this;
+        var rotated = that._options.rotated;
+        var visibleX = (rotated ? that.getValueAxis() : that.getArgumentAxis()).getVisibleArea();
+        var visibleY = (rotated ? that.getArgumentAxis() : that.getValueAxis()).getVisibleArea();
 
         that._visibleArea = {
             minX: visibleX[0],
@@ -763,8 +761,8 @@ exports.chart = _extend({}, baseScatterMethods, {
 exports.polar = _extend({}, baseScatterMethods, {
     drawTrackers: function() {
         exports.chart.drawTrackers.call(this);
-        var cat = this._trackersTranslator,
-            index;
+        var cat = this._trackersTranslator;
+        var index;
 
         if(!this.isVisible()) {
             return;
@@ -786,8 +784,8 @@ exports.polar = _extend({}, baseScatterMethods, {
     },
 
     _applyVisibleArea: function() {
-        var that = this,
-            canvas = that.getValueAxis().getCanvas();
+        var that = this;
+        var canvas = that.getValueAxis().getCanvas();
         that._visibleArea = {
             minX: canvas.left,
             maxX: canvas.width - canvas.right,

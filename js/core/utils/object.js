@@ -1,5 +1,5 @@
-var typeUtils = require("./type"),
-    variableWrapper = require("./variable_wrapper");
+var typeUtils = require("./type");
+var variableWrapper = require("./variable_wrapper");
 
 var clone = (function() {
     function Clone() { }
@@ -11,9 +11,9 @@ var clone = (function() {
 })();
 
 var orderEach = function(map, func) {
-    var keys = [],
-        key,
-        i;
+    var keys = [];
+    var key;
+    var i;
 
     for(key in map) {
         if(map.hasOwnProperty(key)) {
@@ -22,8 +22,8 @@ var orderEach = function(map, func) {
     }
 
     keys.sort(function(x, y) {
-        var isNumberX = typeUtils.isNumeric(x),
-            isNumberY = typeUtils.isNumeric(y);
+        var isNumberX = typeUtils.isNumeric(x);
+        var isNumberY = typeUtils.isNumeric(y);
 
         if(isNumberX && isNumberY) return x - y;
         if(isNumberX && !isNumberY) return -1;
@@ -49,7 +49,8 @@ var assignValueToProperty = function(target, property, value, assignByReference)
 
 // B239679, http://bugs.jquery.com/ticket/9477
 var deepExtendArraySafe = function(target, changes, extendComplexObject, assignByReference) {
-    var prevValue, newValue;
+    var prevValue;
+    var newValue;
 
     for(var name in changes) {
         prevValue = target[name];

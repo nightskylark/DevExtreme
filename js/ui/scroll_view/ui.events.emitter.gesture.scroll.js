@@ -1,20 +1,18 @@
-var eventsEngine = require("../../events/core/events_engine"),
-    Class = require("../../core/class"),
-    abstract = Class.abstract,
-    eventUtils = require("../../events/utils"),
-    GestureEmitter = require("../../events/gesture/emitter.gesture"),
-    registerEmitter = require("../../events/core/emitter_registrator"),
-    animationFrame = require("../../animation/frame"),
-    realDevice = require("../../core/devices").real(),
-    compareVersions = require("../../core/utils/version").compare;
-
-
-var SCROLL_INIT_EVENT = "dxscrollinit",
-    SCROLL_START_EVENT = "dxscrollstart",
-    SCROLL_MOVE_EVENT = "dxscroll",
-    SCROLL_END_EVENT = "dxscrollend",
-    SCROLL_STOP_EVENT = "dxscrollstop",
-    SCROLL_CANCEL_EVENT = "dxscrollcancel";
+var eventsEngine = require("../../events/core/events_engine");
+var Class = require("../../core/class");
+var abstract = Class.abstract;
+var eventUtils = require("../../events/utils");
+var GestureEmitter = require("../../events/gesture/emitter.gesture");
+var registerEmitter = require("../../events/core/emitter_registrator");
+var animationFrame = require("../../animation/frame");
+var realDevice = require("../../core/devices").real();
+var compareVersions = require("../../core/utils/version").compare;
+var SCROLL_INIT_EVENT = "dxscrollinit";
+var SCROLL_START_EVENT = "dxscrollstart";
+var SCROLL_MOVE_EVENT = "dxscroll";
+var SCROLL_END_EVENT = "dxscrollend";
+var SCROLL_STOP_EVENT = "dxscrollstop";
+var SCROLL_CANCEL_EVENT = "dxscrollcancel";
 
 
 var isWheelEvent = function(e) {
@@ -126,8 +124,8 @@ var WheelLocker = TimeoutLocker.inherit((function() {
                 return;
             }
 
-            var direction = e.shiftKey || false,
-                directionChange = this._lastWheelDirection !== null && direction !== this._lastWheelDirection;
+            var direction = e.shiftKey || false;
+            var directionChange = this._lastWheelDirection !== null && direction !== this._lastWheelDirection;
             this._lastWheelDirection = direction;
 
             this._locked = this._locked && !directionChange;
@@ -153,8 +151,8 @@ var PointerLocker = TimeoutLocker.inherit((function() {
 })());
 
 (function() {
-    var ios8_greater = realDevice.ios && compareVersions(realDevice.version, [8]) >= 0,
-        android5_greater = realDevice.android && compareVersions(realDevice.version, [5]) >= 0;
+    var ios8_greater = realDevice.ios && compareVersions(realDevice.version, [8]) >= 0;
+    var android5_greater = realDevice.android && compareVersions(realDevice.version, [5]) >= 0;
 
     if(!(ios8_greater || android5_greater)) {
         return;
@@ -178,8 +176,8 @@ var PointerLocker = TimeoutLocker.inherit((function() {
                 animationFrame.cancelAnimationFrame(this._scrollFrame);
                 animationFrame.cancelAnimationFrame(this._checkFrame);
 
-                var that = this,
-                    callBase = this.callBase;
+                var that = this;
+                var callBase = this.callBase;
                 this._checkFrame = animationFrame.requestAnimationFrame(function() {
                     callBase.call(that, e, callback);
 
@@ -197,15 +195,13 @@ var PointerLocker = TimeoutLocker.inherit((function() {
         };
 
     })());
-
 })();
 
 
 var ScrollEmitter = GestureEmitter.inherit((function() {
-
-    var INERTIA_TIMEOUT = 100,
-        VELOCITY_CALC_TIMEOUT = 200,
-        FRAME_DURATION = Math.round(1000 / 60);
+    var INERTIA_TIMEOUT = 100;
+    var VELOCITY_CALC_TIMEOUT = 200;
+    var FRAME_DURATION = Math.round(1000 / 60);
 
     return {
 
@@ -285,8 +281,8 @@ var ScrollEmitter = GestureEmitter.inherit((function() {
             var velocity = { x: 0, y: 0 };
 
             if(!isWheelEvent(e) && endEventDelta.time < INERTIA_TIMEOUT) {
-                var eventDelta = eventUtils.eventDelta(this._savedEventData, this._prevEventData),
-                    velocityMultiplier = FRAME_DURATION / eventDelta.time;
+                var eventDelta = eventUtils.eventDelta(this._savedEventData, this._prevEventData);
+                var velocityMultiplier = FRAME_DURATION / eventDelta.time;
 
                 velocity = { x: eventDelta.x * velocityMultiplier, y: eventDelta.y * velocityMultiplier };
             }
@@ -330,7 +326,6 @@ var ScrollEmitter = GestureEmitter.inherit((function() {
         }
 
     };
-
 })());
 
 registerEmitter({

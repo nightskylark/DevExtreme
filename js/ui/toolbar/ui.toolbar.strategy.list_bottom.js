@@ -1,5 +1,5 @@
-var ListStrategy = require("./ui.toolbar.strategy.list_base"),
-    Swipeable = require("../../events/gesture/swipeable");
+var ListStrategy = require("./ui.toolbar.strategy.list_base");
+var Swipeable = require("../../events/gesture/swipeable");
 
 var ListBottomStrategy = ListStrategy.inherit({
 

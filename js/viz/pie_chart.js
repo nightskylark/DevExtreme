@@ -1,23 +1,23 @@
-var seriesConsts = require("./components/consts"),
-    vizUtils = require("./core/utils"),
-    extend = require("../core/utils/extend").extend,
-    isNumeric = require("../core/utils/type").isNumeric,
-    each = require("../core/utils/iterator").each,
-    rangeModule = require("./translators/range"),
-    registerComponent = require("../core/component_registrator"),
-    baseChartModule = require("./chart_components/base_chart"),
-    BaseChart = baseChartModule.BaseChart,
-    overlapping = baseChartModule.overlapping,
-    seriesSpacing = seriesConsts.pieSeriesSpacing,
-    translator1DModule = require("./translators/translator1d"),
-    OPTIONS_FOR_REFRESH_SERIES = ["startAngle", "innerRadius", "segmentsDirection", "type"],
-    _extend = extend,
-    _each = each,
-    _noop = require("../core/utils/common").noop,
-    _getVerticallyShiftedAngularCoords = require("./core/utils").getVerticallyShiftedAngularCoords,
-
-    states = seriesConsts.states, NORMAL_STATE = states.normalMark,
-    LEGEND_ACTIONS = [states.resetItem, states.applyHover, states.applySelected, states.applySelected];
+var seriesConsts = require("./components/consts");
+var vizUtils = require("./core/utils");
+var extend = require("../core/utils/extend").extend;
+var isNumeric = require("../core/utils/type").isNumeric;
+var each = require("../core/utils/iterator").each;
+var rangeModule = require("./translators/range");
+var registerComponent = require("../core/component_registrator");
+var baseChartModule = require("./chart_components/base_chart");
+var BaseChart = baseChartModule.BaseChart;
+var overlapping = baseChartModule.overlapping;
+var seriesSpacing = seriesConsts.pieSeriesSpacing;
+var translator1DModule = require("./translators/translator1d");
+var OPTIONS_FOR_REFRESH_SERIES = ["startAngle", "innerRadius", "segmentsDirection", "type"];
+var _extend = extend;
+var _each = each;
+var _noop = require("../core/utils/common").noop;
+var _getVerticallyShiftedAngularCoords = require("./core/utils").getVerticallyShiftedAngularCoords;
+var states = seriesConsts.states;
+var NORMAL_STATE = states.normalMark;
+var LEGEND_ACTIONS = [states.resetItem, states.applyHover, states.applySelected, states.applySelected];
 
 function getLegendItemAction(points) {
     var state = NORMAL_STATE;
@@ -178,10 +178,10 @@ var dxPieChart = BaseChart.inherit({
     },
 
     _getLayoutSeries: function(series, drawOptions) {
-        var that = this,
-            layout,
-            canvas = that._canvas,
-            drawnLabels = false;
+        var that = this;
+        var layout;
+        var canvas = that._canvas;
+        var drawnLabels = false;
 
         layout = that.layoutManager.applyPieChartSeriesLayout(canvas, series, true);
         series.forEach(function(singleSeries) {
@@ -208,8 +208,8 @@ var dxPieChart = BaseChart.inherit({
     },
 
     _getLayoutSeriesForEqualPies: function(series, sizeGroupLayout) {
-        var canvas = this._canvas,
-            layout = this.layoutManager.applyEqualPieChartLayout(series, sizeGroupLayout);
+        var canvas = this._canvas;
+        var layout = this.layoutManager.applyEqualPieChartLayout(series, sizeGroupLayout);
 
         series.forEach(function(s) {
             s.correctPosition(layout, canvas);
@@ -222,13 +222,13 @@ var dxPieChart = BaseChart.inherit({
     },
 
     _updateSeriesDimensions: function(drawOptions) {
-        var that = this,
-            visibleSeries = that._getVisibleSeries(),
-            lengthVisibleSeries = visibleSeries.length,
-            innerRad,
-            delta,
-            layout,
-            sizeGroupLayout = drawOptions.sizeGroupLayout;
+        var that = this;
+        var visibleSeries = that._getVisibleSeries();
+        var lengthVisibleSeries = visibleSeries.length;
+        var innerRad;
+        var delta;
+        var layout;
+        var sizeGroupLayout = drawOptions.sizeGroupLayout;
 
         if(lengthVisibleSeries) {
             layout = sizeGroupLayout ? that._getLayoutSeriesForEqualPies(visibleSeries, sizeGroupLayout) : that._getLayoutSeries(visibleSeries, drawOptions);
@@ -261,16 +261,17 @@ var dxPieChart = BaseChart.inherit({
     },
 
     _getLegendCallBack: function() {
-        var that = this,
-            legend = this._legend,
-            items = this._getLegendTargets().map(function(i) {
-                return i.legendData;
-            });
+        var that = this;
+        var legend = this._legend;
+
+        var items = this._getLegendTargets().map(function(i) {
+            return i.legendData;
+        });
 
         return function(target) {
             items.forEach(function(data) {
-                var points = [],
-                    callback = legend.getActionCallback({ index: data.id });
+                var points = [];
+                var callback = legend.getActionCallback({ index: data.id });
 
                 that.series.forEach(function(series) {
                     var seriesPoints = series.getPointsByKeys(data.argument, data.argumentIndex);
@@ -299,12 +300,13 @@ var dxPieChart = BaseChart.inherit({
     _applyExtraSettings: _noop,
 
     _resolveLabelOverlappingShift: function() {
-        var that = this,
-            inverseDirection = that.option("segmentsDirection") === "anticlockwise",
-            seriesByPosition = that.series.reduce(function(r, s) {
-                (r[s.getOptions().label.position] || r.outside).push(s);
-                return r;
-            }, { inside: [], columns: [], outside: [] });
+        var that = this;
+        var inverseDirection = that.option("segmentsDirection") === "anticlockwise";
+
+        var seriesByPosition = that.series.reduce(function(r, s) {
+            (r[s.getOptions().label.position] || r.outside).push(s);
+            return r;
+        }, { inside: [], columns: [], outside: [] });
 
         if(seriesByPosition.inside.length > 0) {
             resolve(seriesByPosition.inside.reduce(function(r, singleSeries) {
@@ -427,9 +429,9 @@ module.exports = dxPieChart;
 
 var pieSizeEqualizer = (function() {
     function equalize(group, allPies) {
-        var pies = allPies.filter(function(p) { return p.getSizeGroup() === group; }),
-            minRadius = Math.min.apply(null, pies.map(function(p) { return p.getSizeGroupLayout().radius; })),
-            minPie = pies.filter(function(p) { return p.getSizeGroupLayout().radius === minRadius; });
+        var pies = allPies.filter(function(p) { return p.getSizeGroup() === group; });
+        var minRadius = Math.min.apply(null, pies.map(function(p) { return p.getSizeGroupLayout().radius; }));
+        var minPie = pies.filter(function(p) { return p.getSizeGroupLayout().radius === minRadius; });
 
         pies.forEach(function(p) {
             p.render({
@@ -447,8 +449,8 @@ var pieSizeEqualizer = (function() {
         return removeFromList(list, item).concat(item);
     }
 
-    var pies = [],
-        timers = {};
+    var pies = [];
+    var timers = {};
 
     return {
         queue: function(pie) {

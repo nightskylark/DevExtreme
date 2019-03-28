@@ -1,12 +1,12 @@
-var $ = require("../../core/renderer"),
-    window = require("../../core/utils/window").getWindow(),
-    DateView = require("./ui.date_view"),
-    DateBoxStrategy = require("./ui.date_box.strategy"),
-    support = require("../../core/utils/support"),
-    extend = require("../../core/utils/extend").extend,
-    themes = require("../themes"),
-    dateUtils = require("./ui.date_utils"),
-    messageLocalization = require("../../localization/message");
+var $ = require("../../core/renderer");
+var window = require("../../core/utils/window").getWindow();
+var DateView = require("./ui.date_view");
+var DateBoxStrategy = require("./ui.date_box.strategy");
+var support = require("../../core/utils/support");
+var extend = require("../../core/utils/extend").extend;
+var themes = require("../themes");
+var dateUtils = require("./ui.date_utils");
+var messageLocalization = require("../../localization/message");
 
 var DateViewStrategy = DateBoxStrategy.inherit({
 
@@ -65,8 +65,8 @@ var DateViewStrategy = DateBoxStrategy.inherit({
                 },
                 {
                     device: function(device) {
-                        var platform = device.platform,
-                            version = device.version;
+                        var platform = device.platform;
+                        var version = device.version;
                         return platform === "generic" || platform === "ios" || (platform === "win" && version && version[0] === 10);
                     },
                     options: {
@@ -76,8 +76,8 @@ var DateViewStrategy = DateBoxStrategy.inherit({
                 },
                 {
                     device: function(device) {
-                        var platform = device.platform,
-                            phone = device.phone;
+                        var platform = device.platform;
+                        var phone = device.phone;
 
                         return platform === "generic" && phone;
                     },

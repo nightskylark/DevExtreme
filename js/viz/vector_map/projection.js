@@ -1,23 +1,20 @@
-var projectionModule = require("./projection.main"),
-    projection = projectionModule.projection,
-
-    _min = Math.min,
-    _max = Math.max,
-    _sin = Math.sin,
-    _asin = Math.asin,
-    _tan = Math.tan,
-    _atan = Math.atan,
-    _exp = Math.exp,
-    _log = Math.log,
-
-    PI = Math.PI,
-    PI_DIV_4 = PI / 4,
-    GEO_LON_BOUND = 180,
-    GEO_LAT_BOUND = 90,
-    RADIANS = PI / 180,
-
-    MERCATOR_LAT_BOUND = (2 * _atan(_exp(PI)) - PI / 2) / RADIANS,
-    MILLER_LAT_BOUND = (2.5 * _atan(_exp(0.8 * PI)) - 0.625 * PI) / RADIANS;
+var projectionModule = require("./projection.main");
+var projection = projectionModule.projection;
+var _min = Math.min;
+var _max = Math.max;
+var _sin = Math.sin;
+var _asin = Math.asin;
+var _tan = Math.tan;
+var _atan = Math.atan;
+var _exp = Math.exp;
+var _log = Math.log;
+var PI = Math.PI;
+var PI_DIV_4 = PI / 4;
+var GEO_LON_BOUND = 180;
+var GEO_LAT_BOUND = 90;
+var RADIANS = PI / 180;
+var MERCATOR_LAT_BOUND = (2 * _atan(_exp(PI)) - PI / 2) / RADIANS;
+var MILLER_LAT_BOUND = (2.5 * _atan(_exp(0.8 * PI)) - 0.625 * PI) / RADIANS;
 
 function clamp(value, threshold) {
     return _max(_min(value, +threshold), -threshold);

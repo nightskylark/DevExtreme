@@ -1,11 +1,11 @@
-var _Number = Number,
-    _getAppropriateFormat = require("../core/utils").getAppropriateFormat,
-    extend = require("../../core/utils/extend").extend,
-    translator1DModule = require("../translators/translator1d"),
-    _extend = extend,
-    BaseWidget = require("../core/base_widget"),
-    themeManagerModule = require("./theme_manager"),
-    Tracker = require("./tracker");
+var _Number = Number;
+var _getAppropriateFormat = require("../core/utils").getAppropriateFormat;
+var extend = require("../../core/utils/extend").extend;
+var translator1DModule = require("../translators/translator1d");
+var _extend = extend;
+var BaseWidget = require("../core/base_widget");
+var themeManagerModule = require("./theme_manager");
+var Tracker = require("./tracker");
 
 var dxBaseGauge = BaseWidget.inherit({
     _rootClassPrefix: "dxg",
@@ -17,8 +17,8 @@ var dxBaseGauge = BaseWidget.inherit({
     },
 
     _initCore: function() {
-        var that = this,
-            root = that._renderer.root;
+        var that = this;
+        var root = that._renderer.root;
 
         that._valueChangingLocker = 0;
         that._translator = that._factory.createTranslator();
@@ -40,19 +40,20 @@ var dxBaseGauge = BaseWidget.inherit({
     },
 
     _setTrackerCallbacks: function() {
-        var that = this,
-            renderer = that._renderer,
-            tooltip = that._tooltip;
+        var that = this;
+        var renderer = that._renderer;
+        var tooltip = that._tooltip;
 
         that._tracker.setCallbacks({
             'tooltip-show': function(target, info) {
-                var tooltipParameters = target.getTooltipParameters(),
-                    offset = renderer.getRootOffset(),
-                    formatObject = _extend({
-                        value: tooltipParameters.value,
-                        valueText: tooltip.formatValue(tooltipParameters.value),
-                        color: tooltipParameters.color
-                    }, info);
+                var tooltipParameters = target.getTooltipParameters();
+                var offset = renderer.getRootOffset();
+
+                var formatObject = _extend({
+                    value: tooltipParameters.value,
+                    valueText: tooltip.formatValue(tooltipParameters.value),
+                    color: tooltipParameters.color
+                }, info);
 
                 return tooltip.show(formatObject, {
                     x: tooltipParameters.x + offset.left,
@@ -171,8 +172,8 @@ var dxBaseGauge = BaseWidget.inherit({
     },
 
     _setupAnimationSettings: function() {
-        var that = this,
-            option = that.option("animation");
+        var that = this;
+        var option = that.option("animation");
         that._animationSettings = null;
         if(option === undefined || option) {
             option = _extend({
@@ -223,8 +224,8 @@ var _format = require("../../format_helper").format;
 //  TODO: find a better place for it
 var formatValue = function(value, options, extra) {
     options = options || {};
-    var text = _format(value, options.format),
-        formatObject;
+    var text = _format(value, options.format);
+    var formatObject;
     if(typeof options.customizeText === "function") {
         formatObject = _extend({ value: value, valueText: text }, extra);
         return String(options.customizeText.call(formatObject, formatObject));
@@ -234,8 +235,8 @@ var formatValue = function(value, options, extra) {
 
 //  TODO: find a better place for it
 var getSampleText = function(translator, options) {
-    var text1 = formatValue(translator.getDomainStart(), options),
-        text2 = formatValue(translator.getDomainEnd(), options);
+    var text1 = formatValue(translator.getDomainStart(), options);
+    var text2 = formatValue(translator.getDomainEnd(), options);
     return text1.length >= text2.length ? text1 : text2;
 };
 
@@ -247,10 +248,10 @@ exports.compareArrays = function(array1, array2) {
 };
 
 function compareArraysElements(array1, array2) {
-    var i,
-        ii = array1.length,
-        array1ValueIsNaN,
-        array2ValueIsNaN;
+    var i;
+    var ii = array1.length;
+    var array1ValueIsNaN;
+    var array2ValueIsNaN;
 
     for(i = 0; i < ii; ++i) {
         array1ValueIsNaN = array1[i] !== array1[i];

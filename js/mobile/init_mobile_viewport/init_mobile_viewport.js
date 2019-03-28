@@ -1,13 +1,13 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    windowUtils = require("../../core/utils/window"),
-    window = windowUtils.getWindow(),
-    eventsEngine = require("../../events/core/events_engine"),
-    extend = require("../../core/utils/extend").extend,
-    resizeCallbacks = require("../../core/utils/resize_callbacks"),
-    support = require("../../core/utils/support"),
-    styleUtils = require("../../core/utils/style"),
-    devices = require("../../core/devices");
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var windowUtils = require("../../core/utils/window");
+var window = windowUtils.getWindow();
+var eventsEngine = require("../../events/core/events_engine");
+var extend = require("../../core/utils/extend").extend;
+var resizeCallbacks = require("../../core/utils/resize_callbacks");
+var support = require("../../core/utils/support");
+var styleUtils = require("../../core/utils/style");
+var devices = require("../../core/devices");
 
 var initMobileViewport = function(options) {
     options = extend({}, options);
@@ -21,8 +21,8 @@ var initMobileViewport = function(options) {
         $("<meta>").attr("name", "viewport").appendTo("head");
     }
 
-    var metaVerbs = ["width=device-width"],
-        msTouchVerbs = [];
+    var metaVerbs = ["width=device-width"];
+    var msTouchVerbs = [];
 
     if(allowZoom) {
         msTouchVerbs.push("pinch-zoom");
@@ -56,10 +56,10 @@ var initMobileViewport = function(options) {
     if(support.touch && !(realDevice.platform === "win" && realDevice.version[0] === 10)) {
         eventsEngine.off(domAdapter.getDocument(), ".dxInitMobileViewport");
         eventsEngine.on(domAdapter.getDocument(), "dxpointermove.dxInitMobileViewport", function(e) {
-            var count = e.pointers.length,
-                isTouchEvent = e.pointerType === "touch",
-                zoomDisabled = !allowZoom && count > 1,
-                panDisabled = !allowPan && count === 1 && !e.isScrollingEvent;
+            var count = e.pointers.length;
+            var isTouchEvent = e.pointerType === "touch";
+            var zoomDisabled = !allowZoom && count > 1;
+            var panDisabled = !allowPan && count === 1 && !e.isScrollingEvent;
 
             if(isTouchEvent && (zoomDisabled || panDisabled)) {
                 e.preventDefault();

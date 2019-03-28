@@ -16,21 +16,20 @@ import removeEvent from "../../core/remove_event";
 import messageLocalization from "../../localization/message";
 import browser from "../../core/utils/browser";
 
-var ROWS_VIEW_CLASS = "rowsview",
-    CONTENT_CLASS = "content",
-    NOWRAP_CLASS = "nowrap",
-    GROUP_ROW_CLASS = "dx-group-row",
-    GROUP_CELL_CLASS = "dx-group-cell",
-    DATA_ROW_CLASS = "dx-data-row",
-    FREE_SPACE_CLASS = "dx-freespace-row",
-    ROW_LINES_CLASS = "dx-row-lines",
-    COLUMN_LINES_CLASS = "dx-column-lines",
-    ROW_ALTERNATION_CLASS = "dx-row-alt",
-    LAST_ROW_BORDER = "dx-last-row-border",
-    EMPTY_CLASS = "dx-empty",
-    ROW_INSERTED_ANIMATION_CLASS = "row-inserted-animation",
-
-    LOADPANEL_HIDE_TIMEOUT = 200;
+var ROWS_VIEW_CLASS = "rowsview";
+var CONTENT_CLASS = "content";
+var NOWRAP_CLASS = "nowrap";
+var GROUP_ROW_CLASS = "dx-group-row";
+var GROUP_CELL_CLASS = "dx-group-cell";
+var DATA_ROW_CLASS = "dx-data-row";
+var FREE_SPACE_CLASS = "dx-freespace-row";
+var ROW_LINES_CLASS = "dx-row-lines";
+var COLUMN_LINES_CLASS = "dx-column-lines";
+var ROW_ALTERNATION_CLASS = "dx-row-alt";
+var LAST_ROW_BORDER = "dx-last-row-border";
+var EMPTY_CLASS = "dx-empty";
+var ROW_INSERTED_ANIMATION_CLASS = "row-inserted-animation";
+var LOADPANEL_HIDE_TIMEOUT = 200;
 
 module.exports = {
     defaultOptions: function() {
@@ -382,9 +381,9 @@ module.exports = {
     views: {
         rowsView: columnsView.ColumnsView.inherit((function() {
             var defaultCellTemplate = function($container, options) {
-                var isDataTextEmpty = isEmpty(options.text) && options.rowType === "data",
-                    text = options.text,
-                    container = $container.get(0);
+                var isDataTextEmpty = isEmpty(options.text) && options.rowType === "data";
+                var text = options.text;
+                var container = $container.get(0);
 
                 if(isDataTextEmpty) {
                     setEmptyText($container);
@@ -413,13 +412,13 @@ module.exports = {
                 },
 
                 _getDefaultGroupTemplate: function(column) {
-                    var that = this,
-                        summaryTexts = that.option("summary.texts");
+                    var that = this;
+                    var summaryTexts = that.option("summary.texts");
 
                     return function($container, options) {
-                        var data = options.data,
-                            text = options.column.caption + ": " + options.text,
-                            container = $container.get(0);
+                        var data = options.data;
+                        var text = options.column.caption + ": " + options.text;
+                        var container = $container.get(0);
 
                         if(options.summaryItems && options.summaryItems.length) {
                             text += " " + getGroupRowSummaryText(options.summaryItems, summaryTexts);
@@ -448,9 +447,9 @@ module.exports = {
                 _update: function() { },
 
                 _getCellTemplate: function(options) {
-                    var that = this,
-                        column = options.column,
-                        template;
+                    var that = this;
+                    var column = options.column;
+                    var template;
 
                     if(options.rowType === "group" && isDefined(column.groupIndex) && !column.showWhenGrouped && !column.command) {
                         template = column.groupCellTemplate || { allowRenderToDetachedContainer: true, render: that._getDefaultGroupTemplate(column) };
@@ -462,10 +461,10 @@ module.exports = {
                 },
 
                 _createRow: function(row) {
-                    var $row = this.callBase(row),
-                        isGroup,
-                        isDataRow,
-                        isRowExpanded;
+                    var $row = this.callBase(row);
+                    var isGroup;
+                    var isDataRow;
+                    var isRowExpanded;
 
                     if(row) {
                         isGroup = row.rowType === "group";
@@ -511,9 +510,9 @@ module.exports = {
                 },
 
                 _setAriaRowIndex: function(row, $row) {
-                    var component = this.component,
-                        isPagerMode = component.option("scrolling.mode") === "standard" && component.option("scrolling.rowRenderingMode") !== "virtual",
-                        rowIndex = row.rowIndex + 1;
+                    var component = this.component;
+                    var isPagerMode = component.option("scrolling.mode") === "standard" && component.option("scrolling.rowRenderingMode") !== "virtual";
+                    var rowIndex = row.rowIndex + 1;
 
                     if(isPagerMode) {
                         rowIndex = component.pageIndex() * component.pageSize() + rowIndex;
@@ -524,9 +523,9 @@ module.exports = {
                 },
 
                 _afterRowPrepared: function(e) {
-                    var arg = e.args[0],
-                        dataController = this._dataController,
-                        watch = this.option("integrationOptions.watchMethod");
+                    var arg = e.args[0];
+                    var dataController = this._dataController;
+                    var watch = this.option("integrationOptions.watchMethod");
 
                     if(!arg.data || arg.rowType !== "data" || arg.inserted || !this.option("twoWayBindingEnabled") || !watch) return;
 
@@ -547,8 +546,8 @@ module.exports = {
                 },
 
                 _renderScrollable: function(force) {
-                    var that = this,
-                        $element = that.element();
+                    var that = this;
+                    var $element = that.element();
 
                     if(!$element.children().length) {
                         $element.append("<div>");
@@ -558,8 +557,8 @@ module.exports = {
                     }
 
                     if((force || !that.getScrollable()) && that._dataController.isLoaded()) {
-                        var columns = that.getColumns(),
-                            allColumnsHasWidth = true;
+                        var columns = that.getColumns();
+                        var allColumnsHasWidth = true;
 
                         for(var i = 0; i < columns.length; i++) {
                             if(!columns[i].width && !columns[i].minWidth) {
@@ -584,9 +583,9 @@ module.exports = {
                 },
 
                 _renderScrollableCore: function($element) {
-                    var that = this,
-                        dxScrollableOptions = that._createScrollableOptions(),
-                        scrollHandler = that._handleScroll.bind(that);
+                    var that = this;
+                    var dxScrollableOptions = that._createScrollableOptions();
+                    var scrollHandler = that._handleScroll.bind(that);
 
                     dxScrollableOptions.onScroll = scrollHandler;
                     dxScrollableOptions.onStop = scrollHandler;
@@ -606,24 +605,24 @@ module.exports = {
                 },
 
                 _updateContent: function(newTableElement, change) {
-                    var that = this,
-                        tableElement = that._getTableElement(),
-                        contentElement = that._findContentElement(),
-                        changeType = change && change.changeType,
-                        executors = [],
-                        highlightChanges = this.option("highlightChanges"),
-                        rowInsertedClass = this.addWidgetPrefix(ROW_INSERTED_ANIMATION_CLASS);
+                    var that = this;
+                    var tableElement = that._getTableElement();
+                    var contentElement = that._findContentElement();
+                    var changeType = change && change.changeType;
+                    var executors = [];
+                    var highlightChanges = this.option("highlightChanges");
+                    var rowInsertedClass = this.addWidgetPrefix(ROW_INSERTED_ANIMATION_CLASS);
 
                     switch(changeType) {
                         case "update":
                             each(change.rowIndices, function(index, rowIndex) {
-                                var $newRowElement = that._getRowElements(newTableElement).eq(index),
-                                    changeType = change.changeTypes && change.changeTypes[index],
-                                    item = change.items && change.items[index];
+                                var $newRowElement = that._getRowElements(newTableElement).eq(index);
+                                var changeType = change.changeTypes && change.changeTypes[index];
+                                var item = change.items && change.items[index];
 
                                 executors.push(function() {
-                                    var $rowsElement = that._getRowElements(),
-                                        $rowElement = $rowsElement.eq(rowIndex);
+                                    var $rowsElement = that._getRowElements();
+                                    var $rowElement = $rowsElement.eq(rowIndex);
 
                                     switch(changeType) {
                                         case "update":
@@ -671,11 +670,11 @@ module.exports = {
                 },
 
                 _createEmptyRow: function(className, isFixed, height) {
-                    var that = this,
-                        i,
-                        $cell,
-                        $row = that._createRow(),
-                        columns = isFixed ? this.getFixedColumns() : this.getColumns();
+                    var that = this;
+                    var i;
+                    var $cell;
+                    var $row = that._createRow();
+                    var columns = isFixed ? this.getFixedColumns() : this.getColumns();
 
                     $row
                         .addClass(className)
@@ -694,8 +693,8 @@ module.exports = {
                 },
 
                 _appendEmptyRow: function($table, $emptyRow, location) {
-                    var $tBodies = this._getBodies($table),
-                        $container = $tBodies.length && !$emptyRow.is("tbody") ? $tBodies : $table;
+                    var $tBodies = this._getBodies($table);
+                    var $container = $tBodies.length && !$emptyRow.is("tbody") ? $tBodies : $table;
 
                     if(location === "top") {
                         $container.first().prepend($emptyRow);
@@ -713,9 +712,9 @@ module.exports = {
                 },
 
                 _checkRowKeys: function(options) {
-                    var that = this,
-                        rows = that._getRows(options),
-                        keyExpr = that._dataController.store() && that._dataController.store().key();
+                    var that = this;
+                    var rows = that._getRows(options);
+                    var keyExpr = that._dataController.store() && that._dataController.store().key();
 
                     keyExpr && rows.some(function(row) {
                         if(row.rowType === "data" && row.key === undefined) {
@@ -738,10 +737,10 @@ module.exports = {
                 },
 
                 _updateRowHeight: function() {
-                    var that = this,
-                        rowsHeight,
-                        $tableElement = that._getTableElement(),
-                        itemsCount = that._dataController.items().length;
+                    var that = this;
+                    var rowsHeight;
+                    var $tableElement = that._getTableElement();
+                    var itemsCount = that._dataController.items().length;
 
                     if($tableElement && that._needUpdateRowHeight(itemsCount)) {
                         rowsHeight = that._getRowsHeight($tableElement);
@@ -750,8 +749,8 @@ module.exports = {
                 },
 
                 _findContentElement: function() {
-                    var $content = this.element(),
-                        scrollable = this.getScrollable();
+                    var $content = this.element();
+                    var scrollable = this.getScrollable();
 
                     if($content) {
                         if(scrollable) {
@@ -797,8 +796,8 @@ module.exports = {
                 },
 
                 _getGroupCellOptions: function(options) {
-                    var columnsCountBeforeGroups = this._getColumnsCountBeforeGroups(options.columns),
-                        columnIndex = (options.row.groupIndex || 0) + columnsCountBeforeGroups;
+                    var columnsCountBeforeGroups = this._getColumnsCountBeforeGroups(options.columns);
+                    var columnIndex = (options.row.groupIndex || 0) + columnsCountBeforeGroups;
 
                     return {
                         columnIndex: columnIndex,
@@ -815,15 +814,15 @@ module.exports = {
                 },
 
                 _renderGroupedCells: function($row, options) {
-                    var row = options.row,
-                        i,
-                        expandColumn,
-                        columns = options.columns,
-                        rowIndex = row.rowIndex,
-                        isExpanded,
-                        groupColumn,
-                        groupColumnAlignment,
-                        groupCellOptions = this._getGroupCellOptions(options);
+                    var row = options.row;
+                    var i;
+                    var expandColumn;
+                    var columns = options.columns;
+                    var rowIndex = row.rowIndex;
+                    var isExpanded;
+                    var groupColumn;
+                    var groupColumnAlignment;
+                    var groupCellOptions = this._getGroupCellOptions(options);
 
                     for(i = 0; i <= groupCellOptions.columnIndex; i++) {
                         if(i === groupCellOptions.columnIndex && columns[i].allowCollapsing && options.scrollingMode !== "infinite") {
@@ -874,8 +873,8 @@ module.exports = {
                 },
 
                 _renderRows: function($table, options) {
-                    var that = this,
-                        scrollingMode = that.option("scrolling.mode");
+                    var that = this;
+                    var scrollingMode = that.option("scrolling.mode");
 
                     that.callBase($table, extend({
                         scrollingMode: scrollingMode
@@ -890,9 +889,9 @@ module.exports = {
                 },
 
                 _renderRow: function($table, options) {
-                    var that = this,
-                        row = options.row,
-                        rowTemplate = that.option("rowTemplate");
+                    var that = this;
+                    var row = options.row;
+                    var rowTemplate = that.option("rowTemplate");
 
                     if((row.rowType === "data" || row.rowType === "group") && !isDefined(row.groupIndex) && rowTemplate) {
                         that.renderTemplate($table, rowTemplate, extend({ columns: options.columns }, row), true);
@@ -902,15 +901,16 @@ module.exports = {
                 },
 
                 _renderTable: function(options) {
-                    var that = this,
-                        $table = that.callBase(options),
-                        resizeCompletedHandler = function() {
-                            var scrollableInstance = that.getScrollable();
-                            if(scrollableInstance && that.element().closest(getWindow().document).length) {
-                                that.resizeCompleted.remove(resizeCompletedHandler);
-                                scrollableInstance._visibilityChanged(true);
-                            }
-                        };
+                    var that = this;
+                    var $table = that.callBase(options);
+
+                    var resizeCompletedHandler = function() {
+                        var scrollableInstance = that.getScrollable();
+                        if(scrollableInstance && that.element().closest(getWindow().document).length) {
+                            that.resizeCompleted.remove(resizeCompletedHandler);
+                            scrollableInstance._visibilityChanged(true);
+                        }
+                    };
 
                     if(!isDefined(that._getTableElement())) {
                         that._setTableElement($table);
@@ -934,9 +934,9 @@ module.exports = {
                 },
 
                 _renderCore: function(change) {
-                    var that = this,
-                        $table,
-                        $element = that.element();
+                    var that = this;
+                    var $table;
+                    var $element = that.element();
 
                     $element.addClass(that.addWidgetPrefix(ROWS_VIEW_CLASS)).toggleClass(that.addWidgetPrefix(NOWRAP_CLASS), !that.option("wordWrapEnabled"));
                     $element.toggleClass(EMPTY_CLASS, that._dataController.items().length === 0);
@@ -956,16 +956,16 @@ module.exports = {
                 },
 
                 _getCellOptions: function(options) {
-                    var that = this,
-                        parameters,
-                        column = options.column,
-                        row = options.row,
-                        data = row.data,
-                        summaryCells = row && row.summaryCells,
-                        value = options.value,
-                        displayValue = getDisplayValue(column, value, data, row.rowType),
-                        groupingTextsOptions,
-                        scrollingMode;
+                    var that = this;
+                    var parameters;
+                    var column = options.column;
+                    var row = options.row;
+                    var data = row.data;
+                    var summaryCells = row && row.summaryCells;
+                    var value = options.value;
+                    var displayValue = getDisplayValue(column, value, data, row.rowType);
+                    var groupingTextsOptions;
+                    var scrollingMode;
 
                     parameters = this.callBase(options);
                     parameters.value = value;
@@ -994,10 +994,10 @@ module.exports = {
                 },
 
                 _setRowsOpacityCore: function($rows, visibleColumns, columnIndex, value) {
-                    var columnsController = this._columnsController,
-                        columns = columnsController.getColumns(),
-                        column = columns && columns[columnIndex],
-                        columnID = column && column.isBand && column.index;
+                    var columnsController = this._columnsController;
+                    var columns = columnsController.getColumns();
+                    var column = columns && columns[columnIndex];
+                    var columnID = column && column.isBand && column.index;
 
                     each($rows, function(rowIndex, row) {
                         if(!$(row).hasClass(GROUP_ROW_CLASS)) {
@@ -1020,9 +1020,9 @@ module.exports = {
                 renderNoDataText: renderNoDataText,
 
                 getCellOptions: function(rowIndex, columnIdentifier) {
-                    var rowOptions = this._dataController.items()[rowIndex],
-                        cellOptions,
-                        column;
+                    var rowOptions = this._dataController.items()[rowIndex];
+                    var cellOptions;
+                    var column;
 
                     if(rowOptions) {
                         if(isString(columnIdentifier)) {
@@ -1060,12 +1060,12 @@ module.exports = {
                 },
 
                 updateFreeSpaceRowHeight: function($table) {
-                    var that = this,
-                        itemCount = that._dataController.items().length,
-                        contentElement = that._findContentElement(),
-                        freeSpaceRowElements = that._getFreeSpaceRowElements($table),
-                        freeSpaceRowCount,
-                        scrollingMode;
+                    var that = this;
+                    var itemCount = that._dataController.items().length;
+                    var contentElement = that._findContentElement();
+                    var freeSpaceRowElements = that._getFreeSpaceRowElements($table);
+                    var freeSpaceRowCount;
+                    var scrollingMode;
 
                     if(freeSpaceRowElements && contentElement) {
                         var isFreeSpaceRowVisible = false;
@@ -1088,16 +1088,21 @@ module.exports = {
                             } else {
                                 freeSpaceRowElements.hide();
                                 deferUpdate(function() {
-                                    var scrollablePadding = getScrollableBottomPadding(that), // T697699
-                                        scrollbarWidth = that.getScrollbarWidth(true),
-                                        elementHeightWithoutScrollbar = that.element().height() - scrollbarWidth - scrollablePadding,
-                                        contentHeight = contentElement.outerHeight(),
-                                        showFreeSpaceRow = (elementHeightWithoutScrollbar - contentHeight) > 0,
-                                        rowsHeight = that._getRowsHeight(contentElement.children().first()),
-                                        $tableElement = $table || that.getTableElements(),
-                                        borderTopWidth = Math.ceil(parseFloat($tableElement.css("borderTopWidth"))),
-                                        heightCorrection = browser.webkit && that._getDevicePixelRatio() >= 2 ? 1 : 0, // T606935
-                                        resultHeight = elementHeightWithoutScrollbar - rowsHeight - borderTopWidth - heightCorrection;
+                                    var // T697699
+                                    scrollablePadding = getScrollableBottomPadding(that);
+
+                                    var scrollbarWidth = that.getScrollbarWidth(true);
+                                    var elementHeightWithoutScrollbar = that.element().height() - scrollbarWidth - scrollablePadding;
+                                    var contentHeight = contentElement.outerHeight();
+                                    var showFreeSpaceRow = (elementHeightWithoutScrollbar - contentHeight) > 0;
+                                    var rowsHeight = that._getRowsHeight(contentElement.children().first());
+                                    var $tableElement = $table || that.getTableElements();
+                                    var borderTopWidth = Math.ceil(parseFloat($tableElement.css("borderTopWidth")));
+
+                                    var // T606935
+                                    heightCorrection = browser.webkit && that._getDevicePixelRatio() >= 2 ? 1 : 0;
+
+                                    var resultHeight = elementHeightWithoutScrollbar - rowsHeight - borderTopWidth - heightCorrection;
 
                                     if(showFreeSpaceRow) {
                                         deferRender(function() {
@@ -1140,8 +1145,8 @@ module.exports = {
                 },
 
                 init: function() {
-                    var that = this,
-                        dataController = that.getController("data");
+                    var that = this;
+                    var dataController = that.getController("data");
 
                     that.callBase();
                     that._editorFactoryController = that.getController("editorFactory");
@@ -1185,8 +1190,8 @@ module.exports = {
                 },
 
                 getScrollbarWidth: function(isHorizontal) {
-                    var scrollableContainer = this._scrollableContainer && this._scrollableContainer.get(0),
-                        scrollbarWidth = 0;
+                    var scrollableContainer = this._scrollableContainer && this._scrollableContainer.get(0);
+                    var scrollbarWidth = 0;
 
                     if(scrollableContainer) {
                         if(!isHorizontal) {
@@ -1201,11 +1206,11 @@ module.exports = {
 
                 // TODO remove this call, move _fireColumnResizedCallbacks functionality to columnsController
                 _fireColumnResizedCallbacks: function() {
-                    var that = this,
-                        lastColumnWidths = that._lastColumnWidths || [],
-                        columnWidths = [],
-                        columns = that.getColumns(),
-                        i;
+                    var that = this;
+                    var lastColumnWidths = that._lastColumnWidths || [];
+                    var columnWidths = [];
+                    var columns = that.getColumns();
+                    var i;
 
                     for(i = 0; i < columns.length; i++) {
                         columnWidths[i] = columns[i].visibleWidth;
@@ -1235,8 +1240,8 @@ module.exports = {
                 },
 
                 _updateHorizontalScrollPosition: function() {
-                    var scrollable = this.getScrollable(),
-                        scrollLeft = scrollable && scrollable.scrollOffset().left;
+                    var scrollable = this.getScrollable();
+                    var scrollLeft = scrollable && scrollable.scrollOffset().left;
 
                     if(this._scrollLeft >= 0 && scrollLeft !== this._scrollLeft) {
                         scrollable.scrollTo({ x: this._scrollLeft });
@@ -1259,8 +1264,8 @@ module.exports = {
                 },
 
                 scrollTo: function(location) {
-                    var $element = this.element(),
-                        dxScrollable = $element && Scrollable.getInstance($element);
+                    var $element = this.element();
+                    var dxScrollable = $element && Scrollable.getInstance($element);
 
                     if(dxScrollable) {
                         dxScrollable.scrollTo(location);
@@ -1268,8 +1273,8 @@ module.exports = {
                 },
 
                 height: function(height, hasHeight) {
-                    var that = this,
-                        $element = this.element();
+                    var that = this;
+                    var $element = this.element();
 
                     if(arguments.length === 0) {
                         return $element ? $element.outerHeight(true) : 0;
@@ -1283,13 +1288,13 @@ module.exports = {
                 },
 
                 setLoading: function(isLoading, messageText) {
-                    var that = this,
-                        loadPanel = that._loadPanel,
-                        dataController = that._dataController,
-                        loadPanelOptions = that.option("loadPanel") || {},
-                        animation = dataController.isLoaded() ? loadPanelOptions.animation : null,
-                        $element = that.element(),
-                        visibilityOptions;
+                    var that = this;
+                    var loadPanel = that._loadPanel;
+                    var dataController = that._dataController;
+                    var loadPanelOptions = that.option("loadPanel") || {};
+                    var animation = dataController.isLoaded() ? loadPanelOptions.animation : null;
+                    var $element = that.element();
+                    var visibilityOptions;
 
                     if(!hasWindow()) {
                         return;
@@ -1322,8 +1327,8 @@ module.exports = {
                 },
 
                 _getCellElementsCore: function(rowIndex) {
-                    var $cells = this.callBase(rowIndex),
-                        groupCellIndex;
+                    var $cells = this.callBase(rowIndex);
+                    var groupCellIndex;
 
                     if($cells) {
                         groupCellIndex = $cells.filter("." + GROUP_CELL_CLASS).index();
@@ -1335,17 +1340,17 @@ module.exports = {
                 },
 
                 getTopVisibleItemIndex: function() {
-                    var that = this,
-                        itemIndex = 0,
-                        prevOffsetTop = 0,
-                        offsetTop = 0,
-                        rowElements,
-                        rowElement,
-                        scrollPosition = that._scrollTop,
-                        $contentElement = that._findContentElement(),
-                        contentElementOffsetTop = $contentElement && $contentElement.offset().top,
-                        items = that._dataController.items(),
-                        tableElement = that._getTableElement();
+                    var that = this;
+                    var itemIndex = 0;
+                    var prevOffsetTop = 0;
+                    var offsetTop = 0;
+                    var rowElements;
+                    var rowElement;
+                    var scrollPosition = that._scrollTop;
+                    var $contentElement = that._findContentElement();
+                    var contentElementOffsetTop = $contentElement && $contentElement.offset().top;
+                    var items = that._dataController.items();
+                    var tableElement = that._getTableElement();
 
                     if(items.length && tableElement) {
                         rowElements = that._getRowElements(tableElement).filter(":visible");
@@ -1372,8 +1377,8 @@ module.exports = {
                 },
 
                 getTopVisibleRowData: function() {
-                    var itemIndex = this.getTopVisibleItemIndex(),
-                        items = this._dataController.items();
+                    var itemIndex = this.getTopVisibleItemIndex();
+                    var items = this._dataController.items();
 
                     if(items[itemIndex]) {
                         return items[itemIndex].data;

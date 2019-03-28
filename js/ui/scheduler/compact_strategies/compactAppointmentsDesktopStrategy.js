@@ -13,22 +13,20 @@ import { extendFromObject } from "../../../core/utils/extend";
 import deferredUtils from "../../../core/utils/deferred";
 const when = deferredUtils.when;
 
-const OFFSET = 5,
-    REMOVE_BUTTON_SIZE = 25;
-
-const DROPDOWN_APPOINTMENTS_CLASS = "dx-scheduler-dropdown-appointments",
-    COMPACT_DROPDOWN_APPOINTMENTS_CLASS = DROPDOWN_APPOINTMENTS_CLASS + "-compact",
-    DROPDOWN_APPOINTMENTS_CONTENT_CLASS = "dx-scheduler-dropdown-appointments-content",
-    DROPDOWN_APPOINTMENT_CLASS = "dx-scheduler-dropdown-appointment",
-    DROPDOWN_APPOINTMENT_TITLE_CLASS = "dx-scheduler-dropdown-appointment-title",
-    DROPDOWN_APPOINTMENT_DATE_CLASS = "dx-scheduler-dropdown-appointment-date",
-    DROPDOWN_APPOINTMENT_REMOVE_BUTTON_CLASS = "dx-scheduler-dropdown-appointment-remove-button",
-    DROPDOWN_APPOINTMENT_INFO_BLOCK_CLASS = "dx-scheduler-dropdown-appointment-info-block",
-    DROPDOWN_APPOINTMENT_BUTTONS_BLOCK_CLASS = "dx-scheduler-dropdown-appointment-buttons-block";
-
-const DRAG_START_EVENT_NAME = eventUtils.addNamespace(dragEvents.start, "dropDownAppointments"),
-    DRAG_UPDATE_EVENT_NAME = eventUtils.addNamespace(dragEvents.move, "dropDownAppointments"),
-    DRAG_END_EVENT_NAME = eventUtils.addNamespace(dragEvents.end, "dropDownAppointments");
+const OFFSET = 5;
+const REMOVE_BUTTON_SIZE = 25;
+const DROPDOWN_APPOINTMENTS_CLASS = "dx-scheduler-dropdown-appointments";
+const COMPACT_DROPDOWN_APPOINTMENTS_CLASS = DROPDOWN_APPOINTMENTS_CLASS + "-compact";
+const DROPDOWN_APPOINTMENTS_CONTENT_CLASS = "dx-scheduler-dropdown-appointments-content";
+const DROPDOWN_APPOINTMENT_CLASS = "dx-scheduler-dropdown-appointment";
+const DROPDOWN_APPOINTMENT_TITLE_CLASS = "dx-scheduler-dropdown-appointment-title";
+const DROPDOWN_APPOINTMENT_DATE_CLASS = "dx-scheduler-dropdown-appointment-date";
+const DROPDOWN_APPOINTMENT_REMOVE_BUTTON_CLASS = "dx-scheduler-dropdown-appointment-remove-button";
+const DROPDOWN_APPOINTMENT_INFO_BLOCK_CLASS = "dx-scheduler-dropdown-appointment-info-block";
+const DROPDOWN_APPOINTMENT_BUTTONS_BLOCK_CLASS = "dx-scheduler-dropdown-appointment-buttons-block";
+const DRAG_START_EVENT_NAME = eventUtils.addNamespace(dragEvents.start, "dropDownAppointments");
+const DRAG_UPDATE_EVENT_NAME = eventUtils.addNamespace(dragEvents.move, "dropDownAppointments");
+const DRAG_END_EVENT_NAME = eventUtils.addNamespace(dragEvents.end, "dropDownAppointments");
 
 const SIDE_BORDER_COLOR_STYLES = {
     "left": "borderLeftColor",
@@ -74,8 +72,8 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     }
 
     _paintMenuButton($menu, color, itemsColors) {
-        let paintButton = true,
-            currentItemColor;
+        let paintButton = true;
+        let currentItemColor;
 
         color && color.done(function(color) {
             if(itemsColors.length) {
@@ -109,15 +107,15 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     }
 
     _createDropDownMenu(config, isCompact) {
-        const $menu = config.$element,
-            items = config.items;
+        const $menu = config.$element;
+        const items = config.items;
 
         if(!DropDownMenu.getInstance($menu)) {
             this._initDynamicTemplate(items);
             this._initDynamicButtonTemplate(items.data.length, isCompact);
 
-            const template = this.instance._getAppointmentTemplate("dropDownAppointmentTemplate"),
-                buttonTemplate = this.instance._getAppointmentTemplate("appointmentCollectorTemplate");
+            const template = this.instance._getAppointmentTemplate("dropDownAppointmentTemplate");
+            const buttonTemplate = this.instance._getAppointmentTemplate("appointmentCollectorTemplate");
 
             this.instance._createComponent($menu, DropDownMenu, {
                 buttonIcon: null,
@@ -164,8 +162,8 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     }
 
     _onListItemClick(args) {
-        const mappedData = this.instance.fire("mapAppointmentFields", args),
-            result = extendFromObject(mappedData, args, false);
+        const mappedData = this.instance.fire("mapAppointmentFields", args);
+        const result = extendFromObject(mappedData, args, false);
         this._appointmentClickAction(this._clearExcessFields(result));
     }
 
@@ -174,9 +172,9 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
             return;
         }
 
-        const $item = args.itemElement,
-            itemData = args.itemData,
-            settings = itemData.settings;
+        const $item = args.itemElement;
+        const itemData = args.itemData;
+        const settings = itemData.settings;
 
         eventsEngine.on($item, DRAG_START_EVENT_NAME, () => {
             this._onAppointmentDragStart($item, itemData, settings, $menu);
@@ -193,8 +191,8 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     }
 
     _onAppointmentDragStart($item, itemData, settings, $menu, e) {
-        const appointmentInstance = this.instance.getAppointmentsInstance(),
-            appointmentIndex = appointmentInstance.option("items").length;
+        const appointmentInstance = this.instance.getAppointmentsInstance();
+        const appointmentIndex = appointmentInstance.option("items").length;
 
         settings[0].isCompact = false;
         settings[0].virtual = false;
@@ -236,9 +234,9 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     }
 
     _onAppointmentDragEnd(itemData) {
-        const appointments = this.instance.getAppointmentsInstance(),
-            newCellIndex = this.instance._workSpace.getDroppableCellIndex(),
-            oldCellIndex = this.instance._workSpace.getCellIndexByCoordinates(this._startPosition);
+        const appointments = this.instance.getAppointmentsInstance();
+        const newCellIndex = this.instance._workSpace.getDroppableCellIndex();
+        const oldCellIndex = this.instance._workSpace.getCellIndexByCoordinates(this._startPosition);
 
         eventsEngine.trigger(this._$draggedItem, "dxdragend");
         newCellIndex === oldCellIndex && appointments._clearItem({ itemData: itemData });
@@ -270,8 +268,8 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     _getRecurrencePart(appointments, startDate) {
         var result;
         for(var i = 0; i < appointments.length; i++) {
-            var $appointment = appointments[i],
-                appointmentStartDate = $appointment.data("dxAppointmentStartDate");
+            var $appointment = appointments[i];
+            var appointmentStartDate = $appointment.data("dxAppointmentStartDate");
             if(appointmentStartDate.getTime() === startDate.getTime()) {
                 result = $appointment;
             }
@@ -300,13 +298,13 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     }
 
     _createDropDownAppointmentTemplate(appointmentData, appointmentElement, color) {
-        var dateString = "",
-            appointmentMarkup = [],
-            borderSide = "left",
-            $title,
-            $date,
-            $infoBlock,
-            text = this.instance.fire("getField", "text", appointmentData);
+        var dateString = "";
+        var appointmentMarkup = [];
+        var borderSide = "left";
+        var $title;
+        var $date;
+        var $infoBlock;
+        var text = this.instance.fire("getField", "text", appointmentData);
 
         appointmentElement.addClass(DROPDOWN_APPOINTMENT_CLASS);
 
@@ -318,10 +316,10 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
             appointmentElement.css(SIDE_BORDER_COLOR_STYLES[borderSide], color);
         });
 
-        let startDate = this.instance.fire("getField", "startDate", appointmentData),
-            endDate = this.instance.fire("getField", "endDate", appointmentData),
-            startDateTimeZone = this.instance.fire("getField", "startDateTimeZone", appointmentData),
-            endDateTimeZone = this.instance.fire("getField", "endDateTimeZone", appointmentData);
+        let startDate = this.instance.fire("getField", "startDate", appointmentData);
+        let endDate = this.instance.fire("getField", "endDate", appointmentData);
+        let startDateTimeZone = this.instance.fire("getField", "startDateTimeZone", appointmentData);
+        let endDateTimeZone = this.instance.fire("getField", "endDateTimeZone", appointmentData);
 
         startDate = this.instance.fire("convertDateByTimezone", startDate, startDateTimeZone);
         endDate = this.instance.fire("convertDateByTimezone", endDate, endDateTimeZone);
@@ -350,8 +348,8 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
     }
 
     _createButtons(appointmentData) {
-        let editing = this.instance.option("editing"),
-            allowDeleting = false;
+        let editing = this.instance.option("editing");
+        let allowDeleting = false;
 
         if(!editing) {
             return "";
@@ -365,8 +363,8 @@ export class CompactAppointmentsDesktopStrategy extends CompactAppointmentsStrat
             allowDeleting = editing.allowDeleting;
         }
 
-        const $container = $("<div>").addClass(DROPDOWN_APPOINTMENT_BUTTONS_BLOCK_CLASS),
-            $removeButton = $("<div>").addClass(DROPDOWN_APPOINTMENT_REMOVE_BUTTON_CLASS);
+        const $container = $("<div>").addClass(DROPDOWN_APPOINTMENT_BUTTONS_BLOCK_CLASS);
+        const $removeButton = $("<div>").addClass(DROPDOWN_APPOINTMENT_REMOVE_BUTTON_CLASS);
 
         if(allowDeleting) {
             $container.append($removeButton);

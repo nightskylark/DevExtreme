@@ -3,15 +3,15 @@ var proto = require("./tree_map.base").prototype;
 proto._optionChangesMap.idField = proto._optionChangesMap.parentField = "NODES_CREATE";
 
 proto._processDataSourceItems = function(items) {
-    var i,
-        struct = {},
-        currentItem,
-        idField = this._getOption("idField", true),
-        parentField = this._getOption("parentField", true),
-        parentId,
-        rootNodes = [],
-        tmpItems,
-        item;
+    var i;
+    var struct = {};
+    var currentItem;
+    var idField = this._getOption("idField", true);
+    var parentField = this._getOption("parentField", true);
+    var parentId;
+    var rootNodes = [];
+    var tmpItems;
+    var item;
 
     if(!idField || !parentField || items.length === 0) {
         return { items: items, isPlain: true };
@@ -39,10 +39,10 @@ proto._processDataSourceItems = function(items) {
 };
 
 function treeFiller(context, items) {
-    var currentItem,
-        i,
-        struct = context.struct,
-        id;
+    var currentItem;
+    var i;
+    var struct = context.struct;
+    var id;
 
     for(i = 0; i < items.length; i++) {
         currentItem = items[i];

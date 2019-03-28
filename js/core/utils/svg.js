@@ -1,6 +1,6 @@
-var domAdapter = require("../../core/dom_adapter"),
-    window = require("./window").getWindow(),
-    $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var window = require("./window").getWindow();
+var $ = require("../../core/renderer");
 
 function getMarkup(element, backgroundColor) {
     var temp = domAdapter.createElement('div');

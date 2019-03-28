@@ -1,6 +1,6 @@
-var ToolbarStrategy = require("./ui.toolbar.strategy"),
-    extend = require("../../core/utils/extend").extend,
-    ActionSheet = require("../action_sheet");
+var ToolbarStrategy = require("./ui.toolbar.strategy");
+var extend = require("../../core/utils/extend").extend;
+var ActionSheet = require("../action_sheet");
 
 var ActionSheetStrategy = ToolbarStrategy.inherit({
 

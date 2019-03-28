@@ -1,10 +1,10 @@
-var Promise = require("../../core/polyfills/promise"),
-    Class = require("../../core/class"),
-    map = require("../../core/utils/iterator").map,
-    typeUtils = require("../../core/utils/type"),
-    eventUtils = require("../../events/utils"),
-    isPlainObject = typeUtils.isPlainObject,
-    isNumeric = typeUtils.isNumeric;
+var Promise = require("../../core/polyfills/promise");
+var Class = require("../../core/class");
+var map = require("../../core/utils/iterator").map;
+var typeUtils = require("../../core/utils/type");
+var eventUtils = require("../../events/utils");
+var isPlainObject = typeUtils.isPlainObject;
+var isNumeric = typeUtils.isNumeric;
 
 var abstract = Class.abstract;
 
@@ -117,8 +117,9 @@ var Provider = Class.inherit({
         if(typeof location === "string") {
             var coords = map(location.split(","), function(item) {
                     return item.trim();
-                }),
-                numericRegex = /^[-+]?[0-9]*\.?[0-9]*$/;
+                });
+
+            var numericRegex = /^[-+]?[0-9]*\.?[0-9]*$/;
 
             if(coords.length === 2 && coords[0].match(numericRegex) && coords[1].match(numericRegex)) {
                 return { lat: parseFloat(coords[0]), lng: parseFloat(coords[1]) };

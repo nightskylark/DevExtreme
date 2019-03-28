@@ -12,35 +12,30 @@ import eventUtils from "../../events/utils";
 import pointerEvents from "../../events/pointer";
 import { noop } from "../../core/utils/common";
 
-var ROWS_VIEW_CLASS = "rowsview",
-    EDIT_FORM_CLASS = "edit-form",
-    GROUP_FOOTER_CLASS = "group-footer",
-    ROW_CLASS = "dx-row",
-    DATA_ROW_CLASS = "dx-data-row",
-    GROUP_ROW_CLASS = "dx-group-row",
-    EDIT_FORM_ITEM_CLASS = "edit-form-item",
-    MASTER_DETAIL_ROW_CLASS = "dx-master-detail-row",
-    FREESPACE_ROW_CLASS = "dx-freespace-row",
-    VIRTUAL_ROW_CLASS = "dx-virtual-row",
-    MASTER_DETAIL_CELL_CLASS = "dx-master-detail-cell",
-    DROPDOWN_EDITOR_OVERLAY_CLASS = "dx-dropdowneditor-overlay",
-    COMMAND_EXPAND_CLASS = "dx-command-expand",
-    CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled",
-    DATEBOX_WIDGET_NAME = "dxDateBox",
-
-    FAST_EDITING_DELETE_KEY = "delete",
-
-    INTERACTIVE_ELEMENTS_SELECTOR = "input:not([type='hidden']), textarea, a, [tabindex]",
-
-    VIEWS = ["rowsView"],
-
-    EDIT_MODE_ROW = "row",
-    EDIT_MODE_FORM = "form",
-    EDIT_MODE_BATCH = "batch",
-    EDIT_MODE_CELL = "cell",
-
-    FOCUS_TYPE_ROW = "row",
-    FOCUS_TYPE_CELL = "cell";
+var ROWS_VIEW_CLASS = "rowsview";
+var EDIT_FORM_CLASS = "edit-form";
+var GROUP_FOOTER_CLASS = "group-footer";
+var ROW_CLASS = "dx-row";
+var DATA_ROW_CLASS = "dx-data-row";
+var GROUP_ROW_CLASS = "dx-group-row";
+var EDIT_FORM_ITEM_CLASS = "edit-form-item";
+var MASTER_DETAIL_ROW_CLASS = "dx-master-detail-row";
+var FREESPACE_ROW_CLASS = "dx-freespace-row";
+var VIRTUAL_ROW_CLASS = "dx-virtual-row";
+var MASTER_DETAIL_CELL_CLASS = "dx-master-detail-cell";
+var DROPDOWN_EDITOR_OVERLAY_CLASS = "dx-dropdowneditor-overlay";
+var COMMAND_EXPAND_CLASS = "dx-command-expand";
+var CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled";
+var DATEBOX_WIDGET_NAME = "dxDateBox";
+var FAST_EDITING_DELETE_KEY = "delete";
+var INTERACTIVE_ELEMENTS_SELECTOR = "input:not([type='hidden']), textarea, a, [tabindex]";
+var VIEWS = ["rowsView"];
+var EDIT_MODE_ROW = "row";
+var EDIT_MODE_FORM = "form";
+var EDIT_MODE_BATCH = "batch";
+var EDIT_MODE_CELL = "cell";
+var FOCUS_TYPE_ROW = "row";
+var FOCUS_TYPE_CELL = "cell";
 
 function isGroupRow($row) {
     return $row && $row.hasClass(GROUP_ROW_CLASS);
@@ -103,8 +98,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
     _updateFocus: function(editingCanceled, fireFocusChangingCanceled) {
         var that = this;
         setTimeout(function() {
-            var $cell = that._getFocusedCell(),
-                $cellEditingCell = that._isCellEditMode() && $cell;
+            var $cell = that._getFocusedCell();
+            var $cellEditingCell = that._isCellEditMode() && $cell;
 
             if($cell && !(that._isMasterDetailCell($cell) && !that._isRowEditMode())) {
                 if(that._hasSkipRow($cell.parent())) {
@@ -143,9 +138,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
         return $grid.is(this.component.$element());
     },
     _clickHandler: function(e) {
-        var event = e.event,
-            $target = $(event.currentTarget),
-            data = event.data;
+        var event = e.event;
+        var $target = $(event.currentTarget);
+        var data = event.data;
 
         if(this._isEventInCurrentGrid(event) && this._isCellValid($target)) {
             $target = this._isInsideEditForm($target) ? $(event.target) : $target;
@@ -168,17 +163,17 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _allowRowUpdating: function() {
-        var rowIndex = this.getVisibleRowIndex(),
-            row = this._dataController.items()[rowIndex];
+        var rowIndex = this.getVisibleRowIndex();
+        var row = this._dataController.items()[rowIndex];
 
         return this._editingController.allowUpdating({ row: row });
     },
 
     _clickTargetCellHandler: function(event, $cell) {
-        var columnIndex = this.getView("rowsView").getCellIndex($cell),
-            column = this._columnsController.getVisibleColumns()[columnIndex],
-            isCellEditMode = this._isCellEditMode(),
-            args;
+        var columnIndex = this.getView("rowsView").getCellIndex($cell);
+        var column = this._columnsController.getVisibleColumns()[columnIndex];
+        var isCellEditMode = this._isCellEditMode();
+        var args;
 
         this.setCellFocusType();
         args = this._fireFocusChangingEvents(event, $cell, true);
@@ -198,9 +193,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
             if(this._allowRowUpdating() && isCellEditMode && column && column.allowEditing) {
                 this._isHiddenFocus = false;
             } else {
-                let $target = event && $(event.target),
-                    isInteractiveTarget = $target && $target.not($cell).is(INTERACTIVE_ELEMENTS_SELECTOR),
-                    isDisabled = !args.isHighlighted || isInteractiveTarget;
+                let $target = event && $(event.target);
+                let isInteractiveTarget = $target && $target.not($cell).is(INTERACTIVE_ELEMENTS_SELECTOR);
+                let isDisabled = !args.isHighlighted || isInteractiveTarget;
                 this._focus($cell, isDisabled, isInteractiveTarget);
             }
         } else {
@@ -214,8 +209,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _initFocusedViews: function() {
-        var that = this,
-            clickAction = that.createAction(that._clickHandler);
+        var that = this;
+        var clickAction = that.createAction(that._clickHandler);
 
         that._focusedViews = [];
 
@@ -229,12 +224,12 @@ var KeyboardNavigationController = core.ViewController.inherit({
         each(that._focusedViews, function(index, view) {
             if(view) {
                 view.renderCompleted.add(function(e) {
-                    var $element = view.element(),
-                        isFullUpdate = !e || e.changeType === "refresh",
-                        isFocusedViewCorrect = that._focusedView && that._focusedView.name === view.name,
-                        needUpdateFocus = false,
-                        isAppend = e && (e.changeType === "append" || e.changeType === "prepend"),
-                        keyboardActionSelector = `.${ROW_CLASS} > td, .${ROW_CLASS}`;
+                    var $element = view.element();
+                    var isFullUpdate = !e || e.changeType === "refresh";
+                    var isFocusedViewCorrect = that._focusedView && that._focusedView.name === view.name;
+                    var needUpdateFocus = false;
+                    var isAppend = e && (e.changeType === "append" || e.changeType === "prepend");
+                    var keyboardActionSelector = `.${ROW_CLASS} > td, .${ROW_CLASS}`;
 
                     eventsEngine.off($element, eventUtils.addNamespace(pointerEvents.down, "dxDataGridKeyboardNavigation"), clickAction);
                     eventsEngine.on($element, eventUtils.addNamespace(pointerEvents.down, "dxDataGridKeyboardNavigation"), keyboardActionSelector, {
@@ -279,9 +274,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _getRowIndex: function($row) {
-        var that = this,
-            focusedView = that._focusedView,
-            rowIndex = -1;
+        var that = this;
+        var focusedView = that._focusedView;
+        var rowIndex = -1;
 
         if(focusedView) {
             rowIndex = focusedView.getRowIndex($row);
@@ -303,10 +298,10 @@ var KeyboardNavigationController = core.ViewController.inherit({
         }
     },
     _getCellPosition: function($cell, direction) {
-        var that = this,
-            rowIndex,
-            columnIndex,
-            $rowElement = $cell.closest("tr");
+        var that = this;
+        var rowIndex;
+        var columnIndex;
+        var $rowElement = $cell.closest("tr");
 
         if($rowElement.length > 0 && that._focusedView) {
             rowIndex = $rowElement.length > 0 && that._getRowIndex($rowElement);
@@ -377,31 +372,32 @@ var KeyboardNavigationController = core.ViewController.inherit({
 
     _isCellValid: function($cell) {
         if(isDefined($cell)) {
-            var rowsView = this.getView("rowsView"),
-                $row = $cell.parent(),
-                visibleColumns = this._columnsController.getVisibleColumns(),
-                columnIndex = rowsView.getCellIndex($cell),
-                column = visibleColumns[columnIndex],
-                visibleColumnCount = this._getVisibleColumnCount(),
-                editingController = this._editingController,
-                isMasterDetailRow = isDetailRow($row),
-                isShowWhenGrouped = column && column.showWhenGrouped,
-                isDataCell = column && !$cell.hasClass(COMMAND_EXPAND_CLASS) && isDataRow($row),
-                isValidGroupSpaceColumn = function() {
-                    return !isMasterDetailRow && column && (!isDefined(column.groupIndex) || isShowWhenGrouped && isDataCell) || parseInt($cell.attr("colspan")) > 1;
-                };
+            var rowsView = this.getView("rowsView");
+            var $row = $cell.parent();
+            var visibleColumns = this._columnsController.getVisibleColumns();
+            var columnIndex = rowsView.getCellIndex($cell);
+            var column = visibleColumns[columnIndex];
+            var visibleColumnCount = this._getVisibleColumnCount();
+            var editingController = this._editingController;
+            var isMasterDetailRow = isDetailRow($row);
+            var isShowWhenGrouped = column && column.showWhenGrouped;
+            var isDataCell = column && !$cell.hasClass(COMMAND_EXPAND_CLASS) && isDataRow($row);
+
+            var isValidGroupSpaceColumn = function() {
+                return !isMasterDetailRow && column && (!isDefined(column.groupIndex) || isShowWhenGrouped && isDataCell) || parseInt($cell.attr("colspan")) > 1;
+            };
 
             if(this._isMasterDetailCell($cell)) {
                 return true;
             }
 
             if(visibleColumnCount > columnIndex && isValidGroupSpaceColumn()) {
-                let rowItems = this._dataController.items(),
-                    visibleRowIndex = rowsView.getRowIndex($row),
-                    row = rowItems[visibleRowIndex],
-                    isCellEditing = editingController && this._isCellEditMode() && editingController.isEditing(),
-                    isRowEditingInCurrentRow = editingController && editingController.isEditRow(visibleRowIndex),
-                    isEditing = isRowEditingInCurrentRow || isCellEditing;
+                let rowItems = this._dataController.items();
+                let visibleRowIndex = rowsView.getRowIndex($row);
+                let row = rowItems[visibleRowIndex];
+                let isCellEditing = editingController && this._isCellEditMode() && editingController.isEditing();
+                let isRowEditingInCurrentRow = editingController && editingController.isEditRow(visibleRowIndex);
+                let isEditing = isRowEditingInCurrentRow || isCellEditing;
 
                 if(column.command) {
                     return !isEditing && column.command === "expand";
@@ -429,10 +425,10 @@ var KeyboardNavigationController = core.ViewController.inherit({
             return;
         }
 
-        var $prevFocusedCell = this._getFocusedCell(),
-            focusedView = this._focusedView,
-            $focusViewElement = focusedView && focusedView.element(),
-            $focusElement;
+        var $prevFocusedCell = this._getFocusedCell();
+        var focusedView = this._focusedView;
+        var $focusViewElement = focusedView && focusedView.element();
+        var $focusElement;
 
         this._isHiddenFocus = disableFocus;
 
@@ -469,9 +465,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _f2KeyHandler: function() {
-        var isEditing = this._editingController.isEditing(),
-            rowIndex = this.getVisibleRowIndex(),
-            $row = this._focusedView && this._focusedView.getRow(rowIndex);
+        var isEditing = this._editingController.isEditing();
+        var rowIndex = this.getVisibleRowIndex();
+        var $row = this._focusedView && this._focusedView.getRow(rowIndex);
 
         if(!isEditing && isDataRow($row)) {
             this._startEditing();
@@ -483,20 +479,18 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _enterKeyHandler: function(eventArgs, isEditing) {
-        var $cell = this._getFocusedCell(),
-            rowIndex = this.getVisibleRowIndex(),
-            $row = this._focusedView && this._focusedView.getRow(rowIndex);
+        var $cell = this._getFocusedCell();
+        var rowIndex = this.getVisibleRowIndex();
+        var $row = this._focusedView && this._focusedView.getRow(rowIndex);
 
         if((this.option("grouping.allowCollapsing") && isGroupRow($row)) ||
             (this.option("masterDetail.enabled") && $cell && $cell.hasClass(COMMAND_EXPAND_CLASS))) {
-
-            var key = this._dataController.getKeyByRowIndex(rowIndex),
-                item = this._dataController.items()[rowIndex];
+            var key = this._dataController.getKeyByRowIndex(rowIndex);
+            var item = this._dataController.items()[rowIndex];
 
             if(key !== undefined && item && item.data && !item.data.isContinuation) {
                 this._dataController.changeRowExpand(key);
             }
-
         } else {
             this._processEnterKeyForDataCell(eventArgs, isEditing);
         }
@@ -521,8 +515,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _getEnterKeyDirection: function(eventArgs) {
-        var enterKeyDirection = this.option("keyboardNavigation.enterKeyDirection"),
-            isShift = eventArgs.shift;
+        var enterKeyDirection = this.option("keyboardNavigation.enterKeyDirection");
+        var isShift = eventArgs.shift;
 
         if(enterKeyDirection === "column") {
             return isShift ? "upArrow" : "downArrow";
@@ -533,9 +527,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _handleEnterKeyEditingCell: function(event) {
-        var target = event.target,
-            $cell = this._getCellElementFromTarget(target),
-            isRowEditMode = this._isRowEditMode();
+        var target = event.target;
+        var $cell = this._getCellElementFromTarget(target);
+        var isRowEditMode = this._isRowEditMode();
 
         this._updateFocusedCellPosition($cell);
 
@@ -552,11 +546,11 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _startEditing: function(eventArgs, fastEditingKey) {
-        var focusedCellPosition = this._focusedCellPosition,
-            rowIndex = this.getVisibleRowIndex(),
-            row = this._dataController.items()[rowIndex],
-            column = this._columnsController.getVisibleColumns()[focusedCellPosition.columnIndex],
-            isAllowEditing = this._editingController.allowUpdating({ row: row }) && column && column.allowEditing;
+        var focusedCellPosition = this._focusedCellPosition;
+        var rowIndex = this.getVisibleRowIndex();
+        var row = this._dataController.items()[rowIndex];
+        var column = this._columnsController.getVisibleColumns()[focusedCellPosition.columnIndex];
+        var isAllowEditing = this._editingController.allowUpdating({ row: row }) && column && column.allowEditing;
 
         if(isAllowEditing) {
             if(this._isRowEditMode()) {
@@ -568,10 +562,10 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _startEditingCell: function(eventArgs, fastEditingKey) {
-        var that = this,
-            rowIndex = this.getVisibleRowIndex(),
-            colIndex = this._focusedCellPosition.columnIndex,
-            deferred;
+        var that = this;
+        var rowIndex = this.getVisibleRowIndex();
+        var colIndex = this._focusedCellPosition.columnIndex;
+        var deferred;
 
         this._fastEditingStarted = isDefined(fastEditingKey);
         deferred = this._editingController.editCell(rowIndex, colIndex);
@@ -586,10 +580,10 @@ var KeyboardNavigationController = core.ViewController.inherit({
         }
     },
     _editingCellHandler: function(eventArgs, editorValue) {
-        var $input = this._getFocusedCell().find(".dx-texteditor-input").eq(0),
-            keyDownEvent = eventUtils.createEvent(eventArgs, { type: "keydown", target: $input.get(0) }),
-            keyPressEvent = eventUtils.createEvent(eventArgs, { type: "keypress", target: $input.get(0) }),
-            inputEvent = eventUtils.createEvent(eventArgs, { type: "input", target: $input.get(0) });
+        var $input = this._getFocusedCell().find(".dx-texteditor-input").eq(0);
+        var keyDownEvent = eventUtils.createEvent(eventArgs, { type: "keydown", target: $input.get(0) });
+        var keyPressEvent = eventUtils.createEvent(eventArgs, { type: "keypress", target: $input.get(0) });
+        var inputEvent = eventUtils.createEvent(eventArgs, { type: "input", target: $input.get(0) });
 
         eventsEngine.trigger($input, keyDownEvent);
         if(!keyDownEvent.isDefaultPrevented()) {
@@ -605,16 +599,15 @@ var KeyboardNavigationController = core.ViewController.inherit({
                 });
             }
         }
-
     },
 
     _leftRightKeysHandler: function(eventArgs, isEditing) {
-        var rowIndex = this.getVisibleRowIndex(),
-            $event = eventArgs.originalEvent,
-            $row = this._focusedView && this._focusedView.getRow(rowIndex),
-            directionCode = this._getDirectionCodeByKey(eventArgs.keyName),
-            isEditingNavigationMode = this._isFastEditingStarted(),
-            allowNavigate = (!isEditing || isEditingNavigationMode) && isDataRow($row);
+        var rowIndex = this.getVisibleRowIndex();
+        var $event = eventArgs.originalEvent;
+        var $row = this._focusedView && this._focusedView.getRow(rowIndex);
+        var directionCode = this._getDirectionCodeByKey(eventArgs.keyName);
+        var isEditingNavigationMode = this._isFastEditingStarted();
+        var allowNavigate = (!isEditing || isEditingNavigationMode) && isDataRow($row);
 
         if(allowNavigate) {
             this.setCellFocusType();
@@ -627,14 +620,14 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _upDownKeysHandler: function(eventArgs, isEditing) {
-        var rowIndex = this.getVisibleRowIndex(),
-            $row = this._focusedView && this._focusedView.getRow(rowIndex),
-            $event = eventArgs.originalEvent,
-            rowHeight,
-            isUpArrow = eventArgs.keyName === "upArrow",
-            dataSource = this._dataController.dataSource(),
-            isEditingNavigationMode = this._isFastEditingStarted(),
-            allowNavigate = (!isEditing || isEditingNavigationMode) && $row && !isDetailRow($row);
+        var rowIndex = this.getVisibleRowIndex();
+        var $row = this._focusedView && this._focusedView.getRow(rowIndex);
+        var $event = eventArgs.originalEvent;
+        var rowHeight;
+        var isUpArrow = eventArgs.keyName === "upArrow";
+        var dataSource = this._dataController.dataSource();
+        var isEditingNavigationMode = this._isFastEditingStarted();
+        var allowNavigate = (!isEditing || isEditingNavigationMode) && $row && !isDetailRow($row);
 
         if(allowNavigate) {
             isEditingNavigationMode && this._editingController.closeEditCell();
@@ -683,8 +676,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _fireFocusChangingEvents: function($event, $cell, fireRowEvent, isHighlighted) {
-        var args = { },
-            cellPosition = this._getCellPosition($cell) || { };
+        var args = { };
+        var cellPosition = this._getCellPosition($cell) || { };
 
         if(this.isCellFocusType()) {
             args = this._fireFocusedCellChanging($event, $cell, isHighlighted);
@@ -718,8 +711,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _scrollBy: function(top, rowIndex, $event) {
-        var that = this,
-            scrollable = this.getView("rowsView").getScrollable();
+        var that = this;
+        var scrollable = this.getView("rowsView").getScrollable();
 
         if(that._focusedCellPosition) {
             var scrollHandler = function() {
@@ -732,14 +725,14 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     restoreFocusableElement: function(rowIndex, $event) {
-        var that = this,
-            args,
-            $rowElement,
-            isUpArrow = isDefined(rowIndex),
-            rowsView = that.getView("rowsView"),
-            $rowsViewElement = rowsView.element(),
-            columnIndex = that._focusedCellPosition.columnIndex,
-            rowIndexOffset = that._dataController.getRowIndexOffset();
+        var that = this;
+        var args;
+        var $rowElement;
+        var isUpArrow = isDefined(rowIndex);
+        var rowsView = that.getView("rowsView");
+        var $rowsViewElement = rowsView.element();
+        var columnIndex = that._focusedCellPosition.columnIndex;
+        var rowIndexOffset = that._dataController.getRowIndexOffset();
 
         rowIndex = isUpArrow ? rowIndex : rowsView.getTopVisibleItemIndex() + rowIndexOffset;
 
@@ -764,12 +757,12 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _pageUpDownKeyHandler: function(eventArgs) {
-        var pageIndex = this._dataController.pageIndex(),
-            pageCount = this._dataController.pageCount(),
-            pagingEnabled = this.option("paging.enabled"),
-            isPageUp = eventArgs.keyName === "pageUp",
-            pageStep = (isPageUp ? -1 : 1),
-            scrollable = this.getView("rowsView").getScrollable();
+        var pageIndex = this._dataController.pageIndex();
+        var pageCount = this._dataController.pageCount();
+        var pagingEnabled = this.option("paging.enabled");
+        var isPageUp = eventArgs.keyName === "pageUp";
+        var pageStep = (isPageUp ? -1 : 1);
+        var scrollable = this.getView("rowsView").getScrollable();
 
         if(pagingEnabled && !this._isVirtualScrolling()) {
             if((isPageUp ? pageIndex > 0 : pageIndex < pageCount - 1) && !this._isVirtualScrolling()) {
@@ -783,9 +776,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _spaceKeyHandler: function(eventArgs, isEditing) {
-        var rowIndex = this.getVisibleRowIndex(),
-            $target = $(eventArgs.originalEvent && eventArgs.originalEvent.target),
-            isFocusedRowElement;
+        var rowIndex = this.getVisibleRowIndex();
+        var $target = $(eventArgs.originalEvent && eventArgs.originalEvent.target);
+        var isFocusedRowElement;
 
         if(this.option("selection") && this.option("selection").mode !== "none" && !isEditing) {
             isFocusedRowElement = this._getElementType($target) === "row" && this.isRowFocusType() && isDataRow($target);
@@ -816,8 +809,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _isMasterDetailCell: function(element) {
-        var $masterDetailCell = $(element).closest("." + MASTER_DETAIL_CELL_CLASS),
-            $masterDetailGrid = $masterDetailCell.closest("." + this.getWidgetContainerClass()).parent();
+        var $masterDetailCell = $(element).closest("." + MASTER_DETAIL_CELL_CLASS);
+        var $masterDetailGrid = $masterDetailCell.closest("." + this.getWidgetContainerClass()).parent();
 
         return $masterDetailCell.length && $masterDetailGrid.is(this.component.$element());
     },
@@ -841,10 +834,10 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _tabKeyHandler: function(eventArgs, isEditing) {
-        var editingOptions = this.option("editing"),
-            direction = eventArgs.shift ? "previous" : "next",
-            isOriginalHandlerRequired = !eventArgs.shift && this._isLastValidCell(this._focusedCellPosition) || (eventArgs.shift && this._isFirstValidCell(this._focusedCellPosition)),
-            eventTarget = eventArgs.originalEvent.target;
+        var editingOptions = this.option("editing");
+        var direction = eventArgs.shift ? "previous" : "next";
+        var isOriginalHandlerRequired = !eventArgs.shift && this._isLastValidCell(this._focusedCellPosition) || (eventArgs.shift && this._isFirstValidCell(this._focusedCellPosition));
+        var eventTarget = eventArgs.originalEvent.target;
 
         if(this._handleTabKeyOnMasterDetailCell(eventTarget, direction)) {
             return;
@@ -876,12 +869,12 @@ var KeyboardNavigationController = core.ViewController.inherit({
         }
     },
     _editingCellTabHandler: function(eventArgs, direction) {
-        var editingOptions = this.option("editing"),
-            eventTarget = eventArgs.originalEvent.target,
-            column,
-            row,
-            $cell,
-            isEditingAllowed;
+        var editingOptions = this.option("editing");
+        var eventTarget = eventArgs.originalEvent.target;
+        var column;
+        var row;
+        var $cell;
+        var isEditingAllowed;
 
         this._updateFocusedCellPosition(this._getCellElementFromTarget(eventTarget));
         $cell = this._getNextCell(direction);
@@ -913,12 +906,12 @@ var KeyboardNavigationController = core.ViewController.inherit({
         return true;
     },
     _targetCellTabHandler: function(eventArgs, direction) {
-        var $event = eventArgs.originalEvent,
-            eventTarget = $event.target,
-            $cell = this._getCellElementFromTarget(eventTarget),
-            $lastInteractiveElement = this._getInteractiveElement($cell, !eventArgs.shift),
-            isOriginalHandlerRequired = false,
-            elementType;
+        var $event = eventArgs.originalEvent;
+        var eventTarget = $event.target;
+        var $cell = this._getCellElementFromTarget(eventTarget);
+        var $lastInteractiveElement = this._getInteractiveElement($cell, !eventArgs.shift);
+        var isOriginalHandlerRequired = false;
+        var elementType;
 
         if($lastInteractiveElement.length && eventTarget !== $lastInteractiveElement.get(0)) {
             isOriginalHandlerRequired = true;
@@ -953,8 +946,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
         return isOriginalHandlerRequired;
     },
     _getNextCellByTabKey: function($event, direction, elementType) {
-        var $cell = this._getNextCell(direction, elementType),
-            args = this._fireFocusedCellChanging($event, $cell, true);
+        var $cell = this._getNextCell(direction, elementType);
+        var args = this._fireFocusedCellChanging($event, $cell, true);
         if(args.cancel) {
             return;
         }
@@ -964,12 +957,12 @@ var KeyboardNavigationController = core.ViewController.inherit({
         return $cell;
     },
     _checkNewLineTransition: function($event, $cell) {
-        var rowIndex = this.getVisibleRowIndex(),
-            $row = $cell.parent();
+        var rowIndex = this.getVisibleRowIndex();
+        var $row = $cell.parent();
 
         if(rowIndex !== this._getRowIndex($row)) {
-            var cellPosition = this._getCellPosition($cell),
-                args = this._fireFocusedRowChanging($event, $row);
+            var cellPosition = this._getCellPosition($cell);
+            var args = this._fireFocusedRowChanging($event, $row);
             if(args.cancel) {
                 return;
             }
@@ -983,10 +976,10 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     getFirstValidCellInRow: function($row, columnIndex) {
-        var that = this,
-            $cells = $row.find("> td"),
-            $cell,
-            $result;
+        var that = this;
+        var $cells = $row.find("> td");
+        var $cell;
+        var $result;
 
         columnIndex = columnIndex || 0;
 
@@ -1047,13 +1040,14 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _keyDownHandler: function(e) {
-        var isEditing = this._editingController.isEditing(),
-            needStopPropagation = true,
-            originalEvent = e.originalEvent,
-            args = {
-                handled: false,
-                event: originalEvent
-            };
+        var isEditing = this._editingController.isEditing();
+        var needStopPropagation = true;
+        var originalEvent = e.originalEvent;
+
+        var args = {
+            handled: false,
+            event: originalEvent
+        };
 
         this.executeAction("onKeyDown", args);
 
@@ -1153,9 +1147,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
         if(isDeleting) {
             this._startEditing(originalEvent, FAST_EDITING_DELETE_KEY);
         } else {
-            let key = originalEvent.key,
-                keyCode = originalEvent.keyCode || originalEvent.which,
-                fastEditingKey = key || keyCode && String.fromCharCode(keyCode);
+            let key = originalEvent.key;
+            let keyCode = originalEvent.keyCode || originalEvent.which;
+            let fastEditingKey = key || keyCode && String.fromCharCode(keyCode);
 
             if(fastEditingKey && (fastEditingKey.length === 1 || fastEditingKey === FAST_EDITING_DELETE_KEY)) {
                 this._startEditing(originalEvent, fastEditingKey);
@@ -1173,14 +1167,14 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _getNextCell: function(keyCode, elementType, cellPosition) {
-        var focusedCellPosition = cellPosition || this._focusedCellPosition,
-            isRowFocusType = this.isRowFocusType(),
-            includeCommandCells = isRowFocusType || inArray(keyCode, ["next", "previous"]) > -1,
-            rowIndex,
-            newFocusedCellPosition,
-            isLastCellOnDirection = keyCode === "previous" ? this._isFirstValidCell(focusedCellPosition) : this._isLastValidCell(focusedCellPosition),
-            $cell,
-            $row;
+        var focusedCellPosition = cellPosition || this._focusedCellPosition;
+        var isRowFocusType = this.isRowFocusType();
+        var includeCommandCells = isRowFocusType || inArray(keyCode, ["next", "previous"]) > -1;
+        var rowIndex;
+        var newFocusedCellPosition;
+        var isLastCellOnDirection = keyCode === "previous" ? this._isFirstValidCell(focusedCellPosition) : this._isLastValidCell(focusedCellPosition);
+        var $cell;
+        var $row;
 
         if(this._focusedView && focusedCellPosition) {
             newFocusedCellPosition = this._getNewPositionByCode(focusedCellPosition, elementType, keyCode);
@@ -1210,9 +1204,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _getNewPositionByCode: function(cellPosition, elementType, code) {
-        var columnIndex = cellPosition.columnIndex,
-            rowIndex = cellPosition.rowIndex,
-            visibleColumnsCount;
+        var columnIndex = cellPosition.columnIndex;
+        var rowIndex = cellPosition.rowIndex;
+        var visibleColumnsCount;
 
         if(cellPosition.rowIndex === undefined && code === "next") {
             return { columnIndex: 0, rowIndex: 0 };
@@ -1261,8 +1255,8 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _haveValidCellBeforePosition: function(cellPosition) {
-        var columnIndex = cellPosition.columnIndex,
-            hasValidCells = false;
+        var columnIndex = cellPosition.columnIndex;
+        var hasValidCells = false;
 
         while(columnIndex > 0 && !hasValidCells) {
             var checkingPosition = { columnIndex: --columnIndex, rowIndex: cellPosition.rowIndex };
@@ -1273,13 +1267,15 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _isLastValidCell: function(cellPosition) {
-        var nextColumnIndex = cellPosition.columnIndex >= 0 ? cellPosition.columnIndex + 1 : 0,
-            checkingPosition = {
-                columnIndex: nextColumnIndex,
-                rowIndex: cellPosition.rowIndex
-            },
-            visibleColumnsCount = this._getVisibleColumnCount(),
-            isCheckingCellValid = this._isCellByPositionValid(checkingPosition);
+        var nextColumnIndex = cellPosition.columnIndex >= 0 ? cellPosition.columnIndex + 1 : 0;
+
+        var checkingPosition = {
+            columnIndex: nextColumnIndex,
+            rowIndex: cellPosition.rowIndex
+        };
+
+        var visibleColumnsCount = this._getVisibleColumnCount();
+        var isCheckingCellValid = this._isCellByPositionValid(checkingPosition);
 
         if(!this._isLastRow(cellPosition.rowIndex)) {
             return false;
@@ -1301,15 +1297,15 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _isCellInRow: function(cellPosition, includeCommandCells) {
-        var columnIndex = cellPosition.columnIndex,
-            visibleColumnsCount = this._getVisibleColumnCount();
+        var columnIndex = cellPosition.columnIndex;
+        var visibleColumnsCount = this._getVisibleColumnCount();
 
         return includeCommandCells ? columnIndex >= 0 && columnIndex <= visibleColumnsCount - 1 : columnIndex > 0 && columnIndex < visibleColumnsCount - 1;
     },
 
     _resetFocusedCell: function() {
-        var that = this,
-            $cell = that._getFocusedCell();
+        var that = this;
+        var $cell = that._getFocusedCell();
 
         $cell && $cell.removeAttr("tabIndex");
 
@@ -1350,9 +1346,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
             that._initFocusedViews();
 
             that._documentClickHandler = that.createAction(function(e) {
-                var $target = $(e.event.target),
-                    isCurrentRowsViewClick = that._isEventInCurrentGrid(e.event) && $target.closest("." + that.addWidgetPrefix(ROWS_VIEW_CLASS)).length,
-                    isEditorOverlay = $target.closest("." + DROPDOWN_EDITOR_OVERLAY_CLASS).length;
+                var $target = $(e.event.target);
+                var isCurrentRowsViewClick = that._isEventInCurrentGrid(e.event) && $target.closest("." + that.addWidgetPrefix(ROWS_VIEW_CLASS)).length;
+                var isEditorOverlay = $target.closest("." + DROPDOWN_EDITOR_OVERLAY_CLASS).length;
                 if(!isCurrentRowsViewClick && !isEditorOverlay) {
                     that._resetFocusedCell();
                 }
@@ -1376,9 +1372,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
     * @param1 element:Node|jQuery
     */
     focus: function(element) {
-        var activeElementSelector,
-            focusedRowEnabled = this.option("focusedRowEnabled"),
-            isHighlighted = isCellElement($(element));
+        var activeElementSelector;
+        var focusedRowEnabled = this.option("focusedRowEnabled");
+        var isHighlighted = isCellElement($(element));
 
         if(!element) {
             activeElementSelector = focusedRowEnabled ? ".dx-row[tabindex]" : ".dx-row[tabIndex], .dx-row > td[tabindex]";
@@ -1389,9 +1385,9 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _focusElement: function($element, isHighlighted) {
-        var focusView = this._getFocusedViewByElement($element),
-            isRowFocusType = this.isRowFocusType(),
-            args = { };
+        var focusView = this._getFocusedViewByElement($element);
+        var isRowFocusType = this.isRowFocusType();
+        var args = { };
 
         if(!focusView || isCellElement($element) && !this._isCellValid($element)) {
             return;
@@ -1502,24 +1498,25 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _fireFocusedCellChanging: function($event, $cellElement, isHighlighted) {
-        var that = this,
-            prevCellIndex = that.option("focusedColumnIndex"),
-            prevRowIndex = that.option("focusedRowIndex"),
-            cellPosition = that._getCellPosition($cellElement),
-            columnIndex = cellPosition ? cellPosition.columnIndex : -1,
-            rowIndex = cellPosition ? cellPosition.rowIndex : -1,
-            args = {
-                cellElement: $cellElement,
-                prevColumnIndex: prevCellIndex,
-                prevRowIndex: prevRowIndex,
-                newColumnIndex: columnIndex,
-                newRowIndex: rowIndex,
-                rows: that.getController("data").getVisibleRows(),
-                columns: that.getController("columns").getVisibleColumns(),
-                event: $event,
-                isHighlighted: isHighlighted || false,
-                cancel: false
-            };
+        var that = this;
+        var prevCellIndex = that.option("focusedColumnIndex");
+        var prevRowIndex = that.option("focusedRowIndex");
+        var cellPosition = that._getCellPosition($cellElement);
+        var columnIndex = cellPosition ? cellPosition.columnIndex : -1;
+        var rowIndex = cellPosition ? cellPosition.rowIndex : -1;
+
+        var args = {
+            cellElement: $cellElement,
+            prevColumnIndex: prevCellIndex,
+            prevRowIndex: prevRowIndex,
+            newColumnIndex: columnIndex,
+            newRowIndex: rowIndex,
+            rows: that.getController("data").getVisibleRows(),
+            columns: that.getController("columns").getVisibleColumns(),
+            event: $event,
+            isHighlighted: isHighlighted || false,
+            cancel: false
+        };
 
         that.executeAction("onFocusedCellChanging", args);
         if(args.newColumnIndex !== columnIndex || args.newRowIndex !== rowIndex) {
@@ -1530,11 +1527,11 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _fireFocusedCellChanged: function($cellElement, prevCellIndex, prevRowIndex) {
-        var that = this,
-            columnIndex = that.option("focusedColumnIndex"),
-            dataController,
-            row,
-            focusedRowIndex = that.option("focusedRowIndex");
+        var that = this;
+        var columnIndex = that.option("focusedColumnIndex");
+        var dataController;
+        var row;
+        var focusedRowIndex = that.option("focusedRowIndex");
 
         if(prevCellIndex !== columnIndex || prevRowIndex !== focusedRowIndex) {
             dataController = that.getController("data");
@@ -1550,17 +1547,18 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _fireFocusedRowChanging: function(eventArgs, $newFocusedRow) {
-        var newRowIndex = this._getRowIndex($newFocusedRow),
-            dataController = this.getController("data"),
-            prevFocusedRowIndex = this.getVisibleRowIndex(),
-            args = {
-                rowElement: $newFocusedRow,
-                prevRowIndex: prevFocusedRowIndex,
-                newRowIndex: newRowIndex,
-                event: eventArgs,
-                rows: this.getController("data").getVisibleRows(),
-                cancel: false
-            };
+        var newRowIndex = this._getRowIndex($newFocusedRow);
+        var dataController = this.getController("data");
+        var prevFocusedRowIndex = this.getVisibleRowIndex();
+
+        var args = {
+            rowElement: $newFocusedRow,
+            prevRowIndex: prevFocusedRowIndex,
+            newRowIndex: newRowIndex,
+            event: eventArgs,
+            rows: this.getController("data").getVisibleRows(),
+            cancel: false
+        };
 
         if(!dataController || dataController.isLoading()) {
             args.cancel = true;
@@ -1578,10 +1576,10 @@ var KeyboardNavigationController = core.ViewController.inherit({
     },
 
     _fireFocusedRowChanged: function($rowElement) {
-        var row,
-            dataController,
-            focusedRowKey = this.option("focusedRowKey"),
-            focusedRowIndex = this.option("focusedRowIndex");
+        var row;
+        var dataController;
+        var focusedRowKey = this.option("focusedRowKey");
+        var focusedRowIndex = this.option("focusedRowIndex");
 
         if(focusedRowKey !== undefined && this.option("focusedRowEnabled")) {
             dataController = this.getController("data");
@@ -1759,10 +1757,10 @@ module.exports = {
         views: {
             rowsView: {
                 renderFocusState: function() {
-                    var dataController = this._dataController,
-                        rowIndex = this.option("focusedRowIndex") || 0,
-                        $element = this.element(),
-                        cellElements;
+                    var dataController = this._dataController;
+                    var rowIndex = this.option("focusedRowIndex") || 0;
+                    var $element = this.element();
+                    var cellElements;
 
                     if($element && !focused($element)) {
                         $element.attr("tabIndex", null);
@@ -1779,10 +1777,10 @@ module.exports = {
                     }
                 },
                 updateFocusElementTabIndex: function(cellElements) {
-                    var that = this,
-                        $row = cellElements.eq(0).parent(),
-                        columnIndex = that.option("focusedColumnIndex"),
-                        tabIndex = that.option("tabIndex");
+                    var that = this;
+                    var $row = cellElements.eq(0).parent();
+                    var columnIndex = that.option("focusedColumnIndex");
+                    var tabIndex = that.option("tabIndex");
 
                     if(!columnIndex || columnIndex < 0) {
                         columnIndex = 0;
@@ -1795,12 +1793,12 @@ module.exports = {
                     }
                 },
                 _updateFocusedCellTabIndex: function(cellElements, columnIndex) {
-                    var that = this,
-                        $cell,
-                        tabIndex = that.option("tabIndex"),
-                        keyboardNavigation = that.getController("keyboardNavigation"),
-                        oldFocusedView = keyboardNavigation._focusedView,
-                        cellElementsLength = cellElements ? cellElements.length : -1;
+                    var that = this;
+                    var $cell;
+                    var tabIndex = that.option("tabIndex");
+                    var keyboardNavigation = that.getController("keyboardNavigation");
+                    var oldFocusedView = keyboardNavigation._focusedView;
+                    var cellElementsLength = cellElements ? cellElements.length : -1;
 
                     keyboardNavigation._focusedView = that;
 
@@ -1838,9 +1836,9 @@ module.exports = {
                 },
 
                 _editCellPrepared: function($cell) {
-                    var editorInstance = this._getEditorInstance($cell),
-                        keyboardController = this.getController("keyboardNavigation"),
-                        isEditingNavigationMode = keyboardController && keyboardController._isFastEditingStarted();
+                    var editorInstance = this._getEditorInstance($cell);
+                    var keyboardController = this.getController("keyboardNavigation");
+                    var isEditingNavigationMode = keyboardController && keyboardController._isFastEditingStarted();
 
                     if(editorInstance && isEditingNavigationMode) {
                         this._handleEditingNavigationMode(editorInstance);
@@ -1868,9 +1866,9 @@ module.exports = {
                     }
                 },
                 _getEditorInstance: function($cell) {
-                    var $editor = $cell.find(".dx-texteditor").eq(0),
-                        editorData = $editor.data && $editor.data(),
-                        editorName = editorData && editorData["dxComponents"][0];
+                    var $editor = $cell.find(".dx-texteditor").eq(0);
+                    var editorData = $editor.data && $editor.data();
+                    var editorName = editorData && editorData["dxComponents"][0];
 
                     return editorName && editorData[editorName];
                 }
@@ -1879,8 +1877,8 @@ module.exports = {
         controllers: {
             editing: {
                 editCell: function(rowIndex, columnIndex) {
-                    var isCellEditing = this.callBase(rowIndex, columnIndex),
-                        keyboardController = this.getController("keyboardNavigation");
+                    var isCellEditing = this.callBase(rowIndex, columnIndex);
+                    var keyboardController = this.getController("keyboardNavigation");
 
                     if(isCellEditing) {
                         keyboardController.setupFocusedView();
@@ -1901,8 +1899,8 @@ module.exports = {
                     this.callBase.apply(this, arguments);
                 },
                 getFocusedCellInRow: function(rowIndex) {
-                    var keyboardNavigationController = this.getController("keyboardNavigation"),
-                        $cell = this.callBase(rowIndex);
+                    var keyboardNavigationController = this.getController("keyboardNavigation");
+                    var $cell = this.callBase(rowIndex);
 
                     if(this.option("useKeyboard") && keyboardNavigationController._focusedCellPosition.rowIndex === rowIndex) {
                         $cell = keyboardNavigationController._getFocusedCell() || $cell;
@@ -1927,10 +1925,10 @@ module.exports = {
             },
             data: {
                 _correctRowIndices: function(getRowIndexCorrection) {
-                    var that = this,
-                        keyboardNavigationController = that.getController("keyboardNavigation"),
-                        editorFactory = that.getController("editorFactory"),
-                        focusedCellPosition = keyboardNavigationController._focusedCellPosition;
+                    var that = this;
+                    var keyboardNavigationController = that.getController("keyboardNavigation");
+                    var editorFactory = that.getController("editorFactory");
+                    var focusedCellPosition = keyboardNavigationController._focusedCellPosition;
 
                     that.callBase.apply(that, arguments);
 

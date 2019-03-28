@@ -13,53 +13,52 @@ import { isDefined } from "../../core/utils/type";
 import { extend } from "../../core/utils/extend";
 import { each } from "../../core/utils/iterator";
 
-var COLUMN_CHOOSER_CLASS = "column-chooser",
-    COLUMN_CHOOSER_BUTTON_CLASS = "column-chooser-button",
-    NOTOUCH_ACTION_CLASS = "notouch-action",
-    COLUMN_CHOOSER_LIST_CLASS = "column-chooser-list",
-    COLUMN_CHOOSER_PLAIN_CLASS = "column-chooser-plain",
-    COLUMN_CHOOSER_DRAG_CLASS = "column-chooser-mode-drag",
-    COLUMN_CHOOSER_SELECT_CLASS = "column-chooser-mode-select",
-    COLUMN_CHOOSER_ICON_NAME = "column-chooser",
-    COLUMN_CHOOSER_ITEM_CLASS = "dx-column-chooser-item",
+var COLUMN_CHOOSER_CLASS = "column-chooser";
+var COLUMN_CHOOSER_BUTTON_CLASS = "column-chooser-button";
+var NOTOUCH_ACTION_CLASS = "notouch-action";
+var COLUMN_CHOOSER_LIST_CLASS = "column-chooser-list";
+var COLUMN_CHOOSER_PLAIN_CLASS = "column-chooser-plain";
+var COLUMN_CHOOSER_DRAG_CLASS = "column-chooser-mode-drag";
+var COLUMN_CHOOSER_SELECT_CLASS = "column-chooser-mode-select";
+var COLUMN_CHOOSER_ICON_NAME = "column-chooser";
+var COLUMN_CHOOSER_ITEM_CLASS = "dx-column-chooser-item";
+var CLICK_TIMEOUT = 300;
 
-    CLICK_TIMEOUT = 300,
+var processItems = function(that, chooserColumns) {
+    var item,
+        items = [],
+        isSelectMode = that.option("columnChooser.mode") === "select";
 
-    processItems = function(that, chooserColumns) {
-        var item,
-            items = [],
-            isSelectMode = that.option("columnChooser.mode") === "select";
+    if(chooserColumns.length) {
+        each(chooserColumns, function(index, column) {
+            item = {
+                text: column.caption,
+                cssClass: column.cssClass,
+                allowHiding: column.allowHiding,
+                expanded: true,
+                id: column.index,
+                disabled: column.allowHiding === false,
+                parentId: isDefined(column.ownerBand) ? column.ownerBand : null
+            };
 
-        if(chooserColumns.length) {
-            each(chooserColumns, function(index, column) {
-                item = {
-                    text: column.caption,
-                    cssClass: column.cssClass,
-                    allowHiding: column.allowHiding,
-                    expanded: true,
-                    id: column.index,
-                    disabled: column.allowHiding === false,
-                    parentId: isDefined(column.ownerBand) ? column.ownerBand : null
-                };
+            if(isSelectMode) {
+                item.selected = column.visible;
+            }
 
-                if(isSelectMode) {
-                    item.selected = column.visible;
-                }
+            items.push(item);
+        });
+    }
 
-                items.push(item);
-            });
-        }
-
-        return items;
-    };
+    return items;
+};
 
 var ColumnChooserController = modules.ViewController.inherit({
     renderShowColumnChooserButton: function($element) {
-        var that = this,
-            columnChooserButtonClass = that.addWidgetPrefix(COLUMN_CHOOSER_BUTTON_CLASS),
-            columnChooserEnabled = that.option("columnChooser.enabled"),
-            $showColumnChooserButton = $element.find("." + columnChooserButtonClass),
-            $columnChooserButton;
+        var that = this;
+        var columnChooserButtonClass = that.addWidgetPrefix(COLUMN_CHOOSER_BUTTON_CLASS);
+        var columnChooserEnabled = that.option("columnChooser.enabled");
+        var $showColumnChooserButton = $element.find("." + columnChooserButtonClass);
+        var $columnChooserButton;
 
         if(columnChooserEnabled) {
             if(!$showColumnChooserButton.length) {
@@ -105,11 +104,11 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
     },
 
     _updateList: function(change) {
-        var items,
-            $popupContent = this._popupContainer.$content(),
-            isSelectMode = this.option("columnChooser.mode") === "select",
-            columnChooserList = this._columnChooserList,
-            chooserColumns = this._columnsController.getChooserColumns(isSelectMode);
+        var items;
+        var $popupContent = this._popupContainer.$content();
+        var isSelectMode = this.option("columnChooser.mode") === "select";
+        var columnChooserList = this._columnChooserList;
+        var chooserColumns = this._columnsController.getChooserColumns(isSelectMode);
 
         // T726413
         if(isSelectMode && columnChooserList && change && change.changeType === "selection") {
@@ -130,33 +129,34 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
     },
 
     _initializePopupContainer: function() {
-        var that = this,
-            $element = that.element().addClass(that.addWidgetPrefix(COLUMN_CHOOSER_CLASS)),
-            columnChooserOptions = that.option("columnChooser"),
-            themeName = themes.current(),
-            isGenericTheme = themes.isGeneric(themeName),
-            isAndroid5Theme = themes.isAndroid5(themeName),
-            isMaterial = themes.isMaterial(themeName),
-            dxPopupOptions = {
-                visible: false,
-                shading: false,
-                showCloseButton: false,
-                dragEnabled: true,
-                resizeEnabled: true,
-                toolbarItems: [
-                    { text: columnChooserOptions.title, toolbar: "top", location: isGenericTheme || isAndroid5Theme || isMaterial ? "before" : "center" }
-                ],
-                position: that.getController("columnChooser").getPosition(),
-                width: columnChooserOptions.width,
-                height: columnChooserOptions.height,
-                rtlEnabled: that.option("rtlEnabled"),
-                onHidden: function() {
-                    if(that._isWinDevice()) {
-                        $("body").removeClass(that.addWidgetPrefix(NOTOUCH_ACTION_CLASS));
-                    }
-                },
-                container: columnChooserOptions.container
-            };
+        var that = this;
+        var $element = that.element().addClass(that.addWidgetPrefix(COLUMN_CHOOSER_CLASS));
+        var columnChooserOptions = that.option("columnChooser");
+        var themeName = themes.current();
+        var isGenericTheme = themes.isGeneric(themeName);
+        var isAndroid5Theme = themes.isAndroid5(themeName);
+        var isMaterial = themes.isMaterial(themeName);
+
+        var dxPopupOptions = {
+            visible: false,
+            shading: false,
+            showCloseButton: false,
+            dragEnabled: true,
+            resizeEnabled: true,
+            toolbarItems: [
+                { text: columnChooserOptions.title, toolbar: "top", location: isGenericTheme || isAndroid5Theme || isMaterial ? "before" : "center" }
+            ],
+            position: that.getController("columnChooser").getPosition(),
+            width: columnChooserOptions.width,
+            height: columnChooserOptions.height,
+            rtlEnabled: that.option("rtlEnabled"),
+            onHidden: function() {
+                if(that._isWinDevice()) {
+                    $("body").removeClass(that.addWidgetPrefix(NOTOUCH_ACTION_CLASS));
+                }
+            },
+            container: columnChooserOptions.container
+        };
 
         if(isGenericTheme || isMaterial) {
             extend(dxPopupOptions, { showCloseButton: true });
@@ -184,23 +184,24 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
     },
 
     _renderTreeView: function($container, items) {
-        var that = this,
-            scrollTop,
-            scrollableInstance,
-            columnChooser = this.option("columnChooser"),
-            isSelectMode = columnChooser.mode === "select",
-            treeViewConfig = {
-                items: items,
-                dataStructure: "plain",
-                activeStateEnabled: true,
-                focusStateEnabled: true,
-                hoverStateEnabled: true,
-                itemTemplate: "item",
-                showCheckBoxesMode: "none",
-                rootValue: null,
-                searchEnabled: columnChooser.allowSearch,
-                searchTimeout: columnChooser.searchTimeout
-            };
+        var that = this;
+        var scrollTop;
+        var scrollableInstance;
+        var columnChooser = this.option("columnChooser");
+        var isSelectMode = columnChooser.mode === "select";
+
+        var treeViewConfig = {
+            items: items,
+            dataStructure: "plain",
+            activeStateEnabled: true,
+            focusStateEnabled: true,
+            hoverStateEnabled: true,
+            itemTemplate: "item",
+            showCheckBoxesMode: "none",
+            rootValue: null,
+            searchEnabled: columnChooser.allowSearch,
+            searchTimeout: columnChooser.searchTimeout
+        };
 
 
         if(isSelectMode) {
@@ -257,19 +258,20 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
     },
 
     _prepareSelectModeConfig: function() {
-        var that = this,
-            selectionChangedHandler = function(e) {
-                var visibleColumns = that._columnsController.getVisibleColumns().filter(function(item) { return !item.command; }),
-                    isLastColumnUnselected = visibleColumns.length === 1 && !e.itemData.selected;
+        var that = this;
 
-                if(isLastColumnUnselected) {
-                    e.component.selectItem(e.itemElement);
-                } else {
-                    setTimeout(function() {
-                        that._columnsController.columnOption(e.itemData.id, "visible", e.itemData.selected);
-                    }, CLICK_TIMEOUT);
-                }
-            };
+        var selectionChangedHandler = function(e) {
+            var visibleColumns = that._columnsController.getVisibleColumns().filter(function(item) { return !item.command; }),
+                isLastColumnUnselected = visibleColumns.length === 1 && !e.itemData.selected;
+
+            if(isLastColumnUnselected) {
+                e.component.selectItem(e.itemElement);
+            } else {
+                setTimeout(function() {
+                    that._columnsController.columnOption(e.itemData.id, "visible", e.itemData.selected);
+                }, CLICK_TIMEOUT);
+            }
+        };
 
         return {
             selectNodesRecursive: false,
@@ -279,9 +281,9 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
     },
 
     _columnOptionChanged: function(e) {
-        var changeTypes = e.changeTypes,
-            optionNames = e.optionNames,
-            isSelectMode = this.option("columnChooser.mode") === "select";
+        var changeTypes = e.changeTypes;
+        var optionNames = e.optionNames;
+        var isSelectMode = this.option("columnChooser.mode") === "select";
 
         this.callBase(e);
 
@@ -309,13 +311,13 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
     },
 
     getColumnElements: function() {
-        var result = [],
-            $node,
-            item,
-            isSelectMode = this.option("columnChooser.mode") === "select",
-            chooserColumns = this._columnsController.getChooserColumns(isSelectMode),
-            $content = this._popupContainer && this._popupContainer.$content(),
-            $nodes = $content && $content.find(".dx-treeview-node");
+        var result = [];
+        var $node;
+        var item;
+        var isSelectMode = this.option("columnChooser.mode") === "select";
+        var chooserColumns = this._columnsController.getChooserColumns(isSelectMode);
+        var $content = this._popupContainer && this._popupContainer.$content();
+        var $nodes = $content && $content.find(".dx-treeview-node");
 
         if($nodes) {
             chooserColumns.forEach(function(column) {
@@ -343,9 +345,9 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
     },
 
     getBoundingRect: function() {
-        var that = this,
-            container = that._popupContainer && that._popupContainer._container(),
-            offset;
+        var that = this;
+        var container = that._popupContainer && that._popupContainer._container();
+        var offset;
 
         if(container && container.is(":visible")) {
             offset = container.offset();
@@ -483,32 +485,35 @@ module.exports = {
                 },
 
                 _appendColumnChooserItem: function(items) {
-                    var that = this,
-                        columnChooserEnabled = that.option("columnChooser.enabled");
+                    var that = this;
+                    var columnChooserEnabled = that.option("columnChooser.enabled");
 
                     if(columnChooserEnabled) {
                         var onClickHandler = function() {
                                 that.component.getView("columnChooserView").showColumnChooser();
-                            },
-                            onInitialized = function(e) {
-                                $(e.element).addClass(that._getToolbarButtonClass(that.addWidgetPrefix(COLUMN_CHOOSER_BUTTON_CLASS)));
-                            },
-                            hintText = that.option("columnChooser.title"),
-                            toolbarItem = {
-                                widget: "dxButton",
-                                options: {
-                                    icon: COLUMN_CHOOSER_ICON_NAME,
-                                    onClick: onClickHandler,
-                                    hint: hintText,
-                                    text: hintText,
-                                    onInitialized: onInitialized
-                                },
-                                showText: "inMenu",
-                                location: "after",
-                                name: "columnChooserButton",
-                                locateInMenu: "auto",
-                                sortIndex: 40
                             };
+
+                        var onInitialized = function(e) {
+                            $(e.element).addClass(that._getToolbarButtonClass(that.addWidgetPrefix(COLUMN_CHOOSER_BUTTON_CLASS)));
+                        };
+
+                        var hintText = that.option("columnChooser.title");
+
+                        var toolbarItem = {
+                            widget: "dxButton",
+                            options: {
+                                icon: COLUMN_CHOOSER_ICON_NAME,
+                                onClick: onClickHandler,
+                                hint: hintText,
+                                text: hintText,
+                                onInitialized: onInitialized
+                            },
+                            showText: "inMenu",
+                            location: "after",
+                            name: "columnChooserButton",
+                            locateInMenu: "auto",
+                            sortIndex: 40
+                        };
 
                         items.push(toolbarItem);
                     }
@@ -528,8 +533,8 @@ module.exports = {
                 },
 
                 isVisible: function() {
-                    var that = this,
-                        columnChooserEnabled = that.option("columnChooser.enabled");
+                    var that = this;
+                    var columnChooserEnabled = that.option("columnChooser.enabled");
 
                     return that.callBase() || columnChooserEnabled;
                 }
@@ -538,8 +543,8 @@ module.exports = {
         controllers: {
             columns: {
                 allowMoveColumn: function(fromVisibleIndex, toVisibleIndex, sourceLocation, targetLocation) {
-                    var columnChooserMode = this.option("columnChooser.mode"),
-                        isMoveColumnDisallowed = columnChooserMode === "select" && targetLocation === "columnChooser";
+                    var columnChooserMode = this.option("columnChooser.mode");
+                    var isMoveColumnDisallowed = columnChooserMode === "select" && targetLocation === "columnChooser";
 
                     return isMoveColumnDisallowed ? false : this.callBase(fromVisibleIndex, toVisibleIndex, sourceLocation, targetLocation);
                 }

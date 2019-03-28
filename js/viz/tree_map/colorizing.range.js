@@ -1,10 +1,10 @@
 var _createColorCodeGetter = require("./colorizing").createColorCodeGetter;
 
 function getPaletteIndex(value, items) {
-    var start = 0,
-        end = items.length - 1,
-        index = -1,
-        middle;
+    var start = 0;
+    var end = items.length - 1;
+    var index = -1;
+    var middle;
     if(items[start] <= value && value <= items[end]) {
         if(value === items[end]) {
             index = end - 1;
@@ -24,9 +24,9 @@ function getPaletteIndex(value, items) {
 }
 
 function rangeColorizer(options, themeManager) {
-    var range = options.range || [],
-        palette = themeManager.createDiscretePalette(options.palette, range.length - 1),
-        getValue = _createColorCodeGetter(options);
+    var range = options.range || [];
+    var palette = themeManager.createDiscretePalette(options.palette, range.length - 1);
+    var getValue = _createColorCodeGetter(options);
 
     return function(node) {
         return palette.getColor(getPaletteIndex(getValue(node), range));

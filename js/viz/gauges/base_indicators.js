@@ -1,14 +1,14 @@
-var noop = require("../../core/utils/common").noop,
-    each = require("../../core/utils/iterator").each,
-    _isFinite = isFinite,
-    _Number = Number,
-    _round = Math.round,
-    baseGaugeModule = require("./base_gauge"),
-    _formatValue = baseGaugeModule.formatValue,
-    _getSampleText = baseGaugeModule.getSampleText,
-    _patchFontOptions = require("../core/utils").patchFontOptions,
-    extend = require("../../core/utils/extend").extend,
-    Class = require("../../core/class");
+var noop = require("../../core/utils/common").noop;
+var each = require("../../core/utils/iterator").each;
+var _isFinite = isFinite;
+var _Number = Number;
+var _round = Math.round;
+var baseGaugeModule = require("./base_gauge");
+var _formatValue = baseGaugeModule.formatValue;
+var _getSampleText = baseGaugeModule.getSampleText;
+var _patchFontOptions = require("../core/utils").patchFontOptions;
+var extend = require("../../core/utils/extend").extend;
+var Class = require("../../core/class");
 
 var BaseElement = Class.inherit({
     ctor: function(parameters) {
@@ -60,8 +60,8 @@ var BaseIndicator = BaseElement.inherit({
     },
 
     _runAnimation: function(value) {
-        var that = this,
-            animation = that._animation;
+        var that = this;
+        var animation = that._animation;
         animation.start = that._actualValue;
         animation.delta = value - that._actualValue;
         that._rootElement.animate({ _: 0 }, { step: animation.step, duration: animation.duration, easing: animation.easing });
@@ -117,10 +117,10 @@ var BaseIndicator = BaseElement.inherit({
     },
 
     value: function(arg, _noAnimation) {
-        var that = this,
-            val,
-            rootElement = this._rootElement,
-            visibility = null;
+        var that = this;
+        var val;
+        var rootElement = this._rootElement;
+        var visibility = null;
 
         if(arg === undefined) {
             return that._currentValue;
@@ -173,15 +173,15 @@ COEFFICIENTS_MAP['right-top'] = COEFFICIENTS_MAP['rt'] = [0, 1, -1, 0, 0, -1, 1,
 COEFFICIENTS_MAP['top-right'] = COEFFICIENTS_MAP['tr'] = [-1, 0, 0, 1, 1, 0, 0, -1];
 
 function getTextCloudInfo(options) {
-    var x = options.x,
-        y = options.y,
-        type = COEFFICIENTS_MAP[options.type],
-        cloudWidth = options.textWidth + 2 * options.horMargin,
-        cloudHeight = options.textHeight + 2 * options.verMargin,
-        tailWidth,
-        tailHeight,
-        cx = x,
-        cy = y;
+    var x = options.x;
+    var y = options.y;
+    var type = COEFFICIENTS_MAP[options.type];
+    var cloudWidth = options.textWidth + 2 * options.horMargin;
+    var cloudHeight = options.textHeight + 2 * options.verMargin;
+    var tailWidth;
+    var tailHeight;
+    var cx = x;
+    var cy = y;
 
     tailWidth = tailHeight = options.tailLength;
     if(type[0] & 1) {
@@ -205,11 +205,11 @@ function getTextCloudInfo(options) {
 
 var BaseTextCloudMarker = BaseIndicator.inherit({
     _move: function() {
-        var that = this,
-            bBox,
-            info,
-            textCloudOptions = that._getTextCloudOptions(),
-            text = _formatValue(that._actualValue, that._options.text);
+        var that = this;
+        var bBox;
+        var info;
+        var textCloudOptions = that._getTextCloudOptions();
+        var text = _formatValue(that._actualValue, that._options.text);
         that._text.attr({ text: text });
         bBox = that._text.getBBox();
         info = getTextCloudInfo({
@@ -228,11 +228,11 @@ var BaseTextCloudMarker = BaseIndicator.inherit({
     },
 
     _measureText: function() {
-        var that = this,
-            root,
-            text,
-            bBox,
-            sampleText;
+        var that = this;
+        var root;
+        var text;
+        var bBox;
+        var sampleText;
 
         if(!that._textVerticalOffset) {
             root = that._createRoot().append(that._owner);
@@ -273,10 +273,10 @@ var BaseTextCloudMarker = BaseIndicator.inherit({
 
 var BaseRangeBar = BaseIndicator.inherit({
     _measureText: function() {
-        var that = this,
-            root,
-            text,
-            bBox;
+        var that = this;
+        var root;
+        var text;
+        var bBox;
 
         that._hasText = that._isTextVisible();
         if(that._hasText && !that._textVerticalOffset) {
@@ -301,11 +301,11 @@ var BaseRangeBar = BaseIndicator.inherit({
     },
 
     _updateBarItems: function() {
-        var that = this,
-            options = that._options,
-            backgroundColor,
-            spaceColor,
-            translator = that._translator;
+        var that = this;
+        var options = that._options;
+        var backgroundColor;
+        var spaceColor;
+        var translator = that._translator;
 
         that._setBarSides();
         that._startPosition = translator.translate(translator.getDomainStart());
@@ -359,8 +359,8 @@ var BaseRangeBar = BaseIndicator.inherit({
     },
 
     _getFontOptions: function() {
-        var options = this._options,
-            font = options.text.font;
+        var options = this._options;
+        var font = options.text.font;
         if(!font || !font.color) {
             font = extend({}, font, { color: options.color });
         }
@@ -368,8 +368,8 @@ var BaseRangeBar = BaseIndicator.inherit({
     },
 
     _updateBarItemsPositions: function() {
-        var that = this,
-            positions = that._getPositions();
+        var that = this;
+        var positions = that._getPositions();
 
         that._backItem1.attr(that._buildItemSettings(positions.start, positions.back1));
         that._backItem2.attr(that._buildItemSettings(positions.back2, positions.end));

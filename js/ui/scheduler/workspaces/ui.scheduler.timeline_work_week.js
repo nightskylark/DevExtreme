@@ -1,10 +1,9 @@
-var registerComponent = require("../../../core/component_registrator"),
-    SchedulerTimelineWeek = require("./ui.scheduler.timeline_week"),
-    dateUtils = require("../../../core/utils/date"),
-    toMs = dateUtils.dateToMilliseconds;
-
-var TIMELINE_CLASS = "dx-scheduler-timeline-work-week",
-    MONDAY_INDEX = 1;
+var registerComponent = require("../../../core/component_registrator");
+var SchedulerTimelineWeek = require("./ui.scheduler.timeline_week");
+var dateUtils = require("../../../core/utils/date");
+var toMs = dateUtils.dateToMilliseconds;
+var TIMELINE_CLASS = "dx-scheduler-timeline-work-week";
+var MONDAY_INDEX = 1;
 
 var SchedulerTimelineWorkWeek = SchedulerTimelineWeek.inherit({
     _getElementClass: function() {

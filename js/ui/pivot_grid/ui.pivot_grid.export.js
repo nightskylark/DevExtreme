@@ -1,20 +1,20 @@
-var Class = require("../../core/class"),
-    isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    formatHelper = require("../../format_helper"),
-    numberLocalization = require("../../localization/number"),
-    clientExporter = require("../../exporter"),
-    excelExporter = clientExporter.excel,
-    DEFAULT_DATA_TYPE = "string",
-    exportMixin = require("../grid_core/ui.grid_core.export_mixin"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-    COLUMN_HEADER_STYLE_ID = 0,
-    ROW_HEADER_STYLE_ID = 1,
-    DATA_STYLE_OFFSET = 2,
-    DEFAUL_COLUMN_WIDTH = 100;
+var Class = require("../../core/class");
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var formatHelper = require("../../format_helper");
+var numberLocalization = require("../../localization/number");
+var clientExporter = require("../../exporter");
+var excelExporter = clientExporter.excel;
+var DEFAULT_DATA_TYPE = "string";
+var exportMixin = require("../grid_core/ui.grid_core.export_mixin");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var COLUMN_HEADER_STYLE_ID = 0;
+var ROW_HEADER_STYLE_ID = 1;
+var DATA_STYLE_OFFSET = 2;
+var DEFAUL_COLUMN_WIDTH = 100;
 
 exports.ExportMixin = extend({}, exportMixin, {
     /**
@@ -37,9 +37,9 @@ exports.ExportMixin = extend({}, exportMixin, {
     },
 
     _getLength: function(items) {
-        var i,
-            itemCount = items[0].length,
-            cellCount = 0;
+        var i;
+        var itemCount = items[0].length;
+        var cellCount = 0;
 
         for(i = 0; i < itemCount; i++) {
             cellCount += items[0][i].colspan || 1;
@@ -66,12 +66,12 @@ exports.ExportMixin = extend({}, exportMixin, {
     },
 
     _getAllItems: function(columnsInfo, rowsInfoItems, cellsInfo) {
-        var cellIndex,
-            rowIndex,
-            correctedCellsInfo = cellsInfo,
-            sourceItems,
-            rowsLength = this._getLength(rowsInfoItems),
-            headerRowsCount = columnsInfo.length;
+        var cellIndex;
+        var rowIndex;
+        var correctedCellsInfo = cellsInfo;
+        var sourceItems;
+        var rowsLength = this._getLength(rowsInfoItems);
+        var headerRowsCount = columnsInfo.length;
 
         if(columnsInfo.length > 0 && columnsInfo[0].length > 0 && cellsInfo.length > 0 && cellsInfo[0].length === 0) {
             const cellInfoItemLength = this._calculateCellInfoItemLength(columnsInfo[0]);
@@ -103,15 +103,15 @@ exports.ExportMixin = extend({}, exportMixin, {
     },
 
     getDataProvider: function() {
-        var that = this,
-            dataController = this._dataController,
-            items = new Deferred();
+        var that = this;
+        var dataController = this._dataController;
+        var items = new Deferred();
 
         dataController.beginLoading();
         setTimeout(function() {
-            var columnsInfo = extend(true, [], dataController.getColumnsInfo(true)),
-                rowsInfoItems = extend(true, [], dataController.getRowsInfo(true)),
-                cellsInfo = dataController.getCellsInfo(true);
+            var columnsInfo = extend(true, [], dataController.getColumnsInfo(true));
+            var rowsInfoItems = extend(true, [], dataController.getRowsInfo(true));
+            var cellsInfo = dataController.getCellsInfo(true);
 
             items.resolve(that._getAllItems(columnsInfo, rowsInfoItems, cellsInfo));
             dataController.endLoading();
@@ -154,14 +154,14 @@ exports.DataProvider = Class.inherit({
     },
 
     ready: function() {
-        var that = this,
-            options = that._options,
-            dataFields = options.dataFields;
+        var that = this;
+        var options = that._options;
+        var dataFields = options.dataFields;
 
         return when(options.items).done(function(items) {
-            var headerSize = items[0][0].rowspan,
-                columns = items[headerSize - 1],
-                dataItemStyle = { alignment: options.rtlEnabled ? "left" : "right" };
+            var headerSize = items[0][0].rowspan;
+            var columns = items[headerSize - 1];
+            var dataItemStyle = { alignment: options.rtlEnabled ? "left" : "right" };
 
             that._styles = [
                 { alignment: "center", dataType: "string" },
@@ -201,8 +201,8 @@ exports.DataProvider = Class.inherit({
     },
 
     getCellMerging: function(rowIndex, cellIndex) {
-        var items = this._options.items,
-            item = items[rowIndex] && items[rowIndex][cellIndex];
+        var items = this._options.items;
+        var item = items[rowIndex] && items[rowIndex][cellIndex];
 
         return item ? {
             colspan: item.colspan - 1,
@@ -223,8 +223,8 @@ exports.DataProvider = Class.inherit({
 
     getCellData: function(rowIndex, cellIndex) {
         const result = {};
-        var items = this._options.items,
-            item = items[rowIndex] && items[rowIndex][cellIndex] || {};
+        var items = this._options.items;
+        var item = items[rowIndex] && items[rowIndex][cellIndex] || {};
 
         if(this.getCellType(rowIndex, cellIndex) === "string") {
             result.value = item.text;
@@ -239,10 +239,10 @@ exports.DataProvider = Class.inherit({
     },
 
     getStyleId: function(rowIndex, cellIndex) {
-        var items = this._options.items,
-            columnHeaderSize = items[0][0].rowspan,
-            rowHeaderSize = items[0][0].colspan,
-            item = items[rowIndex] && items[rowIndex][cellIndex] || {};
+        var items = this._options.items;
+        var columnHeaderSize = items[0][0].rowspan;
+        var rowHeaderSize = items[0][0].colspan;
+        var item = items[rowIndex] && items[rowIndex][cellIndex] || {};
 
         if(cellIndex === 0 && rowIndex === 0) {
             return COLUMN_HEADER_STYLE_ID;

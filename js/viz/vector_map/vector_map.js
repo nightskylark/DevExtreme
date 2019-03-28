@@ -1,21 +1,18 @@
-var _parseScalar = require("../core/utils").parseScalar,
-    projectionModule = require("./projection.main"),
-    controlBarModule = require("./control_bar"),
-    gestureHandlerModule = require("./gesture_handler"),
-    trackerModule = require("./tracker"),
-    dataExchangerModule = require("./data_exchanger"),
-    legendModule = require("./legend"),
-    layoutModule = require("./layout"),
-    mapLayerModule = require("./map_layer"),
-    tooltipViewerModule = require("./tooltip_viewer"),
-
-    DEFAULT_WIDTH = 800,
-    DEFAULT_HEIGHT = 400,
-
-    nextDataKey = 1,
-
-    RE_STARTS_LAYERS = /^layers/,
-    RE_ENDS_DATA_SOURCE = /\.dataSource$/;
+var _parseScalar = require("../core/utils").parseScalar;
+var projectionModule = require("./projection.main");
+var controlBarModule = require("./control_bar");
+var gestureHandlerModule = require("./gesture_handler");
+var trackerModule = require("./tracker");
+var dataExchangerModule = require("./data_exchanger");
+var legendModule = require("./legend");
+var layoutModule = require("./layout");
+var mapLayerModule = require("./map_layer");
+var tooltipViewerModule = require("./tooltip_viewer");
+var DEFAULT_WIDTH = 800;
+var DEFAULT_HEIGHT = 400;
+var nextDataKey = 1;
+var RE_STARTS_LAYERS = /^layers/;
+var RE_ENDS_DATA_SOURCE = /\.dataSource$/;
 
 require("./projection");
 
@@ -86,10 +83,10 @@ var dxVectorMap = require("../core/base_widget").inherit({
     },
 
     _initElements: function() {
-        var that = this,
-            dataKey = generateDataKey(),
-            notifyCounter = 0,
-            preventProjectionEvents = true;
+        var that = this;
+        var dataKey = generateDataKey();
+        var notifyCounter = 0;
+        var preventProjectionEvents = true;
 
         that._notifyDirty = function() {
             that._resetIsReady();
@@ -309,10 +306,10 @@ var dxVectorMap = require("../core/base_widget").inherit({
     },
 
     getLayers: function() {
-        var layers = this._layerCollection.items(),
-            list = [],
-            i,
-            ii = list.length = layers.length;
+        var layers = this._layerCollection.items();
+        var list = [];
+        var i;
+        var ii = list.length = layers.length;
         for(i = 0; i < ii; ++i) {
             list[i] = layers[i].proxy;
         }
@@ -330,9 +327,9 @@ var dxVectorMap = require("../core/base_widget").inherit({
     },
 
     clearSelection: function(_noEvent) {
-        var layers = this._layerCollection.items(),
-            i,
-            ii = layers.length;
+        var layers = this._layerCollection.items();
+        var i;
+        var ii = layers.length;
         for(i = 0; i < ii; ++i) {
             layers[i].clearSelection(_noEvent);
         }

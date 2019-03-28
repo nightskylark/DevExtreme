@@ -1,15 +1,14 @@
-var $ = require("../../core/renderer"),
-    Widget = require("../widget/ui.widget"),
-    Tooltip = require("../tooltip"),
-    translator = require("../../animation/translator"),
-    positionUtils = require("../../animation/position"),
-    mathUtils = require("../../core/utils/math"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    numberLocalization = require("../../localization/number");
-
-var SLIDER_CLASS = "dx-slider",
-    SLIDER_HANDLE_CLASS = "dx-slider-handle";
+var $ = require("../../core/renderer");
+var Widget = require("../widget/ui.widget");
+var Tooltip = require("../tooltip");
+var translator = require("../../animation/translator");
+var positionUtils = require("../../animation/position");
+var mathUtils = require("../../core/utils/math");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var numberLocalization = require("../../localization/number");
+var SLIDER_CLASS = "dx-slider";
+var SLIDER_HANDLE_CLASS = "dx-slider-handle";
 
 var POSITION_ALIASES = {
     "top": { my: "bottom center", at: "top center", collision: "none" },
@@ -175,9 +174,9 @@ var SliderHandle = Widget.inherit({
         var calculatePosition = positionUtils.calculate(this._$tooltipContent, position);
         var isLeftSide = calculatePosition.h.collisionSide === "left";
 
-        var arrowLeft = (isLeftSide ? -1 : 1) * calculatePosition.h.oversize,
-            arrowMinLeft = this._contentLocate.left,
-            arrowMaxRight = this._contentLocate.left + this._$tooltipContent.outerWidth() - this._$tooltipArrow.outerWidth();
+        var arrowLeft = (isLeftSide ? -1 : 1) * calculatePosition.h.oversize;
+        var arrowMinLeft = this._contentLocate.left;
+        var arrowMaxRight = this._contentLocate.left + this._$tooltipContent.outerWidth() - this._$tooltipArrow.outerWidth();
 
         translator.move(this._$tooltipContent, { left: this._contentLocate.left + (isLeftSide ? 1 : -1) * calculatePosition.h.oversize });
         translator.move(this._$tooltipArrow, { left: mathUtils.fitIntoRange(arrowLeft, arrowMinLeft, arrowMaxRight) });

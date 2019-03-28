@@ -1,13 +1,12 @@
-var $ = require("../core/renderer"),
-    noop = require("../core/utils/common").noop,
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    DropDownList = require("./drop_down_editor/ui.drop_down_list"),
-    themes = require("./themes"),
-    Deferred = require("../core/utils/deferred").Deferred;
-
-var AUTOCOMPLETE_CLASS = "dx-autocomplete",
-    AUTOCOMPLETE_POPUP_WRAPPER_CLASS = "dx-autocomplete-popup-wrapper";
+var $ = require("../core/renderer");
+var noop = require("../core/utils/common").noop;
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var DropDownList = require("./drop_down_editor/ui.drop_down_list");
+var themes = require("./themes");
+var Deferred = require("../core/utils/deferred").Deferred;
+var AUTOCOMPLETE_CLASS = "dx-autocomplete";
+var AUTOCOMPLETE_POPUP_WRAPPER_CLASS = "dx-autocomplete-popup-wrapper";
 
 /**
 * @name dxAutocomplete
@@ -19,8 +18,8 @@ var AUTOCOMPLETE_CLASS = "dx-autocomplete",
 var Autocomplete = DropDownList.inherit({
 
     _supportedKeys: function() {
-        var item = this._list ? this._list.option("focusedElement") : null,
-            parent = this.callBase();
+        var item = this._list ? this._list.option("focusedElement") : null;
+        var parent = this.callBase();
 
         item = item && $(item);
 

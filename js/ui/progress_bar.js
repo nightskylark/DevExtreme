@@ -1,17 +1,16 @@
-var $ = require("../core/renderer"),
-    TrackBar = require("./track_bar"),
-    extend = require("../core/utils/extend").extend,
-    isFunction = require("../core/utils/type").isFunction,
-    registerComponent = require("../core/component_registrator");
-
-var PROGRESSBAR_CLASS = "dx-progressbar",
-    PROGRESSBAR_CONTAINER_CLASS = "dx-progressbar-container",
-    PROGRESSBAR_RANGE_CONTAINER_CLASS = "dx-progressbar-range-container",
-    PROGRESSBAR_RANGE_CLASS = "dx-progressbar-range",
-    PROGRESSBAR_WRAPPER_CLASS = "dx-progressbar-wrapper",
-    PROGRESSBAR_STATUS_CLASS = "dx-progressbar-status",
-    PROGRESSBAR_INDETERMINATE_SEGMENT_CONTAINER = "dx-progressbar-animating-container",
-    PROGRESSBAR_INDETERMINATE_SEGMENT = "dx-progressbar-animating-segment";
+var $ = require("../core/renderer");
+var TrackBar = require("./track_bar");
+var extend = require("../core/utils/extend").extend;
+var isFunction = require("../core/utils/type").isFunction;
+var registerComponent = require("../core/component_registrator");
+var PROGRESSBAR_CLASS = "dx-progressbar";
+var PROGRESSBAR_CONTAINER_CLASS = "dx-progressbar-container";
+var PROGRESSBAR_RANGE_CONTAINER_CLASS = "dx-progressbar-range-container";
+var PROGRESSBAR_RANGE_CLASS = "dx-progressbar-range";
+var PROGRESSBAR_WRAPPER_CLASS = "dx-progressbar-wrapper";
+var PROGRESSBAR_STATUS_CLASS = "dx-progressbar-status";
+var PROGRESSBAR_INDETERMINATE_SEGMENT_CONTAINER = "dx-progressbar-animating-container";
+var PROGRESSBAR_INDETERMINATE_SEGMENT = "dx-progressbar-animating-segment";
 
 /**
 * @name dxProgressBar
@@ -169,8 +168,8 @@ var ProgressBar = TrackBar.inherit({
     },
 
     _togglePositionClass: function() {
-        var position = this.option("statusPosition"),
-            splitPosition = position.split(" ");
+        var position = this.option("statusPosition");
+        var splitPosition = position.split(" ");
 
         this._$wrapper.removeClass("dx-position-top-left dx-position-top-right dx-position-bottom-left dx-position-bottom-right dx-position-left dx-position-right");
 
@@ -195,8 +194,8 @@ var ProgressBar = TrackBar.inherit({
     },
 
     _renderValue: function() {
-        var val = this.option("value"),
-            max = this.option("max");
+        var val = this.option("value");
+        var max = this.option("max");
 
         if(!val && val !== 0) {
             this._toggleIndeterminateState(true);

@@ -1,14 +1,14 @@
-var seriesModule = require("../series/base_series"),
-    seriesFamilyModule = require("../core/series_family"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    each = require("../../core/utils/iterator").each,
-    vizUtils = require("../core/utils"),
-    rangeModule = require("../translators/range"),
-    dataValidatorModule = require("../components/data_validator"),
-    ChartThemeManager = require("../components/chart_theme_manager").ThemeManager,
-    SeriesDataSource;
+var seriesModule = require("../series/base_series");
+var seriesFamilyModule = require("../core/series_family");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var each = require("../../core/utils/iterator").each;
+var vizUtils = require("../core/utils");
+var rangeModule = require("../translators/range");
+var dataValidatorModule = require("../components/data_validator");
+var ChartThemeManager = require("../components/chart_theme_manager").ThemeManager;
+var SeriesDataSource;
 
 var createThemeManager = function(chartOptions) {
     return new ChartThemeManager({
@@ -19,8 +19,8 @@ var createThemeManager = function(chartOptions) {
 };
 
 var processSeriesFamilies = function(series, equalBarWidth, minBubbleSize, maxBubbleSize, barOptions, negativesAsZeroes) {
-    var families = [],
-        types = [];
+    var families = [];
+    var types = [];
 
     each(series, function(i, item) {
         if(inArray(item.type, types) === -1) {
@@ -48,10 +48,10 @@ var processSeriesFamilies = function(series, equalBarWidth, minBubbleSize, maxBu
 };
 
 SeriesDataSource = function(options) {
-    var that = this,
-        themeManager = that._themeManager = createThemeManager(options.chart),
-        topIndent,
-        bottomIndent;
+    var that = this;
+    var themeManager = that._themeManager = createThemeManager(options.chart);
+    var topIndent;
+    var bottomIndent;
 
     themeManager.setTheme(options.chart.theme);
     topIndent = themeManager.getOptions('topIndent');
@@ -72,20 +72,20 @@ SeriesDataSource.prototype = {
     constructor: SeriesDataSource,
 
     _calculateSeries: function(options) {
-        var that = this,
-            series = [],
-            particularSeriesOptions,
-            seriesTheme,
-            data = options.dataSource || [],
-            parsedData,
-            chartThemeManager = that._themeManager,
-            seriesTemplate = chartThemeManager.getOptions('seriesTemplate'),
-            allSeriesOptions = seriesTemplate ? vizUtils.processSeriesTemplate(seriesTemplate, data) : options.chart.series,
-            dataSourceField,
-            valueAxis = that._valueAxis,
-            i,
-            newSeries,
-            groupsData;
+        var that = this;
+        var series = [];
+        var particularSeriesOptions;
+        var seriesTheme;
+        var data = options.dataSource || [];
+        var parsedData;
+        var chartThemeManager = that._themeManager;
+        var seriesTemplate = chartThemeManager.getOptions('seriesTemplate');
+        var allSeriesOptions = seriesTemplate ? vizUtils.processSeriesTemplate(seriesTemplate, data) : options.chart.series;
+        var dataSourceField;
+        var valueAxis = that._valueAxis;
+        var i;
+        var newSeries;
+        var groupsData;
 
         if(options.dataSource && !allSeriesOptions) {
             dataSourceField = options.dataSourceField || 'arg';
@@ -150,12 +150,12 @@ SeriesDataSource.prototype = {
             return;
         }
 
-        var series = this._series,
-            viewport = new rangeModule.Range(),
-            axis = series[0].getArgumentAxis(),
-            themeManager = this._themeManager,
-            negativesAsZeroes = themeManager.getOptions("negativesAsZeroes"),
-            negativesAsZeros = themeManager.getOptions("negativesAsZeros"); // misspelling case
+        var series = this._series; // misspelling case
+        var viewport = new rangeModule.Range();
+        var axis = series[0].getArgumentAxis();
+        var themeManager = this._themeManager;
+        var negativesAsZeroes = themeManager.getOptions("negativesAsZeroes");
+        var negativesAsZeros = themeManager.getOptions("negativesAsZeros");
 
         series.forEach(function(s) {
             viewport.addRange(s.getArgumentRange());
@@ -184,22 +184,24 @@ SeriesDataSource.prototype = {
     },
 
     getBoundRange: function() {
-        var that = this,
-            rangeData,
-            valueAxis = that._valueAxis,
-            valRange = new rangeModule.Range({
-                min: valueAxis.min,
-                minVisible: valueAxis.min,
-                max: valueAxis.max,
-                maxVisible: valueAxis.max,
-                axisType: valueAxis.type,
-                base: valueAxis.logarithmBase
-            }),
-            argRange = new rangeModule.Range({}),
-            rangeYSize,
-            rangeVisibleSizeY,
-            minIndent,
-            maxIndent;
+        var that = this;
+        var rangeData;
+        var valueAxis = that._valueAxis;
+
+        var valRange = new rangeModule.Range({
+            min: valueAxis.min,
+            minVisible: valueAxis.min,
+            max: valueAxis.max,
+            maxVisible: valueAxis.max,
+            axisType: valueAxis.type,
+            base: valueAxis.logarithmBase
+        });
+
+        var argRange = new rangeModule.Range({});
+        var rangeYSize;
+        var rangeVisibleSizeY;
+        var minIndent;
+        var maxIndent;
 
         each(that._series, function(_, series) {
             rangeData = series.getRangeData();

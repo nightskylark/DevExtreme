@@ -1,24 +1,25 @@
-var Class = require("../../core/class"),
-    arrayUtils = require("../../core/utils/array"),
-    grep = require("../../core/utils/common").grep,
-    isDefined = require("../../core/utils/type").isDefined,
-    objectUtils = require("../../core/utils/object"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    query = require("../../data/query"),
-    dataCoreUtils = require("../../core/utils/data"),
-    DataSourceModule = require("../../data/data_source/data_source"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred;
+var Class = require("../../core/class");
+var arrayUtils = require("../../core/utils/array");
+var grep = require("../../core/utils/common").grep;
+var isDefined = require("../../core/utils/type").isDefined;
+var objectUtils = require("../../core/utils/object");
+var iteratorUtils = require("../../core/utils/iterator");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var query = require("../../data/query");
+var dataCoreUtils = require("../../core/utils/data");
+var DataSourceModule = require("../../data/data_source/data_source");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
 
 var getValueExpr = function(resource) {
         return resource.valueExpr || "id";
-    },
-    getDisplayExpr = function(resource) {
-        return resource.displayExpr || "text";
     };
+
+var getDisplayExpr = function(resource) {
+    return resource.displayExpr || "text";
+};
 
 var ResourceManager = Class.inherit({
 
@@ -34,8 +35,8 @@ var ResourceManager = Class.inherit({
     },
 
     _mapResourceData: function(resource, data) {
-        var valueGetter = dataCoreUtils.compileGetter(getValueExpr(resource)),
-            displayGetter = dataCoreUtils.compileGetter(getDisplayExpr(resource));
+        var valueGetter = dataCoreUtils.compileGetter(getValueExpr(resource));
+        var displayGetter = dataCoreUtils.compileGetter(getDisplayExpr(resource));
 
         return iteratorUtils.map(data, function(item) {
             var result = {
@@ -111,12 +112,12 @@ var ResourceManager = Class.inherit({
     },
 
     getEditors: function() {
-        var result = [],
-            that = this;
+        var result = [];
+        var that = this;
 
         iteratorUtils.each(this.getResources(), function(i, resource) {
-            var field = that.getField(resource),
-                currentResourceItems = that._getResourceDataByField(field);
+            var field = that.getField(resource);
+            var currentResourceItems = that._getResourceDataByField(field);
 
             result.push({
                 editorOptions: {
@@ -136,14 +137,14 @@ var ResourceManager = Class.inherit({
     _resourceLoader: {},
 
     getResourceDataByValue: function(field, value) {
-        var that = this,
-            result = new Deferred();
+        var that = this;
+        var result = new Deferred();
 
         iteratorUtils.each(this.getResources(), function(_, resource) {
             var resourceField = that.getField(resource);
             if(resourceField === field) {
-                var dataSource = that._wrapDataSource(resource.dataSource),
-                    valueExpr = getValueExpr(resource);
+                var dataSource = that._wrapDataSource(resource.dataSource);
+                var valueExpr = getValueExpr(resource);
 
                 if(!that._resourceLoader[field]) {
                     that._resourceLoader[field] = dataSource.load();
@@ -181,8 +182,8 @@ var ResourceManager = Class.inherit({
     },
 
     getResourcesFromItem: function(itemData, wrapOnlyMultipleResources) {
-        var that = this,
-            result = null;
+        var that = this;
+        var result = null;
 
         if(!isDefined(wrapOnlyMultipleResources)) {
             wrapOnlyMultipleResources = false;
@@ -217,13 +218,13 @@ var ResourceManager = Class.inherit({
     },
 
     loadResources: function(groups) {
-        var result = new Deferred(),
-            that = this,
-            deferreds = [];
+        var result = new Deferred();
+        var that = this;
+        var deferreds = [];
 
         iteratorUtils.each(this.getResourcesByFields(groups), function(i, resource) {
-            var deferred = new Deferred(),
-                field = that.getField(resource);
+            var deferred = new Deferred();
+            var field = that.getField(resource);
             deferreds.push(deferred);
 
             that._wrapDataSource(resource.dataSource)
@@ -237,7 +238,6 @@ var ResourceManager = Class.inherit({
                 }).fail(function() {
                     deferred.reject();
                 });
-
         });
 
         if(!deferreds.length) {
@@ -246,10 +246,11 @@ var ResourceManager = Class.inherit({
         }
 
         when.apply(null, deferreds).done(function() {
-            var data = Array.prototype.slice.call(arguments),
-                mapFunction = function(obj) {
-                    return { name: obj.name, items: obj.items, data: obj.data };
-                };
+            var data = Array.prototype.slice.call(arguments);
+
+            var mapFunction = function(obj) {
+                return { name: obj.name, items: obj.items, data: obj.data };
+            };
 
             that._resourcesData = data;
             result.resolve(data.map(mapFunction));
@@ -272,15 +273,14 @@ var ResourceManager = Class.inherit({
     },
 
     getResourceColor: function(field, value) {
-        var valueExpr = this.getResourceByField(field).valueExpr || "id",
-            valueGetter = dataCoreUtils.compileGetter(valueExpr),
-            colorExpr = this.getResourceByField(field).colorExpr || "color",
-            colorGetter = dataCoreUtils.compileGetter(colorExpr);
-
-        var result = new Deferred(),
-            resourceData = this._getResourceDataByField(field),
-            resourceDataLength = resourceData.length,
-            color;
+        var valueExpr = this.getResourceByField(field).valueExpr || "id";
+        var valueGetter = dataCoreUtils.compileGetter(valueExpr);
+        var colorExpr = this.getResourceByField(field).colorExpr || "color";
+        var colorGetter = dataCoreUtils.compileGetter(colorExpr);
+        var result = new Deferred();
+        var resourceData = this._getResourceDataByField(field);
+        var resourceDataLength = resourceData.length;
+        var color;
 
 
         if(resourceDataLength) {
@@ -309,8 +309,8 @@ var ResourceManager = Class.inherit({
     },
 
     getResourceForPainting: function(groups) {
-        var resources = this.getResources(),
-            result;
+        var resources = this.getResources();
+        var result;
 
         iteratorUtils.each(resources, function(index, resource) {
             if(resource.useColorAsDefault) {
@@ -330,8 +330,8 @@ var ResourceManager = Class.inherit({
     },
 
     createResourcesTree: function(groups) {
-        var leafIndex = 0,
-            groupIndex = groupIndex || 0;
+        var leafIndex = 0;
+        var groupIndex = groupIndex || 0;
 
         function make(group, groupIndex, result, parent) {
             result = result || [];
@@ -377,8 +377,8 @@ var ResourceManager = Class.inherit({
     },
 
     _getResourceDataByField: function(fieldName) {
-        var loadedResources = this.getResourcesData(),
-            currentResourceData = [];
+        var loadedResources = this.getResourcesData();
+        var currentResourceData = [];
 
         for(var i = 0, resourceCount = loadedResources.length; i < resourceCount; i++) {
             if(loadedResources[i].name === fieldName) {
@@ -413,12 +413,12 @@ var ResourceManager = Class.inherit({
     },
 
     groupAppointmentsByResources: function(appointments, resources) {
-        var tree = this.createResourcesTree(resources),
-            result = {};
+        var tree = this.createResourcesTree(resources);
+        var result = {};
 
         iteratorUtils.each(appointments, (function(_, appointment) {
-            var appointmentResources = this.getResourcesFromItem(appointment),
-                treeLeaves = this.getResourceTreeLeaves(tree, appointmentResources);
+            var appointmentResources = this.getResourcesFromItem(appointment);
+            var treeLeaves = this.getResourceTreeLeaves(tree, appointmentResources);
 
             for(var i = 0; i < treeLeaves.length; i++) {
                 if(!result[treeLeaves[i]]) {
@@ -439,12 +439,12 @@ var ResourceManager = Class.inherit({
         var that = this;
 
         tree.forEach(function(node, index) {
-            var ok = false,
-                resourceName = node.name,
-                resourceValue = node.value,
-                resourceTitle = node.title,
-                resourceData = node.data,
-                resourceGetter = that.getDataAccessors(resourceName, "getter");
+            var ok = false;
+            var resourceName = node.name;
+            var resourceValue = node.value;
+            var resourceTitle = node.title;
+            var resourceData = node.data;
+            var resourceGetter = that.getDataAccessors(resourceName, "getter");
 
             existingAppointments.forEach(function(appointment) {
                 if(!ok) {
@@ -479,7 +479,6 @@ var ResourceManager = Class.inherit({
             if(ok && node.children && node.children.length) {
                 that.reduceResourcesTree(node.children, existingAppointments, _result[index]);
             }
-
         });
 
         return _result;

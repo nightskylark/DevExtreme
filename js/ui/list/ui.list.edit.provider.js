@@ -1,10 +1,10 @@
-var $ = require("../../core/renderer"),
-    noop = require("../../core/utils/common").noop,
-    Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    errors = require("../widget/ui.errors"),
-    decoratorRegistry = require("./ui.list.edit.decorator_registry");
+var $ = require("../../core/renderer");
+var noop = require("../../core/utils/common").noop;
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var errors = require("../widget/ui.errors");
+var decoratorRegistry = require("./ui.list.edit.decorator_registry");
 
 require("./ui.list.edit.decorator.static");
 require("./ui.list.edit.decorator.switchable.button");
@@ -84,14 +84,13 @@ registerOption(
 );
 
 
-var LIST_ITEM_BEFORE_BAG_CLASS = "dx-list-item-before-bag",
-    LIST_ITEM_AFTER_BAG_CLASS = "dx-list-item-after-bag",
-
-    DECORATOR_BEFORE_BAG_CREATE_METHOD = "beforeBag",
-    DECORATOR_AFTER_BAG_CREATE_METHOD = "afterBag",
-    DECORATOR_MODIFY_ELEMENT_METHOD = "modifyElement",
-    DECORATOR_AFTER_RENDER_METHOD = "afterRender",
-    DECORATOR_GET_EXCLUDED_SELECTORS_METHOD = "getExcludedSelectors";
+var LIST_ITEM_BEFORE_BAG_CLASS = "dx-list-item-before-bag";
+var LIST_ITEM_AFTER_BAG_CLASS = "dx-list-item-after-bag";
+var DECORATOR_BEFORE_BAG_CREATE_METHOD = "beforeBag";
+var DECORATOR_AFTER_BAG_CREATE_METHOD = "afterBag";
+var DECORATOR_MODIFY_ELEMENT_METHOD = "modifyElement";
+var DECORATOR_AFTER_RENDER_METHOD = "afterRender";
+var DECORATOR_GET_EXCLUDED_SELECTORS_METHOD = "getExcludedSelectors";
 
 var EditProvider = Class.inherit({
 
@@ -114,10 +113,9 @@ var EditProvider = Class.inherit({
         each(editOptionsRegistry, (function(_, option) {
             var optionEnabled = option.enabled.call(this._list);
             if(optionEnabled) {
-                var decoratorType = option.decoratorType.call(this._list),
-                    decoratorSubType = option.decoratorSubType.call(this._list),
-
-                    decorator = this._createDecorator(decoratorType, decoratorSubType);
+                var decoratorType = option.decoratorType.call(this._list);
+                var decoratorSubType = option.decoratorSubType.call(this._list);
+                var decorator = this._createDecorator(decoratorType, decoratorSubType);
 
                 this._decorators.push(decorator);
             }
@@ -193,8 +191,8 @@ var EditProvider = Class.inherit({
             return false;
         }
 
-        var decorators = this._decorators,
-            length = decorators.length;
+        var decorators = this._decorators;
+        var length = decorators.length;
         for(var i = 0; i < length; i++) {
             if(decorators[i][name] !== noop) {
                 return true;
@@ -209,9 +207,9 @@ var EditProvider = Class.inherit({
             return false;
         }
 
-        var response = false,
-            decorators = this._decorators,
-            length = decorators.length;
+        var response = false;
+        var decorators = this._decorators;
+        var length = decorators.length;
         for(var i = 0; i < length; i++) {
             response = decorators[i][name]($itemElement, e);
             if(response) {

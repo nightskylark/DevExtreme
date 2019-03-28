@@ -1,5 +1,5 @@
-var tiling = require("./tiling"),
-    sliceAndDiceAlgorithm = tiling.getAlgorithm("sliceanddice");
+var tiling = require("./tiling");
+var sliceAndDiceAlgorithm = tiling.getAlgorithm("sliceanddice");
 
 function rotatedSliceAndDice(data) {
     data.isRotated = !data.isRotated;

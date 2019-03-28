@@ -1,35 +1,34 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    support = require("../../core/utils/support"),
-    browser = require("../../core/utils/browser"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    windowUtils = require("../../core/utils/window"),
-    navigator = windowUtils.getNavigator(),
-    domAdapter = require("../../core/dom_adapter"),
-    devices = require("../../core/devices"),
-    registerComponent = require("../../core/component_registrator"),
-    DOMComponent = require("../../core/dom_component"),
-    selectors = require("../widget/selectors"),
-    eventUtils = require("../../events/utils"),
-    scrollEvents = require("./ui.events.emitter.gesture.scroll"),
-    simulatedStrategy = require("./ui.scrollable.simulated"),
-    NativeStrategy = require("./ui.scrollable.native"),
-    when = require("../../core/utils/deferred").when;
-
-var SCROLLABLE = "dxScrollable",
-    SCROLLABLE_STRATEGY = "dxScrollableStrategy",
-    SCROLLABLE_CLASS = "dx-scrollable",
-    SCROLLABLE_DISABLED_CLASS = "dx-scrollable-disabled",
-    SCROLLABLE_CONTAINER_CLASS = "dx-scrollable-container",
-    SCROLLABLE_WRAPPER_CLASS = "dx-scrollable-wrapper",
-    SCROLLABLE_CONTENT_CLASS = "dx-scrollable-content",
-    SCROLLABLE_CUSTOMIZABLE_SCROLLBARS_CLASS = "dx-scrollable-customizable-scrollbars",
-    VERTICAL = "vertical",
-    HORIZONTAL = "horizontal",
-    BOTH = "both";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var support = require("../../core/utils/support");
+var browser = require("../../core/utils/browser");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var windowUtils = require("../../core/utils/window");
+var navigator = windowUtils.getNavigator();
+var domAdapter = require("../../core/dom_adapter");
+var devices = require("../../core/devices");
+var registerComponent = require("../../core/component_registrator");
+var DOMComponent = require("../../core/dom_component");
+var selectors = require("../widget/selectors");
+var eventUtils = require("../../events/utils");
+var scrollEvents = require("./ui.events.emitter.gesture.scroll");
+var simulatedStrategy = require("./ui.scrollable.simulated");
+var NativeStrategy = require("./ui.scrollable.native");
+var when = require("../../core/utils/deferred").when;
+var SCROLLABLE = "dxScrollable";
+var SCROLLABLE_STRATEGY = "dxScrollableStrategy";
+var SCROLLABLE_CLASS = "dx-scrollable";
+var SCROLLABLE_DISABLED_CLASS = "dx-scrollable-disabled";
+var SCROLLABLE_CONTAINER_CLASS = "dx-scrollable-container";
+var SCROLLABLE_WRAPPER_CLASS = "dx-scrollable-wrapper";
+var SCROLLABLE_CONTENT_CLASS = "dx-scrollable-content";
+var SCROLLABLE_CUSTOMIZABLE_SCROLLBARS_CLASS = "dx-scrollable-customizable-scrollbars";
+var VERTICAL = "vertical";
+var HORIZONTAL = "horizontal";
+var BOTH = "both";
 
 var deviceDependentOptions = function() {
     return [{
@@ -237,10 +236,10 @@ var Scrollable = DOMComponent.inherit({
     },
 
     _initScrollableMarkup: function() {
-        var $element = this.$element().addClass(SCROLLABLE_CLASS),
-            $container = this._$container = $("<div>").addClass(SCROLLABLE_CONTAINER_CLASS),
-            $wrapper = this._$wrapper = $("<div>").addClass(SCROLLABLE_WRAPPER_CLASS),
-            $content = this._$content = $("<div>").addClass(SCROLLABLE_CONTENT_CLASS);
+        var $element = this.$element().addClass(SCROLLABLE_CLASS);
+        var $container = this._$container = $("<div>").addClass(SCROLLABLE_CONTAINER_CLASS);
+        var $wrapper = this._$wrapper = $("<div>").addClass(SCROLLABLE_WRAPPER_CLASS);
+        var $content = this._$content = $("<div>").addClass(SCROLLABLE_CONTENT_CLASS);
 
         if(domAdapter.hasDocumentProperty("onbeforeactivate") && browser.msie && browser.version < 12) {
             eventsEngine.on($element, eventUtils.addNamespace("beforeactivate", SCROLLABLE), function(e) {
@@ -286,8 +285,8 @@ var Scrollable = DOMComponent.inherit({
     },
 
     _updateRtlPosition: function() {
-        var that = this,
-            rtl = that.option("rtlEnabled");
+        var that = this;
+        var rtl = that.option("rtlEnabled");
 
         this._updateBounds();
         if(rtl && this.option("direction") !== VERTICAL) {

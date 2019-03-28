@@ -10,9 +10,9 @@ var VirtualScrollingRowsViewExtender = {
     },
 
     _handleScroll: function(e) {
-        var that = this,
-            scrollable = this.getScrollable(),
-            left = e.scrollOffset.left;
+        var that = this;
+        var scrollable = this.getScrollable();
+        var left = e.scrollOffset.left;
 
         that.callBase.apply(that, arguments);
 
@@ -26,8 +26,8 @@ var VirtualScrollingRowsViewExtender = {
 
 var HeaderFooterViewExtender = {
     _renderCore: function() {
-        var that = this,
-            scrollLeft = that._scrollLeft;
+        var that = this;
+        var scrollLeft = that._scrollLeft;
 
         that.callBase.apply(that, arguments);
 
@@ -58,9 +58,9 @@ var ColumnsControllerExtender = (function() {
             this._virtualVisibleColumns = {};
         },
         getBeginPageIndex: function(position) {
-            var visibleColumns = this.getVisibleColumns(undefined, true),
-                widths = getWidths(visibleColumns),
-                currentPosition = 0;
+            var visibleColumns = this.getVisibleColumns(undefined, true);
+            var widths = getWidths(visibleColumns);
+            var currentPosition = 0;
 
             for(var index = 0; index < widths.length; index++) {
                 if(currentPosition >= position) {
@@ -79,9 +79,9 @@ var ColumnsControllerExtender = (function() {
             return this.getController("resizing")._lastWidth || this.component.$element().outerWidth();
         },
         getEndPageIndex: function(position) {
-            var visibleColumns = this.getVisibleColumns(undefined, true),
-                widths = getWidths(visibleColumns),
-                currentPosition = 0;
+            var visibleColumns = this.getVisibleColumns(undefined, true);
+            var widths = getWidths(visibleColumns);
+            var currentPosition = 0;
 
             position += this.getTotalWidth();
 
@@ -106,8 +106,8 @@ var ColumnsControllerExtender = (function() {
             this._renderTime = new Date() - date;
         },
         setScrollPosition: function(position) {
-            var that = this,
-                renderingThreshold = that.option("scrolling.columnRenderingThreshold");
+            var that = this;
+            var renderingThreshold = that.option("scrolling.columnRenderingThreshold");
 
             if(that._renderTime > renderingThreshold) {
                 clearTimeout(that._changedTimeout);
@@ -129,9 +129,9 @@ var ColumnsControllerExtender = (function() {
             var that = this;
 
             if(that.isVirtualMode()) {
-                var beginPageIndex = that.getBeginPageIndex(position),
-                    endPageIndex = that.getEndPageIndex(position),
-                    needColumnsChanged = position < that._position ? that._beginPageIndex > beginPageIndex : that._endPageIndex < endPageIndex;
+                var beginPageIndex = that.getBeginPageIndex(position);
+                var endPageIndex = that.getEndPageIndex(position);
+                var needColumnsChanged = position < that._position ? that._beginPageIndex > beginPageIndex : that._endPageIndex < endPageIndex;
 
                 that._position = position;
                 if(needColumnsChanged) {
@@ -161,21 +161,21 @@ var ColumnsControllerExtender = (function() {
                 this._endPageIndex = this.getEndPageIndex(this._position);
             }
 
-            var beginPageIndex = this._beginPageIndex,
-                endPageIndex = this._endPageIndex,
-                visibleColumnsHash = rowIndex + "-" + beginPageIndex + "-" + endPageIndex;
+            var beginPageIndex = this._beginPageIndex;
+            var endPageIndex = this._endPageIndex;
+            var visibleColumnsHash = rowIndex + "-" + beginPageIndex + "-" + endPageIndex;
 
             if(this._virtualVisibleColumns[visibleColumnsHash]) {
                 return this._virtualVisibleColumns[visibleColumnsHash];
             }
 
-            var visibleColumns = this.callBase(),
-                rowCount = this.getRowCount(),
-                pageSize = this.getColumnPageSize(),
-                startIndex = beginPageIndex * pageSize,
-                endIndex = endPageIndex * pageSize,
-                fixedColumns = this.getFixedColumns(undefined, true),
-                transparentColumnIndex = fixedColumns.map(c => c.command).indexOf("transparent");
+            var visibleColumns = this.callBase();
+            var rowCount = this.getRowCount();
+            var pageSize = this.getColumnPageSize();
+            var startIndex = beginPageIndex * pageSize;
+            var endIndex = endPageIndex * pageSize;
+            var fixedColumns = this.getFixedColumns(undefined, true);
+            var transparentColumnIndex = fixedColumns.map(c => c.command).indexOf("transparent");
 
             var beginFixedColumnCount = fixedColumns.length ? transparentColumnIndex : 0;
             var beginFixedColumns = visibleColumns.slice(0, beginFixedColumnCount);

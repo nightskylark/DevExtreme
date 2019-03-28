@@ -1,44 +1,47 @@
-var typeUtils = require("../core/utils/type"),
-    stringUtils = require("../core/utils/string"),
-    numberFormatter = require("../localization/number"),
-    dateLocalization = require("../localization/date"),
-    getDateLDMLFormat = require("../localization/ldml/date.format").getFormat,
-    getLanguageID = require("../localization/language_codes").getLanguageId,
-    UNSUPPORTED_FORMAT_MAPPING = {
-        quarter: "shortDate",
-        quarterAndYear: "shortDate",
-        minute: "longTime",
-        millisecond: "longTime"
-    },
-    ARABIC_ZERO_CODE = 1632,
-    DEFINED_NUMBER_FORMTATS = {
-        thousands: "#,##0{0},&quot;K&quot;",
-        millions: "#,##0{0},,&quot;M&quot;",
-        billions: "#,##0{0},,,&quot;B&quot;",
-        trillions: "#,##0{0},,,,&quot;T&quot;",
-        percent: "0{0}%",
-        decimal: "#{0}",
-        "fixedpoint": "#,##0{0}",
-        exponential: "0{0}E+00",
-        currency: " "
-    };
+var typeUtils = require("../core/utils/type");
+var stringUtils = require("../core/utils/string");
+var numberFormatter = require("../localization/number");
+var dateLocalization = require("../localization/date");
+var getDateLDMLFormat = require("../localization/ldml/date.format").getFormat;
+var getLanguageID = require("../localization/language_codes").getLanguageId;
 
-var PERIOD_REGEXP = /a+/g,
-    DAY_REGEXP = /E/g,
-    DO_REGEXP = /dE+/g,
-    STANDALONE_MONTH_REGEXP = /L/g,
-    HOUR_REGEXP = /h/g,
-    SLASH_REGEXP = /\//g,
-    SQUARE_OPEN_BRACKET_REGEXP = /\[/g,
-    SQUARE_CLOSE_BRACKET_REGEXP = /]/g,
-    ANY_REGEXP = /./g;
+var UNSUPPORTED_FORMAT_MAPPING = {
+    quarter: "shortDate",
+    quarterAndYear: "shortDate",
+    minute: "longTime",
+    millisecond: "longTime"
+};
+
+var ARABIC_ZERO_CODE = 1632;
+
+var DEFINED_NUMBER_FORMTATS = {
+    thousands: "#,##0{0},&quot;K&quot;",
+    millions: "#,##0{0},,&quot;M&quot;",
+    billions: "#,##0{0},,,&quot;B&quot;",
+    trillions: "#,##0{0},,,,&quot;T&quot;",
+    percent: "0{0}%",
+    decimal: "#{0}",
+    "fixedpoint": "#,##0{0}",
+    exponential: "0{0}E+00",
+    currency: " "
+};
+
+var PERIOD_REGEXP = /a+/g;
+var DAY_REGEXP = /E/g;
+var DO_REGEXP = /dE+/g;
+var STANDALONE_MONTH_REGEXP = /L/g;
+var HOUR_REGEXP = /h/g;
+var SLASH_REGEXP = /\//g;
+var SQUARE_OPEN_BRACKET_REGEXP = /\[/g;
+var SQUARE_CLOSE_BRACKET_REGEXP = /]/g;
+var ANY_REGEXP = /./g;
 
 require("../localization/currency");
 
 var excelFormatConverter = module.exports = {
     _applyPrecision: function(format, precision) {
-        var result,
-            i;
+        var result;
+        var i;
 
         if(precision > 0) {
             result = format !== "decimal" ? "." : "";
@@ -88,11 +91,12 @@ var excelFormatConverter = module.exports = {
     _convertDateFormat: function(format) {
         format = UNSUPPORTED_FORMAT_MAPPING[format && format.type || format] || format;
 
-        var that = this,
-            formattedValue = (dateLocalization.format(new Date(2009, 8, 8, 6, 5, 4), format) || "").toString(),
-            result = getDateLDMLFormat(function(value) {
-                return dateLocalization.format(value, format);
-            });
+        var that = this;
+        var formattedValue = (dateLocalization.format(new Date(2009, 8, 8, 6, 5, 4), format) || "").toString();
+
+        var result = getDateLDMLFormat(function(value) {
+            return dateLocalization.format(value, format);
+        });
 
         if(result) {
             result = that._convertDateFormatToOpenXml(result);
@@ -103,9 +107,9 @@ var excelFormatConverter = module.exports = {
     },
 
     _getLanguageInfo: function(defaultPattern) {
-        var languageID = getLanguageID(),
-            languageIDStr = languageID ? languageID.toString(16) : "",
-            languageInfo = "";
+        var languageID = getLanguageID();
+        var languageIDStr = languageID ? languageID.toString(16) : "";
+        var languageInfo = "";
 
         if(this._hasArabicDigits(defaultPattern)) {
             while(languageIDStr.length < 3) {
@@ -120,8 +124,8 @@ var excelFormatConverter = module.exports = {
     },
 
     _convertNumberFormat: function(format, precision, currency) {
-        var result,
-            excelFormat = format === "currency" ? this._getCurrencyFormat(currency) : DEFINED_NUMBER_FORMTATS[format.toLowerCase()];
+        var result;
+        var excelFormat = format === "currency" ? this._getCurrencyFormat(currency) : DEFINED_NUMBER_FORMTATS[format.toLowerCase()];
 
         if(excelFormat) {
             result = stringUtils.format(excelFormat, this._applyPrecision(format, precision));

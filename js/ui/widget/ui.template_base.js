@@ -1,9 +1,9 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    Callbacks = require("../../core/utils/callbacks"),
-    domUtils = require("../../core/utils/dom"),
-    Class = require("../../core/class"),
-    abstract = Class.abstract;
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var Callbacks = require("../../core/utils/callbacks");
+var domUtils = require("../../core/utils/dom");
+var Class = require("../../core/class");
+var abstract = Class.abstract;
 
 
 var renderedCallbacks = Callbacks();

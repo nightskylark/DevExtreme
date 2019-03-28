@@ -1,18 +1,17 @@
-var Class = require("../../core/class"),
-    config = require("../../core/config"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    dateSerialization = require("../../core/utils/date_serialization"),
-    recurrenceUtils = require("./utils.recurrence"),
-    dateUtils = require("../../core/utils/date"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    inArray = require("../../core/utils/array").inArray,
-    extend = require("../../core/utils/extend").extend,
-    arrayUtils = require("../../core/utils/array"),
-    query = require("../../data/query");
-
-var DATE_FILTER_POSITION = 0,
-    USER_FILTER_POSITION = 1;
+var Class = require("../../core/class");
+var config = require("../../core/config");
+var iteratorUtils = require("../../core/utils/iterator");
+var dateSerialization = require("../../core/utils/date_serialization");
+var recurrenceUtils = require("./utils.recurrence");
+var dateUtils = require("../../core/utils/date");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var inArray = require("../../core/utils/array").inArray;
+var extend = require("../../core/utils/extend").extend;
+var arrayUtils = require("../../core/utils/array");
+var query = require("../../data/query");
+var DATE_FILTER_POSITION = 0;
+var USER_FILTER_POSITION = 1;
 
 var FilterMaker = Class.inherit({
     ctor: function(dataAccessors) {
@@ -39,9 +38,9 @@ var FilterMaker = Class.inherit({
 
     _make: {
         "date": function(min, max, useAccessors) {
-            var startDate = useAccessors ? this._dataAccessors.getter.startDate : this._dataAccessors.expr.startDateExpr,
-                endDate = useAccessors ? this._dataAccessors.getter.endDate : this._dataAccessors.expr.endDateExpr,
-                recurrenceRule = this._dataAccessors.expr.recurrenceRuleExpr;
+            var startDate = useAccessors ? this._dataAccessors.getter.startDate : this._dataAccessors.expr.startDateExpr;
+            var endDate = useAccessors ? this._dataAccessors.getter.endDate : this._dataAccessors.expr.endDateExpr;
+            var recurrenceRule = this._dataAccessors.expr.recurrenceRuleExpr;
 
             this._filterRegistry.date = [
                 [
@@ -92,12 +91,12 @@ var compareDateWithStartDayHour = function(startDate, endDate, startDayHour, all
 };
 
 var compareDateWithEndDayHour = function(startDate, endDate, startDayHour, endDayHour, allDay, max) {
-    var hiddenInterval = (24 - endDayHour + startDayHour) * 3600000,
-        apptDuration = endDate.getTime() - startDate.getTime(),
-        delta = (hiddenInterval - apptDuration) / (1000 * 60 * 60),
-        apptStartHour = startDate.getHours(),
-        apptStartMinutes = startDate.getMinutes(),
-        result;
+    var hiddenInterval = (24 - endDayHour + startDayHour) * 3600000;
+    var apptDuration = endDate.getTime() - startDate.getTime();
+    var delta = (hiddenInterval - apptDuration) / (1000 * 60 * 60);
+    var apptStartHour = startDate.getHours();
+    var apptStartMinutes = startDate.getMinutes();
+    var result;
 
     var endTime = dateUtils.dateTimeFromDecimal(endDayHour);
 
@@ -126,8 +125,8 @@ var AppointmentModel = Class.inherit({
     },
 
     _excessFiltering: function() {
-        var dateFilter = this._filterMaker.dateFilter(),
-            dataSourceFilter = this._dataSource.filter();
+        var dateFilter = this._filterMaker.dateFilter();
+        var dataSourceFilter = this._dataSource.filter();
 
         return dataSourceFilter && (commonUtils.equalByValue(dataSourceFilter, dateFilter) || (dataSourceFilter.length && commonUtils.equalByValue(dataSourceFilter[DATE_FILTER_POSITION], dateFilter)));
     },
@@ -146,15 +145,15 @@ var AppointmentModel = Class.inherit({
         var result = false;
 
         function checkAppointmentResourceValues() {
-            var resourceGetter = this._dataAccessors.getter.resources[resourceName],
-                resource;
+            var resourceGetter = this._dataAccessors.getter.resources[resourceName];
+            var resource;
 
             if(typeUtils.isFunction(resourceGetter)) {
                 resource = resourceGetter(appointment);
             }
 
-            var appointmentResourceValues = arrayUtils.wrapToArray(resource),
-                resourceData = iteratorUtils.map(resources[i].items, function(item) { return item.id; });
+            var appointmentResourceValues = arrayUtils.wrapToArray(resource);
+            var resourceData = iteratorUtils.map(resources[i].items, function(item) { return item.id; });
 
             for(var j = 0, itemDataCount = appointmentResourceValues.length; j < itemDataCount; j++) {
                 if(inArray(appointmentResourceValues[j], resourceData) > -1) {
@@ -179,12 +178,12 @@ var AppointmentModel = Class.inherit({
     },
 
     _filterAppointmentByRRule: function(appointment, min, max, startDayHour, endDayHour) {
-        var recurrenceRule = appointment.recurrenceRule,
-            recurrenceException = appointment.recurrenceException,
-            allDay = appointment.allDay,
-            result = true,
-            appointmentStartDate = appointment.startDate,
-            appointmentEndDate = appointment.endDate;
+        var recurrenceRule = appointment.recurrenceRule;
+        var recurrenceException = appointment.recurrenceException;
+        var allDay = appointment.allDay;
+        var result = true;
+        var appointmentStartDate = appointment.startDate;
+        var appointmentEndDate = appointment.endDate;
 
         if(allDay || this._appointmentPartInInterval(appointmentStartDate, appointmentEndDate, startDayHour, endDayHour)) {
             var trimmedDates = this._trimDates(min, max);
@@ -212,31 +211,31 @@ var AppointmentModel = Class.inherit({
     },
 
     _appointmentPartInInterval: function(startDate, endDate, startDayHour, endDayHour) {
-        var apptStartDayHour = startDate.getHours(),
-            apptEndDayHour = endDate.getHours();
+        var apptStartDayHour = startDate.getHours();
+        var apptEndDayHour = endDate.getHours();
 
         return (apptStartDayHour <= startDayHour && apptEndDayHour <= endDayHour && apptEndDayHour >= startDayHour) ||
                    (apptEndDayHour >= endDayHour && apptStartDayHour <= endDayHour && apptStartDayHour >= startDayHour);
     },
 
     _createCombinedFilter: function(filterOptions, timeZoneProcessor) {
-        var dataAccessors = this._dataAccessors,
-            startDayHour = filterOptions.startDayHour,
-            endDayHour = filterOptions.endDayHour,
-            min = new Date(filterOptions.min),
-            max = new Date(filterOptions.max),
-            resources = filterOptions.resources,
-            that = this;
+        var dataAccessors = this._dataAccessors;
+        var startDayHour = filterOptions.startDayHour;
+        var endDayHour = filterOptions.endDayHour;
+        var min = new Date(filterOptions.min);
+        var max = new Date(filterOptions.max);
+        var resources = filterOptions.resources;
+        var that = this;
 
         return [[function(appointment) {
-            var result = true,
-                startDate = new Date(dataAccessors.getter.startDate(appointment)),
-                endDate = new Date(dataAccessors.getter.endDate(appointment)),
-                appointmentTakesAllDay = that.appointmentTakesAllDay(appointment, startDayHour, endDayHour),
-                appointmentTakesSeveralDays = that.appointmentTakesSeveralDays(appointment),
-                isAllDay = dataAccessors.getter.allDay(appointment),
-                useRecurrence = typeUtils.isDefined(dataAccessors.getter.recurrenceRule),
-                recurrenceRule;
+            var result = true;
+            var startDate = new Date(dataAccessors.getter.startDate(appointment));
+            var endDate = new Date(dataAccessors.getter.endDate(appointment));
+            var appointmentTakesAllDay = that.appointmentTakesAllDay(appointment, startDayHour, endDayHour);
+            var appointmentTakesSeveralDays = that.appointmentTakesSeveralDays(appointment);
+            var isAllDay = dataAccessors.getter.allDay(appointment);
+            var useRecurrence = typeUtils.isDefined(dataAccessors.getter.recurrenceRule);
+            var recurrenceRule;
 
             if(useRecurrence) {
                 recurrenceRule = dataAccessors.getter.recurrenceRule(appointment);
@@ -261,10 +260,10 @@ var AppointmentModel = Class.inherit({
                 }, min, max, startDayHour, endDayHour);
             }
 
-            var startDateTimeZone = dataAccessors.getter.startDateTimeZone(appointment),
-                endDateTimeZone = dataAccessors.getter.endDateTimeZone(appointment),
-                comparableStartDate = timeZoneProcessor(startDate, startDateTimeZone),
-                comparableEndDate = timeZoneProcessor(endDate, endDateTimeZone);
+            var startDateTimeZone = dataAccessors.getter.startDateTimeZone(appointment);
+            var endDateTimeZone = dataAccessors.getter.endDateTimeZone(appointment);
+            var comparableStartDate = timeZoneProcessor(startDate, startDateTimeZone);
+            var comparableEndDate = timeZoneProcessor(endDate, endDateTimeZone);
 
             if(result && startDayHour !== undefined) {
                 result = compareDateWithStartDayHour(comparableStartDate, comparableEndDate, startDayHour, appointmentTakesAllDay, appointmentTakesSeveralDays);
@@ -364,8 +363,8 @@ var AppointmentModel = Class.inherit({
 
         filter = extend([], filter);
 
-        var startDate = that._dataAccessors.expr.startDateExpr,
-            endDate = that._dataAccessors.expr.endDateExpr;
+        var startDate = that._dataAccessors.expr.startDateExpr;
+        var endDate = that._dataAccessors.expr.endDateExpr;
 
         if(typeUtils.isString(filter[0])) {
             if(config().forceIsoDateParsing && filter.length > 1) {
@@ -405,8 +404,8 @@ var AppointmentModel = Class.inherit({
     },
 
     _trimDates: function(min, max) {
-        var minCopy = dateUtils.trimTime(new Date(min)),
-            maxCopy = dateUtils.trimTime(new Date(max));
+        var minCopy = dateUtils.trimTime(new Date(min));
+        var maxCopy = dateUtils.trimTime(new Date(max));
 
         maxCopy.setDate(maxCopy.getDate() + 1);
 
@@ -435,10 +434,10 @@ var AppointmentModel = Class.inherit({
     },
 
     appointmentTakesAllDay: function(appointment, startDayHour, endDayHour) {
-        var dataAccessors = this._dataAccessors,
-            startDate = dataAccessors.getter.startDate(appointment),
-            endDate = dataAccessors.getter.endDate(appointment),
-            allDay = dataAccessors.getter.allDay(appointment);
+        var dataAccessors = this._dataAccessors;
+        var startDate = dataAccessors.getter.startDate(appointment);
+        var endDate = dataAccessors.getter.endDate(appointment);
+        var allDay = dataAccessors.getter.allDay(appointment);
 
         return allDay || this._appointmentHasAllDayDuration(startDate, endDate, startDayHour, endDayHour);
     },
@@ -447,15 +446,15 @@ var AppointmentModel = Class.inherit({
         startDate = new Date(startDate);
         endDate = new Date(endDate);
 
-        var dayDuration = 24,
-            appointmentDurationInHours = this._getAppointmentDurationInHours(startDate, endDate);
+        var dayDuration = 24;
+        var appointmentDurationInHours = this._getAppointmentDurationInHours(startDate, endDate);
 
         return (appointmentDurationInHours >= dayDuration) || this._appointmentHasShortDayDuration(startDate, endDate, startDayHour, endDayHour);
     },
 
     _appointmentHasShortDayDuration: function(startDate, endDate, startDayHour, endDayHour) {
-        var appointmentDurationInHours = this._getAppointmentDurationInHours(startDate, endDate),
-            shortDayDurationInHours = endDayHour - startDayHour;
+        var appointmentDurationInHours = this._getAppointmentDurationInHours(startDate, endDate);
+        var shortDayDurationInHours = endDayHour - startDayHour;
 
         return (appointmentDurationInHours >= shortDayDurationInHours && startDate.getHours() === startDayHour && endDate.getHours() === endDayHour);
     },
@@ -465,12 +464,11 @@ var AppointmentModel = Class.inherit({
     },
 
     appointmentTakesSeveralDays: function(appointment) {
-        var dataAccessors = this._dataAccessors,
-            startDate = dataAccessors.getter.startDate(appointment),
-            endDate = dataAccessors.getter.endDate(appointment);
-
-        var startDateCopy = dateUtils.trimTime(new Date(startDate)),
-            endDateCopy = dateUtils.trimTime(new Date(endDate));
+        var dataAccessors = this._dataAccessors;
+        var startDate = dataAccessors.getter.startDate(appointment);
+        var endDate = dataAccessors.getter.endDate(appointment);
+        var startDateCopy = dateUtils.trimTime(new Date(startDate));
+        var endDateCopy = dateUtils.trimTime(new Date(endDate));
 
         return startDateCopy.getTime() !== endDateCopy.getTime();
     },
@@ -481,13 +479,12 @@ var AppointmentModel = Class.inherit({
         return (function(appointment) {
             appointment = extend(true, {}, appointment);
 
-            var startDate = this._dataAccessors.getter.startDate(appointment),
-                endDate = this._dataAccessors.getter.endDate(appointment),
-                startDateTimeZone = this._dataAccessors.getter.startDateTimeZone(appointment),
-                endDateTimeZone = this._dataAccessors.getter.endDateTimeZone(appointment);
-
-            var comparableStartDate = timeZoneProcessor(startDate, startDateTimeZone),
-                comparableEndDate = timeZoneProcessor(endDate, endDateTimeZone);
+            var startDate = this._dataAccessors.getter.startDate(appointment);
+            var endDate = this._dataAccessors.getter.endDate(appointment);
+            var startDateTimeZone = this._dataAccessors.getter.startDateTimeZone(appointment);
+            var endDateTimeZone = this._dataAccessors.getter.endDateTimeZone(appointment);
+            var comparableStartDate = timeZoneProcessor(startDate, startDateTimeZone);
+            var comparableEndDate = timeZoneProcessor(endDate, endDateTimeZone);
 
             this._dataAccessors.setter.startDate(appointment, comparableStartDate);
             this._dataAccessors.setter.endDate(appointment, comparableEndDate);

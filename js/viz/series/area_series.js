@@ -1,13 +1,14 @@
 // there are area, steparea, stackedarea, fullstackedarea, splinearea
-var objectUtils = require("../../core/utils/object"),
-    extend = require("../../core/utils/extend").extend,
-    scatterSeries = require("./scatter_series").chart,
-    lineSeries = require("./line_series"),
-    chartLineSeries = lineSeries.chart.line,
-    polarLineSeries = lineSeries.polar.line,
-    _map = require("../core/utils").map,
-    _extend = extend,
-    calculateBezierPoints = lineSeries.chart["spline"]._calculateBezierPoints;
+var objectUtils = require("../../core/utils/object");
+
+var extend = require("../../core/utils/extend").extend;
+var scatterSeries = require("./scatter_series").chart;
+var lineSeries = require("./line_series");
+var chartLineSeries = lineSeries.chart.line;
+var polarLineSeries = lineSeries.polar.line;
+var _map = require("../core/utils").map;
+var _extend = extend;
+var calculateBezierPoints = lineSeries.chart["spline"]._calculateBezierPoints;
 
 exports.chart = {};
 exports.polar = {};
@@ -39,9 +40,9 @@ var baseAreaMethods = {
     },
 
     _updateElement: function(element, segment, animate, complete) {
-        var lineParams = { points: segment.line },
-            areaParams = { points: segment.area },
-            borderElement = element.line;
+        var lineParams = { points: segment.line };
+        var areaParams = { points: segment.area };
+        var borderElement = element.line;
         if(animate) {
             borderElement && borderElement.animate(lineParams);
             element.area.animate(areaParams, {}, complete);
@@ -74,8 +75,8 @@ var baseAreaMethods = {
     },
 
     _parseStyle: function(options, defaultColor, defaultBorderColor) {
-        var borderOptions = options.border || {},
-            borderStyle = chartLineSeries._parseLineOptions(borderOptions, defaultBorderColor);
+        var borderOptions = options.border || {};
+        var borderStyle = chartLineSeries._parseLineOptions(borderOptions, defaultBorderColor);
 
         borderStyle.stroke = (borderOptions.visible && borderStyle["stroke-width"]) ? borderStyle.stroke : "none";
         borderStyle["stroke-width"] = borderStyle["stroke-width"] || 1;
@@ -129,8 +130,8 @@ var areaSeries = exports.chart["area"] = _extend({}, chartLineSeries, baseAreaMe
     },
     _processSinglePointsAreaSegment: function(points, rotated) {
         if(points && points.length === 1) {
-            var p = points[0],
-                p1 = objectUtils.clone(p);
+            var p = points[0];
+            var p1 = objectUtils.clone(p);
             p1[rotated ? "y" : "x"] += 1;
             p1.argument = null;
             return [p, p1];
@@ -162,8 +163,8 @@ exports.chart["steparea"] = _extend({}, areaSeries, {
 
 exports.chart["splinearea"] = _extend({}, areaSeries, {
     _areaPointsToSplineAreaPoints: function(areaPoints) {
-        var previousMiddlePoint = areaPoints[areaPoints.length / 2 - 1],
-            middlePoint = areaPoints[areaPoints.length / 2];
+        var previousMiddlePoint = areaPoints[areaPoints.length / 2 - 1];
+        var middlePoint = areaPoints[areaPoints.length / 2];
         areaPoints.splice(areaPoints.length / 2, 0, { x: previousMiddlePoint.x, y: previousMiddlePoint.y }, { x: middlePoint.x, y: middlePoint.y });
         ///#DEBUG
         if(previousMiddlePoint.defaultCoords) {
@@ -176,8 +177,8 @@ exports.chart["splinearea"] = _extend({}, areaSeries, {
     },
 
     _prepareSegment: function(points, rotated) {
-        var processedPoints = areaSeries._processSinglePointsAreaSegment(points, rotated),
-            areaSegment = areaSeries._prepareSegment.call(this, calculateBezierPoints(processedPoints, rotated));
+        var processedPoints = areaSeries._processSinglePointsAreaSegment(points, rotated);
+        var areaSegment = areaSeries._prepareSegment.call(this, calculateBezierPoints(processedPoints, rotated));
 
         this._areaPointsToSplineAreaPoints(areaSegment.area);
         areaSegment.singlePointSegment = processedPoints !== points;

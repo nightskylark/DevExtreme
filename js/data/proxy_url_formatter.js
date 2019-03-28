@@ -1,13 +1,13 @@
-var each = require("../core/utils/iterator").each,
-    domAdapter = require("../core/dom_adapter"),
-    window = require("../core/utils/window").getWindow(),
-    callOnce = require("../core/utils/call_once"),
-    DXPROXY_HOST = "dxproxy.devexpress.com:8000",
-    urlMapping = {};
+var each = require("../core/utils/iterator").each;
+var domAdapter = require("../core/dom_adapter");
+var window = require("../core/utils/window").getWindow();
+var callOnce = require("../core/utils/call_once");
+var DXPROXY_HOST = "dxproxy.devexpress.com:8000";
+var urlMapping = {};
 
 var getUrlParser = callOnce(function() {
-    var a = domAdapter.createElement("a"),
-        props = ["protocol", "hostname", "port", "pathname", "search", "hash"];
+    var a = domAdapter.createElement("a");
+    var props = ["protocol", "hostname", "port", "pathname", "search", "hash"];
 
     var normalizePath = function(value) {
         // occurs at least in IE

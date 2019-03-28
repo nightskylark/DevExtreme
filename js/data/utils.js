@@ -108,8 +108,8 @@ var aggregators = {
 };
 
 var processRequestResultLock = (function() {
-    var lockCount = 0,
-        lockDeferred;
+    var lockCount = 0;
+    var lockDeferred;
 
     var obtain = function() {
         if(lockCount === 0) {
@@ -155,8 +155,8 @@ function isConjunctiveOperator(condition) {
 
 var keysEqual = function(keyExpr, key1, key2) {
     if(Array.isArray(keyExpr)) {
-        var names = map(key1, function(v, k) { return k; }),
-            name;
+        var names = map(key1, function(v, k) { return k; });
+        var name;
         for(var i = 0; i < names.length; i++) {
             name = names[i];
             // eslint-disable-next-line eqeqeq
@@ -184,10 +184,9 @@ var base64_encode = function(input) {
     }
 
     for(var i = 0; i < input.length; i += 3) {
-
-        var octet1 = input[i],
-            octet2 = input[i + 1],
-            octet3 = input[i + 2];
+        var octet1 = input[i];
+        var octet2 = input[i + 1];
+        var octet3 = input[i + 2];
 
         result += map(
             [
@@ -204,8 +203,9 @@ var base64_encode = function(input) {
 };
 
 var stringToByteArray = function(str) {
-    var bytes = [],
-        code, i;
+    var bytes = [];
+    var code;
+    var i;
 
     for(i = 0; i < str.length; i++) {
         code = str.charCodeAt(i);
@@ -232,8 +232,8 @@ var isGroupOperator = function(value) {
 };
 
 var isGroupCriterion = function(crit) {
-    var first = crit[0],
-        second = crit[1];
+    var first = crit[0];
+    var second = crit[1];
 
     if(Array.isArray(first)) {
         return true;
@@ -258,8 +258,8 @@ var rejectedPromise = function() {
 };
 
 function throttle(func, timeout) {
-    var timeoutId,
-        lastArgs;
+    var timeoutId;
+    var lastArgs;
     return function() {
         lastArgs = arguments;
         if(!timeoutId) {
@@ -275,11 +275,12 @@ function throttle(func, timeout) {
 }
 
 function throttleChanges(func, timeout) {
-    var cache = [],
-        throttled = throttle(function() {
-            func.call(this, cache);
-            cache = [];
-        }, timeout);
+    var cache = [];
+
+    var throttled = throttle(function() {
+        func.call(this, cache);
+        cache = [];
+    }, timeout);
 
     return function(changes) {
         if(Array.isArray(changes)) {

@@ -1,6 +1,6 @@
-var _createColorCodeGetter = require("./colorizing").createColorCodeGetter,
-    _min = Math.min,
-    _max = Math.max;
+var _createColorCodeGetter = require("./colorizing").createColorCodeGetter;
+var _min = Math.min;
+var _max = Math.max;
 
 function createSimpleColorizer(getColor, range) {
     return function(node) {
@@ -13,10 +13,10 @@ function getRangeData(range) {
 }
 
 function calculateRange(nodes, getValue) {
-    var i,
-        ii = nodes.length,
-        codes = [],
-        code;
+    var i;
+    var ii = nodes.length;
+    var codes = [];
+    var code;
 
     for(i = 0; i < ii; ++i) {
         code = getValue(nodes[i]);
@@ -38,8 +38,8 @@ function createGuessingColorizer(getColor, getValue) {
 }
 
 function gradientColorizer(options, themeManager) {
-    var palette = themeManager.createGradientPalette(options.palette),
-        getValue = _createColorCodeGetter(options);
+    var palette = themeManager.createGradientPalette(options.palette);
+    var getValue = _createColorCodeGetter(options);
 
     return "range" in options ? createSimpleColorizer(getColor, getRangeData(options.range || [])) : createGuessingColorizer(getColor, getValue);
 

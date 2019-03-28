@@ -1,49 +1,48 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    errors = require("./ui.errors"),
-    Action = require("../../core/action"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    each = require("../../core/utils/iterator").each,
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    domUtils = require("../../core/utils/dom"),
-    domAdapter = require("../../core/dom_adapter"),
-    devices = require("../../core/devices"),
-    DOMComponent = require("../../core/dom_component"),
-    Template = require("./template"),
-    TemplateBase = require("./ui.template_base"),
-    FunctionTemplate = require("./function_template"),
-    EmptyTemplate = require("./empty_template"),
-    ChildDefaultTemplate = require("./child_default_template"),
-    KeyboardProcessor = require("./ui.keyboard_processor"),
-    selectors = require("./selectors"),
-    eventUtils = require("../../events/utils"),
-    hoverEvents = require("../../events/hover"),
-    feedbackEvents = require("../../events/core/emitter.feedback"),
-    clickEvent = require("../../events/click"),
-    inflector = require("../../core/utils/inflector");
-
-var UI_FEEDBACK = "UIFeedback",
-    WIDGET_CLASS = "dx-widget",
-    ACTIVE_STATE_CLASS = "dx-state-active",
-    DISABLED_STATE_CLASS = "dx-state-disabled",
-    INVISIBLE_STATE_CLASS = "dx-state-invisible",
-    HOVER_STATE_CLASS = "dx-state-hover",
-    FOCUSED_STATE_CLASS = "dx-state-focused",
-    FEEDBACK_SHOW_TIMEOUT = 30,
-    FEEDBACK_HIDE_TIMEOUT = 400,
-    FOCUS_NAMESPACE = "Focus",
-    ANONYMOUS_TEMPLATE_NAME = "template",
-    TEXT_NODE = 3,
-    TEMPLATE_SELECTOR = "[data-options*='dxTemplate']",
-    TEMPLATE_WRAPPER_CLASS = "dx-template-wrapper";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var errors = require("./ui.errors");
+var Action = require("../../core/action");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var each = require("../../core/utils/iterator").each;
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var domUtils = require("../../core/utils/dom");
+var domAdapter = require("../../core/dom_adapter");
+var devices = require("../../core/devices");
+var DOMComponent = require("../../core/dom_component");
+var Template = require("./template");
+var TemplateBase = require("./ui.template_base");
+var FunctionTemplate = require("./function_template");
+var EmptyTemplate = require("./empty_template");
+var ChildDefaultTemplate = require("./child_default_template");
+var KeyboardProcessor = require("./ui.keyboard_processor");
+var selectors = require("./selectors");
+var eventUtils = require("../../events/utils");
+var hoverEvents = require("../../events/hover");
+var feedbackEvents = require("../../events/core/emitter.feedback");
+var clickEvent = require("../../events/click");
+var inflector = require("../../core/utils/inflector");
+var UI_FEEDBACK = "UIFeedback";
+var WIDGET_CLASS = "dx-widget";
+var ACTIVE_STATE_CLASS = "dx-state-active";
+var DISABLED_STATE_CLASS = "dx-state-disabled";
+var INVISIBLE_STATE_CLASS = "dx-state-invisible";
+var HOVER_STATE_CLASS = "dx-state-hover";
+var FOCUSED_STATE_CLASS = "dx-state-focused";
+var FEEDBACK_SHOW_TIMEOUT = 30;
+var FEEDBACK_HIDE_TIMEOUT = 400;
+var FOCUS_NAMESPACE = "Focus";
+var ANONYMOUS_TEMPLATE_NAME = "template";
+var TEXT_NODE = 3;
+var TEMPLATE_SELECTOR = "[data-options*='dxTemplate']";
+var TEMPLATE_WRAPPER_CLASS = "dx-template-wrapper";
 
 var DX_POLYMORPH_WIDGET_TEMPLATE = new FunctionTemplate(function(options) {
     var widgetName = options.model.widget;
     if(widgetName) {
-        var widgetElement = $("<div>"),
-            widgetOptions = options.model.options || {};
+        var widgetElement = $("<div>");
+        var widgetOptions = options.model.options || {};
 
         if(widgetName === "button" || widgetName === "tabs" || widgetName === "dropDownMenu") {
             var deprecatedName = widgetName;
@@ -337,17 +336,18 @@ var Widget = DOMComponent.inherit({
     },
 
     _extractAnonymousTemplate: function() {
-        var templates = this.option("integrationOptions.templates"),
-            anonymousTemplateName = this._getAnonymousTemplateName(),
-            $anonymousTemplate = this.$element().contents().detach();
+        var templates = this.option("integrationOptions.templates");
+        var anonymousTemplateName = this._getAnonymousTemplateName();
+        var $anonymousTemplate = this.$element().contents().detach();
 
         var $notJunkTemplateContent = $anonymousTemplate.filter(function(_, element) {
                 var isTextNode = element.nodeType === TEXT_NODE,
                     isEmptyText = $(element).text().trim().length < 1;
 
                 return !(isTextNode && isEmptyText);
-            }),
-            onlyJunkTemplateContent = $notJunkTemplateContent.length < 1;
+            });
+
+        var onlyJunkTemplateContent = $notJunkTemplateContent.length < 1;
 
         if(!templates[anonymousTemplateName] && !onlyJunkTemplateContent) {
             templates[anonymousTemplateName] = this._createTemplate($anonymousTemplate);
@@ -630,9 +630,9 @@ var Widget = DOMComponent.inherit({
     },
 
     _detachFocusEvents: function() {
-        var $element = this._focusTarget(),
-            namespace = this.NAME + FOCUS_NAMESPACE,
-            focusEvents = eventUtils.addNamespace("focusin", namespace);
+        var $element = this._focusTarget();
+        var namespace = this.NAME + FOCUS_NAMESPACE;
+        var focusEvents = eventUtils.addNamespace("focusin", namespace);
 
         focusEvents = focusEvents + " " + eventUtils.addNamespace("focusout", namespace);
 
@@ -644,9 +644,9 @@ var Widget = DOMComponent.inherit({
     },
 
     _attachFocusEvents: function() {
-        var namespace = this.NAME + FOCUS_NAMESPACE,
-            focusInEvent = eventUtils.addNamespace("focusin", namespace),
-            focusOutEvent = eventUtils.addNamespace("focusout", namespace);
+        var namespace = this.NAME + FOCUS_NAMESPACE;
+        var focusInEvent = eventUtils.addNamespace("focusin", namespace);
+        var focusOutEvent = eventUtils.addNamespace("focusout", namespace);
 
         var $focusTarget = this._focusTarget();
         eventsEngine.on($focusTarget, focusInEvent, this._focusInHandler.bind(this));
@@ -732,8 +732,8 @@ var Widget = DOMComponent.inherit({
         var keyName = options.keyName;
         var keyCode = options.which;
 
-        var keys = this._supportedKeys(e),
-            func = keys[keyName] || keys[keyCode];
+        var keys = this._supportedKeys(e);
+        var func = keys[keyName] || keys[keyCode];
 
         if(func !== undefined) {
             var handler = func.bind(this);
@@ -767,10 +767,10 @@ var Widget = DOMComponent.inherit({
     },
 
     _attachHoverEvents: function() {
-        var that = this,
-            hoverableSelector = that._activeStateUnit,
-            nameStart = eventUtils.addNamespace(hoverEvents.start, UI_FEEDBACK),
-            nameEnd = eventUtils.addNamespace(hoverEvents.end, UI_FEEDBACK);
+        var that = this;
+        var hoverableSelector = that._activeStateUnit;
+        var nameStart = eventUtils.addNamespace(hoverEvents.start, UI_FEEDBACK);
+        var nameEnd = eventUtils.addNamespace(hoverEvents.end, UI_FEEDBACK);
 
         eventsEngine.off(that._eventBindingTarget(), nameStart, hoverableSelector);
         eventsEngine.off(that._eventBindingTarget(), nameEnd, hoverableSelector);
@@ -805,21 +805,21 @@ var Widget = DOMComponent.inherit({
     _hoverEndHandler: commonUtils.noop,
 
     _attachFeedbackEvents: function() {
-        var that = this,
-            feedbackSelector = that._activeStateUnit,
-            activeEventName = eventUtils.addNamespace(feedbackEvents.active, UI_FEEDBACK),
-            inactiveEventName = eventUtils.addNamespace(feedbackEvents.inactive, UI_FEEDBACK),
-            feedbackAction,
-            feedbackActionDisabled;
+        var that = this;
+        var feedbackSelector = that._activeStateUnit;
+        var activeEventName = eventUtils.addNamespace(feedbackEvents.active, UI_FEEDBACK);
+        var inactiveEventName = eventUtils.addNamespace(feedbackEvents.inactive, UI_FEEDBACK);
+        var feedbackAction;
+        var feedbackActionDisabled;
 
         eventsEngine.off(that._eventBindingTarget(), activeEventName, feedbackSelector);
         eventsEngine.off(that._eventBindingTarget(), inactiveEventName, feedbackSelector);
 
         if(that.option("activeStateEnabled")) {
             var feedbackActionHandler = function(args) {
-                var $element = $(args.element),
-                    value = args.value,
-                    dxEvent = args.event;
+                var $element = $(args.element);
+                var value = args.value;
+                var dxEvent = args.event;
 
                 that._toggleActiveState($element, value, dxEvent);
             };
@@ -965,8 +965,8 @@ var Widget = DOMComponent.inherit({
 
     setAria: function() {
         var setAttribute = function(option) {
-            var attrName = (option.name === "role" || option.name === "id") ? option.name : "aria-" + option.name,
-                attrValue = option.value;
+            var attrName = (option.name === "role" || option.name === "id") ? option.name : "aria-" + option.name;
+            var attrValue = option.value;
 
             if(attrValue === null || attrValue === undefined) {
                 attrValue = undefined;
@@ -1023,8 +1023,8 @@ var Widget = DOMComponent.inherit({
     * @param2 handler:function
     */
     registerKeyHandler: function(key, handler) {
-        var currentKeys = this._supportedKeys(),
-            addingKeys = {};
+        var currentKeys = this._supportedKeys();
+        var addingKeys = {};
 
         addingKeys[key] = handler;
 

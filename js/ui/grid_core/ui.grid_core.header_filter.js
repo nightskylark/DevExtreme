@@ -26,8 +26,8 @@ var DATE_INTERVAL_FORMATS = {
 
 var HeaderFilterController = modules.ViewController.inherit((function() {
     var getFormatOptions = function(value, column, currentLevel) {
-        var groupInterval = filterUtils.getGroupInterval(column),
-            result = gridCoreUtils.getFormatOptionsByColumn(column, "headerFilter");
+        var groupInterval = filterUtils.getGroupInterval(column);
+        var result = gridCoreUtils.getFormatOptionsByColumn(column, "headerFilter");
 
         if(groupInterval) {
             result.groupInterval = groupInterval[currentLevel];
@@ -36,10 +36,10 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
                 result.format = DATE_INTERVAL_FORMATS[groupInterval[currentLevel]];
             } else if(column.dataType === "number") {
                 result.getDisplayFormat = function() {
-                    var formatOptions = { format: column.format, target: "headerFilter" },
-                        firstValueText = gridCoreUtils.formatValue(value, formatOptions),
-                        secondValue = value + groupInterval[currentLevel],
-                        secondValueText = gridCoreUtils.formatValue(secondValue, formatOptions);
+                    var formatOptions = { format: column.format, target: "headerFilter" };
+                    var firstValueText = gridCoreUtils.formatValue(value, formatOptions);
+                    var secondValue = value + groupInterval[currentLevel];
+                    var secondValueText = gridCoreUtils.formatValue(secondValue, formatOptions);
 
                     return firstValueText && secondValueText ? firstValueText + " - " + secondValueText : "";
                 };
@@ -57,8 +57,8 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
         },
 
         _updateSelectedState: function(items, column) {
-            var i = items.length,
-                isExclude = column.filterType === "exclude";
+            var i = items.length;
+            var isExclude = column.filterType === "exclude";
 
             while(i--) {
                 var item = items[i];
@@ -72,12 +72,12 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
         },
 
         _normalizeGroupItem: function(item, currentLevel, options) {
-            var value,
-                displayValue,
-                path = options.path,
-                valueSelector = options.valueSelector,
-                displaySelector = options.displaySelector,
-                column = options.column;
+            var value;
+            var displayValue;
+            var path = options.path;
+            var valueSelector = options.valueSelector;
+            var displaySelector = options.displaySelector;
+            var column = options.column;
 
             if(valueSelector && displaySelector) {
                 value = valueSelector(item);
@@ -118,12 +118,12 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
         },
 
         _processGroupItems: function(groupItems, currentLevel, path, options) {
-            var that = this,
-                displaySelector,
-                valueSelector,
-                column = options.column,
-                lookup = column.lookup,
-                level = options.level;
+            var that = this;
+            var displaySelector;
+            var valueSelector;
+            var column = options.column;
+            var lookup = column.lookup;
+            var level = options.level;
 
             path = path || [];
             currentLevel = currentLevel || 0;
@@ -155,18 +155,19 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
         },
 
         getDataSource: function(column) {
-            var that = this,
-                filter,
-                cutoffLevel,
-                origPostProcess,
-                dataSource = that._dataController.dataSource(),
-                group = gridCoreUtils.getHeaderFilterGroupParameters(column, dataSource && dataSource.remoteOperations().grouping),
-                headerFilterDataSource = column.headerFilter && column.headerFilter.dataSource,
-                headerFilterOptions = that.option("headerFilter"),
-                isLookup = false,
-                options = {
-                    component: that.component
-                };
+            var that = this;
+            var filter;
+            var cutoffLevel;
+            var origPostProcess;
+            var dataSource = that._dataController.dataSource();
+            var group = gridCoreUtils.getHeaderFilterGroupParameters(column, dataSource && dataSource.remoteOperations().grouping);
+            var headerFilterDataSource = column.headerFilter && column.headerFilter.dataSource;
+            var headerFilterOptions = that.option("headerFilter");
+            var isLookup = false;
+
+            var options = {
+                component: that.component
+            };
 
             if(!dataSource) return;
 
@@ -243,12 +244,12 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
         },
 
         showHeaderFilterMenu: function(columnIndex, isGroupPanel) {
-            var columnsController = this._columnsController,
-                column = extend(true, {}, this._columnsController.getColumns()[columnIndex]);
+            var columnsController = this._columnsController;
+            var column = extend(true, {}, this._columnsController.getColumns()[columnIndex]);
             if(column) {
-                var visibleIndex = columnsController.getVisibleIndex(columnIndex),
-                    view = isGroupPanel ? this.getView("headerPanel") : this.getView("columnHeadersView"),
-                    $columnElement = $columnElement || view.getColumnElements().eq(isGroupPanel ? column.groupIndex : visibleIndex);
+                var visibleIndex = columnsController.getVisibleIndex(columnIndex);
+                var view = isGroupPanel ? this.getView("headerPanel") : this.getView("columnHeadersView");
+                var $columnElement = $columnElement || view.getColumnElements().eq(isGroupPanel ? column.groupIndex : visibleIndex);
 
                 this.showHeaderFilterMenuBase({
                     columnElement: $columnElement,
@@ -265,8 +266,8 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
         },
 
         showHeaderFilterMenuBase: function(options) {
-            var that = this,
-                column = options.column;
+            var that = this;
+            var column = options.column;
 
             if(column) {
                 var groupInterval = filterUtils.getGroupInterval(column);
@@ -277,8 +278,8 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
                         var dxResizableInstance = e.component.overlayContent().dxResizable("instance");
 
                         dxResizableInstance && dxResizableInstance.option("onResizeEnd", function(e) {
-                            var columnsController = that.getController("columns"),
-                                headerFilterByColumn = columnsController.columnOption(options.dataField, "headerFilter");
+                            var columnsController = that.getController("columns");
+                            var headerFilterByColumn = columnsController.columnOption(options.dataField, "headerFilter");
 
                             headerFilterByColumn = headerFilterByColumn || {};
                             headerFilterByColumn.width = e.width;
@@ -308,9 +309,9 @@ var HeaderFilterController = modules.ViewController.inherit((function() {
 
 var ColumnHeadersViewHeaderFilterExtender = extend({}, headerFilterMixin, {
     _renderCellContent: function($cell, options) {
-        var that = this,
-            $headerFilterIndicator,
-            column = options.column;
+        var that = this;
+        var $headerFilterIndicator;
+        var column = options.column;
 
         if(!column.command && allowHeaderFiltering(column) && that.option("headerFilter.visible") && options.rowType === "header") {
             $headerFilterIndicator = that._applyColumnState({
@@ -371,9 +372,9 @@ var ColumnHeadersViewHeaderFilterExtender = extend({}, headerFilterMixin, {
 
 var HeaderPanelHeaderFilterExtender = extend({}, headerFilterMixin, {
     _createGroupPanelItem: function($rootElement, groupColumn) {
-        var that = this,
-            $item = that.callBase.apply(that, arguments),
-            $headerFilterIndicator;
+        var that = this;
+        var $item = that.callBase.apply(that, arguments);
+        var $headerFilterIndicator;
 
         if(!groupColumn.command && allowHeaderFiltering(groupColumn) && that.option("headerFilter.visible")) {
             $headerFilterIndicator = that._applyColumnState({
@@ -413,11 +414,11 @@ var DataControllerFilterRowExtender = {
             return this.callBase();
         }
 
-        var that = this,
-            filters = [that.callBase()],
-            columns = that._columnsController.getVisibleColumns(),
-            headerFilterController = that.getController("headerFilter"),
-            currentColumn = headerFilterController.getCurrentColumn();
+        var that = this;
+        var filters = [that.callBase()];
+        var columns = that._columnsController.getVisibleColumns();
+        var headerFilterController = that.getController("headerFilter");
+        var currentColumn = headerFilterController.getCurrentColumn();
 
         each(columns, function(_, column) {
             var filter;

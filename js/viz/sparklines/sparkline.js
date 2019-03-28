@@ -1,50 +1,47 @@
-var BaseSparkline = require("./base_sparkline"),
+var BaseSparkline = require("./base_sparkline");
+var dataValidatorModule = require("../components/data_validator");
+var seriesModule = require("../series/base_series");
+var MIN_BAR_WIDTH = 1;
+var MAX_BAR_WIDTH = 50;
+var DEFAULT_BAR_INTERVAL = 4;
+var DEFAULT_CANVAS_WIDTH = 250;
+var DEFAULT_CANVAS_HEIGHT = 30;
+var DEFAULT_POINT_BORDER = 2;
 
-    dataValidatorModule = require("../components/data_validator"),
-    seriesModule = require("../series/base_series"),
-    MIN_BAR_WIDTH = 1,
-    MAX_BAR_WIDTH = 50,
-    DEFAULT_BAR_INTERVAL = 4,
+var ALLOWED_TYPES = {
+    "line": true,
+    "spline": true,
+    "stepline": true,
+    "area": true,
+    "steparea": true,
+    "splinearea": true,
+    "bar": true,
+    "winloss": true
+};
 
-    DEFAULT_CANVAS_WIDTH = 250,
-    DEFAULT_CANVAS_HEIGHT = 30,
-
-    DEFAULT_POINT_BORDER = 2,
-
-    ALLOWED_TYPES = {
-        "line": true,
-        "spline": true,
-        "stepline": true,
-        "area": true,
-        "steparea": true,
-        "splinearea": true,
-        "bar": true,
-        "winloss": true
-    },
-
-    _math = Math,
-    _abs = _math.abs,
-    _round = _math.round,
-    _max = _math.max,
-    _min = _math.min,
-    _isFinite = isFinite,
-    vizUtils = require("../core/utils"),
-    _map = vizUtils.map,
-    _normalizeEnum = vizUtils.normalizeEnum,
-    _isDefined = require("../../core/utils/type").isDefined,
-    _Number = Number,
-    _String = String;
+var _math = Math;
+var _abs = _math.abs;
+var _round = _math.round;
+var _max = _math.max;
+var _min = _math.min;
+var _isFinite = isFinite;
+var vizUtils = require("../core/utils");
+var _map = vizUtils.map;
+var _normalizeEnum = vizUtils.normalizeEnum;
+var _isDefined = require("../../core/utils/type").isDefined;
+var _Number = Number;
+var _String = String;
 
 function findMinMax(data, valField) {
-    var firstItem = data[0] || {},
-        firstValue = firstItem[valField] || 0,
-        min = firstValue,
-        max = firstValue,
-        minIndexes = [0],
-        maxIndexes = [0],
-        dataLength = data.length,
-        value,
-        i;
+    var firstItem = data[0] || {};
+    var firstValue = firstItem[valField] || 0;
+    var min = firstValue;
+    var max = firstValue;
+    var minIndexes = [0];
+    var maxIndexes = [0];
+    var dataLength = data.length;
+    var value;
+    var i;
 
     for(i = 1; i < dataLength; i++) {
         value = data[i][valField];
@@ -70,9 +67,9 @@ function findMinMax(data, valField) {
 
 function parseNumericDataSource(data, argField, valField, ignoreEmptyPoints) {
     return _map(data, function(dataItem, index) {
-        var item = null,
-            isDataNumber,
-            value;
+        var item = null;
+        var isDataNumber;
+        var value;
 
         if(dataItem !== undefined) {
             item = {};
@@ -87,10 +84,10 @@ function parseNumericDataSource(data, argField, valField, ignoreEmptyPoints) {
 }
 
 function parseWinlossDataSource(data, argField, valField, target) {
-    var lowBarValue = -1,
-        zeroBarValue = 0,
-        highBarValue = 1,
-        delta = 0.0001;
+    var lowBarValue = -1;
+    var zeroBarValue = 0;
+    var highBarValue = 1;
+    var delta = 0.0001;
 
     return _map(data, function(dataItem) {
         var item = {};
@@ -129,12 +126,12 @@ function createLineCustomizeFunction(pointIndexes, options) {
 
 function createBarCustomizeFunction(pointIndexes, options, winlossData) {
     return function() {
-        var index = this.index,
-            isWinloss = options.type === "winloss",
-            target = isWinloss ? options.winlossThreshold : 0,
-            value = isWinloss ? winlossData[index][options.valueField] : this.value,
-            positiveColor = isWinloss ? options.winColor : options.barPositiveColor,
-            negativeColor = isWinloss ? options.lossColor : options.barNegativeColor;
+        var index = this.index;
+        var isWinloss = options.type === "winloss";
+        var target = isWinloss ? options.winlossThreshold : 0;
+        var value = isWinloss ? winlossData[index][options.valueField] : this.value;
+        var positiveColor = isWinloss ? options.winColor : options.barPositiveColor;
+        var negativeColor = isWinloss ? options.lossColor : options.barNegativeColor;
 
         return { color: selectPointColor((value >= target) ? positiveColor : negativeColor, options, index, pointIndexes) };
     };
@@ -190,10 +187,10 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _getCorrectCanvas: function() {
-        var options = this._allOptions,
-            canvas = this._canvas,
-            halfPointSize = options.pointSize && Math.ceil(options.pointSize / 2) + DEFAULT_POINT_BORDER,
-            type = options.type;
+        var options = this._allOptions;
+        var canvas = this._canvas;
+        var halfPointSize = options.pointSize && Math.ceil(options.pointSize / 2) + DEFAULT_POINT_BORDER;
+        var type = options.type;
         if(type !== "bar" && type !== "winloss" && (options.showFirstLast || options.showMinMax)) {
             return {
                 width: canvas.width,
@@ -244,10 +241,10 @@ var dxSparkline = BaseSparkline.inherit({
     ///#ENDDEBUG
 
     _updateSeries: function() {
-        var that = this,
-            groupsData,
-            seriesOptions,
-            singleSeries = that._series;
+        var that = this;
+        var groupsData;
+        var seriesOptions;
+        var singleSeries = that._series;
 
         that._prepareDataSource();
         seriesOptions = that._prepareSeriesOptions();
@@ -282,12 +279,12 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _prepareDataSource: function() {
-        var that = this,
-            options = that._allOptions,
-            argField = options.argumentField,
-            valField = options.valueField,
-            dataSource = that._dataSourceItems() || [],
-            data = parseNumericDataSource(dataSource, argField, valField, that.option("ignoreEmptyPoints"));
+        var that = this;
+        var options = that._allOptions;
+        var argField = options.argumentField;
+        var valField = options.valueField;
+        var dataSource = that._dataSourceItems() || [];
+        var data = parseNumericDataSource(dataSource, argField, valField, that.option("ignoreEmptyPoints"));
 
         if(options.type === "winloss") {
             that._winlossDataSource = data;
@@ -298,9 +295,9 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _prepareSeriesOptions: function() {
-        var that = this,
-            options = that._allOptions,
-            type = (options.type === "winloss") ? "bar" : options.type;
+        var that = this;
+        var options = that._allOptions;
+        var type = (options.type === "winloss") ? "bar" : options.type;
 
         return {
             visible: true,
@@ -336,11 +333,11 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _getCustomizeFunction: function() {
-        var that = this,
-            options = that._allOptions,
-            dataSource = that._winlossDataSource || that._simpleDataSource,
-            drawnPointIndexes = that._getExtremumPointsIndexes(dataSource),
-            customizeFunction;
+        var that = this;
+        var options = that._allOptions;
+        var dataSource = that._winlossDataSource || that._simpleDataSource;
+        var drawnPointIndexes = that._getExtremumPointsIndexes(dataSource);
+        var customizeFunction;
 
         if((options.type === "winloss") || (options.type === "bar")) {
             customizeFunction = createBarCustomizeFunction(drawnPointIndexes, options, that._winlossDataSource);
@@ -351,10 +348,10 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _getExtremumPointsIndexes: function(data) {
-        var that = this,
-            options = that._allOptions,
-            lastIndex = data.length - 1,
-            indexes = {};
+        var that = this;
+        var options = that._allOptions;
+        var lastIndex = data.length - 1;
+        var indexes = {};
 
         that._minMaxIndexes = findMinMax(data, options.valueField);
 
@@ -377,24 +374,22 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _updateRange: function() {
-        var that = this,
-            series = that._series,
-            type = series.type,
-            isBarType = type === "bar",
-            isWinlossType = type === "winloss",
-
-            DEFAULT_VALUE_RANGE_MARGIN = 0.15,
-            DEFAULT_ARGUMENT_RANGE_MARGIN = 0.1,
-            WINLOSS_MAX_RANGE = 1,
-            WINLOSS_MIN_RANGE = -1,
-
-            rangeData = series.getRangeData(),
-            minValue = that._allOptions.minValue,
-            hasMinY = _isDefined(minValue) && _isFinite(minValue),
-            maxValue = that._allOptions.maxValue,
-            hasMaxY = _isDefined(maxValue) && _isFinite(maxValue),
-            valCoef,
-            argCoef;
+        var that = this;
+        var series = that._series;
+        var type = series.type;
+        var isBarType = type === "bar";
+        var isWinlossType = type === "winloss";
+        var DEFAULT_VALUE_RANGE_MARGIN = 0.15;
+        var DEFAULT_ARGUMENT_RANGE_MARGIN = 0.1;
+        var WINLOSS_MAX_RANGE = 1;
+        var WINLOSS_MIN_RANGE = -1;
+        var rangeData = series.getRangeData();
+        var minValue = that._allOptions.minValue;
+        var hasMinY = _isDefined(minValue) && _isFinite(minValue);
+        var maxValue = that._allOptions.maxValue;
+        var hasMaxY = _isDefined(maxValue) && _isFinite(maxValue);
+        var valCoef;
+        var argCoef;
 
         valCoef = (rangeData.val.max - rangeData.val.min) * DEFAULT_VALUE_RANGE_MARGIN;
         if(isBarType || isWinlossType || type === "area") {
@@ -437,11 +432,11 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _getBarWidth: function(pointsCount) {
-        var that = this,
-            canvas = that._canvas,
-            intervalWidth = pointsCount * DEFAULT_BAR_INTERVAL,
-            rangeWidth = canvas.width - canvas.left - canvas.right - intervalWidth,
-            width = _round(rangeWidth / pointsCount);
+        var that = this;
+        var canvas = that._canvas;
+        var intervalWidth = pointsCount * DEFAULT_BAR_INTERVAL;
+        var rangeWidth = canvas.width - canvas.left - canvas.right - intervalWidth;
+        var width = _round(rangeWidth / pointsCount);
 
         if(width < MIN_BAR_WIDTH) {
             width = MIN_BAR_WIDTH;
@@ -453,12 +448,12 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _correctPoints: function() {
-        var that = this,
-            seriesType = that._allOptions.type,
-            seriesPoints = that._series.getPoints(),
-            pointsLength = seriesPoints.length,
-            barWidth,
-            i;
+        var that = this;
+        var seriesType = that._allOptions.type;
+        var seriesPoints = that._series.getPoints();
+        var pointsLength = seriesPoints.length;
+        var barWidth;
+        var i;
 
         if(seriesType === "bar" || seriesType === "winloss") {
             barWidth = that._getBarWidth(pointsLength);
@@ -483,36 +478,37 @@ var dxSparkline = BaseSparkline.inherit({
     },
 
     _getTooltipData: function() {
-        var that = this,
-            options = that._allOptions,
-            dataSource = that._winlossDataSource || that._simpleDataSource,
-            tooltip = that._tooltip;
+        var that = this;
+        var options = that._allOptions;
+        var dataSource = that._winlossDataSource || that._simpleDataSource;
+        var tooltip = that._tooltip;
 
         if(dataSource.length === 0) {
             return {};
         }
 
-        var minMax = that._minMaxIndexes,
-            valueField = options.valueField,
-            first = dataSource[0][valueField],
-            last = dataSource[dataSource.length - 1][valueField],
-            min = _isDefined(minMax.minIndexes[0]) ? dataSource[minMax.minIndexes[0]][valueField] : first,
-            max = _isDefined(minMax.maxIndexes[0]) ? dataSource[minMax.maxIndexes[0]][valueField] : first,
-            formattedFirst = tooltip.formatValue(first),
-            formattedLast = tooltip.formatValue(last),
-            formattedMin = tooltip.formatValue(min),
-            formattedMax = tooltip.formatValue(max),
-            customizeObject = {
-                firstValue: formattedFirst,
-                lastValue: formattedLast,
-                minValue: formattedMin,
-                maxValue: formattedMax,
-                originalFirstValue: first,
-                originalLastValue: last,
-                originalMinValue: min,
-                originalMaxValue: max,
-                valueText: ["Start:", formattedFirst, "End:", formattedLast, "Min:", formattedMin, "Max:", formattedMax]
-            };
+        var minMax = that._minMaxIndexes;
+        var valueField = options.valueField;
+        var first = dataSource[0][valueField];
+        var last = dataSource[dataSource.length - 1][valueField];
+        var min = _isDefined(minMax.minIndexes[0]) ? dataSource[minMax.minIndexes[0]][valueField] : first;
+        var max = _isDefined(minMax.maxIndexes[0]) ? dataSource[minMax.maxIndexes[0]][valueField] : first;
+        var formattedFirst = tooltip.formatValue(first);
+        var formattedLast = tooltip.formatValue(last);
+        var formattedMin = tooltip.formatValue(min);
+        var formattedMax = tooltip.formatValue(max);
+
+        var customizeObject = {
+            firstValue: formattedFirst,
+            lastValue: formattedLast,
+            minValue: formattedMin,
+            maxValue: formattedMax,
+            originalFirstValue: first,
+            originalLastValue: last,
+            originalMinValue: min,
+            originalMaxValue: max,
+            valueText: ["Start:", formattedFirst, "End:", formattedLast, "Min:", formattedMin, "Max:", formattedMax]
+        };
 
         if(options.type === "winloss") {
             customizeObject.originalThresholdValue = options.winlossThreshold;

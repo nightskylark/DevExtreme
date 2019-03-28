@@ -1,42 +1,35 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    noop = require("../core/utils/common").noop,
-    when = require("../core/utils/deferred").when,
-    fx = require("../animation/fx"),
-    translator = require("../animation/translator"),
-    Class = require("../core/class"),
-    extend = require("../core/utils/extend").extend,
-    inArray = require("../core/utils/array").inArray,
-    each = require("../core/utils/iterator").each,
-    abstract = abstract,
-    registerComponent = require("../core/component_registrator"),
-    PanoramaItem = require("./panorama/item"),
-    swipeEvents = require("../events/swipe"),
-    eventUtils = require("../events/utils"),
-    CollectionWidget = require("./collection/ui.collection_widget.edit");
-
-var PANORAMA_CLASS = "dx-panorama",
-
-    PANORAMA_WRAPPER_CLASS = "dx-panorama-wrapper",
-    PANORAMA_TITLE_CLASS = "dx-panorama-title",
-    PANORAMA_GHOST_TITLE_CLASS = "dx-panorama-ghosttitle",
-
-    PANORAMA_ITEMS_CONTAINER_CLASS = "dx-panorama-itemscontainer",
-    PANORAMA_ITEM_CLASS = "dx-panorama-item",
-    PANORAMA_GHOST_ITEM_CLASS = "dx-panorama-ghostitem",
-    PANORAMA_ITEM_DATA_KEY = "dxPanoramaItemData",
-
-    PANORAMA_ITEM_MARGIN_SCALE = 0.02,
-    PANORAMA_TITLE_MARGIN_SCALE = 0.02,
-
-    PANORAMA_BACKGROUND_MOVE_DURATION = 300,
-    PANORAMA_BACKGROUND_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)",
-
-    PANORAMA_TITLE_MOVE_DURATION = 300,
-    PANORAMA_TITLE_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)",
-
-    PANORAMA_ITEM_MOVE_DURATION = 300,
-    PANORAMA_ITEM_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)";
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var noop = require("../core/utils/common").noop;
+var when = require("../core/utils/deferred").when;
+var fx = require("../animation/fx");
+var translator = require("../animation/translator");
+var Class = require("../core/class");
+var extend = require("../core/utils/extend").extend;
+var inArray = require("../core/utils/array").inArray;
+var each = require("../core/utils/iterator").each;
+var abstract = abstract;
+var registerComponent = require("../core/component_registrator");
+var PanoramaItem = require("./panorama/item");
+var swipeEvents = require("../events/swipe");
+var eventUtils = require("../events/utils");
+var CollectionWidget = require("./collection/ui.collection_widget.edit");
+var PANORAMA_CLASS = "dx-panorama";
+var PANORAMA_WRAPPER_CLASS = "dx-panorama-wrapper";
+var PANORAMA_TITLE_CLASS = "dx-panorama-title";
+var PANORAMA_GHOST_TITLE_CLASS = "dx-panorama-ghosttitle";
+var PANORAMA_ITEMS_CONTAINER_CLASS = "dx-panorama-itemscontainer";
+var PANORAMA_ITEM_CLASS = "dx-panorama-item";
+var PANORAMA_GHOST_ITEM_CLASS = "dx-panorama-ghostitem";
+var PANORAMA_ITEM_DATA_KEY = "dxPanoramaItemData";
+var PANORAMA_ITEM_MARGIN_SCALE = 0.02;
+var PANORAMA_TITLE_MARGIN_SCALE = 0.02;
+var PANORAMA_BACKGROUND_MOVE_DURATION = 300;
+var PANORAMA_BACKGROUND_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)";
+var PANORAMA_TITLE_MOVE_DURATION = 300;
+var PANORAMA_TITLE_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)";
+var PANORAMA_ITEM_MOVE_DURATION = 300;
+var PANORAMA_ITEM_MOVE_EASING = "cubic-bezier(.40, .80, .60, 1)";
 
 
 var moveBackground = function($element, position) {
@@ -174,8 +167,8 @@ var PanoramaItemsRenderStrategy = Class.inherit({
 var PanoramaOneAndLessItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
 
     updatePositions: function() {
-        var $items = this._panorama._itemElements(),
-            startPosition = this._startNextPosition();
+        var $items = this._panorama._itemElements();
+        var startPosition = this._startNextPosition();
 
         $items.each(function() {
             move($(this), startPosition);
@@ -232,8 +225,8 @@ var PanoramaTwoItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
     },
 
     _swapGhostWithItem: function($item) {
-        var $ghostItem = this._$ghostItem,
-            lastItemPosition = position($item);
+        var $ghostItem = this._$ghostItem;
+        var lastItemPosition = position($item);
 
         move($item, position($ghostItem));
         move($ghostItem, lastItemPosition);
@@ -244,20 +237,19 @@ var PanoramaTwoItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
     },
 
     updatePositions: function(offset) {
-        var $items = this.allItemElements(),
+        var $items = this.allItemElements();
+        var selectedIndex = this._panorama.option("selectedIndex");
+        var adjustedOffset = offset * this._getRTLSignCorrection();
 
-            selectedIndex = this._panorama.option("selectedIndex"),
+        var isGhostReplaceLast = adjustedOffset > 0 && selectedIndex === 0
+                                || adjustedOffset < 0 && selectedIndex === 1;
 
-            adjustedOffset = offset * this._getRTLSignCorrection(),
-            isGhostReplaceLast = adjustedOffset > 0 && selectedIndex === 0
-                                    || adjustedOffset < 0 && selectedIndex === 1,
-            isGhostReplaceFirst = adjustedOffset < 0 && selectedIndex === 0
-                                    || adjustedOffset > 0 && selectedIndex === 1,
+        var isGhostReplaceFirst = adjustedOffset < 0 && selectedIndex === 0
+                                || adjustedOffset > 0 && selectedIndex === 1;
 
-            ghostPosition = isGhostReplaceLast && "replaceLast" || isGhostReplaceFirst && "replaceFirst",
-            ghostContentIndex = isGhostReplaceLast && 1 || isGhostReplaceFirst && 0,
-
-            positions = this._calculateItemPositions(selectedIndex, ghostPosition);
+        var ghostPosition = isGhostReplaceLast && "replaceLast" || isGhostReplaceFirst && "replaceFirst";
+        var ghostContentIndex = isGhostReplaceLast && 1 || isGhostReplaceFirst && 0;
+        var positions = this._calculateItemPositions(selectedIndex, ghostPosition);
 
         this._updateGhostItemContent(ghostContentIndex);
         this._toggleGhostItem(isGhostReplaceLast || isGhostReplaceFirst);
@@ -268,19 +260,16 @@ var PanoramaTwoItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
     },
 
     animateRollback: function(currentIndex) {
-        var that = this,
+        var that = this;
+        var $items = this._panorama._itemElements();
+        var startPosition = this._startNextPosition();
+        var signCorrection = this._getRTLSignCorrection();
+        var offset = (position($items.eq(currentIndex)) - startPosition) * signCorrection;
+        var ghostOffset = (position(this._$ghostItem) - startPosition) * signCorrection;
+        var positions = this._calculateItemPositions(currentIndex, ghostOffset > 0 ? "prepend" : "append");
 
-            $items = this._panorama._itemElements(),
-
-            startPosition = this._startNextPosition(),
-            signCorrection = this._getRTLSignCorrection(),
-            offset = (position($items.eq(currentIndex)) - startPosition) * signCorrection,
-            ghostOffset = (position(this._$ghostItem) - startPosition) * signCorrection,
-
-            positions = this._calculateItemPositions(currentIndex, ghostOffset > 0 ? "prepend" : "append"),
-
-            isLastReplacedByGhost = currentIndex === 0 && offset > 0 && ghostOffset > 0
-                || currentIndex === 1 && ghostOffset < 0;
+        var isLastReplacedByGhost = currentIndex === 0 && offset > 0 && ghostOffset > 0
+            || currentIndex === 1 && ghostOffset < 0;
 
         if(isLastReplacedByGhost) {
             this._swapGhostWithItem($items.eq(1));
@@ -298,9 +287,9 @@ var PanoramaTwoItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
     },
 
     detectBoundsTransition: function(newIndex, currentIndex) {
-        var ghostLocation = position(this._$ghostItem),
-            startPosition = this._startNextPosition(),
-            rtl = this._isRTLEnabled();
+        var ghostLocation = position(this._$ghostItem);
+        var startPosition = this._startNextPosition();
+        var rtl = this._isRTLEnabled();
 
         if(newIndex === 0 && (rtl ^ (ghostLocation < startPosition))) {
             return "left";
@@ -311,14 +300,11 @@ var PanoramaTwoItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
     },
 
     animateComplete: function(boundCross, newIndex, currentIndex) {
-        var that = this,
-
-            ghostPosition = !boundCross ^ (currentIndex !== 0) ? "prepend" : "append",
-
-            $items = this._panorama._itemElements(),
-            positions = this._calculateItemPositions(newIndex, ghostPosition),
-
-            animations = [];
+        var that = this;
+        var ghostPosition = !boundCross ^ (currentIndex !== 0) ? "prepend" : "append";
+        var $items = this._panorama._itemElements();
+        var positions = this._calculateItemPositions(newIndex, ghostPosition);
+        var animations = [];
 
         $items.each(function(index) {
             animations.push(
@@ -335,16 +321,13 @@ var PanoramaTwoItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
     },
 
     _calculateItemPositions: function(atIndex, ghostPosition) {
-        var positions = [],
-
-            itemMargin = this._itemMargin(),
-            itemWidth = this._itemWidth(),
-            itemPositionOffset = (itemWidth + itemMargin) * this._getRTLSignCorrection(),
-
-            normalFlow = atIndex === 0,
-
-            prevPosition = this._startPrevPosition(),
-            nextPosition = this._startNextPosition();
+        var positions = [];
+        var itemMargin = this._itemMargin();
+        var itemWidth = this._itemWidth();
+        var itemPositionOffset = (itemWidth + itemMargin) * this._getRTLSignCorrection();
+        var normalFlow = atIndex === 0;
+        var prevPosition = this._startPrevPosition();
+        var nextPosition = this._startNextPosition();
 
         positions.push(nextPosition);
         nextPosition += itemPositionOffset;
@@ -388,9 +371,9 @@ var PanoramaTwoItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
 var PanoramaThreeAndMoreItemsRenderStrategy = PanoramaItemsRenderStrategy.inherit({
 
     updatePositions: function(offset) {
-        var $items = this._panorama._itemElements(),
-            movingBack = offset * this._getRTLSignCorrection() < 0,
-            positions = this._calculateItemPositions(this._panorama.option("selectedIndex"), movingBack);
+        var $items = this._panorama._itemElements();
+        var movingBack = offset * this._getRTLSignCorrection() < 0;
+        var positions = this._calculateItemPositions(this._panorama.option("selectedIndex"), movingBack);
 
         $items.each(function(index) {
             move($(this), positions[index] + offset);
@@ -398,11 +381,9 @@ var PanoramaThreeAndMoreItemsRenderStrategy = PanoramaItemsRenderStrategy.inheri
     },
 
     animateRollback: function(selectedIndex) {
-        var $items = this._panorama._itemElements(),
-
-            positions = this._calculateItemPositions(selectedIndex),
-
-            animatingItems = [selectedIndex, this._normalizeIndex(selectedIndex + 1)];
+        var $items = this._panorama._itemElements();
+        var positions = this._calculateItemPositions(selectedIndex);
+        var animatingItems = [selectedIndex, this._normalizeIndex(selectedIndex + 1)];
 
         if(this._isRTLEnabled() ^ (position($items.eq(selectedIndex)) > this._startNextPosition())) {
             animatingItems.push(this._normalizeIndex(selectedIndex - 1));
@@ -431,16 +412,14 @@ var PanoramaThreeAndMoreItemsRenderStrategy = PanoramaItemsRenderStrategy.inheri
     },
 
     animateComplete: function(boundCross, newIndex, currentIndex) {
-        var animations = [],
-            $items = this._panorama._itemElements(),
-            positions = this._calculateItemPositions(newIndex);
-
-        var transitionBack = this._normalizeIndex(currentIndex - 1) === newIndex,
-            cyclingItemIndex = $items.length === 3 && transitionBack ? this._normalizeIndex(currentIndex + 1) : null,
-            cyclingItemPosition = positions[this._indexBoundary()];
-
-        var animatingItems = [newIndex, currentIndex],
-            backAnimatedItemIndex = transitionBack ? currentIndex : newIndex;
+        var animations = [];
+        var $items = this._panorama._itemElements();
+        var positions = this._calculateItemPositions(newIndex);
+        var transitionBack = this._normalizeIndex(currentIndex - 1) === newIndex;
+        var cyclingItemIndex = $items.length === 3 && transitionBack ? this._normalizeIndex(currentIndex + 1) : null;
+        var cyclingItemPosition = positions[this._indexBoundary()];
+        var animatingItems = [newIndex, currentIndex];
+        var backAnimatedItemIndex = transitionBack ? currentIndex : newIndex;
         if(!transitionBack) {
             animatingItems.push(this._normalizeIndex(backAnimatedItemIndex + 1));
         }
@@ -465,15 +444,13 @@ var PanoramaThreeAndMoreItemsRenderStrategy = PanoramaItemsRenderStrategy.inheri
     },
 
     _calculateItemPositions: function(atIndex, movingBack) {
-        var previousIndex = this._normalizeIndex(atIndex - 1),
-
-            itemMargin = this._itemMargin(),
-            itemWidth = this._itemWidth(),
-            itemPositionOffset = (itemWidth + itemMargin) * this._getRTLSignCorrection(),
-            positions = [],
-
-            prevPosition = this._startPrevPosition(),
-            nextPosition = this._startNextPosition();
+        var previousIndex = this._normalizeIndex(atIndex - 1);
+        var itemMargin = this._itemMargin();
+        var itemWidth = this._itemWidth();
+        var itemPositionOffset = (itemWidth + itemMargin) * this._getRTLSignCorrection();
+        var positions = [];
+        var prevPosition = this._startPrevPosition();
+        var nextPosition = this._startNextPosition();
 
         for(var i = atIndex; i !== previousIndex; i = this._normalizeIndex(i + 1)) {
             positions[i] = nextPosition;
@@ -781,8 +758,8 @@ var Panorama = CollectionWidget.inherit({
     },
 
     _animateComplete: function(newIndex, currentIndex) {
-        var that = this,
-            boundCross = this._itemsRenderStrategy.detectBoundsTransition(newIndex, currentIndex);
+        var that = this;
+        var boundCross = this._itemsRenderStrategy.detectBoundsTransition(newIndex, currentIndex);
 
         var backgroundAnimation = this._performBackgroundAnimation(boundCross, newIndex);
         var titleAnimation = this._performTitleAnimation(boundCross, newIndex);
@@ -804,12 +781,11 @@ var Panorama = CollectionWidget.inherit({
     },
 
     _animateBackgroundBoundsTransition: function(bound, newIndex) {
-        var that = this,
-
-            isLeft = (bound === "left"),
-            afterAnimationPosition = this._calculateBackgroundPosition(newIndex),
-            animationEndPositionShift = isLeft ^ this.option("rtlEnabled") ? -this._calculateBackgroundScaledWidth() : this._calculateBackgroundScaledWidth(),
-            animationEndPosition = afterAnimationPosition + animationEndPositionShift;
+        var that = this;
+        var isLeft = (bound === "left");
+        var afterAnimationPosition = this._calculateBackgroundPosition(newIndex);
+        var animationEndPositionShift = isLeft ^ this.option("rtlEnabled") ? -this._calculateBackgroundScaledWidth() : this._calculateBackgroundScaledWidth();
+        var animationEndPosition = afterAnimationPosition + animationEndPositionShift;
 
         return animation.backgroundMove(this.$element(), animationEndPosition, function() {
             moveBackground(that.$element(), afterAnimationPosition);
@@ -824,17 +800,14 @@ var Panorama = CollectionWidget.inherit({
     },
 
     _animateTitleBoundsTransition: function(bound, newIndex) {
-        var that = this,
-
-            $ghostTitle = this._$ghostTitle,
-
-            ghostWidth = this._titleWidth(),
-            panoramaWidth = this._elementWidth(),
-
-            isLeft = bound === "left",
-            rtl = this.option("rtlEnabled"),
-            ghostTitleStartPosition = isLeft ^ rtl ? panoramaWidth : -ghostWidth,
-            ghostTitleEndPosition = isLeft ^ rtl ? -(panoramaWidth + ghostWidth) : panoramaWidth;
+        var that = this;
+        var $ghostTitle = this._$ghostTitle;
+        var ghostWidth = this._titleWidth();
+        var panoramaWidth = this._elementWidth();
+        var isLeft = bound === "left";
+        var rtl = this.option("rtlEnabled");
+        var ghostTitleStartPosition = isLeft ^ rtl ? panoramaWidth : -ghostWidth;
+        var ghostTitleEndPosition = isLeft ^ rtl ? -(panoramaWidth + ghostWidth) : panoramaWidth;
 
         move($ghostTitle, ghostTitleStartPosition);
         this._toggleGhostTitle(true);
@@ -849,46 +822,44 @@ var Panorama = CollectionWidget.inherit({
     },
 
     _swapGhostWithTitle: function() {
-        var $ghostTitle = this._$ghostTitle,
-            $title = this._$title,
-            lastTitlePosition = position($title);
+        var $ghostTitle = this._$ghostTitle;
+        var $title = this._$title;
+        var lastTitlePosition = position($title);
 
         move($title, position($ghostTitle));
         move($ghostTitle, lastTitlePosition);
     },
 
     _calculateTitlePosition: function(atIndex) {
-        var panoramaWidth = this._elementWidth(),
-            titleWidth = this._titleWidth(),
-            titleMargin = panoramaWidth * PANORAMA_TITLE_MARGIN_SCALE,
-
-            titleStartPosition = this.option("rtlEnabled") ? panoramaWidth - titleMargin - titleWidth : titleMargin,
-            titleStep = atIndex * this._calculateTitleStep() * this._getRTLSignCorrection();
+        var panoramaWidth = this._elementWidth();
+        var titleWidth = this._titleWidth();
+        var titleMargin = panoramaWidth * PANORAMA_TITLE_MARGIN_SCALE;
+        var titleStartPosition = this.option("rtlEnabled") ? panoramaWidth - titleMargin - titleWidth : titleMargin;
+        var titleStep = atIndex * this._calculateTitleStep() * this._getRTLSignCorrection();
 
         return titleStartPosition - titleStep;
     },
 
     _calculateTitleStep: function() {
-        var panoramaWidth = this._elementWidth(),
-            titleWidth = this._titleWidth(),
-            indexBoundary = this._indexBoundary() || 1;
+        var panoramaWidth = this._elementWidth();
+        var titleWidth = this._titleWidth();
+        var indexBoundary = this._indexBoundary() || 1;
 
         return Math.max((titleWidth - panoramaWidth) / indexBoundary, titleWidth / indexBoundary);
     },
 
     _calculateBackgroundPosition: function(atIndex) {
-        var panoramaWidth = this._elementWidth(),
-            backgroundScaledWidth = this._calculateBackgroundScaledWidth(),
-
-            backgroundStartPosition = this.option("rtlEnabled") ? panoramaWidth - backgroundScaledWidth : 0,
-            backgroundOffset = (atIndex * this._calculateBackgroundStep()) * this._getRTLSignCorrection();
+        var panoramaWidth = this._elementWidth();
+        var backgroundScaledWidth = this._calculateBackgroundScaledWidth();
+        var backgroundStartPosition = this.option("rtlEnabled") ? panoramaWidth - backgroundScaledWidth : 0;
+        var backgroundOffset = (atIndex * this._calculateBackgroundStep()) * this._getRTLSignCorrection();
 
         return backgroundStartPosition - backgroundOffset;
     },
 
     _calculateBackgroundStep: function() {
-        var itemWidth = this._itemWidth(),
-            backgroundScaledWidth = this._calculateBackgroundScaledWidth();
+        var itemWidth = this._itemWidth();
+        var backgroundScaledWidth = this._calculateBackgroundScaledWidth();
 
         return Math.max((backgroundScaledWidth - itemWidth) / (this._indexBoundary() || 1), 0);
     },
@@ -926,8 +897,8 @@ var Panorama = CollectionWidget.inherit({
     },
 
     _swipeEndHandler: function(e) {
-        var currentIndex = this.option("selectedIndex"),
-            targetOffset = e.targetOffset * this._getRTLSignCorrection();
+        var currentIndex = this.option("selectedIndex");
+        var targetOffset = e.targetOffset * this._getRTLSignCorrection();
 
         if(targetOffset === 0) {
             this._animateRollback(currentIndex);

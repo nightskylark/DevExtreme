@@ -1,22 +1,20 @@
-var $ = require("../../core/renderer"),
-    windowUtils = require("../../core/utils/window"),
-    window = windowUtils.getWindow(),
-    navigator = windowUtils.getNavigator(),
-    eventsEngine = require("../../events/core/events_engine"),
-    devices = require("../../core/devices"),
-    inArray = require("../../core/utils/array").inArray,
-    extend = require("../../core/utils/extend").extend,
-    registerComponent = require("../../core/component_registrator"),
-    TextEditor = require("./ui.text_editor"),
-    eventUtils = require("../../events/utils");
-
-var ua = navigator.userAgent,
-    ignoreKeys = ["backspace", "tab", "enter", "pageUp", "pageDown", "end", "home", "leftArrow", "rightArrow", "downArrow", "upArrow", "del"],
-
-    TEXTBOX_CLASS = "dx-textbox",
-    SEARCHBOX_CLASS = "dx-searchbox",
-    ICON_CLASS = "dx-icon",
-    SEARCH_ICON_CLASS = "dx-icon-search";
+var $ = require("../../core/renderer");
+var windowUtils = require("../../core/utils/window");
+var window = windowUtils.getWindow();
+var navigator = windowUtils.getNavigator();
+var eventsEngine = require("../../events/core/events_engine");
+var devices = require("../../core/devices");
+var inArray = require("../../core/utils/array").inArray;
+var extend = require("../../core/utils/extend").extend;
+var registerComponent = require("../../core/component_registrator");
+var TextEditor = require("./ui.text_editor");
+var eventUtils = require("../../events/utils");
+var ua = navigator.userAgent;
+var ignoreKeys = ["backspace", "tab", "enter", "pageUp", "pageDown", "end", "home", "leftArrow", "rightArrow", "downArrow", "upArrow", "del"];
+var TEXTBOX_CLASS = "dx-textbox";
+var SEARCHBOX_CLASS = "dx-searchbox";
+var ICON_CLASS = "dx-icon";
+var SEARCH_ICON_CLASS = "dx-icon-search";
 
 var TextBox = TextEditor.inherit({
 
@@ -137,8 +135,8 @@ var TextBox = TextEditor.inherit({
     _onKeyDownAndroidHandler: function(e) {
         var maxLength = this.option("maxLength");
         if(maxLength) {
-            var $input = $(e.target),
-                key = eventUtils.normalizeKeyName(e);
+            var $input = $(e.target);
+            var key = eventUtils.normalizeKeyName(e);
 
             this._cutOffExtraChar($input);
 
@@ -158,8 +156,8 @@ var TextBox = TextEditor.inherit({
     },
 
     _cutOffExtraChar: function($input) {
-        var maxLength = this.option("maxLength"),
-            textInput = $input.val();
+        var maxLength = this.option("maxLength");
+        var textInput = $input.val();
         if(textInput.length > maxLength) {
             $input.val(textInput.substr(0, maxLength));
         }

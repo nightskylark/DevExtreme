@@ -1,22 +1,23 @@
 /* global Windows */
-var $ = require("../core/renderer"),
-    domAdapter = require("../core/dom_adapter"),
-    windowUtils = require("../core/utils/window"),
-    window = windowUtils.getWindow(),
-    navigator = windowUtils.getNavigator(),
-    eventsEngine = require("../events/core/events_engine"),
-    errors = require("../ui/widget/ui.errors"),
-    typeUtils = require("../core/utils/type"),
+var $ = require("../core/renderer");
 
-    FILE_EXTESIONS = {
-        EXCEL: "xlsx",
-        CSS: "css",
-        PNG: "png",
-        JPEG: "jpeg",
-        GIF: "gif",
-        SVG: "svg",
-        PDF: "pdf"
-    };
+var domAdapter = require("../core/dom_adapter");
+var windowUtils = require("../core/utils/window");
+var window = windowUtils.getWindow();
+var navigator = windowUtils.getNavigator();
+var eventsEngine = require("../events/core/events_engine");
+var errors = require("../ui/widget/ui.errors");
+var typeUtils = require("../core/utils/type");
+
+var FILE_EXTESIONS = {
+    EXCEL: "xlsx",
+    CSS: "css",
+    PNG: "png",
+    JPEG: "jpeg",
+    GIF: "gif",
+    SVG: "svg",
+    PDF: "pdf"
+};
 
 var MIME_TYPES = exports.MIME_TYPES = {
     CSS: "text/css",
@@ -45,11 +46,12 @@ exports.fileSaver = {
     }, */
 
     _linkDownloader: function(fileName, href, clickHandler) {
-        var exportLinkElement = domAdapter.createElement('a'),
-            attributes = {
-                "download": fileName,
-                "href": href
-            };
+        var exportLinkElement = domAdapter.createElement('a');
+
+        var attributes = {
+            "download": fileName,
+            "href": href
+        };
 
         eventsEngine.on($(exportLinkElement), "click", function() {
             $(exportLinkElement).remove();
@@ -62,8 +64,8 @@ exports.fileSaver = {
     },
 
     _formDownloader: function(proxyUrl, fileName, contentType, data) {
-        var formAttributes = { method: "post", action: proxyUrl, enctype: "multipart/form-data" },
-            exportForm = $("<form>").css({ "display": "none" }).attr(formAttributes);
+        var formAttributes = { method: "post", action: proxyUrl, enctype: "multipart/form-data" };
+        var exportForm = $("<form>").css({ "display": "none" }).attr(formAttributes);
 
         exportForm.append("<input type=\"hidden\" name=\"fileName\" value=\"" + fileName + "\" />");
         exportForm.append("<input type=\"hidden\" name=\"contentType\" value=\"" + contentType + "\" />");
@@ -117,19 +119,20 @@ exports.fileSaver = {
             var URL = window.URL || window.webkitURL || window.mozURL || window.msURL || window.oURL;
 
             if(typeUtils.isDefined(URL)) {
-                var objectURL = URL.createObjectURL(data),
-                    revokeObjectURLTimeout = that._revokeObjectURLTimeout,
-                    clickHandler = function(e) {
-                        setTimeout(function() {
-                            URL.revokeObjectURL(objectURL);
-                            ///#DEBUG
-                            that._objectUrlRevoked = true;
-                            ///#ENDDEBUG
-                        }, revokeObjectURLTimeout);
+                var objectURL = URL.createObjectURL(data);
+                var revokeObjectURLTimeout = that._revokeObjectURLTimeout;
+
+                var clickHandler = function(e) {
+                    setTimeout(function() {
+                        URL.revokeObjectURL(objectURL);
                         ///#DEBUG
-                        typeUtils.isFunction(linkClick) && linkClick.apply(this, arguments);
+                        that._objectUrlRevoked = true;
                         ///#ENDDEBUG
-                    };
+                    }, revokeObjectURLTimeout);
+                    ///#DEBUG
+                    typeUtils.isFunction(linkClick) && linkClick.apply(this, arguments);
+                    ///#ENDDEBUG
+                };
 
                 return that._linkDownloader(fileName, objectURL, clickHandler);
             }

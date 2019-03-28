@@ -1,12 +1,11 @@
-var $ = require("../../core/renderer"),
-    registerComponent = require("../../core/component_registrator"),
-    each = require("../../core/utils/iterator").each,
-    List = require("../list/ui.list.base");
-
-var TOOLBAR_MENU_ACTION_CLASS = "dx-toolbar-menu-action",
-    TOOLBAR_HIDDEN_BUTTON_CLASS = "dx-toolbar-hidden-button",
-    TOOLBAR_MENU_SECTION_CLASS = "dx-toolbar-menu-section",
-    TOOLBAR_MENU_LAST_SECTION_CLASS = "dx-toolbar-menu-last-section";
+var $ = require("../../core/renderer");
+var registerComponent = require("../../core/component_registrator");
+var each = require("../../core/utils/iterator").each;
+var List = require("../list/ui.list.base");
+var TOOLBAR_MENU_ACTION_CLASS = "dx-toolbar-menu-action";
+var TOOLBAR_HIDDEN_BUTTON_CLASS = "dx-toolbar-hidden-button";
+var TOOLBAR_MENU_SECTION_CLASS = "dx-toolbar-menu-section";
+var TOOLBAR_MENU_LAST_SECTION_CLASS = "dx-toolbar-menu-last-section";
 
 var ToolbarMenu = List.inherit({
     _activeStateUnit: "." + TOOLBAR_MENU_ACTION_CLASS,
@@ -25,12 +24,12 @@ var ToolbarMenu = List.inherit({
     },
 
     _renderSections: function() {
-        var that = this,
-            $container = this._itemContainer();
+        var that = this;
+        var $container = this._itemContainer();
 
         each(["before", "center", "after", "menu"], function() {
-            var sectionName = "_$" + this + "Section",
-                $section = that[sectionName];
+            var sectionName = "_$" + this + "Section";
+            var $section = that[sectionName];
 
             if(!$section) {
                 that[sectionName] = $section = $("<div>")
@@ -53,9 +52,9 @@ var ToolbarMenu = List.inherit({
     },
 
     _renderItem: function(index, item, itemContainer, $after) {
-        var location = item.location || "menu",
-            $container = this["_$" + location + "Section"],
-            itemElement;
+        var location = item.location || "menu";
+        var $container = this["_$" + location + "Section"];
+        var itemElement;
 
         itemElement = this.callBase(index, item, $container, $after);
 
@@ -79,8 +78,8 @@ var ToolbarMenu = List.inherit({
     _getItemTemplateName: function(args) {
         var template = this.callBase(args);
 
-        var data = args.itemData,
-            menuTemplate = data && data["menuItemTemplate"];
+        var data = args.itemData;
+        var menuTemplate = data && data["menuItemTemplate"];
 
         return menuTemplate || template;
     },

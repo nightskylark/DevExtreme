@@ -1,10 +1,10 @@
-var Calendar = require("../calendar"),
-    DateBoxStrategy = require("./ui.date_box.strategy"),
-    dateUtils = require("../../core/utils/date"),
-    commonUtils = require("../../core/utils/common"),
-    isFunction = require("../../core/utils/type").isFunction,
-    extend = require("../../core/utils/extend").extend,
-    messageLocalization = require("../../localization/message");
+var Calendar = require("../calendar");
+var DateBoxStrategy = require("./ui.date_box.strategy");
+var dateUtils = require("../../core/utils/date");
+var commonUtils = require("../../core/utils/common");
+var isFunction = require("../../core/utils/type").isFunction;
+var extend = require("../../core/utils/extend").extend;
+var messageLocalization = require("../../localization/message");
 
 var CalendarStrategy = DateBoxStrategy.inherit({
 
@@ -81,8 +81,8 @@ var CalendarStrategy = DateBoxStrategy.inherit({
     },
 
     popupConfig: function(popupConfig) {
-        var toolbarItems = popupConfig.toolbarItems,
-            buttonsLocation = this.dateBox.option("buttonsLocation");
+        var toolbarItems = popupConfig.toolbarItems;
+        var buttonsLocation = this.dateBox.option("buttonsLocation");
 
         var position = [];
 
@@ -114,9 +114,9 @@ var CalendarStrategy = DateBoxStrategy.inherit({
     },
 
     _valueChangedHandler: function(e) {
-        var dateBox = this.dateBox,
-            value = e.value,
-            prevValue = e.previousValue;
+        var dateBox = this.dateBox;
+        var value = e.value;
+        var prevValue = e.previousValue;
 
         if(dateUtils.sameDate(value, prevValue)) {
             return;

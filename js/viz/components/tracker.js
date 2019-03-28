@@ -1,9 +1,9 @@
-var _eventData = require("../../events/utils").eventData,
-    domAdapter = require("../../core/dom_adapter"),
-    clickEventName = require("../../events/click").name,
-    downPointerEventName = require("../../events/pointer").down,
-    movePointerEventName = require("../../events/pointer").move,
-    eventsEngine = require("../../events/core/events_engine");
+var _eventData = require("../../events/utils").eventData;
+var domAdapter = require("../../core/dom_adapter");
+var clickEventName = require("../../events/click").name;
+var downPointerEventName = require("../../events/pointer").down;
+var movePointerEventName = require("../../events/pointer").move;
+var eventsEngine = require("../../events/core/events_engine");
 
 function Tracker(parameters) {
     this._initHandlers(parameters);
@@ -17,8 +17,9 @@ Tracker.prototype = {
 
         parameters.getCoords = function(e) {
             // TODO: Looks like "eventData" just returns e.pageX, e.pageY. Investigate and use just e.pageX, e.pageY is possible. Don't forget about touch.
-            var data = _eventData(e),
-                offset = parameters.widget._renderer.getRootOffset();
+            var data = _eventData(e);
+
+            var offset = parameters.widget._renderer.getRootOffset();
             return [data.x - offset.left, data.y - offset.top];
         };
 
@@ -90,8 +91,8 @@ function processHover(e, params) {
 }
 
 function processTooltip(e, params) {
-    var id = params.getData(e, true),
-        coords;
+    var id = params.getData(e, true);
+    var coords;
 
     if(id >= 0) {
         coords = _eventData(e);

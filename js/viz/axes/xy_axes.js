@@ -33,8 +33,8 @@ const TICKS_CORRECTIONS = {
 };
 
 function prepareDatesDifferences(datesDifferences, tickInterval) {
-    var dateUnitInterval,
-        i;
+    var dateUnitInterval;
+    var i;
 
     if(tickInterval === "week") {
         tickInterval = "day";
@@ -61,15 +61,15 @@ function sortingBreaks(breaks) {
 }
 
 function filterBreaks(breaks, viewport, breakStyle) {
-    var minVisible = viewport.minVisible,
-        maxVisible = viewport.maxVisible,
-        breakSize = breakStyle ? breakStyle.width : 0;
+    var minVisible = viewport.minVisible;
+    var maxVisible = viewport.maxVisible;
+    var breakSize = breakStyle ? breakStyle.width : 0;
 
     return breaks.reduce(function(result, currentBreak) {
-        var from = currentBreak.from,
-            to = currentBreak.to,
-            lastResult = result[result.length - 1],
-            newBreak;
+        var from = currentBreak.from;
+        var to = currentBreak.to;
+        var lastResult = result[result.length - 1];
+        var newBreak;
 
         if(!isDefined(from) || !isDefined(to)) {
             return result;
@@ -106,8 +106,8 @@ function filterBreaks(breaks, viewport, breakStyle) {
 }
 
 function getMarkerDates(min, max, markerInterval) {
-    var origMin = min,
-        dates;
+    var origMin = min;
+    var dates;
 
     min = correctDateWithUnitBeginning(min, markerInterval);
     max = correctDateWithUnitBeginning(max, markerInterval);
@@ -150,8 +150,8 @@ function getMarkerInterval(tickInterval) {
 }
 
 function getMarkerFormat(curDate, prevDate, tickInterval, markerInterval) {
-    var format = markerInterval,
-        datesDifferences = prevDate && dateUtils.getDatesDifferences(prevDate, curDate);
+    var format = markerInterval;
+    var datesDifferences = prevDate && dateUtils.getDatesDifferences(prevDate, curDate);
     if(prevDate && tickInterval !== "year") {
         prepareDatesDifferences(datesDifferences, tickInterval);
         format = getDateFormatByDifferences(datesDifferences);
@@ -198,13 +198,13 @@ function getRightMargin(bBox) {
 }
 
 function generateRangesOnPoints(points, edgePoints, getRange) {
-    var i,
-        length,
-        maxRange = null,
-        ranges = [],
-        curValue,
-        prevValue,
-        curRange;
+    var i;
+    var length;
+    var maxRange = null;
+    var ranges = [];
+    var curValue;
+    var prevValue;
+    var curRange;
 
     for(i = 1, length = points.length; i < length; i++) {
         curValue = points[i];
@@ -231,28 +231,34 @@ function generateRangesOnPoints(points, edgePoints, getRange) {
 }
 
 function generateAutoBreaks(options, series, viewport) {
-    var ranges,
-        breaks = [],
-        i,
-        getRange = options.type === "logarithmic" ?
-            function(min, max) { return vizUtils.getLog(max / min, options.logarithmBase); } :
-            function(min, max) { return max - min; },
-        visibleRange = getRange(viewport.minVisible, viewport.maxVisible),
-        maxAutoBreakCount,
-        points = series.reduce(function(result, s) {
-            var points = s.getPointsInViewPort();
-            result[0] = result[0].concat(points[0]);
-            result[1] = result[1].concat(points[1]);
-            return result;
-        }, [[], []]),
-        sortedAllPoints = points[0].concat(points[1]).sort(function(a, b) {
-            return b - a;
-        }),
-        edgePoints = points[1].filter(function(p) {
-            return points[0].indexOf(p) < 0;
-        }),
-        epsilon = visibleRange / 1E10,
-        minDiff = RANGE_RATIO * visibleRange;
+    var ranges;
+    var breaks = [];
+    var i;
+
+    var getRange = options.type === "logarithmic" ?
+        function(min, max) { return vizUtils.getLog(max / min, options.logarithmBase); } :
+        function(min, max) { return max - min; };
+
+    var visibleRange = getRange(viewport.minVisible, viewport.maxVisible);
+    var maxAutoBreakCount;
+
+    var points = series.reduce(function(result, s) {
+        var points = s.getPointsInViewPort();
+        result[0] = result[0].concat(points[0]);
+        result[1] = result[1].concat(points[1]);
+        return result;
+    }, [[], []]);
+
+    var sortedAllPoints = points[0].concat(points[1]).sort(function(a, b) {
+        return b - a;
+    });
+
+    var edgePoints = points[1].filter(function(p) {
+        return points[0].indexOf(p) < 0;
+    });
+
+    var epsilon = visibleRange / 1E10;
+    var minDiff = RANGE_RATIO * visibleRange;
 
     ranges = generateRangesOnPoints(sortedAllPoints, edgePoints, getRange).sort(function(a, b) {
         return b.length - a.length;
@@ -282,11 +288,13 @@ function generateAutoBreaks(options, series, viewport) {
 module.exports = {
     linear: {
         _getStep: function(boxes, rotationAngle) {
-            var spacing = this._options.label.minSpacing,
-                func = this._isHorizontal ?
-                    function(box) { return box.width + spacing; }
-                    : function(box) { return box.height; },
-                maxLabelLength = getMaxSide(func, boxes);
+            var spacing = this._options.label.minSpacing;
+
+            var func = this._isHorizontal ?
+                function(box) { return box.width + spacing; }
+                : function(box) { return box.height; };
+
+            var maxLabelLength = getMaxSide(func, boxes);
 
             if(rotationAngle) {
                 maxLabelLength = getDistanceByAngle({ width: maxLabelLength, height: this._getMaxLabelHeight(boxes, 0) }, rotationAngle);
@@ -327,8 +335,8 @@ module.exports = {
                 return;
             }
 
-            var axisCoord = this._axisPosition,
-                canvas = this._getCanvasStartEnd();
+            var axisCoord = this._axisPosition;
+            var canvas = this._getCanvasStartEnd();
 
             this._axisElement.attr({
                 points: this._isHorizontal ? [canvas.start, axisCoord, canvas.end, axisCoord] : [axisCoord, canvas.start, axisCoord, canvas.end]
@@ -340,8 +348,8 @@ module.exports = {
         },
 
         _initAxisPositions: function() {
-            var that = this,
-                position = that._options.position;
+            var that = this;
+            var position = that._options.position;
 
             that._axisPosition = that._orthogonalPositions[position === "top" || position === "left" ? "start" : "end"];
         },
@@ -369,16 +377,16 @@ module.exports = {
         },
 
         _getTitleCoords: function() {
-            var that = this,
-                horizontal = that._isHorizontal,
-                x = that._axisPosition,
-                y = that._axisPosition,
-                align = that._options.title.alignment,
-                canvas = that._getCanvasStartEnd(),
-                fromStartToEnd = horizontal || that._options.position === LEFT,
-                canvasStart = fromStartToEnd ? canvas.start : canvas.end,
-                canvasEnd = fromStartToEnd ? canvas.end : canvas.start,
-                coord = align === LEFT ? canvasStart : align === RIGHT ? canvasEnd : (canvas.start + (canvas.end - canvas.start) / 2);
+            var that = this;
+            var horizontal = that._isHorizontal;
+            var x = that._axisPosition;
+            var y = that._axisPosition;
+            var align = that._options.title.alignment;
+            var canvas = that._getCanvasStartEnd();
+            var fromStartToEnd = horizontal || that._options.position === LEFT;
+            var canvasStart = fromStartToEnd ? canvas.start : canvas.end;
+            var canvasEnd = fromStartToEnd ? canvas.end : canvas.start;
+            var coord = align === LEFT ? canvasStart : align === RIGHT ? canvasEnd : (canvas.start + (canvas.end - canvas.start) / 2);
 
             if(horizontal) {
                 x = coord;
@@ -389,9 +397,9 @@ module.exports = {
         },
 
         _drawTitleText: function(group, coords) {
-            var options = this._options,
-                titleOptions = options.title,
-                attrs = { opacity: titleOptions.opacity, align: titleOptions.alignment };
+            var options = this._options;
+            var titleOptions = options.title;
+            var attrs = { opacity: titleOptions.opacity, align: titleOptions.alignment };
 
             if(!titleOptions.text || !group) {
                 return;
@@ -431,12 +439,12 @@ module.exports = {
         },
 
         _drawDateMarker: function(date, options, range) {
-            var that = this,
-                markerOptions = that._options.marker,
-                invert = that._translator.getBusinessRange().invert,
-                textIndent = markerOptions.width + markerOptions.textLeftIndent,
-                text,
-                pathElement;
+            var that = this;
+            var markerOptions = that._options.marker;
+            var invert = that._translator.getBusinessRange().invert;
+            var textIndent = markerOptions.width + markerOptions.textLeftIndent;
+            var text;
+            var pathElement;
 
             if(options.x === null) return;
 
@@ -481,17 +489,17 @@ module.exports = {
         },
 
         _drawDateMarkers: function() {
-            var that = this,
-                options = that._options,
-                translator = that._translator,
-                viewport = that._getViewportRange(),
-                minBound = viewport.minVisible,
-                tickInterval,
-                markerInterval,
-                markerDates,
-                dateMarkers = [],
-                markersAreaTop,
-                dateMarker;
+            var that = this;
+            var options = that._options;
+            var translator = that._translator;
+            var viewport = that._getViewportRange();
+            var minBound = viewport.minVisible;
+            var tickInterval;
+            var markerInterval;
+            var markerDates;
+            var dateMarkers = [];
+            var markersAreaTop;
+            var dateMarker;
 
             function draw(markerDate, format, withoutStick) {
                 return that._drawDateMarker(markerDate, {
@@ -531,12 +539,12 @@ module.exports = {
 
         _adjustDateMarkers: function(offset) {
             offset = offset || 0;
-            var that = this,
-                markerOptions = this._options.marker,
-                textIndent = markerOptions.width + markerOptions.textLeftIndent,
-                invert = this._translator.getBusinessRange().invert,
-                canvas = that._getCanvasStartEnd(),
-                dateMarkers = this._dateMarkers;
+            var that = this;
+            var markerOptions = this._options.marker;
+            var textIndent = markerOptions.width + markerOptions.textLeftIndent;
+            var invert = this._translator.getBusinessRange().invert;
+            var canvas = that._getCanvasStartEnd();
+            var dateMarkers = this._dateMarkers;
 
             if(!dateMarkers.length) {
                 return offset;
@@ -565,8 +573,8 @@ module.exports = {
 
             this._dateMarkers.forEach(function(marker) {
                 if(marker.label) {
-                    var labelBBox = marker.labelBBox,
-                        dy = marker.y + markerOptions.textTopIndent - labelBBox.y;
+                    var labelBBox = marker.labelBBox;
+                    var dy = marker.y + markerOptions.textTopIndent - labelBBox.y;
 
                     marker.label.attr({
                         translateX: invert ? marker.x - textIndent - labelBBox.x - labelBBox.width : marker.x + textIndent - labelBBox.x,
@@ -594,48 +602,50 @@ module.exports = {
         },
 
         _initializeMarkersTrackers: function(offset) {
-            var that = this,
-                separatorHeight = that._options.marker.separatorHeight,
-                renderer = that._renderer,
-                businessRange = this._translator.getBusinessRange(),
-                canvas = that._getCanvasStartEnd(),
-                group = that._axisElementsGroup;
+            var that = this;
+            var separatorHeight = that._options.marker.separatorHeight;
+            var renderer = that._renderer;
+            var businessRange = this._translator.getBusinessRange();
+            var canvas = that._getCanvasStartEnd();
+            var group = that._axisElementsGroup;
 
             that._markerTrackers = this._dateMarkers
                 .filter(function(marker) { return !marker.hidden; })
                 .map(function(marker, i, markers) {
-                    var nextMarker = markers[i + 1] ||
-                        {
-                            x: canvas.end,
-                            date: businessRange.max
-                        },
-                        x = marker.x,
-                        y = marker.y + offset,
-                        markerTracker = renderer.path([
-                            x, y,
-                            x, y + separatorHeight,
-                            nextMarker.x, y + separatorHeight,
-                            nextMarker.x, y,
-                            x, y
-                        ], "area").attr({
-                            "stroke-width": 1,
-                            stroke: "grey",
-                            fill: "grey",
-                            opacity: 0.0001
-                        }).append(group);
+                var nextMarker = markers[i + 1] ||
+                    {
+                        x: canvas.end,
+                        date: businessRange.max
+                    };
 
-                    markerTracker.data("range", { startValue: marker.date, endValue: nextMarker.date });
-                    if(marker.title) {
-                        markerTracker.setTitle(marker.title);
-                    }
+                var x = marker.x;
+                var y = marker.y + offset;
 
-                    return markerTracker;
-                });
+                var markerTracker = renderer.path([
+                    x, y,
+                    x, y + separatorHeight,
+                    nextMarker.x, y + separatorHeight,
+                    nextMarker.x, y,
+                    x, y
+                ], "area").attr({
+                    "stroke-width": 1,
+                    stroke: "grey",
+                    fill: "grey",
+                    opacity: 0.0001
+                }).append(group);
+
+                markerTracker.data("range", { startValue: marker.date, endValue: nextMarker.date });
+                if(marker.title) {
+                    markerTracker.setTitle(marker.title);
+                }
+
+                return markerTracker;
+            });
         },
 
         _getLabelFormatOptions: function(formatString) {
-            var that = this,
-                markerLabelOptions = that._markerLabelOptions;
+            var that = this;
+            var markerLabelOptions = that._markerLabelOptions;
 
             if(!markerLabelOptions) {
                 that._markerLabelOptions = markerLabelOptions = extend(true, {}, that._options.marker.label);
@@ -649,30 +659,30 @@ module.exports = {
         },
 
         _adjustConstantLineLabels: function(constantLines) {
-            var that = this,
-                axisPosition = that._options.position,
-                canvas = that.getCanvas(),
-                canvasLeft = canvas.left,
-                canvasRight = canvas.width - canvas.right,
-                canvasTop = canvas.top,
-                canvasBottom = canvas.height - canvas.bottom,
-                verticalCenter = canvasTop + (canvasBottom - canvasTop) / 2,
-                horizontalCenter = canvasLeft + (canvasRight - canvasLeft) / 2,
-                maxLabel = 0;
+            var that = this;
+            var axisPosition = that._options.position;
+            var canvas = that.getCanvas();
+            var canvasLeft = canvas.left;
+            var canvasRight = canvas.width - canvas.right;
+            var canvasTop = canvas.top;
+            var canvasBottom = canvas.height - canvas.bottom;
+            var verticalCenter = canvasTop + (canvasBottom - canvasTop) / 2;
+            var horizontalCenter = canvasLeft + (canvasRight - canvasLeft) / 2;
+            var maxLabel = 0;
 
             constantLines.forEach(function(item) {
-                var isHorizontal = that._isHorizontal,
-                    linesOptions = item.options,
-                    paddingTopBottom = linesOptions.paddingTopBottom,
-                    paddingLeftRight = linesOptions.paddingLeftRight,
-                    labelOptions = linesOptions.label,
-                    labelVerticalAlignment = labelOptions.verticalAlignment,
-                    labelHorizontalAlignment = labelOptions.horizontalAlignment,
-                    labelIsInside = labelOptions.position === "inside",
-                    label = item.label,
-                    box = item.labelBBox,
-                    translateX,
-                    translateY;
+                var isHorizontal = that._isHorizontal;
+                var linesOptions = item.options;
+                var paddingTopBottom = linesOptions.paddingTopBottom;
+                var paddingLeftRight = linesOptions.paddingLeftRight;
+                var labelOptions = linesOptions.label;
+                var labelVerticalAlignment = labelOptions.verticalAlignment;
+                var labelHorizontalAlignment = labelOptions.horizontalAlignment;
+                var labelIsInside = labelOptions.position === "inside";
+                var label = item.label;
+                var box = item.labelBBox;
+                var translateX;
+                var translateY;
 
                 if(label === null || box.isEmpty) {
                     return;
@@ -749,9 +759,9 @@ module.exports = {
         },
 
         _drawConstantLinesForEstimating: function(constantLines) {
-            var that = this,
-                renderer = this._renderer,
-                group = renderer.g();
+            var that = this;
+            var renderer = this._renderer;
+            var group = renderer.g();
 
             constantLines.forEach(function(options) {
                 that._drawConstantLineLabelText(options.label.text, 0, 0, options.label, group).attr({ align: "center" });
@@ -761,8 +771,8 @@ module.exports = {
         },
 
         _estimateLabelHeight: function(bBox, labelOptions) {
-            var height = bBox.height,
-                drawingType = labelOptions.drawingType;
+            var height = bBox.height;
+            var drawingType = labelOptions.drawingType;
 
             if(this._validateDisplayMode(drawingType) === "stagger" || this._validateOverlappingMode(labelOptions.overlappingBehavior, drawingType) === "stagger") {
                 height = height * 2 + labelOptions.staggeringSpacing;
@@ -778,35 +788,38 @@ module.exports = {
 
         estimateMargins: function(canvas) {
             this.updateCanvas(canvas);
-            var that = this,
-                range = that._getViewportRange(),
-                ticksData = this._createTicksAndLabelFormat(range),
-                ticks = ticksData.ticks,
-                tickInterval = ticksData.tickInterval,
-                options = this._options,
-                constantLineOptions = that._outsideConstantLines.filter(l => l.labelOptions.visible).map(l => l.options),
-                rootElement = that._renderer.root,
-                labelIsVisible = options.label.visible && !range.isEmpty() && ticks.length,
-                labelValue = labelIsVisible && that.formatLabel(ticks[ticks.length - 1], options.label, undefined, undefined, tickInterval, ticks),
-                labelElement = labelIsVisible && that._renderer.text(labelValue, 0, 0)
-                    .css(that._textFontStyles)
-                    .attr(that._textOptions)
-                    .append(rootElement),
-                titleElement = that._drawTitleText(rootElement, { x: 0, y: 0 }),
-                constantLinesLabelsElement = that._drawConstantLinesForEstimating(constantLineOptions),
-                labelBox = labelElement && labelElement.getBBox() || { x: 0, y: 0, width: 0, height: 0 },
-                titleBox = titleElement && titleElement.getBBox() || { x: 0, y: 0, width: 0, height: 0 },
-                constantLinesBox = constantLinesLabelsElement.getBBox(),
-                titleHeight = titleBox.height ? titleBox.height + options.title.margin : 0,
-                labelHeight = that._estimateLabelHeight(labelBox, options.label),
-                constantLinesHeight = constantLinesBox.height ? constantLinesBox.height + getMaxConstantLinePadding(constantLineOptions) : 0,
-                height = labelHeight + titleHeight,
-                margins = {
-                    left: _max(getLeftMargin(labelBox), getLeftMargin(constantLinesBox)),
-                    right: _max(getRightMargin(labelBox), getRightMargin(constantLinesBox)),
-                    top: (options.position === "top" ? height : 0) + getConstantLineLabelMarginForVerticalAlignment(constantLineOptions, "top", constantLinesHeight),
-                    bottom: (options.position !== "top" ? height : 0) + getConstantLineLabelMarginForVerticalAlignment(constantLineOptions, "bottom", constantLinesHeight)
-                };
+            var that = this;
+            var range = that._getViewportRange();
+            var ticksData = this._createTicksAndLabelFormat(range);
+            var ticks = ticksData.ticks;
+            var tickInterval = ticksData.tickInterval;
+            var options = this._options;
+            var constantLineOptions = that._outsideConstantLines.filter(l => l.labelOptions.visible).map(l => l.options);
+            var rootElement = that._renderer.root;
+            var labelIsVisible = options.label.visible && !range.isEmpty() && ticks.length;
+            var labelValue = labelIsVisible && that.formatLabel(ticks[ticks.length - 1], options.label, undefined, undefined, tickInterval, ticks);
+
+            var labelElement = labelIsVisible && that._renderer.text(labelValue, 0, 0)
+                .css(that._textFontStyles)
+                .attr(that._textOptions)
+                .append(rootElement);
+
+            var titleElement = that._drawTitleText(rootElement, { x: 0, y: 0 });
+            var constantLinesLabelsElement = that._drawConstantLinesForEstimating(constantLineOptions);
+            var labelBox = labelElement && labelElement.getBBox() || { x: 0, y: 0, width: 0, height: 0 };
+            var titleBox = titleElement && titleElement.getBBox() || { x: 0, y: 0, width: 0, height: 0 };
+            var constantLinesBox = constantLinesLabelsElement.getBBox();
+            var titleHeight = titleBox.height ? titleBox.height + options.title.margin : 0;
+            var labelHeight = that._estimateLabelHeight(labelBox, options.label);
+            var constantLinesHeight = constantLinesBox.height ? constantLinesBox.height + getMaxConstantLinePadding(constantLineOptions) : 0;
+            var height = labelHeight + titleHeight;
+
+            var margins = {
+                left: _max(getLeftMargin(labelBox), getLeftMargin(constantLinesBox)),
+                right: _max(getRightMargin(labelBox), getRightMargin(constantLinesBox)),
+                top: (options.position === "top" ? height : 0) + getConstantLineLabelMarginForVerticalAlignment(constantLineOptions, "top", constantLinesHeight),
+                bottom: (options.position !== "top" ? height : 0) + getConstantLineLabelMarginForVerticalAlignment(constantLineOptions, "bottom", constantLinesHeight)
+            };
 
             labelElement && labelElement.remove();
             titleElement && titleElement.remove();
@@ -816,9 +829,9 @@ module.exports = {
         },
 
         _checkAlignmentConstantLineLabels: function(labelOptions) {
-            var position = labelOptions.position,
-                verticalAlignment = (labelOptions.verticalAlignment || "").toLowerCase(),
-                horizontalAlignment = (labelOptions.horizontalAlignment || "").toLowerCase();
+            var position = labelOptions.position;
+            var verticalAlignment = (labelOptions.verticalAlignment || "").toLowerCase();
+            var horizontalAlignment = (labelOptions.horizontalAlignment || "").toLowerCase();
 
             if(this._isHorizontal) {
                 if(position === "outside") {
@@ -843,9 +856,9 @@ module.exports = {
         },
 
         _getConstantLineLabelsCoords: function(value, lineLabelOptions) {
-            var that = this,
-                x = value,
-                y = value;
+            var that = this;
+            var x = value;
+            var y = value;
 
             if(that._isHorizontal) {
                 y = that._orthogonalPositions[lineLabelOptions.verticalAlignment === "top" ? "start" : "end"];
@@ -856,17 +869,17 @@ module.exports = {
         },
 
         _getAdjustedStripLabelCoords: function(strip) {
-            var stripOptions = strip.options,
-                paddingTopBottom = stripOptions.paddingTopBottom,
-                paddingLeftRight = stripOptions.paddingLeftRight,
-                horizontalAlignment = stripOptions.label.horizontalAlignment,
-                verticalAlignment = stripOptions.label.verticalAlignment,
-                box = strip.labelBBox,
-                labelHeight = box.height,
-                labelWidth = box.width,
-                labelCoords = strip.labelCoords,
-                y = labelCoords.y - box.y,
-                x = labelCoords.x - box.x;
+            var stripOptions = strip.options;
+            var paddingTopBottom = stripOptions.paddingTopBottom;
+            var paddingLeftRight = stripOptions.paddingLeftRight;
+            var horizontalAlignment = stripOptions.label.horizontalAlignment;
+            var verticalAlignment = stripOptions.label.verticalAlignment;
+            var box = strip.labelBBox;
+            var labelHeight = box.height;
+            var labelWidth = box.width;
+            var labelCoords = strip.labelCoords;
+            var y = labelCoords.y - box.y;
+            var x = labelCoords.x - box.x;
 
             if(verticalAlignment === TOP) {
                 y += paddingTopBottom;
@@ -893,20 +906,20 @@ module.exports = {
                 return;
             }
 
-            var that = this,
-                options = that._options,
-                position = options.position,
-                margin = options.title.margin,
-                title = that._title,
-                boxTitle = title.bBox,
-                x = boxTitle.x,
-                y = boxTitle.y,
-                width = boxTitle.width,
-                height = boxTitle.height,
-                axisPosition = that._axisPosition,
-                loCoord = axisPosition - margin - offset,
-                hiCoord = axisPosition + margin + offset,
-                params = {};
+            var that = this;
+            var options = that._options;
+            var position = options.position;
+            var margin = options.title.margin;
+            var title = that._title;
+            var boxTitle = title.bBox;
+            var x = boxTitle.x;
+            var y = boxTitle.y;
+            var width = boxTitle.width;
+            var height = boxTitle.height;
+            var axisPosition = that._axisPosition;
+            var loCoord = axisPosition - margin - offset;
+            var hiCoord = axisPosition + margin + offset;
+            var params = {};
 
             if(that._isHorizontal) {
                 if(position === TOP) {
@@ -929,9 +942,9 @@ module.exports = {
                 return;
             }
 
-            var canvasLength = this._getScreenDelta(),
-                title = this._title,
-                boxTitle = title.bBox;
+            var canvasLength = this._getScreenDelta();
+            var title = this._title;
+            var boxTitle = title.bBox;
 
             if((this._isHorizontal ? boxTitle.width : boxTitle.height) > canvasLength) {
                 title.element.applyEllipsis(canvasLength) && title.element.setTitle(this._options.title.text);
@@ -941,10 +954,10 @@ module.exports = {
         },
 
         coordsIn: function(x, y) {
-            var canvas = this.getCanvas(),
-                isHorizontal = this._options.isHorizontal,
-                position = this._options.position,
-                coord = isHorizontal ? y : x;
+            var canvas = this.getCanvas();
+            var isHorizontal = this._options.isHorizontal;
+            var position = this._options.position;
+            var coord = isHorizontal ? y : x;
 
             if(isHorizontal && (x < canvas.left || x > (canvas.width - canvas.right))
                 || !isHorizontal && (y < canvas.top || y > (canvas.height - canvas.bottom))) {
@@ -1010,13 +1023,13 @@ module.exports = {
         },
 
         _getStripLabelCoords: function(from, to, stripLabelOptions) {
-            var that = this,
-                orthogonalPositions = that._orthogonalPositions,
-                isHorizontal = that._isHorizontal,
-                horizontalAlignment = stripLabelOptions.horizontalAlignment,
-                verticalAlignment = stripLabelOptions.verticalAlignment,
-                x,
-                y;
+            var that = this;
+            var orthogonalPositions = that._orthogonalPositions;
+            var isHorizontal = that._isHorizontal;
+            var horizontalAlignment = stripLabelOptions.horizontalAlignment;
+            var verticalAlignment = stripLabelOptions.verticalAlignment;
+            var x;
+            var y;
 
             if(isHorizontal) {
                 if(horizontalAlignment === CENTER) {
@@ -1042,9 +1055,9 @@ module.exports = {
         },
 
         _getTranslatedValue: function(value, offset) {
-            var pos1 = this._translator.translate(value, offset, this._options.type === "semidiscrete" && this._options.tickInterval),
-                pos2 = this._axisPosition,
-                isHorizontal = this._isHorizontal;
+            var pos1 = this._translator.translate(value, offset, this._options.type === "semidiscrete" && this._options.tickInterval);
+            var pos2 = this._axisPosition;
+            var isHorizontal = this._isHorizontal;
             return {
                 x: isHorizontal ? pos1 : pos2,
                 y: isHorizontal ? pos2 : pos1
@@ -1072,13 +1085,15 @@ module.exports = {
         },
 
         _getScaleBreaks: function(axisOptions, viewport, series, isArgumentAxis) {
-            var that = this,
-                breaks = (axisOptions.breaks || []).map(function(b) {
-                    return {
-                        from: that.parser(b.startValue),
-                        to: that.parser(b.endValue)
-                    };
-                });
+            var that = this;
+
+            var breaks = (axisOptions.breaks || []).map(function(b) {
+                return {
+                    from: that.parser(b.startValue),
+                    to: that.parser(b.endValue)
+                };
+            });
+
             if(axisOptions.type !== "discrete" && axisOptions.dataType === "datetime" && axisOptions.workdaysOnly) {
                 breaks = breaks.concat(generateDateBreaks(viewport.minVisible,
                     viewport.maxVisible,
@@ -1094,19 +1109,22 @@ module.exports = {
         },
 
         _drawBreak: function(translatedEnd, positionFrom, positionTo, width, options, group) {
-            var that = this,
-                breakStart = translatedEnd - (!that._translator.isInverted() ? width + 1 : 0),
-                attr = {
-                    "stroke-width": 1,
-                    stroke: options.borderColor,
-                    sharp: !options.isWaved ? options.isHorizontal ? "h" : "v" : undefined
-                },
-                spaceAttr = {
-                    stroke: options.color,
-                    "stroke-width": width
-                },
-                getPoints = that._isHorizontal ? rotateLine : function(p) { return p; },
-                drawer = getLineDrawer(that._renderer, spaceAttr, attr, group, getPoints, positionFrom, breakStart, positionTo, options.isWaved);
+            var that = this;
+            var breakStart = translatedEnd - (!that._translator.isInverted() ? width + 1 : 0);
+
+            var attr = {
+                "stroke-width": 1,
+                stroke: options.borderColor,
+                sharp: !options.isWaved ? options.isHorizontal ? "h" : "v" : undefined
+            };
+
+            var spaceAttr = {
+                stroke: options.color,
+                "stroke-width": width
+            };
+
+            var getPoints = that._isHorizontal ? rotateLine : function(p) { return p; };
+            var drawer = getLineDrawer(that._renderer, spaceAttr, attr, group, getPoints, positionFrom, breakStart, positionTo, options.isWaved);
 
             drawer(width / 2, spaceAttr);
             drawer(0, attr);
@@ -1114,10 +1132,10 @@ module.exports = {
         },
 
         _createBreakClipRect: function(from, to) {
-            var that = this,
-                canvas = that._canvas,
-                clipWidth = to - from,
-                clipRect;
+            var that = this;
+            var canvas = that._canvas;
+            var clipWidth = to - from;
+            var clipRect;
 
             if(that._isHorizontal) {
                 clipRect = that._renderer.clipRect(canvas.left, from, canvas.width, clipWidth);
@@ -1132,11 +1150,12 @@ module.exports = {
         },
 
         _createBreaksGroup: function(clipFrom, clipTo) {
-            var that = this,
-                group = that._renderer.g().attr({
-                    "class": that._axisCssPrefix + "breaks",
-                    "clip-path": that._createBreakClipRect(clipFrom, clipTo)
-                }).append(that._scaleBreaksGroup);
+            var that = this;
+
+            var group = that._renderer.g().attr({
+                "class": that._axisCssPrefix + "breaks",
+                "clip-path": that._createBreakClipRect(clipFrom, clipTo)
+            }).append(that._scaleBreaksGroup);
 
             that._breaksElements = that._breaksElements || [];
             that._breaksElements.push(group);
@@ -1152,18 +1171,18 @@ module.exports = {
         },
 
         drawScaleBreaks: function(customCanvas) {
-            var that = this,
-                options = that._options,
-                breakStyle = options.breakStyle,
-                position = options.position,
-                positionFrom,
-                positionTo,
-                breaks = that._translator.getBusinessRange().breaks || [],
-                additionGroup,
-                additionBreakFrom,
-                additionBreakTo,
-                mainGroup,
-                breakOptions;
+            var that = this;
+            var options = that._options;
+            var breakStyle = options.breakStyle;
+            var position = options.position;
+            var positionFrom;
+            var positionTo;
+            var breaks = that._translator.getBusinessRange().breaks || [];
+            var additionGroup;
+            var additionBreakFrom;
+            var additionBreakTo;
+            var mainGroup;
+            var breakOptions;
 
             that._disposeBreaksGroup();
 
@@ -1208,15 +1227,15 @@ module.exports = {
         _getSpiderCategoryOption: noop,
 
         shift: function(margins) {
-            var that = this,
-                options = that._options,
-                isHorizontal = options.isHorizontal,
-                axesSpacing = that.getMultipleAxesSpacing(),
-                constantLinesGroups = that._axisConstantLineGroups;
+            var that = this;
+            var options = that._options;
+            var isHorizontal = options.isHorizontal;
+            var axesSpacing = that.getMultipleAxesSpacing();
+            var constantLinesGroups = that._axisConstantLineGroups;
 
             function shiftGroup(side, group) {
-                var attr = {},
-                    shift = margins[side] ? margins[side] + axesSpacing : 0;
+                var attr = {};
+                var shift = margins[side] ? margins[side] + axesSpacing : 0;
 
                 attr[isHorizontal ? "translateY" : "translateX"] = (side === "left" || side === "top" ? -1 : 1) * shift;
 
@@ -1235,8 +1254,8 @@ module.exports = {
 };
 
 function getLineDrawer(renderer, spaceAttr, elementAttr, root, rotatePoints, positionFrom, breakStart, positionTo, isWaved) {
-    var elementType = isWaved ? "bezier" : "line",
-        group = renderer.g().append(root);
+    var elementType = isWaved ? "bezier" : "line";
+    var group = renderer.g().append(root);
 
     return function(offset, attr) {
         renderer.path(rotatePoints(getPoints(positionFrom, breakStart, positionTo, offset, isWaved)), elementType).attr(attr).append(group);
@@ -1250,11 +1269,11 @@ function getPoints(positionFrom, breakStart, positionTo, offset, isWaved) {
 
     breakStart += offset;
 
-    var currentPosition,
-        topPoint = breakStart + WAVED_LINE_TOP,
-        centerPoint = breakStart + WAVED_LINE_CENTER,
-        bottomPoint = breakStart + WAVED_LINE_BOTTOM,
-        points = [[positionFrom, centerPoint]];
+    var currentPosition;
+    var topPoint = breakStart + WAVED_LINE_TOP;
+    var centerPoint = breakStart + WAVED_LINE_CENTER;
+    var bottomPoint = breakStart + WAVED_LINE_BOTTOM;
+    var points = [[positionFrom, centerPoint]];
 
     for(currentPosition = positionFrom; currentPosition < positionTo + WAVED_LINE_LENGTH; currentPosition += WAVED_LINE_LENGTH) {
         points.push([
@@ -1270,8 +1289,8 @@ function getPoints(positionFrom, breakStart, positionTo, offset, isWaved) {
 }
 
 function rotateLine(lineCoords) {
-    var points = [],
-        i;
+    var points = [];
+    var i;
 
     for(i = 0; i < lineCoords.length; i += 2) {
         points.push(lineCoords[i + 1]);

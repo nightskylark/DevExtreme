@@ -1,9 +1,8 @@
-var _isFunction = require("../../core/utils/type").isFunction,
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-    _round = Math.round,
-
-    algorithms = {},
-    defaultAlgorithm;
+var _isFunction = require("../../core/utils/type").isFunction;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var _round = Math.round;
+var algorithms = {};
+var defaultAlgorithm;
 
 exports.getAlgorithm = function(value) {
     return algorithms[_normalizeEnum(value)] || (_isFunction(value) && value) || defaultAlgorithm;
@@ -28,12 +27,12 @@ var getStaticSideIndex = function(rect) {
 exports.getStaticSideIndex = getStaticSideIndex;
 
 exports.buildSidesData = function(rect, directions, _staticSideIndex) {
-    var staticSideIndex = _staticSideIndex !== undefined ? _staticSideIndex : getStaticSideIndex(rect),
-        variedSideIndex = 1 - staticSideIndex,
-        staticSideDirection = directions[staticSideIndex],
-        variedSideDirection = directions[variedSideIndex],
-        staticSideIndexOffsets = directionToIndexOffsets[staticSideDirection],
-        variedSideIndexOffsets = directionToIndexOffsets[variedSideDirection];
+    var staticSideIndex = _staticSideIndex !== undefined ? _staticSideIndex : getStaticSideIndex(rect);
+    var variedSideIndex = 1 - staticSideIndex;
+    var staticSideDirection = directions[staticSideIndex];
+    var variedSideDirection = directions[variedSideIndex];
+    var staticSideIndexOffsets = directionToIndexOffsets[staticSideDirection];
+    var variedSideIndexOffsets = directionToIndexOffsets[variedSideDirection];
     return {
         staticSide: rect[2 + staticSideIndex] - rect[staticSideIndex],
         variedSide: rect[2 + variedSideIndex] - rect[variedSideIndex],
@@ -47,17 +46,17 @@ exports.buildSidesData = function(rect, directions, _staticSideIndex) {
 };
 
 exports.calculateRectangles = function(nodes, head, totalRect, sidesData, rowData) {
-    var i,
-        ii,
-        variedSidePart = [0, 0, 0, 0],
-        static1 = sidesData.static1,
-        static2 = sidesData.static2,
-        position = totalRect[static1],
-        dir = sidesData.staticDir,
-        side = sidesData.staticSide,
-        sum = rowData.sum,
-        rect,
-        delta;
+    var i;
+    var ii;
+    var variedSidePart = [0, 0, 0, 0];
+    var static1 = sidesData.static1;
+    var static2 = sidesData.static2;
+    var position = totalRect[static1];
+    var dir = sidesData.staticDir;
+    var side = sidesData.staticSide;
+    var sum = rowData.sum;
+    var rect;
+    var delta;
 
     variedSidePart[sidesData.varied1] = totalRect[sidesData.varied1];
     variedSidePart[sidesData.varied2] = totalRect[sidesData.varied1] + sidesData.variedDir * rowData.side;

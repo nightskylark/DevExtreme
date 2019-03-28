@@ -1,21 +1,21 @@
 import { isDefined } from "../../core/utils/type";
 
-var SORT_CLASS = "dx-sort",
-    SORT_NONE_CLASS = "dx-sort-none",
-    SORTUP_CLASS = "dx-sort-up",
-    SORTDOWN_CLASS = "dx-sort-down",
-    HEADERS_ACTION_CLASS = "action";
+var SORT_CLASS = "dx-sort";
+var SORT_NONE_CLASS = "dx-sort-none";
+var SORTUP_CLASS = "dx-sort-up";
+var SORTDOWN_CLASS = "dx-sort-down";
+var HEADERS_ACTION_CLASS = "action";
 
 
 module.exports = {
     _applyColumnState: function(options) {
-        var that = this,
-            ariaSortState,
-            $sortIndicator,
-            sortingMode = that.option("sorting.mode"),
-            rootElement = options.rootElement,
-            column = options.column,
-            $indicatorsContainer = that._getIndicatorContainer(rootElement);
+        var that = this;
+        var ariaSortState;
+        var $sortIndicator;
+        var sortingMode = that.option("sorting.mode");
+        var rootElement = options.rootElement;
+        var column = options.column;
+        var $indicatorsContainer = that._getIndicatorContainer(rootElement);
 
         if(options.name === "sort") {
             rootElement.find("." + SORT_CLASS).remove();
@@ -50,10 +50,10 @@ module.exports = {
     },
 
     _renderIndicator: function(options) {
-        var rtlEnabled,
-            column = options.column,
-            $container = options.container,
-            $indicator = options.indicator;
+        var rtlEnabled;
+        var column = options.column;
+        var $container = options.container;
+        var $indicator = options.indicator;
 
         if(options.name === "sort") {
             rtlEnabled = this.option("rtlEnabled");

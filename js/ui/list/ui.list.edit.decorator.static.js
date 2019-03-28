@@ -1,18 +1,17 @@
-var $ = require("../../core/renderer"),
-    Button = require("../button"),
-    registerDecorator = require("./ui.list.edit.decorator_registry").register,
-    EditDecorator = require("./ui.list.edit.decorator");
-
-var STATIC_DELETE_BUTTON_CONTAINER_CLASS = "dx-list-static-delete-button-container",
-    STATIC_DELETE_BUTTON_CLASS = "dx-list-static-delete-button";
+var $ = require("../../core/renderer");
+var Button = require("../button");
+var registerDecorator = require("./ui.list.edit.decorator_registry").register;
+var EditDecorator = require("./ui.list.edit.decorator");
+var STATIC_DELETE_BUTTON_CONTAINER_CLASS = "dx-list-static-delete-button-container";
+var STATIC_DELETE_BUTTON_CLASS = "dx-list-static-delete-button";
 
 registerDecorator(
     "delete",
     "static",
     EditDecorator.inherit({
         afterBag: function(config) {
-            var $itemElement = config.$itemElement,
-                $container = config.$container;
+            var $itemElement = config.$itemElement;
+            var $container = config.$container;
 
             var $button = $("<div>").addClass(STATIC_DELETE_BUTTON_CLASS);
 

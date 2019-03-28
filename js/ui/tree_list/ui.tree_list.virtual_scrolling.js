@@ -3,9 +3,9 @@ import dataSourceAdapter from './ui.tree_list.data_source_adapter';
 import virtualScrollingModule from '../grid_core/ui.grid_core.virtual_scrolling';
 import { extend } from '../../core/utils/extend';
 
-var oldDefaultOptions = virtualScrollingModule.defaultOptions,
-    originalDataControllerExtender = virtualScrollingModule.extenders.controllers.data,
-    originalDataSourceAdapterExtender = virtualScrollingModule.extenders.dataSourceAdapter;
+var oldDefaultOptions = virtualScrollingModule.defaultOptions;
+var originalDataControllerExtender = virtualScrollingModule.extenders.controllers.data;
+var originalDataSourceAdapterExtender = virtualScrollingModule.extenders.dataSourceAdapter;
 
 virtualScrollingModule.extenders.controllers.data = extend({}, originalDataControllerExtender, {
     _loadOnOptionChange: function() {

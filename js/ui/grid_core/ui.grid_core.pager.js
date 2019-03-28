@@ -4,13 +4,13 @@ import { inArray } from "../../core/utils/array";
 import { isDefined } from "../../core/utils/type";
 import { hasWindow } from "../../core/utils/window";
 
-var PAGER_CLASS = "pager",
-    MAX_PAGES_COUNT = 10;
+var PAGER_CLASS = "pager";
+var MAX_PAGES_COUNT = 10;
 
 var PagerView = modules.View.inherit({
     init: function() {
-        var that = this,
-            dataController = that.getController("data");
+        var that = this;
+        var dataController = that.getController("data");
 
         that._isVisible = false;
 
@@ -38,35 +38,36 @@ var PagerView = modules.View.inherit({
     },
 
     _renderCore: function() {
-        var that = this,
-            $element = that.element().addClass(that.addWidgetPrefix(PAGER_CLASS)),
-            pagerOptions = that.option("pager") || {},
-            dataController = that.getController("data"),
-            options = {
-                maxPagesCount: MAX_PAGES_COUNT,
-                pageIndex: 1 + (parseInt(dataController.pageIndex()) || 0),
-                pageCount: dataController.pageCount(),
-                pageSize: dataController.pageSize(),
-                showPageSizes: pagerOptions.showPageSizeSelector,
-                showInfo: pagerOptions.showInfo,
-                pagesNavigatorVisible: pagerOptions.visible,
-                showNavigationButtons: pagerOptions.showNavigationButtons,
-                pageSizes: that.getPageSizes(),
-                totalCount: dataController.totalCount(),
-                hasKnownLastPage: dataController.hasKnownLastPage(),
-                pageIndexChanged: function(pageIndex) {
-                    if(dataController.pageIndex() !== pageIndex - 1) {
-                        setTimeout(function() {
-                            dataController.pageIndex(pageIndex - 1);
-                        });
-                    }
-                },
-                pageSizeChanged: function(pageSize) {
+        var that = this;
+        var $element = that.element().addClass(that.addWidgetPrefix(PAGER_CLASS));
+        var pagerOptions = that.option("pager") || {};
+        var dataController = that.getController("data");
+
+        var options = {
+            maxPagesCount: MAX_PAGES_COUNT,
+            pageIndex: 1 + (parseInt(dataController.pageIndex()) || 0),
+            pageCount: dataController.pageCount(),
+            pageSize: dataController.pageSize(),
+            showPageSizes: pagerOptions.showPageSizeSelector,
+            showInfo: pagerOptions.showInfo,
+            pagesNavigatorVisible: pagerOptions.visible,
+            showNavigationButtons: pagerOptions.showNavigationButtons,
+            pageSizes: that.getPageSizes(),
+            totalCount: dataController.totalCount(),
+            hasKnownLastPage: dataController.hasKnownLastPage(),
+            pageIndexChanged: function(pageIndex) {
+                if(dataController.pageIndex() !== pageIndex - 1) {
                     setTimeout(function() {
-                        dataController.pageSize(pageSize);
+                        dataController.pageIndex(pageIndex - 1);
                     });
                 }
-            };
+            },
+            pageSizeChanged: function(pageSize) {
+                setTimeout(function() {
+                    dataController.pageSize(pageSize);
+                });
+            }
+        };
 
         if(isDefined(pagerOptions.infoText)) {
             options.infoText = pagerOptions.infoText;
@@ -76,11 +77,11 @@ var PagerView = modules.View.inherit({
     },
 
     getPageSizes: function() {
-        var that = this,
-            dataController = that.getController("data"),
-            pagerOptions = that.option("pager"),
-            allowedPageSizes = pagerOptions && pagerOptions.allowedPageSizes,
-            pageSize = dataController.pageSize();
+        var that = this;
+        var dataController = that.getController("data");
+        var pagerOptions = that.option("pager");
+        var allowedPageSizes = pagerOptions && pagerOptions.allowedPageSizes;
+        var pageSize = dataController.pageSize();
 
         if(!isDefined(that._pageSizes) || inArray(pageSize, that._pageSizes) === -1) {
             that._pageSizes = [];
@@ -96,11 +97,11 @@ var PagerView = modules.View.inherit({
     },
 
     isVisible: function() {
-        var that = this,
-            dataController = that.getController("data"),
-            pagerOptions = that.option("pager"),
-            pagerVisible = pagerOptions && pagerOptions.visible,
-            scrolling = that.option("scrolling");
+        var that = this;
+        var dataController = that.getController("data");
+        var pagerOptions = that.option("pager");
+        var pagerVisible = pagerOptions && pagerOptions.visible;
+        var scrolling = that.option("scrolling");
 
         if(that._isVisible) {
             return true;
@@ -121,13 +122,13 @@ var PagerView = modules.View.inherit({
     },
 
     optionChanged: function(args) {
-        var that = this,
-            name = args.name,
-            isPager = name === "pager",
-            isPaging = name === "paging",
-            isDataSource = name === "dataSource",
-            isScrolling = name === "scrolling",
-            dataController = that.getController("data");
+        var that = this;
+        var name = args.name;
+        var isPager = name === "pager";
+        var isPaging = name === "paging";
+        var isDataSource = name === "dataSource";
+        var isScrolling = name === "scrolling";
+        var dataController = that.getController("data");
 
         if(isPager || isPaging || isScrolling || isDataSource) {
             args.handled = true;

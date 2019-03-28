@@ -1,11 +1,11 @@
-var Class = require("../core/class"),
-    typeUtils = require("../core/utils/type"),
-    iteratorUtils = require("../core/utils/iterator"),
-    compileGetter = require("../core/utils/data").compileGetter,
-    toComparable = require("../core/utils/data").toComparable,
-    Deferred = require("../core/utils/deferred").Deferred,
-    errorsModule = require("./errors"),
-    dataUtils = require("./utils");
+var Class = require("../core/class");
+var typeUtils = require("../core/utils/type");
+var iteratorUtils = require("../core/utils/iterator");
+var compileGetter = require("../core/utils/data").compileGetter;
+var toComparable = require("../core/utils/data").toComparable;
+var Deferred = require("../core/utils/deferred").Deferred;
+var errorsModule = require("./errors");
+var dataUtils = require("./utils");
 
 var Iterator = Class.inherit({
 
@@ -194,8 +194,8 @@ var SortIterator = Iterator.inherit({
         return wrappedItem.value;
     },
     _compare: function(x, y) {
-        var xIndex = x.index,
-            yIndex = y.index;
+        var xIndex = x.index;
+        var yIndex = y.index;
 
         x = x.value;
         y = y.value;
@@ -205,11 +205,11 @@ var SortIterator = Iterator.inherit({
         }
 
         for(var i = 0, rulesCount = this.rules.length; i < rulesCount; i++) {
-            var rule = this.rules[i],
-                xValue = rule.getter(x),
-                yValue = rule.getter(y),
-                compare = rule.compare || defaultCompare,
-                compareResult = compare(xValue, yValue);
+            var rule = this.rules[i];
+            var xValue = rule.getter(x);
+            var yValue = rule.getter(y);
+            var compare = rule.compare || defaultCompare;
+            var compareResult = compare(xValue, yValue);
 
             if(compareResult) {
                 return rule.desc ? -compareResult : compareResult;
@@ -264,9 +264,9 @@ var compileCriteria = (function() {
 
     var compileBinary = function(crit) {
         crit = dataUtils.normalizeBinaryCriterion(crit);
-        var getter = compileGetter(crit[0]),
-            op = crit[1],
-            value = crit[2];
+        var getter = compileGetter(crit[0]);
+        var op = crit[1];
+        var value = crit[2];
 
         value = toComparable(value);
 
@@ -287,8 +287,8 @@ var compileCriteria = (function() {
                 return function(obj) { return toComparable(toString(getter(obj))).indexOf(value) === 0; };
             case "endswith":
                 return function(obj) {
-                    var getterValue = toComparable(toString(getter(obj))),
-                        searchValue = toString(value);
+                    var getterValue = toComparable(toString(getter(obj)));
+                    var searchValue = toString(value);
 
                     if(getterValue.length < searchValue.length) {
                         return false;
@@ -322,8 +322,8 @@ var compileCriteria = (function() {
     }
 
     function compileUnary(crit) {
-        var op = crit[0],
-            criteria = compileCriteria(crit[1]);
+        var op = crit[0];
+        var criteria = compileCriteria(crit[1]);
 
         if(op === "!") {
             return function(obj) { return !criteria(obj); };
@@ -397,15 +397,15 @@ var GroupIterator = Iterator.inherit({
             return;
         }
 
-        var hash = {},
-            keys = [],
-            iter = this.iter,
-            getter = compileGetter(this.getter);
+        var hash = {};
+        var keys = [];
+        var iter = this.iter;
+        var getter = compileGetter(this.getter);
 
         iter.reset();
         while(iter.next()) {
-            var current = iter.current(),
-                key = getter(current);
+            var current = iter.current();
+            var key = getter(current);
 
             if(key in hash) {
                 hash[key].push(current);
@@ -501,10 +501,10 @@ var arrayQueryImpl = function(iter, queryOptions) {
     };
 
     var aggregateCore = function(aggregator) {
-        var d = new Deferred().fail(handleError),
-            seed,
-            step = aggregator.step,
-            finalize = aggregator.finalize;
+        var d = new Deferred().fail(handleError);
+        var seed;
+        var step = aggregator.step;
+        var finalize = aggregator.finalize;
 
         try {
             iter.reset();

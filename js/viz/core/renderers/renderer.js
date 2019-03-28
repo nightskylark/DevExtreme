@@ -1,32 +1,31 @@
-var $ = require("../../../core/renderer"),
-    domAdapter = require("../../../core/dom_adapter"),
-    windowUtils = require("../../../core/utils/window"),
-    callOnce = require("../../../core/utils/call_once"),
-    window = windowUtils.getWindow(),
-    eventsEngine = require("../../../events/core/events_engine"),
-    browser = require("../../../core/utils/browser"),
-    getSvgMarkup = require("../../../core/utils/svg").getSvgMarkup,
-    animation = require("./animation"),
-    math = Math,
-    mathMin = math.min,
-    mathMax = math.max,
-    mathFloor = math.floor,
-    mathRound = math.round,
-    mathSin = math.sin,
-    mathCos = math.cos,
-    mathAbs = math.abs,
-    mathPI = math.PI,
-
-    _isDefined = require("../../../core/utils/type").isDefined,
-    vizUtils = require("../utils"),
-    _normalizeEnum = vizUtils.normalizeEnum,
-    _normalizeBBox = vizUtils.normalizeBBox,
-    _rotateBBox = vizUtils.rotateBBox,
-    PI_DIV_180 = mathPI / 180,
-    _parseInt = parseInt,
-    _parseFloat = parseFloat,
-    SHARPING_CORRECTION = 0.5,
-    ARC_COORD_PREC = 5;
+var $ = require("../../../core/renderer");
+var domAdapter = require("../../../core/dom_adapter");
+var windowUtils = require("../../../core/utils/window");
+var callOnce = require("../../../core/utils/call_once");
+var window = windowUtils.getWindow();
+var eventsEngine = require("../../../events/core/events_engine");
+var browser = require("../../../core/utils/browser");
+var getSvgMarkup = require("../../../core/utils/svg").getSvgMarkup;
+var animation = require("./animation");
+var math = Math;
+var mathMin = math.min;
+var mathMax = math.max;
+var mathFloor = math.floor;
+var mathRound = math.round;
+var mathSin = math.sin;
+var mathCos = math.cos;
+var mathAbs = math.abs;
+var mathPI = math.PI;
+var _isDefined = require("../../../core/utils/type").isDefined;
+var vizUtils = require("../utils");
+var _normalizeEnum = vizUtils.normalizeEnum;
+var _normalizeBBox = vizUtils.normalizeBBox;
+var _rotateBBox = vizUtils.rotateBBox;
+var PI_DIV_180 = mathPI / 180;
+var _parseInt = parseInt;
+var _parseFloat = parseFloat;
+var SHARPING_CORRECTION = 0.5;
+var ARC_COORD_PREC = 5;
 
 var pxAddingExceptions = {
     "column-count": true,
@@ -43,17 +42,16 @@ var pxAddingExceptions = {
     "zoom": true
 };
 
-var KEY_TEXT = "text",
-    KEY_STROKE = "stroke",
-    KEY_STROKE_WIDTH = "stroke-width",
-    KEY_STROKE_OPACITY = "stroke-opacity",
-    KEY_FONT_SIZE = "font-size",
-    KEY_FONT_STYLE = "font-style",
-    KEY_FONT_WEIGHT = "font-weight",
-    KEY_TEXT_DECORATION = "text-decoration",
-    NONE = "none",
-
-    DEFAULT_FONT_SIZE = 12;
+var KEY_TEXT = "text";
+var KEY_STROKE = "stroke";
+var KEY_STROKE_WIDTH = "stroke-width";
+var KEY_STROKE_OPACITY = "stroke-opacity";
+var KEY_FONT_SIZE = "font-size";
+var KEY_FONT_STYLE = "font-style";
+var KEY_FONT_WEIGHT = "font-weight";
+var KEY_TEXT_DECORATION = "text-decoration";
+var NONE = "none";
+var DEFAULT_FONT_SIZE = 12;
 
 const ELLIPSIS = "...";
 
@@ -78,8 +76,8 @@ var DEFAULTS = {
 };
 
 var getBackup = callOnce(function() {
-    var backupContainer = domAdapter.createElement("div"),
-        backupCounter = 0;
+    var backupContainer = domAdapter.createElement("div");
+    var backupCounter = 0;
     backupContainer.style.left = "-9999px";
     backupContainer.style.position = "absolute";
 
@@ -164,9 +162,9 @@ var preserveAspectRatioMap = {
 //
 
 function normalizeArcParams(x, y, innerR, outerR, startAngle, endAngle) {
-    var isCircle,
-        noArc = true,
-        angleDiff = roundValue(endAngle, 3) - roundValue(startAngle, 3);
+    var isCircle;
+    var noArc = true;
+    var angleDiff = roundValue(endAngle, 3) - roundValue(startAngle, 3);
 
     if(angleDiff) {
         if((mathAbs(angleDiff) % 360) === 0) {
@@ -246,9 +244,9 @@ function buildCurveSegments(points, close) {
 }
 
 function buildSegments(points, buildSimpleSegment, close) {
-    var i,
-        ii,
-        list = [];
+    var i;
+    var ii;
+    var list = [];
     if(points[0] && points[0].length) {
         for(i = 0, ii = points.length; i < ii; ++i) {
             buildSimpleSegment(points[i], close, list);
@@ -260,10 +258,10 @@ function buildSegments(points, buildSimpleSegment, close) {
 }
 
 function buildSimpleLineSegment(points, close, list) {
-    var i = 0,
-        k0 = list.length,
-        k = k0,
-        ii = (points || []).length;
+    var i = 0;
+    var k0 = list.length;
+    var k = k0;
+    var ii = (points || []).length;
     if(ii) {
         // backward compatibility
         if(points[0].x !== undefined) {
@@ -284,9 +282,9 @@ function buildSimpleLineSegment(points, close, list) {
 }
 
 function buildSimpleCurveSegment(points, close, list) {
-    var i,
-        k = list.length,
-        ii = (points || []).length;
+    var i;
+    var k = list.length;
+    var ii = (points || []).length;
     if(ii) {
         // backward compatibility
         if(points[0].x !== undefined) {
@@ -324,13 +322,13 @@ function buildSimpleCurveSegment(points, close, list) {
 }
 
 function combinePathParam(segments) {
-    var d = [],
-        k = 0,
-        i,
-        ii = segments.length,
-        segment,
-        j,
-        jj;
+    var d = [];
+    var k = 0;
+    var i;
+    var ii = segments.length;
+    var segment;
+    var j;
+    var jj;
     for(i = 0; i < ii; ++i) {
         segment = segments[i];
         for(j = 0, jj = segment.length; j < jj; ++j) {
@@ -341,11 +339,11 @@ function combinePathParam(segments) {
 }
 
 function compensateSegments(oldSegments, newSegments, type) {
-    var oldLength = oldSegments.length,
-        newLength = newSegments.length,
-        i,
-        originalNewSegments,
-        makeEqualSegments = (type.indexOf("area") !== -1) ? makeEqualAreaSegments : makeEqualLineSegments;
+    var oldLength = oldSegments.length;
+    var newLength = newSegments.length;
+    var i;
+    var originalNewSegments;
+    var makeEqualSegments = (type.indexOf("area") !== -1) ? makeEqualAreaSegments : makeEqualLineSegments;
 
     if(oldLength === 0) {
         for(i = 0; i < newLength; i++) {
@@ -361,8 +359,8 @@ function compensateSegments(oldSegments, newSegments, type) {
 }
 
 function prepareConstSegment(constSeg, type) {
-    var x = constSeg[constSeg.length - 2],
-        y = constSeg[constSeg.length - 1];
+    var x = constSeg[constSeg.length - 2];
+    var y = constSeg[constSeg.length - 1];
     switch(type) {
         case "line":
         case "area":
@@ -378,8 +376,8 @@ function prepareConstSegment(constSeg, type) {
 }
 
 function makeEqualLineSegments(short, long, type) {
-    var constSeg = short[short.length - 1].slice(),
-        i = short.length;
+    var constSeg = short[short.length - 1].slice();
+    var i = short.length;
     prepareConstSegment(constSeg, type);
     for(; i < long.length; i++) {
         short[i] = constSeg.slice(0);
@@ -387,12 +385,12 @@ function makeEqualLineSegments(short, long, type) {
 }
 
 function makeEqualAreaSegments(short, long, type) {
-    var i,
-        head,
-        shortLength = short.length,
-        longLength = long.length,
-        constsSeg1,
-        constsSeg2;
+    var i;
+    var head;
+    var shortLength = short.length;
+    var longLength = long.length;
+    var constsSeg1;
+    var constsSeg2;
 
     if((shortLength - 1) % 2 === 0 && (longLength - 1) % 2 === 0) {
         i = (shortLength - 1) / 2 - 1;
@@ -409,10 +407,10 @@ function makeEqualAreaSegments(short, long, type) {
 }
 
 function baseCss(that, styles) {
-    var elemStyles = that._styles,
-        str = "",
-        key,
-        value;
+    var elemStyles = that._styles;
+    var str = "";
+    var key;
+    var value;
 
     styles = styles || {};
     for(key in styles) {
@@ -435,8 +433,8 @@ function baseCss(that, styles) {
 }
 
 function fixFuncIri(wrapper, attribute) {
-    var element = wrapper.element,
-        id = wrapper.attr(attribute);
+    var element = wrapper.element;
+    var id = wrapper.attr(attribute);
 
     if(id && id.indexOf("DevExpress") !== -1) {
         element.removeAttribute(attribute);
@@ -446,17 +444,17 @@ function fixFuncIri(wrapper, attribute) {
 
 function baseAttr(that, attrs) {
     attrs = attrs || {};
-    var settings = that._settings,
-        attributes = {},
-        key,
-        value,
-        elem = that.element,
-        renderer = that.renderer,
-        rtl = renderer.rtl,
-        hasTransformations,
-        recalculateDashStyle,
-        sw,
-        i;
+    var settings = that._settings;
+    var attributes = {};
+    var key;
+    var value;
+    var elem = that.element;
+    var renderer = that.renderer;
+    var rtl = renderer.rtl;
+    var hasTransformations;
+    var recalculateDashStyle;
+    var sw;
+    var i;
 
     if(!isObjectArgument(attrs)) {
         if(attrs in settings) {
@@ -529,8 +527,8 @@ function baseAttr(that, attrs) {
 }
 
 function pathAttr(attrs) {
-    var that = this,
-        segments;
+    var that = this;
+    var segments;
 
     if(isObjectArgument(attrs)) {
         attrs = extend({}, attrs);
@@ -549,8 +547,13 @@ function pathAttr(attrs) {
 }
 
 function arcAttr(attrs) {
-    var settings = this._settings,
-        x, y, innerRadius, outerRadius, startAngle, endAngle;
+    var settings = this._settings;
+    var x;
+    var y;
+    var innerRadius;
+    var outerRadius;
+    var startAngle;
+    var endAngle;
 
     if(isObjectArgument(attrs)) {
         attrs = extend({}, attrs);
@@ -569,14 +572,14 @@ function arcAttr(attrs) {
 }
 
 function rectAttr(attrs) {
-    var that = this,
-        x,
-        y,
-        width,
-        height,
-        sw,
-        maxSW,
-        newSW;
+    var that = this;
+    var x;
+    var y;
+    var width;
+    var height;
+    var sw;
+    var maxSW;
+    var newSW;
 
     if(isObjectArgument(attrs)) {
         attrs = extend({}, attrs);
@@ -610,11 +613,11 @@ function rectAttr(attrs) {
 }
 
 function textAttr(attrs) {
-    var that = this,
-        settings,
-        isResetRequired,
-        wasStroked,
-        isStroked;
+    var that = this;
+    var settings;
+    var isResetRequired;
+    var wasStroked;
+    var isStroked;
 
     if(!isObjectArgument(attrs)) {
         return baseAttr(that, attrs);
@@ -668,11 +671,11 @@ function textCss(styles) {
 }
 
 function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
-    var style,
-        realStyle,
-        i,
-        ii,
-        nodes;
+    var style;
+    var realStyle;
+    var i;
+    var ii;
+    var nodes;
 
     if(node.wholeText !== undefined) {
         list.push({ value: node.wholeText, style: parentStyle, className: parentClassName /* EXPERIMENTAL */, line: line, height: parentStyle[KEY_FONT_SIZE] || 0 });
@@ -707,9 +710,10 @@ function orderHtmlTree(list, line, node, parentStyle, parentClassName) {
 }
 
 function adjustLineHeights(items) {
-    var i, ii,
-        currentItem = items[0],
-        item;
+    var i;
+    var ii;
+    var currentItem = items[0];
+    var item;
     for(i = 1, ii = items.length; i < ii; ++i) {
         item = items[i];
         if(item.line === currentItem.line) {
@@ -724,8 +728,8 @@ function adjustLineHeights(items) {
 }
 
 function removeExtraAttrs(html) {
-    var findTagAttrs = /(?:(<[a-z0-9]+\s*))([\s\S]*?)(>|\/>)/gi,
-        findStyleAndClassAttrs = /(style|class)\s*=\s*(["'])(?:(?!\2).)*\2\s?/gi;
+    var findTagAttrs = /(?:(<[a-z0-9]+\s*))([\s\S]*?)(>|\/>)/gi;
+    var findStyleAndClassAttrs = /(style|class)\s*=\s*(["'])(?:(?!\2).)*\2\s?/gi;
 
     return html.replace(findTagAttrs, function(allTagAttrs, p1, p2, p3) {
         p2 = (p2 && p2.match(findStyleAndClassAttrs) || []).map(function(str) {
@@ -737,8 +741,8 @@ function removeExtraAttrs(html) {
 }
 
 function parseHTML(text) {
-    var items = [],
-        div = domAdapter.createElement("div");
+    var items = [];
+    var div = domAdapter.createElement("div");
     div.innerHTML = text.replace(/\r/g, "").replace(/\n/g, "<br/>");
     orderHtmlTree(items, 0, div, {}, "");
     adjustLineHeights(items);
@@ -746,9 +750,9 @@ function parseHTML(text) {
 }
 
 function parseMultiline(text) {
-    var texts = text.replace(/\r/g, "").split(/\n/g),
-        i = 0,
-        items = [];
+    var texts = text.replace(/\r/g, "").split(/\n/g);
+    var i = 0;
+    var items = [];
     for(; i < texts.length; i++) {
         items.push({ value: texts[i].trim(), height: 0 });
     }
@@ -756,7 +760,9 @@ function parseMultiline(text) {
 }
 
 function createTspans(items, element, fieldName) {
-    var i, ii, item;
+    var i;
+    var ii;
+    var item;
     for(i = 0, ii = items.length; i < ii; ++i) {
         item = items[i];
         item[fieldName] = createElement("tspan");
@@ -774,17 +780,17 @@ function restoreText() {
 }
 
 function applyEllipsis(maxWidth) {
-    var that = this,
-        lines,
-        hasEllipsis = false,
-        i,
-        ii,
-        lineParts,
-        j,
-        jj,
-        text,
-        ellipsis,
-        ellipsisWidth;
+    var that = this;
+    var lines;
+    var hasEllipsis = false;
+    var i;
+    var ii;
+    var lineParts;
+    var j;
+    var jj;
+    var text;
+    var ellipsis;
+    var ellipsisWidth;
 
     restoreText.call(that);
 
@@ -822,12 +828,12 @@ function applyEllipsis(maxWidth) {
 }
 
 function setMaxWidth(maxWidth, options = {}) {
-    var that = this,
-        lines,
-        textChanged = false,
-        ellipsis,
-        ellipsisWidth,
-        ellipsisMaxWidth = maxWidth;
+    var that = this;
+    var lines;
+    var textChanged = false;
+    var ellipsis;
+    var ellipsisWidth;
+    var ellipsisMaxWidth = maxWidth;
 
     restoreText.call(that);
 
@@ -864,8 +870,8 @@ function setMaxWidth(maxWidth, options = {}) {
 }
 
 function getIndexForEllipsis(text, maxWidth, startBox, endBox) {
-    var k,
-        kk;
+    var k;
+    var kk;
     if(startBox <= maxWidth && endBox > maxWidth) {
         for(k = 1, kk = text.value.length; k <= kk; ++k) {
             if(startBox + text.tspan.getSubStringLength(0, k) > maxWidth) {
@@ -876,12 +882,12 @@ function getIndexForEllipsis(text, maxWidth, startBox, endBox) {
 }
 
 function prepareLines(element, texts, maxWidth) {
-    var lines = [],
-        i,
-        ii,
-        text,
-        startBox,
-        endBox;
+    var lines = [];
+    var i;
+    var ii;
+    var text;
+    var startBox;
+    var endBox;
 
     if(texts) {
         for(i = 0, ii = texts.length; i < ii; ++i) {
@@ -1062,8 +1068,8 @@ function removeTextSpan(text) {
 }
 
 function createTextNodes(wrapper, text, isStroked) {
-    var items,
-        parsedHtml;
+    var items;
+    var parsedHtml;
 
     wrapper._texts = null;
     wrapper.clear();
@@ -1102,11 +1108,12 @@ function setTextNodeAttribute(item, name, value) {
 
 function locateTextNodes(wrapper) {
     if(!wrapper._texts) return;
-    var items = wrapper._texts,
-        x = wrapper._settings.x,
-        lineHeight = !isNaN(_parseFloat(wrapper._styles[KEY_FONT_SIZE])) ? wrapper._styles[KEY_FONT_SIZE] : DEFAULT_FONT_SIZE,
-        i, ii,
-        item = items[0];
+    var items = wrapper._texts;
+    var x = wrapper._settings.x;
+    var lineHeight = !isNaN(_parseFloat(wrapper._styles[KEY_FONT_SIZE])) ? wrapper._styles[KEY_FONT_SIZE] : DEFAULT_FONT_SIZE;
+    var i;
+    var ii;
+    var item = items[0];
     setTextNodeAttribute(item, "x", x);
     setTextNodeAttribute(item, "y", wrapper._settings.y);
     for(i = 1, ii = items.length; i < ii; ++i) {
@@ -1119,21 +1126,23 @@ function locateTextNodes(wrapper) {
 }
 
 function maxLengthFontSize(fontSize1, fontSize2) {
-    var parsedHeight1 = _parseFloat(fontSize1),
-        parsedHeight2 = _parseFloat(fontSize2),
-        height1 = parsedHeight1 || DEFAULT_FONT_SIZE,
-        height2 = parsedHeight2 || DEFAULT_FONT_SIZE;
+    var parsedHeight1 = _parseFloat(fontSize1);
+    var parsedHeight2 = _parseFloat(fontSize2);
+    var height1 = parsedHeight1 || DEFAULT_FONT_SIZE;
+    var height2 = parsedHeight2 || DEFAULT_FONT_SIZE;
 
     return height1 > height2 ? (!isNaN(parsedHeight1) ? fontSize1 : height1) : (!isNaN(parsedHeight2) ? fontSize2 : height2);
 }
 
 function strokeTextNodes(wrapper) {
     if(!wrapper._texts) return;
-    var items = wrapper._texts,
-        stroke = wrapper._settings[KEY_STROKE],
-        strokeWidth = wrapper._settings[KEY_STROKE_WIDTH],
-        strokeOpacity = wrapper._settings[KEY_STROKE_OPACITY] || 1,
-        tspan, i, ii;
+    var items = wrapper._texts;
+    var stroke = wrapper._settings[KEY_STROKE];
+    var strokeWidth = wrapper._settings[KEY_STROKE_WIDTH];
+    var strokeOpacity = wrapper._settings[KEY_STROKE_OPACITY] || 1;
+    var tspan;
+    var i;
+    var ii;
     for(i = 0, ii = items.length; i < ii; ++i) {
         tspan = items[i].stroke;
         tspan.setAttribute(KEY_STROKE, stroke);
@@ -1145,11 +1154,11 @@ function strokeTextNodes(wrapper) {
 
 function baseAnimate(that, params, options, complete) {
     options = options || {};
-    var key,
-        value,
-        renderer = that.renderer,
-        settings = that._settings,
-        animationParams = {};
+    var key;
+    var value;
+    var renderer = that.renderer;
+    var settings = that._settings;
+    var animationParams = {};
 
     var defaults = {
         translateX: 0,
@@ -1192,10 +1201,10 @@ function baseAnimate(that, params, options, complete) {
 }
 
 function pathAnimate(params, options, complete) {
-    var that = this,
-        curSegments = that.segments || [],
-        newSegments,
-        endSegments;
+    var that = this;
+    var curSegments = that.segments || [];
+    var newSegments;
+    var endSegments;
 
     if(that.renderer.animationEnabled() && "points" in params) {
         newSegments = buildPathSegments(params.points, that.type);
@@ -1209,9 +1218,9 @@ function pathAnimate(params, options, complete) {
 }
 
 function arcAnimate(params, options, complete) {
-    var that = this,
-        settings = that._settings,
-        arcParams = { from: {}, to: {} };
+    var that = this;
+    var settings = that._settings;
+    var arcParams = { from: {}, to: {} };
 
     if(that.renderer.animationEnabled() &&
         ("x" in params || "y" in params || "innerRadius" in params || "outerRadius" in params || "startAngle" in params || "endAngle" in params)) {
@@ -1286,12 +1295,13 @@ SvgElement.prototype = {
     },
 
     _addFixIRICallback: function() {
-        var that = this,
-            fn = function() {
-                fixFuncIri(that, "fill");
-                fixFuncIri(that, "clip-path");
-                fixFuncIri(that, "filter");
-            };
+        var that = this;
+
+        var fn = function() {
+            fixFuncIri(that, "fill");
+            fixFuncIri(that, "clip-path");
+            fixFuncIri(that, "filter");
+        };
 
         that.element._fixFuncIri = fn;
         fn.renderer = that.renderer;
@@ -1338,10 +1348,10 @@ SvgElement.prototype = {
 
     ///#DEBUG
     checkLinks: function() {
-        var count = 0,
-            links = this._links,
-            i,
-            ii = links.length;
+        var count = 0;
+        var links = this._links;
+        var i;
+        var ii = links.length;
         for(i = 0; i < ii; ++i) {
             if(!links[i]._link.virtual) {
                 ++count;
@@ -1377,10 +1387,10 @@ SvgElement.prototype = {
 
     // It might be better to traverse list to start (not to end) as widget components more likely will be rendered in the same order as they were created
     linkAppend: function() {
-        var link = this._link,
-            items = link.to._links,
-            i,
-            next;
+        var link = this._link;
+        var items = link.to._links;
+        var i;
+        var next;
         for(i = link.i + 1; (next = items[i]) && !next._link.is; ++i);
         this._insert(link.to, next);
         link.is = true;
@@ -1405,15 +1415,15 @@ SvgElement.prototype = {
     },
 
     toBackground: function() {
-        var elem = this.element,
-            parent = elem.parentNode;
+        var elem = this.element;
+        var parent = elem.parentNode;
         parent && parent.insertBefore(elem, parent.firstChild);
         return this;
     },
 
     toForeground: function() {
-        var elem = this.element,
-            parent = elem.parentNode;
+        var elem = this.element;
+        var parent = elem.parentNode;
         parent && parent.appendChild(elem);
         return this;
     },
@@ -1448,16 +1458,16 @@ SvgElement.prototype = {
     },
 
     _applyTransformation: function() {
-        var tr = this._settings,
-            scaleXDefined,
-            scaleYDefined,
-            transformations = [],
-            rotateX,
-            rotateY,
-            sharpMode = tr.sharp,
-            strokeOdd = tr[KEY_STROKE_WIDTH] % 2,
-            correctionX = (strokeOdd && (sharpMode === "h" || sharpMode === true)) ? SHARPING_CORRECTION : 0,
-            correctionY = (strokeOdd && (sharpMode === "v" || sharpMode === true)) ? SHARPING_CORRECTION : 0;
+        var tr = this._settings;
+        var scaleXDefined;
+        var scaleYDefined;
+        var transformations = [];
+        var rotateX;
+        var rotateY;
+        var sharpMode = tr.sharp;
+        var strokeOdd = tr[KEY_STROKE_WIDTH] % 2;
+        var correctionX = (strokeOdd && (sharpMode === "h" || sharpMode === true)) ? SHARPING_CORRECTION : 0;
+        var correctionY = (strokeOdd && (sharpMode === "v" || sharpMode === true)) ? SHARPING_CORRECTION : 0;
 
         transformations.push("translate(" + ((tr.translateX || 0) + correctionX) + "," + ((tr.translateY || 0) + correctionY) + ")");
 
@@ -1518,8 +1528,8 @@ SvgElement.prototype = {
     },
 
     _getElementBBox: function() {
-        var elem = this.element,
-            bBox;
+        var elem = this.element;
+        var bBox;
 
         try {
             bBox = elem.getBBox && elem.getBBox();
@@ -1530,8 +1540,8 @@ SvgElement.prototype = {
 
     // TODO do we need to round results and consider rotation coordinates?
     getBBox: function() {
-        var transformation = this._settings,
-            bBox = this._getElementBBox();
+        var transformation = this._settings;
+        var bBox = this._getElementBBox();
 
         if(transformation.rotate) {
             bBox = _rotateBBox(bBox, [
@@ -1565,8 +1575,8 @@ SvgElement.prototype = {
     },
 
     data: function(obj, val) {
-        var elem = this.element,
-            key;
+        var elem = this.element;
+        var key;
         if(val !== undefined) {
             elem[obj] = val;
         } else {
@@ -1664,18 +1674,18 @@ extend(TextSvgElement.prototype, {
 // TextSvgElement
 
 function updateIndexes(items, k) {
-    var i,
-        item;
+    var i;
+    var item;
     for(i = k; (item = items[i]); ++i) {
         item._link.i = i;
     }
 }
 
 function linkItem(target, container) {
-    var items = container._links,
-        key = (target._link.after = target._link.after || container._linkAfter),
-        i,
-        item;
+    var items = container._links;
+    var key = (target._link.after = target._link.after || container._linkAfter);
+    var i;
+    var item;
     if(key) {
         for(i = 0; (item = items[i]) && item._link.name !== key; ++i);
         if(item) {
@@ -1689,8 +1699,8 @@ function linkItem(target, container) {
 }
 
 function unlinkItem(target) {
-    var i,
-        items = target._link.to._links;
+    var i;
+    var items = target._link.to._links;
     for(i = 0; items[i] !== target; ++i);
     items.splice(i, 1);
     updateIndexes(items, i);
@@ -1743,9 +1753,9 @@ Renderer.prototype = {
             return;
         }
 
-        var box = getBoundingClientRect(this._$container.get(0)),
-            dx = roundValue(box.left % 1, 2),
-            dy = roundValue(box.top % 1, 2);
+        var box = getBoundingClientRect(this._$container.get(0));
+        var dx = roundValue(box.left % 1, 2);
+        var dy = roundValue(box.top % 1, 2);
 
         if(browser.msie) {
             this.root.css({
@@ -1818,8 +1828,8 @@ Renderer.prototype = {
     },
 
     dispose: function() {
-        var that = this,
-            key;
+        var that = this;
+        var key;
         that.root.dispose();
         that._defs.dispose();
         that._animationController.dispose();
@@ -1912,9 +1922,9 @@ Renderer.prototype = {
     },
 
     linearGradient: function(stops) {
-        var gradient,
-            id = getNextDefsSvgId(),
-            that = this;
+        var gradient;
+        var id = getNextDefsSvgId();
+        var that = this;
         gradient = that._createElement("linearGradient", { id: id }).append(that._defs);
         gradient.id = id;
 
@@ -1929,15 +1939,15 @@ Renderer.prototype = {
     pattern: function(color, hatching, _id) {
         hatching = hatching || {};
 
-        var that = this,
-            id,
-            d,
-            pattern,
-            rect,
-            path,
-            step = hatching.step || 6,
-            stepTo2 = step / 2,
-            stepBy15 = step * 1.5;
+        var that = this;
+        var id;
+        var d;
+        var pattern;
+        var rect;
+        var path;
+        var step = hatching.step || 6;
+        var stepTo2 = step / 2;
+        var stepBy15 = step * 1.5;
 
         id = _id || getNextDefsSvgId();
 
@@ -1970,10 +1980,10 @@ Renderer.prototype = {
 
     // appended automatically
     clipRect: function(x, y, width, height) {
-        var that = this,
-            id = getNextDefsSvgId(),
-            clipPath = that._createElement("clipPath", { id: id }).append(that._defs),
-            rect = that.rect(x, y, width, height).append(clipPath);
+        var that = this;
+        var id = getNextDefsSvgId();
+        var clipPath = that._createElement("clipPath", { id: id }).append(that._defs);
+        var rect = that.rect(x, y, width, height).append(clipPath);
         rect.id = id;
 
         ///#DEBUG
@@ -1991,14 +2001,14 @@ Renderer.prototype = {
 
     // appended automatically
     shadowFilter: function(x, y, width, height, offsetX, offsetY, blur, color, opacity) {
-        var that = this,
-            id = getNextDefsSvgId(),
-            filter = that._createElement("filter", { id: id, x: x || 0, y: y || 0, width: width || 0, height: height || 0 }).append(that._defs),
-            gaussianBlur = that._createElement("feGaussianBlur", { "in": "SourceGraphic", "result": "gaussianBlurResult", "stdDeviation": blur || 0 }).append(filter),
-            offset = that._createElement("feOffset", { "in": "gaussianBlurResult", "result": "offsetResult", "dx": offsetX || 0, "dy": offsetY || 0 }).append(filter),
-            flood = that._createElement("feFlood", { "result": "floodResult", "flood-color": color || "", "flood-opacity": opacity }).append(filter),
-            composite = that._createElement("feComposite", { "in": "floodResult", "in2": "offsetResult", "operator": "in", "result": "compositeResult" }).append(filter),
-            finalComposite = that._createElement("feComposite", { "in": "SourceGraphic", "in2": "compositeResult", "operator": "over" }).append(filter);
+        var that = this;
+        var id = getNextDefsSvgId();
+        var filter = that._createElement("filter", { id: id, x: x || 0, y: y || 0, width: width || 0, height: height || 0 }).append(that._defs);
+        var gaussianBlur = that._createElement("feGaussianBlur", { "in": "SourceGraphic", "result": "gaussianBlurResult", "stdDeviation": blur || 0 }).append(filter);
+        var offset = that._createElement("feOffset", { "in": "gaussianBlurResult", "result": "offsetResult", "dx": offsetX || 0, "dy": offsetY || 0 }).append(filter);
+        var flood = that._createElement("feFlood", { "result": "floodResult", "flood-color": color || "", "flood-opacity": opacity }).append(filter);
+        var composite = that._createElement("feComposite", { "in": "floodResult", "in2": "offsetResult", "operator": "in", "result": "compositeResult" }).append(filter);
+        var finalComposite = that._createElement("feComposite", { "in": "SourceGraphic", "in2": "compositeResult", "operator": "over" }).append(filter);
 
         filter.id = id;
         filter.gaussianBlur = gaussianBlur;
@@ -2008,10 +2018,10 @@ Renderer.prototype = {
         filter.finalComposite = finalComposite;
 
         filter.attr = function(attrs) {
-            var that = this,
-                filterAttrs = {},
-                offsetAttrs = {},
-                floodAttrs = {};
+            var that = this;
+            var filterAttrs = {};
+            var offsetAttrs = {};
+            var floodAttrs = {};
 
             ("x" in attrs) && (filterAttrs.x = attrs.x);
             ("y" in attrs) && (filterAttrs.y = attrs.y);
@@ -2036,14 +2046,15 @@ Renderer.prototype = {
     },
 
     brightFilter: function(type, slope) {
-        var that = this,
-            id = getNextDefsSvgId(),
-            filter = that._createElement("filter", { id: id }).append(that._defs),
-            componentTransferElement = that._createElement("feComponentTransfer").append(filter),
-            attrs = {
-                type: type,
-                slope: slope
-            };
+        var that = this;
+        var id = getNextDefsSvgId();
+        var filter = that._createElement("filter", { id: id }).append(that._defs);
+        var componentTransferElement = that._createElement("feComponentTransfer").append(filter);
+
+        var attrs = {
+            type: type,
+            slope: slope
+        };
 
         filter.id = id;
         that._createElement("feFuncR", attrs).append(componentTransferElement);
@@ -2057,9 +2068,9 @@ Renderer.prototype = {
             return this._grayScaleFilter;
         }
 
-        var that = this,
-            id = getNextDefsSvgId(),
-            filter = that._createElement("filter", { id: id }).append(that._defs);
+        var that = this;
+        var id = getNextDefsSvgId();
+        var filter = that._createElement("filter", { id: id }).append(that._defs);
 
         that._createElement("feColorMatrix")
             .attr({ type: "matrix", values: "0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 0.6 0" })
@@ -2072,9 +2083,9 @@ Renderer.prototype = {
     },
 
     initHatching: function() {
-        var storage = this._hatchingStorage = this._hatchingStorage || { byHash: {}, baseId: getNextDefsSvgId() },
-            byHash = storage.byHash,
-            name;
+        var storage = this._hatchingStorage = this._hatchingStorage || { byHash: {}, baseId: getNextDefsSvgId() };
+        var byHash = storage.byHash;
+        var name;
 
         for(name in byHash) {
             byHash[name].pattern.dispose();
@@ -2085,10 +2096,10 @@ Renderer.prototype = {
     },
 
     lockHatching: function(color, hatching, ref) {
-        var storage = this._hatchingStorage,
-            hash = getHatchingHash(color, hatching),
-            storageItem,
-            pattern;
+        var storage = this._hatchingStorage;
+        var hash = getHatchingHash(color, hatching);
+        var storageItem;
+        var pattern;
 
         if(storage.refToHash[ref] !== hash) {
             if(ref) {
@@ -2107,9 +2118,9 @@ Renderer.prototype = {
     },
 
     releaseHatching: function(ref) {
-        var storage = this._hatchingStorage,
-            hash = storage.refToHash[ref],
-            storageItem = storage.byHash[hash];
+        var storage = this._hatchingStorage;
+        var hash = storage.refToHash[ref];
+        var storageItem = storage.byHash[hash];
 
         if(storageItem && --storageItem.count === 0) {
             storageItem.pattern.dispose();

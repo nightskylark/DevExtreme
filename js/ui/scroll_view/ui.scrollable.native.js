@@ -1,20 +1,17 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    noop = require("../../core/utils/common").noop,
-    each = require("../../core/utils/iterator").each,
-    devices = require("../../core/devices"),
-    Class = require("../../core/class"),
-    Scrollbar = require("./ui.scrollbar");
-
-var SCROLLABLE_NATIVE = "dxNativeScrollable",
-    SCROLLABLE_NATIVE_CLASS = "dx-scrollable-native",
-    SCROLLABLE_SCROLLBAR_SIMULATED = "dx-scrollable-scrollbar-simulated",
-    SCROLLABLE_SCROLLBARS_HIDDEN = "dx-scrollable-scrollbars-hidden",
-
-    VERTICAL = "vertical",
-    HORIZONTAL = "horizontal",
-
-    HIDE_SCROLLBAR_TIMEOUT = 500;
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var noop = require("../../core/utils/common").noop;
+var each = require("../../core/utils/iterator").each;
+var devices = require("../../core/devices");
+var Class = require("../../core/class");
+var Scrollbar = require("./ui.scrollbar");
+var SCROLLABLE_NATIVE = "dxNativeScrollable";
+var SCROLLABLE_NATIVE_CLASS = "dx-scrollable-native";
+var SCROLLABLE_SCROLLBAR_SIMULATED = "dx-scrollable-scrollbar-simulated";
+var SCROLLABLE_SCROLLBARS_HIDDEN = "dx-scrollable-scrollbars-hidden";
+var VERTICAL = "vertical";
+var HORIZONTAL = "horizontal";
+var HIDE_SCROLLBAR_TIMEOUT = 500;
 
 
 var NativeStrategy = Class.inherit({
@@ -42,8 +39,8 @@ var NativeStrategy = Class.inherit({
 
     render: function() {
         this._renderPushBackOffset();
-        var device = devices.real(),
-            deviceType = device.platform;
+        var device = devices.real();
+        var deviceType = device.platform;
 
         this._$element
             .addClass(SCROLLABLE_NATIVE_CLASS)
@@ -160,9 +157,9 @@ var NativeStrategy = Class.inherit({
             return;
         }
 
-        var scrollOffset = this._containerSize.height - this._contentSize.height,
-            scrollTopPos = this._$container.scrollTop(),
-            scrollBottomPos = scrollOffset + scrollTopPos - pushBackValue * 2;
+        var scrollOffset = this._containerSize.height - this._contentSize.height;
+        var scrollTopPos = this._$container.scrollTop();
+        var scrollBottomPos = scrollOffset + scrollTopPos - pushBackValue * 2;
 
         if(!scrollTopPos) {
             this._$container.scrollTop(pushBackValue);
@@ -172,10 +169,10 @@ var NativeStrategy = Class.inherit({
     },
 
     _isScrollLocationChanged: function() {
-        var currentLocation = this.location(),
-            lastLocation = this._lastLocation || {},
-            isTopChanged = lastLocation.top !== currentLocation.top,
-            isLeftChanged = lastLocation.left !== currentLocation.left;
+        var currentLocation = this.location();
+        var lastLocation = this._lastLocation || {};
+        var isTopChanged = lastLocation.top !== currentLocation.top;
+        var isLeftChanged = lastLocation.left !== currentLocation.left;
 
         return isTopChanged || isLeftChanged;
     },

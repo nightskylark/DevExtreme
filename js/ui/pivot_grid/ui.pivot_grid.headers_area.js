@@ -1,27 +1,26 @@
-var $ = require("../../core/renderer"),
-    isDefined = require("../../core/utils/type").isDefined,
-    inArray = require("../../core/utils/array").inArray,
-    each = require("../../core/utils/iterator").each,
-    areaItem = require("./ui.pivot_grid.area_item");
-
-var PIVOTGRID_AREA_CLASS = "dx-pivotgrid-area",
-    PIVOTGRID_AREA_COLUMN_CLASS = "dx-pivotgrid-horizontal-headers",
-    PIVOTGRID_AREA_ROW_CLASS = "dx-pivotgrid-vertical-headers",
-    PIVOTGRID_TOTAL_CLASS = "dx-total",
-    PIVOTGRID_GRAND_TOTAL_CLASS = "dx-grandtotal",
-    PIVOTGRID_ROW_TOTAL_CLASS = "dx-row-total",
-    PIVOTGRID_EXPANDED_CLASS = "dx-pivotgrid-expanded",
-    PIVOTGRID_COLLAPSED_CLASS = "dx-pivotgrid-collapsed",
-    PIVOTGRID_LAST_CELL_CLASS = "dx-last-cell",
-    PIVOTGRID_VERTICAL_SCROLL_CLASS = "dx-vertical-scroll",
-    PIVOTGRID_EXPAND_BORDER = "dx-expand-border";
+var $ = require("../../core/renderer");
+var isDefined = require("../../core/utils/type").isDefined;
+var inArray = require("../../core/utils/array").inArray;
+var each = require("../../core/utils/iterator").each;
+var areaItem = require("./ui.pivot_grid.area_item");
+var PIVOTGRID_AREA_CLASS = "dx-pivotgrid-area";
+var PIVOTGRID_AREA_COLUMN_CLASS = "dx-pivotgrid-horizontal-headers";
+var PIVOTGRID_AREA_ROW_CLASS = "dx-pivotgrid-vertical-headers";
+var PIVOTGRID_TOTAL_CLASS = "dx-total";
+var PIVOTGRID_GRAND_TOTAL_CLASS = "dx-grandtotal";
+var PIVOTGRID_ROW_TOTAL_CLASS = "dx-row-total";
+var PIVOTGRID_EXPANDED_CLASS = "dx-pivotgrid-expanded";
+var PIVOTGRID_COLLAPSED_CLASS = "dx-pivotgrid-collapsed";
+var PIVOTGRID_LAST_CELL_CLASS = "dx-last-cell";
+var PIVOTGRID_VERTICAL_SCROLL_CLASS = "dx-vertical-scroll";
+var PIVOTGRID_EXPAND_BORDER = "dx-expand-border";
 
 
 function getCellPath(tableElement, cell) {
     if(cell) {
-        var data = tableElement.data().data,
-            rowIndex = cell.parentNode.rowIndex,
-            cellIndex = cell.cellIndex;
+        var data = tableElement.data().data;
+        var rowIndex = cell.parentNode.rowIndex;
+        var cellIndex = cell.cellIndex;
 
         return data[rowIndex] && data[rowIndex][cellIndex] && data[rowIndex][cellIndex].path;
     }
@@ -43,10 +42,10 @@ exports.HorizontalHeadersArea = areaItem.AreaItem.inherit({
     },
 
     _applyCustomStyles: function(options) {
-        var cssArray = options.cssArray,
-            cell = options.cell,
-            rowsCount = options.rowsCount,
-            classArray = options.classArray;
+        var cssArray = options.cssArray;
+        var cell = options.cell;
+        var rowsCount = options.rowsCount;
+        var classArray = options.classArray;
 
         if(options.cellIndex === options.cellsCount - 1) {
             cssArray.push((options.rtlEnabled ? 'border-left:' : 'border-right:') + "0px");
@@ -114,8 +113,8 @@ exports.HorizontalHeadersArea = areaItem.AreaItem.inherit({
     },
 
     processScrollBarSpacing: function(scrollBarWidth) {
-        var that = this,
-            groupAlignment = that.option("rtlEnabled") ? "right" : "left";
+        var that = this;
+        var groupAlignment = that.option("rtlEnabled") ? "right" : "left";
 
         if(that._groupWidth) {
             that.groupWidth(that._groupWidth - scrollBarWidth);
@@ -137,8 +136,8 @@ exports.HorizontalHeadersArea = areaItem.AreaItem.inherit({
     },
 
     getScrollPath: function(offset) {
-        var tableElement = this.tableElement(),
-            cell;
+        var tableElement = this.tableElement();
+        var cell;
 
         offset -= parseInt(tableElement[0].style.left, 10) || 0;
 
@@ -236,8 +235,8 @@ exports.VerticalHeadersArea = exports.HorizontalHeadersArea.inherit({
     },
 
     getScrollPath: function(offset) {
-        var tableElement = this.tableElement(),
-            cell;
+        var tableElement = this.tableElement();
+        var cell;
 
         offset -= parseInt(tableElement[0].style.top, 10) || 0;
 
@@ -273,12 +272,12 @@ exports.VerticalHeadersArea = exports.HorizontalHeadersArea.inherit({
     },
 
     updateColspans: function(columnCount) {
-        var rows = this.tableElement()[0].rows,
-            columnOffset = 0,
-            diff,
-            columnOffsetResetIndexes = [],
-            i,
-            j;
+        var rows = this.tableElement()[0].rows;
+        var columnOffset = 0;
+        var diff;
+        var columnOffsetResetIndexes = [];
+        var i;
+        var j;
 
 
         if(this.getColumnsCount() - columnCount > 0) {
@@ -287,8 +286,8 @@ exports.VerticalHeadersArea = exports.HorizontalHeadersArea.inherit({
 
         for(i = 0; i < rows.length; i++) {
             for(j = 0; j < rows[i].cells.length; j++) {
-                var cell = rows[i].cells[j],
-                    rowSpan = cell.rowSpan;
+                var cell = rows[i].cells[j];
+                var rowSpan = cell.rowSpan;
 
                 if(columnOffsetResetIndexes[i]) {
                     columnOffset -= columnOffsetResetIndexes[i];

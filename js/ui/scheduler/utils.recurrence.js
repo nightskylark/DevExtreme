@@ -1,8 +1,8 @@
-var errors = require("../../core/errors"),
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    inArray = require("../../core/utils/array").inArray,
-    dateUtils = require("../../core/utils/date");
+var errors = require("../../core/errors");
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var inArray = require("../../core/utils/array").inArray;
+var dateUtils = require("../../core/utils/date");
 
 var toMs = dateUtils.dateToMilliseconds;
 
@@ -61,11 +61,11 @@ var dateSetterMap = {
         date.setDate(date.getDate() - date.getDay() + byDay);
     },
     "byweekno": function(date, weekNumber, weekStart) {
-        var initialDate = new Date(date),
-            firstYearDate = new Date(initialDate.setMonth(0, 1)),
-            dayShift = firstYearDate.getDay() - days[weekStart],
-            firstDayOfYear = firstYearDate.getTime() - dayShift * toMs("day"),
-            newFirstYearDate = dayShift + 1;
+        var initialDate = new Date(date);
+        var firstYearDate = new Date(initialDate.setMonth(0, 1));
+        var dayShift = firstYearDate.getDay() - days[weekStart];
+        var firstDayOfYear = firstYearDate.getTime() - dayShift * toMs("day");
+        var newFirstYearDate = dayShift + 1;
 
         if(newFirstYearDate > leastDaysInWeek) {
             date.setTime(firstDayOfYear + weekNumber * 7 * toMs("day"));
@@ -114,10 +114,10 @@ var dateGetterMap = {
         return date.getDay();
     },
     "byweekno": function(date, weekStart) {
-        var daysFromYearStart,
-            current = new Date(date),
-            diff = leastDaysInWeek - current.getDay() + days[weekStart] - 1,
-            dayInMilliseconds = toMs("day");
+        var daysFromYearStart;
+        var current = new Date(date);
+        var diff = leastDaysInWeek - current.getDay() + days[weekStart] - 1;
+        var dayInMilliseconds = toMs("day");
 
         if(date.getDay() < days[weekStart]) {
             diff -= 7;
@@ -126,26 +126,26 @@ var dateGetterMap = {
         current.setHours(0, 0, 0);
         current.setDate(current.getDate() + diff);
 
-        var yearStart = new Date(current.getFullYear(), 0, 1),
-            timezoneDiff = (yearStart.getTimezoneOffset() - current.getTimezoneOffset()) * toMs("minute");
+        var yearStart = new Date(current.getFullYear(), 0, 1);
+        var timezoneDiff = (yearStart.getTimezoneOffset() - current.getTimezoneOffset()) * toMs("minute");
 
         daysFromYearStart = 1 + (current - yearStart + timezoneDiff) / dayInMilliseconds;
 
         return Math.ceil(daysFromYearStart / 7);
     },
     "byyearday": function(date) {
-        var yearStart = new Date(date.getFullYear(), 0, 0),
-            timezoneDiff = date.getTimezoneOffset() - yearStart.getTimezoneOffset(),
-            diff = date - yearStart - timezoneDiff * toMs("minute"),
-            dayLength = toMs("day");
+        var yearStart = new Date(date.getFullYear(), 0, 0);
+        var timezoneDiff = date.getTimezoneOffset() - yearStart.getTimezoneOffset();
+        var diff = date - yearStart - timezoneDiff * toMs("minute");
+        var dayLength = toMs("day");
 
         return Math.floor(diff / dayLength);
     }
 };
 
-var ruleNames = ["freq", "interval", "byday", "byweekno", "byyearday", "bymonth", "bymonthday", "count", "until", "byhour", "byminute", "bysecond", "bysetpos", "wkst"],
-    freqNames = ["DAILY", "WEEKLY", "MONTHLY", "YEARLY", "SECONDLY", "MINUTELY", "HOURLY"],
-    days = { SU: 0, MO: 1, TU: 2, WE: 3, TH: 4, FR: 5, SA: 6 };
+var ruleNames = ["freq", "interval", "byday", "byweekno", "byyearday", "bymonth", "bymonthday", "count", "until", "byhour", "byminute", "bysecond", "bysetpos", "wkst"];
+var freqNames = ["DAILY", "WEEKLY", "MONTHLY", "YEARLY", "SECONDLY", "MINUTELY", "HOURLY"];
+var days = { SU: 0, MO: 1, TU: 2, WE: 3, TH: 4, FR: 5, SA: 6 };
 
 var getTimeZoneOffset = function() {
     return new Date().getTimezoneOffset();
@@ -162,10 +162,10 @@ var dateInRecurrenceRange = function(options) {
 };
 
 var normalizeInterval = function(rule) {
-    var interval = rule.interval,
-        freq = rule.freq,
-        intervalObject = {},
-        intervalField = intervalMap[freq.toLowerCase()];
+    var interval = rule.interval;
+    var freq = rule.freq;
+    var intervalObject = {};
+    var intervalField = intervalMap[freq.toLowerCase()];
 
     if(freq === "MONTHLY" && rule["byday"]) {
         intervalField = intervalMap["daily"];
@@ -192,9 +192,9 @@ var dateIsRecurrenceException = function(date, recurrenceException) {
         return result;
     }
 
-    var splitDates = recurrenceException.split(","),
-        exceptDates = getDatesByRecurrenceException(splitDates, date),
-        shortFormat = /\d{8}$/;
+    var splitDates = recurrenceException.split(",");
+    var exceptDates = getDatesByRecurrenceException(splitDates, date);
+    var shortFormat = /\d{8}$/;
 
     for(var i = 0, len = exceptDates.length; i < len; i++) {
         if(splitDates[i].match(shortFormat)) {
@@ -214,8 +214,8 @@ var dateIsRecurrenceException = function(date, recurrenceException) {
 };
 
 var doNextIteration = function(date, startIntervalDate, endIntervalDate, recurrenceRule, iterationCount) {
-    var matchCountIsCorrect = true,
-        dateInInterval;
+    var matchCountIsCorrect = true;
+    var dateInInterval;
 
     endIntervalDate = endIntervalDate.getTime();
 
@@ -237,12 +237,12 @@ var doNextIteration = function(date, startIntervalDate, endIntervalDate, recurre
 };
 
 var getDatesByRecurrence = function(options) {
-    var result = [],
-        recurrenceRule = getRecurrenceRule(options.rule),
-        iterationResult = {},
-        rule = recurrenceRule.rule,
-        recurrenceStartDate = options.start,
-        dateRules;
+    var result = [];
+    var recurrenceRule = getRecurrenceRule(options.rule);
+    var iterationResult = {};
+    var rule = recurrenceRule.rule;
+    var recurrenceStartDate = options.start;
+    var dateRules;
 
     if(!recurrenceRule.isValid || !rule.freq) {
         return result;
@@ -352,8 +352,8 @@ var correctDate = function(originalDate, date) {
 };
 
 var incrementDate = function(date, originalStartDate, rule, iterationStep) {
-    var initialDate = new Date(date),
-        needCorrect = true;
+    var initialDate = new Date(date);
+    var needCorrect = true;
 
     date = dateUtils.addInterval(date, rule.interval);
 
@@ -432,8 +432,8 @@ var validateRRule = function(rule, recurrence) {
 };
 
 var wrongUntilRule = function(rule) {
-    var wrongUntil = false,
-        until = rule.until;
+    var wrongUntil = false;
+    var until = rule.until;
 
     if(until !== undefined && !(until instanceof Date)) {
         wrongUntil = true;
@@ -443,8 +443,8 @@ var wrongUntilRule = function(rule) {
 };
 
 var wrongCountRule = function(rule) {
-    var wrongCount = false,
-        count = rule.count;
+    var wrongCount = false;
+    var count = rule.count;
 
     if(count && typeof count === "string") {
         wrongCount = true;
@@ -454,8 +454,8 @@ var wrongCountRule = function(rule) {
 };
 
 var wrongByMonthDayRule = function(rule) {
-    var wrongByMonthDay = false,
-        byMonthDay = rule["bymonthday"];
+    var wrongByMonthDay = false;
+    var byMonthDay = rule["bymonthday"];
 
     if(byMonthDay && isNaN(parseInt(byMonthDay))) {
         wrongByMonthDay = true;
@@ -465,8 +465,8 @@ var wrongByMonthDayRule = function(rule) {
 };
 
 var wrongByMonth = function(rule) {
-    var wrongByMonth = false,
-        byMonth = rule["bymonth"];
+    var wrongByMonth = false;
+    var byMonth = rule["bymonth"];
 
     if(byMonth && isNaN(parseInt(byMonth))) {
         wrongByMonth = true;
@@ -476,8 +476,8 @@ var wrongByMonth = function(rule) {
 };
 
 var wrongIntervalRule = function(rule) {
-    var wrongInterval = false,
-        interval = rule.interval;
+    var wrongInterval = false;
+    var interval = rule.interval;
 
     if(interval && typeof interval === "string") {
         wrongInterval = true;
@@ -487,8 +487,8 @@ var wrongIntervalRule = function(rule) {
 };
 
 var wrongDayOfWeek = function(rule) {
-    var daysByRule = daysFromByDayRule(rule),
-        brokenDaysExist = false;
+    var daysByRule = daysFromByDayRule(rule);
+    var brokenDaysExist = false;
 
     each(daysByRule, function(_, day) {
         if(!days.hasOwnProperty(day)) {
@@ -521,14 +521,13 @@ var logBrokenRule = function(recurrence) {
 };
 
 var parseRecurrenceRule = function(recurrence) {
-    var ruleObject = {},
-        ruleParts = recurrence.split(";");
+    var ruleObject = {};
+    var ruleParts = recurrence.split(";");
 
     for(var i = 0, len = ruleParts.length; i < len; i++) {
-
-        var rule = ruleParts[i].split("="),
-            ruleName = rule[0].toLowerCase(),
-            ruleValue = rule[1];
+        var rule = ruleParts[i].split("=");
+        var ruleName = rule[0].toLowerCase();
+        var ruleValue = rule[1];
 
         ruleObject[ruleName] = ruleValue;
     }
@@ -566,9 +565,9 @@ var getDateByAsciiString = function(string, initialDate) {
         return null;
     }
 
-    var isUTC = arrayDate[8] !== undefined,
-        currentOffset = initialDate ? initialDate.getTimezoneOffset() : resultUtils.getTimeZoneOffset(),
-        date = new (Function.prototype.bind.apply(Date, prepareDateArrayToParse(arrayDate)))();
+    var isUTC = arrayDate[8] !== undefined;
+    var currentOffset = initialDate ? initialDate.getTimezoneOffset() : resultUtils.getTimeZoneOffset();
+    var date = new (Function.prototype.bind.apply(Date, prepareDateArrayToParse(arrayDate)))();
 
     currentOffset = currentOffset * 60000;
 
@@ -640,8 +639,8 @@ var splitDateRules = function(rule) {
             continue;
         }
 
-        var ruleFieldValues = rule[field].split(","),
-            ruleArray = getDateRuleArray(field, ruleFieldValues);
+        var ruleFieldValues = rule[field].split(",");
+        var ruleArray = getDateRuleArray(field, ruleFieldValues);
 
         result = result.length ? extendObjectArray(ruleArray, result) : ruleArray;
     }
@@ -688,8 +687,8 @@ var getDatesByRules = function(dateRules, startDate, rule) {
     var result = [];
 
     for(var i = 0, len = dateRules.length; i < len; i++) {
-        var current = dateRules[i],
-            updatedDate = new Date(startDate);
+        var current = dateRules[i];
+        var updatedDate = new Date(startDate);
 
         for(var field in current) {
             dateSetterMap[field] && dateSetterMap[field](updatedDate, current[field], rule["wkst"], rule.freq);
@@ -710,10 +709,10 @@ var getDatesByRules = function(dateRules, startDate, rule) {
 };
 
 var getDatesByCount = function(dateRules, startDate, recurrenceStartDate, rule) {
-    var result = [],
-        count = rule.count,
-        counter = 0,
-        date = prepareDate(startDate, dateRules);
+    var result = [];
+    var count = rule.count;
+    var counter = 0;
+    var date = prepareDate(startDate, dateRules);
 
     while(counter < count) {
         var dates = getDatesByRules(dateRules, date, rule);
@@ -765,8 +764,8 @@ var checkDateByRule = function(date, rules, weekStart) {
     var result = false;
 
     for(var i = 0; i < rules.length; i++) {
-        var current = rules[i],
-            currentRuleResult = true;
+        var current = rules[i];
+        var currentRuleResult = true;
 
         for(var field in current) {
             var processNegative = field === "bymonthday" && current[field] < 0;

@@ -1,6 +1,6 @@
-var $ = require("../../core/renderer"),
-    map = require("../../core/utils/iterator").map,
-    PlainEditStrategy = require("../collection/ui.collection_widget.edit.strategy.plain");
+var $ = require("../../core/renderer");
+var map = require("../../core/utils/iterator").map;
+var PlainEditStrategy = require("../collection/ui.collection_widget.edit.strategy.plain");
 
 var MenuBaseEditStrategy = PlainEditStrategy.inherit({
     _getPlainItems: function() {

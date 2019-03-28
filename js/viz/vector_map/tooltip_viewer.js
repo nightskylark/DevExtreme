@@ -16,9 +16,9 @@ TooltipViewer.prototype = {
     _subscribeToTracker: function(tracker, tooltip, layerCollection) {
         this._offTracker = tracker.on({
             "focus-on": function(arg) {
-                var result = false,
-                    layer,
-                    proxy;
+                var result = false;
+                var layer;
+                var proxy;
                 if(tooltip.isEnabled()) {
                     layer = layerCollection.byName(arg.data.name);
                     proxy = layer && layer.getProxy(arg.data.index);

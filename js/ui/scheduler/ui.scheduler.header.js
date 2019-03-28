@@ -1,23 +1,22 @@
-var $ = require("../../core/renderer"),
-    typeUtils = require("../../core/utils/type"),
-    noop = require("../../core/utils/common").noop,
-    isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend,
-    each = require("../../core/utils/iterator").each,
-    inArray = require("../../core/utils/array").inArray,
-    camelize = require("../../core/utils/inflector").camelize,
-    registerComponent = require("../../core/component_registrator"),
-    Widget = require("../widget/ui.widget"),
-    publisherMixin = require("./ui.scheduler.publisher_mixin"),
-    SchedulerNavigator = require("./ui.scheduler.navigator"),
-    DropDownMenu = require("../drop_down_menu"),
-    Tabs = require("../tabs"),
-    errors = require("../../core/errors"),
-    messageLocalization = require("../../localization/message");
-
-var COMPONENT_CLASS = "dx-scheduler-header",
-    VIEW_SWITCHER_CLASS = "dx-scheduler-view-switcher",
-    VIEW_SWITCHER_LABEL_CLASS = "dx-scheduler-view-switcher-label";
+var $ = require("../../core/renderer");
+var typeUtils = require("../../core/utils/type");
+var noop = require("../../core/utils/common").noop;
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
+var each = require("../../core/utils/iterator").each;
+var inArray = require("../../core/utils/array").inArray;
+var camelize = require("../../core/utils/inflector").camelize;
+var registerComponent = require("../../core/component_registrator");
+var Widget = require("../widget/ui.widget");
+var publisherMixin = require("./ui.scheduler.publisher_mixin");
+var SchedulerNavigator = require("./ui.scheduler.navigator");
+var DropDownMenu = require("../drop_down_menu");
+var Tabs = require("../tabs");
+var errors = require("../../core/errors");
+var messageLocalization = require("../../localization/message");
+var COMPONENT_CLASS = "dx-scheduler-header";
+var VIEW_SWITCHER_CLASS = "dx-scheduler-view-switcher";
+var VIEW_SWITCHER_LABEL_CLASS = "dx-scheduler-view-switcher-label";
 
 var STEP_MAP = {
     day: "day",
@@ -148,8 +147,8 @@ var SchedulerHeader = Widget.inherit({
         var views = this.option("views");
 
         each(views, function(_, view) {
-            var isViewIsObject = typeUtils.isObject(view),
-                viewType = isViewIsObject && view.type ? view.type : view;
+            var isViewIsObject = typeUtils.isObject(view);
+            var viewType = isViewIsObject && view.type ? view.type : view;
 
             if(inArray(viewType, VIEWS) === -1) {
                 errors.log("W0008", viewType);
@@ -230,8 +229,8 @@ var SchedulerHeader = Widget.inherit({
         if(!isDefined(this._$viewSwitcherLabel)) {
             return;
         }
-        var currentView = this.option("currentView"),
-            currentViewText = this._getItemText(currentView);
+        var currentView = this.option("currentView");
+        var currentViewText = this._getItemText(currentView);
 
         this._$viewSwitcherLabel.text(currentViewText);
     },

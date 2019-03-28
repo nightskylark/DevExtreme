@@ -1,50 +1,49 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    Guid = require("../../core/guid"),
-    registerComponent = require("../../core/component_registrator"),
-    noop = require("../../core/utils/common").noop,
-    typeUtils = require("../../core/utils/type"),
-    domUtils = require("../../core/utils/dom"),
-    contains = domUtils.contains,
-    getPublicElement = domUtils.getPublicElement,
-    each = require("../../core/utils/iterator").each,
-    inArray = require("../../core/utils/array").inArray,
-    extend = require("../../core/utils/extend").extend,
-    windowUtils = require("../../core/utils/window"),
-    fx = require("../../animation/fx"),
-    positionUtils = require("../../animation/position"),
-    devices = require("../../core/devices"),
-    eventUtils = require("../../events/utils"),
-    Overlay = require("../overlay"),
-    MenuBase = require("./ui.menu_base"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var Guid = require("../../core/guid");
+var registerComponent = require("../../core/component_registrator");
+var noop = require("../../core/utils/common").noop;
+var typeUtils = require("../../core/utils/type");
+var domUtils = require("../../core/utils/dom");
+var contains = domUtils.contains;
+var getPublicElement = domUtils.getPublicElement;
+var each = require("../../core/utils/iterator").each;
+var inArray = require("../../core/utils/array").inArray;
+var extend = require("../../core/utils/extend").extend;
+var windowUtils = require("../../core/utils/window");
+var fx = require("../../animation/fx");
+var positionUtils = require("../../animation/position");
+var devices = require("../../core/devices");
+var eventUtils = require("../../events/utils");
+var Overlay = require("../overlay");
+var MenuBase = require("./ui.menu_base");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var DX_MENU_CLASS = "dx-menu";
+var DX_MENU_ITEM_CLASS = DX_MENU_CLASS + "-item";
+var DX_MENU_ITEM_EXPANDED_CLASS = DX_MENU_ITEM_CLASS + "-expanded";
+var DX_MENU_PHONE_CLASS = "dx-menu-phone-overlay";
+var DX_MENU_ITEMS_CONTAINER_CLASS = DX_MENU_CLASS + "-items-container";
+var DX_MENU_ITEM_WRAPPER_CLASS = DX_MENU_ITEM_CLASS + "-wrapper";
+var DX_SUBMENU_CLASS = "dx-submenu";
+var DX_CONTEXT_MENU_CLASS = "dx-context-menu";
+var DX_HAS_CONTEXT_MENU_CLASS = "dx-has-context-menu";
+var DX_STATE_DISABLED_CLASS = "dx-state-disabled";
+var FOCUS_UP = "up";
+var FOCUS_DOWN = "down";
+var FOCUS_LEFT = "left";
+var FOCUS_RIGHT = "right";
+var FOCUS_FIRST = "first";
+var FOCUS_LAST = "last";
 
-var DX_MENU_CLASS = "dx-menu",
-    DX_MENU_ITEM_CLASS = DX_MENU_CLASS + "-item",
-    DX_MENU_ITEM_EXPANDED_CLASS = DX_MENU_ITEM_CLASS + "-expanded",
-    DX_MENU_PHONE_CLASS = "dx-menu-phone-overlay",
-    DX_MENU_ITEMS_CONTAINER_CLASS = DX_MENU_CLASS + "-items-container",
-    DX_MENU_ITEM_WRAPPER_CLASS = DX_MENU_ITEM_CLASS + "-wrapper",
-    DX_SUBMENU_CLASS = "dx-submenu",
-    DX_CONTEXT_MENU_CLASS = "dx-context-menu",
-    DX_HAS_CONTEXT_MENU_CLASS = "dx-has-context-menu",
-    DX_STATE_DISABLED_CLASS = "dx-state-disabled",
+var ACTIONS = [
+    "onShowing", "onShown", "onSubmenuCreated",
+    "onHiding", "onHidden", "onPositioning", "onLeftFirstItem",
+    "onLeftLastItem", "onCloseRootSubmenu", "onExpandLastSubmenu"
+];
 
-    FOCUS_UP = "up",
-    FOCUS_DOWN = "down",
-    FOCUS_LEFT = "left",
-    FOCUS_RIGHT = "right",
-    FOCUS_FIRST = "first",
-    FOCUS_LAST = "last",
-
-    ACTIONS = [
-        "onShowing", "onShown", "onSubmenuCreated",
-        "onHiding", "onHidden", "onPositioning", "onLeftFirstItem",
-        "onLeftLastItem", "onCloseRootSubmenu", "onExpandLastSubmenu"
-    ],
-    LOCAL_SUBMENU_DIRECTIONS = [FOCUS_UP, FOCUS_DOWN, FOCUS_FIRST, FOCUS_LAST],
-    DEFAULT_SHOW_EVENT = "dxcontextmenu";
+var LOCAL_SUBMENU_DIRECTIONS = [FOCUS_UP, FOCUS_DOWN, FOCUS_FIRST, FOCUS_LAST];
+var DEFAULT_SHOW_EVENT = "dxcontextmenu";
 
 var ContextMenu = MenuBase.inherit((function() {
     var getShowEvent = function(that) {
@@ -60,11 +59,12 @@ var ContextMenu = MenuBase.inherit((function() {
             }
 
             return result;
-        },
-        getShowDelay = function(that) {
-            var optionValue = that.option("showEvent");
-            return typeUtils.isObject(optionValue) && optionValue.delay;
         };
+
+    var getShowDelay = function(that) {
+        var optionValue = that.option("showEvent");
+        return typeUtils.isObject(optionValue) && optionValue.delay;
+    };
 
     return {
         _getDefaultOptions: function() {
@@ -279,10 +279,10 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _getActiveItem: function() {
-            var $items = this._getAvailableItems(),
-                $focusedItem = $items.filter(".dx-state-focused"),
-                $hoveredItem = $items.filter(".dx-state-hover"),
-                $hoveredItemContainer = $hoveredItem.closest("." + DX_MENU_ITEMS_CONTAINER_CLASS);
+            var $items = this._getAvailableItems();
+            var $focusedItem = $items.filter(".dx-state-focused");
+            var $hoveredItem = $items.filter(".dx-state-hover");
+            var $hoveredItemContainer = $hoveredItem.closest("." + DX_MENU_ITEMS_CONTAINER_CLASS);
 
             if($hoveredItemContainer.find("." + DX_MENU_ITEM_CLASS).index($focusedItem) >= 0) {
                 return $focusedItem;
@@ -293,12 +293,12 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _moveFocus: function(location) {
-            var $items = this._getItemsByLocation(location),
-                $oldTarget = this._getActiveItem(true),
-                $newTarget,
-                $hoveredItem = this.itemsContainer().find(".dx-state-hover"),
-                $focusedItem = $(this.option("focusedElement")),
-                $activeItemHighlighted = !!($focusedItem.length || $hoveredItem.length);
+            var $items = this._getItemsByLocation(location);
+            var $oldTarget = this._getActiveItem(true);
+            var $newTarget;
+            var $hoveredItem = this.itemsContainer().find(".dx-state-hover");
+            var $focusedItem = $(this.option("focusedElement"));
+            var $activeItemHighlighted = !!($focusedItem.length || $hoveredItem.length);
 
             switch(location) {
                 case FOCUS_UP:
@@ -337,8 +337,8 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _getItemsByLocation: function(location) {
-            var $items,
-                $activeItem = this._getActiveItem(true);
+            var $items;
+            var $activeItem = this._getActiveItem(true);
 
             if(inArray(location, LOCAL_SUBMENU_DIRECTIONS) >= 0) {
                 $items = $activeItem
@@ -368,8 +368,8 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _hideSubmenuHandler: function() {
-            var $curItem = this._getActiveItem(true),
-                $parentItem = $curItem.parents("." + DX_MENU_ITEM_EXPANDED_CLASS).first();
+            var $curItem = this._getActiveItem(true);
+            var $parentItem = $curItem.parents("." + DX_MENU_ITEM_EXPANDED_CLASS).first();
 
             if($parentItem.length) {
                 this._hideSubmenusOnSameLevel($parentItem);
@@ -382,11 +382,11 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _expandSubmenuHandler: function($items, location) {
-            var $curItem = this._getActiveItem(true),
-                itemData = this._getItemData($curItem),
-                node = this._dataAdapter.getNodeByItem(itemData),
-                isItemHasSubmenu = this._hasSubmenu(node),
-                $submenu = $curItem.children("." + DX_SUBMENU_CLASS);
+            var $curItem = this._getActiveItem(true);
+            var itemData = this._getItemData($curItem);
+            var node = this._dataAdapter.getNodeByItem(itemData);
+            var isItemHasSubmenu = this._hasSubmenu(node);
+            var $submenu = $curItem.children("." + DX_SUBMENU_CLASS);
 
             if(isItemHasSubmenu && !$curItem.hasClass(DX_STATE_DISABLED_CLASS)) {
                 if(!$submenu.length || $submenu.css("visibility") === "hidden") {
@@ -436,9 +436,9 @@ var ContextMenu = MenuBase.inherit((function() {
                 return;
             }
 
-            var overlayOptions = this._getOverlayOptions(),
-                $overlayElement = $("<div>"),
-                $overlayContent;
+            var overlayOptions = this._getOverlayOptions();
+            var $overlayElement = $("<div>");
+            var $overlayContent;
 
             this._overlay = this._createComponent($overlayElement.appendTo(this._$element), Overlay, overlayOptions);
 
@@ -462,8 +462,8 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _detachShowContextMenuEvents: function(target) {
-            var eventName,
-                showEvent = getShowEvent(this);
+            var eventName;
+            var showEvent = getShowEvent(this);
 
             if(!showEvent) {
                 return;
@@ -479,13 +479,13 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _attachShowContextMenuEvents: function() {
-            var that = this,
-                delay,
-                handler,
-                eventName,
-                contextMenuAction,
-                target = that._getTarget(),
-                showEvent = getShowEvent(that);
+            var that = this;
+            var delay;
+            var handler;
+            var eventName;
+            var contextMenuAction;
+            var target = that._getTarget();
+            var showEvent = getShowEvent(that);
 
             if(!showEvent) {
                 return;
@@ -527,8 +527,8 @@ var ContextMenu = MenuBase.inherit((function() {
         _renderDimensions: noop,
 
         _renderContainer: function($wrapper, submenuContainer) {
-            var $itemsContainer,
-                $holder = submenuContainer || this._itemContainer();
+            var $itemsContainer;
+            var $holder = submenuContainer || this._itemContainer();
 
             $wrapper = $("<div>");
 
@@ -563,30 +563,31 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _getOverlayOptions: function() {
-            var position = this.option("position"),
-                overlayAnimation = this.option("animation"),
-                overlayOptions = {
-                    focusStateEnabled: this.option("focusStateEnabled"),
-                    animation: overlayAnimation,
-                    innerOverlay: true,
-                    closeOnOutsideClick: this._closeOnOutsideClickHandler.bind(this),
-                    propagateOutsideClick: true,
-                    closeOnTargetScroll: true,
-                    deferRendering: false,
-                    position: {
-                        at: position.at,
-                        my: position.my,
-                        of: this._getTarget(),
-                        collision: "flipfit"
-                    },
-                    shading: false,
-                    showTitle: false,
-                    height: "auto",
-                    width: "auto",
-                    onShown: this._overlayShownActionHandler.bind(this),
-                    onHiding: this._overlayHidingActionHandler.bind(this),
-                    onHidden: this._overlayHiddenActionHandler.bind(this)
-                };
+            var position = this.option("position");
+            var overlayAnimation = this.option("animation");
+
+            var overlayOptions = {
+                focusStateEnabled: this.option("focusStateEnabled"),
+                animation: overlayAnimation,
+                innerOverlay: true,
+                closeOnOutsideClick: this._closeOnOutsideClickHandler.bind(this),
+                propagateOutsideClick: true,
+                closeOnTargetScroll: true,
+                deferRendering: false,
+                position: {
+                    at: position.at,
+                    my: position.my,
+                    of: this._getTarget(),
+                    collision: "flipfit"
+                },
+                shading: false,
+                showTitle: false,
+                height: "auto",
+                width: "auto",
+                onShown: this._overlayShownActionHandler.bind(this),
+                onHiding: this._overlayHidingActionHandler.bind(this),
+                onHidden: this._overlayHiddenActionHandler.bind(this)
+            };
 
             return overlayOptions;
         },
@@ -608,13 +609,13 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _closeOnOutsideClickHandler: function(e) {
-            var $clickedItem,
-                $activeItemContainer,
-                $itemContainers,
-                $rootItem,
-                isRootItemClicked,
-                isInnerOverlayClicked,
-                closeOnOutsideClick = this.option("closeOnOutsideClick");
+            var $clickedItem;
+            var $activeItemContainer;
+            var $itemContainers;
+            var $rootItem;
+            var isRootItemClicked;
+            var isInnerOverlayClicked;
+            var closeOnOutsideClick = this.option("closeOnOutsideClick");
 
             if(typeUtils.isFunction(closeOnOutsideClick)) {
                 return closeOnOutsideClick(e);
@@ -669,10 +670,10 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _hideAllShownChildSubmenus: function($clickedItem) {
-            var that = this,
-                $submenuElements = $clickedItem.find("." + DX_SUBMENU_CLASS),
-                shownSubmenus = extend([], this._shownSubmenus),
-                $context;
+            var that = this;
+            var $submenuElements = $clickedItem.find("." + DX_SUBMENU_CLASS);
+            var shownSubmenus = extend([], this._shownSubmenus);
+            var $context;
 
             if($submenuElements.length > 0) {
                 each(shownSubmenus, function(index, $submenu) {
@@ -691,8 +692,8 @@ var ContextMenu = MenuBase.inherit((function() {
 
             if(!this._hasSubmenu(node)) return;
 
-            var $submenu = $item.children("." + DX_SUBMENU_CLASS),
-                isSubmenuRendered = $submenu.length;
+            var $submenu = $item.children("." + DX_SUBMENU_CLASS);
+            var isSubmenuRendered = $submenu.length;
 
             this.callBase($item);
 
@@ -727,9 +728,9 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _drawSubmenu: function($itemElement) {
-            var animation = this.option("animation") ? this.option("animation").show : {},
-                $submenu = $itemElement.children("." + DX_SUBMENU_CLASS),
-                submenuPosition = this._getSubmenuPosition($itemElement);
+            var animation = this.option("animation") ? this.option("animation").show : {};
+            var $submenu = $itemElement.children("." + DX_SUBMENU_CLASS);
+            var submenuPosition = this._getSubmenuPosition($itemElement);
 
             if(this._overlay && this._overlay.option("visible")) {
                 if(!typeUtils.isDefined(this._shownSubmenus)) {
@@ -761,13 +762,14 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _getSubmenuPosition: function($rootItem) {
-            var submenuDirection = this.option("submenuDirection").toLowerCase(),
-                $rootItemWrapper = $rootItem.parent("." + DX_MENU_ITEM_WRAPPER_CLASS),
-                position = {
-                    collision: "flip",
-                    of: $rootItemWrapper,
-                    offset: { h: 0, v: -1 }
-                };
+            var submenuDirection = this.option("submenuDirection").toLowerCase();
+            var $rootItemWrapper = $rootItem.parent("." + DX_MENU_ITEM_WRAPPER_CLASS);
+
+            var position = {
+                collision: "flip",
+                of: $rootItemWrapper,
+                offset: { h: 0, v: -1 }
+            };
 
             switch(submenuDirection) {
                 case "left":
@@ -796,14 +798,14 @@ var ContextMenu = MenuBase.inherit((function() {
         _updateSubmenuVisibilityOnClick: function(actionArgs) {
             if(!actionArgs.args.length) return;
 
-            var $itemElement = $(actionArgs.args[0].itemElement),
-                itemData = actionArgs.args[0].itemData,
-                node = this._dataAdapter.getNodeByItem(itemData);
+            var $itemElement = $(actionArgs.args[0].itemElement);
+            var itemData = actionArgs.args[0].itemData;
+            var node = this._dataAdapter.getNodeByItem(itemData);
 
             if(!node) return;
 
-            var $submenu = $itemElement.find("." + DX_SUBMENU_CLASS),
-                shouldRenderSubmenu = this._hasSubmenu(node) && !$submenu.length;
+            var $submenu = $itemElement.find("." + DX_SUBMENU_CLASS);
+            var shouldRenderSubmenu = this._hasSubmenu(node) && !$submenu.length;
 
             if(shouldRenderSubmenu) {
                 this._renderSubmenuItems(node, $itemElement);
@@ -836,12 +838,11 @@ var ContextMenu = MenuBase.inherit((function() {
                 }
                 this._showSubmenu($itemElement);
             }
-
         },
 
         _hideSubmenu: function($curSubmenu) {
-            var that = this,
-                shownSubmenus = extend([], that._shownSubmenus);
+            var that = this;
+            var shownSubmenus = extend([], that._shownSubmenus);
 
             each(shownSubmenus, function(index, $submenu) {
                 if($curSubmenu.is($submenu) || contains($curSubmenu[0], $submenu[0])) {
@@ -852,8 +853,8 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _hideSubmenuCore: function($submenu) {
-            var index = inArray($submenu, this._shownSubmenus),
-                animation = this.option("animation") ? this.option("animation").hide : null;
+            var index = inArray($submenu, this._shownSubmenus);
+            var animation = this.option("animation") ? this.option("animation").hide : null;
 
             if(index >= 0) {
                 this._shownSubmenus.splice(index, 1);
@@ -869,9 +870,9 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _hideAllShownSubmenus: function() {
-            var that = this,
-                shownSubmenus = extend([], that._shownSubmenus),
-                $expandedItems = this._overlay.$content().find("." + DX_MENU_ITEM_EXPANDED_CLASS);
+            var that = this;
+            var shownSubmenus = extend([], that._shownSubmenus);
+            var $expandedItems = this._overlay.$content().find("." + DX_MENU_ITEM_EXPANDED_CLASS);
 
             $expandedItems.removeClass(DX_MENU_ITEM_EXPANDED_CLASS);
 
@@ -920,8 +921,8 @@ var ContextMenu = MenuBase.inherit((function() {
         _toggleVisibility: noop,
 
         _show: function(event) {
-            var args = { jQEvent: event },
-                promise = new Deferred().reject().promise();
+            var args = { jQEvent: event };
+            var promise = new Deferred().reject().promise();
 
             this._actions.onShowing(args);
 
@@ -963,10 +964,10 @@ var ContextMenu = MenuBase.inherit((function() {
         },
 
         _positionContextMenu: function(jQEvent) {
-            var position = this._getContextMenuPosition(),
-                isInitialPosition = this._isInitialOptionValue("position"),
-                positioningAction = this._createActionByOption("onPositioning", actionArgs),
-                actionArgs;
+            var position = this._getContextMenuPosition();
+            var isInitialPosition = this._isInitialOptionValue("position");
+            var positioningAction = this._createActionByOption("onPositioning", actionArgs);
+            var actionArgs;
 
             if(jQEvent && jQEvent.preventDefault && isInitialPosition) {
                 position.of = jQEvent;

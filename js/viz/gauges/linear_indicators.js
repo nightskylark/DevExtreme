@@ -1,15 +1,14 @@
-var baseIndicatorsModule = require("./base_indicators"),
-    BaseIndicator = baseIndicatorsModule.BaseIndicator,
-    BaseTextCloudMarker = baseIndicatorsModule.BaseTextCloudMarker,
-    BaseRangeBar = baseIndicatorsModule.BaseRangeBar,
-
-    _Number = Number,
-    _normalizeEnum = require("../core/utils").normalizeEnum;
+var baseIndicatorsModule = require("./base_indicators");
+var BaseIndicator = baseIndicatorsModule.BaseIndicator;
+var BaseTextCloudMarker = baseIndicatorsModule.BaseTextCloudMarker;
+var BaseRangeBar = baseIndicatorsModule.BaseRangeBar;
+var _Number = Number;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
 
 var SimpleIndicator = BaseIndicator.inherit({
     _move: function() {
-        var that = this,
-            delta = that._actualPosition - that._zeroPosition;
+        var that = this;
+        var delta = that._actualPosition - that._zeroPosition;
         that._rootElement.move(that.vertical ? 0 : delta, that.vertical ? delta : 0);
         that._trackerElement && that._trackerElement.move(that.vertical ? 0 : delta, that.vertical ? delta : 0);
     },
@@ -24,14 +23,14 @@ var SimpleIndicator = BaseIndicator.inherit({
     },
 
     _getTrackerSettings: function() {
-        var options = this._options,
-            x1,
-            x2,
-            y1,
-            y2,
-            width = options.width / 2,
-            length = options.length / 2,
-            p = this._zeroPosition;
+        var options = this._options;
+        var x1;
+        var x2;
+        var y1;
+        var y2;
+        var width = options.width / 2;
+        var length = options.length / 2;
+        var p = this._zeroPosition;
 
         width > 10 || (width = 10);
         length > 10 || (length = 10);
@@ -67,10 +66,10 @@ var SimpleIndicator = BaseIndicator.inherit({
     },
 
     getTooltipParameters: function() {
-        var that = this,
-            options = that._options,
-            p = that._actualPosition,
-            parameters = { x: p, y: p, value: that._currentValue, color: options.color, offset: options.width / 2 };
+        var that = this;
+        var options = that._options;
+        var p = that._actualPosition;
+        var parameters = { x: p, y: p, value: that._currentValue, color: options.color, offset: options.width / 2 };
         that.vertical ? (parameters.x = options.x) : (parameters.y = options.y);
         return parameters;
     }
@@ -78,13 +77,13 @@ var SimpleIndicator = BaseIndicator.inherit({
 
 var rectangle = SimpleIndicator.inherit({
     _render: function() {
-        var that = this,
-            options = that._options,
-            p,
-            x1,
-            x2,
-            y1,
-            y2;
+        var that = this;
+        var options = that._options;
+        var p;
+        var x1;
+        var x2;
+        var y1;
+        var y2;
 
         that.callBase();
         p = that._zeroPosition;
@@ -106,12 +105,12 @@ var rectangle = SimpleIndicator.inherit({
 
 var rhombus = SimpleIndicator.inherit({
     _render: function() {
-        var that = this,
-            options = that._options,
-            x,
-            y,
-            dx,
-            dy;
+        var that = this;
+        var options = that._options;
+        var x;
+        var y;
+        var dx;
+        var dy;
 
         that.callBase();
         if(that.vertical) {
@@ -132,11 +131,11 @@ var rhombus = SimpleIndicator.inherit({
 
 var circle = SimpleIndicator.inherit({
     _render: function() {
-        var that = this,
-            options = that._options,
-            x,
-            y,
-            r;
+        var that = this;
+        var options = that._options;
+        var x;
+        var y;
+        var r;
 
         that.callBase();
         if(that.vertical) {
@@ -167,13 +166,13 @@ var triangleMarker = SimpleIndicator.inherit({
     },
 
     _render: function() {
-        var that = this,
-            options = that._options,
-            x1,
-            x2,
-            y1,
-            y2,
-            settings = { stroke: 'none', "stroke-width": 0, "stroke-linecap": "square" };
+        var that = this;
+        var options = that._options;
+        var x1;
+        var x2;
+        var y1;
+        var y2;
+        var settings = { stroke: 'none', "stroke-width": 0, "stroke-linecap": "square" };
 
         that.callBase();
         if(that.vertical) {
@@ -197,15 +196,15 @@ var triangleMarker = SimpleIndicator.inherit({
     },
 
     _getTrackerSettings: function() {
-        var that = this,
-            options = that._options,
-            width = options.width / 2,
-            length = _Number(options.length),
-            x1,
-            x2,
-            y1,
-            y2,
-            result;
+        var that = this;
+        var options = that._options;
+        var width = options.width / 2;
+        var length = _Number(options.length);
+        var x1;
+        var x2;
+        var y1;
+        var y2;
+        var result;
 
         width > 10 || (width = 10);
         length > 20 || (length = 20);
@@ -226,10 +225,10 @@ var triangleMarker = SimpleIndicator.inherit({
     },
 
     measure: function(layout) {
-        var that = this,
-            length = _Number(that._options.length),
-            minBound,
-            maxBound;
+        var that = this;
+        var length = _Number(that._options.length);
+        var minBound;
+        var maxBound;
 
         if(that.vertical) {
             minBound = maxBound = layout.x;
@@ -250,10 +249,10 @@ var triangleMarker = SimpleIndicator.inherit({
     },
 
     getTooltipParameters: function() {
-        var that = this,
-            options = that._options,
-            s = (that._inverted ? options.length : -options.length) / 2,
-            parameters = that.callBase();
+        var that = this;
+        var options = that._options;
+        var s = (that._inverted ? options.length : -options.length) / 2;
+        var parameters = that.callBase();
         that.vertical ? (parameters.x += s) : (parameters.y += s);
         parameters.offset = options.length / 2;
         return parameters;
@@ -273,10 +272,10 @@ var textCloud = BaseTextCloudMarker.inherit({
     },
 
     _getTextCloudOptions: function() {
-        var that = this,
-            x = that._actualPosition,
-            y = that._actualPosition,
-            type;
+        var that = this;
+        var x = that._actualPosition;
+        var y = that._actualPosition;
+        var type;
         if(that.vertical) {
             x = that._options.x;
             type = that._inverted ? 'top-left' : 'top-right';
@@ -288,11 +287,11 @@ var textCloud = BaseTextCloudMarker.inherit({
     },
 
     measure: function(layout) {
-        var that = this,
-            minBound,
-            maxBound,
-            arrowLength = _Number(that._options.arrowLength) || 0,
-            indent;
+        var that = this;
+        var minBound;
+        var maxBound;
+        var arrowLength = _Number(that._options.arrowLength) || 0;
+        var indent;
 
         that._measureText();
         if(that.vertical) {
@@ -341,11 +340,11 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _setBarSides: function() {
-        var that = this,
-            options = that._options,
-            size = _Number(options.size),
-            minSide,
-            maxSide;
+        var that = this;
+        var options = that._options;
+        var size = _Number(options.size);
+        var minSide;
+        var maxSide;
         if(that.vertical) {
             if(that._inverted) {
                 minSide = options.x;
@@ -384,8 +383,8 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _setTextItemsSides: function() {
-        var that = this,
-            indent = _Number(that._options.text.indent);
+        var that = this;
+        var indent = _Number(that._options.text.indent);
 
         if(indent > 0) {
             that._lineStart = that._maxSide;
@@ -401,16 +400,16 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _getPositions: function() {
-        var that = this,
-            startPosition = that._startPosition,
-            endPosition = that._endPosition,
-            space = that._space,
-            basePosition = that._basePosition,
-            actualPosition = that._actualPosition,
-            mainPosition1,
-            mainPosition2,
-            backPosition1,
-            backPosition2;
+        var that = this;
+        var startPosition = that._startPosition;
+        var endPosition = that._endPosition;
+        var space = that._space;
+        var basePosition = that._basePosition;
+        var actualPosition = that._actualPosition;
+        var mainPosition1;
+        var mainPosition2;
+        var backPosition1;
+        var backPosition2;
 
         if(startPosition < endPosition) {
             if(basePosition < actualPosition) {
@@ -444,10 +443,10 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _buildItemSettings: function(from, to) {
-        var that = this,
-            side1 = that._minSide,
-            side2 = that._maxSide,
-            points = that.vertical ? [side1, from, side1, to, side2, to, side2, from] : [from, side1, from, side2, to, side2, to, side1];
+        var that = this;
+        var side1 = that._minSide;
+        var side2 = that._maxSide;
+        var points = that.vertical ? [side1, from, side1, to, side2, to, side2, from] : [from, side1, from, side2, to, side2, to, side1];
         return { points: points };
     },
 
@@ -463,11 +462,11 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _updateLinePosition: function() {
-        var that = this,
-            actualPosition = that._actualPosition,
-            side1,
-            side2,
-            points;
+        var that = this;
+        var actualPosition = that._actualPosition;
+        var side1;
+        var side2;
+        var points;
         if(that.vertical) {
             if(that._basePosition >= actualPosition) {
                 side1 = actualPosition;
@@ -491,20 +490,20 @@ var rangeBar = BaseRangeBar.inherit({
     },
 
     _getTooltipPosition: function() {
-        var that = this,
-            crossCenter = (that._minSide + that._maxSide) / 2,
-            alongCenter = (that._basePosition + that._actualPosition) / 2;
+        var that = this;
+        var crossCenter = (that._minSide + that._maxSide) / 2;
+        var alongCenter = (that._basePosition + that._actualPosition) / 2;
 
         return that.vertical ? { x: crossCenter, y: alongCenter } : { x: alongCenter, y: crossCenter };
     },
 
     measure: function(layout) {
-        var that = this,
-            size = _Number(that._options.size),
-            textIndent = _Number(that._options.text.indent),
-            minBound,
-            maxBound,
-            indent;
+        var that = this;
+        var size = _Number(that._options.size);
+        var textIndent = _Number(that._options.text.indent);
+        var minBound;
+        var maxBound;
+        var indent;
 
         that._measureText();
         if(that.vertical) {

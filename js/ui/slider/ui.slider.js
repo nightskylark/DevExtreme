@@ -1,21 +1,21 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    domUtils = require("../../core/utils/dom"),
-    numberLocalization = require("../../localization/number"),
-    devices = require("../../core/devices"),
-    extend = require("../../core/utils/extend").extend,
-    applyServerDecimalSeparator = require("../../core/utils/common").applyServerDecimalSeparator,
-    registerComponent = require("../../core/component_registrator"),
-    TrackBar = require("../track_bar"),
-    eventUtils = require("../../events/utils"),
-    pointerEvents = require("../../events/pointer"),
-    feedbackEvents = require("../../events/core/emitter.feedback"),
-    SliderHandle = require("./ui.slider_handle"),
-    inkRipple = require("../widget/utils.ink_ripple"),
-    clickEvent = require("../../events/click"),
-    Swipeable = require("../../events/gesture/swipeable"),
-    themes = require("../themes"),
-    Deferred = require("../../core/utils/deferred").Deferred;
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var domUtils = require("../../core/utils/dom");
+var numberLocalization = require("../../localization/number");
+var devices = require("../../core/devices");
+var extend = require("../../core/utils/extend").extend;
+var applyServerDecimalSeparator = require("../../core/utils/common").applyServerDecimalSeparator;
+var registerComponent = require("../../core/component_registrator");
+var TrackBar = require("../track_bar");
+var eventUtils = require("../../events/utils");
+var pointerEvents = require("../../events/pointer");
+var feedbackEvents = require("../../events/core/emitter.feedback");
+var SliderHandle = require("./ui.slider_handle");
+var inkRipple = require("../widget/utils.ink_ripple");
+var clickEvent = require("../../events/click");
+var Swipeable = require("../../events/gesture/swipeable");
+var themes = require("../themes");
+var Deferred = require("../../core/utils/deferred").Deferred;
 
 var SLIDER_CLASS = "dx-slider";
 var SLIDER_WRAPPER_CLASS = "dx-slider-wrapper";
@@ -52,8 +52,8 @@ var Slider = TrackBar.inherit({
                 ? value - offset + (division ? step - division : 0)
                 : value + offset - division;
 
-            var min = that.option("min"),
-                max = that.option("max");
+            var min = that.option("min");
+            var max = that.option("max");
 
             if(result < min) {
                 result = min;
@@ -388,10 +388,10 @@ var Slider = TrackBar.inherit({
     },
 
     _renderHandleImpl: function(value, $element) {
-        var $handle = $element || $("<div>").appendTo(this._$range),
-            format = this.option("tooltip.format"),
-            tooltipEnabled = this.option("tooltip.enabled"),
-            tooltipPosition = this.option("tooltip.position");
+        var $handle = $element || $("<div>").appendTo(this._$range);
+        var format = this.option("tooltip.format");
+        var tooltipEnabled = this.option("tooltip.enabled");
+        var tooltipPosition = this.option("tooltip.position");
 
         this.$element()
             .toggleClass(SLIDER_TOOLTIP_POSITION_CLASS_PREFIX + "bottom", tooltipEnabled && tooltipPosition === "bottom")
@@ -447,10 +447,10 @@ var Slider = TrackBar.inherit({
             .removeClass(SLIDER_LABEL_POSITION_CLASS_PREFIX + "top");
 
         if(this.option("label.visible")) {
-            var min = this.option("min"),
-                max = this.option("max"),
-                position = this.option("label.position"),
-                labelFormat = this.option("label.format");
+            var min = this.option("min");
+            var max = this.option("max");
+            var position = this.option("label.position");
+            var labelFormat = this.option("label.format");
 
             if(!this._$minLabel) {
                 this._$minLabel = $("<div>")
@@ -469,7 +469,6 @@ var Slider = TrackBar.inherit({
             this._$maxLabel.html(numberLocalization.format(max, labelFormat));
 
             this.$element().addClass(SLIDER_LABEL_POSITION_CLASS_PREFIX + position);
-
         } else {
             if(this._$minLabel) {
                 this._$minLabel.remove();
@@ -512,9 +511,9 @@ var Slider = TrackBar.inherit({
     },
 
     _swipeStartHandler: function(e) {
-        var rtlEnabled = this.option("rtlEnabled"),
-            startOffset,
-            endOffset;
+        var rtlEnabled = this.option("rtlEnabled");
+        var startOffset;
+        var endOffset;
 
         if(eventUtils.isTouchEvent(e.event)) {
             this._createAction(this._startHandler.bind(this))({ event: e.event });
@@ -568,9 +567,9 @@ var Slider = TrackBar.inherit({
     },
 
     _swipePixelRatio: function() {
-        var min = this.option("min"),
-            max = this.option("max"),
-            step = this._valueStep(this.option("step"));
+        var min = this.option("min");
+        var max = this.option("max");
+        var step = this._valueStep(this.option("step"));
 
         return (max - min) / step;
     },
@@ -590,11 +589,11 @@ var Slider = TrackBar.inherit({
     },
 
     _changeValueOnSwipe: function(ratio) {
-        var min = this.option("min"),
-            max = this.option("max"),
-            step = this._valueStep(this.option("step")),
-            newChange = ratio * (max - min),
-            newValue = min + newChange;
+        var min = this.option("min");
+        var max = this.option("max");
+        var step = this._valueStep(this.option("step"));
+        var newChange = ratio * (max - min);
+        var newValue = min + newChange;
 
         if(step < 0) {
             return;

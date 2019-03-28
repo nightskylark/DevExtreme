@@ -166,9 +166,9 @@ exports.custom = function(options) {
         }(),
         height: "auto",
         width: function() {
-            const isPortrait = $(window).height() > $(window).width(),
-                key = (isPortrait ? "p" : "l") + "Width",
-                widthOption = options.hasOwnProperty(key) ? options[key] : options["width"];
+            const isPortrait = $(window).height() > $(window).width();
+            const key = (isPortrait ? "p" : "l") + "Width";
+            const widthOption = options.hasOwnProperty(key) ? options[key] : options["width"];
 
             return isFunction(widthOption) ? widthOption() : widthOption;
         },

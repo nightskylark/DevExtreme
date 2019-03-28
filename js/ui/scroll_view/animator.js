@@ -1,7 +1,7 @@
-var noop = require("../../core/utils/common").noop,
-    Class = require("../../core/class"),
-    abstract = Class.abstract,
-    animationFrame = require("../../animation/frame");
+var noop = require("../../core/utils/common").noop;
+var Class = require("../../core/class");
+var abstract = Class.abstract;
+var animationFrame = require("../../animation/frame");
 
 var Animator = Class.inherit({
 

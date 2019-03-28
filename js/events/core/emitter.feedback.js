@@ -1,17 +1,15 @@
-var Class = require("../../core/class"),
-    commonUtils = require("../../core/utils/common"),
-    contains = require("../../core/utils/dom").contains,
-    devices = require("../../core/devices"),
-    eventUtils = require("../utils"),
-    pointerEvents = require("../pointer"),
-    Emitter = require("./emitter"),
-    registerEmitter = require("./emitter_registrator");
-
-var ACTIVE_EVENT_NAME = "dxactive",
-    INACTIVE_EVENT_NAME = "dxinactive",
-
-    ACTIVE_TIMEOUT = 30,
-    INACTIVE_TIMEOUT = 400;
+var Class = require("../../core/class");
+var commonUtils = require("../../core/utils/common");
+var contains = require("../../core/utils/dom").contains;
+var devices = require("../../core/devices");
+var eventUtils = require("../utils");
+var pointerEvents = require("../pointer");
+var Emitter = require("./emitter");
+var registerEmitter = require("./emitter_registrator");
+var ACTIVE_EVENT_NAME = "dxactive";
+var INACTIVE_EVENT_NAME = "dxinactive";
+var ACTIVE_TIMEOUT = 30;
+var INACTIVE_TIMEOUT = 400;
 
 
 var FeedbackEvent = Class.inherit({
@@ -98,16 +96,13 @@ var FeedbackEmitter = Emitter.inherit({
     },
 
     _initEvents: function(e) {
-        var that = this,
-
-            eventTarget = this._getEmitterTarget(e),
-
-            mouseEvent = eventUtils.isMouseEvent(e),
-            isSimulator = devices.isSimulator(),
-            deferFeedback = isSimulator || !mouseEvent,
-
-            activeTimeout = commonUtils.ensureDefined(this.activeTimeout, ACTIVE_TIMEOUT),
-            inactiveTimeout = commonUtils.ensureDefined(this.inactiveTimeout, INACTIVE_TIMEOUT);
+        var that = this;
+        var eventTarget = this._getEmitterTarget(e);
+        var mouseEvent = eventUtils.isMouseEvent(e);
+        var isSimulator = devices.isSimulator();
+        var deferFeedback = isSimulator || !mouseEvent;
+        var activeTimeout = commonUtils.ensureDefined(this.activeTimeout, ACTIVE_TIMEOUT);
+        var inactiveTimeout = commonUtils.ensureDefined(this.inactiveTimeout, INACTIVE_TIMEOUT);
 
         this._active = new FeedbackEvent(deferFeedback ? activeTimeout : 0, function() {
             that._fireEvent(ACTIVE_EVENT_NAME, e, { target: eventTarget });

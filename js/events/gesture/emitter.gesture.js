@@ -1,26 +1,24 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    devices = require("../../core/devices"),
-    styleUtils = require("../../core/utils/style"),
-    callOnce = require("../../core/utils/call_once"),
-    domUtils = require("../../core/utils/dom"),
-    readyCallbacks = require("../../core/utils/ready_callbacks"),
-    ready = readyCallbacks.add,
-    mathUtils = require("../../core/utils/math"),
-    noop = require("../../core/utils/common").noop,
-    isDefined = require("../../core/utils/type").isDefined,
-    eventUtils = require("../utils"),
-    Emitter = require("../core/emitter"),
-    sign = mathUtils.sign,
-    abs = Math.abs;
-
-var SLEEP = 0,
-    INITED = 1,
-    STARTED = 2,
-
-    TOUCH_BOUNDARY = 10,
-    IMMEDIATE_TOUCH_BOUNDARY = 0,
-    IMMEDIATE_TIMEOUT = 180;
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var devices = require("../../core/devices");
+var styleUtils = require("../../core/utils/style");
+var callOnce = require("../../core/utils/call_once");
+var domUtils = require("../../core/utils/dom");
+var readyCallbacks = require("../../core/utils/ready_callbacks");
+var ready = readyCallbacks.add;
+var mathUtils = require("../../core/utils/math");
+var noop = require("../../core/utils/common").noop;
+var isDefined = require("../../core/utils/type").isDefined;
+var eventUtils = require("../utils");
+var Emitter = require("../core/emitter");
+var sign = mathUtils.sign;
+var abs = Math.abs;
+var SLEEP = 0;
+var INITED = 1;
+var STARTED = 2;
+var TOUCH_BOUNDARY = 10;
+var IMMEDIATE_TOUCH_BOUNDARY = 0;
+var IMMEDIATE_TIMEOUT = 180;
 
 var isMouseWheelEvent = function(e) {
     return e && e.type === "dxmousewheel";
@@ -140,18 +138,16 @@ var GestureEmitter = Emitter.inherit({
     },
 
     _directionConfirmed: function(e) {
-        var touchBoundary = this._getTouchBoundary(e),
-            delta = eventUtils.eventDelta(this._startEventData, eventUtils.eventData(e)),
-            deltaX = abs(delta.x),
-            deltaY = abs(delta.y);
-
-        var horizontalMove = this._validateMove(touchBoundary, deltaX, deltaY),
-            verticalMove = this._validateMove(touchBoundary, deltaY, deltaX);
-
-        var direction = this.getDirection(e),
-            bothAccepted = direction === "both" && (horizontalMove || verticalMove),
-            horizontalAccepted = direction === "horizontal" && horizontalMove,
-            verticalAccepted = direction === "vertical" && verticalMove;
+        var touchBoundary = this._getTouchBoundary(e);
+        var delta = eventUtils.eventDelta(this._startEventData, eventUtils.eventData(e));
+        var deltaX = abs(delta.x);
+        var deltaY = abs(delta.y);
+        var horizontalMove = this._validateMove(touchBoundary, deltaX, deltaY);
+        var verticalMove = this._validateMove(touchBoundary, deltaY, deltaX);
+        var direction = this.getDirection(e);
+        var bothAccepted = direction === "both" && (horizontalMove || verticalMove);
+        var horizontalAccepted = direction === "horizontal" && horizontalMove;
+        var verticalAccepted = direction === "vertical" && verticalMove;
 
         return bothAccepted || horizontalAccepted || verticalAccepted || this._immediateAccepted;
     },
@@ -165,8 +161,8 @@ var GestureEmitter = Emitter.inherit({
     },
 
     _adjustStartEvent: function(e) {
-        var touchBoundary = this._getTouchBoundary(e),
-            delta = eventUtils.eventDelta(this._startEventData, eventUtils.eventData(e));
+        var touchBoundary = this._getTouchBoundary(e);
+        var delta = eventUtils.eventDelta(this._startEventData, eventUtils.eventData(e));
 
         this._startEvent.pageX += sign(delta.x) * touchBoundary;
         this._startEvent.pageY += sign(delta.y) * touchBoundary;

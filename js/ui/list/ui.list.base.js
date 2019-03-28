@@ -1,48 +1,46 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    iconUtils = require("../../core/utils/icon"),
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    each = require("../../core/utils/iterator").each,
-    compileGetter = require("../../core/utils/data").compileGetter,
-    extend = require("../../core/utils/extend").extend,
-    fx = require("../../animation/fx"),
-    clickEvent = require("../../events/click"),
-    swipeEvents = require("../../events/swipe"),
-    support = require("../../core/utils/support"),
-    messageLocalization = require("../../localization/message"),
-    inkRipple = require("../widget/utils.ink_ripple"),
-    devices = require("../../core/devices"),
-    ListItem = require("./item"),
-    Button = require("../button"),
-    eventUtils = require("../../events/utils"),
-    themes = require("../themes"),
-    windowUtils = require("../../core/utils/window"),
-    ScrollView = require("../scroll_view"),
-    deviceDependentOptions = require("../scroll_view/ui.scrollable").deviceDependentOptions,
-    CollectionWidget = require("../collection/ui.collection_widget.live_update").default,
-    BindableTemplate = require("../widget/bindable_template"),
-    Deferred = require("../../core/utils/deferred").Deferred,
-    DataConverterMixin = require("../shared/grouped_data_converter_mixin").default;
-
-var LIST_CLASS = "dx-list",
-    LIST_ITEM_CLASS = "dx-list-item",
-    LIST_ITEM_SELECTOR = "." + LIST_ITEM_CLASS,
-    LIST_ITEM_ICON_CONTAINER_CLASS = "dx-list-item-icon-container",
-    LIST_ITEM_ICON_CLASS = "dx-list-item-icon",
-    LIST_GROUP_CLASS = "dx-list-group",
-    LIST_GROUP_HEADER_CLASS = "dx-list-group-header",
-    LIST_GROUP_BODY_CLASS = "dx-list-group-body",
-    LIST_COLLAPSIBLE_GROUPS_CLASS = "dx-list-collapsible-groups",
-    LIST_GROUP_COLLAPSED_CLASS = "dx-list-group-collapsed",
-    LIST_GROUP_HEADER_INDICATOR_CLASS = "dx-list-group-header-indicator",
-    LIST_HAS_NEXT_CLASS = "dx-has-next",
-    LIST_NEXT_BUTTON_CLASS = "dx-list-next-button",
-    SELECT_ALL_SELECTOR = ".dx-list-select-all",
-
-    LIST_ITEM_DATA_KEY = "dxListItemData",
-    LIST_FEEDBACK_SHOW_TIMEOUT = 70;
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var iconUtils = require("../../core/utils/icon");
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var each = require("../../core/utils/iterator").each;
+var compileGetter = require("../../core/utils/data").compileGetter;
+var extend = require("../../core/utils/extend").extend;
+var fx = require("../../animation/fx");
+var clickEvent = require("../../events/click");
+var swipeEvents = require("../../events/swipe");
+var support = require("../../core/utils/support");
+var messageLocalization = require("../../localization/message");
+var inkRipple = require("../widget/utils.ink_ripple");
+var devices = require("../../core/devices");
+var ListItem = require("./item");
+var Button = require("../button");
+var eventUtils = require("../../events/utils");
+var themes = require("../themes");
+var windowUtils = require("../../core/utils/window");
+var ScrollView = require("../scroll_view");
+var deviceDependentOptions = require("../scroll_view/ui.scrollable").deviceDependentOptions;
+var CollectionWidget = require("../collection/ui.collection_widget.live_update").default;
+var BindableTemplate = require("../widget/bindable_template");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var DataConverterMixin = require("../shared/grouped_data_converter_mixin").default;
+var LIST_CLASS = "dx-list";
+var LIST_ITEM_CLASS = "dx-list-item";
+var LIST_ITEM_SELECTOR = "." + LIST_ITEM_CLASS;
+var LIST_ITEM_ICON_CONTAINER_CLASS = "dx-list-item-icon-container";
+var LIST_ITEM_ICON_CLASS = "dx-list-item-icon";
+var LIST_GROUP_CLASS = "dx-list-group";
+var LIST_GROUP_HEADER_CLASS = "dx-list-group-header";
+var LIST_GROUP_BODY_CLASS = "dx-list-group-body";
+var LIST_COLLAPSIBLE_GROUPS_CLASS = "dx-list-collapsible-groups";
+var LIST_GROUP_COLLAPSED_CLASS = "dx-list-group-collapsed";
+var LIST_GROUP_HEADER_INDICATOR_CLASS = "dx-list-group-header-indicator";
+var LIST_HAS_NEXT_CLASS = "dx-has-next";
+var LIST_NEXT_BUTTON_CLASS = "dx-list-next-button";
+var SELECT_ALL_SELECTOR = ".dx-list-select-all";
+var LIST_ITEM_DATA_KEY = "dxListItemData";
+var LIST_FEEDBACK_SHOW_TIMEOUT = 70;
 
 var groupItemsGetter = compileGetter("items");
 
@@ -54,8 +52,8 @@ var ListBase = CollectionWidget.inherit({
         var that = this;
 
         var moveFocusPerPage = function(direction) {
-            var $item = getEdgeVisibleItem(direction),
-                isFocusedItem = $item.is(that.option("focusedElement"));
+            var $item = getEdgeVisibleItem(direction);
+            var isFocusedItem = $item.is(that.option("focusedElement"));
 
             if(isFocusedItem) {
                 scrollListTo($item, direction);
@@ -67,11 +65,10 @@ var ListBase = CollectionWidget.inherit({
         };
 
         var getEdgeVisibleItem = function(direction) {
-            var scrollTop = that.scrollTop(),
-                containerHeight = that.$element().height();
-
-            var $item = $(that.option("focusedElement")),
-                isItemVisible = true;
+            var scrollTop = that.scrollTop();
+            var containerHeight = that.$element().height();
+            var $item = $(that.option("focusedElement"));
+            var isItemVisible = true;
 
             if(!$item.length) {
                 return $();
@@ -613,8 +610,8 @@ var ListBase = CollectionWidget.inherit({
     },
 
     _dataSourceOptions: function() {
-        var scrollBottom = this._scrollBottomMode(),
-            nextButton = this._nextButtonMode();
+        var scrollBottom = this._scrollBottomMode();
+        var nextButton = this._nextButtonMode();
 
         return extend(this.callBase(), {
             paginate: commonUtils.ensureDefined(scrollBottom || nextButton, true)
@@ -630,9 +627,9 @@ var ListBase = CollectionWidget.inherit({
     },
 
     _initScrollView: function() {
-        var scrollingEnabled = this.option("scrollingEnabled"),
-            pullRefreshEnabled = scrollingEnabled && this.option("pullRefreshEnabled"),
-            autoPagingEnabled = scrollingEnabled && this._scrollBottomMode() && !!this._dataSource;
+        var scrollingEnabled = this.option("scrollingEnabled");
+        var pullRefreshEnabled = scrollingEnabled && this.option("pullRefreshEnabled");
+        var autoPagingEnabled = scrollingEnabled && this._scrollBottomMode() && !!this._dataSource;
 
         this._scrollView = this._createComponent(this.$element(), ScrollView, {
             disabled: this.option("disabled") || !scrollingEnabled,
@@ -684,8 +681,8 @@ var ListBase = CollectionWidget.inherit({
         this.callBase(data, $container);
 
         if(data.icon) {
-            var $icon = iconUtils.getImageContainer(data.icon).addClass(LIST_ITEM_ICON_CLASS),
-                $iconContainer = $("<div>").addClass(LIST_ITEM_ICON_CONTAINER_CLASS);
+            var $icon = iconUtils.getImageContainer(data.icon).addClass(LIST_ITEM_ICON_CLASS);
+            var $iconContainer = $("<div>").addClass(LIST_ITEM_ICON_CONTAINER_CLASS);
 
             $iconContainer.append($icon);
 
@@ -698,10 +695,10 @@ var ListBase = CollectionWidget.inherit({
     },
 
     _updateLoadingState: function(tryLoadMore) {
-        var isDataLoaded = !tryLoadMore || this._isLastPage(),
-            scrollBottomMode = this._scrollBottomMode(),
-            stopLoading = isDataLoaded || !scrollBottomMode,
-            hideLoadIndicator = stopLoading && !this._isDataSourceLoading();
+        var isDataLoaded = !tryLoadMore || this._isLastPage();
+        var scrollBottomMode = this._scrollBottomMode();
+        var stopLoading = isDataLoaded || !scrollBottomMode;
+        var hideLoadIndicator = stopLoading && !this._isDataSourceLoading();
 
         if(stopLoading || this._scrollViewIsFull()) {
             this._scrollView.release(hideLoadIndicator);
@@ -813,10 +810,10 @@ var ListBase = CollectionWidget.inherit({
     },
 
     _attachGroupCollapseEvent: function() {
-        var eventName = eventUtils.addNamespace(clickEvent.name, this.NAME),
-            selector = "." + LIST_GROUP_HEADER_CLASS,
-            $element = this.$element(),
-            collapsibleGroups = this.option("collapsibleGroups");
+        var eventName = eventUtils.addNamespace(clickEvent.name, this.NAME);
+        var selector = "." + LIST_GROUP_HEADER_CLASS;
+        var $element = this.$element();
+        var collapsibleGroups = this.option("collapsibleGroups");
 
         $element.toggleClass(LIST_COLLAPSIBLE_GROUPS_CLASS, collapsibleGroups);
 
@@ -956,13 +953,14 @@ var ListBase = CollectionWidget.inherit({
             .addClass(LIST_GROUP_HEADER_CLASS)
             .appendTo($groupElement);
 
-        var groupTemplateName = this.option("groupTemplate"),
-            groupTemplate = this._getTemplate(group.template || groupTemplateName, group, index, $groupHeaderElement),
-            renderArgs = {
-                index: index,
-                itemData: group,
-                container: getPublicElement($groupHeaderElement)
-            };
+        var groupTemplateName = this.option("groupTemplate");
+        var groupTemplate = this._getTemplate(group.template || groupTemplateName, group, index, $groupHeaderElement);
+
+        var renderArgs = {
+            index: index,
+            itemData: group,
+            container: getPublicElement($groupHeaderElement)
+        };
 
         this._createItemByTemplate(groupTemplate, renderArgs);
 
@@ -990,9 +988,9 @@ var ListBase = CollectionWidget.inherit({
     },
 
     attachGroupHeaderInkRippleEvents: function() {
-        var that = this,
-            selector = "." + LIST_GROUP_HEADER_CLASS,
-            $element = this.$element();
+        var that = this;
+        var selector = "." + LIST_GROUP_HEADER_CLASS;
+        var $element = this.$element();
 
         eventsEngine.on($element, "dxpointerdown", selector, function(e) {
             that._toggleActiveState($(e.currentTarget), true, e);
@@ -1029,8 +1027,8 @@ var ListBase = CollectionWidget.inherit({
     },
 
     _toggleNextButton: function(value) {
-        var dataSource = this._dataSource,
-            $nextButton = this._getNextButton();
+        var dataSource = this._dataSource;
+        var $nextButton = this._getNextButton();
 
         this.$element().toggleClass(LIST_HAS_NEXT_CLASS, value);
 
@@ -1171,8 +1169,8 @@ var ListBase = CollectionWidget.inherit({
     * @return Promise<void>
     */
     expandGroup: function(groupIndex) {
-        var deferred = new Deferred(),
-            $group = this._itemContainer().find("." + LIST_GROUP_CLASS).eq(groupIndex);
+        var deferred = new Deferred();
+        var $group = this._itemContainer().find("." + LIST_GROUP_CLASS).eq(groupIndex);
 
         this._collapseGroupHandler($group, false).done((function() {
             deferred.resolveWith(this);
@@ -1188,8 +1186,8 @@ var ListBase = CollectionWidget.inherit({
     * @return Promise<void>
     */
     collapseGroup: function(groupIndex) {
-        var deferred = new Deferred(),
-            $group = this._itemContainer().find("." + LIST_GROUP_CLASS).eq(groupIndex);
+        var deferred = new Deferred();
+        var $group = this._itemContainer().find("." + LIST_GROUP_CLASS).eq(groupIndex);
 
         this._collapseGroupHandler($group, true).done((function() {
             deferred.resolveWith(this);
@@ -1204,8 +1202,8 @@ var ListBase = CollectionWidget.inherit({
     * @return Promise<void>
     */
     updateDimensions: function() {
-        var that = this,
-            deferred = new Deferred();
+        var that = this;
+        var deferred = new Deferred();
 
         if(that._scrollView) {
             that._scrollView.update().done(function() {

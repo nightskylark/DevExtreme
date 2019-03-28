@@ -1,9 +1,9 @@
-var noop = require("../../core/utils/common").noop,
-    DateBoxStrategy = require("./ui.date_box.strategy"),
-    support = require("../../core/utils/support"),
-    inArray = require("../../core/utils/array").inArray,
-    dateUtils = require("./ui.date_utils"),
-    dateSerialization = require("../../core/utils/date_serialization");
+var noop = require("../../core/utils/common").noop;
+var DateBoxStrategy = require("./ui.date_box.strategy");
+var support = require("../../core/utils/support");
+var inArray = require("../../core/utils/array").inArray;
+var dateUtils = require("./ui.date_utils");
+var dateSerialization = require("../../core/utils/date_serialization");
 
 var NativeStrategy = DateBoxStrategy.inherit({
 

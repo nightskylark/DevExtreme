@@ -6,8 +6,8 @@ import { isDefined } from "../../core/utils/type";
 import { triggerResizeEvent } from "../../core/utils/dom";
 
 require("../drop_down_menu");
-var HEADER_PANEL_CLASS = "header-panel",
-    TOOLBAR_BUTTON_CLASS = "toolbar-button";
+var HEADER_PANEL_CLASS = "header-panel";
+var TOOLBAR_BUTTON_CLASS = "toolbar-button";
 
 var HeaderPanel = columnsView.ColumnsView.inherit({
     _getToolbarItems: function() {
@@ -25,19 +25,20 @@ var HeaderPanel = columnsView.ColumnsView.inherit({
     },
 
     _getToolbarOptions: function() {
-        var toolbarItems,
-            options = {
-                toolbarOptions: {
-                    items: this._getToolbarItems(),
-                    onItemRendered: function(e) {
-                        var itemRenderedCallback = e.itemData.onItemRendered;
+        var toolbarItems;
 
-                        if(itemRenderedCallback) {
-                            itemRenderedCallback(e);
-                        }
+        var options = {
+            toolbarOptions: {
+                items: this._getToolbarItems(),
+                onItemRendered: function(e) {
+                    var itemRenderedCallback = e.itemData.onItemRendered;
+
+                    if(itemRenderedCallback) {
+                        itemRenderedCallback(e);
                     }
                 }
-            };
+            }
+        };
 
         this.executeAction("onToolbarPreparing", options);
 
@@ -80,10 +81,11 @@ var HeaderPanel = columnsView.ColumnsView.inherit({
         var toolbarInstance = this._toolbar;
 
         if(toolbarInstance) {
-            var items = toolbarInstance.option("items") || [],
-                itemIndex = items.indexOf(items.filter(function(item) {
-                    return item.name === name;
-                })[0]);
+            var items = toolbarInstance.option("items") || [];
+
+            var itemIndex = items.indexOf(items.filter(function(item) {
+                return item.name === name;
+            })[0]);
 
             if(itemIndex >= 0) {
                 var itemOptionPrefix = "items[" + itemIndex + "]";

@@ -9,10 +9,10 @@ const VARIABLE_CLASS = "dx-variable";
 
 class Variable extends Embed {
     static create(data) {
-        let node = super.create(),
-            startEscapeChar,
-            endEscapeChar,
-            text = data.value;
+        let node = super.create();
+        let startEscapeChar;
+        let endEscapeChar;
+        let text = data.value;
 
         if(Array.isArray(data.escapeChar)) {
             startEscapeChar = ensureDefined(data.escapeChar[0], "");

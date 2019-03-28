@@ -16,8 +16,8 @@ var extendFromObject = function(target, source, overrideExistingValues) {
 var extend = function(target) {
     target = target || {};
 
-    var i = 1,
-        deep = false;
+    var i = 1;
+    var deep = false;
 
     if(typeof target === "boolean") {
         deep = target;
@@ -32,10 +32,10 @@ var extend = function(target) {
         }
 
         for(var key in source) {
-            var targetValue = target[key],
-                sourceValue = source[key],
-                sourceValueIsArray = false,
-                clone;
+            var targetValue = target[key];
+            var sourceValue = source[key];
+            var sourceValueIsArray = false;
+            var clone;
 
             if(target === sourceValue) {
                 continue;

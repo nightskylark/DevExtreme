@@ -1,12 +1,10 @@
-var $ = require("../../core/renderer"),
-    CollectionWidgetItem = require("../collection/item");
-
-var LIST_ITEM_BADGE_CONTAINER_CLASS = "dx-list-item-badge-container",
-    LIST_ITEM_BADGE_CLASS = "dx-list-item-badge",
-    BADGE_CLASS = "dx-badge",
-
-    LIST_ITEM_CHEVRON_CONTAINER_CLASS = "dx-list-item-chevron-container",
-    LIST_ITEM_CHEVRON_CLASS = "dx-list-item-chevron";
+var $ = require("../../core/renderer");
+var CollectionWidgetItem = require("../collection/item");
+var LIST_ITEM_BADGE_CONTAINER_CLASS = "dx-list-item-badge-container";
+var LIST_ITEM_BADGE_CLASS = "dx-list-item-badge";
+var BADGE_CLASS = "dx-badge";
+var LIST_ITEM_CHEVRON_CONTAINER_CLASS = "dx-list-item-chevron-container";
+var LIST_ITEM_CHEVRON_CLASS = "dx-list-item-chevron";
 
 var ListItem = CollectionWidgetItem.inherit({
 
@@ -43,8 +41,8 @@ var ListItem = CollectionWidgetItem.inherit({
             return;
         }
 
-        var $chevronContainer = $("<div>").addClass(LIST_ITEM_CHEVRON_CONTAINER_CLASS),
-            $chevron = $("<div>").addClass(LIST_ITEM_CHEVRON_CLASS);
+        var $chevronContainer = $("<div>").addClass(LIST_ITEM_CHEVRON_CONTAINER_CLASS);
+        var $chevron = $("<div>").addClass(LIST_ITEM_CHEVRON_CLASS);
 
         $chevronContainer.append($chevron).appendTo(this._$element);
     }

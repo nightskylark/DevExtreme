@@ -1,8 +1,8 @@
-var noop = require("../../../core/utils/common").noop,
-    dateUtils = require("../../../core/utils/date"),
-    each = require("../../../core/utils/iterator").each,
-    arrayUtils = require("../../../core/utils/array"),
-    BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base");
+var noop = require("../../../core/utils/common").noop;
+var dateUtils = require("../../../core/utils/date");
+var each = require("../../../core/utils/iterator").each;
+var arrayUtils = require("../../../core/utils/array");
+var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base");
 
 var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
     ctor: function(instance) {
@@ -22,20 +22,18 @@ var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     createTaskPositionMap: function(appointments) {
-
         if(appointments.length) {
-            var height = this.instance.fire("getAgendaVerticalStepHeight"),
-                appointmentsByResources = this.instance.fire("groupAppointmentsByResources", appointments),
-                groupedAppts = [];
+            var height = this.instance.fire("getAgendaVerticalStepHeight");
+            var appointmentsByResources = this.instance.fire("groupAppointmentsByResources", appointments);
+            var groupedAppts = [];
 
             each(appointmentsByResources, function(i, appts) {
-
-                var additionalAppointments = [],
-                    recurrentIndexes = [];
+                var additionalAppointments = [];
+                var recurrentIndexes = [];
 
                 each(appts, function(index, appointment) {
-                    var recurrenceBatch = this.instance.getAppointmentsInstance()._processRecurrenceAppointment(appointment, index),
-                        appointmentBatch = null;
+                    var recurrenceBatch = this.instance.getAppointmentsInstance()._processRecurrenceAppointment(appointment, index);
+                    var appointmentBatch = null;
 
                     if(!recurrenceBatch.indexes.length) {
                         appointmentBatch = { parts: [] };
@@ -45,21 +43,19 @@ var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
 
                     additionalAppointments = additionalAppointments.concat(recurrenceBatch.parts);
                     recurrentIndexes = recurrentIndexes.concat(recurrenceBatch.indexes);
-
                 }.bind(this));
 
                 this.instance.getAppointmentsInstance()._reduceRecurrenceAppointments(recurrentIndexes, appts);
                 this.instance.getAppointmentsInstance()._combineAppointments(appts, additionalAppointments);
 
                 groupedAppts = groupedAppts.concat(appts);
-
             }.bind(this));
 
             Array.prototype.splice.apply(appointments, [0, appointments.length].concat(groupedAppts));
         }
 
-        var result = [],
-            sortedIndex = 0;
+        var result = [];
+        var sortedIndex = 0;
 
         appointments.forEach(function(appt, index) {
             result.push([{
@@ -74,8 +70,8 @@ var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
     },
 
     _calculateGroupIndex: function(apptIndex, appointmentsByResources) {
-        var resultInd,
-            counter = 0;
+        var resultInd;
+        var counter = 0;
 
         for(var i in appointmentsByResources) {
             var countApptInGroup = appointmentsByResources[i].length;
@@ -167,8 +163,8 @@ var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
             }
 
             each(currentAppointments, function(index, appointment) {
-                var startDate = this.instance.fire("getField", "startDate", appointment),
-                    endDate = this.instance.fire("getField", "endDate", appointment);
+                var startDate = this.instance.fire("getField", "startDate", appointment);
+                var endDate = this.instance.fire("getField", "endDate", appointment);
 
                 this._checkWrongEndDate(appointment, startDate, endDate);
 
@@ -193,9 +189,9 @@ var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
                 }
 
                 for(var j = 0; j < appointmentCount; j++) {
-                    var appointmentData = currentAppointments[j].settings || currentAppointments[j],
-                        appointmentIsLong = this.instance.fire("appointmentTakesSeveralDays", currentAppointments[j]),
-                        appointmentIsRecurrence = this.instance.fire("getField", "recurrenceRule", currentAppointments[j]);
+                    var appointmentData = currentAppointments[j].settings || currentAppointments[j];
+                    var appointmentIsLong = this.instance.fire("appointmentTakesSeveralDays", currentAppointments[j]);
+                    var appointmentIsRecurrence = this.instance.fire("getField", "recurrenceRule", currentAppointments[j]);
 
                     if(this.instance.fire("dayHasAppointment", day, appointmentData, true) || (!appointmentIsRecurrence && appointmentIsLong && this.instance.fire("dayHasAppointment", day, currentAppointments[j], true))) {
                         groupResult[i] += 1;
@@ -234,10 +230,10 @@ var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
 
     getAppointmentDataCalculator: function() {
         return function($appointment, originalStartDate) {
-            var apptIndex = $appointment.index(),
-                startViewDate = this.instance.getStartViewDate(),
-                calculatedStartDate = this.getDateByIndex(apptIndex, this._rows, startViewDate),
-                wrappedOriginalStartDate = new Date(originalStartDate);
+            var apptIndex = $appointment.index();
+            var startViewDate = this.instance.getStartViewDate();
+            var calculatedStartDate = this.getDateByIndex(apptIndex, this._rows, startViewDate);
+            var wrappedOriginalStartDate = new Date(originalStartDate);
 
             return {
                 startDate: new Date(calculatedStartDate.setHours(
@@ -247,7 +243,6 @@ var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
                     wrappedOriginalStartDate.getMilliseconds()
                 ))
             };
-
         }.bind(this);
     }
 });

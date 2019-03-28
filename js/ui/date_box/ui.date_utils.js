@@ -1,8 +1,8 @@
-var $ = require("../../core/renderer"),
-    dateSerialization = require("../../core/utils/date_serialization"),
-    isDate = require("../../core/utils/type").isDate,
-    each = require("../../core/utils/iterator").each,
-    dateLocalization = require("../../localization/date");
+var $ = require("../../core/renderer");
+var dateSerialization = require("../../core/utils/date_serialization");
+var isDate = require("../../core/utils/type").isDate;
+var each = require("../../core/utils/iterator").each;
+var dateLocalization = require("../../localization/date");
 
 // TODO: move to dx.utils
 
@@ -70,8 +70,8 @@ var dateUtils = {
                 var standardPattern;
 
                 (function androidFormatDetection() {
-                    var androidFormatPattern = "yyyy-MM-ddTHH:mmZ",
-                        testDateString = "2000-01-01T01:01Z";
+                    var androidFormatPattern = "yyyy-MM-ddTHH:mmZ";
+                    var testDateString = "2000-01-01T01:01Z";
 
                     var $input = $("<input>").attr("type", "datetime");
                     $input.val(testDateString);
@@ -149,9 +149,9 @@ var dateUtils = {
     },
 
     getLongestCaptionIndex: function(captionArray) {
-        var longestIndex = 0,
-            longestCaptionLength = 0,
-            i;
+        var longestIndex = 0;
+        var longestCaptionLength = 0;
+        var i;
         for(i = 0; i < captionArray.length; ++i) {
             if(captionArray[i].length > longestCaptionLength) {
                 longestIndex = i;
@@ -170,8 +170,8 @@ var dateUtils = {
     },
 
     getLongestDate: function(format, monthNames, dayNames) {
-        var stringFormat = getStringFormat(format),
-            month = 9;
+        var stringFormat = getStringFormat(format);
+        var month = 9;
 
         if(!stringFormat || dateUtils.formatUsesMonthName(stringFormat)) {
             month = dateUtils.getLongestCaptionIndex(monthNames);

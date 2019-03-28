@@ -1,51 +1,47 @@
-var _math = Math,
-    _min = _math.min,
-    _max = _math.max,
-    _round = _math.round,
-    _floor = _math.floor,
-    _sqrt = _math.sqrt,
+var _math = Math;
+var _min = _math.min;
+var _max = _math.max;
+var _round = _math.round;
+var _floor = _math.floor;
+var _sqrt = _math.sqrt;
+var vizUtils = require("../core/utils");
+var _parseScalar = vizUtils.parseScalar;
+var parseHorizontalAlignment = vizUtils.enumParser(["left", "center", "right"]);
+var parseVerticalAlignment = vizUtils.enumParser(["top", "bottom"]);
+var COMMAND_RESET = "command-reset";
+var COMMAND_MOVE_UP = "command-move-up";
+var COMMAND_MOVE_RIGHT = "command-move-right";
+var COMMAND_MOVE_DOWN = "command-move-down";
+var COMMAND_MOVE_LEFT = "command-move-left";
+var COMMAND_ZOOM_IN = "command-zoom-in";
+var COMMAND_ZOOM_OUT = "command-zoom-out";
+var COMMAND_ZOOM_DRAG_LINE = "command-zoom-drag-line";
+var COMMAND_ZOOM_DRAG = "command-zoom-drag";
+var EVENT_TARGET_TYPE = "control-bar";
+var FLAG_CENTERING = 1;
+var FLAG_ZOOMING = 2;
 
-    vizUtils = require("../core/utils"),
-    _parseScalar = vizUtils.parseScalar,
-    parseHorizontalAlignment = vizUtils.enumParser(["left", "center", "right"]),
-    parseVerticalAlignment = vizUtils.enumParser(["top", "bottom"]),
+var // TODO: This should be specified in options - seems like everything can be calculated from "buttonSize" and "zoomSliderLength"
+SIZE_OPTIONS = {
+    bigCircleSize: 58,
+    smallCircleSize: 28,
+    buttonSize: 10,
+    arrowButtonOffset: 20,
+    incDecButtonSize: 11,
+    incButtonOffset: 66,
+    decButtonOffset: 227,
+    sliderLineStartOffset: 88.5,
+    sliderLineEndOffset: 205.5,
+    sliderLength: 20,
+    sliderWidth: 8,
+    trackerGap: 4
+};
 
-    COMMAND_RESET = "command-reset",
-    COMMAND_MOVE_UP = "command-move-up",
-    COMMAND_MOVE_RIGHT = "command-move-right",
-    COMMAND_MOVE_DOWN = "command-move-down",
-    COMMAND_MOVE_LEFT = "command-move-left",
-    COMMAND_ZOOM_IN = "command-zoom-in",
-    COMMAND_ZOOM_OUT = "command-zoom-out",
-    COMMAND_ZOOM_DRAG_LINE = "command-zoom-drag-line",
-    COMMAND_ZOOM_DRAG = "command-zoom-drag",
-
-    EVENT_TARGET_TYPE = "control-bar",
-
-    FLAG_CENTERING = 1,
-    FLAG_ZOOMING = 2,
-
-    // TODO: This should be specified in options - seems like everything can be calculated from "buttonSize" and "zoomSliderLength"
-    SIZE_OPTIONS = {
-        bigCircleSize: 58,
-        smallCircleSize: 28,
-        buttonSize: 10,
-        arrowButtonOffset: 20,
-        incDecButtonSize: 11,
-        incButtonOffset: 66,
-        decButtonOffset: 227,
-        sliderLineStartOffset: 88.5,
-        sliderLineEndOffset: 205.5,
-        sliderLength: 20,
-        sliderWidth: 8,
-        trackerGap: 4
-    },
-    OFFSET_X = 30.5,
-    OFFSET_Y = 30.5,
-    TOTAL_WIDTH = 61,
-    TOTAL_HEIGHT = 274,
-
-    COMMAND_TO_TYPE_MAP = {};
+var OFFSET_X = 30.5;
+var OFFSET_Y = 30.5;
+var TOTAL_WIDTH = 61;
+var TOTAL_HEIGHT = 274;
+var COMMAND_TO_TYPE_MAP = {};
 
 COMMAND_TO_TYPE_MAP[COMMAND_RESET] = ResetCommand;
 COMMAND_TO_TYPE_MAP[COMMAND_MOVE_UP] = COMMAND_TO_TYPE_MAP[COMMAND_MOVE_RIGHT] = COMMAND_TO_TYPE_MAP[COMMAND_MOVE_DOWN] = COMMAND_TO_TYPE_MAP[COMMAND_MOVE_LEFT] = MoveCommand;
@@ -95,8 +91,8 @@ ControlBar.prototype = {
     },
 
     _subscribeToTracker: function(tracker) {
-        var that = this,
-            isActive = false;
+        var that = this;
+        var isActive = false;
         that._offTracker = tracker.on({
             "start": function(arg) {
                 isActive = arg.data.name === EVENT_TARGET_TYPE;
@@ -145,9 +141,9 @@ ControlBar.prototype = {
     },
 
     _createElements: function(renderer, container, dataKey) {
-        var that = this,
-            buttonsGroups,
-            trackersGroup;
+        var that = this;
+        var buttonsGroups;
+        var trackersGroup;
 
         that._root = renderer.g().attr({ "class": "dxm-control-bar" }).linkOn(container, "control-bar");
         buttonsGroups = that._buttonsGroup = renderer.g().attr({ "class": "dxm-control-buttons" }).append(that._root);
@@ -157,14 +153,14 @@ ControlBar.prototype = {
     },
 
     _createButtons: function(renderer, dataKey, group) {
-        var that = this,
-            options = SIZE_OPTIONS,
-            size = options.buttonSize / 2,
-            offset1 = options.arrowButtonOffset - size,
-            offset2 = options.arrowButtonOffset,
-            incDecButtonSize = options.incDecButtonSize / 2,
-            directionOptions = { "stroke-linecap": "square", fill: "none" },
-            line = "line";
+        var that = this;
+        var options = SIZE_OPTIONS;
+        var size = options.buttonSize / 2;
+        var offset1 = options.arrowButtonOffset - size;
+        var offset2 = options.arrowButtonOffset;
+        var incDecButtonSize = options.incDecButtonSize / 2;
+        var directionOptions = { "stroke-linecap": "square", fill: "none" };
+        var line = "line";
 
         renderer.circle(0, 0, options.bigCircleSize / 2).append(group);
         renderer.circle(0, 0, size).attr({ fill: "none" }).append(group);
@@ -188,11 +184,11 @@ ControlBar.prototype = {
     },
 
     _createTrackers: function(renderer, dataKey, group) {
-        var options = SIZE_OPTIONS,
-            size = _round((options.arrowButtonOffset - options.trackerGap) / 2),
-            offset1 = options.arrowButtonOffset - size,
-            offset2 = _round(_sqrt(options.bigCircleSize * options.bigCircleSize / 4 - size * size)),
-            size2 = offset2 - offset1;
+        var options = SIZE_OPTIONS;
+        var size = _round((options.arrowButtonOffset - options.trackerGap) / 2);
+        var offset1 = options.arrowButtonOffset - size;
+        var offset2 = _round(_sqrt(options.bigCircleSize * options.bigCircleSize / 4 - size * size));
+        var size2 = offset2 - offset1;
 
         renderer.rect(-size, -size, size * 2, size * 2).data(dataKey, { index: COMMAND_RESET, name: EVENT_TARGET_TYPE }).append(group);
         renderer.rect(-size, -offset2, size * 2, size2).data(dataKey, { index: COMMAND_MOVE_UP, name: EVENT_TARGET_TYPE }).append(group);
@@ -265,12 +261,12 @@ ControlBar.prototype = {
     },
 
     _adjustZoom: function(zoom) {
-        var that = this,
-            transform,
-            y,
-            start = SIZE_OPTIONS.sliderLineStartOffset,
-            end = SIZE_OPTIONS.sliderLineEndOffset,
-            h = SIZE_OPTIONS.sliderWidth;
+        var that = this;
+        var transform;
+        var y;
+        var start = SIZE_OPTIONS.sliderLineStartOffset;
+        var end = SIZE_OPTIONS.sliderLineEndOffset;
+        var h = SIZE_OPTIONS.sliderWidth;
 
         that._zoomFactor = _max(_min(_round(zoom), that._zoomPartition), 0);
         transform = { translateY: -_round(that._zoomFactor * that._sliderUnitLength) };
@@ -327,10 +323,10 @@ ResetCommand.prototype.finish = function() {
 
 function MoveCommand(owner, command, arg) {
     this._command = command;
-    var timeout = null,
-        interval = 100,
-        dx = 0,
-        dy = 0;
+    var timeout = null;
+    var interval = 100;
+    var dx = 0;
+    var dy = 0;
     switch(this._command) {
         case COMMAND_MOVE_UP: dy = -10; break;
         case COMMAND_MOVE_RIGHT: dx = 10; break;
@@ -365,9 +361,9 @@ MoveCommand.prototype.finish = function() {
 function ZoomCommand(owner, command) {
     this._owner = owner;
     this._command = command;
-    var timeout = null,
-        interval = 150,
-        dZoom = this._command === COMMAND_ZOOM_IN ? 1 : -1;
+    var timeout = null;
+    var interval = 150;
+    var dZoom = this._command === COMMAND_ZOOM_IN ? 1 : -1;
     function callback() {
         owner._adjustZoom(owner._zoomFactor + dZoom);
         timeout = setTimeout(callback, interval);

@@ -1,11 +1,11 @@
-var eventsEngine = require("../events/core/events_engine"),
-    domAdapter = require("../core/dom_adapter"),
-    windowUtils = require("../core/utils/window"),
-    window = windowUtils.getWindow(),
-    Class = require("../core/class"),
-    abstract = Class.abstract,
-    errors = require("./errors").errors,
-    ArrayStore = require("./array_store");
+var eventsEngine = require("../events/core/events_engine");
+var domAdapter = require("../core/dom_adapter");
+var windowUtils = require("../core/utils/window");
+var window = windowUtils.getWindow();
+var Class = require("../core/class");
+var abstract = Class.abstract;
+var errors = require("./errors").errors;
+var ArrayStore = require("./array_store");
 
 var LocalStoreBackend = Class.inherit({
 

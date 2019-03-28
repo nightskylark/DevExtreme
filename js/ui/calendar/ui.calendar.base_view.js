@@ -1,28 +1,24 @@
-var $ = require("../../core/renderer"),
-    domAdapter = require("../../core/dom_adapter"),
-    eventsEngine = require("../../events/core/events_engine"),
-    dataUtils = require("../../core/element_data"),
-    domUtils = require("../../core/utils/dom"),
-    Widget = require("../widget/ui.widget"),
-    dateUtils = require("../../core/utils/date"),
-    extend = require("../../core/utils/extend").extend,
-    noop = require("../../core/utils/common").noop,
-    dateSerialization = require("../../core/utils/date_serialization"),
-    eventUtils = require("../../events/utils"),
-    clickEvent = require("../../events/click");
-
-var abstract = Widget.abstract,
-
-    CALENDAR_OTHER_VIEW_CLASS = "dx-calendar-other-view",
-    CALENDAR_CELL_CLASS = "dx-calendar-cell",
-    CALENDAR_EMPTY_CELL_CLASS = "dx-calendar-empty-cell",
-    CALENDAR_TODAY_CLASS = "dx-calendar-today",
-    CALENDAR_SELECTED_DATE_CLASS = "dx-calendar-selected-date",
-    CALENDAR_CONTOURED_DATE_CLASS = "dx-calendar-contoured-date",
-
-    CALENDAR_DXCLICK_EVENT_NAME = eventUtils.addNamespace(clickEvent.name, "dxCalendar"),
-
-    CALENDAR_DATE_VALUE_KEY = "dxDateValueKey";
+var $ = require("../../core/renderer");
+var domAdapter = require("../../core/dom_adapter");
+var eventsEngine = require("../../events/core/events_engine");
+var dataUtils = require("../../core/element_data");
+var domUtils = require("../../core/utils/dom");
+var Widget = require("../widget/ui.widget");
+var dateUtils = require("../../core/utils/date");
+var extend = require("../../core/utils/extend").extend;
+var noop = require("../../core/utils/common").noop;
+var dateSerialization = require("../../core/utils/date_serialization");
+var eventUtils = require("../../events/utils");
+var clickEvent = require("../../events/click");
+var abstract = Widget.abstract;
+var CALENDAR_OTHER_VIEW_CLASS = "dx-calendar-other-view";
+var CALENDAR_CELL_CLASS = "dx-calendar-cell";
+var CALENDAR_EMPTY_CELL_CLASS = "dx-calendar-empty-cell";
+var CALENDAR_TODAY_CLASS = "dx-calendar-today";
+var CALENDAR_SELECTED_DATE_CLASS = "dx-calendar-selected-date";
+var CALENDAR_CONTOURED_DATE_CLASS = "dx-calendar-contoured-date";
+var CALENDAR_DXCLICK_EVENT_NAME = eventUtils.addNamespace(clickEvent.name, "dxCalendar");
+var CALENDAR_DATE_VALUE_KEY = "dxDateValueKey";
 
 var BaseView = Widget.inherit({
 
@@ -76,8 +72,8 @@ var BaseView = Widget.inherit({
     _renderBody: function() {
         this.$body = $("<tbody>").appendTo(this._$table);
 
-        var that = this,
-            cellTemplate = this.option("cellTemplate");
+        var that = this;
+        var cellTemplate = this.option("cellTemplate");
 
         var appendChild = this.option("rtl")
             ? function(row, cell) {
@@ -94,9 +90,9 @@ var BaseView = Widget.inherit({
 
             prevCellDate = cellDate;
 
-            var cell = domAdapter.createElement("td"),
-                $cell = $(cell),
-                className = CALENDAR_CELL_CLASS;
+            var cell = domAdapter.createElement("td");
+            var $cell = $(cell);
+            var className = CALENDAR_CELL_CLASS;
 
             if(that._isTodayCell(cellDate)) {
                 className = className + " " + CALENDAR_TODAY_CLASS;
@@ -139,9 +135,9 @@ var BaseView = Widget.inherit({
             cellDate = that._getNextCellData(cellDate);
         }
 
-        var cellDate = this._getFirstCellData(),
-            colCount = this.option("colCount"),
-            prevCellDate;
+        var cellDate = this._getFirstCellData();
+        var colCount = this.option("colCount");
+        var prevCellDate;
 
         for(var indexRow = 0, len = this.option("rowCount"); indexRow < len; indexRow++) {
             var row = domAdapter.createElement("tr");
@@ -229,8 +225,8 @@ var BaseView = Widget.inherit({
 
     _changeValue: function(cellDate) {
         if(cellDate) {
-            var value = this.option("value"),
-                newValue = value ? new Date(value) : new Date();
+            var value = this.option("value");
+            var newValue = value ? new Date(value) : new Date();
 
             newValue.setDate(cellDate.getDate());
             newValue.setMonth(cellDate.getMonth());
@@ -248,8 +244,8 @@ var BaseView = Widget.inherit({
             return;
         }
 
-        var value = this.option("value"),
-            selectedCell = this._getCellByDate(value);
+        var value = this.option("value");
+        var selectedCell = this._getCellByDate(value);
 
         if(this._selectedCell) {
             this._selectedCell.removeClass(CALENDAR_SELECTED_DATE_CLASS);
@@ -264,8 +260,8 @@ var BaseView = Widget.inherit({
     },
 
     _getFirstAvailableDate: function() {
-        var date = this.option("date"),
-            min = this.option("min");
+        var date = this.option("date");
+        var min = this.option("min");
 
         date = dateUtils.getFirstDateView(this._getViewName(), date);
         return new Date(min && date < min ? min : date);

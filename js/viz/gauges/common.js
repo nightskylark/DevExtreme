@@ -1,29 +1,26 @@
-var dxBaseGauge = require("./base_gauge").dxBaseGauge,
-    typeUtils = require("../../core/utils/type"),
-    each = require("../../core/utils/iterator").each,
-    extend = require("../../core/utils/extend").extend,
-    _isDefined = typeUtils.isDefined,
-    _isArray = Array.isArray,
-    _isNumber = typeUtils.isNumeric,
-    axisModule = require("../axes/base_axis"),
-    _map = require("../core/utils").map,
-    _normalizeEnum = require("../core/utils").normalizeEnum,
-    _compareArrays = require("./base_gauge").compareArrays,
-
-    _isFinite = isFinite,
-    _Number = Number,
-    _min = Math.min,
-    _max = Math.max,
-
-    _extend = extend,
-    _each = each,
-    _noop = require("../../core/utils/common").noop,
-    SHIFT_ANGLE = 90,
-
-    OPTION_VALUE = "value",
-    OPTION_SUBVALUES = "subvalues",
-    DEFAULT_MINOR_AXIS_DIVISION_FACTOR = 5,
-    DEFAULT_NUMBER_MULTIPLIERS = [1, 2, 5];
+var dxBaseGauge = require("./base_gauge").dxBaseGauge;
+var typeUtils = require("../../core/utils/type");
+var each = require("../../core/utils/iterator").each;
+var extend = require("../../core/utils/extend").extend;
+var _isDefined = typeUtils.isDefined;
+var _isArray = Array.isArray;
+var _isNumber = typeUtils.isNumeric;
+var axisModule = require("../axes/base_axis");
+var _map = require("../core/utils").map;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var _compareArrays = require("./base_gauge").compareArrays;
+var _isFinite = isFinite;
+var _Number = Number;
+var _min = Math.min;
+var _max = Math.max;
+var _extend = extend;
+var _each = each;
+var _noop = require("../../core/utils/common").noop;
+var SHIFT_ANGLE = 90;
+var OPTION_VALUE = "value";
+var OPTION_SUBVALUES = "subvalues";
+var DEFAULT_MINOR_AXIS_DIVISION_FACTOR = 5;
+var DEFAULT_NUMBER_MULTIPLIERS = [1, 2, 5];
 
 function processValue(value, fallbackValue) {
     if(value === null) {
@@ -38,8 +35,8 @@ function parseArrayOfNumbers(arg) {
 
 exports.dxGauge = dxBaseGauge.inherit({
     _initCore: function() {
-        var that = this,
-            renderer = that._renderer;
+        var that = this;
+        var renderer = that._renderer;
 
         that._setupValue(that.option(OPTION_VALUE));
         that.__subvalues = parseArrayOfNumbers(that.option(OPTION_SUBVALUES));
@@ -96,10 +93,10 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _setupDomainCore: function() {
-        var that = this,
-            scaleOption = that.option("scale") || {},
-            startValue = that.option("startValue"),
-            endValue = that.option("endValue");
+        var that = this;
+        var scaleOption = that.option("scale") || {};
+        var startValue = that.option("startValue");
+        var endValue = that.option("endValue");
 
         startValue = _isNumber(startValue) ? _Number(startValue) : (_isNumber(scaleOption.startValue) ? _Number(scaleOption.startValue) : 0);
         endValue = _isNumber(endValue) ? _Number(endValue) : (_isNumber(scaleOption.endValue) ? _Number(scaleOption.endValue) : 100);
@@ -114,19 +111,19 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _measureScale: function(scaleOptions) {
-        var that = this,
-            majorTick = scaleOptions.tick,
-            majorTickEnabled = majorTick.visible && majorTick.length > 0 && majorTick.width > 0,
-            minorTick = scaleOptions.minorTick,
-            minorTickEnabled = minorTick.visible && minorTick.length > 0 && minorTick.width > 0,
-            label = scaleOptions.label,
-            indentFromTick = Number(label.indentFromTick),
-            textParams,
-            layoutValue,
-            result,
-            coefs,
-            innerCoef,
-            outerCoef;
+        var that = this;
+        var majorTick = scaleOptions.tick;
+        var majorTickEnabled = majorTick.visible && majorTick.length > 0 && majorTick.width > 0;
+        var minorTick = scaleOptions.minorTick;
+        var minorTickEnabled = minorTick.visible && minorTick.length > 0 && minorTick.width > 0;
+        var label = scaleOptions.label;
+        var indentFromTick = Number(label.indentFromTick);
+        var textParams;
+        var layoutValue;
+        var result;
+        var coefs;
+        var innerCoef;
+        var outerCoef;
 
         if(!majorTickEnabled && !minorTickEnabled && !label.visible) { return {}; }
 
@@ -151,9 +148,9 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _renderContent: function() {
-        var that = this,
-            scaleOptions = that._prepareScaleSettings(),
-            elements;
+        var that = this;
+        var scaleOptions = that._prepareScaleSettings();
+        var elements;
 
         that._rangeContainer.render(_extend(that._getOption("rangeContainer"), { vertical: that._area.vertical }));
         that._renderScale(scaleOptions);
@@ -174,9 +171,9 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _prepareScaleSettings: function() {
-        var that = this,
-            userOptions = that.option("scale"),
-            scaleOptions = extend(true, {}, that._themeManager.theme("scale"), userOptions);
+        var that = this;
+        var userOptions = that.option("scale");
+        var scaleOptions = extend(true, {}, that._themeManager.theme("scale"), userOptions);
 
         scaleOptions.label.indentFromAxis = 0;
         scaleOptions.isHorizontal = !that._area.vertical;
@@ -195,14 +192,14 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _renderScale: function(scaleOptions) {
-        var that = this,
-            bounds = that._translator.getDomain(),
-            startValue = bounds[0],
-            endValue = bounds[1],
-            angles = that._translator.getCodomain(),
-            invert = startValue > endValue,
-            min = _min(startValue, endValue),
-            max = _max(startValue, endValue);
+        var that = this;
+        var bounds = that._translator.getDomain();
+        var startValue = bounds[0];
+        var endValue = bounds[1];
+        var angles = that._translator.getCodomain();
+        var invert = startValue > endValue;
+        var min = _min(startValue, endValue);
+        var max = _max(startValue, endValue);
 
         scaleOptions.min = min;
         scaleOptions.max = max;
@@ -233,10 +230,10 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _prepareIndicatorSettings: function(options, defaultTypeField) {
-        var that = this,
-            theme = that._themeManager.theme("valueIndicators"),
-            type = _normalizeEnum(options.type || that._themeManager.theme(defaultTypeField)),
-            settings = _extend(true, {}, theme._default, theme[type], options);
+        var that = this;
+        var theme = that._themeManager.theme("valueIndicators");
+        var type = _normalizeEnum(options.type || that._themeManager.theme(defaultTypeField));
+        var settings = _extend(true, {}, theme._default, theme[type], options);
         settings.type = type;
         settings.animation = that._animationSettings;
         settings.containerBackgroundColor = that._containerBackgroundColor;
@@ -262,9 +259,9 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _prepareValueIndicator: function() {
-        var that = this,
-            target = that._valueIndicator,
-            settings = that._prepareIndicatorSettings(that.option("valueIndicator") || {}, "valueIndicatorType");
+        var that = this;
+        var target = that._valueIndicator;
+        var settings = that._prepareIndicatorSettings(that.option("valueIndicator") || {}, "valueIndicatorType");
         if(target && target.type !== settings.type) {
             target.dispose();
             target = null;
@@ -276,8 +273,8 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _createSubvalueIndicatorsSet: function() {
-        var that = this,
-            root = that._renderer.root;
+        var that = this;
+        var root = that._renderer.root;
         return new ValueIndicatorsSet({
             createIndicator: function(type, i) {
                 return that._createIndicator(type, root, "dxg-subvalue-indicator", "subvalue-indicator", i);
@@ -289,11 +286,11 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _prepareSubvalueIndicators: function() {
-        var that = this,
-            target = that._subvalueIndicatorsSet,
-            settings = that._prepareIndicatorSettings(that.option("subvalueIndicator") || {}, "subvalueIndicatorType"),
-            isRecreate,
-            dummy;
+        var that = this;
+        var target = that._subvalueIndicatorsSet;
+        var settings = that._prepareIndicatorSettings(that.option("subvalueIndicator") || {}, "subvalueIndicatorType");
+        var isRecreate;
+        var dummy;
         if(!target) {
             target = that._subvalueIndicatorsSet = that._createSubvalueIndicatorsSet();
         }
@@ -311,10 +308,10 @@ exports.dxGauge = dxBaseGauge.inherit({
     },
 
     _setupSubvalues: function(subvalues) {
-        var vals = subvalues === undefined ? this.__subvalues : parseArrayOfNumbers(subvalues),
-            i,
-            ii,
-            list;
+        var vals = subvalues === undefined ? this.__subvalues : parseArrayOfNumbers(subvalues);
+        var i;
+        var ii;
+        var list;
         if(vals === null) return;
         for(i = 0, ii = vals.length, list = []; i < ii; ++i) {
             list.push(processValue(vals[i], this.__subvalues[i]));
@@ -403,8 +400,8 @@ exports.dxGauge = dxBaseGauge.inherit({
     _getElementLayout: null,
 
     _createIndicator: function(type, owner, className, trackerType, trackerIndex, _strict) {
-        var that = this,
-            indicator = that._factory.createIndicator({ renderer: that._renderer, translator: that._translator, owner: owner, tracker: that._tracker, className: className }, type, _strict);
+        var that = this;
+        var indicator = that._factory.createIndicator({ renderer: that._renderer, translator: that._translator, owner: owner, tracker: that._tracker, className: className }, type, _strict);
         if(indicator) {
             indicator.type = type;
             indicator._trackerInfo = { type: trackerType, index: trackerIndex };
@@ -420,11 +417,11 @@ function valueGetter(arg) {
 }
 
 function setupValues(that, fieldName, optionItems) {
-    var currentValues = that[fieldName],
-        newValues = _isArray(optionItems) ? _map(optionItems, valueGetter) : [],
-        i = 0,
-        ii = newValues.length,
-        list = [];
+    var currentValues = that[fieldName];
+    var newValues = _isArray(optionItems) ? _map(optionItems, valueGetter) : [];
+    var i = 0;
+    var ii = newValues.length;
+    var list = [];
     for(; i < ii; ++i) {
         list.push(processValue(newValues[i], currentValues[i]));
     }
@@ -469,10 +466,12 @@ function updateActiveElements_hardMode() {
 }
 
 function prepareValueIndicators_hardMode() {
-    var that = this,
-        valueIndicators = that._valueIndicators || [],
-        userOptions = that.option("valueIndicators"),
-        optionList = [], i = 0, ii;
+    var that = this;
+    var valueIndicators = that._valueIndicators || [];
+    var userOptions = that.option("valueIndicators");
+    var optionList = [];
+    var i = 0;
+    var ii;
     for(ii = _isArray(userOptions) ? userOptions.length : 0; i < ii; ++i) {
         optionList.push(userOptions[i]);
     }
@@ -603,8 +602,8 @@ ValueIndicatorsSet.prototype = {
     },
 
     _generatePalette: function(count) {
-        var that = this,
-            colors = null;
+        var that = this;
+        var colors = null;
         if(that._palette) {
             that._palette.reset();
             colors = that._palette.generateColors(count, { repeat: true });
@@ -613,12 +612,12 @@ ValueIndicatorsSet.prototype = {
     },
 
     _adjustIndicatorsCount: function(count) {
-        var that = this,
-            indicators = that._indicators,
-            i,
-            ii,
-            indicator,
-            indicatorsLen = indicators.length;
+        var that = this;
+        var indicators = that._indicators;
+        var i;
+        var ii;
+        var indicator;
+        var indicatorsLen = indicators.length;
 
         if(indicatorsLen > count) {
             for(i = count, ii = indicatorsLen; i < ii; ++i) {

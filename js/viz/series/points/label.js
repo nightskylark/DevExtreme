@@ -1,27 +1,26 @@
-var _format = require("../../../format_helper").format,
-    vizUtils = require("../../core/utils"),
-    each = require("../../../core/utils/iterator").each,
-    extend = require("../../../core/utils/extend").extend,
-    _degreesToRadians = vizUtils.degreesToRadians,
-    _patchFontOptions = vizUtils.patchFontOptions,
-    _math = Math,
-    _round = _math.round,
-    _floor = _math.floor,
-    _abs = _math.abs,
-    _getCosAndSin = vizUtils.getCosAndSin,
-    _rotateBBox = vizUtils.rotateBBox,
-
-    CONNECTOR_LENGTH = 12,
-    LABEL_BACKGROUND_PADDING_X = 8,
-    LABEL_BACKGROUND_PADDING_Y = 4;
+var _format = require("../../../format_helper").format;
+var vizUtils = require("../../core/utils");
+var each = require("../../../core/utils/iterator").each;
+var extend = require("../../../core/utils/extend").extend;
+var _degreesToRadians = vizUtils.degreesToRadians;
+var _patchFontOptions = vizUtils.patchFontOptions;
+var _math = Math;
+var _round = _math.round;
+var _floor = _math.floor;
+var _abs = _math.abs;
+var _getCosAndSin = vizUtils.getCosAndSin;
+var _rotateBBox = vizUtils.rotateBBox;
+var CONNECTOR_LENGTH = 12;
+var LABEL_BACKGROUND_PADDING_X = 8;
+var LABEL_BACKGROUND_PADDING_Y = 4;
 
 function getClosestCoord(point, coords) {
-    var closestDistance = Infinity,
-        closestCoord;
+    var closestDistance = Infinity;
+    var closestCoord;
     each(coords, function(_, coord) {
-        var x = point[0] - coord[0],
-            y = point[1] - coord[1],
-            distance = x * x + y * y;
+        var x = point[0] - coord[0];
+        var y = point[1] - coord[1];
+        var distance = x * x + y * y;
         if(distance < closestDistance) {
             closestDistance = distance;
             closestCoord = coord;
@@ -41,20 +40,20 @@ function getCrossCoord(rect, coord, indexOffset) {
 
 var barPointStrategy = {
     isLabelInside: function(labelPoint, figure) {
-        var xc = labelPoint.x + labelPoint.width / 2,
-            yc = labelPoint.y + labelPoint.height / 2;
+        var xc = labelPoint.x + labelPoint.width / 2;
+        var yc = labelPoint.y + labelPoint.height / 2;
         return figure.x <= xc && xc <= figure.x + figure.width && figure.y <= yc && yc <= figure.y + figure.height;
     },
 
     prepareLabelPoints: function(bBox, rotatedBBox, isHorizontal, angle, figureCenter) {
-        var x1 = rotatedBBox.x,
-            xc = x1 + rotatedBBox.width / 2,
-            x2 = x1 + rotatedBBox.width - 1,
-            y1 = rotatedBBox.y,
-            yc = y1 + rotatedBBox.height / 2,
-            y2 = y1 + rotatedBBox.height - 1,
-            labelPoints,
-            isRectangular = (_abs(angle) % 90) === 0;
+        var x1 = rotatedBBox.x;
+        var xc = x1 + rotatedBBox.width / 2;
+        var x2 = x1 + rotatedBBox.width - 1;
+        var y1 = rotatedBBox.y;
+        var yc = y1 + rotatedBBox.height / 2;
+        var y2 = y1 + rotatedBBox.height - 1;
+        var labelPoints;
+        var isRectangular = (_abs(angle) % 90) === 0;
 
         if(figureCenter[0] > x1 && figureCenter[0] < x2) {
             if(isRectangular) {
@@ -96,19 +95,21 @@ var barPointStrategy = {
     },
 
     findFigurePoint: function(figure, labelPoint) {
-        var figureCenter = barPointStrategy.getFigureCenter(figure),
-            point = getClosestCoord(labelPoint, [
-                [figure.x, figureCenter[1]],
-                [figureCenter[0], figure.y + figure.height],
-                [figure.x + figure.width, figureCenter[1]],
-                [figureCenter[0], figure.y]
-            ]);
+        var figureCenter = barPointStrategy.getFigureCenter(figure);
+
+        var point = getClosestCoord(labelPoint, [
+            [figure.x, figureCenter[1]],
+            [figureCenter[0], figure.y + figure.height],
+            [figure.x + figure.width, figureCenter[1]],
+            [figureCenter[0], figure.y]
+        ]);
+
         return point;
     },
 
     adjustPoints: function(points) {
-        var lineIsVertical = _abs(points[1] - points[3]) <= 1,
-            lineIsHorizontal = _abs(points[0] - points[2]) <= 1;
+        var lineIsVertical = _abs(points[1] - points[3]) <= 1;
+        var lineIsHorizontal = _abs(points[0] - points[2]) <= 1;
 
         if(lineIsHorizontal) {
             points[0] = points[2];
@@ -149,19 +150,21 @@ var piePointStrategy = {
     },
 
     prepareLabelPoints: function(bBox, rotatedBBox, isHorizontal, angle) {
-        var xl = bBox.x,
-            xr = xl + bBox.width,
-            xc = xl + _round(bBox.width / 2),
-            yt = bBox.y,
-            yb = yt + bBox.height,
-            yc = yt + _round(bBox.height / 2),
-            points = [
-                [[xl, yt], [xr, yt]],
-                [[xr, yt], [xr, yb]],
-                [[xr, yb], [xl, yb]],
-                [[xl, yb], [xl, yt]]
-            ],
-            cosSin = _getCosAndSin(angle);
+        var xl = bBox.x;
+        var xr = xl + bBox.width;
+        var xc = xl + _round(bBox.width / 2);
+        var yt = bBox.y;
+        var yb = yt + bBox.height;
+        var yc = yt + _round(bBox.height / 2);
+
+        var points = [
+            [[xl, yt], [xr, yt]],
+            [[xr, yt], [xr, yb]],
+            [[xr, yb], [xl, yb]],
+            [[xl, yb], [xl, yt]]
+        ];
+
+        var cosSin = _getCosAndSin(angle);
 
         if(angle === 0) {
             points = isHorizontal ? [
@@ -180,10 +183,10 @@ var piePointStrategy = {
                     ];
                 });
             }).reduce(function(r, pair) {
-                var point1x = pair[0][0],
-                    point1y = pair[0][1],
-                    point2x = pair[1][0],
-                    point2y = pair[1][1];
+                var point1x = pair[0][0];
+                var point1y = pair[0][1];
+                var point2x = pair[1][0];
+                var point2y = pair[1][1];
 
                 if(isHorizontal) {
                     if((point1y >= yc && yc >= point2y) || (point1y <= yc && yc <= point2y)) {
@@ -210,9 +213,9 @@ var piePointStrategy = {
         if(!isHorizontal) {
             return [figure.x, figure.y];
         }
-        var labelX = labelPoint[0],
-            x = _round(figure.x + (figure.y - labelPoint[1]) / Math.tan(_degreesToRadians(figure.angle))),
-            points = [figure.x, figure.y, x, labelPoint[1]];
+        var labelX = labelPoint[0];
+        var x = _round(figure.x + (figure.y - labelPoint[1]) / Math.tan(_degreesToRadians(figure.angle)));
+        var points = [figure.x, figure.y, x, labelPoint[1]];
 
         if(!(figure.x <= x && x <= labelX) && !(labelX <= x && x <= figure.x)) {
             if(_abs(figure.x - labelX) < CONNECTOR_LENGTH) {
@@ -351,11 +354,11 @@ Label.prototype = {
     },
 
     _show: function() {
-        var that = this,
-            renderer = that._renderer,
-            container = that._container,
-            options = that._options || {},
-            text = that._textContent = formatText(that._data, that._options) || null;
+        var that = this;
+        var renderer = that._renderer;
+        var container = that._container;
+        var options = that._options || {};
+        var text = that._textContent = formatText(that._data, that._options) || null;
 
         if(text) {
             if(!that._group) {
@@ -429,15 +432,15 @@ Label.prototype = {
     },
 
     _getConnectorPoints: function() {
-        var that = this,
-            figure = that._figure,
-            options = that._options,
-            strategy = that._strategy || selectStrategy(figure),
-            bBox = that._shiftBBox(that._bBoxWithoutRotation),
-            rotatedBBox = that.getBoundingRect(),
-            labelPoint,
-            points = [],
-            isHorizontal;
+        var that = this;
+        var figure = that._figure;
+        var options = that._options;
+        var strategy = that._strategy || selectStrategy(figure);
+        var bBox = that._shiftBBox(that._bBoxWithoutRotation);
+        var rotatedBBox = that.getBoundingRect();
+        var labelPoint;
+        var points = [];
+        var isHorizontal;
 
         if(!strategy.isLabelInside(bBox, figure, options.position !== "inside")) {
             isHorizontal = strategy.isHorizontal(bBox, figure);

@@ -2,8 +2,8 @@ var ko = require("knockout");
 
 // Check availability in global environment
 if(ko) {
-    var errors = require("../core/errors"),
-        compareVersion = require("../core/utils/version").compare;
+    var errors = require("../core/errors");
+    var compareVersion = require("../core/utils/version").compare;
     if(compareVersion(ko.version, [2, 3]) < 0) {
         throw errors.Error("E0013");
     }

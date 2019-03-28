@@ -1,14 +1,13 @@
-var $ = require("../../../core/renderer"),
-    registerComponent = require("../../../core/component_registrator"),
-    extend = require("../../../core/utils/extend").extend,
-    publisherMixin = require("../ui.scheduler.publisher_mixin"),
-    messageLocalization = require("../../../localization/message"),
-    Editor = require("../../editor/editor"),
-    SelectBox = require("../../select_box");
-
-var TIMEZONE_EDITOR_CLASS = "dx-timezone-editor",
-    TIMEZONE_DISPLAY_NAME_SELECTBOX_CLASS = "dx-timezone-display-name",
-    TIMEZONE_IANA_ID_SELECTBOX_CLASS = "dx-timezone-iana-id";
+var $ = require("../../../core/renderer");
+var registerComponent = require("../../../core/component_registrator");
+var extend = require("../../../core/utils/extend").extend;
+var publisherMixin = require("../ui.scheduler.publisher_mixin");
+var messageLocalization = require("../../../localization/message");
+var Editor = require("../../editor/editor");
+var SelectBox = require("../../select_box");
+var TIMEZONE_EDITOR_CLASS = "dx-timezone-editor";
+var TIMEZONE_DISPLAY_NAME_SELECTBOX_CLASS = "dx-timezone-display-name";
+var TIMEZONE_IANA_ID_SELECTBOX_CLASS = "dx-timezone-iana-id";
 
 var SchedulerTimezoneEditor = Editor.inherit({
     _getDefaultOptions: function() {
@@ -37,8 +36,8 @@ var SchedulerTimezoneEditor = Editor.inherit({
     },
 
     _renderDisplayNameEditor: function() {
-        var noTzTitle = messageLocalization.format("dxScheduler-noTimezoneTitle"),
-            value = this.invoke("getTimezoneDisplayNameById", this.option("value")) || noTzTitle;
+        var noTzTitle = messageLocalization.format("dxScheduler-noTimezoneTitle");
+        var value = this.invoke("getTimezoneDisplayNameById", this.option("value")) || noTzTitle;
 
         this._displayNameEditor = this._renderSelectBox(TIMEZONE_DISPLAY_NAME_SELECTBOX_CLASS, {
             items: [noTzTitle].concat(this.invoke("getTimezonesDisplayName")),
@@ -68,8 +67,8 @@ var SchedulerTimezoneEditor = Editor.inherit({
 
     _renderSelectBox: function(cssClass, options) {
         options = options || {};
-        var $element = $("<div>").addClass(cssClass),
-            selectBox = this._createComponent($element, SelectBox, options);
+        var $element = $("<div>").addClass(cssClass);
+        var selectBox = this._createComponent($element, SelectBox, options);
 
         this.$element().append($element);
 
@@ -85,8 +84,8 @@ var SchedulerTimezoneEditor = Editor.inherit({
     },
 
     _processDisplayNameChanging: function(displayName) {
-        var tzIds = this.invoke("getTimezonesIdsByDisplayName", displayName),
-            tzId = tzIds.length ? tzIds[0].id : null;
+        var tzIds = this.invoke("getTimezonesIdsByDisplayName", displayName);
+        var tzId = tzIds.length ? tzIds[0].id : null;
 
         this.option("value", tzId);
 

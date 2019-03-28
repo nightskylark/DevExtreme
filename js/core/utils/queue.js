@@ -1,16 +1,16 @@
-var errors = require("../errors"),
-    when = require("../../core/utils/deferred").when;
+var errors = require("../errors");
+var when = require("../../core/utils/deferred").when;
 
 function createQueue(discardPendingTasks) {
-    var _tasks = [],
-        _busy = false;
+    var _tasks = [];
+    var _busy = false;
 
     function exec() {
         while(_tasks.length) {
             _busy = true;
 
-            var task = _tasks.shift(),
-                result = task();
+            var task = _tasks.shift();
+            var result = task();
 
             if(result === undefined) {
                 continue;

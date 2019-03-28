@@ -38,16 +38,17 @@ exports.plugin = {
         },
 
         _showTooltip: function(index, coords) {
-            var that = this,
-                tooltip = that._tooltip,
-                item = that._items[index],
-                state = that._tooltipIndex === index || tooltip.show({
-                    value: item.value,
-                    valueText: tooltip.formatValue(item.value),
-                    percentText: tooltip.formatValue(item.percent, "percent"),
-                    percent: item.percent,
-                    item: item
-                }, { x: 0, y: 0, offset: 0 }, { item: item });
+            var that = this;
+            var tooltip = that._tooltip;
+            var item = that._items[index];
+
+            var state = that._tooltipIndex === index || tooltip.show({
+                value: item.value,
+                valueText: tooltip.formatValue(item.value),
+                percentText: tooltip.formatValue(item.percent, "percent"),
+                percent: item.percent,
+                item: item
+            }, { x: 0, y: 0, offset: 0 }, { item: item });
 
             if(state) {
                 that._moveTooltip(item, coords);

@@ -1,25 +1,24 @@
-var isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend;
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
 
 function getPathStyle(options) {
     return { stroke: options.color, "stroke-width": options.width, "stroke-opacity": options.opacity, opacity: 1 };
 }
 
 function createTick(axis, renderer, tickOptions, gridOptions, skippedCategory, skipLabels, offset) {
-    var tickOffset = offset || axis._tickOffset,
-        lineGroup = axis._axisLineGroup,
-        elementsGroup = axis._axisElementsGroup,
-        tickStyle = getPathStyle(tickOptions),
-        gridStyle = getPathStyle(gridOptions),
-        emptyStrRegExp = /^\s+$/,
-
-        axisOptions = axis.getOptions(),
-        labelOptions = axisOptions.label,
-        labelStyle = axis._textOptions;
+    var tickOffset = offset || axis._tickOffset;
+    var lineGroup = axis._axisLineGroup;
+    var elementsGroup = axis._axisElementsGroup;
+    var tickStyle = getPathStyle(tickOptions);
+    var gridStyle = getPathStyle(gridOptions);
+    var emptyStrRegExp = /^\s+$/;
+    var axisOptions = axis.getOptions();
+    var labelOptions = axisOptions.label;
+    var labelStyle = axis._textOptions;
 
     function getLabelFontStyle(tick) {
-        var fontStyle = axis._textFontStyles,
-            customizeColor = labelOptions.customizeColor;
+        var fontStyle = axis._textFontStyles;
+        var customizeColor = labelOptions.customizeColor;
 
         if(customizeColor && customizeColor.call) {
             fontStyle = extend({}, axis._textFontStyles, { fill: customizeColor.call(tick, tick) });

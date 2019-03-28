@@ -1,54 +1,51 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    commonUtils = require("../../core/utils/common"),
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    domAdapter = require("../../core/dom_adapter"),
-    isPlainObject = require("../../core/utils/type").isPlainObject,
-    when = require("../../core/utils/deferred").when,
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    iteratorUtils = require("../../core/utils/iterator"),
-    isFunction = require("../../core/utils/type").isFunction,
-    Action = require("../../core/action"),
-    Guid = require("../../core/guid"),
-    domUtils = require("../../core/utils/dom"),
-    dataUtils = require("../../core/utils/data"),
-    Widget = require("../widget/ui.widget"),
-    eventUtils = require("../../events/utils"),
-    pointerEvents = require("../../events/pointer"),
-    DataHelperMixin = require("../../data_helper"),
-    CollectionWidgetItem = require("./item"),
-    selectors = require("../widget/selectors"),
-    messageLocalization = require("../../localization/message"),
-    holdEvent = require("../../events/hold"),
-    compileGetter = require("../../core/utils/data").compileGetter,
-    clickEvent = require("../../events/click"),
-    contextMenuEvent = require("../../events/contextmenu"),
-    BindableTemplate = require("../widget/bindable_template");
-
-var COLLECTION_CLASS = "dx-collection",
-    ITEM_CLASS = "dx-item",
-    CONTENT_CLASS_POSTFIX = "-content",
-    ITEM_CONTENT_PLACEHOLDER_CLASS = "dx-item-content-placeholder",
-    ITEM_DATA_KEY = "dxItemData",
-    ITEM_INDEX_KEY = "dxItemIndex",
-    ITEM_TEMPLATE_ID_PREFIX = "tmpl-",
-    ITEMS_SELECTOR = "[data-options*='dxItem']",
-    SELECTED_ITEM_CLASS = "dx-item-selected",
-    ITEM_RESPONSE_WAIT_CLASS = "dx-item-response-wait",
-    EMPTY_COLLECTION = "dx-empty-collection",
-    TEMPLATE_WRAPPER_CLASS = "dx-template-wrapper",
-
-    ITEM_PATH_REGEX = /^([^.]+\[\d+\]\.)+([\w.]+)$/;
-
-var FOCUS_UP = "up",
-    FOCUS_DOWN = "down",
-    FOCUS_LEFT = "left",
-    FOCUS_RIGHT = "right",
-    FOCUS_PAGE_UP = "pageup",
-    FOCUS_PAGE_DOWN = "pagedown",
-    FOCUS_LAST = "last",
-    FOCUS_FIRST = "first";
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var commonUtils = require("../../core/utils/common");
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var domAdapter = require("../../core/dom_adapter");
+var isPlainObject = require("../../core/utils/type").isPlainObject;
+var when = require("../../core/utils/deferred").when;
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var iteratorUtils = require("../../core/utils/iterator");
+var isFunction = require("../../core/utils/type").isFunction;
+var Action = require("../../core/action");
+var Guid = require("../../core/guid");
+var domUtils = require("../../core/utils/dom");
+var dataUtils = require("../../core/utils/data");
+var Widget = require("../widget/ui.widget");
+var eventUtils = require("../../events/utils");
+var pointerEvents = require("../../events/pointer");
+var DataHelperMixin = require("../../data_helper");
+var CollectionWidgetItem = require("./item");
+var selectors = require("../widget/selectors");
+var messageLocalization = require("../../localization/message");
+var holdEvent = require("../../events/hold");
+var compileGetter = require("../../core/utils/data").compileGetter;
+var clickEvent = require("../../events/click");
+var contextMenuEvent = require("../../events/contextmenu");
+var BindableTemplate = require("../widget/bindable_template");
+var COLLECTION_CLASS = "dx-collection";
+var ITEM_CLASS = "dx-item";
+var CONTENT_CLASS_POSTFIX = "-content";
+var ITEM_CONTENT_PLACEHOLDER_CLASS = "dx-item-content-placeholder";
+var ITEM_DATA_KEY = "dxItemData";
+var ITEM_INDEX_KEY = "dxItemIndex";
+var ITEM_TEMPLATE_ID_PREFIX = "tmpl-";
+var ITEMS_SELECTOR = "[data-options*='dxItem']";
+var SELECTED_ITEM_CLASS = "dx-item-selected";
+var ITEM_RESPONSE_WAIT_CLASS = "dx-item-response-wait";
+var EMPTY_COLLECTION = "dx-empty-collection";
+var TEMPLATE_WRAPPER_CLASS = "dx-template-wrapper";
+var ITEM_PATH_REGEX = /^([^.]+\[\d+\]\.)+([\w.]+)$/;
+var FOCUS_UP = "up";
+var FOCUS_DOWN = "down";
+var FOCUS_LEFT = "left";
+var FOCUS_RIGHT = "right";
+var FOCUS_PAGE_UP = "pageup";
+var FOCUS_PAGE_DOWN = "pagedown";
+var FOCUS_LAST = "last";
+var FOCUS_FIRST = "first";
 
 /**
 * @name CollectionWidget
@@ -74,16 +71,19 @@ var CollectionWidget = Widget.inherit({
                 e.currentTarget = $itemElement;
 
                 this._itemClickHandler(e);
-            },
-            space = function(e) {
-                e.preventDefault();
-                enter.call(this, e);
-            },
-            move = function(location, e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this._moveFocus(location, e);
             };
+
+        var space = function(e) {
+            e.preventDefault();
+            enter.call(this, e);
+        };
+
+        var move = function(location, e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this._moveFocus(location, e);
+        };
+
         return extend(this.callBase(), {
             space: space,
             enter: enter,
@@ -394,9 +394,9 @@ var CollectionWidget = Widget.inherit({
             return $focusedElement;
         }
 
-        var index = this.option("focusOnSelectedItem") ? this.option("selectedIndex") : 0,
-            activeElements = this._getActiveElement(),
-            lastIndex = activeElements.length - 1;
+        var index = this.option("focusOnSelectedItem") ? this.option("selectedIndex") : 0;
+        var activeElements = this._getActiveElement();
+        var lastIndex = activeElements.length - 1;
 
         if(index < 0) {
             index = last ? lastIndex : 0;
@@ -412,8 +412,8 @@ var CollectionWidget = Widget.inherit({
     },
 
     _moveFocus: function(location) {
-        var $items = this._getAvailableItems(),
-            $newTarget;
+        var $items = this._getAvailableItems();
+        var $newTarget;
 
         switch(location) {
             case FOCUS_PAGE_UP:
@@ -455,11 +455,11 @@ var CollectionWidget = Widget.inherit({
     },
 
     _prevItem: function($items) {
-        var $target = this._getActiveItem(),
-            targetIndex = $items.index($target),
-            $last = $items.last(),
-            $item = $($items[targetIndex - 1]),
-            loop = this.option("loopItemFocus");
+        var $target = this._getActiveItem();
+        var targetIndex = $items.index($target);
+        var $last = $items.last();
+        var $item = $($items[targetIndex - 1]);
+        var loop = this.option("loopItemFocus");
 
         if($item.length === 0 && loop) {
             $item = $last;
@@ -469,11 +469,11 @@ var CollectionWidget = Widget.inherit({
     },
 
     _nextItem: function($items) {
-        var $target = this._getActiveItem(true),
-            targetIndex = $items.index($target),
-            $first = $items.first(),
-            $item = $($items[targetIndex + 1]),
-            loop = this.option("loopItemFocus");
+        var $target = this._getActiveItem(true);
+        var targetIndex = $items.index($target);
+        var $first = $items.first();
+        var $item = $($items[targetIndex + 1]);
+        var loop = this.option("loopItemFocus");
 
         if($item.length === 0 && loop) {
             $item = $first;
@@ -516,8 +516,8 @@ var CollectionWidget = Widget.inherit({
     },
 
     _findItemElementByItem: function(item) {
-        var result = $(),
-            that = this;
+        var result = $();
+        var that = this;
 
         this.itemElements().each(function() {
             var $item = $(this);
@@ -545,8 +545,8 @@ var CollectionWidget = Widget.inherit({
     },
 
     _refreshItem: function($item) {
-        var itemData = this._getItemData($item),
-            index = $item.data(this._itemIndexKey());
+        var itemData = this._getItemData($item);
+        var index = $item.data(this._itemIndexKey());
         this._renderItem(this._renderedItemsCount + index, itemData, null, $item);
     },
 
@@ -555,9 +555,9 @@ var CollectionWidget = Widget.inherit({
             var matches = args.fullName.match(ITEM_PATH_REGEX);
 
             if(matches && matches.length) {
-                var property = matches[matches.length - 1],
-                    itemPath = args.fullName.replace("." + property, ""),
-                    item = this.option(itemPath);
+                var property = matches[matches.length - 1];
+                var itemPath = args.fullName.replace("." + property, "");
+                var item = this.option(itemPath);
 
                 this._itemOptionChanged(item, property, args.value, args.previousValue);
                 return;
@@ -755,10 +755,10 @@ var CollectionWidget = Widget.inherit({
     },
 
     _attachClickEvent: function() {
-        var itemSelector = this._itemSelector(),
-            clickEventNamespace = eventUtils.addNamespace(clickEvent.name, this.NAME),
-            pointerDownEventNamespace = eventUtils.addNamespace(pointerEvents.down, this.NAME),
-            that = this;
+        var itemSelector = this._itemSelector();
+        var clickEventNamespace = eventUtils.addNamespace(clickEvent.name, this.NAME);
+        var pointerDownEventNamespace = eventUtils.addNamespace(pointerEvents.down, this.NAME);
+        var that = this;
 
         var pointerDownAction = new Action(function(args) {
             var event = args.event;
@@ -793,9 +793,9 @@ var CollectionWidget = Widget.inherit({
                 return;
             }
 
-            var $target = $(e.target),
-                $closestItem = $target.closest(this._itemElements()),
-                $closestFocusable = this._closestFocusable($target);
+            var $target = $(e.target);
+            var $closestItem = $target.closest(this._itemElements());
+            var $closestFocusable = this._closestFocusable($target);
 
             if($closestItem.length && $closestFocusable && inArray($closestFocusable.get(0), this._focusTarget()) !== -1) {
                 this.option("focusedElement", getPublicElement($closestItem));
@@ -831,9 +831,9 @@ var CollectionWidget = Widget.inherit({
     },
 
     _attachHoldEvent: function() {
-        var $itemContainer = this._itemContainer(),
-            itemSelector = this._itemSelector(),
-            eventName = eventUtils.addNamespace(holdEvent.name, this.NAME);
+        var $itemContainer = this._itemContainer();
+        var itemSelector = this._itemSelector();
+        var eventName = eventUtils.addNamespace(holdEvent.name, this.NAME);
 
         eventsEngine.off($itemContainer, eventName, itemSelector);
         eventsEngine.on($itemContainer, eventName, itemSelector, { timeout: this._getHoldTimeout() }, this._itemHoldHandler.bind(this));
@@ -856,9 +856,9 @@ var CollectionWidget = Widget.inherit({
     },
 
     _attachContextMenuEvent: function() {
-        var $itemContainer = this._itemContainer(),
-            itemSelector = this._itemSelector(),
-            eventName = eventUtils.addNamespace(contextMenuEvent.name, this.NAME);
+        var $itemContainer = this._itemContainer();
+        var itemSelector = this._itemSelector();
+        var eventName = eventUtils.addNamespace(contextMenuEvent.name, this.NAME);
 
         eventsEngine.off($itemContainer, eventName, itemSelector);
         eventsEngine.on($itemContainer, eventName, itemSelector, this._itemContextMenuHandler.bind(this));
@@ -998,8 +998,8 @@ var CollectionWidget = Widget.inherit({
                 return that.option("integrationOptions.watchMethod");
             },
             fieldGetter: function(field) {
-                var expr = that.option(field + "Expr"),
-                    getter = dataUtils.compileGetter(expr);
+                var expr = that.option(field + "Expr");
+                var getter = dataUtils.compileGetter(expr);
 
                 return getter;
             }
@@ -1036,9 +1036,9 @@ var CollectionWidget = Widget.inherit({
     },
 
     _getItemTemplateName: function(args) {
-        var data = args.itemData,
-            templateProperty = args.templateProperty || this.option("itemTemplateProperty"),
-            template = data && data[templateProperty];
+        var data = args.itemData;
+        var templateProperty = args.templateProperty || this.option("itemTemplateProperty");
+        var template = data && data[templateProperty];
 
         return template || args.defaultTemplateName;
     },
@@ -1057,8 +1057,8 @@ var CollectionWidget = Widget.inherit({
 
     _renderEmptyMessage: function(items) {
         items = items || this.option("items");
-        var noDataText = this.option("noDataText"),
-            hideNoData = !noDataText || (items && items.length) || this._isDataSourceLoading();
+        var noDataText = this.option("noDataText");
+        var hideNoData = !noDataText || (items && items.length) || this._isDataSourceLoading();
 
         if(hideNoData && this._$noData) {
             this._$noData.remove();
@@ -1097,8 +1097,8 @@ var CollectionWidget = Widget.inherit({
     },
 
     _itemEventHandlerImpl: function(initiator, action, actionArgs) {
-        var $itemElement = this._closestItemElement($(initiator)),
-            args = extend({}, actionArgs);
+        var $itemElement = this._closestItemElement($(initiator));
+        var args = extend({}, actionArgs);
 
         return action(extend(actionArgs, this._extendActionArgs($itemElement), args));
     },

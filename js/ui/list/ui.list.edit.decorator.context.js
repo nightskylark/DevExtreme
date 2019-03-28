@@ -1,13 +1,12 @@
-var $ = require("../../core/renderer"),
-    EditDecoratorMenuHelperMixin = require("./ui.list.edit.decorator_menu_helper"),
-    messageLocalization = require("../../localization/message"),
-    registerDecorator = require("./ui.list.edit.decorator_registry").register,
-    EditDecorator = require("./ui.list.edit.decorator"),
-    Overlay = require("../overlay"),
-    ListBase = require("./ui.list.base");
-
-var CONTEXTMENU_CLASS = "dx-list-context-menu",
-    CONTEXTMENU_MENUCONTENT_CLASS = "dx-list-context-menucontent";
+var $ = require("../../core/renderer");
+var EditDecoratorMenuHelperMixin = require("./ui.list.edit.decorator_menu_helper");
+var messageLocalization = require("../../localization/message");
+var registerDecorator = require("./ui.list.edit.decorator_registry").register;
+var EditDecorator = require("./ui.list.edit.decorator");
+var Overlay = require("../overlay");
+var ListBase = require("./ui.list.base");
+var CONTEXTMENU_CLASS = "dx-list-context-menu";
+var CONTEXTMENU_MENUCONTENT_CLASS = "dx-list-context-menucontent";
 
 registerDecorator(
     "menu",

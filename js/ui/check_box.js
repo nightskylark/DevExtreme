@@ -1,22 +1,21 @@
-var $ = require("../core/renderer"),
-    eventsEngine = require("../events/core/events_engine"),
-    devices = require("../core/devices"),
-    extend = require("../core/utils/extend").extend,
-    inkRipple = require("./widget/utils.ink_ripple"),
-    Editor = require("./editor/editor"),
-    registerComponent = require("../core/component_registrator"),
-    eventUtils = require("../events/utils"),
-    themes = require("./themes"),
-    clickEvent = require("../events/click");
-
-var CHECKBOX_CLASS = "dx-checkbox",
-    CHECKBOX_ICON_CLASS = "dx-checkbox-icon",
-    CHECKBOX_CHECKED_CLASS = "dx-checkbox-checked",
-    CHECKBOX_CONTAINER_CLASS = "dx-checkbox-container",
-    CHECKBOX_TEXT_CLASS = "dx-checkbox-text",
-    CHECKBOX_HAS_TEXT_CLASS = "dx-checkbox-has-text",
-    CHECKBOX_INDETERMINATE_CLASS = "dx-checkbox-indeterminate",
-    CHECKBOX_FEEDBACK_HIDE_TIMEOUT = 100;
+var $ = require("../core/renderer");
+var eventsEngine = require("../events/core/events_engine");
+var devices = require("../core/devices");
+var extend = require("../core/utils/extend").extend;
+var inkRipple = require("./widget/utils.ink_ripple");
+var Editor = require("./editor/editor");
+var registerComponent = require("../core/component_registrator");
+var eventUtils = require("../events/utils");
+var themes = require("./themes");
+var clickEvent = require("../events/click");
+var CHECKBOX_CLASS = "dx-checkbox";
+var CHECKBOX_ICON_CLASS = "dx-checkbox-icon";
+var CHECKBOX_CHECKED_CLASS = "dx-checkbox-checked";
+var CHECKBOX_CONTAINER_CLASS = "dx-checkbox-container";
+var CHECKBOX_TEXT_CLASS = "dx-checkbox-text";
+var CHECKBOX_HAS_TEXT_CLASS = "dx-checkbox-has-text";
+var CHECKBOX_INDETERMINATE_CLASS = "dx-checkbox-indeterminate";
+var CHECKBOX_FEEDBACK_HIDE_TIMEOUT = 100;
 
 /**
 * @name dxCheckBox
@@ -214,8 +213,8 @@ var CheckBox = Editor.inherit({
     },
 
     _renderClick: function() {
-        var that = this,
-            eventName = eventUtils.addNamespace(clickEvent.name, that.NAME);
+        var that = this;
+        var eventName = eventUtils.addNamespace(clickEvent.name, that.NAME);
 
         that._clickAction = that._createAction(that._clickHandler);
 
@@ -233,9 +232,9 @@ var CheckBox = Editor.inherit({
     },
 
     _renderValue: function() {
-        var $element = this.$element(),
-            checked = this.option("value"),
-            indeterminate = checked === undefined;
+        var $element = this.$element();
+        var checked = this.option("value");
+        var indeterminate = checked === undefined;
 
         $element.toggleClass(CHECKBOX_CHECKED_CLASS, Boolean(checked));
         $element.toggleClass(CHECKBOX_INDETERMINATE_CLASS, indeterminate);

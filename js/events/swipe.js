@@ -1,10 +1,9 @@
-var eventUtils = require("./utils"),
-    GestureEmitter = require("./gesture/emitter.gesture"),
-    registerEmitter = require("./core/emitter_registrator");
-
-var SWIPE_START_EVENT = "dxswipestart",
-    SWIPE_EVENT = "dxswipe",
-    SWIPE_END_EVENT = "dxswipeend";
+var eventUtils = require("./utils");
+var GestureEmitter = require("./gesture/emitter.gesture");
+var registerEmitter = require("./core/emitter_registrator");
+var SWIPE_START_EVENT = "dxswipestart";
+var SWIPE_EVENT = "dxswipe";
+var SWIPE_END_EVENT = "dxswipeend";
 
 
 var HorizontalStrategy = {
@@ -101,9 +100,9 @@ var SwipeEmitter = GestureEmitter.inherit({
     },
 
     _move: function(e) {
-        var strategy = this._getStrategy(),
-            moveEventData = eventUtils.eventData(e),
-            offset = strategy.calcOffsetRatio.call(this, e);
+        var strategy = this._getStrategy();
+        var moveEventData = eventUtils.eventData(e);
+        var offset = strategy.calcOffsetRatio.call(this, e);
 
         offset = this._fitOffset(offset, this.elastic);
 
@@ -119,11 +118,11 @@ var SwipeEmitter = GestureEmitter.inherit({
     },
 
     _end: function(e) {
-        var strategy = this._getStrategy(),
-            offsetRatio = strategy.calcOffsetRatio.call(this, e),
-            isFast = strategy.isFastSwipe.call(this, e),
-            startOffset = offsetRatio,
-            targetOffset = this._calcTargetOffset(offsetRatio, isFast);
+        var strategy = this._getStrategy();
+        var offsetRatio = strategy.calcOffsetRatio.call(this, e);
+        var isFast = strategy.isFastSwipe.call(this, e);
+        var startOffset = offsetRatio;
+        var targetOffset = this._calcTargetOffset(offsetRatio, isFast);
 
         startOffset = this._fitOffset(startOffset, this.elastic);
         targetOffset = this._fitOffset(targetOffset, false);
@@ -135,8 +134,8 @@ var SwipeEmitter = GestureEmitter.inherit({
     },
 
     _fitOffset: function(offset, elastic) {
-        var strategy = this._getStrategy(),
-            bounds = strategy.getBounds.call(this);
+        var strategy = this._getStrategy();
+        var bounds = strategy.getBounds.call(this);
 
         if(offset < -bounds[0]) {
             return elastic ? (-2 * bounds[0] + offset) / 3 : -bounds[0];

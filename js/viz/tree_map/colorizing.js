@@ -1,8 +1,7 @@
-var _normalizeEnum = require("../core/utils").normalizeEnum,
-    _noop = require("../../core/utils/common").noop,
-
-    colorizers = {},
-    defaultColorizerName;
+var _normalizeEnum = require("../core/utils").normalizeEnum;
+var _noop = require("../../core/utils/common").noop;
+var colorizers = {};
+var defaultColorizerName;
 
 function wrapLeafColorGetter(getter) {
     return function(node) {
@@ -19,8 +18,8 @@ function wrapGroupColorGetter(getter) {
 }
 
 exports.getColorizer = function(options, themeManager, root) {
-    var type = _normalizeEnum(options.type || defaultColorizerName),
-        colorizer = colorizers[type] && colorizers[type](options, themeManager, root);
+    var type = _normalizeEnum(options.type || defaultColorizerName);
+    var colorizer = colorizers[type] && colorizers[type](options, themeManager, root);
 
     return colorizer ? (options.colorizeGroups ? wrapGroupColorGetter : wrapLeafColorGetter)(colorizer) : _noop;
 };

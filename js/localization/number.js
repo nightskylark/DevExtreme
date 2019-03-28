@@ -1,14 +1,13 @@
-var dependencyInjector = require("../core/utils/dependency_injector"),
-    inArray = require("../core/utils/array").inArray,
-    escapeRegExp = require("../core/utils/common").escapeRegExp,
-    each = require("../core/utils/iterator").each,
-    isPlainObject = require("../core/utils/type").isPlainObject,
-    ldmlNumber = require("./ldml/number"),
-    config = require("../core/config"),
-    errors = require("../core/errors");
-
-var MAX_LARGE_NUMBER_POWER = 4,
-    DECIMAL_BASE = 10;
+var dependencyInjector = require("../core/utils/dependency_injector");
+var inArray = require("../core/utils/array").inArray;
+var escapeRegExp = require("../core/utils/common").escapeRegExp;
+var each = require("../core/utils/iterator").each;
+var isPlainObject = require("../core/utils/type").isPlainObject;
+var ldmlNumber = require("./ldml/number");
+var config = require("../core/config");
+var errors = require("../core/errors");
+var MAX_LARGE_NUMBER_POWER = 4;
+var DECIMAL_BASE = 10;
 
 var NUMERIC_FORMATS = ["currency", "fixedpoint", "exponential", "percent", "decimal"];
 
@@ -33,8 +32,8 @@ var numberLocalization = dependencyInjector({
     defaultLargeNumberFormatPostfixes: LargeNumberFormatPostfixes,
 
     _parseNumberFormatString: function(formatType) {
-        var formatList,
-            formatObject = {};
+        var formatList;
+        var formatObject = {};
 
         if(!formatType || typeof formatType !== 'string') return;
 
@@ -57,8 +56,8 @@ var numberLocalization = dependencyInjector({
     },
 
     _calculateNumberPower: function(value, base, minPower, maxPower) {
-        var number = Math.abs(value),
-            power = 0;
+        var number = Math.abs(value);
+        var power = 0;
 
         if(number > 1) {
             while(number && number >= base && (maxPower === undefined || power < maxPower)) {
@@ -111,9 +110,9 @@ var numberLocalization = dependencyInjector({
     },
 
     _formatNumberExponential: function(value, formatConfig) {
-        var power = this._calculateNumberPower(value, DECIMAL_BASE),
-            number = this._getNumberByPower(value, power, DECIMAL_BASE),
-            powString;
+        var power = this._calculateNumberPower(value, DECIMAL_BASE);
+        var number = this._getNumberByPower(value, power, DECIMAL_BASE);
+        var powString;
 
         if(formatConfig.precision === undefined) {
             formatConfig.precision = 1;
@@ -223,10 +222,10 @@ var numberLocalization = dependencyInjector({
             return value;
         }
 
-        var fromFirstDigit = toStandard ? digits[1] : "0",
-            toFirstDigit = toStandard ? "0" : digits[1],
-            fromLastDigit = toStandard ? digits[0] : "9",
-            regExp = new RegExp("[" + fromFirstDigit + "-" + fromLastDigit + "]", "g");
+        var fromFirstDigit = toStandard ? digits[1] : "0";
+        var toFirstDigit = toStandard ? "0" : digits[1];
+        var fromLastDigit = toStandard ? digits[0] : "9";
+        var regExp = new RegExp("[" + fromFirstDigit + "-" + fromLastDigit + "]", "g");
 
         return value.replace(regExp, function(char) {
             return String.fromCharCode(char.charCodeAt(0) + (toFirstDigit.charCodeAt(0) - fromFirstDigit.charCodeAt(0)));
@@ -241,10 +240,10 @@ var numberLocalization = dependencyInjector({
             return 1;
         }
 
-        var separators = this._getSeparators(),
-            regExp = new RegExp("[0-9" + escapeRegExp(separators.decimalSeparator + separators.thousandsSeparator) + "]+", "g"),
-            negativeEtalon = this.format(-1, format).replace(regExp, "1"),
-            cleanedText = text.replace(regExp, "1");
+        var separators = this._getSeparators();
+        var regExp = new RegExp("[0-9" + escapeRegExp(separators.decimalSeparator + separators.thousandsSeparator) + "]+", "g");
+        var negativeEtalon = this.format(-1, format).replace(regExp, "1");
+        var cleanedText = text.replace(regExp, "1");
 
         return cleanedText === negativeEtalon ? -1 : 1;
     },
@@ -294,13 +293,15 @@ var numberLocalization = dependencyInjector({
             errors.log("W0011");
         }
 
-        var decimalSeparator = this.getDecimalSeparator(),
-            regExp = new RegExp("[^0-9" + escapeRegExp(decimalSeparator) + "]", "g"),
-            cleanedText = text
-                .replace(regExp, "")
-                .replace(decimalSeparator, ".")
-                .replace(/\.$/g, ""),
-            parsed = +cleanedText;
+        var decimalSeparator = this.getDecimalSeparator();
+        var regExp = new RegExp("[^0-9" + escapeRegExp(decimalSeparator) + "]", "g");
+
+        var cleanedText = text
+            .replace(regExp, "")
+            .replace(decimalSeparator, ".")
+            .replace(/\.$/g, "");
+
+        var parsed = +cleanedText;
 
         cleanedText = cleanedText.replace(/^\./g, "");
 

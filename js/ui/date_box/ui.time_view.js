@@ -1,22 +1,21 @@
-var $ = require("../../core/renderer"),
-    Editor = require("../editor/editor"),
-    NumberBox = require("../number_box"),
-    SelectBox = require("../select_box"),
-    Box = require("../box"),
-    extend = require("../../core/utils/extend").extend,
-    registerComponent = require("../../core/component_registrator"),
-    dateLocalization = require("../../localization/date"),
-    uiDateUtils = require("./ui.date_utils");
-
-var TIMEVIEW_CLASS = "dx-timeview",
-    TIMEVIEW_CLOCK_CLASS = "dx-timeview-clock",
-    TIMEVIEW_FIELD_CLASS = "dx-timeview-field",
-    TIMEVIEW_HOURARROW_CLASS = "dx-timeview-hourarrow",
-    TIMEVIEW_TIME_SEPARATOR_CLASS = "dx-timeview-time-separator",
-    TIMEVIEW_FORMAT12_CLASS = "dx-timeview-format12",
-    TIMEVIEW_FORMAT12_AM = -1,
-    TIMEVIEW_FORMAT12_PM = 1,
-    TIMEVIEW_MINUTEARROW_CLASS = "dx-timeview-minutearrow";
+var $ = require("../../core/renderer");
+var Editor = require("../editor/editor");
+var NumberBox = require("../number_box");
+var SelectBox = require("../select_box");
+var Box = require("../box");
+var extend = require("../../core/utils/extend").extend;
+var registerComponent = require("../../core/component_registrator");
+var dateLocalization = require("../../localization/date");
+var uiDateUtils = require("./ui.date_utils");
+var TIMEVIEW_CLASS = "dx-timeview";
+var TIMEVIEW_CLOCK_CLASS = "dx-timeview-clock";
+var TIMEVIEW_FIELD_CLASS = "dx-timeview-field";
+var TIMEVIEW_HOURARROW_CLASS = "dx-timeview-hourarrow";
+var TIMEVIEW_TIME_SEPARATOR_CLASS = "dx-timeview-time-separator";
+var TIMEVIEW_FORMAT12_CLASS = "dx-timeview-format12";
+var TIMEVIEW_FORMAT12_AM = -1;
+var TIMEVIEW_FORMAT12_PM = 1;
+var TIMEVIEW_MINUTEARROW_CLASS = "dx-timeview-minutearrow";
 
 var MAX_HOURS_VALUE = 24;
 
@@ -76,8 +75,8 @@ var TimeView = Editor.inherit({
     },
 
     _renderBox: function() {
-        var $box = $("<div>").appendTo(this.$element()),
-            items = [];
+        var $box = $("<div>").appendTo(this.$element());
+        var items = [];
 
         if(this.option("_showClock")) {
             items.push({
@@ -116,9 +115,9 @@ var TimeView = Editor.inherit({
     },
 
     _updateClock: function() {
-        var time = this._getValue(),
-            hourArrowAngle = time.getHours() / 12 * 360 + time.getMinutes() / 60 * 30,
-            minuteArrowAngle = time.getMinutes() / 60 * 360;
+        var time = this._getValue();
+        var hourArrowAngle = time.getHours() / 12 * 360 + time.getMinutes() / 60 * 30;
+        var minuteArrowAngle = time.getMinutes() / 60 * 360;
 
         rotateArrow(this._$hourArrow, hourArrowAngle, this.option("_arrowOffset"));
         rotateArrow(this._$minuteArrow, minuteArrowAngle, this.option("_arrowOffset"));
@@ -178,8 +177,8 @@ var TimeView = Editor.inherit({
             max: 24,
             value: this._getValue().getHours(),
             onValueChanged: (function(args) {
-                var hours = this._convertMaxHourToMin(args.value),
-                    time = new Date(this._getValue());
+                var hours = this._convertMaxHourToMin(args.value);
+                var time = new Date(this._getValue());
 
                 time.setHours(hours);
                 uiDateUtils.normalizeTime(time);
@@ -223,9 +222,9 @@ var TimeView = Editor.inherit({
             valueExpr: "value",
             displayExpr: "text",
             onValueChanged: (function(args) {
-                var hours = this._getValue().getHours(),
-                    time = new Date(this._getValue()),
-                    newHours = (hours + args.value * 12) % 24;
+                var hours = this._getValue().getHours();
+                var time = new Date(this._getValue());
+                var newHours = (hours + args.value * 12) % 24;
 
                 time.setHours(newHours);
                 this.option("value", time);
@@ -241,9 +240,9 @@ var TimeView = Editor.inherit({
     _refreshFormat12: function() {
         if(this.option("use24HourFormat")) return;
 
-        var value = this._getValue(),
-            hours = value.getHours(),
-            isPM = hours >= 12;
+        var value = this._getValue();
+        var hours = value.getHours();
+        var isPM = hours >= 12;
 
         this._format12._valueChangeActionSuppressed = true;
         this._format12.option("value", isPM ? TIMEVIEW_FORMAT12_PM : TIMEVIEW_FORMAT12_AM);

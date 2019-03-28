@@ -1,26 +1,25 @@
-var noop = require("../../../core/utils/common").noop,
-    Class = require("../../../core/class"),
-    extend = require("../../../core/utils/extend").extend,
-    errors = require("../../widget/ui.errors"),
-    dateUtils = require("../../../core/utils/date"),
-    isNumeric = require("../../../core/utils/type").isNumeric,
-    typeUtils = require("../../../core/utils/type"),
-    themes = require("../../themes");
+var noop = require("../../../core/utils/common").noop;
+var Class = require("../../../core/class");
+var extend = require("../../../core/utils/extend").extend;
+var errors = require("../../widget/ui.errors");
+var dateUtils = require("../../../core/utils/date");
+var isNumeric = require("../../../core/utils/type").isNumeric;
+var typeUtils = require("../../../core/utils/type");
+var themes = require("../../themes");
 
 var toMs = dateUtils.dateToMilliseconds;
 
 var abstract = Class.abstract;
 
-var APPOINTMENT_MIN_COUNT = 1,
-    APPOINTMENT_MIN_SIZE = 2,
-    COMPACT_APPOINTMENT_DEFAULT_SIZE = 15,
-    APPOINTMENT_DEFAULT_HEIGHT = 20,
-    APPOINTMENT_DEFAULT_WIDTH = 40,
-    COMPACT_THEME_APPOINTMENT_DEFAULT_HEIGHT = 18,
-    COMPACT_THEME_APPOINTMENT_DEFAULT_OFFSET = 22,
-    COMPACT_APPOINTMENT_DEFAULT_OFFSET = 3,
-
-    DROP_DOWN_BUTTON_DEFAULT_WIDTH = 24;
+var APPOINTMENT_MIN_COUNT = 1;
+var APPOINTMENT_MIN_SIZE = 2;
+var COMPACT_APPOINTMENT_DEFAULT_SIZE = 15;
+var APPOINTMENT_DEFAULT_HEIGHT = 20;
+var APPOINTMENT_DEFAULT_WIDTH = 40;
+var COMPACT_THEME_APPOINTMENT_DEFAULT_HEIGHT = 18;
+var COMPACT_THEME_APPOINTMENT_DEFAULT_OFFSET = 22;
+var COMPACT_APPOINTMENT_DEFAULT_OFFSET = 3;
+var DROP_DOWN_BUTTON_DEFAULT_WIDTH = 24;
 
 var BaseRenderingStrategy = Class.inherit({
     ctor: function(instance) {
@@ -70,15 +69,15 @@ var BaseRenderingStrategy = Class.inherit({
             map.push(coordinates);
         }
 
-        var positionArray = this._getSortedPositions(map),
-            resultPositions = this._getResultPositions(positionArray);
+        var positionArray = this._getSortedPositions(map);
+        var resultPositions = this._getResultPositions(positionArray);
 
         return this._getExtendedPositionMap(map, resultPositions);
     },
 
     _getDeltaWidth: function(args, initialSize) {
-        var intervalWidth = this.instance.fire("getResizableStep") || this.getAppointmentMinSize(),
-            initialWidth = initialSize.width;
+        var intervalWidth = this.instance.fire("getResizableStep") || this.getAppointmentMinSize();
+        var initialWidth = initialSize.width;
 
         return Math.round((args.width - initialWidth) / intervalWidth);
     },
@@ -102,20 +101,20 @@ var BaseRenderingStrategy = Class.inherit({
     },
 
     _getItemPosition: function(item) {
-        var position = this._getAppointmentCoordinates(item),
-            allDay = this.isAllDay(item),
-            result = [],
-            startDate = new Date(this.instance.fire("getField", "startDate", item)),
-            isRecurring = !!this.instance.fire("getField", "recurrenceRule", item);
+        var position = this._getAppointmentCoordinates(item);
+        var allDay = this.isAllDay(item);
+        var result = [];
+        var startDate = new Date(this.instance.fire("getField", "startDate", item));
+        var isRecurring = !!this.instance.fire("getField", "recurrenceRule", item);
 
         for(var j = 0; j < position.length; j++) {
-            var height = this.calculateAppointmentHeight(item, position[j]),
-                width = this.calculateAppointmentWidth(item, position[j], isRecurring),
-                resultWidth = width,
-                appointmentReduced = null,
-                multiWeekAppointmentParts = [],
-                initialRowIndex = position[j].rowIndex,
-                initialCellIndex = position[j].cellIndex;
+            var height = this.calculateAppointmentHeight(item, position[j]);
+            var width = this.calculateAppointmentWidth(item, position[j], isRecurring);
+            var resultWidth = width;
+            var appointmentReduced = null;
+            var multiWeekAppointmentParts = [];
+            var initialRowIndex = position[j].rowIndex;
+            var initialCellIndex = position[j].cellIndex;
 
             if((this._needVerifyItemSize() || allDay)) {
                 var currentMaxAllowedPosition = position[j].hMax;
@@ -245,9 +244,10 @@ var BaseRenderingStrategy = Class.inherit({
     },
 
     _getSortedPositions: function(arr) {
-        var result = [],
-            // unstable sorting fix
-            __tmpIndex = 0;
+        var result = [];
+
+        var // unstable sorting fix
+        __tmpIndex = 0;
 
         for(var i = 0, arrLength = arr.length; i < arrLength; i++) {
             for(var j = 0, itemLength = arr[i].length; j < itemLength; j++) {
@@ -303,16 +303,16 @@ var BaseRenderingStrategy = Class.inherit({
     _rowCondition: function(a, b) {
         var isSomeEdge = this._isSomeEdge(a, b);
 
-        var columnCondition = this._normalizeCondition(a.left, b.left, isSomeEdge),
-            rowCondition = this._normalizeCondition(a.top, b.top, isSomeEdge);
+        var columnCondition = this._normalizeCondition(a.left, b.left, isSomeEdge);
+        var rowCondition = this._normalizeCondition(a.top, b.top, isSomeEdge);
         return columnCondition ? columnCondition : rowCondition ? rowCondition : a.isStart - b.isStart;
     },
 
     _columnCondition: function(a, b) {
         var isSomeEdge = this._isSomeEdge(a, b);
 
-        var columnCondition = this._normalizeCondition(a.left, b.left, isSomeEdge),
-            rowCondition = this._normalizeCondition(a.top, b.top, isSomeEdge);
+        var columnCondition = this._normalizeCondition(a.left, b.left, isSomeEdge);
+        var rowCondition = this._normalizeCondition(a.top, b.top, isSomeEdge);
         return rowCondition ? rowCondition : columnCondition ? columnCondition : a.isStart - b.isStart;
     },
 
@@ -328,17 +328,17 @@ var BaseRenderingStrategy = Class.inherit({
     },
 
     _getResultPositions: function(sortedArray) {
-        var stack = [],
-            indexes = [],
-            result = [],
-            intersectPositions = [],
-            intersectPositionCount = 0,
-            sortedIndex = 0,
-            position;
+        var stack = [];
+        var indexes = [];
+        var result = [];
+        var intersectPositions = [];
+        var intersectPositionCount = 0;
+        var sortedIndex = 0;
+        var position;
 
         for(var i = 0; i < sortedArray.length; i++) {
-            var current = sortedArray[i],
-                j;
+            var current = sortedArray[i];
+            var j;
 
             if(current.isStart) {
                 position = undefined;
@@ -374,8 +374,8 @@ var BaseRenderingStrategy = Class.inherit({
                     intersectPositionCount = indexes.length;
                 }
             } else {
-                var removeIndex = this._findIndexByKey(stack, "i", "j", current.i, current.j),
-                    resultItem = stack[removeIndex];
+                var removeIndex = this._findIndexByKey(stack, "i", "j", current.i, current.j);
+                var resultItem = stack[removeIndex];
 
                 stack.splice(removeIndex, 1);
 
@@ -392,13 +392,12 @@ var BaseRenderingStrategy = Class.inherit({
                 }
 
                 result.push(resultItem);
-
             }
         }
 
         return result.sort(function(a, b) {
-            var columnCondition = a.j - b.j,
-                rowCondition = a.i - b.i;
+            var columnCondition = a.j - b.j;
+            var rowCondition = a.i - b.i;
             return rowCondition ? rowCondition : columnCondition;
         });
     },
@@ -419,8 +418,8 @@ var BaseRenderingStrategy = Class.inherit({
     },
 
     _getExtendedPositionMap: function(map, positions) {
-        var positionCounter = 0,
-            result = [];
+        var positionCounter = 0;
+        var result = [];
         for(var i = 0, mapLength = map.length; i < mapLength; i++) {
             var resultString = [];
             for(var j = 0, itemLength = map[i].length; j < itemLength; j++) {
@@ -456,9 +455,9 @@ var BaseRenderingStrategy = Class.inherit({
     },
 
     startDate: function(appointment, skipNormalize, position) {
-        var startDate = position && position.startDate,
-            rangeStartDate = this.instance._getStartDate(appointment, skipNormalize),
-            text = this.instance.fire("getField", "text", appointment);
+        var startDate = position && position.startDate;
+        var rangeStartDate = this.instance._getStartDate(appointment, skipNormalize);
+        var text = this.instance.fire("getField", "text", appointment);
 
         if((startDate && rangeStartDate > startDate) || !startDate) {
             startDate = rangeStartDate;
@@ -472,27 +471,26 @@ var BaseRenderingStrategy = Class.inherit({
     },
 
     endDate: function(appointment, position, isRecurring) {
-        var endDate = this.instance._getEndDate(appointment),
-            realStartDate = this.startDate(appointment, true),
-            viewStartDate = this.startDate(appointment, false, position);
+        var endDate = this.instance._getEndDate(appointment);
+        var realStartDate = this.startDate(appointment, true);
+        var viewStartDate = this.startDate(appointment, false, position);
 
         endDate = this._checkWrongEndDate(appointment, realStartDate, endDate);
 
         if(viewStartDate.getTime() > endDate.getTime() || isRecurring) {
-            var recurrencePartStartDate = position ? position.startDate : realStartDate,
-                fullDuration = endDate.getTime() - realStartDate.getTime();
+            var recurrencePartStartDate = position ? position.startDate : realStartDate;
+            var fullDuration = endDate.getTime() - realStartDate.getTime();
 
             fullDuration = this._adjustDurationByDaylightDiff(fullDuration, realStartDate, endDate);
 
             endDate = new Date((viewStartDate.getTime() >= recurrencePartStartDate.getTime() ? recurrencePartStartDate.getTime() : viewStartDate.getTime()) + fullDuration);
 
             if(!dateUtils.sameDate(realStartDate, endDate) && recurrencePartStartDate.getTime() < viewStartDate.getTime()) {
-                var headDuration = dateUtils.trimTime(endDate).getTime() - recurrencePartStartDate.getTime(),
-                    tailDuration = fullDuration - headDuration || fullDuration;
+                var headDuration = dateUtils.trimTime(endDate).getTime() - recurrencePartStartDate.getTime();
+                var tailDuration = fullDuration - headDuration || fullDuration;
 
                 endDate = new Date(dateUtils.trimTime(viewStartDate).getTime() + tailDuration);
             }
-
         }
 
         if(!this.isAllDay(appointment)) {
@@ -598,14 +596,14 @@ var BaseRenderingStrategy = Class.inherit({
     getAppointmentDataCalculator: noop,
 
     _customizeCoordinates: function(coordinates, height, appointmentCountPerCell, topOffset, isAllDay) {
-        var index = coordinates.index,
-            appointmentHeight = height / appointmentCountPerCell,
-            appointmentTop = coordinates.top + (index * appointmentHeight),
-            top = appointmentTop + topOffset,
-            width = coordinates.width,
-            left = coordinates.left,
-            compactAppointmentDefaultSize,
-            compactAppointmentDefaultOffset;
+        var index = coordinates.index;
+        var appointmentHeight = height / appointmentCountPerCell;
+        var appointmentTop = coordinates.top + (index * appointmentHeight);
+        var top = appointmentTop + topOffset;
+        var width = coordinates.width;
+        var left = coordinates.left;
+        var compactAppointmentDefaultSize;
+        var compactAppointmentDefaultOffset;
 
         if(coordinates.isCompact) {
             compactAppointmentDefaultSize = this.getCompactAppointmentDefaultSize();
@@ -654,9 +652,9 @@ var BaseRenderingStrategy = Class.inherit({
     },
 
     _calculateGeometryConfig: function(coordinates) {
-        var overlappingMode = this.instance.fire("getMaxAppointmentsPerCell"),
-            offsets = this._getOffsets(),
-            appointmentDefaultOffset = this._getAppointmentDefaultOffset();
+        var overlappingMode = this.instance.fire("getMaxAppointmentsPerCell");
+        var offsets = this._getOffsets();
+        var appointmentDefaultOffset = this._getAppointmentDefaultOffset();
 
         var appointmentCountPerCell = this._getAppointmentCount(overlappingMode, coordinates);
         var ratio = this._getDefaultRatio(coordinates, appointmentCountPerCell);
@@ -699,8 +697,8 @@ var BaseRenderingStrategy = Class.inherit({
 
     _getMaxAppointmentCountPerCell: function() {
         if(!this._maxAppointmentCountPerCell) {
-            var overlappingMode = this.instance.fire("getMaxAppointmentsPerCell"),
-                appointmentCountPerCell;
+            var overlappingMode = this.instance.fire("getMaxAppointmentsPerCell");
+            var appointmentCountPerCell;
 
             if(!overlappingMode) {
                 appointmentCountPerCell = 2;

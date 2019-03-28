@@ -1,18 +1,18 @@
-var extend = require("../../../core/utils/extend").extend,
-    isNumeric = require("../../../core/utils/type").isNumeric,
-    candlestickPoint = require("./candlestick_point"),
-    _extend = extend,
-    _isNumeric = isNumeric;
+var extend = require("../../../core/utils/extend").extend;
+var isNumeric = require("../../../core/utils/type").isNumeric;
+var candlestickPoint = require("./candlestick_point");
+var _extend = extend;
+var _isNumeric = isNumeric;
 
 module.exports = _extend({}, candlestickPoint, {
     _getPoints: function() {
-        var that = this,
-            createPoint = that._options.rotated ? function(x, y) { return [y, x]; } : function(x, y) { return [x, y]; },
-            openYExist = _isNumeric(that.openY),
-            closeYExist = _isNumeric(that.closeY),
-            x = that.x,
-            width = that.width,
-            points;
+        var that = this;
+        var createPoint = that._options.rotated ? function(x, y) { return [y, x]; } : function(x, y) { return [x, y]; };
+        var openYExist = _isNumeric(that.openY);
+        var closeYExist = _isNumeric(that.closeY);
+        var x = that.x;
+        var width = that.width;
+        var points;
 
         points = [].concat(createPoint(x, that.highY));
         openYExist && (points = points.concat(createPoint(x, that.openY)));

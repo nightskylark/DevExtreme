@@ -1,7 +1,7 @@
-var $ = require("../../core/renderer"),
-    isDefined = require("../../core/utils/type").isDefined,
-    browser = require("../../core/utils/browser"),
-    domAdapter = require("../../core/dom_adapter");
+var $ = require("../../core/renderer");
+var isDefined = require("../../core/utils/type").isDefined;
+var browser = require("../../core/utils/browser");
+var domAdapter = require("../../core/dom_adapter");
 
 var isFocusingOnCaretChange = browser.msie || browser.safari;
 

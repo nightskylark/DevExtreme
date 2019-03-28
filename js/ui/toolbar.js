@@ -1,16 +1,16 @@
-var $ = require("../core/renderer"),
-    themes = require("./themes"),
-    registerComponent = require("../core/component_registrator"),
-    grep = require("../core/utils/common").grep,
-    extend = require("../core/utils/extend").extend,
-    arrayUtils = require("../core/utils/array"),
-    iteratorUtils = require("../core/utils/iterator"),
-    ActionSheetStrategy = require("./toolbar/ui.toolbar.strategy.action_sheet"),
-    DropDownMenuStrategy = require("./toolbar/ui.toolbar.strategy.drop_down_menu"),
-    ListBottomStrategy = require("./toolbar/ui.toolbar.strategy.list_bottom"),
-    ListTopStrategy = require("./toolbar/ui.toolbar.strategy.list_top"),
-    ToolbarBase = require("./toolbar/ui.toolbar.base"),
-    ChildDefaultTemplate = require("./widget/child_default_template");
+var $ = require("../core/renderer");
+var themes = require("./themes");
+var registerComponent = require("../core/component_registrator");
+var grep = require("../core/utils/common").grep;
+var extend = require("../core/utils/extend").extend;
+var arrayUtils = require("../core/utils/array");
+var iteratorUtils = require("../core/utils/iterator");
+var ActionSheetStrategy = require("./toolbar/ui.toolbar.strategy.action_sheet");
+var DropDownMenuStrategy = require("./toolbar/ui.toolbar.strategy.drop_down_menu");
+var ListBottomStrategy = require("./toolbar/ui.toolbar.strategy.list_bottom");
+var ListTopStrategy = require("./toolbar/ui.toolbar.strategy.list_top");
+var ToolbarBase = require("./toolbar/ui.toolbar.base");
+var ChildDefaultTemplate = require("./widget/child_default_template");
 
 var STRATEGIES = {
     actionSheet: ActionSheetStrategy,
@@ -19,9 +19,9 @@ var STRATEGIES = {
     listTop: ListTopStrategy
 };
 
-var TOOLBAR_AUTO_HIDE_ITEM_CLASS = "dx-toolbar-item-auto-hide",
-    TOOLBAR_AUTO_HIDE_TEXT_CLASS = "dx-toolbar-text-auto-hide",
-    TOOLBAR_HIDDEN_ITEM = "dx-toolbar-item-invisible";
+var TOOLBAR_AUTO_HIDE_ITEM_CLASS = "dx-toolbar-item-auto-hide";
+var TOOLBAR_AUTO_HIDE_TEXT_CLASS = "dx-toolbar-text-auto-hide";
+var TOOLBAR_HIDDEN_ITEM = "dx-toolbar-item-invisible";
 
 /**
 * @name dxToolbar
@@ -275,9 +275,9 @@ var Toolbar = ToolbarBase.inherit({
         this._restoreItems = this._restoreItems || [];
 
         var overflowItems = [].slice.call($hiddenItems).map((item) => {
-            var itemData = that._getItemData(item),
-                $itemContainer = $(item).children(),
-                $itemMarkup = $itemContainer.children();
+            var itemData = that._getItemData(item);
+            var $itemContainer = $(item).children();
+            var $itemMarkup = $itemContainer.children();
 
             return extend({
                 menuItemTemplate: function() {
@@ -328,8 +328,8 @@ var Toolbar = ToolbarBase.inherit({
             return true;
         }
 
-        var items = this.option("items") || [],
-            result = false;
+        var items = this.option("items") || [];
+        var result = false;
 
         iteratorUtils.each(items, function(index, item) {
             if(item.locateInMenu === "auto") {

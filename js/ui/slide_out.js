@@ -1,23 +1,21 @@
-var $ = require("../core/renderer"),
-    getPublicElement = require("../core/utils/dom").getPublicElement,
-    noop = require("../core/utils/common").noop,
-    isDefined = require("../core/utils/type").isDefined,
-    registerComponent = require("../core/component_registrator"),
-    extend = require("../core/utils/extend").extend,
-    PlainEditStrategy = require("./collection/ui.collection_widget.edit.strategy.plain"),
-    SlideOutView = require("./slide_out_view"),
-    CollectionWidget = require("./collection/ui.collection_widget.edit"),
-    List = require("./list"),
-    ChildDefaultTemplate = require("./widget/child_default_template"),
-    EmptyTemplate = require("./widget/empty_template"),
-    DataConverterMixin = require("./shared/grouped_data_converter_mixin").default;
-
-var SLIDEOUT_CLASS = "dx-slideout",
-    SLIDEOUT_ITEM_CONTAINER_CLASS = "dx-slideout-item-container",
-    SLIDEOUT_MENU = "dx-slideout-menu",
-
-    SLIDEOUT_ITEM_CLASS = "dx-slideout-item",
-    SLIDEOUT_ITEM_DATA_KEY = "dxSlideoutItemData";
+var $ = require("../core/renderer");
+var getPublicElement = require("../core/utils/dom").getPublicElement;
+var noop = require("../core/utils/common").noop;
+var isDefined = require("../core/utils/type").isDefined;
+var registerComponent = require("../core/component_registrator");
+var extend = require("../core/utils/extend").extend;
+var PlainEditStrategy = require("./collection/ui.collection_widget.edit.strategy.plain");
+var SlideOutView = require("./slide_out_view");
+var CollectionWidget = require("./collection/ui.collection_widget.edit");
+var List = require("./list");
+var ChildDefaultTemplate = require("./widget/child_default_template");
+var EmptyTemplate = require("./widget/empty_template");
+var DataConverterMixin = require("./shared/grouped_data_converter_mixin").default;
+var SLIDEOUT_CLASS = "dx-slideout";
+var SLIDEOUT_ITEM_CONTAINER_CLASS = "dx-slideout-item-container";
+var SLIDEOUT_MENU = "dx-slideout-menu";
+var SLIDEOUT_ITEM_CLASS = "dx-slideout-item";
+var SLIDEOUT_ITEM_DATA_KEY = "dxSlideoutItemData";
 
 /**
 * @name dxSlideOut
@@ -318,8 +316,8 @@ var SlideOut = CollectionWidget.inherit({
             return;
         }
 
-        var items = this.option("items"),
-            selectedIndex = this.option("selectedIndex");
+        var items = this.option("items");
+        var selectedIndex = this.option("selectedIndex");
 
         if(items.length && selectedIndex > -1) {
             this._selectedItemContentRendered = true;

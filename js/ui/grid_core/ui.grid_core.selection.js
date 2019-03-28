@@ -13,23 +13,22 @@ import holdEvent from "../../events/hold";
 import Selection from "../selection/selection";
 import { Deferred } from "../../core/utils/deferred";
 
-var EDITOR_CELL_CLASS = "dx-editor-cell",
-    ROW_CLASS = "dx-row",
-    ROW_SELECTION_CLASS = "dx-selection",
-    SELECT_CHECKBOX_CLASS = "dx-select-checkbox",
-    CHECKBOXES_HIDDEN_CLASS = "dx-select-checkboxes-hidden",
-    COMMAND_SELECT_CLASS = "dx-command-select",
-    SELECTION_DISABLED_CLASS = "dx-selection-disabled",
-    DATA_ROW_CLASS = "dx-data-row";
-
-var SHOW_CHECKBOXES_MODE = "selection.showCheckBoxesMode",
-    SELECTION_MODE = "selection.mode";
+var EDITOR_CELL_CLASS = "dx-editor-cell";
+var ROW_CLASS = "dx-row";
+var ROW_SELECTION_CLASS = "dx-selection";
+var SELECT_CHECKBOX_CLASS = "dx-select-checkbox";
+var CHECKBOXES_HIDDEN_CLASS = "dx-select-checkboxes-hidden";
+var COMMAND_SELECT_CLASS = "dx-command-select";
+var SELECTION_DISABLED_CLASS = "dx-selection-disabled";
+var DATA_ROW_CLASS = "dx-data-row";
+var SHOW_CHECKBOXES_MODE = "selection.showCheckBoxesMode";
+var SELECTION_MODE = "selection.mode";
 
 var processLongTap = function(that, dxEvent) {
-    var selectionController = that.getController("selection"),
-        rowsView = that.getView("rowsView"),
-        $row = $(dxEvent.target).closest("." + DATA_ROW_CLASS),
-        rowIndex = rowsView.getRowIndex($row);
+    var selectionController = that.getController("selection");
+    var rowsView = that.getView("rowsView");
+    var $row = $(dxEvent.target).closest("." + DATA_ROW_CLASS);
+    var rowIndex = rowsView.getRowIndex($row);
 
     if(rowIndex < 0) return;
 
@@ -51,10 +50,10 @@ var processLongTap = function(that, dxEvent) {
 
 exports.SelectionController = gridCore.Controller.inherit((function() {
     var isSeveralRowsSelected = function(that, selectionFilter) {
-        var keyIndex = 0,
-            store = that._dataController.store(),
-            key = store && store.key(),
-            isComplexKey = Array.isArray(key);
+        var keyIndex = 0;
+        var store = that._dataController.store();
+        var key = store && store.key();
+        var isComplexKey = Array.isArray(key);
 
         if(!selectionFilter.length) {
             return false;
@@ -82,9 +81,9 @@ exports.SelectionController = gridCore.Controller.inherit((function() {
     };
 
     var selectionHeaderTemplate = (container, options) => {
-        var column = options.column,
-            $cellElement = $(container),
-            columnHeadersView = options.component.getView("columnHeadersView");
+        var column = options.column;
+        var $cellElement = $(container);
+        var columnHeadersView = options.component.getView("columnHeadersView");
 
         $cellElement.addClass(EDITOR_CELL_CLASS);
         columnHeadersView._renderSelectAllCheckBox($cellElement, column);
@@ -93,9 +92,9 @@ exports.SelectionController = gridCore.Controller.inherit((function() {
 
     return {
         init: function() {
-            var that = this,
-                dataController = that.getController("data"),
-                selectionOptions = that.option("selection") || {};
+            var that = this;
+            var dataController = that.getController("data");
+            var selectionOptions = that.option("selection") || {};
 
             that._dataController = dataController;
 
@@ -147,8 +146,8 @@ exports.SelectionController = gridCore.Controller.inherit((function() {
         },
 
         _updateSelectColumn: function() {
-            var columnsController = this.getController("columns"),
-                isSelectColumnVisible = this.isSelectColumnVisible();
+            var columnsController = this.getController("columns");
+            var isSelectColumnVisible = this.isSelectColumnVisible();
 
             columnsController.addCommandColumn({
                 type: "selection",
@@ -183,10 +182,10 @@ exports.SelectionController = gridCore.Controller.inherit((function() {
         },
 
         _updateCheckboxesState: function(options) {
-            var isDeferredMode = options.isDeferredMode,
-                selectionFilter = options.selectionFilter,
-                selectedItemKeys = options.selectedItemKeys,
-                removedItemKeys = options.removedItemKeys;
+            var isDeferredMode = options.isDeferredMode;
+            var selectionFilter = options.selectionFilter;
+            var selectedItemKeys = options.selectedItemKeys;
+            var removedItemKeys = options.removedItemKeys;
 
             if(this.option(SHOW_CHECKBOXES_MODE) === "onClick") {
                 if(isDeferredMode ? selectionFilter && isSeveralRowsSelected(this, selectionFilter) : selectedItemKeys.length > 1) {
@@ -198,12 +197,12 @@ exports.SelectionController = gridCore.Controller.inherit((function() {
         },
 
         _updateSelectedItems: function(args) {
-            var that = this,
-                selectionChangedOptions,
-                isDeferredMode = that.option("selection.deferred"),
-                selectionFilter = that._selection.selectionFilter(),
-                dataController = that._dataController,
-                items = dataController.items();
+            var that = this;
+            var selectionChangedOptions;
+            var isDeferredMode = that.option("selection.deferred");
+            var selectionFilter = that._selection.selectionFilter();
+            var dataController = that._dataController;
+            var items = dataController.items();
 
             if(!items) {
                 return;
@@ -245,9 +244,9 @@ exports.SelectionController = gridCore.Controller.inherit((function() {
         },
 
         getChangedItemIndexes: function(items) {
-            var that = this,
-                itemIndexes = [],
-                isDeferredSelection = this.option("selection.deferred");
+            var that = this;
+            var itemIndexes = [];
+            var isDeferredSelection = this.option("selection.deferred");
 
             for(var i = 0, length = items.length; i < length; i++) {
                 var row = items[i];
@@ -426,8 +425,8 @@ exports.SelectionController = gridCore.Controller.inherit((function() {
          * @return Promise<any>
          */
         selectRowsByIndexes: function(indexes) {
-            var items = this._dataController.items(),
-                keys = [];
+            var items = this._dataController.items();
+            var keys = [];
 
             if(!Array.isArray(indexes)) {
                 indexes = Array.prototype.slice.call(arguments, 0);
@@ -599,8 +598,8 @@ module.exports = {
         controllers: {
             data: {
                 init: function() {
-                    var selectionController = this.getController("selection"),
-                        isDeferredMode = this.option("selection.deferred");
+                    var selectionController = this.getController("selection");
+                    var isDeferredMode = this.option("selection.deferred");
 
                     this.callBase.apply(this, arguments);
 
@@ -621,11 +620,11 @@ module.exports = {
                 },
 
                 _processDataItem: function(item, options) {
-                    var that = this,
-                        selectionController = that.getController("selection"),
-                        hasSelectColumn = selectionController.isSelectColumnVisible(),
-                        isDeferredSelection = options.isDeferredSelection = options.isDeferredSelection === undefined ? this.option("selection.deferred") : options.isDeferredSelection,
-                        dataItem = this.callBase.apply(this, arguments);
+                    var that = this;
+                    var selectionController = that.getController("selection");
+                    var hasSelectColumn = selectionController.isSelectColumnVisible();
+                    var isDeferredSelection = options.isDeferredSelection = options.isDeferredSelection === undefined ? this.option("selection.deferred") : options.isDeferredSelection;
+                    var dataItem = this.callBase.apply(this, arguments);
 
                     dataItem.isSelected = selectionController.isRowSelected(isDeferredSelection ? dataItem.data : dataItem.key);
 
@@ -641,8 +640,8 @@ module.exports = {
                 },
 
                 refresh: function(options) {
-                    var that = this,
-                        d = new Deferred();
+                    var that = this;
+                    var d = new Deferred();
 
                     this.callBase.apply(this, arguments).done(function() {
                         if(!options || options.selection) {
@@ -707,9 +706,9 @@ module.exports = {
                     that.getController("selection").selectionChanged.add(that._updateSelectAllValue.bind(that));
                 },
                 _updateSelectAllValue: function() {
-                    var that = this,
-                        $element = that.element(),
-                        $editor = $element && $element.find("." + SELECT_CHECKBOX_CLASS);
+                    var that = this;
+                    var $element = that.element();
+                    var $editor = $element && $element.find("." + SELECT_CHECKBOX_CLASS);
 
                     if($element && $editor.length && that.option("selection.mode") === "multiple") {
                         $editor.dxCheckBox("instance").option("value", that.getController("selection").isSelectAll());
@@ -723,9 +722,9 @@ module.exports = {
                 },
 
                 _renderSelectAllCheckBox: function($container, column) {
-                    var that = this,
-                        groupElement,
-                        selectionController = that.getController("selection");
+                    var that = this;
+                    var groupElement;
+                    var selectionController = that.getController("selection");
 
                     groupElement = $("<div>")
                         .appendTo($container)
@@ -810,9 +809,9 @@ module.exports = {
 
                 _attachCheckBoxClickEvent: function($element) {
                     eventsEngine.on($element, clickEvent.name, this.createAction(function(e) {
-                        var selectionController = this.getController("selection"),
-                            event = e.event,
-                            rowIndex = this.getRowIndex($(event.currentTarget).closest("." + ROW_CLASS));
+                        var selectionController = this.getController("selection");
+                        var event = e.event;
+                        var rowIndex = this.getRowIndex($(event.currentTarget).closest("." + ROW_CLASS));
 
                         if(rowIndex >= 0) {
                             selectionController.startSelectionWithCheckboxes();
@@ -829,15 +828,15 @@ module.exports = {
                 },
 
                 _update: function(change) {
-                    var that = this,
-                        tableElements = that.getTableElements();
+                    var that = this;
+                    var tableElements = that.getTableElements();
 
                     if(change.changeType === "updateSelection") {
                         if(tableElements.length > 0) {
                             each(tableElements, function(_, tableElement) {
                                 each(change.itemIndexes || [], function(_, index) {
-                                    var $row,
-                                        isSelected;
+                                    var $row;
+                                    var isSelected;
 
                                     // T108078
                                     if(change.items[index]) {
@@ -859,9 +858,9 @@ module.exports = {
                 },
 
                 _createTable: function() {
-                    var that = this,
-                        selectionMode = that.option("selection.mode"),
-                        $table = that.callBase.apply(that, arguments);
+                    var that = this;
+                    var selectionMode = that.option("selection.mode");
+                    var $table = that.callBase.apply(that, arguments);
 
 
                     if(selectionMode !== "none") {
@@ -886,8 +885,8 @@ module.exports = {
                 },
 
                 _createRow: function(row) {
-                    var $row = this.callBase(row),
-                        isSelected;
+                    var $row = this.callBase(row);
+                    var isSelected;
 
                     if(row) {
                         isSelected = !!row.isSelected;
@@ -901,9 +900,9 @@ module.exports = {
                 },
 
                 _rowClick: function(e) {
-                    var that = this,
-                        dxEvent = e.event,
-                        isSelectionDisabled = $(dxEvent.target).closest("." + SELECTION_DISABLED_CLASS).length;
+                    var that = this;
+                    var dxEvent = e.event;
+                    var isSelectionDisabled = $(dxEvent.target).closest("." + SELECTION_DISABLED_CLASS).length;
 
                     if(!that.isClickableElement($(dxEvent.target))) {
                         if(!isSelectionDisabled && (that.option(SELECTION_MODE) !== "multiple" || that.option(SHOW_CHECKBOXES_MODE) !== "always")) {
@@ -931,9 +930,9 @@ module.exports = {
                 },
 
                 _updateCheckboxesClass: function() {
-                    var tableElements = this.getTableElements(),
-                        selectionController = this.getController("selection"),
-                        isCheckBoxesHidden = selectionController.isSelectColumnVisible() && !selectionController.isSelectionWithCheckboxes();
+                    var tableElements = this.getTableElements();
+                    var selectionController = this.getController("selection");
+                    var isCheckBoxesHidden = selectionController.isSelectColumnVisible() && !selectionController.isSelectionWithCheckboxes();
 
                     each(tableElements, function(_, tableElement) {
                         $(tableElement).toggleClass(CHECKBOXES_HIDDEN_CLASS, isCheckBoxesHidden);

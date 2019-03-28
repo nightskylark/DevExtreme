@@ -26,8 +26,8 @@ var HorizontalGroupedStrategy = GroupedStrategy.inherit({
     },
 
     getGroupIndex: function(rowIndex, cellIndex) {
-        var groupByDay = this._workSpace.isGroupedByDate(),
-            groupCount = this._workSpace._getGroupCount();
+        var groupByDay = this._workSpace.isGroupedByDate();
+        var groupCount = this._workSpace._getGroupCount();
 
         if(groupByDay) {
             return cellIndex % groupCount;
@@ -97,8 +97,8 @@ var HorizontalGroupedStrategy = GroupedStrategy.inherit({
     },
 
     getWorkSpaceMinWidth: function() {
-        var minWidth = this._workSpace._getWorkSpaceWidth(),
-            workspaceContainerWidth = this._workSpace.$element().get(0).getBoundingClientRect().width - this._workSpace.getTimePanelWidth();
+        var minWidth = this._workSpace._getWorkSpaceWidth();
+        var workspaceContainerWidth = this._workSpace.$element().get(0).getBoundingClientRect().width - this._workSpace.getTimePanelWidth();
 
         if(minWidth < workspaceContainerWidth) {
             minWidth = workspaceContainerWidth;
@@ -127,11 +127,11 @@ var HorizontalGroupedStrategy = GroupedStrategy.inherit({
     },
 
     getGroupBoundsOffset: function(cellCount, $cells, cellWidth, coordinates) {
-        var groupIndex,
-            cellIndex,
-            startCellIndex,
-            startOffset,
-            endOffset;
+        var groupIndex;
+        var cellIndex;
+        var startCellIndex;
+        var startOffset;
+        var endOffset;
 
         if(this._workSpace.isGroupedByDate()) {
             startCellIndex = 0;
@@ -156,8 +156,8 @@ var HorizontalGroupedStrategy = GroupedStrategy.inherit({
     },
 
     shiftIndicator: function($indicator, height, rtlOffset, i) {
-        var offset = this._workSpace._getCellCount() * this._workSpace.getRoundedCellWidth(i - 1, 0) * i + this._workSpace.getIndicatorOffset(i) + i,
-            horizontalOffset = rtlOffset ? rtlOffset - offset : offset;
+        var offset = this._workSpace._getCellCount() * this._workSpace.getRoundedCellWidth(i - 1, 0) * i + this._workSpace.getIndicatorOffset(i) + i;
+        var horizontalOffset = rtlOffset ? rtlOffset - offset : offset;
 
         $indicator.css("left", horizontalOffset);
         $indicator.css("top", height);

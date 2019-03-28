@@ -57,17 +57,16 @@ const Deferred = deferredUtils.Deferred;
 
 const toMs = dateUtils.dateToMilliseconds;
 
-const WIDGET_CLASS = "dx-scheduler",
-    WIDGET_SMALL_CLASS = "dx-scheduler-small",
-    WIDGET_READONLY_CLASS = "dx-scheduler-readonly",
-    APPOINTMENT_POPUP_CLASS = "dx-scheduler-appointment-popup",
-    RECURRENCE_EDITOR_ITEM_CLASS = "dx-scheduler-recurrence-rule-item",
-    RECURRENCE_EDITOR_OPENED_ITEM_CLASS = "dx-scheduler-recurrence-rule-item-opened",
-    WIDGET_SMALL_WIDTH = 400,
-    APPOINTEMENT_POPUP_WIDTH = 610;
-
-var FULL_DATE_FORMAT = "yyyyMMddTHHmmss",
-    UTC_FULL_DATE_FORMAT = FULL_DATE_FORMAT + "Z";
+const WIDGET_CLASS = "dx-scheduler";
+const WIDGET_SMALL_CLASS = "dx-scheduler-small";
+const WIDGET_READONLY_CLASS = "dx-scheduler-readonly";
+const APPOINTMENT_POPUP_CLASS = "dx-scheduler-appointment-popup";
+const RECURRENCE_EDITOR_ITEM_CLASS = "dx-scheduler-recurrence-rule-item";
+const RECURRENCE_EDITOR_OPENED_ITEM_CLASS = "dx-scheduler-recurrence-rule-item-opened";
+const WIDGET_SMALL_WIDTH = 400;
+const APPOINTEMENT_POPUP_WIDTH = 610;
+var FULL_DATE_FORMAT = "yyyyMMddTHHmmss";
+var UTC_FULL_DATE_FORMAT = FULL_DATE_FORMAT + "Z";
 
 var VIEWS_CONFIG = {
     day: {
@@ -1133,8 +1132,9 @@ const Scheduler = Widget.inherit({
     _postponeResourceLoading: function() {
         var whenLoaded = this.postponedOperations.add("_loadResources", () => {
                 return this._loadResources();
-            }),
-            resolveCallbacks = new Deferred();
+            });
+
+        var resolveCallbacks = new Deferred();
 
         whenLoaded.done((resources) => {
             resolveCallbacks.resolve(resources);
@@ -1145,8 +1145,8 @@ const Scheduler = Widget.inherit({
     },
 
     _optionChanged: function(args) {
-        var value = args.value,
-            name = args.name;
+        var value = args.value;
+        var name = args.name;
 
         switch(args.name) {
             case "adaptivityEnabled":
@@ -1482,8 +1482,8 @@ const Scheduler = Widget.inherit({
     },
 
     _loadResources: function() {
-        var groups = this._getCurrentViewOption("groups"),
-            result = new Deferred();
+        var groups = this._getCurrentViewOption("groups");
+        var result = new Deferred();
 
         this._resourcesManager.loadResources(groups).done((function(resources) {
             this._loadedResources = resources;
@@ -1636,8 +1636,8 @@ const Scheduler = Widget.inherit({
     },
 
     _combineDataAccessors: function() {
-        var resourcesDataAccessors = this._resourcesManager._dataAccessors,
-            result = extend(true, {}, this._dataAccessors);
+        var resourcesDataAccessors = this._resourcesManager._dataAccessors;
+        var result = extend(true, {}, this._dataAccessors);
 
         each(resourcesDataAccessors, (function(type, accessor) {
             result[type].resources = accessor;
@@ -1682,10 +1682,11 @@ const Scheduler = Widget.inherit({
     },
 
     _initExpressions: function(fields) {
-        var dataCoreUtils = require("../../core/utils/data"),
-            isDateField = function(field) {
-                return field === "startDate" || field === "endDate";
-            };
+        var dataCoreUtils = require("../../core/utils/data");
+
+        var isDateField = function(field) {
+            return field === "startDate" || field === "endDate";
+        };
 
         if(!this._dataAccessors) {
             this._dataAccessors = {
@@ -1697,12 +1698,10 @@ const Scheduler = Widget.inherit({
 
         each(fields, (function(name, expr) {
             if(expr) {
-
-                var getter = dataCoreUtils.compileGetter(expr),
-                    setter = dataCoreUtils.compileSetter(expr);
-
-                var dateGetter,
-                    dateSetter;
+                var getter = dataCoreUtils.compileGetter(expr);
+                var setter = dataCoreUtils.compileSetter(expr);
+                var dateGetter;
+                var dateSetter;
 
                 if(isDateField(name)) {
                     var that = this;
@@ -1766,8 +1765,8 @@ const Scheduler = Widget.inherit({
     },
 
     _isReadOnly: function() {
-        var result = true,
-            editing = this._editing;
+        var result = true;
+        var editing = this._editing;
 
         for(var prop in editing) {
             if(editing.hasOwnProperty(prop)) {
@@ -1862,9 +1861,9 @@ const Scheduler = Widget.inherit({
     },
 
     _headerConfig: function() {
-        var result,
-            currentViewOptions = this._getCurrentViewOptions(),
-            countConfig = this._getViewCountConfig();
+        var result;
+        var currentViewOptions = this._getCurrentViewOptions();
+        var countConfig = this._getViewCountConfig();
 
         result = extend({
             firstDayOfWeek: this.option("firstDayOfWeek"),
@@ -1925,16 +1924,16 @@ const Scheduler = Widget.inherit({
     },
 
     _processCurrentView: function() {
-        var views = this.option("views"),
-            currentView = this.option("currentView"),
-            that = this;
+        var views = this.option("views");
+        var currentView = this.option("currentView");
+        var that = this;
 
         this._currentView = currentView;
 
         each(views, function(_, view) {
-            var isViewIsObject = typeUtils.isObject(view),
-                viewName = isViewIsObject ? view.name : view,
-                viewType = view.type;
+            var isViewIsObject = typeUtils.isObject(view);
+            var viewName = isViewIsObject ? view.name : view;
+            var viewType = view.type;
 
             if(currentView === viewName || currentView === viewType) {
                 that._currentView = view;
@@ -1967,9 +1966,9 @@ const Scheduler = Widget.inherit({
     _getViewCountConfig: function() {
         var currentView = this.option("currentView");
 
-        var view = this._getViewByName(currentView),
-            viewCount = view && view.intervalCount || 1,
-            startDate = view && view.startDate || null;
+        var view = this._getViewByName(currentView);
+        var viewCount = view && view.intervalCount || 1;
+        var startDate = view && view.startDate || null;
 
         return {
             intervalCount: viewCount,
@@ -1994,8 +1993,8 @@ const Scheduler = Widget.inherit({
     },
 
     _workSpaceConfig: function(groups, countConfig) {
-        var result,
-            currentViewOptions = this._getCurrentViewOptions();
+        var result;
+        var currentViewOptions = this._getCurrentViewOptions();
 
         result = extend({
             noDataText: this.option("noDataText"),
@@ -2166,8 +2165,8 @@ const Scheduler = Widget.inherit({
     },
 
     _createAppointmentForm: function(formData, $content) {
-        var allDay = this.fire("getField", "allDay", formData),
-            resources = this.option("resources");
+        var allDay = this.fire("getField", "allDay", formData);
+        var resources = this.option("resources");
 
         AppointmentForm.prepareAppointmentFormEditors(allDay, {
             textExpr: this._dataAccessors.expr.textExpr,
@@ -2194,9 +2193,9 @@ const Scheduler = Widget.inherit({
     },
 
     _createOrUpdateForm: function(appointmentData, processTimeZone, $content) {
-        var allDay = this.fire("getField", "allDay", appointmentData),
-            startDate = this.fire("getField", "startDate", appointmentData),
-            endDate = this.fire("getField", "endDate", appointmentData);
+        var allDay = this.fire("getField", "allDay", appointmentData);
+        var startDate = this.fire("getField", "startDate", appointmentData);
+        var endDate = this.fire("getField", "endDate", appointmentData);
 
         each(this._resourcesManager.getResourcesFromItem(appointmentData, true) || {}, function(resourceName, resourceValue) {
             appointmentData[resourceName] = resourceValue;
@@ -2213,8 +2212,8 @@ const Scheduler = Widget.inherit({
         }
 
         if(this._appointmentForm) {
-            var startDateExpr = this._dataAccessors.expr.startDateExpr,
-                endDateExpr = this._dataAccessors.expr.endDateExpr;
+            var startDateExpr = this._dataAccessors.expr.startDateExpr;
+            var endDateExpr = this._dataAccessors.expr.endDateExpr;
 
             this._appointmentForm.option("formData", formData);
             this._appointmentForm.option("readOnly", this._editAppointmentData ? !this._editing.allowUpdating : false);
@@ -2224,8 +2223,8 @@ const Scheduler = Widget.inherit({
             this._createAppointmentForm(formData, $content);
         }
 
-        var recurrenceRuleExpr = this._dataAccessors.expr.recurrenceRuleExpr,
-            recurrentEditorItem = recurrenceRuleExpr ? this._appointmentForm.itemOption(recurrenceRuleExpr) : null;
+        var recurrenceRuleExpr = this._dataAccessors.expr.recurrenceRuleExpr;
+        var recurrentEditorItem = recurrenceRuleExpr ? this._appointmentForm.itemOption(recurrenceRuleExpr) : null;
 
         if(recurrentEditorItem) {
             var options = recurrentEditorItem.editorOptions || {};
@@ -2315,9 +2314,9 @@ const Scheduler = Widget.inherit({
 
         disableButton && this._disableDoneButton();
 
-        var formData = objectUtils.deepExtendArraySafe({}, this._getFormData(), true),
-            oldData = this._editAppointmentData,
-            recData = this._updatedRecAppointment;
+        var formData = objectUtils.deepExtendArraySafe({}, this._getFormData(), true);
+        var oldData = this._editAppointmentData;
+        var recData = this._updatedRecAppointment;
 
         function convert(obj, dateFieldName) {
             var date = new Date(this.fire("getField", dateFieldName, obj));
@@ -2353,9 +2352,9 @@ const Scheduler = Widget.inherit({
     },
 
     _getFormData: function() {
-        var formData = this._appointmentForm.option("formData"),
-            startDate = this.fire("getField", "startDate", formData),
-            endDate = this.fire("getField", "endDate", formData);
+        var formData = this._appointmentForm.option("formData");
+        var startDate = this.fire("getField", "startDate", formData);
+        var endDate = this.fire("getField", "endDate", formData);
 
         this.fire("setField", "startDate", formData, startDate);
         this.fire("setField", "endDate", formData, endDate);
@@ -2445,8 +2444,8 @@ const Scheduler = Widget.inherit({
             if(typeof commonTimezoneOffset === "number" && !isNaN(commonTimezoneOffset)) {
                 var startDateClientTzOffset = -(this._subscribes["getClientTimezoneOffset"](startDate) / toMs("hour"));
                 var endDateClientTzOffset = -(this._subscribes["getClientTimezoneOffset"](endDate) / toMs("hour"));
-                var processedStartDateInUTC = processedStartDate.getTime() - startDateClientTzOffset * toMs("hour"),
-                    processedEndDateInUTC = processedEndDate.getTime() - endDateClientTzOffset * toMs("hour");
+                var processedStartDateInUTC = processedStartDate.getTime() - startDateClientTzOffset * toMs("hour");
+                var processedEndDateInUTC = processedEndDate.getTime() - endDateClientTzOffset * toMs("hour");
 
                 processedStartDate = new Date(processedStartDateInUTC + commonTimezoneOffset * toMs("hour"));
                 processedEndDate = new Date(processedEndDateInUTC + commonTimezoneOffset * toMs("hour"));
@@ -2466,8 +2465,8 @@ const Scheduler = Widget.inherit({
             this.addAppointment(singleAppointment);
         }
 
-        var recurrenceException = this._makeDateAsRecurrenceException(exceptionDate, targetAppointment),
-            updatedAppointment = extend({}, targetAppointment);
+        var recurrenceException = this._makeDateAsRecurrenceException(exceptionDate, targetAppointment);
+        var updatedAppointment = extend({}, targetAppointment);
 
         this.fire("setField", "recurrenceException", updatedAppointment, recurrenceException);
 
@@ -2485,10 +2484,10 @@ const Scheduler = Widget.inherit({
     },
 
     _makeDateAsRecurrenceException: function(exceptionDate, targetAppointment) {
-        var startDate = this._getStartDate(targetAppointment, true),
-            startDateTimeZone = this.fire("getField", "startDateTimeZone", targetAppointment),
-            exceptionByDate = this._getRecurrenceExceptionDate(exceptionDate, startDate, startDateTimeZone),
-            recurrenceException = this.fire("getField", "recurrenceException", targetAppointment);
+        var startDate = this._getStartDate(targetAppointment, true);
+        var startDateTimeZone = this.fire("getField", "startDateTimeZone", targetAppointment);
+        var exceptionByDate = this._getRecurrenceExceptionDate(exceptionDate, startDate, startDateTimeZone);
+        var recurrenceException = this.fire("getField", "recurrenceException", targetAppointment);
 
         return recurrenceException ? recurrenceException + "," + exceptionByDate : exceptionByDate;
     },
@@ -2509,9 +2508,9 @@ const Scheduler = Widget.inherit({
     },
 
     _showRecurrenceChangeConfirm: function(isDeleted) {
-        var message = messageLocalization.format(isDeleted ? "dxScheduler-confirmRecurrenceDeleteMessage" : "dxScheduler-confirmRecurrenceEditMessage"),
-            seriesText = messageLocalization.format(isDeleted ? "dxScheduler-confirmRecurrenceDeleteSeries" : "dxScheduler-confirmRecurrenceEditSeries"),
-            occurrenceText = messageLocalization.format(isDeleted ? "dxScheduler-confirmRecurrenceDeleteOccurrence" : "dxScheduler-confirmRecurrenceEditOccurrence");
+        var message = messageLocalization.format(isDeleted ? "dxScheduler-confirmRecurrenceDeleteMessage" : "dxScheduler-confirmRecurrenceEditMessage");
+        var seriesText = messageLocalization.format(isDeleted ? "dxScheduler-confirmRecurrenceDeleteSeries" : "dxScheduler-confirmRecurrenceEditSeries");
+        var occurrenceText = messageLocalization.format(isDeleted ? "dxScheduler-confirmRecurrenceDeleteOccurrence" : "dxScheduler-confirmRecurrenceEditOccurrence");
 
         return dialog.custom({
             message: message,
@@ -2525,21 +2524,21 @@ const Scheduler = Widget.inherit({
     },
 
     _getUpdatedData: function(options) {
-        var target = options.data || options,
-            cellData = this.getTargetCellData(),
-            targetAllDay = this.fire("getField", "allDay", target),
-            targetStartDate = new Date(this.fire("getField", "startDate", target)),
-            targetEndDate = new Date(this.fire("getField", "endDate", target)),
-            date = cellData.date || targetStartDate,
-            duration = targetEndDate.getTime() - targetStartDate.getTime();
+        var target = options.data || options;
+        var cellData = this.getTargetCellData();
+        var targetAllDay = this.fire("getField", "allDay", target);
+        var targetStartDate = new Date(this.fire("getField", "startDate", target));
+        var targetEndDate = new Date(this.fire("getField", "endDate", target));
+        var date = cellData.date || targetStartDate;
+        var duration = targetEndDate.getTime() - targetStartDate.getTime();
 
         if(this._workSpace.keepOriginalHours()) {
             var diff = targetStartDate.getTime() - dateUtils.trimTime(targetStartDate).getTime();
             date = new Date(dateUtils.trimTime(date).getTime() + diff);
         }
 
-        var updatedData = {},
-            allDay = cellData.allDay;
+        var updatedData = {};
+        var allDay = cellData.allDay;
 
         this.fire("setField", "allDay", updatedData, allDay);
         this.fire("setField", "startDate", updatedData, date);
@@ -2590,16 +2589,16 @@ const Scheduler = Widget.inherit({
     _getSingleAppointmentData: function(appointmentData, options) {
         options = options || {};
 
-        var $appointment = options.$appointment,
-            updatedData = options.skipDateCalculation ? {} : this._getUpdatedData(options),
-            resultAppointmentData = extend({}, appointmentData, updatedData),
-            allDay = this.fire("getField", "allDay", appointmentData),
-            isAllDay = this._workSpace.supportAllDayRow() && allDay,
-            startDate = new Date(this.fire("getField", "startDate", resultAppointmentData)),
-            endDate = new Date(this.fire("getField", "endDate", resultAppointmentData)),
-            appointmentDuration = endDate.getTime() - startDate.getTime(),
-            updatedStartDate,
-            appointmentStartDate;
+        var $appointment = options.$appointment;
+        var updatedData = options.skipDateCalculation ? {} : this._getUpdatedData(options);
+        var resultAppointmentData = extend({}, appointmentData, updatedData);
+        var allDay = this.fire("getField", "allDay", appointmentData);
+        var isAllDay = this._workSpace.supportAllDayRow() && allDay;
+        var startDate = new Date(this.fire("getField", "startDate", resultAppointmentData));
+        var endDate = new Date(this.fire("getField", "endDate", resultAppointmentData));
+        var appointmentDuration = endDate.getTime() - startDate.getTime();
+        var updatedStartDate;
+        var appointmentStartDate;
 
         if(typeUtils.isDefined($appointment) && this._needUpdateAppointmentData($appointment)) {
             var apptDataCalculator = this.getRenderingStrategyInstance().getAppointmentDataCalculator();
@@ -2659,8 +2658,8 @@ const Scheduler = Widget.inherit({
     },
 
     fire: function(subject) {
-        var callback = this._subscribes[subject],
-            args = Array.prototype.slice.call(arguments);
+        var callback = this._subscribes[subject];
+        var args = Array.prototype.slice.call(arguments);
 
         if(!typeUtils.isFunction(callback)) {
             throw errors.Error("E1031", subject);
@@ -2735,8 +2734,8 @@ const Scheduler = Widget.inherit({
     },
 
     _executeActionWhenOperationIsCompleted: function(action, appointment, e) {
-        var options = { appointmentData: appointment },
-            isError = e && e.name === "Error";
+        var options = { appointmentData: appointment };
+        var isError = e && e.name === "Error";
 
         if(isError) {
             options.error = e;
@@ -2754,8 +2753,8 @@ const Scheduler = Widget.inherit({
         if(!this._popup) {
             this._createPopup(data, processTimeZone);
         }
-        var toolbarItems = [],
-            showCloseButton = true;
+        var toolbarItems = [];
+        var showCloseButton = true;
 
         if(!typeUtils.isDefined(showButtons) || showButtons) {
             toolbarItems = this._getPopupToolbarItems();
@@ -2822,8 +2821,8 @@ const Scheduler = Widget.inherit({
     },
 
     _getStartDate: function(appointment, skipNormalize) {
-        var startDate = this.fire("getField", "startDate", appointment),
-            startDateTimeZone = this.fire("getField", "startDateTimeZone", appointment);
+        var startDate = this.fire("getField", "startDate", appointment);
+        var startDateTimeZone = this.fire("getField", "startDateTimeZone", appointment);
 
         startDate = dateUtils.makeDate(startDate);
 
@@ -2865,10 +2864,10 @@ const Scheduler = Widget.inherit({
         var recurrenceException = this.fire("getField", "recurrenceException", appointmentData);
 
         if(recurrenceException) {
-            var startDate = this.fire("getField", "startDate", appointmentData),
-                exceptions = recurrenceException.split(","),
-                startDateTimeZone = this.fire("getField", "startDateTimeZone", appointmentData),
-                exceptionByStartDate = this.fire("convertDateByTimezone", startDate, startDateTimeZone);
+            var startDate = this.fire("getField", "startDate", appointmentData);
+            var exceptions = recurrenceException.split(",");
+            var startDateTimeZone = this.fire("getField", "startDateTimeZone", appointmentData);
+            var exceptionByStartDate = this.fire("convertDateByTimezone", startDate, startDateTimeZone);
 
             for(var i = 0; i < exceptions.length; i++) {
                 exceptions[i] = this._convertRecurrenceException(exceptions[i], exceptionByStartDate, startDateTimeZone);
@@ -2898,10 +2897,10 @@ const Scheduler = Widget.inherit({
     },
 
     dayHasAppointment: function(day, appointment, trimTime) {
-        var startDate = new Date(this.fire("getField", "startDate", appointment)),
-            endDate = new Date(this.fire("getField", "endDate", appointment)),
-            startDateTimeZone = this.fire("getField", "startDateTimeZone", appointment),
-            endDateTimeZone = this.fire("getField", "endDateTimeZone", appointment);
+        var startDate = new Date(this.fire("getField", "startDate", appointment));
+        var endDate = new Date(this.fire("getField", "endDate", appointment));
+        var startDateTimeZone = this.fire("getField", "startDateTimeZone", appointment);
+        var endDateTimeZone = this.fire("getField", "endDateTimeZone", appointment);
 
         startDate = this.fire("convertDateByTimezone", startDate, startDateTimeZone);
         endDate = this.fire("convertDateByTimezone", endDate, endDateTimeZone);
@@ -2916,9 +2915,9 @@ const Scheduler = Widget.inherit({
             endDate = dateUtils.trimTime(endDate);
         }
 
-        var dayTimeStamp = day.getTime(),
-            startDateTimeStamp = startDate.getTime(),
-            endDateTimeStamp = endDate.getTime();
+        var dayTimeStamp = day.getTime();
+        var startDateTimeStamp = startDate.getTime();
+        var endDateTimeStamp = endDate.getTime();
 
 
         return (inArray(dayTimeStamp, [startDateTimeStamp, endDateTimeStamp]) > -1)
@@ -2930,10 +2929,10 @@ const Scheduler = Widget.inherit({
         var groups = this._getCurrentViewOption("groups");
 
         if(groups && groups.length) {
-            var resourcesSetter = this._resourcesManager._dataAccessors.setter,
-                workSpace = this._workSpace,
-                getGroups,
-                setResourceCallback;
+            var resourcesSetter = this._resourcesManager._dataAccessors.setter;
+            var workSpace = this._workSpace;
+            var getGroups;
+            var setResourceCallback;
 
             if(this._isAgenda()) {
                 getGroups = function() {

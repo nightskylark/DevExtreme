@@ -1,5 +1,5 @@
-var arrayQueryImpl = require("./array_query"),
-    remoteQueryImpl = require("./remote_query");
+var arrayQueryImpl = require("./array_query");
+var remoteQueryImpl = require("./remote_query");
 
 var queryImpl = {
     array: arrayQueryImpl,

@@ -1,30 +1,30 @@
-var $ = require("../../core/renderer"),
-    eventsEngine = require("../../events/core/events_engine"),
-    Guid = require("../../core/guid"),
-    FormItemsRunTimeInfo = require("./ui.form.items_runtime_info").default,
-    registerComponent = require("../../core/component_registrator"),
-    typeUtils = require("../../core/utils/type"),
-    domUtils = require("../../core/utils/dom"),
-    isWrapped = require("../../core/utils/variable_wrapper").isWrapped,
-    isWritableWrapped = require("../../core/utils/variable_wrapper").isWritableWrapped,
-    unwrap = require("../../core/utils/variable_wrapper").unwrap,
-    windowUtils = require("../../core/utils/window"),
-    stringUtils = require("../../core/utils/string"),
-    each = require("../../core/utils/iterator").each,
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    dataUtils = require("../../core/utils/data"),
-    removeEvent = require("../../core/remove_event"),
-    clickEvent = require("../../events/click"),
-    normalizeIndexes = require("../../core/utils/array").normalizeIndexes,
-    errors = require("../widget/ui.errors"),
-    messageLocalization = require("../../localization/message"),
-    styleUtils = require("../../core/utils/style"),
-    inflector = require("../../core/utils/inflector"),
-    Widget = require("../widget/ui.widget"),
-    Validator = require("../validator"),
-    ResponsiveBox = require("../responsive_box"),
-    themes = require("../themes");
+var $ = require("../../core/renderer");
+var eventsEngine = require("../../events/core/events_engine");
+var Guid = require("../../core/guid");
+var FormItemsRunTimeInfo = require("./ui.form.items_runtime_info").default;
+var registerComponent = require("../../core/component_registrator");
+var typeUtils = require("../../core/utils/type");
+var domUtils = require("../../core/utils/dom");
+var isWrapped = require("../../core/utils/variable_wrapper").isWrapped;
+var isWritableWrapped = require("../../core/utils/variable_wrapper").isWritableWrapped;
+var unwrap = require("../../core/utils/variable_wrapper").unwrap;
+var windowUtils = require("../../core/utils/window");
+var stringUtils = require("../../core/utils/string");
+var each = require("../../core/utils/iterator").each;
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var dataUtils = require("../../core/utils/data");
+var removeEvent = require("../../core/remove_event");
+var clickEvent = require("../../events/click");
+var normalizeIndexes = require("../../core/utils/array").normalizeIndexes;
+var errors = require("../widget/ui.errors");
+var messageLocalization = require("../../localization/message");
+var styleUtils = require("../../core/utils/style");
+var inflector = require("../../core/utils/inflector");
+var Widget = require("../widget/ui.widget");
+var Validator = require("../validator");
+var ResponsiveBox = require("../responsive_box");
+var themes = require("../themes");
 
 require("../text_box");
 require("../number_box");
@@ -32,45 +32,38 @@ require("../check_box");
 require("../date_box");
 require("../button");
 
-var FORM_EDITOR_BY_DEFAULT = "dxTextBox",
-    FIELD_ITEM_CLASS = "dx-field-item",
-    FIELD_EMPTY_ITEM_CLASS = "dx-field-empty-item",
-    FIELD_BUTTON_ITEM_CLASS = "dx-field-button-item",
-    FIELD_ITEM_REQUIRED_CLASS = "dx-field-item-required",
-    FIELD_ITEM_OPTIONAL_CLASS = "dx-field-item-optional",
-    FIELD_ITEM_REQUIRED_MARK_CLASS = "dx-field-item-required-mark",
-    FIELD_ITEM_OPTIONAL_MARK_CLASS = "dx-field-item-optional-mark",
-    FIELD_ITEM_LABEL_CLASS = "dx-field-item-label",
-    FIELD_ITEM_LABEL_ALIGN_CLASS = "dx-field-item-label-align",
-    FIELD_ITEM_LABEL_CONTENT_CLASS = "dx-field-item-label-content",
-    FIELD_ITEM_LABEL_TEXT_CLASS = "dx-field-item-label-text",
-    FIELD_ITEM_LABEL_LOCATION_CLASS = "dx-field-item-label-location-",
-    FIELD_ITEM_CONTENT_CLASS = "dx-field-item-content",
-    FIELD_ITEM_CONTENT_LOCATION_CLASS = "dx-field-item-content-location-",
-    FIELD_ITEM_CONTENT_WRAPPER_CLASS = "dx-field-item-content-wrapper",
-    FIELD_ITEM_HELP_TEXT_CLASS = "dx-field-item-help-text",
-    SINGLE_COLUMN_ITEM_CONTENT = "dx-single-column-item-content",
-
-    LABEL_HORIZONTAL_ALIGNMENT_CLASS = "dx-label-h-align",
-    LABEL_VERTICAL_ALIGNMENT_CLASS = "dx-label-v-align",
-
-    FORM_LAYOUT_MANAGER_CLASS = "dx-layout-manager",
-    LAYOUT_MANAGER_FIRST_ROW_CLASS = "dx-first-row",
-    LAYOUT_MANAGER_FIRST_COL_CLASS = "dx-first-col",
-    LAYOUT_MANAGER_LAST_COL_CLASS = "dx-last-col",
-    LAYOUT_MANAGER_ONE_COLUMN = "dx-layout-manager-one-col",
-
-    FLEX_LAYOUT_CLASS = "dx-flex-layout",
-
-    INVALID_CLASS = "dx-invalid",
-
-    LAYOUT_STRATEGY_FLEX = "flex",
-    LAYOUT_STRATEGY_FALLBACK = "fallback",
-
-    SIMPLE_ITEM_TYPE = "simple",
-
-    DATA_OPTIONS = ["dataSource", "items"],
-    EDITORS_WITH_ARRAY_VALUE = ["dxTagBox", "dxRangeSlider"];
+var FORM_EDITOR_BY_DEFAULT = "dxTextBox";
+var FIELD_ITEM_CLASS = "dx-field-item";
+var FIELD_EMPTY_ITEM_CLASS = "dx-field-empty-item";
+var FIELD_BUTTON_ITEM_CLASS = "dx-field-button-item";
+var FIELD_ITEM_REQUIRED_CLASS = "dx-field-item-required";
+var FIELD_ITEM_OPTIONAL_CLASS = "dx-field-item-optional";
+var FIELD_ITEM_REQUIRED_MARK_CLASS = "dx-field-item-required-mark";
+var FIELD_ITEM_OPTIONAL_MARK_CLASS = "dx-field-item-optional-mark";
+var FIELD_ITEM_LABEL_CLASS = "dx-field-item-label";
+var FIELD_ITEM_LABEL_ALIGN_CLASS = "dx-field-item-label-align";
+var FIELD_ITEM_LABEL_CONTENT_CLASS = "dx-field-item-label-content";
+var FIELD_ITEM_LABEL_TEXT_CLASS = "dx-field-item-label-text";
+var FIELD_ITEM_LABEL_LOCATION_CLASS = "dx-field-item-label-location-";
+var FIELD_ITEM_CONTENT_CLASS = "dx-field-item-content";
+var FIELD_ITEM_CONTENT_LOCATION_CLASS = "dx-field-item-content-location-";
+var FIELD_ITEM_CONTENT_WRAPPER_CLASS = "dx-field-item-content-wrapper";
+var FIELD_ITEM_HELP_TEXT_CLASS = "dx-field-item-help-text";
+var SINGLE_COLUMN_ITEM_CONTENT = "dx-single-column-item-content";
+var LABEL_HORIZONTAL_ALIGNMENT_CLASS = "dx-label-h-align";
+var LABEL_VERTICAL_ALIGNMENT_CLASS = "dx-label-v-align";
+var FORM_LAYOUT_MANAGER_CLASS = "dx-layout-manager";
+var LAYOUT_MANAGER_FIRST_ROW_CLASS = "dx-first-row";
+var LAYOUT_MANAGER_FIRST_COL_CLASS = "dx-first-col";
+var LAYOUT_MANAGER_LAST_COL_CLASS = "dx-last-col";
+var LAYOUT_MANAGER_ONE_COLUMN = "dx-layout-manager-one-col";
+var FLEX_LAYOUT_CLASS = "dx-flex-layout";
+var INVALID_CLASS = "dx-invalid";
+var LAYOUT_STRATEGY_FLEX = "flex";
+var LAYOUT_STRATEGY_FALLBACK = "fallback";
+var SIMPLE_ITEM_TYPE = "simple";
+var DATA_OPTIONS = ["dataSource", "items"];
+var EDITORS_WITH_ARRAY_VALUE = ["dxTagBox", "dxRangeSlider"];
 
 var LayoutManager = Widget.inherit({
     _getDefaultOptions: function() {
@@ -125,8 +118,8 @@ var LayoutManager = Widget.inherit({
     },
 
     _syncDataWithItems: function() {
-        var that = this,
-            userItems = that.option("items");
+        var that = this;
+        var userItems = that.option("items");
 
         if(typeUtils.isDefined(userItems)) {
             each(userItems, function(index, item) {
@@ -147,8 +140,8 @@ var LayoutManager = Widget.inherit({
     },
 
     _updateFieldValue: function(dataField, value) {
-        var layoutData = this.option("layoutData"),
-            newValue = value;
+        var layoutData = this.option("layoutData");
+        var newValue = value;
 
         if(!isWrapped(layoutData[dataField]) && typeUtils.isDefined(dataField)) {
             this.option("layoutData." + dataField, newValue);
@@ -166,12 +159,12 @@ var LayoutManager = Widget.inherit({
     },
 
     _updateItems: function(layoutData) {
-        var that = this,
-            userItems = this.option("items"),
-            isUserItemsExist = typeUtils.isDefined(userItems),
-            customizeItem = that.option("customizeItem"),
-            items,
-            processedItems;
+        var that = this;
+        var userItems = this.option("items");
+        var isUserItemsExist = typeUtils.isDefined(userItems);
+        var customizeItem = that.option("customizeItem");
+        var items;
+        var processedItems;
 
         items = isUserItemsExist ? userItems : this._generateItemsByData(layoutData);
         if(typeUtils.isDefined(items)) {
@@ -207,8 +200,8 @@ var LayoutManager = Widget.inherit({
     },
 
     _updateItemWatchers: function(items) {
-        var that = this,
-            watch = that._getWatch();
+        var that = this;
+        var watch = that._getWatch();
 
         items.forEach(function(item) {
             if(typeUtils.isObject(item) && typeUtils.isDefined(item.visible) && typeUtils.isFunction(watch)) {
@@ -243,8 +236,8 @@ var LayoutManager = Widget.inherit({
     },
 
     _isAcceptableItem: function(item) {
-        var itemField = item.dataField || item,
-            itemData = this._getDataByField(itemField);
+        var itemField = item.dataField || item;
+        var itemData = this._getDataByField(itemField);
 
         return !(typeUtils.isFunction(itemData) && !isWrapped(itemData));
     },
@@ -287,9 +280,9 @@ var LayoutManager = Widget.inherit({
 
     _sortIndexes: function() {
         this._items.sort(function(itemA, itemB) {
-            var indexA = itemA.visibleIndex,
-                indexB = itemB.visibleIndex,
-                result;
+            var indexA = itemA.visibleIndex;
+            var indexB = itemB.visibleIndex;
+            var result;
 
             if(indexA > indexB) {
                 result = 1;
@@ -316,13 +309,13 @@ var LayoutManager = Widget.inherit({
     },
 
     _renderResponsiveBox: function() {
-        var that = this,
-            templatesInfo = [];
+        var that = this;
+        var templatesInfo = [];
 
         if(that._items && that._items.length) {
-            var colCount = that._getColCount(),
-                $container = $("<div>").appendTo(that.$element()),
-                layoutItems;
+            var colCount = that._getColCount();
+            var $container = $("<div>").appendTo(that.$element());
+            var layoutItems;
 
             that._prepareItemsWithMerging(colCount);
 
@@ -374,16 +367,16 @@ var LayoutManager = Widget.inherit({
     },
 
     _getResponsiveBoxConfig: function(layoutItems, colCount, templatesInfo) {
-        var that = this,
-            colCountByScreen = that.option("colCountByScreen"),
-            xsColCount = colCountByScreen && colCountByScreen.xs;
+        var that = this;
+        var colCountByScreen = that.option("colCountByScreen");
+        var xsColCount = colCountByScreen && colCountByScreen.xs;
 
         return {
             onItemStateChanged: this._itemStateChangedHandler.bind(this),
             _layoutStrategy: that._hasBrowserFlex() ? LAYOUT_STRATEGY_FLEX : LAYOUT_STRATEGY_FALLBACK,
             onLayoutChanged: function() {
-                var onLayoutChanged = that.option("onLayoutChanged"),
-                    isSingleColumnMode = that.isSingleColumnMode();
+                var onLayoutChanged = that.option("onLayoutChanged");
+                var isSingleColumnMode = that.isSingleColumnMode();
 
                 if(onLayoutChanged) {
                     that.$element().toggleClass(LAYOUT_MANAGER_ONE_COLUMN, isSingleColumnMode);
@@ -403,12 +396,13 @@ var LayoutManager = Widget.inherit({
                 if(!e.location) {
                     return;
                 }
-                var $itemElement = $(itemElement),
-                    itemRenderedCountInPreviousRows = e.location.row * colCount,
-                    item = that._items[e.location.col + itemRenderedCountInPreviousRows],
-                    $fieldItem = $("<div>")
-                        .addClass(item.cssClass)
-                        .appendTo($itemElement);
+                var $itemElement = $(itemElement);
+                var itemRenderedCountInPreviousRows = e.location.row * colCount;
+                var item = that._items[e.location.col + itemRenderedCountInPreviousRows];
+
+                var $fieldItem = $("<div>")
+                    .addClass(item.cssClass)
+                    .appendTo($itemElement);
 
                 templatesInfo.push({
                     container: $fieldItem,
@@ -436,12 +430,12 @@ var LayoutManager = Widget.inherit({
     },
 
     _getColCount: function() {
-        var colCount = this.option("colCount"),
-            colCountByScreen = this.option("colCountByScreen");
+        var colCount = this.option("colCount");
+        var colCountByScreen = this.option("colCountByScreen");
 
         if(colCountByScreen) {
-            var screenFactor = windowUtils.hasWindow() ? windowUtils.getCurrentScreenFactor(this.option("screenByWidth")) : "lg",
-                currentColCount = colCountByScreen[screenFactor];
+            var screenFactor = windowUtils.hasWindow() ? windowUtils.getCurrentScreenFactor(this.option("screenByWidth")) : "lg";
+            var currentColCount = colCountByScreen[screenFactor];
             colCount = currentColCount || colCount;
         }
 
@@ -461,10 +455,10 @@ var LayoutManager = Widget.inherit({
             return 1;
         }
 
-        var minColWidth = this.option("minColWidth"),
-            width = this.$element().width(),
-            itemsCount = this._items.length,
-            maxColCount = Math.floor(width / minColWidth) || 1;
+        var minColWidth = this.option("minColWidth");
+        var width = this.$element().width();
+        var itemsCount = this._items.length;
+        var maxColCount = Math.floor(width / minColWidth) || 1;
 
         return itemsCount < maxColCount ? itemsCount : maxColCount;
     },
@@ -474,12 +468,12 @@ var LayoutManager = Widget.inherit({
     },
 
     _prepareItemsWithMerging: function(colCount) {
-        var items = this._items.slice(0),
-            item,
-            itemsMergedByCol,
-            result = [],
-            j,
-            i;
+        var items = this._items.slice(0);
+        var item;
+        var itemsMergedByCol;
+        var result = [];
+        var j;
+        var i;
 
         for(i = 0; i < items.length; i++) {
             item = items[i];
@@ -506,11 +500,11 @@ var LayoutManager = Widget.inherit({
     },
 
     _generateLayoutItems: function() {
-        var items = this._items,
-            colCount = this._getColCount(),
-            result = [],
-            item,
-            i;
+        var items = this._items;
+        var colCount = this._getColCount();
+        var result = [];
+        var item;
+        var i;
 
         for(i = 0; i < items.length; i++) {
             item = items[i];
@@ -566,10 +560,11 @@ var LayoutManager = Widget.inherit({
     },
 
     _renderButtonItem: function(item, $container) {
-        var $button = $("<div>").appendTo($container),
-            defaultOptions = {
-                validationGroup: this.option("validationGroup")
-            };
+        var $button = $("<div>").appendTo($container);
+
+        var defaultOptions = {
+            validationGroup: this.option("validationGroup")
+        };
 
         $container
             .addClass(FIELD_BUTTON_ITEM_CLASS)
@@ -593,14 +588,14 @@ var LayoutManager = Widget.inherit({
     },
 
     _renderFieldItem: function(item, $container) {
-        var that = this,
-            name = that._getName(item),
-            id = that.getItemID(name),
-            isRequired = typeUtils.isDefined(item.isRequired) ? item.isRequired : !!that._hasRequiredRuleInSet(item.validationRules),
-            labelOptions = that._getLabelOptions(item, id, isRequired),
-            $editor = $("<div>"),
-            helpID = item.helpText ? ("dx-" + new Guid()) : null,
-            $label;
+        var that = this;
+        var name = that._getName(item);
+        var id = that.getItemID(name);
+        var isRequired = typeUtils.isDefined(item.isRequired) ? item.isRequired : !!that._hasRequiredRuleInSet(item.validationRules);
+        var labelOptions = that._getLabelOptions(item, id, isRequired);
+        var $editor = $("<div>");
+        var helpID = item.helpText ? ("dx-" + new Guid()) : null;
+        var $label;
 
         this._addItemClasses($container, item.col);
         $container.addClass(isRequired ? FIELD_ITEM_REQUIRED_CLASS : FIELD_ITEM_OPTIONAL_CLASS);
@@ -700,13 +695,15 @@ var LayoutManager = Widget.inherit({
 
     _renderLabel: function(options) {
         if(typeUtils.isDefined(options.text) && options.text.length > 0) {
-            var labelClasses = FIELD_ITEM_LABEL_CLASS + " " + FIELD_ITEM_LABEL_LOCATION_CLASS + options.location,
-                $label = $("<label>")
-                    .addClass(labelClasses)
-                    .attr("for", options.id),
-                $labelContent = $("<span>")
-                    .addClass(FIELD_ITEM_LABEL_CONTENT_CLASS)
-                    .appendTo($label);
+            var labelClasses = FIELD_ITEM_LABEL_CLASS + " " + FIELD_ITEM_LABEL_LOCATION_CLASS + options.location;
+
+            var $label = $("<label>")
+                .addClass(labelClasses)
+                .attr("for", options.id);
+
+            var $labelContent = $("<span>")
+                .addClass(FIELD_ITEM_LABEL_CONTENT_CLASS)
+                .appendTo($label);
 
             $("<span>")
                 .addClass(FIELD_ITEM_LABEL_TEXT_CLASS)
@@ -724,14 +721,14 @@ var LayoutManager = Widget.inherit({
     },
 
     _renderLabelMark: function(isRequired) {
-        var $mark,
-            requiredMarksConfig = this._getRequiredMarksConfig(),
-            isRequiredMark = requiredMarksConfig.showRequiredMark && isRequired,
-            isOptionalMark = requiredMarksConfig.showOptionalMark && !isRequired;
+        var $mark;
+        var requiredMarksConfig = this._getRequiredMarksConfig();
+        var isRequiredMark = requiredMarksConfig.showRequiredMark && isRequired;
+        var isOptionalMark = requiredMarksConfig.showOptionalMark && !isRequired;
 
         if(isRequiredMark || isOptionalMark) {
-            var markClass = isRequiredMark ? FIELD_ITEM_REQUIRED_MARK_CLASS : FIELD_ITEM_OPTIONAL_MARK_CLASS,
-                markText = isRequiredMark ? requiredMarksConfig.requiredMark : requiredMarksConfig.optionalMark;
+            var markClass = isRequiredMark ? FIELD_ITEM_REQUIRED_MARK_CLASS : FIELD_ITEM_OPTIONAL_MARK_CLASS;
+            var markText = isRequiredMark ? requiredMarksConfig.requiredMark : requiredMarksConfig.optionalMark;
 
             $mark = $("<span>")
                 .addClass(markClass)
@@ -755,10 +752,10 @@ var LayoutManager = Widget.inherit({
     },
 
     _renderEditor: function(options) {
-        var dataValue = this._getDataByField(options.dataField),
-            defaultEditorOptions = { value: dataValue },
-            isDeepExtend = true,
-            editorOptions;
+        var dataValue = this._getDataByField(options.dataField);
+        var defaultEditorOptions = { value: dataValue };
+        var isDeepExtend = true;
+        var editorOptions;
 
         if(EDITORS_WITH_ARRAY_VALUE.indexOf(options.editorType) !== -1) {
             defaultEditorOptions.value = defaultEditorOptions.value || [];
@@ -799,8 +796,8 @@ var LayoutManager = Widget.inherit({
     },
 
     _renderValidator: function($editor, item) {
-        var fieldName = this._getFieldLabelName(item),
-            validationRules = this._prepareValidationRules(item.validationRules, item.isRequired, item.itemType, fieldName);
+        var fieldName = this._getFieldLabelName(item);
+        var validationRules = this._prepareValidationRules(item.validationRules, item.isRequired, item.itemType, fieldName);
 
         if(Array.isArray(validationRules) && validationRules.length) {
             this._createComponent($editor, Validator, {
@@ -811,15 +808,15 @@ var LayoutManager = Widget.inherit({
     },
 
     _getFieldLabelName: function(item) {
-        var isItemHaveCustomLabel = item.label && item.label.text,
-            itemName = isItemHaveCustomLabel ? null : this._getName(item);
+        var isItemHaveCustomLabel = item.label && item.label.text;
+        var itemName = isItemHaveCustomLabel ? null : this._getName(item);
 
         return isItemHaveCustomLabel ? item.label.text : itemName && inflector.captionize(itemName);
     },
 
     _prepareValidationRules: function(userValidationRules, isItemRequired, itemType, itemName) {
-        var isSimpleItem = itemType === SIMPLE_ITEM_TYPE,
-            validationRules;
+        var isSimpleItem = itemType === SIMPLE_ITEM_TYPE;
+        var validationRules;
 
         if(isSimpleItem) {
             if(userValidationRules) {
@@ -835,11 +832,12 @@ var LayoutManager = Widget.inherit({
     },
 
     _addWrapperInvalidClass: function(editorInstance) {
-        var wrapperClass = "." + FIELD_ITEM_CONTENT_WRAPPER_CLASS,
-            toggleInvalidClass = function(e) {
-                $(e.element).parents(wrapperClass)
-                    .toggleClass(INVALID_CLASS, e.event.type === "focusin" && e.component.option("isValid") === false);
-            };
+        var wrapperClass = "." + FIELD_ITEM_CONTENT_WRAPPER_CLASS;
+
+        var toggleInvalidClass = function(e) {
+            $(e.element).parents(wrapperClass)
+                .toggleClass(INVALID_CLASS, e.event.type === "focusin" && e.component.option("isValid") === false);
+        };
 
         editorInstance
             .on("focusIn", toggleInvalidClass)
@@ -847,9 +845,9 @@ var LayoutManager = Widget.inherit({
     },
 
     _createEditor: function($container, renderOptions, editorOptions) {
-        var that = this,
-            template = renderOptions.template,
-            editorInstance;
+        var that = this;
+        var template = renderOptions.template;
+        var editorInstance;
 
         if(renderOptions.dataField && !editorOptions.name) {
             editorOptions.name = renderOptions.dataField;
@@ -908,8 +906,8 @@ var LayoutManager = Widget.inherit({
     },
 
     _createWatcher: function(editorInstance, $container, renderOptions) {
-        var that = this,
-            watch = that._getWatch();
+        var that = this;
+        var watch = that._getWatch();
 
         if(!typeUtils.isFunction(watch)) {
             return;
@@ -947,20 +945,21 @@ var LayoutManager = Widget.inherit({
     },
 
     _getItemContentLocationSpecificClass: function() {
-        var labelLocation = this.option("labelLocation"),
-            oppositeClasses = {
-                right: "left",
-                left: "right",
-                top: "bottom"
-            };
+        var labelLocation = this.option("labelLocation");
+
+        var oppositeClasses = {
+            right: "left",
+            left: "right",
+            top: "bottom"
+        };
 
         return FIELD_ITEM_CONTENT_LOCATION_CLASS + oppositeClasses[labelLocation];
     },
 
     _createComponent: function($editor, type, editorOptions) {
-        var that = this,
-            readOnlyState = this.option("readOnly"),
-            instance;
+        var that = this;
+        var readOnlyState = this.option("readOnly");
+        var instance;
 
         instance = that.callBase($editor, type, editorOptions);
 
@@ -1006,8 +1005,8 @@ var LayoutManager = Widget.inherit({
     },
 
     _renderHelpText: function(fieldItem, $editor, helpID) {
-        var helpText = fieldItem.helpText,
-            isSimpleItem = fieldItem.itemType === SIMPLE_ITEM_TYPE;
+        var helpText = fieldItem.helpText;
+        var isSimpleItem = fieldItem.itemType === SIMPLE_ITEM_TYPE;
 
         if(helpText && isSimpleItem) {
             var $editorWrapper = $("<div>").addClass(FIELD_ITEM_CONTENT_WRAPPER_CLASS);
@@ -1033,9 +1032,9 @@ var LayoutManager = Widget.inherit({
     },
 
     _generateRatio: function(count, isAutoSize) {
-        var result = [],
-            ratio,
-            i;
+        var result = [];
+        var ratio;
+        var i;
 
         for(i = 0; i < count; i++) {
             ratio = { ratio: 1 };
@@ -1089,8 +1088,8 @@ var LayoutManager = Widget.inherit({
                                 var dataField = itemRunTimeInfo.item.dataField;
 
                                 if(dataField && typeUtils.isDefined(itemRunTimeInfo.widgetInstance)) {
-                                    var valueGetter = dataUtils.compileGetter(dataField),
-                                        dataValue = valueGetter(args.value);
+                                    var valueGetter = dataUtils.compileGetter(dataField);
+                                    var dataValue = valueGetter(args.value);
 
                                     if(dataValue === undefined) {
                                         itemRunTimeInfo.widgetInstance.reset();
@@ -1151,9 +1150,9 @@ var LayoutManager = Widget.inherit({
     },
 
     linkEditorToDataField: function(editorInstance, dataField, editorType) {
-        var fullFieldName = "layoutData." + dataField,
-            that = this,
-            isDataUpdating;
+        var fullFieldName = "layoutData." + dataField;
+        var that = this;
+        var isDataUpdating;
 
         that.on("optionChanged", function(args) {
             if(args.fullName === fullFieldName) {
@@ -1168,8 +1167,8 @@ var LayoutManager = Widget.inherit({
         });
 
         editorInstance.on("valueChanged", function(args) {
-            var isObjectValue = typeof args.value === "object",
-                isSameObjectValue = isObjectValue && args.value === args.previousValue;
+            var isObjectValue = typeof args.value === "object";
+            var isSameObjectValue = isObjectValue && args.value === args.previousValue;
 
             if(!isDataUpdating && !isSameObjectValue) {
                 if(isObjectValue) {

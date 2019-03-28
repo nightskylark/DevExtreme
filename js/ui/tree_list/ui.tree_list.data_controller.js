@@ -68,11 +68,13 @@ exports.DataController = dataControllerModule.controllers.data.inherit((function
 
         changeRowExpand: function(key) {
             if(this._dataSource) {
-                var that = this,
-                    args = {
-                        key: key
-                    },
-                    isExpanded = this.isRowExpanded(key);
+                var that = this;
+
+                var args = {
+                    key: key
+                };
+
+                var isExpanded = this.isRowExpanded(key);
 
                 that.executeAction(isExpanded ? "onRowCollapsing" : "onRowExpanding", args);
 

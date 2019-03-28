@@ -1,14 +1,12 @@
-var dataUtils = require("../../core/element_data"),
-    eventsEngine = require("../../events/core/events_engine"),
-    WeakMap = require("../polyfills/weak_map"),
-    isDefined = require("./type").isDefined,
-    removeEvent = require("../remove_event");
-
-var COMPONENT_NAMES_DATA_KEY = "dxComponents",
-    ANONYMOUS_COMPONENT_DATA_KEY = "dxPrivateComponent";
-
-var componentNames = new WeakMap(),
-    nextAnonymousComponent = 0;
+var dataUtils = require("../../core/element_data");
+var eventsEngine = require("../../events/core/events_engine");
+var WeakMap = require("../polyfills/weak_map");
+var isDefined = require("./type").isDefined;
+var removeEvent = require("../remove_event");
+var COMPONENT_NAMES_DATA_KEY = "dxComponents";
+var ANONYMOUS_COMPONENT_DATA_KEY = "dxPrivateComponent";
+var componentNames = new WeakMap();
+var nextAnonymousComponent = 0;
 
 var getName = exports.name = function(componentClass, newName) {
     if(isDefined(newName)) {
@@ -26,8 +24,8 @@ var getName = exports.name = function(componentClass, newName) {
 };
 
 exports.attachInstanceToElement = function($element, componentInstance, disposeFn) {
-    var data = dataUtils.data($element.get(0)),
-        name = getName(componentInstance.constructor);
+    var data = dataUtils.data($element.get(0));
+    var name = getName(componentInstance.constructor);
 
     data[name] = componentInstance;
 

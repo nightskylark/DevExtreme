@@ -1,5 +1,5 @@
-var _ln = Math.log,
-    _LN2 = Math.LN2;
+var _ln = Math.log;
+var _LN2 = Math.LN2;
 
 function GestureHandler(params) {
     var that = this;
@@ -18,8 +18,8 @@ GestureHandler.prototype = {
     },
 
     _subscribeToTracker: function(tracker) {
-        var that = this,
-            isActive = false;
+        var that = this;
+        var isActive = false;
         that._offTracker = tracker.on({
             "start": function(arg) {
                 // TODO: This is an implicit dependency on the ControlBar which must be removed
@@ -77,10 +77,10 @@ GestureHandler.prototype = {
     },
 
     _processZoom: function(arg) {
-        var that = this,
-            delta,
-            screenPosition,
-            coords;
+        var that = this;
+        var delta;
+        var screenPosition;
+        var coords;
         if(that._zoomingEnabled) {
             if(arg.delta) {
                 delta = arg.delta;

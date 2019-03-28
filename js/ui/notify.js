@@ -1,9 +1,9 @@
-var $ = require("../core/renderer"),
-    Action = require("../core/action"),
-    viewPortUtils = require("../core/utils/view_port"),
-    extend = require("../core/utils/extend").extend,
-    isPlainObject = require("../core/utils/type").isPlainObject,
-    Toast = require("./toast");
+var $ = require("../core/renderer");
+var Action = require("../core/action");
+var viewPortUtils = require("../core/utils/view_port");
+var extend = require("../core/utils/extend").extend;
+var isPlainObject = require("../core/utils/type").isPlainObject;
+var Toast = require("./toast");
 
 
 var $notify = null;

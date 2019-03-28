@@ -1,18 +1,18 @@
-var $ = require("../core/renderer"),
-    windowUtils = require("./utils/window"),
-    navigator = windowUtils.getNavigator(),
-    window = windowUtils.getWindow(),
-    extend = require("./utils/extend").extend,
-    isPlainObject = require("./utils/type").isPlainObject,
-    each = require("./utils/iterator").each,
-    Class = require("./class"),
-    errors = require("./errors"),
-    Callbacks = require("./utils/callbacks"),
-    resizeCallbacks = require("./utils/resize_callbacks"),
-    EventsMixin = require("./events_mixin"),
-    SessionStorage = require("./utils/storage").sessionStorage,
-    viewPort = require("./utils/view_port"),
-    Config = require("./config");
+var $ = require("../core/renderer");
+var windowUtils = require("./utils/window");
+var navigator = windowUtils.getNavigator();
+var window = windowUtils.getWindow();
+var extend = require("./utils/extend").extend;
+var isPlainObject = require("./utils/type").isPlainObject;
+var each = require("./utils/iterator").each;
+var Class = require("./class");
+var errors = require("./errors");
+var Callbacks = require("./utils/callbacks");
+var resizeCallbacks = require("./utils/resize_callbacks");
+var EventsMixin = require("./events_mixin");
+var SessionStorage = require("./utils/storage").sessionStorage;
+var viewPort = require("./utils/view_port");
+var Config = require("./config");
 
 var KNOWN_UA_TABLE = {
     "iPhone": "iPhone",
@@ -100,16 +100,16 @@ var DEFAULT_DEVICE = {
 
 var uaParsers = {
     win: function(userAgent) {
-        var isPhone = /windows phone/i.test(userAgent) || userAgent.match(/WPDesktop/),
-            isTablet = !isPhone && /Windows(.*)arm(.*)Tablet PC/i.test(userAgent),
-            isDesktop = !isPhone && !isTablet && /msapphost/i.test(userAgent);
+        var isPhone = /windows phone/i.test(userAgent) || userAgent.match(/WPDesktop/);
+        var isTablet = !isPhone && /Windows(.*)arm(.*)Tablet PC/i.test(userAgent);
+        var isDesktop = !isPhone && !isTablet && /msapphost/i.test(userAgent);
 
         if(!(isPhone || isTablet || isDesktop)) {
             return;
         }
 
-        var matches = userAgent.match(/windows phone (\d+).(\d+)/i) || userAgent.match(/windows nt (\d+).(\d+)/i),
-            version = [];
+        var matches = userAgent.match(/windows phone (\d+).(\d+)/i) || userAgent.match(/windows nt (\d+).(\d+)/i);
+        var version = [];
 
         if(matches) {
             version.push(parseInt(matches[1], 10), parseInt(matches[2], 10));
@@ -131,11 +131,11 @@ var uaParsers = {
             return;
         }
 
-        var isPhone = /ip(hone|od)/i.test(userAgent),
-            matches = userAgent.match(/os (\d+)_(\d+)_?(\d+)?/i),
-            version = matches ? [parseInt(matches[1], 10), parseInt(matches[2], 10), parseInt(matches[3] || 0, 10)] : [],
-            isIPhone4 = (window.screen.height === (960 / 2)),
-            grade = isIPhone4 ? "B" : "A";
+        var isPhone = /ip(hone|od)/i.test(userAgent);
+        var matches = userAgent.match(/os (\d+)_(\d+)_?(\d+)?/i);
+        var version = matches ? [parseInt(matches[1], 10), parseInt(matches[2], 10), parseInt(matches[3] || 0, 10)] : [];
+        var isIPhone4 = (window.screen.height === (960 / 2));
+        var grade = isIPhone4 ? "B" : "A";
 
         return {
             deviceType: isPhone ? "phone" : "tablet",
@@ -150,11 +150,11 @@ var uaParsers = {
             return;
         }
 
-        var isPhone = /mobile/i.test(userAgent),
-            matches = userAgent.match(/android (\d+)\.(\d+)\.?(\d+)?/i),
-            version = matches ? [parseInt(matches[1], 10), parseInt(matches[2], 10), parseInt(matches[3] || 0, 10)] : [],
-            worseThan4_4 = version.length > 1 && (version[0] < 4 || version[0] === 4 && version[1] < 4),
-            grade = worseThan4_4 ? "B" : "A";
+        var isPhone = /mobile/i.test(userAgent);
+        var matches = userAgent.match(/android (\d+)\.(\d+)\.?(\d+)?/i);
+        var version = matches ? [parseInt(matches[1], 10), parseInt(matches[2], 10), parseInt(matches[3] || 0, 10)] : [];
+        var worseThan4_4 = version.length > 1 && (version[0] < 4 || version[0] === 4 && version[1] < 4);
+        var grade = worseThan4_4 ? "B" : "A";
 
         return {
             deviceType: isPhone ? "phone" : "tablet",
@@ -376,15 +376,16 @@ var Devices = Class.inherit({
     },
 
     _fromConfig: function(config) {
-        var result = extend({}, DEFAULT_DEVICE, this._currentDevice, config),
-            shortcuts = {
-                phone: result.deviceType === "phone",
-                tablet: result.deviceType === "tablet",
-                android: result.platform === "android",
-                ios: result.platform === "ios",
-                win: result.platform === "win",
-                generic: result.platform === "generic"
-            };
+        var result = extend({}, DEFAULT_DEVICE, this._currentDevice, config);
+
+        var shortcuts = {
+            phone: result.deviceType === "phone",
+            tablet: result.deviceType === "tablet",
+            android: result.platform === "android",
+            ios: result.platform === "ios",
+            win: result.platform === "win",
+            generic: result.platform === "generic"
+        };
 
         return extend(result, shortcuts);
     },
@@ -401,8 +402,8 @@ var Devices = Class.inherit({
             return this._fromConfig(config);
         }
 
-        var isMac = /(mac os)/.test(ua.toLowerCase()),
-            deviceWithOS = DEFAULT_DEVICE;
+        var isMac = /(mac os)/.test(ua.toLowerCase());
+        var deviceWithOS = DEFAULT_DEVICE;
 
         deviceWithOS.mac = isMac;
 
@@ -410,8 +411,8 @@ var Devices = Class.inherit({
     },
 
     _changeOrientation: function() {
-        var $window = $(this._window),
-            orientation = $window.height() > $window.width() ? "portrait" : "landscape";
+        var $window = $(this._window);
+        var orientation = $window.height() > $window.width() ? "portrait" : "landscape";
 
         if(this._currentOrientation === orientation) {
             return;

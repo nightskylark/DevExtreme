@@ -1,20 +1,20 @@
-var typeUtils = require("../../core/utils/type"),
-    iteratorUtils = require("../../core/utils/iterator"),
-    config = require("../../core/config"),
-    extend = require("../../core/utils/extend").extend,
-    queryAdapters = require("../query_adapters"),
-    odataUtils = require("./utils"),
-    serializePropName = odataUtils.serializePropName,
-    errors = require("../errors").errors,
-    dataUtils = require("../utils"),
-    isFunction = typeUtils.isFunction;
+var typeUtils = require("../../core/utils/type");
+var iteratorUtils = require("../../core/utils/iterator");
+var config = require("../../core/config");
+var extend = require("../../core/utils/extend").extend;
+var queryAdapters = require("../query_adapters");
+var odataUtils = require("./utils");
+var serializePropName = odataUtils.serializePropName;
+var errors = require("../errors").errors;
+var dataUtils = require("../utils");
+var isFunction = typeUtils.isFunction;
 
 var DEFAULT_PROTOCOL_VERSION = 2;
 
 var compileCriteria = (function() {
-    var protocolVersion,
-        forceLowerCase,
-        fieldTypes;
+    var protocolVersion;
+    var forceLowerCase;
+    var fieldTypes;
 
     var createBinaryOperationFormatter = function(op) {
         return function(prop, val) {
@@ -66,18 +66,20 @@ var compileCriteria = (function() {
     var compileBinary = function(criteria) {
         criteria = dataUtils.normalizeBinaryCriterion(criteria);
 
-        var op = criteria[1],
-            formatters = protocolVersion === 4
-                ? formattersV4
-                : formattersV2,
-            formatter = formatters[op.toLowerCase()];
+        var op = criteria[1];
+
+        var formatters = protocolVersion === 4
+            ? formattersV4
+            : formattersV2;
+
+        var formatter = formatters[op.toLowerCase()];
 
         if(!formatter) {
             throw errors.Error("E4003", op);
         }
 
-        var fieldName = criteria[0],
-            value = criteria[2];
+        var fieldName = criteria[0];
+        var value = criteria[2];
 
         if(fieldTypes && fieldTypes[fieldName]) {
             value = odataUtils.convertPrimitiveValue(fieldTypes[fieldName], value);
@@ -91,8 +93,8 @@ var compileCriteria = (function() {
 
 
     var compileUnary = function(criteria) {
-        var op = criteria[0],
-            crit = compileCore(criteria[1]);
+        var op = criteria[0];
+        var crit = compileCore(criteria[1]);
 
         if(op === "!") {
             return "not (" + crit + ")";
@@ -102,9 +104,9 @@ var compileCriteria = (function() {
     };
 
     var compileGroup = function(criteria) {
-        var bag = [],
-            groupOperator,
-            nextGroupOperator;
+        var bag = [];
+        var groupOperator;
+        var nextGroupOperator;
 
         iteratorUtils.each(criteria, function(index, criterion) {
             if(Array.isArray(criterion)) {
@@ -147,15 +149,14 @@ var compileCriteria = (function() {
 })();
 
 var createODataQueryAdapter = function(queryOptions) {
-    var _sorting = [],
-        _criteria = [],
-        _expand = queryOptions.expand,
-        _select,
-        _skip,
-        _take,
-        _countQuery,
-
-        _oDataVersion = queryOptions.version || DEFAULT_PROTOCOL_VERSION;
+    var _sorting = [];
+    var _criteria = [];
+    var _expand = queryOptions.expand;
+    var _select;
+    var _skip;
+    var _take;
+    var _countQuery;
+    var _oDataVersion = queryOptions.version || DEFAULT_PROTOCOL_VERSION;
 
     var hasSlice = function() {
         return _skip || _take !== undefined;
@@ -193,9 +194,9 @@ var createODataQueryAdapter = function(queryOptions) {
         }
 
         if(_criteria.length) {
-            var criteria = _criteria.length < 2 ? _criteria[0] : _criteria,
-                fieldTypes = queryOptions && queryOptions.fieldTypes,
-                filterToLower = queryOptions && queryOptions.filterToLower;
+            var criteria = _criteria.length < 2 ? _criteria[0] : _criteria;
+            var fieldTypes = queryOptions && queryOptions.fieldTypes;
+            var filterToLower = queryOptions && queryOptions.filterToLower;
 
             result["$filter"] = compileCriteria(criteria, _oDataVersion, fieldTypes, filterToLower);
         }
@@ -266,9 +267,9 @@ var createODataQueryAdapter = function(queryOptions) {
             }
 
             for(var i = 0; i < args.length; i++) {
-                var getter = args[i][0],
-                    desc = !!args[i][1],
-                    rule;
+                var getter = args[i][0];
+                var desc = !!args[i][1];
+                var rule;
 
                 if(typeof getter !== "string") {
                     return false;

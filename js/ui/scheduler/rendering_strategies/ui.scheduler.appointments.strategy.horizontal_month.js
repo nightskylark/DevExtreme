@@ -1,26 +1,25 @@
-var noop = require("../../../core/utils/common").noop,
-    extend = require("../../../core/utils/extend").extend,
-    HorizontalMonthLineAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.horizontal_month_line");
-
-var MONTH_APPOINTMENT_HEIGHT_RATIO = 0.6,
-    MONTH_APPOINTMENT_MIN_OFFSET = 26,
-    MONTH_APPOINTMENT_MAX_OFFSET = 30,
-    MONTH_DROPDOWN_APPOINTMENT_MIN_RIGHT_OFFSET = 36,
-    MONTH_DROPDOWN_APPOINTMENT_MAX_RIGHT_OFFSET = 60;
+var noop = require("../../../core/utils/common").noop;
+var extend = require("../../../core/utils/extend").extend;
+var HorizontalMonthLineAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.horizontal_month_line");
+var MONTH_APPOINTMENT_HEIGHT_RATIO = 0.6;
+var MONTH_APPOINTMENT_MIN_OFFSET = 26;
+var MONTH_APPOINTMENT_MAX_OFFSET = 30;
+var MONTH_DROPDOWN_APPOINTMENT_MIN_RIGHT_OFFSET = 36;
+var MONTH_DROPDOWN_APPOINTMENT_MAX_RIGHT_OFFSET = 60;
 
 var HorizontalMonthRenderingStrategy = HorizontalMonthLineAppointmentsStrategy.inherit({
 
     _getAppointmentParts: function(appointmentGeometry, appointmentSettings, startDate) {
-        var deltaWidth = appointmentGeometry.sourceAppointmentWidth - appointmentGeometry.reducedWidth,
-            height = appointmentGeometry.height,
-            fullWeekAppointmentWidth = this._getFullWeekAppointmentWidth(appointmentSettings.groupIndex),
-            maxAppointmentWidth = this._getMaxAppointmentWidth(startDate),
-            longPartCount = Math.ceil((deltaWidth) / fullWeekAppointmentWidth) - 1,
-            tailWidth = Math.floor(deltaWidth % fullWeekAppointmentWidth) || fullWeekAppointmentWidth,
-            result = [],
-            totalWidth = appointmentGeometry.reducedWidth + tailWidth,
-            currentPartTop = appointmentSettings.top + this._defaultHeight,
-            left = this._calculateMultiWeekAppointmentLeftOffset(appointmentSettings.hMax, fullWeekAppointmentWidth);
+        var deltaWidth = appointmentGeometry.sourceAppointmentWidth - appointmentGeometry.reducedWidth;
+        var height = appointmentGeometry.height;
+        var fullWeekAppointmentWidth = this._getFullWeekAppointmentWidth(appointmentSettings.groupIndex);
+        var maxAppointmentWidth = this._getMaxAppointmentWidth(startDate);
+        var longPartCount = Math.ceil((deltaWidth) / fullWeekAppointmentWidth) - 1;
+        var tailWidth = Math.floor(deltaWidth % fullWeekAppointmentWidth) || fullWeekAppointmentWidth;
+        var result = [];
+        var totalWidth = appointmentGeometry.reducedWidth + tailWidth;
+        var currentPartTop = appointmentSettings.top + this._defaultHeight;
+        var left = this._calculateMultiWeekAppointmentLeftOffset(appointmentSettings.hMax, fullWeekAppointmentWidth);
 
         if(this.instance._groupOrientation === "vertical") {
             left += this.instance.fire("getWorkSpaceDateTableOffset");
@@ -93,9 +92,9 @@ var HorizontalMonthRenderingStrategy = HorizontalMonthLineAppointmentsStrategy.i
     _columnCondition: function(a, b) {
         var isSomeEdge = this._isSomeEdge(a, b);
 
-        var columnCondition = this._normalizeCondition(a.left, b.left, isSomeEdge),
-            rowCondition = this._normalizeCondition(a.top, b.top, isSomeEdge),
-            cellPositionCondition = this._normalizeCondition(a.cellPosition, b.cellPosition, isSomeEdge);
+        var columnCondition = this._normalizeCondition(a.left, b.left, isSomeEdge);
+        var rowCondition = this._normalizeCondition(a.top, b.top, isSomeEdge);
+        var cellPositionCondition = this._normalizeCondition(a.cellPosition, b.cellPosition, isSomeEdge);
 
         return rowCondition ? rowCondition : columnCondition ? columnCondition : cellPositionCondition ? cellPositionCondition : a.isStart - b.isStart;
     },

@@ -4,10 +4,10 @@ import clickEvent from "../../events/click";
 import { each } from "../../core/utils/iterator";
 import modules from "./ui.grid_core.modules";
 
-var ERROR_ROW_CLASS = "dx-error-row",
-    ERROR_MESSAGE_CLASS = "dx-error-message",
-    ERROR_CLOSEBUTTON_CLASS = "dx-closebutton",
-    ACTION_CLASS = "action";
+var ERROR_ROW_CLASS = "dx-error-row";
+var ERROR_MESSAGE_CLASS = "dx-error-message";
+var ERROR_CLOSEBUTTON_CLASS = "dx-closebutton";
+var ACTION_CLASS = "action";
 
 var ErrorHandlingController = modules.ViewController.inherit({
     init: function() {
@@ -18,19 +18,19 @@ var ErrorHandlingController = modules.ViewController.inherit({
     },
 
     _createErrorRow: function(error, $tableElements) {
-        var that = this,
-            $errorRow,
-            $closeButton,
-            $errorMessage = this._renderErrorMessage(error);
+        var that = this;
+        var $errorRow;
+        var $closeButton;
+        var $errorMessage = this._renderErrorMessage(error);
 
         if($tableElements) {
             $errorRow = $("<tr>").addClass(ERROR_ROW_CLASS);
             $closeButton = $("<div>").addClass(ERROR_CLOSEBUTTON_CLASS).addClass(that.addWidgetPrefix(ACTION_CLASS));
 
             eventsEngine.on($closeButton, clickEvent.name, that.createAction(function(args) {
-                var e = args.event,
-                    $errorRow,
-                    errorRowIndex = $(e.currentTarget).closest("." + ERROR_ROW_CLASS).index();
+                var e = args.event;
+                var $errorRow;
+                var errorRowIndex = $(e.currentTarget).closest("." + ERROR_ROW_CLASS).index();
 
                 e.stopPropagation();
                 each($tableElements, function(_, tableElement) {
@@ -55,8 +55,8 @@ var ErrorHandlingController = modules.ViewController.inherit({
     },
 
     _renderErrorMessage: function(error) {
-        var message = error.url ? error.message.replace(error.url, "") : error.message || error,
-            $message = $("<div>").addClass(ERROR_MESSAGE_CLASS).text(message);
+        var message = error.url ? error.message.replace(error.url, "") : error.message || error;
+        var $message = $("<div>").addClass(ERROR_MESSAGE_CLASS).text(message);
 
         if(error.url) {
             $("<a>").attr("href", error.url).text(error.url).appendTo($message);
@@ -66,13 +66,13 @@ var ErrorHandlingController = modules.ViewController.inherit({
     },
 
     renderErrorRow: function(error, rowIndex, $popupContent) {
-        var that = this,
-            $row,
-            $errorMessageElement,
-            $firstErrorRow,
-            rowElements,
-            viewElement,
-            $tableElements;
+        var that = this;
+        var $row;
+        var $errorMessageElement;
+        var $firstErrorRow;
+        var rowElements;
+        var viewElement;
+        var $tableElements;
 
         if($popupContent) {
             $popupContent.find("." + ERROR_MESSAGE_CLASS).remove();
@@ -150,8 +150,8 @@ module.exports = {
         controllers: {
             data: {
                 init: function() {
-                    var that = this,
-                        errorHandlingController = that.getController("errorHandling");
+                    var that = this;
+                    var errorHandlingController = that.getController("errorHandling");
 
                     that.callBase();
 
@@ -161,8 +161,8 @@ module.exports = {
                         }
                     });
                     that.changed.add(function() {
-                        var errorHandlingController = that.getController("errorHandling"),
-                            editingController = that.getController("editing");
+                        var errorHandlingController = that.getController("errorHandling");
+                        var editingController = that.getController("editing");
 
                         if(editingController && !editingController.hasChanges()) {
                             errorHandlingController && errorHandlingController.removeErrorRow();

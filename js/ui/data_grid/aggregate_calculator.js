@@ -19,7 +19,8 @@ function depthFirstSearch(i, depth, root, callback) {
 
 // NOTE: https://github.com/jquery/jquery/blame/master/src/core.js#L392
 function map(array, callback) {
-    var i, result;
+    var i;
+    var result;
 
     if("map" in array) {
         return array.map(callback);
@@ -42,11 +43,13 @@ function isCount(aggregator) {
 }
 
 function normalizeAggregate(aggregate) {
-    var selector = compileGetter(aggregate.selector),
-        skipEmptyValues = ("skipEmptyValues" in aggregate)
-            ? aggregate.skipEmptyValues
-            : true,
-        aggregator = aggregate.aggregator;
+    var selector = compileGetter(aggregate.selector);
+
+    var skipEmptyValues = ("skipEmptyValues" in aggregate)
+        ? aggregate.skipEmptyValues
+        : true;
+
+    var aggregator = aggregate.aggregator;
 
 
     if(typeof aggregator === "string") {
@@ -87,8 +90,9 @@ module.exports = Class.inherit({
     },
 
     _aggregate: function(aggregates, data, container) {
-        var i, j,
-            length = data.items ? data.items.length : 0;
+        var i;
+        var j;
+        var length = data.items ? data.items.length : 0;
 
         for(i = 0; i < aggregates.length; i++) {
             if(isCount(aggregates[i].aggregator)) {
@@ -122,12 +126,11 @@ module.exports = Class.inherit({
     },
 
     _calculateGroups: function(root) {
-        var maxLevel = this._groupLevel,
-            currentLevel = maxLevel + 1,
-
-            seedFn = this._seed.bind(this, this._groupAggregates),
-            stepFn = this._aggregate.bind(this, this._groupAggregates),
-            finalizeFn = this._finalize.bind(this, this._groupAggregates);
+        var maxLevel = this._groupLevel;
+        var currentLevel = maxLevel + 1;
+        var seedFn = this._seed.bind(this, this._groupAggregates);
+        var stepFn = this._aggregate.bind(this, this._groupAggregates);
+        var finalizeFn = this._finalize.bind(this, this._groupAggregates);
 
         function aggregator(node) {
             node.aggregates = seedFn(currentLevel - 1);
@@ -150,19 +153,20 @@ module.exports = Class.inherit({
 
     _seed: function(aggregates, groupIndex) {
         return map(aggregates, function(aggregate) {
-            var aggregator = aggregate.aggregator,
-                seed = "seed" in aggregator
-                    ? (isFunction(aggregator.seed) ? aggregator.seed(groupIndex) : aggregator.seed)
-                    : NaN;
+            var aggregator = aggregate.aggregator;
+
+            var seed = "seed" in aggregator
+                ? (isFunction(aggregator.seed) ? aggregator.seed(groupIndex) : aggregator.seed)
+                : NaN;
 
             return seed;
         });
     },
 
     _accumulate: function(aggregateIndex, aggregate, results, item) {
-        var value = aggregate.selector(item),
-            aggregator = aggregate.aggregator,
-            skipEmptyValues = aggregate.skipEmptyValues;
+        var value = aggregate.selector(item);
+        var aggregator = aggregate.aggregator;
+        var skipEmptyValues = aggregate.skipEmptyValues;
 
         if(skipEmptyValues && isEmpty(value)) {
             return;

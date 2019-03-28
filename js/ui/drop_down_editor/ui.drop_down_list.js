@@ -1,32 +1,29 @@
-var $ = require("../../core/renderer"),
-    window = require("../../core/utils/window").getWindow(),
-    eventsEngine = require("../../events/core/events_engine"),
-    Guid = require("../../core/guid"),
-    registerComponent = require("../../core/component_registrator"),
-    commonUtils = require("../../core/utils/common"),
-    typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    inArray = require("../../core/utils/array").inArray,
-    DropDownEditor = require("./ui.drop_down_editor"),
-    List = require("../list"),
-    errors = require("../widget/ui.errors"),
-    eventUtils = require("../../events/utils"),
-    devices = require("../../core/devices"),
-    DataExpressionMixin = require("../editor/ui.data_expression"),
-    messageLocalization = require("../../localization/message"),
-    themes = require("../themes"),
-    ChildDefaultTemplate = require("../widget/child_default_template"),
-    Deferred = require("../../core/utils/deferred").Deferred,
-    DataConverterMixin = require("../shared/grouped_data_converter_mixin").default;
-
-var LIST_ITEM_SELECTOR = ".dx-list-item",
-    LIST_ITEM_DATA_KEY = "dxListItemData",
-    DROPDOWNLIST_POPUP_WRAPPER_CLASS = "dx-dropdownlist-popup-wrapper",
-
-    SKIP_GESTURE_EVENT_CLASS = "dx-skip-gesture-event",
-    SEARCH_EVENT = "input",
-
-    SEARCH_MODES = ["startswith", "contains", "endwith", "notcontains"];
+var $ = require("../../core/renderer");
+var window = require("../../core/utils/window").getWindow();
+var eventsEngine = require("../../events/core/events_engine");
+var Guid = require("../../core/guid");
+var registerComponent = require("../../core/component_registrator");
+var commonUtils = require("../../core/utils/common");
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var inArray = require("../../core/utils/array").inArray;
+var DropDownEditor = require("./ui.drop_down_editor");
+var List = require("../list");
+var errors = require("../widget/ui.errors");
+var eventUtils = require("../../events/utils");
+var devices = require("../../core/devices");
+var DataExpressionMixin = require("../editor/ui.data_expression");
+var messageLocalization = require("../../localization/message");
+var themes = require("../themes");
+var ChildDefaultTemplate = require("../widget/child_default_template");
+var Deferred = require("../../core/utils/deferred").Deferred;
+var DataConverterMixin = require("../shared/grouped_data_converter_mixin").default;
+var LIST_ITEM_SELECTOR = ".dx-list-item";
+var LIST_ITEM_DATA_KEY = "dxListItemData";
+var DROPDOWNLIST_POPUP_WRAPPER_CLASS = "dx-dropdownlist-popup-wrapper";
+var SKIP_GESTURE_EVENT_CLASS = "dx-skip-gesture-event";
+var SEARCH_EVENT = "input";
+var SEARCH_MODES = ["startswith", "contains", "endwith", "notcontains"];
 
 /**
 * @name dxDropDownList
@@ -360,8 +357,8 @@ var DropDownList = DropDownEditor.inherit({
     },
 
     _loadItem: function(value, cache) {
-        var plainItems,
-            selectedItem;
+        var plainItems;
+        var selectedItem;
 
         if(cache && typeof value !== "object") {
             if(!cache.itemByValue) {
@@ -446,8 +443,8 @@ var DropDownList = DropDownEditor.inherit({
     },
 
     _validateSearchMode: function() {
-        var searchMode = this.option("searchMode"),
-            normalizedSearchMode = searchMode.toLowerCase();
+        var searchMode = this.option("searchMode");
+        var normalizedSearchMode = searchMode.toLowerCase();
 
         if(inArray(normalizedSearchMode, SEARCH_MODES) < 0) {
             throw errors.Error("E1019", searchMode);
@@ -799,8 +796,8 @@ var DropDownList = DropDownEditor.inherit({
             return false;
         }
 
-        var currentPageIndex = this._dataSource.pageIndex(),
-            needRepaint = typeUtils.isDefined(this._pageIndex) && currentPageIndex <= this._pageIndex;
+        var currentPageIndex = this._dataSource.pageIndex();
+        var needRepaint = typeUtils.isDefined(this._pageIndex) && currentPageIndex <= this._pageIndex;
 
         this._pageIndex = currentPageIndex;
 
@@ -816,10 +813,10 @@ var DropDownList = DropDownEditor.inherit({
     },
 
     _getMaxHeight: function() {
-        var $element = this.$element(),
-            offset = $element.offset(),
-            windowHeight = $(window).height(),
-            maxHeight = Math.max(offset.top, windowHeight - offset.top - $element.outerHeight());
+        var $element = this.$element();
+        var offset = $element.offset();
+        var windowHeight = $(window).height();
+        var maxHeight = Math.max(offset.top, windowHeight - offset.top - $element.outerHeight());
 
         return Math.min(windowHeight * 0.5, maxHeight);
     },

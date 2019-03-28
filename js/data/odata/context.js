@@ -1,13 +1,13 @@
-var Class = require("../../core/class"),
-    extend = require("../../core/utils/extend").extend,
-    typeUtils = require("../../core/utils/type"),
-    each = require("../../core/utils/iterator").each,
-    errorsModule = require("../errors"),
-    ODataStore = require("./store"),
-    mixins = require("./mixins"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred;
+var Class = require("../../core/class");
+var extend = require("../../core/utils/extend").extend;
+var typeUtils = require("../../core/utils/type");
+var each = require("../../core/utils/iterator").each;
+var errorsModule = require("../errors");
+var ODataStore = require("./store");
+var mixins = require("./mixins");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
 
 require("./query_adapter");
 
@@ -113,9 +113,9 @@ var ODataContext = Class.inherit({
         params = params || {};
         httpMethod = (httpMethod || "POST").toLowerCase();
 
-        var d = new Deferred(),
-            url = this._url + "/" + encodeURIComponent(operationName),
-            payload;
+        var d = new Deferred();
+        var url = this._url + "/" + encodeURIComponent(operationName);
+        var payload;
 
         if(this.version() === 4) {
             if(httpMethod === "get") {

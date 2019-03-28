@@ -1,57 +1,53 @@
-var $ = require("../../core/renderer"),
-    windowUtils = require("../../core/utils/window"),
-    window = windowUtils.getWindow(),
-    browser = require("../../core/utils/browser"),
-    eventsEngine = require("../../events/core/events_engine"),
-    registerComponent = require("../../core/component_registrator"),
-    getPublicElement = require("../../core/utils/dom").getPublicElement,
-    stringUtils = require("../../core/utils/string"),
-    commonUtils = require("../../core/utils/common"),
-    each = require("../../core/utils/iterator").each,
-    isDefined = require("../../core/utils/type").isDefined,
-    extend = require("../../core/utils/extend").extend,
-    clickEvent = require("../../events/click"),
-    messageLocalization = require("../../localization/message"),
-    Widget = require("../widget/ui.widget"),
-    eventUtils = require("../../events/utils"),
-    gridCoreUtils = require("../grid_core/ui.grid_core.utils"),
-    pivotGridUtils = require("./ui.pivot_grid.utils"),
-    pivotGridDataController = require("./ui.pivot_grid.data_controller"),
-    PivotGridDataSource = require("./data_source"),
-    dataAreaNamespace = require("./ui.pivot_grid.data_area"),
-    headersArea = require("./ui.pivot_grid.headers_area"),
-
-    fieldsArea = require("./ui.pivot_grid.fields_area"),
-
-    PivotGridFieldChooser = require("./ui.pivot_grid.field_chooser"),
-    PivotGridFieldChooserBase = require("./ui.pivot_grid.field_chooser_base"),
-    ExportMixin = require("./ui.pivot_grid.export").ExportMixin,
-    chartIntegrationMixin = require("./ui.pivot_grid.chart_integration"),
-    Popup = require("../popup"),
-    ContextMenu = require("../context_menu"),
-    deferredUtils = require("../../core/utils/deferred"),
-    when = deferredUtils.when,
-    Deferred = deferredUtils.Deferred,
-
-    DATA_AREA_CELL_CLASS = "dx-area-data-cell",
-    ROW_AREA_CELL_CLASS = "dx-area-row-cell",
-    COLUMN_AREA_CELL_CLASS = "dx-area-column-cell",
-    DESCRIPTION_AREA_CELL_CLASS = "dx-area-description-cell",
-    BORDERS_CLASS = "dx-pivotgrid-border",
-    PIVOTGRID_CLASS = "dx-pivotgrid",
-    ROW_LINES_CLASS = "dx-row-lines",
-    BOTTOM_ROW_CLASS = "dx-bottom-row",
-    BOTTOM_BORDER_CLASS = "dx-bottom-border",
-    FIELDS_CONTAINER_CLASS = "dx-pivotgrid-fields-container",
-    FIELDS_CLASS = "dx-area-fields",
-    FIELD_CHOOSER_POPUP_CLASS = "dx-fieldchooser-popup",
-    INCOMPRESSIBLE_FIELDS_CLASS = "dx-incompressible-fields",
-    OVERFLOW_HIDDEN_CLASS = "dx-overflow-hidden",
-
-    TR = "<tr>",
-    TD = "<td>",
-    DIV = "<div>",
-    TEST_HEIGHT = 66666;
+var $ = require("../../core/renderer");
+var windowUtils = require("../../core/utils/window");
+var window = windowUtils.getWindow();
+var browser = require("../../core/utils/browser");
+var eventsEngine = require("../../events/core/events_engine");
+var registerComponent = require("../../core/component_registrator");
+var getPublicElement = require("../../core/utils/dom").getPublicElement;
+var stringUtils = require("../../core/utils/string");
+var commonUtils = require("../../core/utils/common");
+var each = require("../../core/utils/iterator").each;
+var isDefined = require("../../core/utils/type").isDefined;
+var extend = require("../../core/utils/extend").extend;
+var clickEvent = require("../../events/click");
+var messageLocalization = require("../../localization/message");
+var Widget = require("../widget/ui.widget");
+var eventUtils = require("../../events/utils");
+var gridCoreUtils = require("../grid_core/ui.grid_core.utils");
+var pivotGridUtils = require("./ui.pivot_grid.utils");
+var pivotGridDataController = require("./ui.pivot_grid.data_controller");
+var PivotGridDataSource = require("./data_source");
+var dataAreaNamespace = require("./ui.pivot_grid.data_area");
+var headersArea = require("./ui.pivot_grid.headers_area");
+var fieldsArea = require("./ui.pivot_grid.fields_area");
+var PivotGridFieldChooser = require("./ui.pivot_grid.field_chooser");
+var PivotGridFieldChooserBase = require("./ui.pivot_grid.field_chooser_base");
+var ExportMixin = require("./ui.pivot_grid.export").ExportMixin;
+var chartIntegrationMixin = require("./ui.pivot_grid.chart_integration");
+var Popup = require("../popup");
+var ContextMenu = require("../context_menu");
+var deferredUtils = require("../../core/utils/deferred");
+var when = deferredUtils.when;
+var Deferred = deferredUtils.Deferred;
+var DATA_AREA_CELL_CLASS = "dx-area-data-cell";
+var ROW_AREA_CELL_CLASS = "dx-area-row-cell";
+var COLUMN_AREA_CELL_CLASS = "dx-area-column-cell";
+var DESCRIPTION_AREA_CELL_CLASS = "dx-area-description-cell";
+var BORDERS_CLASS = "dx-pivotgrid-border";
+var PIVOTGRID_CLASS = "dx-pivotgrid";
+var ROW_LINES_CLASS = "dx-row-lines";
+var BOTTOM_ROW_CLASS = "dx-bottom-row";
+var BOTTOM_BORDER_CLASS = "dx-bottom-border";
+var FIELDS_CONTAINER_CLASS = "dx-pivotgrid-fields-container";
+var FIELDS_CLASS = "dx-area-fields";
+var FIELD_CHOOSER_POPUP_CLASS = "dx-fieldchooser-popup";
+var INCOMPRESSIBLE_FIELDS_CLASS = "dx-incompressible-fields";
+var OVERFLOW_HIDDEN_CLASS = "dx-overflow-hidden";
+var TR = "<tr>";
+var TD = "<td>";
+var DIV = "<div>";
+var TEST_HEIGHT = 66666;
 
 function getArraySum(array) {
     var sum = 0;
@@ -90,9 +86,9 @@ function getScrollBarInfo(useNativeScrolling) {
         return scrollBarInfoCache[useNativeScrolling];
     }
 
-    var scrollBarWidth = 0,
-        scrollBarUseNative,
-        options = {};
+    var scrollBarWidth = 0;
+    var scrollBarUseNative;
+    var options = {};
 
     var container = $(DIV).css({
         position: 'absolute',
@@ -129,8 +125,8 @@ function getScrollBarInfo(useNativeScrolling) {
 }
 
 function getCommonBorderWidth(elements, direction) {
-    var borderStyleNames = direction === "width" ? ["borderLeftWidth", "borderRightWidth"] : ["borderTopWidth", "borderBottomWidth"],
-        width = 0;
+    var borderStyleNames = direction === "width" ? ["borderLeftWidth", "borderRightWidth"] : ["borderTopWidth", "borderBottomWidth"];
+    var width = 0;
 
     each(elements, function(_, elem) {
         var computedStyle = window.getComputedStyle(elem.get(0));
@@ -984,10 +980,10 @@ var PivotGrid = Widget.inherit({
     },
 
     _updateScrollPosition: function(columnsArea, rowsArea, dataArea) {
-        var that = this,
-            scrollTop,
-            scrollLeft,
-            scrolled = that._scrollTop || that._scrollLeft;
+        var that = this;
+        var scrollTop;
+        var scrollLeft;
+        var scrolled = that._scrollTop || that._scrollLeft;
 
         if(that._scrollUpdating) return; // T645458
 
@@ -1013,24 +1009,25 @@ var PivotGrid = Widget.inherit({
     },
 
     _subscribeToEvents: function(columnsArea, rowsArea, dataArea) {
-        var that = this,
-            scrollHandler = function(e) {
-                var scrollOffset = e.scrollOffset,
-                    leftOffset = isDefined(scrollOffset.left) ? scrollOffset.left : that._scrollLeft,
-                    topOffset = isDefined(scrollOffset.top) && that._hasHeight ? scrollOffset.top : that._scrollTop;
+        var that = this;
 
-                if((that._scrollLeft || 0) !== (leftOffset || 0) || (that._scrollTop || 0) !== (topOffset || 0)) {
+        var scrollHandler = function(e) {
+            var scrollOffset = e.scrollOffset,
+                leftOffset = isDefined(scrollOffset.left) ? scrollOffset.left : that._scrollLeft,
+                topOffset = isDefined(scrollOffset.top) && that._hasHeight ? scrollOffset.top : that._scrollTop;
 
-                    that._scrollLeft = leftOffset;
-                    that._scrollTop = topOffset;
+            if((that._scrollLeft || 0) !== (leftOffset || 0) || (that._scrollTop || 0) !== (topOffset || 0)) {
 
-                    that._updateScrollPosition(columnsArea, rowsArea, dataArea);
+                that._scrollLeft = leftOffset;
+                that._scrollTop = topOffset;
 
-                    if(that.option("scrolling.mode") === "virtual") {
-                        that._dataController.setViewportPosition(that._scrollLeft, that._scrollTop);
-                    }
+                that._updateScrollPosition(columnsArea, rowsArea, dataArea);
+
+                if(that.option("scrolling.mode") === "virtual") {
+                    that._dataController.setViewportPosition(that._scrollLeft, that._scrollTop);
                 }
-            };
+            }
+        };
 
         each([columnsArea, rowsArea, dataArea], function(_, area) {
             subscribeToScrollEvent(area, scrollHandler);
@@ -1047,68 +1044,71 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderFieldChooser: function() {
-        var that = this,
-            container = that._pivotGridContainer,
-            fieldChooserOptions = that.option("fieldChooser") || {},
-            toolbarItems = fieldChooserOptions.applyChangesMode === "onDemand" ? [
-                {
-                    toolbar: "bottom",
-                    location: "after",
-                    widget: "dxButton",
-                    options: {
-                        text: messageLocalization.format("OK"),
-                        onClick: function(e) {
-                            that._fieldChooserPopup.$content().dxPivotGridFieldChooser("applyChanges");
-                            that._fieldChooserPopup.hide();
-                        }
-                    }
-                },
-                {
-                    toolbar: "bottom",
-                    location: "after",
-                    widget: "dxButton",
-                    options: {
-                        text: messageLocalization.format("Cancel"),
-                        onClick: function(e) {
-                            that._fieldChooserPopup.hide();
-                        }
+        var that = this;
+        var container = that._pivotGridContainer;
+        var fieldChooserOptions = that.option("fieldChooser") || {};
+
+        var toolbarItems = fieldChooserOptions.applyChangesMode === "onDemand" ? [
+            {
+                toolbar: "bottom",
+                location: "after",
+                widget: "dxButton",
+                options: {
+                    text: messageLocalization.format("OK"),
+                    onClick: function(e) {
+                        that._fieldChooserPopup.$content().dxPivotGridFieldChooser("applyChanges");
+                        that._fieldChooserPopup.hide();
                     }
                 }
-            ] : [],
-            fieldChooserComponentOptions = {
-                layout: fieldChooserOptions.layout,
-                texts: fieldChooserOptions.texts || {},
-                dataSource: that.getDataSource(),
-                allowSearch: fieldChooserOptions.allowSearch,
-                searchTimeout: fieldChooserOptions.searchTimeout,
-                width: undefined,
-                height: undefined,
-                headerFilter: that.option("headerFilter"),
-                encodeHtml: that.option("encodeHtml"),
-                applyChangesMode: fieldChooserOptions.applyChangesMode
             },
-            popupOptions = {
-                shading: false,
-                title: fieldChooserOptions.title,
-                width: fieldChooserOptions.width,
-                height: fieldChooserOptions.height,
-                showCloseButton: true,
-                resizeEnabled: true,
-                minWidth: fieldChooserOptions.minWidth,
-                minHeight: fieldChooserOptions.minHeight,
-                toolbarItems: toolbarItems,
-                onResize: function(e) {
-                    e.component.$content().dxPivotGridFieldChooser("updateDimensions");
-                },
-                onShown: function(e) {
-                    that._createComponent(e.component.content(), PivotGridFieldChooser, fieldChooserComponentOptions);
-                },
-                onHidden: function(e) {
-                    var fieldChooser = e.component.$content().dxPivotGridFieldChooser("instance");
-                    fieldChooser.resetTreeView();
-                    fieldChooser.cancelChanges();
+            {
+                toolbar: "bottom",
+                location: "after",
+                widget: "dxButton",
+                options: {
+                    text: messageLocalization.format("Cancel"),
+                    onClick: function(e) {
+                        that._fieldChooserPopup.hide();
+                    }
                 }
-            };
+            }
+        ] : [];
+
+        var fieldChooserComponentOptions = {
+            layout: fieldChooserOptions.layout,
+            texts: fieldChooserOptions.texts || {},
+            dataSource: that.getDataSource(),
+            allowSearch: fieldChooserOptions.allowSearch,
+            searchTimeout: fieldChooserOptions.searchTimeout,
+            width: undefined,
+            height: undefined,
+            headerFilter: that.option("headerFilter"),
+            encodeHtml: that.option("encodeHtml"),
+            applyChangesMode: fieldChooserOptions.applyChangesMode
+        };
+
+        var popupOptions = {
+            shading: false,
+            title: fieldChooserOptions.title,
+            width: fieldChooserOptions.width,
+            height: fieldChooserOptions.height,
+            showCloseButton: true,
+            resizeEnabled: true,
+            minWidth: fieldChooserOptions.minWidth,
+            minHeight: fieldChooserOptions.minHeight,
+            toolbarItems: toolbarItems,
+            onResize: function(e) {
+                e.component.$content().dxPivotGridFieldChooser("updateDimensions");
+            },
+            onShown: function(e) {
+                that._createComponent(e.component.content(), PivotGridFieldChooser, fieldChooserComponentOptions);
+            },
+            onHidden: function(e) {
+                var fieldChooser = e.component.$content().dxPivotGridFieldChooser("instance");
+                fieldChooser.resetTreeView();
+                fieldChooser.cancelChanges();
+            }
+        };
 
         if(that._fieldChooserPopup) {
             that._fieldChooserPopup.option(popupOptions);
@@ -1119,8 +1119,8 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderContextMenu: function() {
-        var that = this,
-            $container = that._pivotGridContainer;
+        var that = this;
+        var $container = that._pivotGridContainer;
 
         if(that._contextMenu) {
             that._contextMenu.$element().remove();
@@ -1128,10 +1128,10 @@ var PivotGrid = Widget.inherit({
 
         that._contextMenu = that._createComponent($(DIV).appendTo($container), ContextMenu, {
             onPositioning: function(actionArgs) {
-                var event = actionArgs.event,
-                    targetElement,
-                    args,
-                    items;
+                var event = actionArgs.event;
+                var targetElement;
+                var args;
+                var items;
 
                 actionArgs.cancel = true;
 
@@ -1161,15 +1161,15 @@ var PivotGrid = Widget.inherit({
     },
 
     _getContextMenuItems: function(e) {
-        var that = this,
-            items = [],
-            texts = that.option("texts");
+        var that = this;
+        var items = [];
+        var texts = that.option("texts");
 
         if(e.area === "row" || e.area === "column") {
-            var areaFields = e[e.area + "Fields"],
-                oppositeAreaFields = e[e.area === "column" ? "rowFields" : "columnFields"],
-                field = e.cell.path && areaFields[e.cell.path.length - 1],
-                dataSource = that.getDataSource();
+            var areaFields = e[e.area + "Fields"];
+            var oppositeAreaFields = e[e.area === "column" ? "rowFields" : "columnFields"];
+            var field = e.cell.path && areaFields[e.cell.path.length - 1];
+            var dataSource = that.getDataSource();
 
             if(field && field.allowExpandAll && e.cell.path.length < e[e.area + "Fields"].length) {
                 items.push({
@@ -1201,10 +1201,10 @@ var PivotGrid = Widget.inherit({
                             return;
                         }
 
-                        var showDataFieldCaption = (!isDefined(e.cell.dataIndex) && e.dataFields.length > 1),
-                            textFormat = e.area === "column" ? texts.sortColumnBySummary : texts.sortRowBySummary,
-                            checked = pivotGridUtils.findField(e.dataFields, field.sortBySummaryField) === dataIndex && (e.cell.path || []).join("/") === (field.sortBySummaryPath || []).join("/"),
-                            text = stringUtils.format(textFormat, showDataFieldCaption ? field.caption + " - " + dataField.caption : field.caption);
+                        var showDataFieldCaption = (!isDefined(e.cell.dataIndex) && e.dataFields.length > 1);
+                        var textFormat = e.area === "column" ? texts.sortColumnBySummary : texts.sortRowBySummary;
+                        var checked = pivotGridUtils.findField(e.dataFields, field.sortBySummaryField) === dataIndex && (e.cell.path || []).join("/") === (field.sortBySummaryPath || []).join("/");
+                        var text = stringUtils.format(textFormat, showDataFieldCaption ? field.caption + " - " + dataField.caption : field.caption);
 
                         items.push({
                             beginGroup: sortingBySummaryItemCount === 0,
@@ -1279,14 +1279,15 @@ var PivotGrid = Widget.inherit({
     },
 
     _createEventArgs: function(targetElement, dxEvent) {
-        var that = this,
-            dataSource = that.getDataSource(),
-            args = {
-                rowFields: dataSource.getAreaFields("row"),
-                columnFields: dataSource.getAreaFields("column"),
-                dataFields: dataSource.getAreaFields("data"),
-                event: dxEvent
-            };
+        var that = this;
+        var dataSource = that.getDataSource();
+
+        var args = {
+            rowFields: dataSource.getAreaFields("row"),
+            columnFields: dataSource.getAreaFields("column"),
+            dataFields: dataSource.getAreaFields("data"),
+            event: dxEvent
+        };
 
         if(clickedOnFieldsArea($(targetElement))) {
             return extend(that._createFieldArgs(targetElement), args);
@@ -1296,34 +1297,38 @@ var PivotGrid = Widget.inherit({
     },
 
     _createFieldArgs: function(targetElement) {
-        var field = $(targetElement).children().data("field"),
-            args = {
-                field: field
-            };
+        var field = $(targetElement).children().data("field");
+
+        var args = {
+            field: field
+        };
+
         return isDefined(field) ? args : {};
     },
 
     _createCellArgs: function(cellElement) {
-        var $cellElement = $(cellElement),
-            columnIndex = cellElement.cellIndex,
-            rowIndex = cellElement.parentElement.rowIndex,
-            $table = $cellElement.closest('table'),
-            data = $table.data("data"),
-            cell = data && data[rowIndex] && data[rowIndex][columnIndex],
-            args = {
-                area: $table.data("area"),
-                rowIndex: rowIndex,
-                columnIndex: columnIndex,
-                cellElement: getPublicElement($cellElement),
-                cell: cell
-            };
+        var $cellElement = $(cellElement);
+        var columnIndex = cellElement.cellIndex;
+        var rowIndex = cellElement.parentElement.rowIndex;
+        var $table = $cellElement.closest('table');
+        var data = $table.data("data");
+        var cell = data && data[rowIndex] && data[rowIndex][columnIndex];
+
+        var args = {
+            area: $table.data("area"),
+            rowIndex: rowIndex,
+            columnIndex: columnIndex,
+            cellElement: getPublicElement($cellElement),
+            cell: cell
+        };
+
         return args;
     },
 
     _handleCellClick: function(e) {
-        var that = this,
-            args = that._createEventArgs(e.currentTarget, e),
-            cell = args.cell;
+        var that = this;
+        var args = that._createEventArgs(e.currentTarget, e);
+        var cell = args.cell;
 
         if(!cell || (!args.area && (args.rowIndex || args.columnIndex))) {
             return;
@@ -1345,9 +1350,9 @@ var PivotGrid = Widget.inherit({
     _renderLoadPanel: gridCoreUtils.renderLoadPanel,
 
     _updateLoading: function(progress) {
-        var that = this,
-            isLoading = that._dataController.isLoading(),
-            loadPanelVisible;
+        var that = this;
+        var isLoading = that._dataController.isLoading();
+        var loadPanelVisible;
 
         if(!that._loadPanel) return;
 
@@ -1378,12 +1383,12 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderDescriptionArea: function() {
-        let $element = this.$element(),
-            $descriptionCell = $element.find("." + DESCRIPTION_AREA_CELL_CLASS),
-            $toolbarContainer = $(DIV).addClass("dx-pivotgrid-toolbar"),
-            fieldPanel = this.option("fieldPanel"),
-            $filterHeader = $element.find(".dx-filter-header"),
-            $columnHeader = $element.find(".dx-column-header");
+        let $element = this.$element();
+        let $descriptionCell = $element.find("." + DESCRIPTION_AREA_CELL_CLASS);
+        let $toolbarContainer = $(DIV).addClass("dx-pivotgrid-toolbar");
+        let fieldPanel = this.option("fieldPanel");
+        let $filterHeader = $element.find(".dx-filter-header");
+        let $columnHeader = $element.find(".dx-column-header");
 
         let $targetContainer;
 
@@ -1436,9 +1441,9 @@ var PivotGrid = Widget.inherit({
     },
 
     _detectHasContainerHeight: function() {
-        var that = this,
-            element = that.$element(),
-            testElement;
+        var that = this;
+        var element = that.$element();
+        var testElement;
 
         if(isDefined(that._hasHeight) || element.is(":hidden")) {
             return;
@@ -1453,9 +1458,9 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderHeaders: function(rowHeaderContainer, columnHeaderContainer, filterHeaderContainer, dataHeaderContainer) {
-        var that = this,
-            dataSource = that.getDataSource(),
-            FieldsArea = fieldsArea.FieldsArea;
+        var that = this;
+        var dataSource = that.getDataSource();
+        var FieldsArea = fieldsArea.FieldsArea;
 
         that._rowFields = that._rowFields || new FieldsArea(that, "row");
         that._rowFields.render(rowHeaderContainer, dataSource.getAreaFields("row"));
@@ -1485,8 +1490,8 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderDataArea: function(dataAreaElement) {
-        var that = this,
-            dataArea = that._dataArea || new dataAreaNamespace.DataArea(that);
+        var that = this;
+        var dataArea = that._dataArea || new dataAreaNamespace.DataArea(that);
         that._dataArea = dataArea;
         dataArea.render(dataAreaElement, that._dataController.getCellsInfo());
 
@@ -1494,8 +1499,8 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderRowsArea: function(rowsAreaElement) {
-        var that = this,
-            rowsArea = that._rowsArea || new headersArea.VerticalHeadersArea(that);
+        var that = this;
+        var rowsArea = that._rowsArea || new headersArea.VerticalHeadersArea(that);
         that._rowsArea = rowsArea;
         rowsArea.render(rowsAreaElement, that._dataController.getRowsInfo());
 
@@ -1503,8 +1508,8 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderColumnsArea: function(columnsAreaElement) {
-        var that = this,
-            columnsArea = that._columnsArea || new headersArea.HorizontalHeadersArea(that);
+        var that = this;
+        var columnsArea = that._columnsArea || new headersArea.HorizontalHeadersArea(that);
         that._columnsArea = columnsArea;
         columnsArea.render(columnsAreaElement, that._dataController.getColumnsInfo());
 
@@ -1518,19 +1523,19 @@ var PivotGrid = Widget.inherit({
     },
 
     _renderContentImpl: function() {
-        var that = this,
-            columnsAreaElement,
-            rowsAreaElement,
-            dataAreaElement,
-            tableElement,
-            dataArea,
-            rowsArea,
-            columnsArea,
-            isFirstDrawing = !that._pivotGridContainer,
-            rowHeaderContainer,
-            columnHeaderContainer,
-            filterHeaderContainer,
-            dataHeaderContainer;
+        var that = this;
+        var columnsAreaElement;
+        var rowsAreaElement;
+        var dataAreaElement;
+        var tableElement;
+        var dataArea;
+        var rowsArea;
+        var columnsArea;
+        var isFirstDrawing = !that._pivotGridContainer;
+        var rowHeaderContainer;
+        var columnHeaderContainer;
+        var filterHeaderContainer;
+        var dataHeaderContainer;
 
         tableElement = !isFirstDrawing && that._tableElement();
 
@@ -1617,8 +1622,8 @@ var PivotGrid = Widget.inherit({
     },
 
     _update: function(isFirstDrawing) {
-        var that = this,
-            updateHandler;
+        var that = this;
+        var updateHandler;
 
         updateHandler = function() {
             that.updateDimensions().done(function() {
@@ -1711,40 +1716,40 @@ var PivotGrid = Widget.inherit({
     * @publicName updateDimensions()
     */
     updateDimensions: function() {
-        var that = this,
-            groupWidth,
-            groupHeight,
-            tableElement = that._tableElement(),
-            rowsArea = that._rowsArea,
-            columnsArea = that._columnsArea,
-            dataArea = that._dataArea,
-            dataAreaHeights,
-            rowsAreaHeights,
-            resultHeights,
-            resultWidths,
-            rowsAreaColumnWidths,
-            bordersWidth,
-            totalWidth = 0,
-            totalHeight = 0,
-            rowsAreaWidth = 0,
-            hasRowsScroll,
-            hasColumnsScroll,
-            scrollBarInfo = getScrollBarInfo(that.option("scrolling.useNative")),
-            scrollBarWidth = scrollBarInfo.scrollBarWidth,
-            dataAreaCell = tableElement.find("." + DATA_AREA_CELL_CLASS),
-            rowAreaCell = tableElement.find("." + ROW_AREA_CELL_CLASS),
-            columnAreaCell = tableElement.find("." + COLUMN_AREA_CELL_CLASS),
-            descriptionCell = tableElement.find("." + DESCRIPTION_AREA_CELL_CLASS),
-            filterHeaderCell = tableElement.find(".dx-filter-header"),
-            elementWidth,
-            columnsAreaHeight,
-            descriptionCellHeight,
-            columnsAreaRowHeights,
-            rowHeights,
-            rowFieldsHeader = that._rowFields,
-            columnsAreaRowCount,
-            needSynchronizeFieldPanel,
-            d = new Deferred();
+        var that = this;
+        var groupWidth;
+        var groupHeight;
+        var tableElement = that._tableElement();
+        var rowsArea = that._rowsArea;
+        var columnsArea = that._columnsArea;
+        var dataArea = that._dataArea;
+        var dataAreaHeights;
+        var rowsAreaHeights;
+        var resultHeights;
+        var resultWidths;
+        var rowsAreaColumnWidths;
+        var bordersWidth;
+        var totalWidth = 0;
+        var totalHeight = 0;
+        var rowsAreaWidth = 0;
+        var hasRowsScroll;
+        var hasColumnsScroll;
+        var scrollBarInfo = getScrollBarInfo(that.option("scrolling.useNative"));
+        var scrollBarWidth = scrollBarInfo.scrollBarWidth;
+        var dataAreaCell = tableElement.find("." + DATA_AREA_CELL_CLASS);
+        var rowAreaCell = tableElement.find("." + ROW_AREA_CELL_CLASS);
+        var columnAreaCell = tableElement.find("." + COLUMN_AREA_CELL_CLASS);
+        var descriptionCell = tableElement.find("." + DESCRIPTION_AREA_CELL_CLASS);
+        var filterHeaderCell = tableElement.find(".dx-filter-header");
+        var elementWidth;
+        var columnsAreaHeight;
+        var descriptionCellHeight;
+        var columnsAreaRowHeights;
+        var rowHeights;
+        var rowFieldsHeader = that._rowFields;
+        var columnsAreaRowCount;
+        var needSynchronizeFieldPanel;
+        var d = new Deferred();
 
         if(!windowUtils.hasWindow()) {
             return;

@@ -1,8 +1,8 @@
-var proto = require("./funnel").prototype,
-    Tracker = require("../components/tracker").Tracker,
-    DATA_KEY_BASE = "__funnel_data_",
-    isDefined = require("../../core/utils/type").isDefined,
-    dataKeyModifier = 0;
+var proto = require("./funnel").prototype;
+var Tracker = require("../components/tracker").Tracker;
+var DATA_KEY_BASE = "__funnel_data_";
+var isDefined = require("../../core/utils/type").isDefined;
+var dataKeyModifier = 0;
 
 proto._eventsMap.onItemClick = { name: "itemClick" };
 proto._eventsMap.onLegendClick = { name: "legendClick" };
@@ -10,23 +10,24 @@ proto._eventsMap.onLegendClick = { name: "legendClick" };
 exports.plugin = {
     name: "tracker",
     init: function() {
-        var that = this,
-            dataKey = DATA_KEY_BASE + dataKeyModifier++,
-            getProxyData = function(e) {
-                var rootOffset = that._renderer.getRootOffset(),
-                    x = Math.floor(e.pageX - rootOffset.left),
-                    y = Math.floor(e.pageY - rootOffset.top);
+        var that = this;
+        var dataKey = DATA_KEY_BASE + dataKeyModifier++;
 
-                return that._hitTestTargets(x, y);
-            };
+        var getProxyData = function(e) {
+            var rootOffset = that._renderer.getRootOffset(),
+                x = Math.floor(e.pageX - rootOffset.left),
+                y = Math.floor(e.pageY - rootOffset.top);
+
+            return that._hitTestTargets(x, y);
+        };
 
         that._tracker = new Tracker({
             widget: that,
             root: that._renderer.root,
             getData: function(e, tooltipData) {
-                var target = e.target,
-                    data = target[dataKey],
-                    proxyData;
+                var target = e.target;
+                var data = target[dataKey];
+                var proxyData;
                 if(isDefined(data)) {
                     return data;
                 }
@@ -42,9 +43,9 @@ exports.plugin = {
                 return that._items[index];
             },
             click: function(e) {
-                var proxyData = getProxyData(e.event),
-                    dataType = proxyData && proxyData.type,
-                    event = dataType === "legend" ? "legendClick" : "itemClick";
+                var proxyData = getProxyData(e.event);
+                var dataType = proxyData && proxyData.type;
+                var event = dataType === "legend" ? "legendClick" : "itemClick";
 
                 that._eventTrigger(event, {
                     item: e.node,

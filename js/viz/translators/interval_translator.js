@@ -1,11 +1,11 @@
-var typeUtils = require("../../core/utils/type"),
-    isNumber = typeUtils.isNumeric,
-    isDefined = typeUtils.isDefined,
-    dateUtils = require("../../core/utils/date"),
-    addInterval = dateUtils.addInterval,
-    dateToMilliseconds = dateUtils.dateToMilliseconds,
-    floor = Math.floor,
-    adjust = require("../../core/utils/math").adjust;
+var typeUtils = require("../../core/utils/type");
+var isNumber = typeUtils.isNumeric;
+var isDefined = typeUtils.isDefined;
+var dateUtils = require("../../core/utils/date");
+var addInterval = dateUtils.addInterval;
+var dateToMilliseconds = dateUtils.dateToMilliseconds;
+var floor = Math.floor;
+var adjust = require("../../core/utils/math").adjust;
 
 module.exports = {
     _intervalize: function(value, interval) {
@@ -26,8 +26,8 @@ module.exports = {
     },
 
     translate: function(bp, direction, interval) {
-        var that = this,
-            specialValue = that.translateSpecialCase(bp);
+        var that = this;
+        var specialValue = that.translateSpecialCase(bp);
 
         if(isDefined(specialValue)) {
             return Math.round(specialValue);
@@ -65,10 +65,10 @@ module.exports = {
     },
 
     isValid: function(value, interval) {
-        var that = this,
-            co = that._canvasOptions,
-            rangeMin = co.rangeMin,
-            rangeMax = co.rangeMax;
+        var that = this;
+        var co = that._canvasOptions;
+        var rangeMin = co.rangeMin;
+        var rangeMax = co.rangeMax;
 
         interval = interval || that._options.interval;
         if(value === null || isNaN(value)) {
@@ -93,10 +93,10 @@ module.exports = {
         var that = this;
 
         interval = interval || that._options.interval;
-        var v1 = that._intervalize(bp, interval),
-            v2 = addInterval(v1, interval),
-            res = that._to(v1),
-            p2 = that._to(v2);
+        var v1 = that._intervalize(bp, interval);
+        var v2 = addInterval(v1, interval);
+        var res = that._to(v1);
+        var p2 = that._to(v2);
 
         if(!direction) {
             res = floor((res + p2) / 2);
@@ -107,10 +107,10 @@ module.exports = {
     },
 
     _to: function(value) {
-        var co = this._canvasOptions,
-            rMin = co.rangeMinVisible,
-            rMax = co.rangeMaxVisible,
-            offset = value - rMin;
+        var co = this._canvasOptions;
+        var rMin = co.rangeMinVisible;
+        var rMax = co.rangeMaxVisible;
+        var offset = value - rMin;
 
         if(value < rMin) {
             offset = 0;
@@ -122,13 +122,13 @@ module.exports = {
     },
 
     from: function(position, direction) {
-        var that = this,
-            origInterval = that._options.interval,
-            interval = origInterval,
-            co = that._canvasOptions,
-            rMin = co.rangeMinVisible,
-            rMax = co.rangeMaxVisible,
-            value;
+        var that = this;
+        var origInterval = that._options.interval;
+        var interval = origInterval;
+        var co = that._canvasOptions;
+        var rMin = co.rangeMinVisible;
+        var rMax = co.rangeMaxVisible;
+        var value;
 
         if(that._businessRange.dataType === "datetime") {
             interval = dateToMilliseconds(origInterval);

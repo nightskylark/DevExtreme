@@ -1,17 +1,16 @@
-var typeUtils = require("../../core/utils/type"),
-    extend = require("../../core/utils/extend").extend,
-    _isDefined = typeUtils.isDefined,
-    _isDate = typeUtils.isDate,
-    _isFunction = typeUtils.isFunction,
-    unique = require("../core/utils").unique,
-
-    minSelector = "min",
-    maxSelector = "max",
-    minVisibleSelector = "minVisible",
-    maxVisibleSelector = "maxVisible",
-    baseSelector = "base",
-    axisTypeSelector = "axisType",
-    _Range;
+var typeUtils = require("../../core/utils/type");
+var extend = require("../../core/utils/extend").extend;
+var _isDefined = typeUtils.isDefined;
+var _isDate = typeUtils.isDate;
+var _isFunction = typeUtils.isFunction;
+var unique = require("../core/utils").unique;
+var minSelector = "min";
+var maxSelector = "max";
+var minVisibleSelector = "minVisible";
+var maxVisibleSelector = "maxVisible";
+var baseSelector = "base";
+var axisTypeSelector = "axisType";
+var _Range;
 
 function otherLessThan(thisValue, otherValue) {
     return otherValue < thisValue;
@@ -41,9 +40,9 @@ _Range.prototype = {
     constructor: _Range,
 
     addRange: function(otherRange) {
-        var that = this,
-            categories = that.categories,
-            otherCategories = otherRange.categories;
+        var that = this;
+        var categories = that.categories;
+        var otherCategories = otherRange.categories;
 
         var compareAndReplaceByField = function(field, compare) {
             compareAndReplace(that[field], otherRange[field], function(value) { that[field] = value; }, compare);

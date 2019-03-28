@@ -11,9 +11,9 @@ Flags.prototype = {
     constructor: Flags,
 
     add: function(codes) {
-        var i,
-            ii = codes.length,
-            flags = this._flags;
+        var i;
+        var ii = codes.length;
+        var flags = this._flags;
 
         for(i = 0; i < ii; ++i) {
             flags[codes[i]] = 1;
@@ -48,8 +48,8 @@ function buildTotalChanges(proto) {
 }
 
 function addChange(settings) {
-    var proto = this.prototype,
-        code = settings.code;
+    var proto = this.prototype;
+    var code = settings.code;
 
     proto["_change_" + code] = settings.handler;
     if(settings.isThemeDependent) {
@@ -69,9 +69,9 @@ function createChainExecutor() {
     return executeChain;
 
     function executeChain() {
-        var i,
-            ii = chain.length,
-            result;
+        var i;
+        var ii = chain.length;
+        var result;
         for(i = 0; i < ii; ++i) {
             result = chain[i].apply(this, arguments);
         }
@@ -143,17 +143,17 @@ exports.replaceInherit = isServerSide
     : function(widget) {
         var _inherit = widget.inherit;
         widget.inherit = function() {
-            var proto = this.prototype,
-                plugins = proto._plugins,
-                fontFields = proto._fontFields,
-                eventsMap = proto._eventsMap,
-                initialChanges = proto._initialChanges,
-                themeDependentChanges = proto._themeDependentChanges,
-                optionChangesMap = proto._optionChangesMap,
-                optionChangesOrder = proto._optionChangesOrder,
-                layoutChangesOrder = proto._layoutChangesOrder,
-                customChangesOrder = proto._customChangesOrder,
-                result = _inherit.apply(this, arguments);
+            var proto = this.prototype;
+            var plugins = proto._plugins;
+            var fontFields = proto._fontFields;
+            var eventsMap = proto._eventsMap;
+            var initialChanges = proto._initialChanges;
+            var themeDependentChanges = proto._themeDependentChanges;
+            var optionChangesMap = proto._optionChangesMap;
+            var optionChangesOrder = proto._optionChangesOrder;
+            var layoutChangesOrder = proto._layoutChangesOrder;
+            var customChangesOrder = proto._customChangesOrder;
+            var result = _inherit.apply(this, arguments);
 
             proto = result.prototype;
             proto._plugins = combineLists(plugins, proto._plugins);

@@ -9,8 +9,8 @@ var sign = function(value) {
 };
 
 var fitIntoRange = function(value, minValue, maxValue) {
-    var isMinValueUndefined = !minValue && minValue !== 0,
-        isMaxValueUndefined = !maxValue && maxValue !== 0;
+    var isMinValueUndefined = !minValue && minValue !== 0;
+    var isMaxValueUndefined = !maxValue && maxValue !== 0;
 
     isMinValueUndefined && (minValue = !isMaxValueUndefined ? Math.min(value, maxValue) : value);
     isMaxValueUndefined && (maxValue = !isMinValueUndefined ? Math.max(value, minValue) : value);
@@ -28,20 +28,20 @@ function getExponent(value) {
 
 // T570217
 function _isEdgeBug() {
-    var value = 0.0003,
-        correctValue = "0.000300",
-        precisionValue = 3;
+    var value = 0.0003;
+    var correctValue = "0.000300";
+    var precisionValue = 3;
     return correctValue !== value.toPrecision(precisionValue);
 }
 
 function adjust(value, interval) {
-    var precision = getPrecision(interval || 0) + 2,
-        separatedValue = value.toString().split("."),
-        sourceValue = value,
-        absValue = Math.abs(value),
-        separatedAdjustedValue,
-        isExponentValue = isExponential(value),
-        integerPart = absValue > 1 ? 10 : 0;
+    var precision = getPrecision(interval || 0) + 2;
+    var separatedValue = value.toString().split(".");
+    var sourceValue = value;
+    var absValue = Math.abs(value);
+    var separatedAdjustedValue;
+    var isExponentValue = isExponential(value);
+    var integerPart = absValue > 1 ? 10 : 0;
 
     if(separatedValue.length === 1) {
         return value;
@@ -67,9 +67,9 @@ function adjust(value, interval) {
 }
 
 function getPrecision(value) {
-    var str = value.toString(),
-        mantissa,
-        positionOfDelimiter;
+    var str = value.toString();
+    var mantissa;
+    var positionOfDelimiter;
 
     if(str.indexOf(".") < 0) {
         return 0;
