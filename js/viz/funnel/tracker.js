@@ -14,9 +14,9 @@ exports.plugin = {
         var dataKey = DATA_KEY_BASE + dataKeyModifier++;
 
         var getProxyData = function(e) {
-            var rootOffset = that._renderer.getRootOffset(),
-                x = Math.floor(e.pageX - rootOffset.left),
-                y = Math.floor(e.pageY - rootOffset.top);
+            var rootOffset = that._renderer.getRootOffset();
+            var x = Math.floor(e.pageX - rootOffset.left);
+            var y = Math.floor(e.pageY - rootOffset.top);
 
             return that._hitTestTargets(x, y);
         };

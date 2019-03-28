@@ -201,7 +201,7 @@ var NumberBoxBase = TextEditor.inherit({
         var char = eventUtils.getChar(e);
 
         var // Workaround for IE (T592690)
-        validCharRegExp = /[\d.,eE\-+]|Subtract/;
+            validCharRegExp = /[\d.,eE\-+]|Subtract/;
 
         var isInputCharValid = validCharRegExp.test(char);
 

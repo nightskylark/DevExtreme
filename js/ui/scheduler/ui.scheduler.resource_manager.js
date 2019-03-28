@@ -14,8 +14,8 @@ var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
 
 var getValueExpr = function(resource) {
-        return resource.valueExpr || "id";
-    };
+    return resource.valueExpr || "id";
+};
 
 var getDisplayExpr = function(resource) {
     return resource.displayExpr || "text";

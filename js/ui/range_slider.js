@@ -34,10 +34,10 @@ var RangeSlider = Slider.inherit({
         };
 
         var _setHandleValue = function(e, step, sign) {
-            var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS),
+            var isStart = $(e.target).hasClass(RANGE_SLIDER_START_HANDLE_CLASS);
 
-                valueOption = isStart ? "start" : "end",
-                val = that.option(valueOption);
+            var valueOption = isStart ? "start" : "end";
+            var val = that.option(valueOption);
 
             step = that._valueStep(step);
 

@@ -46,15 +46,15 @@ const ENTER_KEY = "enter";
 const ESCAPE_KEY = "escape";
 
 var ACTIONS = [{
-        name: "onEditorPreparing",
-        config: { excludeValidators: ["disabled", "readOnly"], category: "rendering" }
-    }, {
-        name: "onEditorPrepared",
-        config: { excludeValidators: ["disabled", "readOnly"], category: "rendering" }
-    }, {
-        name: "onValueChanged",
-        config: { excludeValidators: ["disabled", "readOnly"] }
-    }];
+    name: "onEditorPreparing",
+    config: { excludeValidators: ["disabled", "readOnly"], category: "rendering" }
+}, {
+    name: "onEditorPrepared",
+    config: { excludeValidators: ["disabled", "readOnly"], category: "rendering" }
+}, {
+    name: "onValueChanged",
+    config: { excludeValidators: ["disabled", "readOnly"] }
+}];
 
 var OPERATORS = {
     and: "and",

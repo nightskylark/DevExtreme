@@ -221,9 +221,9 @@ var sendRequest = function(protocolVersion, request, options) {
 
     ajax.sendRequest(ajaxOptions).always(function(obj, textStatus) {
         var transformOptions = {
-                deserializeDates: options.deserializeDates,
-                fieldTypes: options.fieldTypes
-            };
+            deserializeDates: options.deserializeDates,
+            fieldTypes: options.fieldTypes
+        };
 
         var tuple = interpretJsonFormat(obj, textStatus, transformOptions, ajaxOptions);
         var error = tuple.error;

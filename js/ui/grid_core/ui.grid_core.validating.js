@@ -333,9 +333,9 @@ module.exports = {
                     var dataController = that.getController("data");
 
                     var getIndexByEditData = function(editData, items) {
-                        var index = -1,
-                            isInsert = editData.type === "insert",
-                            key = editData.key;
+                        var index = -1;
+                        var isInsert = editData.type === "insert";
+                        var key = editData.key;
 
                         each(items, function(i, item) {
                             if(equalByValue(key, isInsert ? item : dataController.keyOf(item))) {
@@ -348,9 +348,9 @@ module.exports = {
                     };
 
                     var addInValidItem = function(editData) {
-                        var data = { key: editData.key },
-                            index = getIndexByEditData(editData, items),
-                            rowIndex;
+                        var data = { key: editData.key };
+                        var index = getIndexByEditData(editData, items);
+                        var rowIndex;
 
                         if(index >= 0) {
                             return;

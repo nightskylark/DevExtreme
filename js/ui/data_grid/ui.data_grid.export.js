@@ -875,7 +875,7 @@ dataGridCore.registerModule("export", {
 
                 _renderFakeButton: function(data, $container, iconName) {
                     var $icon = $("<div>")
-                            .addClass("dx-icon dx-icon-" + iconName);
+                        .addClass("dx-icon dx-icon-" + iconName);
 
                     var $text = $("<span>")
                         .addClass("dx-button-text")

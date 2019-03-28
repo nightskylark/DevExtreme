@@ -61,17 +61,17 @@ var CollectionWidget = Widget.inherit({
 
     _supportedKeys: function() {
         var enter = function(e) {
-                var $itemElement = $(this.option("focusedElement"));
+            var $itemElement = $(this.option("focusedElement"));
 
-                if(!$itemElement.length) {
-                    return;
-                }
+            if(!$itemElement.length) {
+                return;
+            }
 
-                e.target = $itemElement;
-                e.currentTarget = $itemElement;
+            e.target = $itemElement;
+            e.currentTarget = $itemElement;
 
-                this._itemClickHandler(e);
-            };
+            this._itemClickHandler(e);
+        };
 
         var space = function(e) {
             e.preventDefault();

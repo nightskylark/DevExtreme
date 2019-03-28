@@ -35,9 +35,9 @@ var Switch = Editor.inherit({
         var isRTL = this.option("rtlEnabled");
 
         var click = function(e) {
-                e.preventDefault();
-                this._clickAction({ event: e });
-            };
+            e.preventDefault();
+            this._clickAction({ event: e });
+        };
 
         var move = function(value, e) {
             e.preventDefault();

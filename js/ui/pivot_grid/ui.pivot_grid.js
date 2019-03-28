@@ -1012,9 +1012,9 @@ var PivotGrid = Widget.inherit({
         var that = this;
 
         var scrollHandler = function(e) {
-            var scrollOffset = e.scrollOffset,
-                leftOffset = isDefined(scrollOffset.left) ? scrollOffset.left : that._scrollLeft,
-                topOffset = isDefined(scrollOffset.top) && that._hasHeight ? scrollOffset.top : that._scrollTop;
+            var scrollOffset = e.scrollOffset;
+            var leftOffset = isDefined(scrollOffset.left) ? scrollOffset.left : that._scrollLeft;
+            var topOffset = isDefined(scrollOffset.top) && that._hasHeight ? scrollOffset.top : that._scrollTop;
 
             if((that._scrollLeft || 0) !== (leftOffset || 0) || (that._scrollTop || 0) !== (topOffset || 0)) {
 

@@ -210,7 +210,7 @@ function rotateBBox(bBox, center, angle) {
     // x' = x * cos - y * sin, y' = x * sin + y * cos
     // That is because in svg y goes down (not up) - so sign of sin is reverted
     // x' = x * cos + y * sin, y' = -x * sin + y * cos
-    centerX_ = center[0] + (centerX - center[0]) * cos + (centerY - center[1]) * sin;
+        centerX_ = center[0] + (centerX - center[0]) * cos + (centerY - center[1]) * sin;
 
     var centerY_ = center[1] - (centerX - center[0]) * sin + (centerY - center[1]) * cos;
     return normalizeBBox({
@@ -318,8 +318,8 @@ extend(exports, {
         endValue = isDefined(endValue) ? endValue : categories[categories.length - 1];
 
         var categoriesValue = map(categories, function(category) {
-                return isDefined(category) ? category.valueOf() : null;
-            });
+            return isDefined(category) ? category.valueOf() : null;
+        });
 
         var visibleCategories;
         var indexStartValue = categoriesValue.indexOf(startValue.valueOf());

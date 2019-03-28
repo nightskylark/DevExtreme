@@ -36,8 +36,8 @@ var getTransparentColumnIndex = function(fixedColumns) {
 };
 
 var normalizeColumnWidths = function(fixedColumns, widths, fixedWidths) {
-    var i,
-        fixedColumnIndex = 0;
+    var i;
+    var fixedColumnIndex = 0;
 
     if(fixedColumns && widths && fixedWidths) {
         for(i = 0; i < fixedColumns.length; i++) {
@@ -104,7 +104,7 @@ var baseFixedColumns = {
             var change = options && options.change;
 
             var // cells = options.cells,
-            columnIndices = change && change.columnIndices;
+                columnIndices = change && change.columnIndices;
 
             that._correctColumnIndicesForFixedColumns(fixedColumns, change);
 
@@ -564,9 +564,9 @@ var RowsViewFixedColumnsExtender = extend({}, baseFixedColumns, {
 
         var attachHoverEvent = function($table) {
             eventsEngine.on($table, "mouseover mouseout", ".dx-data-row", that.createAction(function(args) {
-                var event = args.event,
-                    rowIndex = that.getRowIndex($(event.target).closest(".dx-row")),
-                    isHover = event.type === "mouseover";
+                var event = args.event;
+                var rowIndex = that.getRowIndex($(event.target).closest(".dx-row"));
+                var isHover = event.type === "mouseover";
 
                 if(rowIndex >= 0) {
                     that._tableElement && that._getRowElements(that._tableElement).eq(rowIndex).toggleClass(HOVER_STATE_CLASS, isHover);

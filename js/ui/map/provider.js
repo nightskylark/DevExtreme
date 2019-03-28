@@ -116,8 +116,8 @@ var Provider = Class.inherit({
     _getLatLng: function(location) {
         if(typeof location === "string") {
             var coords = map(location.split(","), function(item) {
-                    return item.trim();
-                });
+                return item.trim();
+            });
 
             var numericRegex = /^[-+]?[0-9]*\.?[0-9]*$/;
 

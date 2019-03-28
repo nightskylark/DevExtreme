@@ -137,7 +137,7 @@ module.exports = {
         var // It is strange - while "businessRange.invert" check is required in "to" here it is not.
         // Check that translator.from(translator.to(x, -1), -1) equals x.
         // And check that translator.untranslate(translator.translate(x, -1), -1) does not equal x - is it really supposed to be so?
-        result = round(((position - startPoint) / canvasOptions.interval) + stickInterval - 0.5 - /* (businessRange.invert ? -1 : +1) * */direction * 0.5);
+            result = round(((position - startPoint) / canvasOptions.interval) + stickInterval - 0.5 - /* (businessRange.invert ? -1 : +1) * */direction * 0.5);
 
         if(result >= categoriesLength) {
             result = categoriesLength - 1;

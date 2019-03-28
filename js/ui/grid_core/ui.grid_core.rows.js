@@ -1089,7 +1089,7 @@ module.exports = {
                                 freeSpaceRowElements.hide();
                                 deferUpdate(function() {
                                     var // T697699
-                                    scrollablePadding = getScrollableBottomPadding(that);
+                                        scrollablePadding = getScrollableBottomPadding(that);
 
                                     var scrollbarWidth = that.getScrollbarWidth(true);
                                     var elementHeightWithoutScrollbar = that.element().height() - scrollbarWidth - scrollablePadding;
@@ -1100,7 +1100,7 @@ module.exports = {
                                     var borderTopWidth = Math.ceil(parseFloat($tableElement.css("borderTopWidth")));
 
                                     var // T606935
-                                    heightCorrection = browser.webkit && that._getDevicePixelRatio() >= 2 ? 1 : 0;
+                                        heightCorrection = browser.webkit && that._getDevicePixelRatio() >= 2 ? 1 : 0;
 
                                     var resultHeight = elementHeightWithoutScrollbar - rowsHeight - borderTopWidth - heightCorrection;
 

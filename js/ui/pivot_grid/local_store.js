@@ -354,11 +354,11 @@ exports.LocalStore = Class.inherit((function() {
 
     function loadCore(items, options, notifyProgress) {
         var headers = {
-                columns: [],
-                rows: [],
-                columnsHash: { length: 1 },
-                rowsHash: { length: 1 }
-            };
+            columns: [],
+            rows: [],
+            columnsHash: { length: 1 },
+            rowsHash: { length: 1 }
+        };
 
         var values = [];
         var aggregationCells;

@@ -670,9 +670,9 @@ module.exports = {
     controllers: {
         columns: modules.Controller.inherit((function() {
             var DEFAULT_COLUMN_OPTIONS = {
-                    visible: true,
-                    showInColumnChooser: true
-                };
+                visible: true,
+                showInColumnChooser: true
+            };
 
             var DATATYPE_OPERATIONS = {
                 "number": ["=", "<>", "<", ">", "<=", ">=", "between"],
@@ -2465,9 +2465,9 @@ module.exports = {
                     var isColumnsChanged;
 
                     var updateSortGroupParameterIndexes = function(columns, sortParameters, indexParameterName) {
-                        var i,
-                            selector,
-                            isExpanded;
+                        var i;
+                        var selector;
+                        var isExpanded;
 
                         iteratorUtils.each(columns, function(index, column) {
                             delete column[indexParameterName];

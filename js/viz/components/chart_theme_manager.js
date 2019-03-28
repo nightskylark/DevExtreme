@@ -99,7 +99,7 @@ var ThemeManager = BaseThemeManager.inherit((function() {
             var widgetType = that._themeSection.split(".").slice(-1)[0];
 
             var // userCommonSettings.type && themeCommonSettings.type deprecated in 15.2 in pie
-            type = _normalizeEnum(userOptions.type || userCommonSettings.type || themeCommonSettings.type || (widgetType === "pie" && theme.type));
+                type = _normalizeEnum(userOptions.type || userCommonSettings.type || themeCommonSettings.type || (widgetType === "pie" && theme.type));
 
             var settings;
             var palette = that.palette;

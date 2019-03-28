@@ -641,12 +641,12 @@ exports.GroupingHelper = GroupingHelper.inherit((function() {
             if(group && options.remoteOperations.paging && (isReload || operationTypes.reload)) {
                 return foreachExpandedGroups(that, function(groupInfo) {
                     var groupCountQuery = loadGroupTotalCount(dataSource, {
-                            filter: createGroupFilter(groupInfo.path, {
-                                filter: storeLoadOptions.filter,
-                                group: group
-                            }),
-                            group: group.slice(groupInfo.path.length)
-                        });
+                        filter: createGroupFilter(groupInfo.path, {
+                            filter: storeLoadOptions.filter,
+                            group: group
+                        }),
+                        group: group.slice(groupInfo.path.length)
+                    });
 
                     var groupOffsetQuery = loadGroupTotalCount(dataSource, {
                         filter: createOffsetFilter(groupInfo.path, {

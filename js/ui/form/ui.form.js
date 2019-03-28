@@ -736,9 +736,9 @@ var Form = Widget.inherit({
         colCount = inOneColumn ? 1 : colCount || this._getColCount($container);
 
         var applyLabelsOptions = {
-                excludeTabbed: excludeTabbed,
-                inOneColumn: inOneColumn
-            };
+            excludeTabbed: excludeTabbed,
+            inOneColumn: inOneColumn
+        };
 
         var i;
 
@@ -991,9 +991,9 @@ var Form = Widget.inherit({
                 domUtils.triggerShownEvent(args.itemElement);
             },
             itemTemplate: function(itemData, e, container) {
-                var layoutManager,
-                    $container = $(container),
-                    alignItemLabels = utils.ensureDefined(itemData.alignItemLabels, true);
+                var layoutManager;
+                var $container = $(container);
+                var alignItemLabels = utils.ensureDefined(itemData.alignItemLabels, true);
 
                 layoutManager = that._renderLayoutManager(itemData.items, $container, {
                     colCount: itemData.colCount,
@@ -1027,9 +1027,9 @@ var Form = Widget.inherit({
 
     _itemGroupTemplate: function(item, e, $container) {
         var $group = $("<div>")
-                .toggleClass(FORM_GROUP_WITH_CAPTION_CLASS, typeUtils.isDefined(item.caption) && item.caption.length)
-                .addClass(FORM_GROUP_CLASS)
-                .appendTo($container);
+            .toggleClass(FORM_GROUP_WITH_CAPTION_CLASS, typeUtils.isDefined(item.caption) && item.caption.length)
+            .addClass(FORM_GROUP_CLASS)
+            .appendTo($container);
 
         var $groupContent;
         var colCount;

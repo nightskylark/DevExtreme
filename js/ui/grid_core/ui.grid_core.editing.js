@@ -69,13 +69,13 @@ var FORM_BASED_MODES = [EDIT_MODE_FORM, EDIT_MODE_POPUP];
 var MODES_WITH_DELAYED_FOCUS = [EDIT_MODE_ROW, EDIT_MODE_FORM];
 
 var EDIT_LINK_CLASS = {
-        save: "dx-link-save",
-        cancel: "dx-link-cancel",
-        edit: "dx-link-edit",
-        undelete: "dx-link-undelete",
-        delete: "dx-link-delete",
-        add: "dx-link-add"
-    };
+    save: "dx-link-save",
+    cancel: "dx-link-cancel",
+    edit: "dx-link-edit",
+    undelete: "dx-link-undelete",
+    delete: "dx-link-delete",
+    add: "dx-link-add"
+};
 
 var EDIT_ICON_CLASS = {
     save: "save",
@@ -257,7 +257,7 @@ var EditingController = modules.ViewController.inherit((function() {
             var visibleColumns = this._columnsController.getVisibleColumns();
 
             var // TODO jsdmitry: Move this code to _rowClick method of rowsView
-            allowEditing = visibleColumns[columnIndex] && visibleColumns[columnIndex].allowEditing;
+                allowEditing = visibleColumns[columnIndex] && visibleColumns[columnIndex].allowEditing;
 
             return this.isEditing() && (!isDataRow || (isDataRow && !allowEditing && !this.isEditCell(rowIndex, columnIndex)));
         },

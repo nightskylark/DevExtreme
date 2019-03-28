@@ -256,12 +256,12 @@ var scrollbarWidth;
 
 var calculateScrollbarWidth = function() {
     var $scrollDiv = $("<div>").css({
-            width: 100,
-            height: 100,
-            overflow: "scroll",
-            position: "absolute",
-            top: -9999
-        }).appendTo($("body"));
+        width: 100,
+        height: 100,
+        overflow: "scroll",
+        position: "absolute",
+        top: -9999
+    }).appendTo($("body"));
 
     var result = $scrollDiv.get(0).offsetWidth - $scrollDiv.get(0).clientWidth;
 

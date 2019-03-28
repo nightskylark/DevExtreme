@@ -766,8 +766,8 @@ var SelectBox = DropDownList.inherit({
 
     _createCustomItem: function(text) {
         var params = {
-                text: text
-            };
+            text: text
+        };
 
         var actionResult = this._customItemCreatingAction(params);
         var item = commonUtils.ensureDefined(actionResult, params.customItem);

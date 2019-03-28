@@ -24,8 +24,8 @@ var parsers = {
             return val;
         }
 
-        var parsedVal,
-            numVal = Number(val);
+        var parsedVal;
+        var numVal = Number(val);
         if(!isNaN(numVal)) {
             parsedVal = new Date(numVal);
         } else {

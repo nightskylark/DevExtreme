@@ -625,15 +625,15 @@ var getAnimationConfigurator = function(config) {
 
 
 var defaultJSConfig = {
-        type: "custom",
-        from: {},
-        to: {},
-        duration: 400,
-        start: noop,
-        complete: noop,
-        easing: "ease",
-        delay: 0
-    };
+    type: "custom",
+    from: {},
+    to: {},
+    duration: 400,
+    start: noop,
+    complete: noop,
+    easing: "ease",
+    delay: 0
+};
 
 var defaultCssConfig = {
     duration: 400,

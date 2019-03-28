@@ -11,11 +11,11 @@ var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
 
 var directionPostfixes = {
-        forward: " dx-forward",
-        backward: " dx-backward",
-        none: " dx-no-direction",
-        undefined: " dx-no-direction"
-    };
+    forward: " dx-forward",
+    backward: " dx-backward",
+    none: " dx-no-direction",
+    undefined: " dx-no-direction"
+};
 
 var DX_ANIMATING_CLASS = "dx-animating";
 

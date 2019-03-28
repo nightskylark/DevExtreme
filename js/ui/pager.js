@@ -268,9 +268,9 @@ var Pager = Widget.inherit({
         var pagesLength = pages.length;
 
         var clickPagesIndexAction = that._createAction(function(args) {
-            var e = args.event,
-                pageNumber = $(e.target).text(),
-                pageIndex = pageNumber === '>' ? that.option("pageCount") + 1 : Number(pageNumber);
+            var e = args.event;
+            var pageNumber = $(e.target).text();
+            var pageIndex = pageNumber === '>' ? that.option("pageCount") + 1 : Number(pageNumber);
 
             ///#DEBUG
             that._testPageIndex = pageIndex;

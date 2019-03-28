@@ -238,10 +238,10 @@ module.exports = {
         var points = series.getPoints();
 
         var addValue = function(values, point, isEdge) {
-            var minValue = point.getMinValue(),
-                maxValue = point.getMaxValue(),
-                isMinValueInViewPort = valueViewPortFilter(minValue),
-                isMaxValueInViewPort = valueViewPortFilter(maxValue);
+            var minValue = point.getMinValue();
+            var maxValue = point.getMaxValue();
+            var isMinValueInViewPort = valueViewPortFilter(minValue);
+            var isMaxValueInViewPort = valueViewPortFilter(maxValue);
 
             if(isMinValueInViewPort) {
                 values.push(minValue);
@@ -259,9 +259,9 @@ module.exports = {
         };
 
         var addEdgePoints = isLineSeries(series) ? function(result, points, index) {
-            var point = points[index],
-                prevPoint = points[index - 1],
-                nextPoint = points[index + 1];
+            var point = points[index];
+            var prevPoint = points[index - 1];
+            var nextPoint = points[index + 1];
 
             if(nextPoint && argumentViewPortFilter(nextPoint.argument)) {
                 addValue(result[1], point, true);

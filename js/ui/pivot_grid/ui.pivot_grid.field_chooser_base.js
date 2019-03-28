@@ -318,10 +318,10 @@ var FieldChooserBase = Widget.inherit(columnStateMixin).inherit(sortingMixin).in
         var that = this;
 
         var func = function(e) {
-            var field = $(e.currentTarget).data("field"),
-                mainGroupField = extend(true, {}, getMainGroupField(that._dataSource, field)),
-                isHeaderFilter = $(e.target).hasClass("dx-header-filter"),
-                dataSource = that._dataSource;
+            var field = $(e.currentTarget).data("field");
+            var mainGroupField = extend(true, {}, getMainGroupField(that._dataSource, field));
+            var isHeaderFilter = $(e.target).hasClass("dx-header-filter");
+            var dataSource = that._dataSource;
 
             if(isHeaderFilter) {
                 that._headerFilterView.showHeaderFilterMenu($(e.currentTarget), extend(mainGroupField, {

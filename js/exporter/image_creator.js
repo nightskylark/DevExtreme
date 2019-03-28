@@ -343,8 +343,8 @@ function drawTextElement(childNodes, context, options, shared) {
 
     lines.forEach(function(line) {
         var commonWidth = line.widths.reduce(function(commonWidth, width) {
-                return commonWidth + width;
-            }, 0);
+            return commonWidth + width;
+        }, 0);
 
         var xDiff = 0;
         var currentOffset = 0;

@@ -1093,14 +1093,14 @@ var DraggingHeaderViewController = modules.ViewController.inherit({
                         return;
                     }
 
-                    var $columnElement = $(columnElement),
-                        column = columns[index];
+                    var $columnElement = $(columnElement);
+                    var column = columns[index];
 
                     if(draggingPanel.allowDragging(column, nameDraggingPanel, draggingPanels)) {
                         $columnElement.addClass(that.addWidgetPrefix(HEADERS_DRAG_ACTION_CLASS));
                         eventsEngine.on($columnElement, addNamespace(dragEvents.start, MODULE_NAMESPACE), that.createAction(function(args) {
-                            var e = args.event,
-                                eventData = getEventData(e);
+                            var e = args.event;
+                            var eventData = getEventData(e);
 
                             draggingHeader.dragHeader({
                                 deltaX: eventData.x - $(e.currentTarget).offset().left,

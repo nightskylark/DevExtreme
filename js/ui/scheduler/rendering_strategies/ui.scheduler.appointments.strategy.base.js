@@ -247,7 +247,7 @@ var BaseRenderingStrategy = Class.inherit({
         var result = [];
 
         var // unstable sorting fix
-        __tmpIndex = 0;
+            __tmpIndex = 0;
 
         for(var i = 0, arrLength = arr.length; i < arrLength; i++) {
             for(var j = 0, itemLength = arr[i].length; j < itemLength; j++) {

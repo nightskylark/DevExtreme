@@ -612,35 +612,35 @@ module.exports = {
             that._markerTrackers = this._dateMarkers
                 .filter(function(marker) { return !marker.hidden; })
                 .map(function(marker, i, markers) {
-                var nextMarker = markers[i + 1] ||
+                    var nextMarker = markers[i + 1] ||
                     {
                         x: canvas.end,
                         date: businessRange.max
                     };
 
-                var x = marker.x;
-                var y = marker.y + offset;
+                    var x = marker.x;
+                    var y = marker.y + offset;
 
-                var markerTracker = renderer.path([
-                    x, y,
-                    x, y + separatorHeight,
-                    nextMarker.x, y + separatorHeight,
-                    nextMarker.x, y,
-                    x, y
-                ], "area").attr({
-                    "stroke-width": 1,
-                    stroke: "grey",
-                    fill: "grey",
-                    opacity: 0.0001
-                }).append(group);
+                    var markerTracker = renderer.path([
+                        x, y,
+                        x, y + separatorHeight,
+                        nextMarker.x, y + separatorHeight,
+                        nextMarker.x, y,
+                        x, y
+                    ], "area").attr({
+                        "stroke-width": 1,
+                        stroke: "grey",
+                        fill: "grey",
+                        opacity: 0.0001
+                    }).append(group);
 
-                markerTracker.data("range", { startValue: marker.date, endValue: nextMarker.date });
-                if(marker.title) {
-                    markerTracker.setTitle(marker.title);
-                }
+                    markerTracker.data("range", { startValue: marker.date, endValue: nextMarker.date });
+                    if(marker.title) {
+                        markerTracker.setTitle(marker.title);
+                    }
 
-                return markerTracker;
-            });
+                    return markerTracker;
+                });
         },
 
         _getLabelFormatOptions: function(formatString) {

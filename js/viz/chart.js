@@ -857,9 +857,9 @@ var dxChart = AdvancedChart.inherit({
         that._updatePanesCanvases(drawOptions);
 
         var panesCanvases = that.panes.reduce(function(canvases, pane) {
-                canvases[pane.name] = _extend({}, pane.canvas);
-                return canvases;
-            }, {});
+            canvases[pane.name] = _extend({}, pane.canvas);
+            return canvases;
+        }, {});
 
         var cleanPanesCanvases = _extend(true, {}, panesCanvases);
 

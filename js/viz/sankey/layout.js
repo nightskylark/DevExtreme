@@ -212,7 +212,7 @@ let layout = {
                     let yOffsetTo = yOffsets[link[1]].in;
 
                     let // heights of left and right parts of the link must fit the nodes on it's left and right
-                    heightFrom = (yOffsets[link[0]].out + height > rectFrom.height) ? rectFrom.height - yOffsets[link[0]].out : height;
+                        heightFrom = (yOffsets[link[0]].out + height > rectFrom.height) ? rectFrom.height - yOffsets[link[0]].out : height;
 
                     let heightTo = (yOffsets[link[1]].in + height > rectTo.height) ? rectTo.height - yOffsets[link[1]].in : height;
                     paths.push({

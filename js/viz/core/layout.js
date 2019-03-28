@@ -189,8 +189,8 @@ function createTargets(targets) {
 
 function processWeakItems(collection) {
     var weakItem = collection.filter(function(item) {
-            return item.weak === true;
-        })[0];
+        return item.weak === true;
+    })[0];
 
     var headerItem;
 

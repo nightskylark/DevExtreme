@@ -56,10 +56,10 @@ var validateBusinessRange = function(businessRange) {
 
 function prepareBreaks(breaks, range) {
     var transform = range.axisType === 'logarithmic' ? function(value) {
-            return getLog(value, range.base);
-        } : function(value) {
-            return value;
-        };
+        return getLog(value, range.base);
+    } : function(value) {
+        return value;
+    };
 
     var array = [];
     var br;

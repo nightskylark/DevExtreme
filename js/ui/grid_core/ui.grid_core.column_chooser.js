@@ -25,9 +25,9 @@ var COLUMN_CHOOSER_ITEM_CLASS = "dx-column-chooser-item";
 var CLICK_TIMEOUT = 300;
 
 var processItems = function(that, chooserColumns) {
-    var item,
-        items = [],
-        isSelectMode = that.option("columnChooser.mode") === "select";
+    var item;
+    var items = [];
+    var isSelectMode = that.option("columnChooser.mode") === "select";
 
     if(chooserColumns.length) {
         each(chooserColumns, function(index, column) {
@@ -261,8 +261,8 @@ var ColumnChooserView = columnsView.ColumnsView.inherit({
         var that = this;
 
         var selectionChangedHandler = function(e) {
-            var visibleColumns = that._columnsController.getVisibleColumns().filter(function(item) { return !item.command; }),
-                isLastColumnUnselected = visibleColumns.length === 1 && !e.itemData.selected;
+            var visibleColumns = that._columnsController.getVisibleColumns().filter(function(item) { return !item.command; });
+            var isLastColumnUnselected = visibleColumns.length === 1 && !e.itemData.selected;
 
             if(isLastColumnUnselected) {
                 e.component.selectItem(e.itemElement);
@@ -490,8 +490,8 @@ module.exports = {
 
                     if(columnChooserEnabled) {
                         var onClickHandler = function() {
-                                that.component.getView("columnChooserView").showColumnChooser();
-                            };
+                            that.component.getView("columnChooserView").showColumnChooser();
+                        };
 
                         var onInitialized = function(e) {
                             $(e.element).addClass(that._getToolbarButtonClass(that.addWidgetPrefix(COLUMN_CHOOSER_BUTTON_CLASS)));

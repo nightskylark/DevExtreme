@@ -341,11 +341,11 @@ var Widget = DOMComponent.inherit({
         var $anonymousTemplate = this.$element().contents().detach();
 
         var $notJunkTemplateContent = $anonymousTemplate.filter(function(_, element) {
-                var isTextNode = element.nodeType === TEXT_NODE,
-                    isEmptyText = $(element).text().trim().length < 1;
+            var isTextNode = element.nodeType === TEXT_NODE;
+            var isEmptyText = $(element).text().trim().length < 1;
 
-                return !(isTextNode && isEmptyText);
-            });
+            return !(isTextNode && isEmptyText);
+        });
 
         var onlyJunkTemplateContent = $notJunkTemplateContent.length < 1;
 

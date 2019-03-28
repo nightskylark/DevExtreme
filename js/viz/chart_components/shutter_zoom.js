@@ -80,9 +80,9 @@ function shutterZoom(options) {
         rotated: rotated,
         triggerStart: function() { chart._eventTrigger("zoomStart"); },
         triggerEnd: function() {
-            var tr = chart._argumentAxes[0].getTranslator(),
-                rangeStart = Math.min(this.startCoord, this.curCoord),
-                rangeEnd = Math.max(this.startCoord, this.curCoord);
+            var tr = chart._argumentAxes[0].getTranslator();
+            var rangeStart = Math.min(this.startCoord, this.curCoord);
+            var rangeEnd = Math.max(this.startCoord, this.curCoord);
             chart._eventTrigger("zoomEnd", { rangeStart: tr.from(rangeStart), rangeEnd: tr.from(rangeEnd) });
         },
         dispose: function() {
@@ -93,10 +93,10 @@ function shutterZoom(options) {
             return renderer.getRootOffset();
         },
         getCanvas: function() {
-            var canvas = chart._canvas,
-                panes = chart.panes,
-                firstPane = panes[0].canvas,
-                lastPane = panes[panes.length - 1].canvas;
+            var canvas = chart._canvas;
+            var panes = chart.panes;
+            var firstPane = panes[0].canvas;
+            var lastPane = panes[panes.length - 1].canvas;
 
             return {
                 x1: firstPane.left,

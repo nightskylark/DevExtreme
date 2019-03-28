@@ -45,10 +45,10 @@ function baseOperation(grid) {
     var headerFilterController = grid && grid.getController("headerFilter");
 
     var customizeText = function(fieldInfo) {
-        var value = fieldInfo.value,
-            column = grid.columnOption(fieldInfo.field.dataField),
-            headerFilter = column && column.headerFilter,
-            lookup = column && column.lookup;
+        var value = fieldInfo.value;
+        var column = grid.columnOption(fieldInfo.field.dataField);
+        var headerFilter = column && column.headerFilter;
+        var lookup = column && column.lookup;
 
         if((headerFilter && headerFilter.dataSource) || (lookup && lookup.dataSource)) {
             column = extend({}, column, { filterType: "include", filterValues: [value] });
@@ -58,8 +58,8 @@ function baseOperation(grid) {
             if(!headerFilterDataSource && lookup.items) {
                 dataSourceOptions.store = lookup.items;
             }
-            var dataSource = new DataSourceModule.DataSource(dataSourceOptions),
-                result = new deferredUtils.Deferred();
+            var dataSource = new DataSourceModule.DataSource(dataSourceOptions);
+            var result = new deferredUtils.Deferred();
 
             dataSource.load().done(items => {
                 result.resolve(getSelectedItemsTexts(items)[0]);
@@ -76,8 +76,8 @@ function baseOperation(grid) {
         calculateFilterExpression: calculateFilterExpression,
         editorTemplate: function(conditionInfo, container) {
             var div = $("<div>")
-                    .addClass("dx-filterbuilder-item-value-text")
-                    .appendTo(container);
+                .addClass("dx-filterbuilder-item-value-text")
+                .appendTo(container);
 
             var column = extend(true, {}, grid.columnOption(conditionInfo.field.dataField));
 

@@ -1,17 +1,17 @@
 var OPERATION_ICONS = {
-        "=": "equal",
-        "<>": "notequal",
-        "<": "less",
-        "<=": "lessorequal",
-        ">": "greater",
-        ">=": "greaterorequal",
-        "notcontains": "doesnotcontain",
-        "contains": "contains",
-        "startswith": "startswith",
-        "endswith": "endswith",
-        "isblank": "isblank",
-        "isnotblank": "isnotblank"
-    };
+    "=": "equal",
+    "<>": "notequal",
+    "<": "less",
+    "<=": "lessorequal",
+    ">": "greater",
+    ">=": "greaterorequal",
+    "notcontains": "doesnotcontain",
+    "contains": "contains",
+    "startswith": "startswith",
+    "endswith": "endswith",
+    "isblank": "isblank",
+    "isnotblank": "isnotblank"
+};
 
 var OPERATION_NAME = {
     "=": "equal",

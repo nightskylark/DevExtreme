@@ -423,10 +423,10 @@ var Tabs = CollectionWidget.inherit({
         var that = this;
 
         var holdAction = that._createAction(function() {
-                that._holdInterval = setInterval(function() {
-                    that._updateScrollPosition(offset, FEEDBACK_DURATION_INTERVAL);
-                }, FEEDBACK_DURATION_INTERVAL);
-            });
+            that._holdInterval = setInterval(function() {
+                that._updateScrollPosition(offset, FEEDBACK_DURATION_INTERVAL);
+            }, FEEDBACK_DURATION_INTERVAL);
+        });
 
         var holdEventName = eventUtils.addNamespace(holdEvent.name, "dxNavButton");
         var pointerUpEventName = eventUtils.addNamespace(pointerEvents.up, "dxNavButton");

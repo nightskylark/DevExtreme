@@ -580,28 +580,28 @@ var ValidationEngine = {
          * @type Object
          */
         var result = {
-                name: name,
-                /**
+            name: name,
+            /**
                  * @name dxValidatorResult.value
                  * @type any
                  */
-                value: value,
-                /**
+            value: value,
+            /**
                  * @name dxValidatorResult.brokenRule
                  * @type RequiredRule|NumericRule|RangeRule|StringLengthRule|CustomRule|CompareRule|PatternRule|EmailRule
                  */
-                brokenRule: null,
-                /**
+            brokenRule: null,
+            /**
                  * @name dxValidatorResult.isValid
                  * @type boolean
                  */
-                isValid: true,
-                /**
+            isValid: true,
+            /**
                  * @name dxValidatorResult.validationRules
                  * @type Array<RequiredRule,NumericRule,RangeRule,StringLengthRule,CustomRule,CompareRule,PatternRule,EmailRule>
                  */
-                validationRules: rules
-            };
+            validationRules: rules
+        };
 
         var that = this;
 

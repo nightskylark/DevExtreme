@@ -259,9 +259,9 @@ var baseTrackerPrototype = {
         var that = this;
 
         var handler = function(e) {
-            var rootOffset = that._renderer.getRootOffset(),
-                x = _floor(e.pageX - rootOffset.left),
-                y = _floor(e.pageY - rootOffset.top);
+            var rootOffset = that._renderer.getRootOffset();
+            var x = _floor(e.pageX - rootOffset.left);
+            var y = _floor(e.pageY - rootOffset.top);
             if(!inCanvas(that._mainCanvas, x, y)) {
                 that._pointerOut();
                 that._disableOutHandler();

@@ -472,7 +472,7 @@ var DateBox = DropDownEditor.inherit({
         var pickerType = this._pickerType;
 
         var // NOTE: no calculateWidth if type is rollers, why?
-        shouldCalculateWidth = pickerType !== PICKER_TYPE.rollers && devices.current().platform === "generic";
+            shouldCalculateWidth = pickerType !== PICKER_TYPE.rollers && devices.current().platform === "generic";
 
         if(!windowUtils.hasWindow() || isWidthSet || !(shouldCalculateWidth && $element.is(":visible"))) {
             return;

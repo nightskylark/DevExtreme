@@ -86,18 +86,18 @@ var formatWeekday = function(date) {
 var SchedulerWorkSpace = Widget.inherit({
     _supportedKeys: function() {
         var clickHandler = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
 
-                if(this._focusedCells && this._focusedCells.length) {
-                    var $itemElement = $(this.option("focusedElement"));
+            if(this._focusedCells && this._focusedCells.length) {
+                var $itemElement = $(this.option("focusedElement"));
 
-                    e.target = this._focusedCells;
-                    this._showPopup = true;
+                e.target = this._focusedCells;
+                this._showPopup = true;
 
-                    this._cellClickAction({ event: e, cellElement: $(this._focusedCells), cellData: this.getCellData($itemElement) });
-                }
-            };
+                this._cellClickAction({ event: e, cellElement: $(this._focusedCells), cellData: this.getCellData($itemElement) });
+            }
+        };
 
         var arrowPressHandler = function(e, cell) {
             e.preventDefault();
@@ -1985,10 +1985,10 @@ var SchedulerWorkSpace = Widget.inherit({
 
     setCellDataCacheAlias: function(appointment, geometry) {
         var key = JSON.stringify({
-                rowIndex: appointment.rowIndex,
-                cellIndex: appointment.cellIndex,
-                groupIndex: appointment.groupIndex
-            });
+            rowIndex: appointment.rowIndex,
+            cellIndex: appointment.cellIndex,
+            groupIndex: appointment.groupIndex
+        });
 
         var aliasKey = JSON.stringify({
             top: geometry.top,

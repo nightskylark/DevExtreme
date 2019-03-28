@@ -211,7 +211,7 @@ AnimationController.prototype = {
         var animations = this._animations;
 
         var // T261694
-        unstoppable;
+            unstoppable;
 
         var hasUnstoppableInAnimations;
 

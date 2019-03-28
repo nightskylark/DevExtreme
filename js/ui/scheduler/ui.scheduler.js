@@ -1131,8 +1131,8 @@ const Scheduler = Widget.inherit({
 
     _postponeResourceLoading: function() {
         var whenLoaded = this.postponedOperations.add("_loadResources", () => {
-                return this._loadResources();
-            });
+            return this._loadResources();
+        });
 
         var resolveCallbacks = new Deferred();
 

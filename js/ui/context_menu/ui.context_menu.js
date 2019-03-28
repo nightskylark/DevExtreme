@@ -47,19 +47,19 @@ var DEFAULT_SHOW_EVENT = "dxcontextmenu";
 
 var ContextMenu = MenuBase.inherit((function() {
     var getShowEvent = function(that) {
-            var result = null,
-                optionValue = that.option("showEvent");
+        var result = null;
+        var optionValue = that.option("showEvent");
 
-            if(typeUtils.isObject(optionValue)) {
-                if(optionValue.name !== null) {
-                    result = optionValue.name || DEFAULT_SHOW_EVENT;
-                }
-            } else {
-                result = optionValue;
+        if(typeUtils.isObject(optionValue)) {
+            if(optionValue.name !== null) {
+                result = optionValue.name || DEFAULT_SHOW_EVENT;
             }
+        } else {
+            result = optionValue;
+        }
 
-            return result;
-        };
+        return result;
+    };
 
     var getShowDelay = function(that) {
         var optionValue = that.option("showEvent");

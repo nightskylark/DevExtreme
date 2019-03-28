@@ -22,16 +22,16 @@ var percentOfGrandTotal = function(e, dimension) {
 };
 
 var percentOfParent = function(e, dimension) {
-    var parent = e.parent(dimension),
-        parentValue = parent ? parent.value() : e.value();
+    var parent = e.parent(dimension);
+    var parentValue = parent ? parent.value() : e.value();
 
     return calculatePercentValue(e.value(), parentValue);
 };
 
 var createAbsoluteVariationExp = function(allowCrossGroup) {
     return function(e) {
-        var prevCell = e.prev(COLUMN, allowCrossGroup),
-            prevValue = prevCell && prevCell.value();
+        var prevCell = e.prev(COLUMN, allowCrossGroup);
+        var prevValue = prevCell && prevCell.value();
 
         if(isDefined(prevValue) && isDefined(e.value())) {
             return e.value() - prevValue;
@@ -44,9 +44,9 @@ var createAbsoluteVariationExp = function(allowCrossGroup) {
 var createPercentVariationExp = function(allowCrossGroup) {
     var absoluteExp = createAbsoluteVariationExp(allowCrossGroup);
     return function(e) {
-        var absVar = absoluteExp(e),
-            prevCell = e.prev(COLUMN, allowCrossGroup),
-            prevValue = prevCell && prevCell.value();
+        var absVar = absoluteExp(e);
+        var prevCell = e.prev(COLUMN, allowCrossGroup);
+        var prevValue = prevCell && prevCell.value();
 
         return absVar !== NULL && prevValue ? absVar / prevValue : NULL;
     };
@@ -94,9 +94,9 @@ var createRunningTotalExpr = function(field) {
     }
     var direction = field.runningTotal === COLUMN ? ROW : COLUMN;
     return function(e) {
-        var prevCell = field.allowCrossGroupCalculation ? getPrevCellCrossGroup(e, direction) : e.prev(direction, false),
-            value = e.value(true),
-            prevValue = prevCell && prevCell.value(true);
+        var prevCell = field.allowCrossGroupCalculation ? getPrevCellCrossGroup(e, direction) : e.prev(direction, false);
+        var value = e.value(true);
+        var prevValue = prevCell && prevCell.value(true);
 
         if(isDefined(prevValue) && isDefined(value)) {
             value = prevValue + value;

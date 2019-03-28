@@ -65,12 +65,12 @@ var getEventDelay = function(that, optionName) {
 };
 
 var attachEvent = function(that, name) {
-    var delay,
-        action,
-        handler,
-        eventName,
-        target = that.option("target"),
-        event = getEventName(that, name + "Event");
+    var delay;
+    var action;
+    var handler;
+    var eventName;
+    var target = that.option("target");
+    var event = getEventName(that, name + "Event");
 
     if(!event || that.option("disabled")) {
         return;

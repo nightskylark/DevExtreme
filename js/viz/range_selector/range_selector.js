@@ -289,7 +289,7 @@ function calculateTranslatorRange(seriesDataSource, scaleOptions) {
     var categoriesInfo;
 
     var // TODO: There should be something like "seriesDataSource.getArgumentRange()"
-    translatorRange = seriesDataSource ? seriesDataSource.getBoundRange().arg : new rangeModule.Range();
+        translatorRange = seriesDataSource ? seriesDataSource.getBoundRange().arg : new rangeModule.Range();
 
     var rangeForCategories;
     var isDate = scaleOptions.valueType === "datetime";
@@ -894,7 +894,7 @@ var dxRangeSelector = require("../core/base_widget").inherit({
         var seriesDataSource;
 
         var // TODO: This code can be executed when data source is not loaded (it is an error)!
-        dataSource = that._dataSourceItems();
+            dataSource = that._dataSourceItems();
 
         var scaleOptions = that._getOption("scale");
         var valueType = scaleOptions.valueType || calculateValueType(scaleOptions.startValue, scaleOptions.endValue);

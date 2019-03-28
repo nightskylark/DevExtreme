@@ -305,7 +305,7 @@ var AdvancedChart = BaseChart.inherit({
         var negativesAsZeroes = themeManager.getOptions("negativesAsZeroes");
 
         var // misspelling case
-        negativesAsZeros = themeManager.getOptions("negativesAsZeros");
+            negativesAsZeros = themeManager.getOptions("negativesAsZeros");
 
         var familyOptions = {
             equalBarWidth: themeManager.getOptions("equalBarWidth"),
@@ -417,10 +417,10 @@ var AdvancedChart = BaseChart.inherit({
 
         that._valueAxes.forEach(valueAxis => {
             var groupRange = new rangeModule.Range({
-                    rotated: !!rotated,
-                    pane: valueAxis.pane,
-                    axis: valueAxis.name
-                });
+                rotated: !!rotated,
+                pane: valueAxis.pane,
+                axis: valueAxis.name
+            });
 
             var groupSeries = series.filter(series => series.getValueAxis() === valueAxis);
 

@@ -75,8 +75,8 @@ function setGroupCriteria(group, criteria) {
 
 function convertGroupToNewStructure(group, value) {
     var isNegationValue = function(value) {
-            return value.indexOf("!") !== -1;
-        };
+        return value.indexOf("!") !== -1;
+    };
 
     var convertGroupToNegationGroup = function(group) {
         var criteria = group.slice(0);

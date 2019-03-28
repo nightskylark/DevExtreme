@@ -346,7 +346,7 @@ var dxTreeMap = require("../core/base_widget").inherit({
         // Passing *topNode* looks awfully dirty and is performed only because of discrete group colorizing.
         // Aforementioned colorizing requires breadth-first tree traversal and nodes processing is performed in a depth-first order.
         // TODO: Find a way to stop passing *topNode*
-        colorizer = _getColorizer(that._getOption("colorizer"), that._themeManager, that._topNode);
+            colorizer = _getColorizer(that._getOption("colorizer"), that._themeManager, that._topNode);
 
         that._processNodes({
             renderer: that._renderer,

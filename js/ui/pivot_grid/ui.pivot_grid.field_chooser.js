@@ -586,11 +586,11 @@ var FieldChooser = BaseFieldChooser.inherit({
                 }
             },
             onItemSelectionChanged: function(e) {
-                var data = e.itemData,
-                    field,
-                    fields,
-                    needSelectDefaultItem = true,
-                    area;
+                var data = e.itemData;
+                var field;
+                var fields;
+                var needSelectDefaultItem = true;
+                var area;
 
                 if(data.items) {
                     if(data.selected) {
@@ -632,8 +632,8 @@ var FieldChooser = BaseFieldChooser.inherit({
         });
 
         var dataChanged = function() {
-            var scrollable = getScrollable(container),
-                scrollTop = scrollable ? scrollable.scrollTop() : 0;
+            var scrollable = getScrollable(container);
+            var scrollTop = scrollable ? scrollable.scrollTop() : 0;
 
             treeView.option({ dataSource: that._createFieldsDataSource(dataSource) });
             scrollable = getScrollable(container);

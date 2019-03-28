@@ -22,20 +22,20 @@ var FLAG_CENTERING = 1;
 var FLAG_ZOOMING = 2;
 
 var // TODO: This should be specified in options - seems like everything can be calculated from "buttonSize" and "zoomSliderLength"
-SIZE_OPTIONS = {
-    bigCircleSize: 58,
-    smallCircleSize: 28,
-    buttonSize: 10,
-    arrowButtonOffset: 20,
-    incDecButtonSize: 11,
-    incButtonOffset: 66,
-    decButtonOffset: 227,
-    sliderLineStartOffset: 88.5,
-    sliderLineEndOffset: 205.5,
-    sliderLength: 20,
-    sliderWidth: 8,
-    trackerGap: 4
-};
+    SIZE_OPTIONS = {
+        bigCircleSize: 58,
+        smallCircleSize: 28,
+        buttonSize: 10,
+        arrowButtonOffset: 20,
+        incDecButtonSize: 11,
+        incButtonOffset: 66,
+        decButtonOffset: 227,
+        sliderLineStartOffset: 88.5,
+        sliderLineEndOffset: 205.5,
+        sliderLength: 20,
+        sliderWidth: 8,
+        trackerGap: 4
+    };
 
 var OFFSET_X = 30.5;
 var OFFSET_Y = 30.5;

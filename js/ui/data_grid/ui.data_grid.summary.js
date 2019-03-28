@@ -23,27 +23,27 @@ var DATAGRID_NOWRAP_CLASS = "dx-datagrid-nowrap";
 var DATAGRID_GROUP_FOOTER_ROW_TYPE = "groupFooter";
 
 var renderSummaryCell = function(cell, options) {
-        var i,
-            $cell = $(cell),
-            column = options.column,
-            summaryItems = options.summaryItems,
-            summaryItem,
-            $summaryItems = [];
+    var i;
+    var $cell = $(cell);
+    var column = options.column;
+    var summaryItems = options.summaryItems;
+    var summaryItem;
+    var $summaryItems = [];
 
-        if(!column.command && summaryItems) {
-            for(i = 0; i < summaryItems.length; i++) {
-                summaryItem = summaryItems[i];
-                $summaryItems.push($("<div>")
-                    .css("textAlign", summaryItem.alignment || column.alignment)
-                    .addClass(DATAGRID_SUMMARY_ITEM_CLASS)
-                    .addClass(DATAGRID_TEXT_CONTENT_CLASS)
-                    .addClass(summaryItem.cssClass)
-                    .toggleClass(DATAGRID_GROUP_TEXT_CONTENT_CLASS, options.rowType === "group")
-                    .text(gridCore.getSummaryText(summaryItem, options.summaryTexts)));
-            }
-            $cell.append($summaryItems);
+    if(!column.command && summaryItems) {
+        for(i = 0; i < summaryItems.length; i++) {
+            summaryItem = summaryItems[i];
+            $summaryItems.push($("<div>")
+                .css("textAlign", summaryItem.alignment || column.alignment)
+                .addClass(DATAGRID_SUMMARY_ITEM_CLASS)
+                .addClass(DATAGRID_TEXT_CONTENT_CLASS)
+                .addClass(summaryItem.cssClass)
+                .toggleClass(DATAGRID_GROUP_TEXT_CONTENT_CLASS, options.rowType === "group")
+                .text(gridCore.getSummaryText(summaryItem, options.summaryTexts)));
         }
-    };
+        $cell.append($summaryItems);
+    }
+};
 
 var getSummaryCellOptions = function(that, options) {
     var summaryTexts = that.option("summary.texts") || {};

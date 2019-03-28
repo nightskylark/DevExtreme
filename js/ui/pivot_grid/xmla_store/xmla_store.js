@@ -659,8 +659,8 @@ exports.XmlaStore = Class.inherit((function() {
 
         each(axisTuples, function(tupleIndex, members) {
             var parentItem = {
-                    children: result
-                };
+                children: result
+            };
 
             var dataIndex = typeUtils.isDefined(measureCount) ? Math.floor(tupleIndex / measureCount) : tupleIndex;
 
@@ -718,9 +718,9 @@ exports.XmlaStore = Class.inherit((function() {
 
     function parseResult(xml, parseOptions) {
         var dataSource = {
-                columns: [],
-                rows: []
-            };
+            columns: [],
+            rows: []
+        };
 
         var axes;
         var measureCount = parseOptions.measureCount;

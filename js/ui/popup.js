@@ -377,9 +377,9 @@ var Popup = Overlay.inherit({
 
     _androidAnimation: function() {
         var fullScreenConfig = {
-                show: { type: "slide", duration: 300, from: { top: "30%", opacity: 0 }, to: { top: 0, opacity: 1 } },
-                hide: { type: "slide", duration: 300, from: { top: 0, opacity: 1 }, to: { top: "30%", opacity: 0 } }
-            };
+            show: { type: "slide", duration: 300, from: { top: "30%", opacity: 0 }, to: { top: 0, opacity: 1 } },
+            hide: { type: "slide", duration: 300, from: { top: 0, opacity: 1 }, to: { top: "30%", opacity: 0 } }
+        };
 
         var defaultConfig = {
             show: { type: "fade", duration: 400, from: 0, to: 1 },

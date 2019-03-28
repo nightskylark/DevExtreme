@@ -9,11 +9,11 @@ var _ln = Math.log;
 var _pow = Math.pow;
 var TWO_TO_LN2 = 2 / Math.LN2;
 
-var // T224204
+// T224204
 // The value is selected so that bounds range of 1 angular second can be defined
 // 1 angular second is (1 / 3600) degrees or (1 / 3600 / 180) after projection
 // The value 10 times less than projected 1 angular second is chosen
-MIN_BOUNDS_RANGE = 1 / 3600 / 180 / 10;
+var MIN_BOUNDS_RANGE = 1 / 3600 / 180 / 10;
 
 var DEFAULT_MIN_ZOOM = 1;
 var DEFAULT_MAX_ZOOM = 1 << 8;

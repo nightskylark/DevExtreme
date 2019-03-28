@@ -275,8 +275,8 @@ var sendRequest = function(options) {
 
     if(options.crossDomain && needScriptEvaluation) {
         var reject = function() {
-                d.reject(xhr, ERROR);
-            };
+            d.reject(xhr, ERROR);
+        };
 
         var resolve = function() {
             if(dataType === "jsonp") return;

@@ -464,9 +464,9 @@ module.exports = {
                             that._isDataSourceApplying = false;
 
                             var hasAdditionalFilter = () => {
-                                    var additionalFilter = that._calculateAdditionalFilter();
-                                    return additionalFilter && additionalFilter.length;
-                                };
+                                var additionalFilter = that._calculateAdditionalFilter();
+                                return additionalFilter && additionalFilter.length;
+                            };
 
                             var needApplyFilter = that._needApplyFilter;
 
@@ -1028,8 +1028,8 @@ module.exports = {
                     var columnsController = that._columnsController;
 
                     var clearColumnOption = function(optionName) {
-                        var columnCount = columnsController.columnCount(),
-                            index;
+                        var columnCount = columnsController.columnCount();
+                        var index;
 
                         for(index = 0; index < columnCount; index++) {
                             columnsController.columnOption(index, optionName, undefined);
