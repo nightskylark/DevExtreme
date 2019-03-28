@@ -12,7 +12,7 @@ var isDefined = typeUtils.isDefined;
 var devices = require("../core/devices");
 var getPublicElement = domUtils.getPublicElement;
 var registerComponent = require("../core/component_registrator");
-var CollectionWidget = require("./collection/ui.collection_widget.live_update").default;
+import CollectionWidget from "./collection/ui.collection_widget.live_update";
 var Swipeable = require("../events/gesture/swipeable");
 import deferredUtils from "../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;

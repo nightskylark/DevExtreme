@@ -10,7 +10,7 @@ var inArray = arrayUtils.inArray;
 var devices = require("../../core/devices");
 var TextEditor = require("../text_box/ui.text_editor");
 var eventUtils = require("../../events/utils");
-var SpinButtons = require("./number_box.spins").default;
+import SpinButtons from "./number_box.spins";
 var messageLocalization = require("../../localization/message");
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;

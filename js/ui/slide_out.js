@@ -14,7 +14,7 @@ var CollectionWidget = require("./collection/ui.collection_widget.edit");
 var List = require("./list");
 var ChildDefaultTemplate = require("./widget/child_default_template");
 var EmptyTemplate = require("./widget/empty_template");
-var DataConverterMixin = require("./shared/grouped_data_converter_mixin").default;
+import DataConverterMixin from "./shared/grouped_data_converter_mixin";
 var SLIDEOUT_CLASS = "dx-slideout";
 var SLIDEOUT_ITEM_CONTAINER_CLASS = "dx-slideout-item-container";
 var SLIDEOUT_MENU = "dx-slideout-menu";

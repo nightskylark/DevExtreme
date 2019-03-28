@@ -15,7 +15,7 @@ var TabsItem = require("./tabs/item");
 var themes = require("./themes");
 var holdEvent = require("../events/hold");
 var Scrollable = require("./scroll_view/ui.scrollable");
-var CollectionWidget = require("./collection/ui.collection_widget.live_update").default;
+import CollectionWidget from "./collection/ui.collection_widget.live_update";
 var iconUtils = require("../core/utils/icon");
 var BindableTemplate = require("./widget/bindable_template");
 var TABS_CLASS = "dx-tabs";

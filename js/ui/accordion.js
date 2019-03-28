@@ -12,7 +12,7 @@ import typeUtils from "../core/utils/type";
 var isPlainObject = typeUtils.isPlainObject;
 var registerComponent = require("../core/component_registrator");
 var eventUtils = require("../events/utils");
-var CollectionWidget = require("./collection/ui.collection_widget.live_update").default;
+import CollectionWidget from "./collection/ui.collection_widget.live_update";
 var deferredUtils = require("../core/utils/deferred");
 var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;

@@ -20,7 +20,7 @@ var Widget = require("../widget/ui.widget");
 var windowUtils = require("../../core/utils/window");
 var ValidationEngine = require("../validation_engine");
 var LayoutManager = require("./ui.form.layout_manager");
-var FormItemsRunTimeInfo = require("./ui.form.items_runtime_info").default;
+import FormItemsRunTimeInfo from "./ui.form.items_runtime_info";
 var TabPanel = require("../tab_panel");
 var Scrollable = require("../scroll_view/ui.scrollable");
 import deferredUtils from "../../core/utils/deferred";

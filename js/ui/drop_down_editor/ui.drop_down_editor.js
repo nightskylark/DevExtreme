@@ -18,7 +18,7 @@ var errors = require("../widget/ui.errors");
 var positionUtils = require("../../animation/position");
 import position from "../../core/utils/position";
 var getDefaultAlignment = position.getDefaultAlignment;
-var DropDownButton = require("./ui.drop_down_button").default;
+import DropDownButton from "./ui.drop_down_button";
 var messageLocalization = require("../../localization/message");
 var eventUtils = require("../../events/utils");
 var TextBox = require("../text_box");

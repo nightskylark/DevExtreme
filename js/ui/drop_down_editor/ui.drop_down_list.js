@@ -21,7 +21,7 @@ var themes = require("../themes");
 var ChildDefaultTemplate = require("../widget/child_default_template");
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
-var DataConverterMixin = require("../shared/grouped_data_converter_mixin").default;
+import DataConverterMixin from "../shared/grouped_data_converter_mixin";
 var LIST_ITEM_SELECTOR = ".dx-list-item";
 var LIST_ITEM_DATA_KEY = "dxListItemData";
 var DROPDOWNLIST_POPUP_WRAPPER_CLASS = "dx-dropdownlist-popup-wrapper";

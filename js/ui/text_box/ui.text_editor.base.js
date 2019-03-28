@@ -16,7 +16,7 @@ var themes = require("../themes");
 var Editor = require("../editor/editor");
 var eventUtils = require("../../events/utils");
 var pointerEvents = require("../../events/pointer");
-var ClearButton = require("./ui.text_editor.clear").default;
+import ClearButton from "./ui.text_editor.clear";
 import ActionButtonCollection from "./action_button_collection/index";
 var config = require("../../core/config");
 import deferredUtils from "../../core/utils/deferred";
