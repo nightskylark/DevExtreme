@@ -88,18 +88,18 @@
 
 var $ = require("../core/renderer");
 
-var commonUtils = require("../core/utils/common");
+import commonUtils from "../core/utils/common";
 import iteratorUtils from "../core/utils/iterator";
 var each = iteratorUtils.each;
-var windowUtils = require("../core/utils/window");
+import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
-var domAdapter = require("../core/dom_adapter");
+import domAdapter from "../core/dom_adapter";
 import typeUtils from "../core/utils/type";
 var isWindow = typeUtils.isWindow;
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
-var translator = require("./translator");
-var support = require("../core/utils/support");
+import translator from "./translator";
+import support from "../core/utils/support";
 var horzRe = /left|right/;
 var vertRe = /top|bottom/;
 var collisionRe = /fit|flip|none/;

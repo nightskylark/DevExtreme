@@ -1,6 +1,6 @@
 import extendUtils from "../../../core/utils/extend";
 var extend = extendUtils.extend;
-var symbolPoint = require("./symbol_point");
+import symbolPoint from "./symbol_point";
 var _extend = extend;
 var MIN_BUBBLE_HEIGHT = 20;
 

@@ -2,7 +2,7 @@ import mathUtils from "../../core/utils/math";
 var fitIntoRange = mathUtils.fitIntoRange;
 import commonUtils from "../../core/utils/common";
 var escapeRegExp = commonUtils.escapeRegExp;
-var number = require("../../localization/number");
+import number from "../../localization/number";
 
 var getCaretBoundaries = function(text, format) {
     var signParts = format.split(";");

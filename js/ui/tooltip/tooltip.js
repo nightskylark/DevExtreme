@@ -1,9 +1,9 @@
 var $ = require("../../core/renderer");
-var Guid = require("../../core/guid");
-var registerComponent = require("../../core/component_registrator");
+import Guid from "../../core/guid";
+import registerComponent from "../../core/component_registrator";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var Popover = require("../popover");
+import Popover from "../popover";
 var TOOLTIP_CLASS = "dx-tooltip";
 var TOOLTIP_WRAPPER_CLASS = "dx-tooltip-wrapper";
 

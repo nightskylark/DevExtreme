@@ -1,13 +1,13 @@
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var layoutElementModule = require("../core/layout_element");
+import layoutElementModule from "../core/layout_element";
 import typeUtils from "../../core/utils/type";
 var _isNumber = typeUtils.isNumeric;
 var _min = Math.min;
 var _max = Math.max;
 var _floor = Math.floor;
 var _sqrt = Math.sqrt;
-var consts = require("../components/consts");
+import consts from "../components/consts";
 var RADIAL_LABEL_INDENT = consts.radialLabelIndent;
 
 function getNearestCoord(firstCoord, secondCoord, pointCenterCoord) {

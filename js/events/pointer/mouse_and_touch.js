@@ -1,9 +1,9 @@
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var BaseStrategy = require("./base");
-var MouseStrategy = require("./mouse");
-var TouchStrategy = require("./touch");
-var eventUtils = require("../utils");
+import BaseStrategy from "./base";
+import MouseStrategy from "./mouse";
+import TouchStrategy from "./touch";
+import eventUtils from "../utils";
 
 var eventMap = {
     "dxpointerdown": "touchstart mousedown",

@@ -1,15 +1,15 @@
 // there are line, stepline, stackedline, fullstackedline, spline
-var series = require("./scatter_series");
+import series from "./scatter_series";
 
 var chartScatterSeries = series.chart;
 var polarScatterSeries = series.polar;
-var objectUtils = require("../../core/utils/object");
+import objectUtils from "../../core/utils/object";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var vizUtils = require("../core/utils");
-var mathUtils = require("../../core/utils/math");
+import vizUtils from "../core/utils";
+import mathUtils from "../../core/utils/math";
 var normalizeAngle = vizUtils.normalizeAngle;
 var DISCRETE = "discrete";
 var _map = vizUtils.map;

@@ -1,7 +1,7 @@
 var $ = require("./renderer");
-var callbacks = require("./component_registrator_callbacks");
-var errors = require("./errors");
-var publicComponentUtils = require("./utils/public_component");
+import callbacks from "./component_registrator_callbacks";
+import errors from "./errors";
+import publicComponentUtils from "./utils/public_component";
 
 /**
  * @name registerComponent

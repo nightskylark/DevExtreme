@@ -1,7 +1,7 @@
-var elementData = require("../../core/element_data");
+import elementData from "../../core/element_data";
 var afterCleanData = elementData.afterCleanData;
 var strategyChanging = elementData.strategyChanging;
-var ko = require("knockout");
+import ko from "knockout";
 import versionUtils from "../../core/utils/version";
 var compareVersion = versionUtils.compare;
 

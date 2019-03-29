@@ -1,10 +1,10 @@
 var $ = require("../../core/renderer");
-var Form = require("../form");
-var dateSerialization = require("../../core/utils/date_serialization");
-var messageLocalization = require("../../localization/message");
-var clickEvent = require("../../events/click");
-var typeUtils = require("../../core/utils/type");
-var eventsEngine = require("../../events/core/events_engine");
+import Form from "../form";
+import dateSerialization from "../../core/utils/date_serialization";
+import messageLocalization from "../../localization/message";
+import clickEvent from "../../events/click";
+import typeUtils from "../../core/utils/type";
+import eventsEngine from "../../events/core/events_engine";
 
 require("./ui.scheduler.recurrence_editor");
 require("./timezones/ui.scheduler.timezone_editor");

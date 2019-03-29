@@ -4,7 +4,7 @@ import nodeModule from "./node";
 var nodeProto = nodeModule.prototype;
 import helpersModule from "../core/helpers";
 var expand = helpersModule.expand;
-var common = require("./common");
+import common from "./common";
 import utilsModule from "../core/utils";
 var _parseScalar = utilsModule.parseScalar;
 var _buildRectAppearance = common.buildRectAppearance;

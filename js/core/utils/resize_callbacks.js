@@ -1,8 +1,8 @@
-var windowUtils = require("./window");
-var domAdapter = require("../dom_adapter");
-var Callbacks = require("./callbacks");
-var readyCallbacks = require("./ready_callbacks");
-var callOnce = require("./call_once");
+import windowUtils from "./window";
+import domAdapter from "../dom_adapter";
+import Callbacks from "./callbacks";
+import readyCallbacks from "./ready_callbacks";
+import callOnce from "./call_once";
 
 var resizeCallbacks = (function() {
     var prevSize;

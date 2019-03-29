@@ -2,7 +2,7 @@ import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var scatterSeries = require("./scatter_series");
+import scatterSeries from "./scatter_series";
 import seriesModule from "./area_series";
 var areaSeries = seriesModule.chart.area;
 var chartSeries = scatterSeries.chart;

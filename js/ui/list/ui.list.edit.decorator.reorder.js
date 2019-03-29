@@ -1,16 +1,16 @@
 var $ = require("../../core/renderer");
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var eventsEngine = require("../../events/core/events_engine");
-var translator = require("../../animation/translator");
-var fx = require("../../animation/fx");
-var dragEvents = require("../../events/drag");
-var mathUtils = require("../../core/utils/math");
-var Animator = require("../scroll_view/animator");
-var eventUtils = require("../../events/utils");
+import eventsEngine from "../../events/core/events_engine";
+import translator from "../../animation/translator";
+import fx from "../../animation/fx";
+import dragEvents from "../../events/drag";
+import mathUtils from "../../core/utils/math";
+import Animator from "../scroll_view/animator";
+import eventUtils from "../../events/utils";
 import registryModule from "./ui.list.edit.decorator_registry";
 var registerDecorator = registryModule.register;
-var EditDecorator = require("./ui.list.edit.decorator");
+import EditDecorator from "./ui.list.edit.decorator";
 
 
 var ReorderScrollAnimator = Animator.inherit({

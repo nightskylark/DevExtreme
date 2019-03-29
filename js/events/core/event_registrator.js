@@ -1,6 +1,6 @@
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var callbacks = require("./event_registrator_callbacks");
+import callbacks from "./event_registrator_callbacks";
 
 var registerEvent = function(name, eventObject) {
     var strategy = {};

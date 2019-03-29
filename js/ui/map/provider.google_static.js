@@ -1,10 +1,10 @@
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var eventsEngine = require("../../events/core/events_engine");
-var Promise = require("../../core/polyfills/promise");
-var Provider = require("./provider");
-var Color = require("../../color");
-var clickEvent = require("../../events/click");
+import eventsEngine from "../../events/core/events_engine";
+import Promise from "../../core/polyfills/promise";
+import Provider from "./provider";
+import Color from "../../color";
+import clickEvent from "../../events/click";
 
 var GOOGLE_STATIC_URL = "https://maps.google.com/maps/api/staticmap?";
 

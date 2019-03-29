@@ -13,7 +13,7 @@ var _pow = _math.pow;
 var _each = each;
 import commonUtils from "../../core/utils/common";
 var _noop = commonUtils.noop;
-var vizUtils = require("./utils");
+import vizUtils from "./utils";
 var DEFAULT_BAR_GROUP_PADDING = 0.3;
 var _normalizeEnum = vizUtils.normalizeEnum;
 

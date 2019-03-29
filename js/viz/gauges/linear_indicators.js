@@ -1,4 +1,4 @@
-var baseIndicatorsModule = require("./base_indicators");
+import baseIndicatorsModule from "./base_indicators";
 var BaseIndicator = baseIndicatorsModule.BaseIndicator;
 var BaseTextCloudMarker = baseIndicatorsModule.BaseTextCloudMarker;
 var BaseRangeBar = baseIndicatorsModule.BaseRangeBar;

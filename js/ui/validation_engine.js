@@ -1,16 +1,16 @@
-var Class = require("../core/class");
+import Class from "../core/class";
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
 import arrayUtils from "../core/utils/array";
 var inArray = arrayUtils.inArray;
 import iteratorUtils from "../core/utils/iterator";
 var each = iteratorUtils.each;
-var EventsMixin = require("../core/events_mixin");
-var errors = require("../core/errors");
-var commonUtils = require("../core/utils/common");
-var typeUtils = require("../core/utils/type");
-var numberLocalization = require("../localization/number");
-var messageLocalization = require("../localization/message");
+import EventsMixin from "../core/events_mixin";
+import errors from "../core/errors";
+import commonUtils from "../core/utils/common";
+import typeUtils from "../core/utils/type";
+import numberLocalization from "../localization/number";
+import messageLocalization from "../localization/message";
 
 var BaseRuleValidator = Class.inherit({
     NAME: "base",

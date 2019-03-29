@@ -1,12 +1,12 @@
 var $ = require("./renderer");
-var config = require("./config");
+import config from "./config";
 import windowUtils from "./utils/window";
 var window = windowUtils.getWindow();
-var typeUtils = require("./utils/type");
+import typeUtils from "./utils/type";
 import iteratorUtils from "./utils/iterator";
 var each = iteratorUtils.each;
-var Class = require("./class");
-var errors = require("./errors");
+import Class from "./class";
+import errors from "./errors";
 
 var Action = Class.inherit({
 

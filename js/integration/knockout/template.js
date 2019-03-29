@@ -1,9 +1,9 @@
 var $ = require("../../core/renderer");
-var domAdapter = require("../../core/dom_adapter");
-var ko = require("knockout");
-var typeUtils = require("../../core/utils/type");
-var TemplateBase = require("../../ui/widget/ui.template_base");
-var domUtils = require("../../core/utils/dom");
+import domAdapter from "../../core/dom_adapter";
+import ko from "knockout";
+import typeUtils from "../../core/utils/type";
+import TemplateBase from "../../ui/widget/ui.template_base";
+import domUtils from "../../core/utils/dom";
 import utilsModule from "./utils";
 var getClosestNodeWithContext = utilsModule.getClosestNodeWithContext;
 

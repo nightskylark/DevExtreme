@@ -1,8 +1,8 @@
 import inflectorModule from "./inflector";
 var camelize = inflectorModule.camelize;
-var callOnce = require("./call_once");
-var typeUtils = require("./type");
-var domAdapter = require("../dom_adapter");
+import callOnce from "./call_once";
+import typeUtils from "./type";
+import domAdapter from "../dom_adapter";
 var jsPrefixes = ["", "Webkit", "Moz", "O", "Ms"];
 
 var cssPrefixes = {

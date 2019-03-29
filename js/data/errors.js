@@ -1,5 +1,5 @@
-var errorUtils = require("../core/utils/error");
-var coreErrors = require("../core/errors");
+import errorUtils from "../core/utils/error";
+import coreErrors from "../core/errors";
 var handlers = {};
 
 /**

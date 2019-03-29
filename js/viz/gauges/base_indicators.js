@@ -5,14 +5,14 @@ var each = iteratorUtils.each;
 var _isFinite = isFinite;
 var _Number = Number;
 var _round = Math.round;
-var baseGaugeModule = require("./base_gauge");
+import baseGaugeModule from "./base_gauge";
 var _formatValue = baseGaugeModule.formatValue;
 var _getSampleText = baseGaugeModule.getSampleText;
 import utilsModule from "../core/utils";
 var _patchFontOptions = utilsModule.patchFontOptions;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var Class = require("../../core/class");
+import Class from "../../core/class";
 
 var BaseElement = Class.inherit({
     ctor: function(parameters) {

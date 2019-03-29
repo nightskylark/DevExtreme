@@ -1,11 +1,11 @@
 import arrayModule from "./array";
 var inArray = arrayModule.inArray;
-var domAdapter = require("../dom_adapter");
-var callOnce = require("./call_once");
-var windowUtils = require("./window");
+import domAdapter from "../dom_adapter";
+import callOnce from "./call_once";
+import windowUtils from "./window";
 var navigator = windowUtils.getNavigator();
-var devices = require("../devices");
-var styleUtils = require("./style");
+import devices from "../devices";
+import styleUtils from "./style";
 
 var transitionEndEventNames = {
     'webkitTransition': 'webkitTransitionEnd',

@@ -1,5 +1,5 @@
 var $ = require("../../core/renderer");
-var CollectionWidgetItem = require("../collection/item");
+import CollectionWidgetItem from "../collection/item";
 var LIST_ITEM_BADGE_CONTAINER_CLASS = "dx-list-item-badge-container";
 var LIST_ITEM_BADGE_CLASS = "dx-list-item-badge";
 var BADGE_CLASS = "dx-badge";

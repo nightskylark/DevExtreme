@@ -1,9 +1,9 @@
-var vizUtils = require("../core/utils");
+import vizUtils from "../core/utils";
 import typeUtils from "../../core/utils/type";
 var isDefined = typeUtils.isDefined;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var constants = require("./axes_constants");
+import constants from "./axes_constants";
 var circularAxes;
 import axesModule from "./xy_axes";
 var xyAxesLinear = axesModule.linear;

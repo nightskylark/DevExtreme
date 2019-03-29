@@ -1,4 +1,4 @@
-var DevExpress = require("./core");
+import DevExpress from "./core";
 require("./data");
 require("./file_providers");
 

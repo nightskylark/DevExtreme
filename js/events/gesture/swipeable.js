@@ -1,12 +1,12 @@
-var swipeEvents = require("../swipe");
-var eventsEngine = require("../../events/core/events_engine");
-var DOMComponent = require("../../core/dom_component");
+import swipeEvents from "../swipe";
+import eventsEngine from "../../events/core/events_engine";
+import DOMComponent from "../../core/dom_component";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var eventUtils = require("../utils");
+import eventUtils from "../utils";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var publicComponentUtils = require("../../core/utils/public_component");
+import publicComponentUtils from "../../core/utils/public_component";
 var DX_SWIPEABLE = "dxSwipeable";
 var SWIPEABLE_CLASS = "dx-swipeable";
 

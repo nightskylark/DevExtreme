@@ -1,4 +1,4 @@
-var themeModule = require("../../themes");
+import themeModule from "../../themes";
 var registerTheme = themeModule.registerTheme;
 var FONT_FAMILY = "'Roboto', 'RobotoFallback', 'Helvetica', 'Arial', sans-serif";
 var LIGHT_TITLE_COLOR = "rgba(0,0,0,0.87)";

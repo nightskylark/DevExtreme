@@ -1,5 +1,5 @@
-var jQuery = require("jquery");
-var config = require("../../core/config");
+import jQuery from "jquery";
+import config from "../../core/config";
 var useJQuery = config().useJQuery;
 
 if(jQuery && useJQuery !== false) {

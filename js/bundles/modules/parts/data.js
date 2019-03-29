@@ -1,4 +1,4 @@
-var DevExpress = require("./core");
+import DevExpress from "./core";
 
 /// BUNDLER_PARTS
 /* Data (dx.module-core.js) */

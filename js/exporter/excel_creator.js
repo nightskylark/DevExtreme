@@ -1,15 +1,15 @@
 var Class = require("../core/class"); // Calibri font with 11pt size
 import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
-var typeUtils = require("../core/utils/type");
+import typeUtils from "../core/utils/type";
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
-var errors = require("../ui/widget/ui.errors");
-var stringUtils = require("../core/utils/string");
-var JSZip = require("jszip");
-var fileSaver = require("./file_saver");
-var excelFormatConverter = require("./excel_format_converter");
-var ExcelFile = require("./excel/excel.file");
+import errors from "../ui/widget/ui.errors";
+import stringUtils from "../core/utils/string";
+import JSZip from "jszip";
+import fileSaver from "./file_saver";
+import excelFormatConverter from "./excel_format_converter";
+import ExcelFile from "./excel/excel.file";
 var isDefined = typeUtils.isDefined;
 var XML_TAG = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 var GROUP_SHEET_PR_XML = "<sheetPr><outlinePr summaryBelow=\"0\"/></sheetPr>";

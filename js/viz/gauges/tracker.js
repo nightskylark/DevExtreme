@@ -1,9 +1,9 @@
-var eventsEngine = require("../../events/core/events_engine");
-var Class = require("../../core/class");
-var domAdapter = require("../../core/dom_adapter");
+import eventsEngine from "../../events/core/events_engine";
+import Class from "../../core/class";
+import domAdapter from "../../core/dom_adapter";
 import readyCallbacksUtils from "../../core/utils/ready_callbacks";
 var ready = readyCallbacksUtils.add;
-var wheelEvent = require("../../events/core/wheel");
+import wheelEvent from "../../events/core/wheel";
 import consoleUtils from "../../core/utils/console";
 var TOOLTIP_HIDE_DELAY = 100;
 

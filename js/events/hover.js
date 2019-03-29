@@ -1,10 +1,10 @@
-var eventsEngine = require("../events/core/events_engine");
-var dataUtils = require("../core/element_data");
-var Class = require("../core/class");
-var devices = require("../core/devices");
-var registerEvent = require("./core/event_registrator");
-var eventUtils = require("./utils");
-var pointerEvents = require("./pointer");
+import eventsEngine from "../events/core/events_engine";
+import dataUtils from "../core/element_data";
+import Class from "../core/class";
+import devices from "../core/devices";
+import registerEvent from "./core/event_registrator";
+import eventUtils from "./utils";
+import pointerEvents from "./pointer";
 var HOVERSTART_NAMESPACE = "dxHoverStart";
 var HOVERSTART = "dxhoverstart";
 var POINTERENTER_NAMESPACED_EVENT_NAME = eventUtils.addNamespace(pointerEvents.enter, HOVERSTART_NAMESPACE);

@@ -1,6 +1,6 @@
-var windowUtils = require("./utils/window");
+import windowUtils from "./utils/window";
 var window = windowUtils.getWindow();
-var injector = require("./utils/dependency_injector");
+import injector from "./utils/dependency_injector";
 
 var nativeXMLHttpRequest = {
     getXhr: function() {

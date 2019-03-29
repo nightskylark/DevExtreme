@@ -1,8 +1,8 @@
-var typeUtils = require("./core/utils/type");
-var dateUtils = require("./core/utils/date");
-var numberLocalization = require("./localization/number");
-var dateLocalization = require("./localization/date");
-var dependencyInjector = require("./core/utils/dependency_injector");
+import typeUtils from "./core/utils/type";
+import dateUtils from "./core/utils/date";
+import numberLocalization from "./localization/number";
+import dateLocalization from "./localization/date";
+import dependencyInjector from "./core/utils/dependency_injector";
 
 require("./localization/currency");
 

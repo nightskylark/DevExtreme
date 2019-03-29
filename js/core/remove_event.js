@@ -1,8 +1,8 @@
 var $ = require("./renderer");
 import dataModule from "./element_data";
 var beforeCleanData = dataModule.beforeCleanData;
-var eventsEngine = require("../events/core/events_engine");
-var registerEvent = require("../events/core/event_registrator");
+import eventsEngine from "../events/core/events_engine";
+import registerEvent from "../events/core/event_registrator";
 
 var eventName = "dxremove";
 var eventPropName = "dxRemoveEvent";

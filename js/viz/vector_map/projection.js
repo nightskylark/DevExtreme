@@ -1,4 +1,4 @@
-var projectionModule = require("./projection.main");
+import projectionModule from "./projection.main";
 var projection = projectionModule.projection;
 var _min = Math.min;
 var _max = Math.max;

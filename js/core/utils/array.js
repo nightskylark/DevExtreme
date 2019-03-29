@@ -2,8 +2,8 @@ import typeModule from "./type";
 var isDefined = typeModule.isDefined;
 import iteratorModule from "./iterator";
 var each = iteratorModule.each;
-var objectUtils = require("./object");
-var config = require("../config");
+import objectUtils from "./object";
+import config from "../config";
 
 var isEmpty = function(entity) {
     return Array.isArray(entity) && !entity.length;

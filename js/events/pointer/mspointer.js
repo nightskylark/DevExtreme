@@ -1,5 +1,5 @@
-var BaseStrategy = require("./base");
-var Observer = require("./observer");
+import BaseStrategy from "./base";
+import Observer from "./observer";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 

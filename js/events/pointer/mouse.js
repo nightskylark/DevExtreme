@@ -1,7 +1,7 @@
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var BaseStrategy = require("./base");
-var Observer = require("./observer");
+import BaseStrategy from "./base";
+import Observer from "./observer";
 
 var eventMap = {
     "dxpointerdown": "mousedown",

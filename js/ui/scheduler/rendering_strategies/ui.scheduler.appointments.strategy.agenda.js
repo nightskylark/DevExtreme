@@ -1,10 +1,10 @@
 import commonUtils from "../../../core/utils/common";
 var noop = commonUtils.noop;
-var dateUtils = require("../../../core/utils/date");
+import dateUtils from "../../../core/utils/date";
 import iteratorUtils from "../../../core/utils/iterator";
 var each = iteratorUtils.each;
-var arrayUtils = require("../../../core/utils/array");
-var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base");
+import arrayUtils from "../../../core/utils/array";
+import BaseAppointmentsStrategy from "./ui.scheduler.appointments.strategy.base";
 
 var AgendaRenderingStrategy = BaseAppointmentsStrategy.inherit({
     ctor: function(instance) {

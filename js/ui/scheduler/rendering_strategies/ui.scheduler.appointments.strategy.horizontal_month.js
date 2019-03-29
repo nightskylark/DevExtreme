@@ -2,7 +2,7 @@ import commonUtils from "../../../core/utils/common";
 var noop = commonUtils.noop;
 import extendUtils from "../../../core/utils/extend";
 var extend = extendUtils.extend;
-var HorizontalMonthLineAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.horizontal_month_line");
+import HorizontalMonthLineAppointmentsStrategy from "./ui.scheduler.appointments.strategy.horizontal_month_line";
 var MONTH_APPOINTMENT_HEIGHT_RATIO = 0.6;
 var MONTH_APPOINTMENT_MIN_OFFSET = 26;
 var MONTH_APPOINTMENT_MAX_OFFSET = 30;

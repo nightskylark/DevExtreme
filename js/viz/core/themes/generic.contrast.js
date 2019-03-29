@@ -1,4 +1,4 @@
-var themeModule = require("../../themes");
+import themeModule from "../../themes";
 var registerTheme = themeModule.registerTheme;
 var WHITE = "#ffffff";
 var BLACK = "#000000";

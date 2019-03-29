@@ -1,10 +1,10 @@
 var $ = require("../../core/renderer");
-var eventsEngine = require("../../events/core/events_engine");
+import eventsEngine from "../../events/core/events_engine";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var Class = require("../../core/class");
-var swipeEvents = require("../../events/swipe");
-var eventUtils = require("../../events/utils");
+import Class from "../../core/class";
+import swipeEvents from "../../events/swipe";
+import eventUtils from "../../events/utils";
 var LIST_EDIT_DECORATOR = "dxListEditDecorator";
 var SWIPE_START_EVENT_NAME = eventUtils.addNamespace(swipeEvents.start, LIST_EDIT_DECORATOR);
 var SWIPE_UPDATE_EVENT_NAME = eventUtils.addNamespace(swipeEvents.swipe, LIST_EDIT_DECORATOR);

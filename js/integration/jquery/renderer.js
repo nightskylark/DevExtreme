@@ -1,5 +1,5 @@
-var jQuery = require("jquery");
-var rendererBase = require("../../core/renderer_base");
+import jQuery from "jquery";
+import rendererBase from "../../core/renderer_base";
 var useJQuery = require("./use_jquery")();
 
 if(useJQuery) {

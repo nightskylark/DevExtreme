@@ -1,6 +1,6 @@
-var windowUtils = require("../core/utils/window");
+import windowUtils from "../core/utils/window";
 var window = windowUtils.hasWindow() ? windowUtils.getWindow() : {};
-var callOnce = require("../core/utils/call_once");
+import callOnce from "../core/utils/call_once";
 var FRAME_ANIMATION_STEP_TIME = 1000 / 60;
 
 var request = function(callback) {

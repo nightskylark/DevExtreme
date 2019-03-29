@@ -1,8 +1,8 @@
-var registerComponent = require("../../../core/component_registrator");
-var dateUtils = require("../../../core/utils/date");
+import registerComponent from "../../../core/component_registrator";
+import dateUtils from "../../../core/utils/date";
 var toMs = dateUtils.dateToMilliseconds;
-var SchedulerWorkSpaceWeek = require("./ui.scheduler.work_space_week");
-var dateLocalization = require("../../../localization/date");
+import SchedulerWorkSpaceWeek from "./ui.scheduler.work_space_week";
+import dateLocalization from "../../../localization/date";
 
 var WORK_WEEK_CLASS = "dx-scheduler-work-space-work-week";
 

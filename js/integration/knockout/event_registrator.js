@@ -1,10 +1,10 @@
 var $ = require("../../core/renderer");
-var eventsEngine = require("../../events/core/events_engine");
-var ko = require("knockout");
+import eventsEngine from "../../events/core/events_engine";
+import ko from "knockout";
 import typeUtils from "../../core/utils/type";
 var isPlainObject = typeUtils.isPlainObject;
-var eventRegistratorCallbacks = require("../../events/core/event_registrator_callbacks");
-var eventUtils = require("../../events/utils");
+import eventRegistratorCallbacks from "../../events/core/event_registrator_callbacks";
+import eventUtils from "../../events/utils";
 
 eventRegistratorCallbacks.add(function(name) {
     var koBindingEventName = eventUtils.addNamespace(name, name + "Binding");

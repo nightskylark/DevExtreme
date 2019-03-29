@@ -1,9 +1,9 @@
 var $ = require("../../core/renderer");
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var messageLocalization = require("../../localization/message");
-var TextBox = require("../text_box");
-var errors = require("../widget/ui.errors");
+import messageLocalization from "../../localization/message";
+import TextBox from "../text_box";
+import errors from "../widget/ui.errors";
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
 

@@ -2,7 +2,7 @@
 
 /* Core (dx.module-core.js) */
 
-var DevExpress = require("../../../bundles/modules/core");
+import DevExpress from "../../../bundles/modules/core";
 
 /* Integrations (dx.module-core.js) */
 

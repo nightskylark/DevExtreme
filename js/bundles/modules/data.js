@@ -1,23 +1,24 @@
-var DevExpress = require("./core");
+import DevExpress from "./core";
+import errors from "../../data/errors";
 
 module.exports = DevExpress.data = DevExpress.data || {};
 
 Object.defineProperty(DevExpress.data, 'errorHandler', {
     get: function() {
-        return require("../../data/errors").errorHandler;
+        return errors.errorHandler;
     },
     set: function(value) {
-        require("../../data/errors").errorHandler = value;
+        errors.errorHandler = value;
     }
 });
 
 // TODO: try remove (plugins failed without this)
 Object.defineProperty(DevExpress.data, '_errorHandler', {
     get: function() {
-        return require("../../data/errors")._errorHandler;
+        return errors._errorHandler;
     },
     set: function(value) {
-        require("../../data/errors")._errorHandler = value;
+        errors._errorHandler = value;
     }
 });
 

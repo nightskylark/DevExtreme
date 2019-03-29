@@ -1,8 +1,8 @@
-var dataQuery = require("../../data/query");
-var commonUtils = require("../../core/utils/common");
-var typeUtils = require("../../core/utils/type");
+import dataQuery from "../../data/query";
+import commonUtils from "../../core/utils/common";
+import typeUtils from "../../core/utils/type";
 var getKeyHash = commonUtils.getKeyHash;
-var Class = require("../../core/class");
+import Class from "../../core/class";
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
 

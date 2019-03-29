@@ -1,12 +1,12 @@
-var Calendar = require("../calendar");
-var DateBoxStrategy = require("./ui.date_box.strategy");
-var dateUtils = require("../../core/utils/date");
-var commonUtils = require("../../core/utils/common");
+import Calendar from "../calendar";
+import DateBoxStrategy from "./ui.date_box.strategy";
+import dateUtils from "../../core/utils/date";
+import commonUtils from "../../core/utils/common";
 import typeUtils from "../../core/utils/type";
 var isFunction = typeUtils.isFunction;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var messageLocalization = require("../../localization/message");
+import messageLocalization from "../../localization/message";
 
 var CalendarStrategy = DateBoxStrategy.inherit({
 

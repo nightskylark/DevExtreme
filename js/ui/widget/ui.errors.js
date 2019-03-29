@@ -1,5 +1,5 @@
-var errorUtils = require("../../core/utils/error");
-var errors = require("../../core/errors");
+import errorUtils from "../../core/utils/error";
+import errors from "../../core/errors";
 
 /**
 * @docid

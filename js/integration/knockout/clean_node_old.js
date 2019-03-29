@@ -1,4 +1,4 @@
-var ko = require("knockout");
+import ko from "knockout";
 import versionUtils from "../../core/utils/version";
 var compareVersion = versionUtils.compare;
 import dataModule from "../../core/element_data";

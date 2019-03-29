@@ -1,9 +1,9 @@
 var $ = require("../../core/renderer");
-var eventsEngine = require("../../events/core/events_engine");
+import eventsEngine from "../../events/core/events_engine";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var Class = require("../../core/class");
-var dateLocalization = require("../../localization/date");
+import Class from "../../core/class";
+import dateLocalization from "../../localization/date";
 
 var abstract = Class.abstract;
 

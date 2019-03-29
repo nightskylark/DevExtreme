@@ -1,9 +1,9 @@
-var devices = require("../../core/devices");
+import devices from "../../core/devices";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var BaseStrategy = require("./base");
+import BaseStrategy from "./base";
 
 var eventMap = {
     "dxpointerdown": "touchstart",

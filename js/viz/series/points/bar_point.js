@@ -4,7 +4,7 @@ var _extend = extend;
 var _math = Math;
 var _floor = _math.floor;
 var _abs = _math.abs;
-var symbolPoint = require("./symbol_point");
+import symbolPoint from "./symbol_point";
 var CANVAS_POSITION_DEFAULT = "canvas_position_default";
 var DEFAULT_BAR_TRACKER_SIZE = 9;
 var CORRECTING_BAR_TRACKER_VALUE = 4;

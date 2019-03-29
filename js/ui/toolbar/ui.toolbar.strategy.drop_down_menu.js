@@ -1,8 +1,8 @@
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var ToolbarStrategy = require("./ui.toolbar.strategy");
-var ToolbarMenu = require("./ui.toolbar.menu");
-var DropDownMenu = require("../drop_down_menu");
+import ToolbarStrategy from "./ui.toolbar.strategy";
+import ToolbarMenu from "./ui.toolbar.menu";
+import DropDownMenu from "../drop_down_menu";
 
 var MENU_INVISIBLE_CLASS = "dx-state-invisible";
 

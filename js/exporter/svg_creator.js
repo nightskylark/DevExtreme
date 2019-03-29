@@ -1,13 +1,13 @@
 var $ = require("../core/renderer");
-var ajax = require("../core/utils/ajax");
+import ajax from "../core/utils/ajax";
 import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
 import typeUtils from "../core/utils/type";
 var isFunction = typeUtils.isFunction;
 import iteratorUtils from "../core/utils/iterator";
 var each = iteratorUtils.each;
-var svgUtils = require("../core/utils/svg");
-var deferredUtils = require("../core/utils/deferred");
+import svgUtils from "../core/utils/svg";
+import deferredUtils from "../core/utils/deferred";
 var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
 

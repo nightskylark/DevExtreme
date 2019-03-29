@@ -1,5 +1,5 @@
-var Callbacks = require("../../core/utils/callbacks");
-var ngModule = require("./module");
+import Callbacks from "../../core/utils/callbacks";
+import ngModule from "./module";
 
 ngModule.service("dxDigestCallbacks", ["$rootScope", function($rootScope) {
     var begin = Callbacks();

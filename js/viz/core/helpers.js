@@ -1,6 +1,6 @@
 import extendUtils from "../../core/utils/extend";
 var _extend = extendUtils.extend;
-var windowUtils = require("../../core/utils/window");
+import windowUtils from "../../core/utils/window";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
 var isServerSide = !windowUtils.hasWindow();

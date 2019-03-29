@@ -1,4 +1,4 @@
-var themeModule = require("../../themes");
+import themeModule from "../../themes";
 var IOS7_DEFAULT = "ios7.default";
 var SECONDARY_TEXT_COLOR = "#767676";
 var BORDER_COLOR = "#d3d3d3";

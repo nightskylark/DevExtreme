@@ -1,6 +1,6 @@
 import helperModule from "../../../format_helper";
 var _format = helperModule.format;
-var vizUtils = require("../../core/utils");
+import vizUtils from "../../core/utils";
 import iteratorUtils from "../../../core/utils/iterator";
 var each = iteratorUtils.each;
 import extendUtils from "../../../core/utils/extend";

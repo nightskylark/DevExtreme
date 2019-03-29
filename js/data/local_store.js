@@ -1,12 +1,12 @@
-var eventsEngine = require("../events/core/events_engine");
-var domAdapter = require("../core/dom_adapter");
-var windowUtils = require("../core/utils/window");
+import eventsEngine from "../events/core/events_engine";
+import domAdapter from "../core/dom_adapter";
+import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
-var Class = require("../core/class");
+import Class from "../core/class";
 var abstract = Class.abstract;
 import errorsModule from "./errors";
 var errors = errorsModule.errors;
-var ArrayStore = require("./array_store");
+import ArrayStore from "./array_store";
 
 var LocalStoreBackend = Class.inherit({
 

@@ -1,8 +1,8 @@
-var commonModule = require("./common");
+import commonModule from "./common";
 var animationSettings = commonModule.utils.animationSettings;
 var formatValue = commonModule.formatValue;
-var SliderMarker = require("./slider_marker");
-var support = require("../../core/utils/support");
+import SliderMarker from "./slider_marker";
+import support from "../../core/utils/support";
 var SPLITTER_WIDTH = 8;
 var TOUCH_SPLITTER_WIDTH = 20;
 

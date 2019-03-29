@@ -1,4 +1,4 @@
-var Shader = require("./ui.scheduler.current_time_shader");
+import Shader from "./ui.scheduler.current_time_shader";
 
 var HorizontalCurrentTimeShader = Shader.inherit({
     _renderShader: function() {

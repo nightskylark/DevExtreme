@@ -1,5 +1,5 @@
 var $ = require("../core/renderer");
-var windowUtils = require("./utils/window");
+import windowUtils from "./utils/window";
 var navigator = windowUtils.getNavigator();
 var window = windowUtils.getWindow();
 import extendUtils from "./utils/extend";
@@ -8,15 +8,15 @@ import typeUtils from "./utils/type";
 var isPlainObject = typeUtils.isPlainObject;
 import iteratorUtils from "./utils/iterator";
 var each = iteratorUtils.each;
-var Class = require("./class");
-var errors = require("./errors");
-var Callbacks = require("./utils/callbacks");
-var resizeCallbacks = require("./utils/resize_callbacks");
-var EventsMixin = require("./events_mixin");
+import Class from "./class";
+import errors from "./errors";
+import Callbacks from "./utils/callbacks";
+import resizeCallbacks from "./utils/resize_callbacks";
+import EventsMixin from "./events_mixin";
 import storageUtils from "./utils/storage";
 var SessionStorage = storageUtils.sessionStorage;
-var viewPort = require("./utils/view_port");
-var Config = require("./config");
+import viewPort from "./utils/view_port";
+import Config from "./config";
 
 var KNOWN_UA_TABLE = {
     "iPhone": "iPhone",

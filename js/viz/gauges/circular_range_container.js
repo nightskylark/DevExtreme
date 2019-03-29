@@ -1,4 +1,4 @@
-var BaseRangeContainer = require("./base_range_container");
+import BaseRangeContainer from "./base_range_container";
 var _Number = Number;
 var _max = Math.max;
 import utilsModule from "../core/utils";

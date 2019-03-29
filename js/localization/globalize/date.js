@@ -561,13 +561,13 @@ var weekData = {
 
 var ACCEPTABLE_JSON_FORMAT_PROPERTIES = ["skeleton", "date", "time", "datetime", "raw"];
 
-var Globalize = require("globalize");
-var dateLocalization = require("../date");
+import Globalize from "globalize";
+import dateLocalization from "../date";
 import typeUtils from "../../core/utils/type";
 var isObject = typeUtils.isObject;
 import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
-var iteratorUtils = require("../../core/utils/iterator");
+import iteratorUtils from "../../core/utils/iterator";
 
 if(Globalize && Globalize.formatDate) {
 

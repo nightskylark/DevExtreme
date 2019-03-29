@@ -1,6 +1,6 @@
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var eventEmitterModule = require("./event_emitter");
+import eventEmitterModule from "./event_emitter";
 var _Number = Number;
 var _min = Math.min;
 var _max = Math.max;

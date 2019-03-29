@@ -1,6 +1,6 @@
 var _max = Math.max;
 var _round = Math.round;
-var tiling = require("./tiling");
+import tiling from "./tiling";
 
 function compare(a, b) { return b.value - a.value; }
 

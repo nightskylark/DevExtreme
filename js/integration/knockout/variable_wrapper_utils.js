@@ -1,5 +1,5 @@
-var ko = require("knockout");
-var variableWrapper = require("../../core/utils/variable_wrapper");
+import ko from "knockout";
+import variableWrapper from "../../core/utils/variable_wrapper";
 
 variableWrapper.inject({
     isWrapped: ko.isObservable,

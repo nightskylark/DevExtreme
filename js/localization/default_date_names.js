@@ -1,4 +1,4 @@
-var iteratorUtils = require("../core/utils/iterator");
+import iteratorUtils from "../core/utils/iterator";
 
 var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

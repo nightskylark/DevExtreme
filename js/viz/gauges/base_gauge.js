@@ -3,11 +3,11 @@ import utilsModule from "../core/utils";
 var _getAppropriateFormat = utilsModule.getAppropriateFormat;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var translator1DModule = require("../translators/translator1d");
+import translator1DModule from "../translators/translator1d";
 var _extend = extend;
-var BaseWidget = require("../core/base_widget");
-var themeManagerModule = require("./theme_manager");
-var Tracker = require("./tracker");
+import BaseWidget from "../core/base_widget";
+import themeManagerModule from "./theme_manager";
+import Tracker from "./tracker";
 
 var dxBaseGauge = BaseWidget.inherit({
     _rootClassPrefix: "dxg",

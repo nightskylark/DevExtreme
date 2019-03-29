@@ -1,8 +1,8 @@
 var $ = require("../../core/renderer");
 import typeUtils from "../../core/utils/type";
 var isDefined = typeUtils.isDefined;
-var browser = require("../../core/utils/browser");
-var domAdapter = require("../../core/dom_adapter");
+import browser from "../../core/utils/browser";
+import domAdapter from "../../core/dom_adapter";
 
 var isFocusingOnCaretChange = browser.msie || browser.safari;
 

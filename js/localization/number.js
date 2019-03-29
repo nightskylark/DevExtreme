@@ -1,4 +1,4 @@
-var dependencyInjector = require("../core/utils/dependency_injector");
+import dependencyInjector from "../core/utils/dependency_injector";
 import arrayUtils from "../core/utils/array";
 var inArray = arrayUtils.inArray;
 import commonUtils from "../core/utils/common";
@@ -7,9 +7,9 @@ import iteratorUtils from "../core/utils/iterator";
 var each = iteratorUtils.each;
 import typeUtils from "../core/utils/type";
 var isPlainObject = typeUtils.isPlainObject;
-var ldmlNumber = require("./ldml/number");
-var config = require("../core/config");
-var errors = require("../core/errors");
+import ldmlNumber from "./ldml/number";
+import config from "../core/config";
+import errors from "../core/errors";
 var MAX_LARGE_NUMBER_POWER = 4;
 var DECIMAL_BASE = 10;
 

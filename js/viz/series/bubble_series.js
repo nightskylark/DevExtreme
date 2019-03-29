@@ -4,7 +4,7 @@ import scatterSeriesModule from "./scatter_series";
 var scatterSeries = scatterSeriesModule.chart;
 import areaSeriesModule from "./area_series";
 var areaSeries = areaSeriesModule.chart.area;
-var barSeries = require("./bar_series");
+import barSeries from "./bar_series";
 var chartBarSeries = barSeries.chart.bar;
 var polarBarSeries = barSeries.polar.bar;
 import extendUtils from "../../core/utils/extend";

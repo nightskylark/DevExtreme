@@ -1,17 +1,17 @@
 var $ = require("../../core/renderer");
 import windowUtils from "../../core/utils/window";
 var window = windowUtils.getWindow();
-var List = require("../list");
-var DateBoxStrategy = require("./ui.date_box.strategy");
-var themes = require("../themes");
+import List from "../list";
+import DateBoxStrategy from "./ui.date_box.strategy";
+import themes from "../themes";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
 import typeUtils from "../../core/utils/type";
 var isDate = typeUtils.isDate;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var dateUtils = require("./ui.date_utils");
-var dateLocalization = require("../../localization/date");
+import dateUtils from "./ui.date_utils";
+import dateLocalization from "../../localization/date";
 
 var BOUNDARY_VALUES = {
     "min": new Date(0, 0, 0, 0, 0),

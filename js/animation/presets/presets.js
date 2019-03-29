@@ -1,10 +1,10 @@
-var Component = require("../../core/component");
+import Component from "../../core/component";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var devices = require("../../core/devices");
-var fx = require("../fx");
+import devices from "../../core/devices";
+import fx from "../fx";
 
 var directionPostfixes = {
     forward: " dx-forward",

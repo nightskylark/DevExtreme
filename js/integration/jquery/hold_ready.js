@@ -1,5 +1,5 @@
-var jQuery = require("jquery");
-var themes_callback = require("../../ui/themes_callback");
+import jQuery from "jquery";
+import themes_callback from "../../ui/themes_callback";
 import readyCallbacksUtils from "../../core/utils/ready_callbacks";
 var ready = readyCallbacksUtils.add;
 

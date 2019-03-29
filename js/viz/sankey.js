@@ -1,4 +1,4 @@
-var dxSankey = require("./sankey/sankey");
+import dxSankey from "./sankey/sankey";
 import { setTooltipCustomOptions } from "./sankey/tooltip";
 
 import exportModule from "./core/export";

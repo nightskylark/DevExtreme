@@ -1,7 +1,7 @@
-var typeUtils = require("../../core/utils/type");
-var SelectionStrategy = require("./selection.strategy");
-var errors = require("../widget/ui.errors");
-var dataQuery = require("../../data/query");
+import typeUtils from "../../core/utils/type";
+import SelectionStrategy from "./selection.strategy";
+import errors from "../widget/ui.errors";
+import dataQuery from "../../data/query";
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
 

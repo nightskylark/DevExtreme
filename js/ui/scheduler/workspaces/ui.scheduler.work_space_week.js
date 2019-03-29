@@ -1,10 +1,10 @@
 var $ = require("../../../core/renderer");
-var registerComponent = require("../../../core/component_registrator");
-var dateUtils = require("../../../core/utils/date");
-var dateLocalization = require("../../../localization/date");
+import registerComponent from "../../../core/component_registrator";
+import dateUtils from "../../../core/utils/date";
+import dateLocalization from "../../../localization/date";
 import iteratorUtils from "../../../core/utils/iterator";
 var each = iteratorUtils.each;
-var SchedulerWorkSpace = require("./ui.scheduler.work_space.indicator");
+import SchedulerWorkSpace from "./ui.scheduler.work_space.indicator";
 
 var WEEK_CLASS = "dx-scheduler-work-space-week";
 

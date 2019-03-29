@@ -1,4 +1,4 @@
-var typeUtils = require("./type");
+import typeUtils from "./type";
 import mathModule from "./math";
 var adjust = mathModule.adjust;
 import iteratorModule from "./iterator";

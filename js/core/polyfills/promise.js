@@ -1,7 +1,7 @@
 /* global Promise */
-var deferredUtils = require("../../core/utils/deferred");
+import deferredUtils from "../../core/utils/deferred";
 
-var windowUtils = require("../../core/utils/window");
+import windowUtils from "../../core/utils/window";
 var Deferred = deferredUtils.Deferred;
 var when = deferredUtils.when;
 var promise = windowUtils.hasWindow() ? windowUtils.getWindow().Promise : Promise;

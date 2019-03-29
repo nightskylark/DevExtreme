@@ -1,9 +1,9 @@
-var typeUtils = require("../utils/type");
+import typeUtils from "../utils/type";
 var isPromise = typeUtils.isPromise;
 var isDeferred = typeUtils.isDeferred;
 import extendUtils from "../utils/extend";
 var extend = extendUtils.extend;
-var Callbacks = require("../utils/callbacks");
+import Callbacks from "../utils/callbacks";
 
 var deferredConfig = [{
     method: "resolve",

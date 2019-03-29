@@ -1,5 +1,5 @@
-var jQuery = require("jquery");
-var deferredUtils = require("../../core/utils/deferred");
+import jQuery from "jquery";
+import deferredUtils from "../../core/utils/deferred";
 var useJQuery = require("./use_jquery")();
 import versionUtils from "../../core/utils/version";
 var compareVersion = versionUtils.compare;

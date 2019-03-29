@@ -4,7 +4,7 @@ import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../core/utils/iterator";
 var each = iteratorUtils.each;
-var arrayQuery = require("./array_query");
+import arrayQuery from "./array_query";
 import utilsModule from "./utils";
 var normalizeSortingInfo = utilsModule.normalizeSortingInfo;
 

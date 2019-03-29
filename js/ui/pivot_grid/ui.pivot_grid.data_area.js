@@ -1,5 +1,5 @@
 var $ = require("../../core/renderer");
-var areaItem = require("./ui.pivot_grid.area_item");
+import areaItem from "./ui.pivot_grid.area_item";
 var PIVOTGRID_AREA_CLASS = "dx-pivotgrid-area";
 var PIVOTGRID_AREA_DATA_CLASS = "dx-pivotgrid-area-data";
 var PIVOTGRID_TOTAL_CLASS = "dx-total";

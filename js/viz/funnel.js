@@ -1,4 +1,4 @@
-var dxFunnel = require("./funnel/funnel");
+import dxFunnel from "./funnel/funnel";
 
 import labelModule from "./funnel/label";
 dxFunnel.addPlugin(labelModule.plugin);

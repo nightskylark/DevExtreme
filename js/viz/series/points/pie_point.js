@@ -1,13 +1,13 @@
 import extendUtils from "../../../core/utils/extend";
 var extend = extendUtils.extend;
-var symbolPoint = require("./symbol_point");
+import symbolPoint from "./symbol_point";
 var _extend = extend;
 var _round = Math.round;
 var _sqrt = Math.sqrt;
 var _acos = Math.acos;
 var DEG = 180 / Math.PI;
 var _abs = Math.abs;
-var vizUtils = require("../../core/utils");
+import vizUtils from "../../core/utils";
 var _normalizeAngle = vizUtils.normalizeAngle;
 var _getCosAndSin = vizUtils.getCosAndSin;
 import typeUtils from "../../../core/utils/type";

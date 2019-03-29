@@ -1,5 +1,5 @@
-var Callbacks = require("../../core/utils/callbacks");
-var NativeStrategy = require("./ui.scrollable.native");
+import Callbacks from "../../core/utils/callbacks";
+import NativeStrategy from "./ui.scrollable.native";
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
 var STATE_RELEASED = 0;

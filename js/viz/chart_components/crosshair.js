@@ -3,7 +3,7 @@ var mathAbs = math.abs;
 var mathMin = math.min;
 var mathMax = math.max;
 var mathFloor = math.floor;
-var vizUtils = require("../core/utils");
+import vizUtils from "../core/utils";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 var HORIZONTAL = "horizontal";

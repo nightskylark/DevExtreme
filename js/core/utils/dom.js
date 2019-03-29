@@ -1,15 +1,15 @@
 var $ = require("../../core/renderer");
-var config = require("../../core/config");
-var domAdapter = require("../../core/dom_adapter");
-var windowUtils = require("./window");
+import config from "../../core/config";
+import domAdapter from "../../core/dom_adapter";
+import windowUtils from "./window";
 var window = windowUtils.getWindow();
-var eventsEngine = require("../../events/core/events_engine");
+import eventsEngine from "../../events/core/events_engine";
 import arrayModule from "./array";
 var inArray = arrayModule.inArray;
-var typeUtils = require("./type");
+import typeUtils from "./type";
 var isDefined = typeUtils.isDefined;
 var isRenderer = typeUtils.isRenderer;
-var htmlParser = require("../../core/utils/html_parser");
+import htmlParser from "../../core/utils/html_parser";
 var elementStrategy;
 
 var resetActiveElement = function() {

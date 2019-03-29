@@ -1,6 +1,6 @@
 import arrayModule from "./array";
 var merge = arrayModule.merge;
-var domAdapter = require("../dom_adapter");
+import domAdapter from "../dom_adapter";
 
 var isTagName = (/<([a-z][^/\0>\x20\t\r\n\f]+)/i);
 

@@ -1,5 +1,5 @@
 var $ = require("../../../core/renderer");
-var Class = require("../../../core/class");
+import Class from "../../../core/class";
 
 var DATE_TIME_SHADER_CLASS = "dx-scheduler-date-time-shader";
 

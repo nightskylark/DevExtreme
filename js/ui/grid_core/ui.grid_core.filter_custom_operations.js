@@ -1,12 +1,12 @@
 import { renderValueText } from "../filter_builder/filter_builder";
 
 var $ = require("../../core/renderer");
-var messageLocalization = require("../../localization/message");
+import messageLocalization from "../../localization/message";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var DataSourceModule = require("../../data/data_source/data_source");
-var deferredUtils = require("../../core/utils/deferred");
-var utils = require("../filter_builder/utils");
+import DataSourceModule from "../../data/data_source/data_source";
+import deferredUtils from "../../core/utils/deferred";
+import utils from "../filter_builder/utils";
 
 function baseOperation(grid) {
     var calculateFilterExpression = function(filterValue, field) {

@@ -1,4 +1,4 @@
-var dateUtils = require("../../core/utils/date");
+import dateUtils from "../../core/utils/date";
 var days = [0, 1, 2, 3, 4, 5, 6];
 
 function getWeekendDays(workdays) {

@@ -1,4 +1,4 @@
-var angular = require("angular");
+import angular from "angular";
 
 // Check availability in global environment
 if(angular) {

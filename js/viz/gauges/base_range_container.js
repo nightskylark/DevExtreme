@@ -1,4 +1,4 @@
-var iterateUtils = require("../../core/utils/iterator");
+import iterateUtils from "../../core/utils/iterator";
 import indicatorsModule from "./base_indicators";
 var BaseElement = indicatorsModule.BaseElement;
 var _Number = Number;

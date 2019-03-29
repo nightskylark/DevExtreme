@@ -1,4 +1,4 @@
-var themeModule = require("../../themes");
+import themeModule from "../../themes";
 var registerTheme = themeModule.registerTheme;
 var ACCENT_COLOR = "#9c63ff";
 var BACKGROUND_COLOR = "#17171f";

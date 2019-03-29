@@ -1,6 +1,6 @@
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var typeUtils = require("../../core/utils/type");
+import typeUtils from "../../core/utils/type";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../../core/utils/iterator";

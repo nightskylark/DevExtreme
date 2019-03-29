@@ -1,11 +1,11 @@
-var Class = require("../../core/class");
+import Class from "../../core/class";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var typeUtils = require("../../core/utils/type");
+import typeUtils from "../../core/utils/type";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var ajax = require("../../core/utils/ajax");
-var Guid = require("../../core/guid");
+import ajax from "../../core/utils/ajax";
+import Guid from "../../core/guid";
 var isDefined = typeUtils.isDefined;
 var isPlainObject = typeUtils.isPlainObject;
 import commonUtils from "../../core/utils/common";
@@ -14,7 +14,7 @@ import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
 import errorsModule from "../errors";
 var errors = errorsModule.errors;
-var dataUtils = require("../utils");
+import dataUtils from "../utils";
 
 var GUID_REGEX = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/;
 

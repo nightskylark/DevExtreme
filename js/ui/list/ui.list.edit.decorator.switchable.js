@@ -1,12 +1,12 @@
 var $ = require("../../core/renderer");
-var eventsEngine = require("../../events/core/events_engine");
+import eventsEngine from "../../events/core/events_engine";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var EditDecorator = require("./ui.list.edit.decorator");
+import EditDecorator from "./ui.list.edit.decorator";
 var abstract = EditDecorator.abstract;
-var eventUtils = require("../../events/utils");
-var pointerEvents = require("../../events/pointer");
-var feedbackEvents = require("../../events/core/emitter.feedback");
+import eventUtils from "../../events/utils";
+import pointerEvents from "../../events/pointer";
+import feedbackEvents from "../../events/core/emitter.feedback";
 var LIST_EDIT_DECORATOR = "dxListEditDecorator";
 var POINTER_DOWN_EVENT_NAME = eventUtils.addNamespace(pointerEvents.down, LIST_EDIT_DECORATOR);
 var ACTIVE_EVENT_NAME = eventUtils.addNamespace(feedbackEvents.active, LIST_EDIT_DECORATOR);

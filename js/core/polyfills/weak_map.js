@@ -2,7 +2,7 @@
 import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
 
-var windowUtils = require("../../core/utils/window");
+import windowUtils from "../../core/utils/window";
 var weakMap = windowUtils.hasWindow() ? windowUtils.getWindow().WeakMap : WeakMap;
 
 if(!weakMap) {

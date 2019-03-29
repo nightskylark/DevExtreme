@@ -1,9 +1,9 @@
-var dataUtils = require("../../core/element_data");
-var eventsEngine = require("../../events/core/events_engine");
-var WeakMap = require("../polyfills/weak_map");
+import dataUtils from "../../core/element_data";
+import eventsEngine from "../../events/core/events_engine";
+import WeakMap from "../polyfills/weak_map";
 import typeModule from "./type";
 var isDefined = typeModule.isDefined;
-var removeEvent = require("../remove_event");
+import removeEvent from "../remove_event";
 var COMPONENT_NAMES_DATA_KEY = "dxComponents";
 var ANONYMOUS_COMPONENT_DATA_KEY = "dxPrivateComponent";
 var componentNames = new WeakMap();

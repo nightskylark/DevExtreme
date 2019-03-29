@@ -1,5 +1,5 @@
-var typeUtils = require("./type");
-var variableWrapper = require("./variable_wrapper");
+import typeUtils from "./type";
+import variableWrapper from "./variable_wrapper";
 
 var clone = (function() {
     function Clone() { }

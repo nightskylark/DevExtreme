@@ -1,11 +1,11 @@
 var $ = require("../../core/renderer");
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var Class = require("../../core/class");
-var Callbacks = require("../../core/utils/callbacks");
+import Class from "../../core/class";
+import Callbacks from "../../core/utils/callbacks";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var eventUtils = require("../utils");
+import eventUtils from "../utils";
 
 var Emitter = Class.inherit({
 

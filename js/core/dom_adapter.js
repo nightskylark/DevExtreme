@@ -1,6 +1,6 @@
 /* global document, Node */
 
-var injector = require("./utils/dependency_injector");
+import injector from "./utils/dependency_injector";
 import commonUtils from "./utils/common";
 var noop = commonUtils.noop;
 

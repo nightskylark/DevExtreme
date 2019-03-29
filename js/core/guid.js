@@ -1,4 +1,4 @@
-var Class = require("./class");
+import Class from "./class";
 
 /**
 * @name Guid

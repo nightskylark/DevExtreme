@@ -1,4 +1,4 @@
-var dragEvents = require("../../events/drag");
+import dragEvents from "../../events/drag";
 var SHUTTER_EVENTS_NS = ".shutter-zoom";
 var DRAG_START_EVENT_NAME = dragEvents.start + SHUTTER_EVENTS_NS;
 var DRAG_UPDATE_EVENT_NAME = dragEvents.move + SHUTTER_EVENTS_NS;

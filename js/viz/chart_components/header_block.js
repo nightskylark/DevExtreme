@@ -1,4 +1,4 @@
-var LayoutElementModule = require("../core/layout_element");
+import LayoutElementModule from "../core/layout_element";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 

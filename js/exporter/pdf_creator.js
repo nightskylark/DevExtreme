@@ -1,4 +1,4 @@
-var VERSION = require("../core/version");
+import VERSION from "../core/version";
 import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
 import creatorModule from "./image_creator";
@@ -7,7 +7,7 @@ import typeUtils from "../core/utils/type";
 var isFunction = typeUtils.isFunction;
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
-var deferredUtils = require("../core/utils/deferred");
+import deferredUtils from "../core/utils/deferred";
 var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
 var mainPageTemplate = "%PDF-1.3\r\n2 0 obj\r\n<</ProcSet[/PDF/ImageB/ImageC/ImageI]/XObject<</I0 5 0 R>>>>\r\nendobj\r\n4 0 obj\r\n<</Type/Pages/Kids[1 0 R]/Count 1>>\r\nendobj\r\n7 0 obj\r\n<</OpenAction[1 0 R /FitH null]/Type/Catalog/Pages 4 0 R/PageLayout/OneColumn>>\r\nendobj\r\n1 0 obj\r\n<</Type/Page/Resources 2 0 R/MediaBox[0 0 _width_ _height_]/Contents 3 0 R/Parent 4 0 R>>\r\nendobj\r\n";

@@ -1,6 +1,6 @@
 /* global window */
 
-var domAdapter = require("../dom_adapter");
+import domAdapter from "../dom_adapter";
 
 var hasWindow = typeof window !== "undefined";
 var windowObject = hasWindow && window;

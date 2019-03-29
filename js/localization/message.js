@@ -1,5 +1,5 @@
 var $ = require("../core/renderer");
-var dependencyInjector = require("../core/utils/dependency_injector");
+import dependencyInjector from "../core/utils/dependency_injector";
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../core/utils/iterator";
@@ -8,7 +8,7 @@ import stringUtils from "../core/utils/string";
 var stringFormat = stringUtils.format;
 import inflectorUtils from "../core/utils/inflector";
 var humanize = inflectorUtils.humanize;
-var coreLocalization = require("./core");
+import coreLocalization from "./core";
 
 require("./core");
 
@@ -16,7 +16,7 @@ var PARENT_LOCALE_SEPARATOR = "-";
 
 var baseDictionary = extend(true, {}, require("./default_messages"));
 
-var parentLocales = require("./cldr-data/parentLocales");
+import parentLocales from "./cldr-data/parentLocales";
 
 var getParentLocale = function(locale) {
     var parentLocale = parentLocales[locale];

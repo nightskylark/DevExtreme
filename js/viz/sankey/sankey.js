@@ -2,10 +2,10 @@ import { COLOR_MODE_GRADIENT, COLOR_MODE_SOURCE, COLOR_MODE_TARGET } from './con
 
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var Node = require("./node_item");
-var Link = require("./link_item");
-var defaultLayoutBuilder = require("./layout");
-var typeUtils = require("../../core/utils/type");
+import Node from "./node_item";
+import Link from "./link_item";
+import defaultLayoutBuilder from "./layout";
+import typeUtils from "../../core/utils/type";
 var _isString = typeUtils.isString;
 var _isNumber = typeUtils.isNumeric;
 

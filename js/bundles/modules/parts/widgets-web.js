@@ -1,5 +1,5 @@
-var data = require("./data");
-var ui = require("./widgets-base");
+import data from "./data";
+import ui from "./widgets-base";
 
 /// BUNDLER_PARTS
 /* Web widgets (dx.module-widgets-web.js) */

@@ -1,6 +1,6 @@
 import consoleModule from "./console";
 var logger = consoleModule.logger;
-var dependencyInjector = require("./dependency_injector");
+import dependencyInjector from "./dependency_injector";
 
 module.exports = dependencyInjector({
     isWrapped: function() {

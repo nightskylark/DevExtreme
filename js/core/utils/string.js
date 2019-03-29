@@ -1,4 +1,4 @@
-var typeUtils = require("./type");
+import typeUtils from "./type";
 
 var encodeHtml = (function() {
     var encodeRegExp = [new RegExp("&", "g"), new RegExp('"', "g"), new RegExp("'", "g"), new RegExp("<", "g"), new RegExp(">", "g")];

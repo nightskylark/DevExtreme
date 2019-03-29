@@ -1,7 +1,7 @@
 import commonModule from "./common";
 var getKeyHash = commonModule.getKeyHash;
 var equalByValue = commonModule.equalByValue;
-var typeUtils = require("./type");
+import typeUtils from "./type";
 
 var SelectionFilterCreator = function(selectedItemKeys, isSelectAll) {
 

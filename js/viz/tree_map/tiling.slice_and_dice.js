@@ -1,4 +1,4 @@
-var tiling = require("./tiling");
+import tiling from "./tiling";
 
 function sliceAndDice(data) {
     var items = data.items;

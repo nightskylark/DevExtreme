@@ -1,4 +1,4 @@
-var graphModule = require('./graph');
+import graphModule from './graph';
 
 var validator = {
     validate: function(data, incidentOccurred) {

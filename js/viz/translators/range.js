@@ -1,4 +1,4 @@
-var typeUtils = require("../../core/utils/type");
+import typeUtils from "../../core/utils/type";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 var _isDefined = typeUtils.isDefined;

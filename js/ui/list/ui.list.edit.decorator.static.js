@@ -1,8 +1,8 @@
 var $ = require("../../core/renderer");
-var Button = require("../button");
+import Button from "../button";
 import registryModule from "./ui.list.edit.decorator_registry";
 var registerDecorator = registryModule.register;
-var EditDecorator = require("./ui.list.edit.decorator");
+import EditDecorator from "./ui.list.edit.decorator";
 var STATIC_DELETE_BUTTON_CONTAINER_CLASS = "dx-list-static-delete-button-container";
 var STATIC_DELETE_BUTTON_CLASS = "dx-list-static-delete-button";
 

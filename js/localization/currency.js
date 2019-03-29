@@ -1,6 +1,6 @@
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
-var numberLocalization = require("./number");
+import numberLocalization from "./number";
 
 numberLocalization.inject({
     _formatNumberCore: function(value, format, formatConfig) {

@@ -1,4 +1,4 @@
-var dataUtils = require("../core/element_data");
+import dataUtils from "../core/element_data";
 import typeUtils from "../core/utils/type";
 var type = typeUtils.type;
 var TRANSLATOR_DATA_KEY = "dxTranslator";

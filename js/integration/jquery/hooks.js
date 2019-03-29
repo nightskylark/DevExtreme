@@ -1,4 +1,4 @@
-var jQuery = require("jquery");
+import jQuery from "jquery";
 var useJQuery = require("./use_jquery")();
 import versionUtils from "../../core/utils/version";
 var compareVersion = versionUtils.compare;
@@ -8,8 +8,8 @@ import typeUtils from "../../core/utils/type";
 var isNumeric = typeUtils.isNumeric;
 import utilsModule from "../../events/utils";
 var setEventFixMethod = utilsModule.setEventFixMethod;
-var registerEvent = require("../../events/core/event_registrator");
-var hookTouchProps = require("../../events/core/hook_touch_props");
+import registerEvent from "../../events/core/event_registrator";
+import hookTouchProps from "../../events/core/hook_touch_props";
 
 if(useJQuery) {
     if(compareVersion(jQuery.fn.jquery, [3]) < 0) {

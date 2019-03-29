@@ -1,5 +1,5 @@
-var BaseAppointmentsStrategy = require("./ui.scheduler.appointments.strategy.base");
-var dateUtils = require("../../../core/utils/date");
+import BaseAppointmentsStrategy from "./ui.scheduler.appointments.strategy.base";
+import dateUtils from "../../../core/utils/date";
 var MAX_APPOINTMENT_HEIGHT = 100;
 var DEFAULT_APPOINTMENT_HEIGHT = 60;
 var DROP_DOWN_BUTTON_OFFSET = 2;

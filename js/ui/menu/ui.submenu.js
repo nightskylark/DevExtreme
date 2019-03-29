@@ -3,10 +3,10 @@ import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
 import domUtils from "../../core/utils/dom";
 var getPublicElement = domUtils.getPublicElement;
-var positionUtils = require("../../animation/position");
+import positionUtils from "../../animation/position";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var ContextMenu = require("../context_menu");
+import ContextMenu from "../context_menu";
 var DX_CONTEXT_MENU_CONTENT_DELIMITER_CLASS = "dx-context-menu-content-delimiter";
 var DX_SUBMENU_CLASS = "dx-submenu";
 

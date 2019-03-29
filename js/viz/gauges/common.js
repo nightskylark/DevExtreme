@@ -1,6 +1,6 @@
 import gaugeModule from "./base_gauge";
 var dxBaseGauge = gaugeModule.dxBaseGauge;
-var typeUtils = require("../../core/utils/type");
+import typeUtils from "../../core/utils/type";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
 import extendUtils from "../../core/utils/extend";
@@ -8,7 +8,7 @@ var extend = extendUtils.extend;
 var _isDefined = typeUtils.isDefined;
 var _isArray = Array.isArray;
 var _isNumber = typeUtils.isNumeric;
-var axisModule = require("../axes/base_axis");
+import axisModule from "../axes/base_axis";
 import utilsModule from "../core/utils";
 var _map = utilsModule.map;
 var _normalizeEnum = utilsModule.normalizeEnum;

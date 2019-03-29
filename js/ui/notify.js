@@ -1,11 +1,11 @@
 var $ = require("../core/renderer");
-var Action = require("../core/action");
-var viewPortUtils = require("../core/utils/view_port");
+import Action from "../core/action";
+import viewPortUtils from "../core/utils/view_port";
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
 import typeUtils from "../core/utils/type";
 var isPlainObject = typeUtils.isPlainObject;
-var Toast = require("./toast");
+import Toast from "./toast";
 
 
 var $notify = null;

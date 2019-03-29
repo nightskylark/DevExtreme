@@ -1,6 +1,6 @@
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var dateSerialization = require("../../core/utils/date_serialization");
+import dateSerialization from "../../core/utils/date_serialization";
 import typeUtils from "../../core/utils/type";
 var isDefined = typeUtils.isDefined;
 

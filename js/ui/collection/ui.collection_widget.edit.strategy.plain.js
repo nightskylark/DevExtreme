@@ -1,6 +1,6 @@
 import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
-var EditStrategy = require("./ui.collection_widget.edit.strategy");
+import EditStrategy from "./ui.collection_widget.edit.strategy";
 
 
 var PlainEditStrategy = EditStrategy.inherit({

@@ -1,6 +1,6 @@
-var stringUtils = require("../../core/utils/string");
-var iteratorUtils = require("../../core/utils/iterator");
-var odataUtils = require("./utils");
+import stringUtils from "../../core/utils/string";
+import iteratorUtils from "../../core/utils/iterator";
+import odataUtils from "./utils";
 
 require("./query_adapter");
 

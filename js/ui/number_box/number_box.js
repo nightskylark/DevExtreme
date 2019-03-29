@@ -1,5 +1,5 @@
-var registerComponent = require("../../core/component_registrator");
-var NumberBoxMask = require("./number_box.mask");
+import registerComponent from "../../core/component_registrator";
+import NumberBoxMask from "./number_box.mask";
 
 registerComponent("dxNumberBox", NumberBoxMask);
 

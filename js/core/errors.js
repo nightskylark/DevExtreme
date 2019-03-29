@@ -1,4 +1,4 @@
-var errorUtils = require("./utils/error");
+import errorUtils from "./utils/error";
 
 /**
 * @docid

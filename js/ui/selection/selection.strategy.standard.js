@@ -1,14 +1,14 @@
-var commonUtils = require("../../core/utils/common");
-var typeUtils = require("../../core/utils/type");
+import commonUtils from "../../core/utils/common";
+import typeUtils from "../../core/utils/type";
 var getKeyHash = commonUtils.getKeyHash;
-var dataQuery = require("../../data/query");
-var deferredUtils = require("../../core/utils/deferred");
+import dataQuery from "../../data/query";
+import deferredUtils from "../../core/utils/deferred";
 import selectionFilterUtils from "../../core/utils/selection_filter";
 var SelectionFilterCreator = selectionFilterUtils.SelectionFilterCreator;
 var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
-var errors = require("../widget/ui.errors");
-var SelectionStrategy = require("./selection.strategy");
+import errors from "../widget/ui.errors";
+import SelectionStrategy from "./selection.strategy";
 
 module.exports = SelectionStrategy.inherit({
     ctor: function(options) {

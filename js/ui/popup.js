@@ -1,7 +1,7 @@
 var $ = require("../core/renderer");
 import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
-var translator = require("../animation/translator");
+import translator from "../animation/translator";
 import inflectorUtils from "../core/utils/inflector";
 var camelize = inflectorUtils.camelize;
 import commonUtils from "../core/utils/common";
@@ -16,15 +16,15 @@ import arrayUtils from "../core/utils/array";
 var inArray = arrayUtils.inArray;
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
-var browser = require("../core/utils/browser");
-var messageLocalization = require("../localization/message");
-var devices = require("../core/devices");
-var registerComponent = require("../core/component_registrator");
-var Button = require("./button");
-var themes = require("./themes");
-var Overlay = require("./overlay");
-var EmptyTemplate = require("./widget/empty_template");
-var sizeUtils = require("../core/utils/size");
+import browser from "../core/utils/browser";
+import messageLocalization from "../localization/message";
+import devices from "../core/devices";
+import registerComponent from "../core/component_registrator";
+import Button from "./button";
+import themes from "./themes";
+import Overlay from "./overlay";
+import EmptyTemplate from "./widget/empty_template";
+import sizeUtils from "../core/utils/size";
 
 require("./toolbar/ui.toolbar.base");
 

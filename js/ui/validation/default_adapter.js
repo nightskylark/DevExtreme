@@ -1,5 +1,5 @@
-var Callbacks = require("../../core/utils/callbacks");
-var Class = require("../../core/class");
+import Callbacks from "../../core/utils/callbacks";
+import Class from "../../core/class";
 
 var DefaultAdapter = Class.inherit({
     ctor: function(editor, validator) {

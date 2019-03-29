@@ -2,7 +2,7 @@ import extendUtils from "../../../core/utils/extend";
 var extend = extendUtils.extend;
 import typeUtils from "../../../core/utils/type";
 var isNumeric = typeUtils.isNumeric;
-var candlestickPoint = require("./candlestick_point");
+import candlestickPoint from "./candlestick_point";
 var _extend = extend;
 var _isNumeric = isNumeric;
 

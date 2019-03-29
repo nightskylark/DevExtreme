@@ -1,10 +1,10 @@
 var $ = require("../../core/renderer");
-var caret = require("./utils.caret");
-var domUtils = require("../../core/utils/dom");
+import caret from "./utils.caret";
+import domUtils from "../../core/utils/dom";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var eventUtils = require("../../events/utils");
-var eventsEngine = require("../../events/core/events_engine");
+import eventUtils from "../../events/utils";
+import eventsEngine from "../../events/core/events_engine";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import selectorsModule from "../widget/selectors";
@@ -13,13 +13,13 @@ import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
 import typeUtils from "../../core/utils/type";
 var isDefined = typeUtils.isDefined;
-var messageLocalization = require("../../localization/message");
+import messageLocalization from "../../localization/message";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var stringUtils = require("../../core/utils/string");
-var wheelEvent = require("../../events/core/wheel");
-var MaskRules = require("./ui.text_editor.mask.rule");
-var TextEditorBase = require("./ui.text_editor.base");
+import stringUtils from "../../core/utils/string";
+import wheelEvent from "../../events/core/wheel";
+import MaskRules from "./ui.text_editor.mask.rule";
+import TextEditorBase from "./ui.text_editor.base";
 
 var stubCaret = function() {
     return {};

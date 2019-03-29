@@ -1,13 +1,13 @@
 /* global Windows */
 var $ = require("../core/renderer");
 
-var domAdapter = require("../core/dom_adapter");
-var windowUtils = require("../core/utils/window");
+import domAdapter from "../core/dom_adapter";
+import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
 var navigator = windowUtils.getNavigator();
-var eventsEngine = require("../events/core/events_engine");
-var errors = require("../ui/widget/ui.errors");
-var typeUtils = require("../core/utils/type");
+import eventsEngine from "../events/core/events_engine";
+import errors from "../ui/widget/ui.errors";
+import typeUtils from "../core/utils/type";
 
 var FILE_EXTESIONS = {
     EXCEL: "xlsx",

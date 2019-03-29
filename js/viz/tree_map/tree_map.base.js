@@ -1,5 +1,5 @@
-var common = require("./common");
-var Node = require("./node");
+import common from "./common";
+import Node from "./node";
 import tilingModule from "./tiling";
 var _getTilingAlgorithm = tilingModule.getAlgorithm;
 import colorizingModule from "./colorizing";

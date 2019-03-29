@@ -1,11 +1,11 @@
 var $ = require("../../core/renderer");
-var eventUtils = require("../../events/utils");
+import eventUtils from "../../events/utils";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var GroupedEditStrategy = require("./ui.list.edit.strategy.grouped");
-var messageLocalization = require("../../localization/message");
-var EditProvider = require("./ui.list.edit.provider");
-var ListBase = require("./ui.list.base");
+import GroupedEditStrategy from "./ui.list.edit.strategy.grouped";
+import messageLocalization from "../../localization/message";
+import EditProvider from "./ui.list.edit.provider";
+import ListBase from "./ui.list.base";
 var LIST_ITEM_SELECTED_CLASS = "dx-list-item-selected";
 var LIST_ITEM_RESPONSE_WAIT_CLASS = "dx-list-item-response-wait";
 

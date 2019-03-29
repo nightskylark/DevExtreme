@@ -1,9 +1,9 @@
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var Class = require("../../core/class");
-var EventsMixin = require("../../core/events_mixin");
-var ValidationEngine = require("../../ui/validation_engine");
-var ko = require("knockout");
+import Class from "../../core/class";
+import EventsMixin from "../../core/events_mixin";
+import ValidationEngine from "../../ui/validation_engine";
+import ko from "knockout";
 
 var koDxValidator = Class.inherit({
     ctor: function(target, option) {

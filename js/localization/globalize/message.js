@@ -1,8 +1,8 @@
 require("./core");
 
-var Globalize = require("globalize");
-var messageLocalization = require("../message");
-var coreLocalization = require("../core");
+import Globalize from "globalize";
+import messageLocalization from "../message";
+import coreLocalization from "../core";
 
 require("globalize/message");
 

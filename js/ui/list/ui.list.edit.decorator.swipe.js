@@ -1,8 +1,8 @@
-var translator = require("../../animation/translator");
-var fx = require("../../animation/fx");
+import translator from "../../animation/translator";
+import fx from "../../animation/fx";
 import registryModule from "./ui.list.edit.decorator_registry";
 var registerDecorator = registryModule.register;
-var EditDecorator = require("./ui.list.edit.decorator");
+import EditDecorator from "./ui.list.edit.decorator";
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
 

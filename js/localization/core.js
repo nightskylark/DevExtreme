@@ -1,4 +1,4 @@
-var dependencyInjector = require("../core/utils/dependency_injector");
+import dependencyInjector from "../core/utils/dependency_injector";
 
 module.exports = dependencyInjector({
     locale: (function() {

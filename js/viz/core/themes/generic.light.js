@@ -15,7 +15,7 @@ var LEFT = "left";
 var CENTER = "center";
 var INSIDE = "inside";
 var OUTSIDE = "outside";
-var themeModule = require("../../themes");
+import themeModule from "../../themes";
 var registerTheme = themeModule.registerTheme;
 
 registerTheme({

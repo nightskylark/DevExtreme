@@ -1,4 +1,4 @@
-var vizUtils = require("../core/utils");
+import vizUtils from "../core/utils";
 import typeUtils from "../../core/utils/type";
 var isDefined = typeUtils.isDefined;
 var raiseTo = vizUtils.raiseTo;

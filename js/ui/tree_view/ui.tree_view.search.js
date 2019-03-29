@@ -1,8 +1,8 @@
-var registerComponent = require("../../core/component_registrator");
-var searchBoxMixin = require("../widget/ui.search_box_mixin");
+import registerComponent from "../../core/component_registrator";
+import searchBoxMixin from "../widget/ui.search_box_mixin";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var TreeViewBase = require("./ui.tree_view.base");
+import TreeViewBase from "./ui.tree_view.base";
 
 var NODE_CONTAINER_CLASS = "dx-treeview-node-container";
 

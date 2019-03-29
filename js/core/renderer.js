@@ -1,4 +1,4 @@
-var rendererBase = require("./renderer_base");
+import rendererBase from "./renderer_base";
 
 /**
 * @name dxElement

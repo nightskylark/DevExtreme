@@ -1,5 +1,5 @@
-var registerComponent = require("../../../core/component_registrator");
-var SchedulerTimeline = require("./ui.scheduler.timeline");
+import registerComponent from "../../../core/component_registrator";
+import SchedulerTimeline from "./ui.scheduler.timeline";
 var TIMELINE_CLASS = "dx-scheduler-timeline-week";
 var HEADER_ROW_CLASS = "dx-scheduler-header-row";
 

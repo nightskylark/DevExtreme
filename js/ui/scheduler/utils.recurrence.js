@@ -1,11 +1,11 @@
-var errors = require("../../core/errors");
+import errors from "../../core/errors";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
 import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
-var dateUtils = require("../../core/utils/date");
+import dateUtils from "../../core/utils/date";
 
 var toMs = dateUtils.dateToMilliseconds;
 

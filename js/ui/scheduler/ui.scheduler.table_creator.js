@@ -1,7 +1,7 @@
 var $ = require("../../core/renderer");
-var domAdapter = require("../../core/dom_adapter");
-var dataUtils = require("../../core/element_data");
-var typeUtils = require("../../core/utils/type");
+import domAdapter from "../../core/dom_adapter";
+import dataUtils from "../../core/element_data";
+import typeUtils from "../../core/utils/type";
 import domUtils from "../../core/utils/dom";
 var getPublicElement = domUtils.getPublicElement;
 

@@ -1,9 +1,9 @@
 var $ = require("../../core/renderer");
-var eventsEngine = require("../../events/core/events_engine");
-var domAdapter = require("../../core/dom_adapter");
-var callOnce = require("../../core/utils/call_once");
-var registerEvent = require("./event_registrator");
-var eventUtils = require("../utils");
+import eventsEngine from "../../events/core/events_engine";
+import domAdapter from "../../core/dom_adapter";
+import callOnce from "../../core/utils/call_once";
+import registerEvent from "./event_registrator";
+import eventUtils from "../utils";
 var EVENT_NAME = "dxmousewheel";
 var EVENT_NAMESPACE = "dxWheel";
 

@@ -1,11 +1,11 @@
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var DateBoxStrategy = require("./ui.date_box.strategy");
-var support = require("../../core/utils/support");
+import DateBoxStrategy from "./ui.date_box.strategy";
+import support from "../../core/utils/support";
 import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
-var dateUtils = require("./ui.date_utils");
-var dateSerialization = require("../../core/utils/date_serialization");
+import dateUtils from "./ui.date_utils";
+import dateSerialization from "../../core/utils/date_serialization";
 
 var NativeStrategy = DateBoxStrategy.inherit({
 

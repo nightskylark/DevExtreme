@@ -1,4 +1,4 @@
-var errors = require("../errors");
+import errors from "../errors";
 
 var Locker = function() {
     var info = {};

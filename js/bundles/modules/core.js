@@ -1,4 +1,4 @@
-var windowUtils = require("../../core/utils/window");
+import windowUtils from "../../core/utils/window";
 var window = windowUtils.getWindow();
 
 var DevExpress = window.DevExpress = window.DevExpress || {};
@@ -24,7 +24,7 @@ DevExpress.devices = require("../../core/devices");
 
 DevExpress.Color = require("../../color");
 
-var animationFrame = require("../../animation/frame");
+import animationFrame from "../../animation/frame";
 
 DevExpress.EventsMixin = require("../../core/events_mixin");
 

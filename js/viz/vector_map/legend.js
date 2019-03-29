@@ -5,7 +5,7 @@ import { clone } from "../../core/utils/object";
 var each = iteratorUtils.each;
 var _extend = extend;
 var _each = each;
-var legendModule = require("../components/legend");
+import legendModule from "../components/legend";
 var _BaseLegend = legendModule.Legend;
 
 var unknownSource = { category: "UNKNOWN", name: "UNKNOWN" };

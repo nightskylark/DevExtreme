@@ -9,12 +9,12 @@ var each = iteratorUtils.each;
 import areaSeriesModule from "./area_series";
 var areaSeries = areaSeriesModule.chart;
 var chartAreaSeries = areaSeries.area;
-var barSeries = require("./bar_series");
+import barSeries from "./bar_series";
 var chartBarSeries = barSeries.chart.bar;
 import lineSeriesModule from "./line_series";
 var lineSeries = lineSeriesModule.chart;
-var vizUtils = require("../core/utils");
-var objectUtils = require("../../core/utils/object");
+import vizUtils from "../core/utils";
+import objectUtils from "../../core/utils/object";
 
 var baseStackedSeries = {
     getErrorBarRangeCorrector: _noop,

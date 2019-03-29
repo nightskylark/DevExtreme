@@ -4,7 +4,7 @@ var _max = _math.max;
 var _round = _math.round;
 var _floor = _math.floor;
 var _sqrt = _math.sqrt;
-var vizUtils = require("../core/utils");
+import vizUtils from "../core/utils";
 var _parseScalar = vizUtils.parseScalar;
 var parseHorizontalAlignment = vizUtils.enumParser(["left", "center", "right"]);
 var parseVerticalAlignment = vizUtils.enumParser(["top", "bottom"]);

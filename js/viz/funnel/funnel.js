@@ -1,9 +1,9 @@
-var tiling = require("./tiling");
-var dynamicSlope = require("./tiling.funnel");
-var dynamicHeight = require("./tiling.pyramid");
+import tiling from "./tiling";
+import dynamicSlope from "./tiling.funnel";
+import dynamicHeight from "./tiling.pyramid";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
-var Item = require("./item");
+import Item from "./item";
 var NODES_CREATE_CHANGE = "NODES_CREATE";
 
 tiling.addAlgorithm("dynamicslope", dynamicSlope, true);

@@ -1,5 +1,5 @@
 var _max = Math.max;
-var _squarify = require("./tiling.squarified.base");
+import _squarify from "./tiling.squarified.base";
 
 function accumulate(total, current) {
     return _max(total, current);

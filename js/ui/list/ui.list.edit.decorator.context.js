@@ -1,11 +1,11 @@
 var $ = require("../../core/renderer");
-var EditDecoratorMenuHelperMixin = require("./ui.list.edit.decorator_menu_helper");
-var messageLocalization = require("../../localization/message");
+import EditDecoratorMenuHelperMixin from "./ui.list.edit.decorator_menu_helper";
+import messageLocalization from "../../localization/message";
 import registryModule from "./ui.list.edit.decorator_registry";
 var registerDecorator = registryModule.register;
-var EditDecorator = require("./ui.list.edit.decorator");
-var Overlay = require("../overlay");
-var ListBase = require("./ui.list.base");
+import EditDecorator from "./ui.list.edit.decorator";
+import Overlay from "../overlay";
+import ListBase from "./ui.list.base";
 var CONTEXTMENU_CLASS = "dx-list-context-menu";
 var CONTEXTMENU_MENUCONTENT_CLASS = "dx-list-context-menucontent";
 

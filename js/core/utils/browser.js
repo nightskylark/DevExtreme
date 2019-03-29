@@ -1,6 +1,6 @@
 import extendModule from "./extend";
 var extend = extendModule.extend;
-var windowUtils = require("./window");
+import windowUtils from "./window";
 var navigator = windowUtils.getNavigator();
 var webkitRegExp = /(webkit)[ /]([\w.]+)/;
 var ieRegExp = /(msie) (\d{1,2}\.\d)/;

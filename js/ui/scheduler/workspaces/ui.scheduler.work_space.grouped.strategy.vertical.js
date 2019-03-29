@@ -1,4 +1,4 @@
-var GroupedStrategy = require("./ui.scheduler.work_space.grouped.strategy");
+import GroupedStrategy from "./ui.scheduler.work_space.grouped.strategy";
 
 var VERTICAL_GROUPED_ATTR = "dx-group-column-count";
 

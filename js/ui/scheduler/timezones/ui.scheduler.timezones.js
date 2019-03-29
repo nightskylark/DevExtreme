@@ -1,6 +1,6 @@
-var query = require("../../../data/query");
-var errors = require("../../../core/errors");
-var tzData = require("./ui.scheduler.timezones_data");
+import query from "../../../data/query";
+import errors from "../../../core/errors";
+import tzData from "./ui.scheduler.timezones_data";
 
 var SchedulerTimezones = {
     _displayNames: tzData.displayNames,

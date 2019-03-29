@@ -1,9 +1,9 @@
-var Promise = require("../../core/polyfills/promise");
-var Class = require("../../core/class");
+import Promise from "../../core/polyfills/promise";
+import Class from "../../core/class";
 import iteratorUtils from "../../core/utils/iterator";
 var map = iteratorUtils.map;
-var typeUtils = require("../../core/utils/type");
-var eventUtils = require("../../events/utils");
+import typeUtils from "../../core/utils/type";
+import eventUtils from "../../events/utils";
 var isPlainObject = typeUtils.isPlainObject;
 var isNumeric = typeUtils.isNumeric;
 

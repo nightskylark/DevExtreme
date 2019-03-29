@@ -1,4 +1,4 @@
-var errors = require("../errors");
+import errors from "../errors";
 import deferredUtils from "../../core/utils/deferred";
 var when = deferredUtils.when;
 

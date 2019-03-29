@@ -1,7 +1,7 @@
-var jQuery = require("jquery");
+import jQuery from "jquery";
 import versionUtils from "../core/utils/version";
 var compareVersions = versionUtils.compare;
-var errors = require("../core/utils/error");
+import errors from "../core/utils/error";
 var useJQuery = require("./jquery/use_jquery")();
 
 if(useJQuery && compareVersions(jQuery.fn.jquery, [1, 10]) < 0) {

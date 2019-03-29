@@ -3,10 +3,10 @@ import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var areaItem = require("./ui.pivot_grid.area_item");
-var pivotGridUtils = require("./ui.pivot_grid.utils");
-var Popup = require("../popup");
-var Button = require("../button");
+import areaItem from "./ui.pivot_grid.area_item";
+import pivotGridUtils from "./ui.pivot_grid.utils";
+import Popup from "../popup";
+import Button from "../button";
 var DIV = "<div>";
 
 require("./ui.pivot_grid.field_chooser_base");

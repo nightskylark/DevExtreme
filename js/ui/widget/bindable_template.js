@@ -1,8 +1,8 @@
 var $ = require("../../core/renderer");
-var TemplateBase = require("./ui.template_base");
-var eventsEngine = require("../../events/core/events_engine");
-var removeEvent = require("../../core/remove_event");
-var iteratorUtils = require("../../core/utils/iterator");
+import TemplateBase from "./ui.template_base";
+import eventsEngine from "../../events/core/events_engine";
+import removeEvent from "../../core/remove_event";
+import iteratorUtils from "../../core/utils/iterator";
 import typeUtils from "../../core/utils/type";
 var isPrimitive = typeUtils.isPrimitive;
 

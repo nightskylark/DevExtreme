@@ -1,7 +1,7 @@
-var typeUtils = require("../../core/utils/type");
+import typeUtils from "../../core/utils/type";
 import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
-var iteratorUtils = require("../../core/utils/iterator");
+import iteratorUtils from "../../core/utils/iterator";
 var DEFAULT_DATE_INTERVAL = ["year", "month", "day"];
 var DEFAULT_DATETIME_INTERVAL = ["year", "month", "day", "hour", "minute"];
 

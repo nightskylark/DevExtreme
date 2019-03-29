@@ -5,7 +5,7 @@ import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var areaItem = require("./ui.pivot_grid.area_item");
+import areaItem from "./ui.pivot_grid.area_item";
 var PIVOTGRID_AREA_CLASS = "dx-pivotgrid-area";
 var PIVOTGRID_AREA_COLUMN_CLASS = "dx-pivotgrid-horizontal-headers";
 var PIVOTGRID_AREA_ROW_CLASS = "dx-pivotgrid-vertical-headers";

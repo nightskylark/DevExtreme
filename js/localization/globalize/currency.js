@@ -47,9 +47,9 @@ var currencyData = {
     }
 };
 
-var Globalize = require("globalize");
-var config = require("../../core/config");
-var numberLocalization = require("../number");
+import Globalize from "globalize";
+import config from "../../core/config";
+import numberLocalization from "../number";
 
 if(Globalize && Globalize.formatCurrency) {
 

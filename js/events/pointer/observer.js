@@ -1,7 +1,7 @@
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var readyCallbacks = require("../../core/utils/ready_callbacks");
-var domAdapter = require("../../core/dom_adapter");
+import readyCallbacks from "../../core/utils/ready_callbacks";
+import domAdapter from "../../core/dom_adapter";
 
 var addEventsListener = function(events, handler) {
     readyCallbacks.add(function() {

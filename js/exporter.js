@@ -1,11 +1,12 @@
 import saverModule from "./exporter/file_saver";
 var fileSaver = saverModule.fileSaver;
-var excelCreator = require("./exporter/excel_creator");
-var imageCreator = require("./exporter/image_creator");
-var svgCreator = require("./exporter/svg_creator");
-var exportDataGrid = require("./exporter/exceljs/exportDataGrid");
+import excelCreator from "./exporter/excel_creator";
+import imageCreator from "./exporter/image_creator";
+import svgCreator from "./exporter/svg_creator";
+import exportDataGrid from "./exporter/exceljs/exportDataGrid";
 import typeUtils from "./core/utils/type";
 var _isFunction = typeUtils.isFunction;
+import { getData as pdfCreatorGetData } from "./exporter/pdf_creator";
 
 exports.export = function(data, options, getData) {
     if(!data) {
@@ -58,7 +59,7 @@ exports.image = {
     testFormats: imageCreator.testFormats
 };
 exports.pdf = {
-    getData: require("./exporter/pdf_creator").getData
+    getData: pdfCreatorGetData
 };
 exports.svg = {
     creator: svgCreator.svgCreator,

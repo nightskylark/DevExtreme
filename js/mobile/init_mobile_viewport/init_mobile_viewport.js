@@ -1,14 +1,14 @@
 var $ = require("../../core/renderer");
-var domAdapter = require("../../core/dom_adapter");
-var windowUtils = require("../../core/utils/window");
+import domAdapter from "../../core/dom_adapter";
+import windowUtils from "../../core/utils/window";
 var window = windowUtils.getWindow();
-var eventsEngine = require("../../events/core/events_engine");
+import eventsEngine from "../../events/core/events_engine";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var resizeCallbacks = require("../../core/utils/resize_callbacks");
-var support = require("../../core/utils/support");
-var styleUtils = require("../../core/utils/style");
-var devices = require("../../core/devices");
+import resizeCallbacks from "../../core/utils/resize_callbacks";
+import support from "../../core/utils/support";
+import styleUtils from "../../core/utils/style";
+import devices from "../../core/devices";
 
 var initMobileViewport = function(options) {
     options = extend({}, options);

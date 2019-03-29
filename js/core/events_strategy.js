@@ -1,9 +1,9 @@
-var Callbacks = require("./utils/callbacks");
+import Callbacks from "./utils/callbacks";
 import typeUtils from "./utils/type";
 var isFunction = typeUtils.isFunction;
 import iteratorUtils from "./utils/iterator";
 var each = iteratorUtils.each;
-var Class = require("./class");
+import Class from "./class";
 
 module.exports = Class.inherit({
     ctor: function(owner) {

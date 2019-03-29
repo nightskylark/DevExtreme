@@ -1,10 +1,10 @@
-var Class = require("../../core/class");
+import Class from "../../core/class";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var errors = require("../../ui/widget/ui.errors");
+import errors from "../../ui/widget/ui.errors";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var typeUtils = require("../../core/utils/type");
+import typeUtils from "../../core/utils/type";
 
 var DataConverter = Class.inherit({
 

@@ -1,6 +1,6 @@
-var registerComponent = require("../../../core/component_registrator");
-var SchedulerTimeline = require("./ui.scheduler.timeline");
-var dateUtils = require("../../../core/utils/date");
+import registerComponent from "../../../core/component_registrator";
+import SchedulerTimeline from "./ui.scheduler.timeline";
+import dateUtils from "../../../core/utils/date";
 var TIMELINE_CLASS = "dx-scheduler-timeline-month";
 var DAY_IN_MILLISECONDS = 86400000;
 

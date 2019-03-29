@@ -1,13 +1,13 @@
 var $ = require("../../core/renderer");
-var eventsEngine = require("../../events/core/events_engine");
-var Color = require("../../color");
-var ColorView = require("./color_view");
+import eventsEngine from "../../events/core/events_engine";
+import Color from "../../color";
+import ColorView from "./color_view";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import typeUtils from "../../core/utils/type";
 var isFunction = typeUtils.isFunction;
-var registerComponent = require("../../core/component_registrator");
-var DropDownEditor = require("../drop_down_editor/ui.drop_down_editor");
+import registerComponent from "../../core/component_registrator";
+import DropDownEditor from "../drop_down_editor/ui.drop_down_editor";
 var COLOR_BOX_CLASS = "dx-colorbox";
 var COLOR_BOX_INPUT_CLASS = COLOR_BOX_CLASS + "-input";
 var COLOR_BOX_INPUT_CONTAINER_CLASS = COLOR_BOX_INPUT_CLASS + "-container";

@@ -1,8 +1,8 @@
 import extendModule from "./extend";
 var extend = extendModule.extend;
-var consoleUtils = require("./console");
-var stringUtils = require("./string");
-var version = require("../version");
+import consoleUtils from "./console";
+import stringUtils from "./string";
+import version from "../version";
 
 var ERROR_URL = "http://js.devexpress.com/error/" + version.split(".").slice(0, 2).join("_") + "/";
 

@@ -1,14 +1,14 @@
 var $ = require("../../core/renderer");
 import windowUtils from "../../core/utils/window";
 var window = windowUtils.getWindow();
-var DateView = require("./ui.date_view");
-var DateBoxStrategy = require("./ui.date_box.strategy");
-var support = require("../../core/utils/support");
+import DateView from "./ui.date_view";
+import DateBoxStrategy from "./ui.date_box.strategy";
+import support from "../../core/utils/support";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var themes = require("../themes");
-var dateUtils = require("./ui.date_utils");
-var messageLocalization = require("../../localization/message");
+import themes from "../themes";
+import dateUtils from "./ui.date_utils";
+import messageLocalization from "../../localization/message";
 
 var DateViewStrategy = DateBoxStrategy.inherit({
 

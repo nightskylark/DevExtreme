@@ -1,5 +1,5 @@
-var errors = require("./errors");
-var typeUtils = require("./utils/type");
+import errors from "./errors";
+import typeUtils from "./utils/type";
 
 var wrapOverridden = function(baseProto, methodName, method) {
     return function() {

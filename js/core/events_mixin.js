@@ -1,4 +1,4 @@
-var DefaultEventsStrategy = require("./events_strategy");
+import DefaultEventsStrategy from "./events_strategy";
 import iteratorUtils from "./utils/iterator";
 var each = iteratorUtils.each;
 import typeUtils from "./utils/type";

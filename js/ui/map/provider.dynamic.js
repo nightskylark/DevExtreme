@@ -1,8 +1,8 @@
-var Promise = require("../../core/polyfills/promise");
+import Promise from "../../core/polyfills/promise";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var iteratorUtils = require("../../core/utils/iterator");
-var Provider = require("./provider");
+import iteratorUtils from "../../core/utils/iterator";
+import Provider from "./provider";
 var abstract = Provider.abstract;
 
 var DynamicProvider = Provider.inherit({

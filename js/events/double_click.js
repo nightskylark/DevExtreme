@@ -1,10 +1,10 @@
-var eventsEngine = require("../events/core/events_engine");
-var domUtils = require("../core/utils/dom");
-var domAdapter = require("../core/dom_adapter");
-var Class = require("../core/class");
-var registerEvent = require("./core/event_registrator");
-var clickEvent = require("./click");
-var eventUtils = require("./utils");
+import eventsEngine from "../events/core/events_engine";
+import domUtils from "../core/utils/dom";
+import domAdapter from "../core/dom_adapter";
+import Class from "../core/class";
+import registerEvent from "./core/event_registrator";
+import clickEvent from "./click";
+import eventUtils from "./utils";
 var DBLCLICK_EVENT_NAME = "dxdblclick";
 var DBLCLICK_NAMESPACE = "dxDblClick";
 var NAMESPACED_CLICK_EVENT = eventUtils.addNamespace(clickEvent.name, DBLCLICK_NAMESPACE);

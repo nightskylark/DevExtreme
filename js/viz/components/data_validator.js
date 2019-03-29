@@ -1,4 +1,4 @@
-var typeUtils = require("../../core/utils/type");
+import typeUtils from "../../core/utils/type";
 var STRING = "string";
 var NUMERIC = "numeric";
 var DATETIME = "datetime";

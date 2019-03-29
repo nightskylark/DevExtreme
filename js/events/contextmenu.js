@@ -1,11 +1,11 @@
 var $ = require("../core/renderer");
-var eventsEngine = require("../events/core/events_engine");
-var support = require("../core/utils/support");
-var devices = require("../core/devices");
-var Class = require("../core/class");
-var registerEvent = require("./core/event_registrator");
-var eventUtils = require("./utils");
-var holdEvent = require("./hold");
+import eventsEngine from "../events/core/events_engine";
+import support from "../core/utils/support";
+import devices from "../core/devices";
+import Class from "../core/class";
+import registerEvent from "./core/event_registrator";
+import eventUtils from "./utils";
+import holdEvent from "./hold";
 var CONTEXTMENU_NAMESPACE = "dxContexMenu";
 var CONTEXTMENU_NAMESPACED_EVENT_NAME = eventUtils.addNamespace("contextmenu", CONTEXTMENU_NAMESPACE);
 var HOLD_NAMESPACED_EVENT_NAME = eventUtils.addNamespace(holdEvent.name, CONTEXTMENU_NAMESPACE);

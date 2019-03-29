@@ -1,5 +1,5 @@
 var $ = require("../../core/renderer");
-var Class = require("../../core/class");
+import Class from "../../core/class";
 import domUtils from "../../core/utils/dom";
 var getPublicElement = domUtils.getPublicElement;
 import extendUtils from "../../core/utils/extend";

@@ -1,5 +1,5 @@
 var $ = require("../../core/renderer");
-var iconUtils = require("../../core/utils/icon");
+import iconUtils from "../../core/utils/icon";
 import windowUtils from "../../core/utils/window";
 var hasWindow = windowUtils.hasWindow();
 import typeUtils from "../../core/utils/type";
@@ -8,13 +8,13 @@ import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import arrayUtils from "../../core/utils/array";
 var inArray = arrayUtils.inArray;
-var iteratorUtils = require("../../core/utils/iterator");
-var messageLocalization = require("../../localization/message");
-var registerComponent = require("../../core/component_registrator");
-var pivotGridUtils = require("./ui.pivot_grid.utils");
-var TreeView = require("../tree_view");
-var ContextMenu = require("../context_menu");
-var BaseFieldChooser = require("./ui.pivot_grid.field_chooser_base");
+import iteratorUtils from "../../core/utils/iterator";
+import messageLocalization from "../../localization/message";
+import registerComponent from "../../core/component_registrator";
+import pivotGridUtils from "./ui.pivot_grid.utils";
+import TreeView from "../tree_view";
+import ContextMenu from "../context_menu";
+import BaseFieldChooser from "./ui.pivot_grid.field_chooser_base";
 var each = iteratorUtils.each;
 var DIV = "<div>";
 

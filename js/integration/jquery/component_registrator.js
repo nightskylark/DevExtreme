@@ -1,6 +1,6 @@
-var jQuery = require("jquery");
-var componentRegistratorCallbacks = require("../../core/component_registrator_callbacks");
-var errors = require("../../core/errors");
+import jQuery from "jquery";
+import componentRegistratorCallbacks from "../../core/component_registrator_callbacks";
+import errors from "../../core/errors";
 
 if(jQuery) {
     var registerJQueryComponent = function(name, componentClass) {

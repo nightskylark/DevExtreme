@@ -1,6 +1,6 @@
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var BaseSparkline = require("./base_sparkline");
+import BaseSparkline from "./base_sparkline";
 var TARGET_MIN_Y = 0.02;
 var TARGET_MAX_Y = 0.98;
 var BAR_VALUE_MIN_Y = 0.1;

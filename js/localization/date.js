@@ -1,7 +1,7 @@
-var dependencyInjector = require("../core/utils/dependency_injector");
+import dependencyInjector from "../core/utils/dependency_injector";
 import typeUtils from "../core/utils/type";
 var isString = typeUtils.isString;
-var iteratorUtils = require("../core/utils/iterator");
+import iteratorUtils from "../core/utils/iterator";
 import arrayUtils from "../core/utils/array";
 var inArray = arrayUtils.inArray;
 import dateFormatterModule from "./ldml/date.formatter";
@@ -10,9 +10,9 @@ import dateFormatModule from "./ldml/date.format";
 var getLDMLDateFormat = dateFormatModule.getFormat;
 import dateParserModule from "./ldml/date.parser";
 var getLDMLDateParser = dateParserModule.getParser;
-var defaultDateNames = require("./default_date_names");
-var numberLocalization = require("./number");
-var errors = require("../core/errors");
+import defaultDateNames from "./default_date_names";
+import numberLocalization from "./number";
+import errors from "../core/errors";
 
 require("./core");
 

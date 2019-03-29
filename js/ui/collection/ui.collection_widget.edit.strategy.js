@@ -1,6 +1,6 @@
 var $ = require("../../core/renderer");
-var Class = require("../../core/class");
-var commonUtils = require("../../core/utils/common");
+import Class from "../../core/class";
+import commonUtils from "../../core/utils/common";
 var abstract = Class.abstract;
 
 

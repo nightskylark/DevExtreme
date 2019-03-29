@@ -1,12 +1,12 @@
 import utilsModule from "../../events/utils";
 var _eventData = utilsModule.eventData;
-var domAdapter = require("../../core/dom_adapter");
+import domAdapter from "../../core/dom_adapter";
 import clickModule from "../../events/click";
 var clickEventName = clickModule.name;
 import pointerModule from "../../events/pointer";
 var downPointerEventName = pointerModule.down;
 var movePointerEventName = pointerModule.move;
-var eventsEngine = require("../../events/core/events_engine");
+import eventsEngine from "../../events/core/events_engine";
 
 function Tracker(parameters) {
     this._initHandlers(parameters);

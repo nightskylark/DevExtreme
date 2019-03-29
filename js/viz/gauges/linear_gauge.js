@@ -3,19 +3,19 @@ var _each = iteratorUtils.each;
 var _max = Math.max;
 var _min = Math.min;
 var _round = Math.round;
-var registerComponent = require("../../core/component_registrator");
+import registerComponent from "../../core/component_registrator";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var objectUtils = require("../../core/utils/object");
+import objectUtils from "../../core/utils/object";
 import gaugeModule from "./base_gauge";
 var dxBaseGauge = gaugeModule.dxBaseGauge;
 import commonModule from "./common";
 var dxGauge = commonModule.dxGauge;
 import utilsModule from "../core/utils";
 var _normalizeEnum = utilsModule.normalizeEnum;
-var linearIndicatorsModule = require("./linear_indicators");
+import linearIndicatorsModule from "./linear_indicators";
 var createIndicatorCreator = commonModule.createIndicatorCreator;
-var LinearRangeContainer = require("./linear_range_container");
+import LinearRangeContainer from "./linear_range_container";
 
 var dxLinearGauge = dxGauge.inherit({
     _rootClass: 'dxg-linear-gauge',

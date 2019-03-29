@@ -1,4 +1,4 @@
-var animationFrame = require("../../../animation/frame");
+import animationFrame from "../../../animation/frame";
 var noop = function() { };
 
 var easingFunctions = {

@@ -1,5 +1,5 @@
 var ANDROID5_LIGHT = "android5.light";
-var themeModule = require("../../themes");
+import themeModule from "../../themes";
 var SECONDARY_TEXT_COLOR = "#767676";
 var BORDER_COLOR = "#e8e8e8";
 var BLACK = "#000000";

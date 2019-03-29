@@ -1,9 +1,9 @@
 import iteratorUtils from "../core/utils/iterator";
 var each = iteratorUtils.each;
-var domAdapter = require("../core/dom_adapter");
+import domAdapter from "../core/dom_adapter";
 import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();
-var callOnce = require("../core/utils/call_once");
+import callOnce from "../core/utils/call_once";
 var DXPROXY_HOST = "dxproxy.devexpress.com:8000";
 var urlMapping = {};
 

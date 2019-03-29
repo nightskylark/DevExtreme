@@ -2,8 +2,8 @@ import commonUtils from "../../../core/utils/common";
 var noop = commonUtils.noop;
 import extendUtils from "../../../core/utils/extend";
 var extend = extendUtils.extend;
-var barPoint = require("./bar_point");
-var rangeSymbolPointMethods = require("./range_symbol_point");
+import barPoint from "./bar_point";
+import rangeSymbolPointMethods from "./range_symbol_point";
 var _extend = extend;
 
 module.exports = _extend({}, barPoint, {

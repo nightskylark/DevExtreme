@@ -1,8 +1,8 @@
 require("./core");
 
-var Globalize = require("globalize");
-var numberLocalization = require("../number");
-var errors = require("../../core/errors");
+import Globalize from "globalize";
+import numberLocalization from "../number";
+import errors from "../../core/errors";
 
 require("globalize/number");
 

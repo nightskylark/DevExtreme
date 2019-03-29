@@ -1,15 +1,15 @@
-var dataUtils = require("../core/element_data");
-var Callbacks = require("../core/utils/callbacks");
-var errors = require("./widget/ui.errors");
-var DOMComponent = require("../core/dom_component");
+import dataUtils from "../core/element_data";
+import Callbacks from "../core/utils/callbacks";
+import errors from "./widget/ui.errors";
+import DOMComponent from "../core/dom_component";
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../core/utils/iterator";
 var map = iteratorUtils.map;
-var ValidationMixin = require("./validation/validation_mixin");
-var ValidationEngine = require("./validation_engine");
-var DefaultAdapter = require("./validation/default_adapter");
-var registerComponent = require("../core/component_registrator");
+import ValidationMixin from "./validation/validation_mixin";
+import ValidationEngine from "./validation_engine";
+import DefaultAdapter from "./validation/default_adapter";
+import registerComponent from "../core/component_registrator";
 
 var VALIDATOR_CLASS = "dx-validator";
 
