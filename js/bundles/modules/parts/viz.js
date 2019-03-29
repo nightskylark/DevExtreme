@@ -5,9 +5,13 @@ require("./data");
 /* Viz core (dx.module-viz-core.js) */
 
 var viz = DevExpress.viz = require("../../../bundles/modules/viz");
-import { currentTheme, registerTheme, refreshTheme } from "../../../viz/themes";
-import { exportFromMarkup, getMarkup, exportWidgets } from "../../../viz/export";
-import { currentPalette, getPalette, generateColors, registerPalette } from "../../../viz/palette";
+
+var themesModule = require("../../../viz/themes");
+var exportModule = require("../../../viz/export");
+var paletteModule = require("../../../viz/palette");
+const { currentTheme, registerTheme, refreshTheme } = themesModule;
+const { exportFromMarkup, getMarkup, exportWidgets } = exportModule;
+const { currentPalette, getPalette, generateColors, registerPalette } = paletteModule;
 viz.currentTheme = currentTheme;
 viz.registerTheme = registerTheme;
 viz.exportFromMarkup = exportFromMarkup;
@@ -36,8 +40,8 @@ viz.dxRangeSelector = require("../../../viz/range_selector");
 viz.dxVectorMap = require("../../../viz/vector_map");
 viz.map = {};
 viz.map.sources = {};
-import { projection } from "../../../viz/vector_map/projection";
-viz.map.projection = projection;
+var projectionModule = require("../../../viz/vector_map/projection");
+viz.map.projection = projectionModule.projection;
 
 /* Sparklines (dx.module-viz-sparklines.js) */
 viz.dxSparkline = require("../../../viz/sparkline");

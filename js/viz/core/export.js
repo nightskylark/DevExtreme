@@ -238,7 +238,7 @@ export const getMarkup = widgets => combineMarkups(widgets).markup;
 
 export const exportWidgets = function(widgets, options) {
     options = options || {};
-    const markupInfo = exports.combineMarkups(widgets, {
+    const markupInfo = combineMarkups(widgets, {
         gridLayout: options.gridLayout,
         verticalAlignment: options.verticalAlignment,
         horizontalAlignment: options.horizontalAlignment
@@ -597,7 +597,7 @@ function getExportOptions(widget, exportOptions, fileName, format) {
 export const plugin = {
     name: "export",
     init() {
-        this._exportMenu = new exports.ExportMenu({
+        this._exportMenu = new ExportMenu({
             renderer: this._renderer,
             incidentOccurred: this._incidentOccurred,
             print: () => this.print(),
