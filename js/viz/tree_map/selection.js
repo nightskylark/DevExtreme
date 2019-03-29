@@ -15,8 +15,8 @@ var MODE_SINGLE = 1;
 var MODE_MULTIPLE = 2;
 var STATE_CODE = 2;
 
-require("./api");
-require("./states");
+import "./api";
+import "./states";
 
 proto._eventsMap.onSelectionChanged = { name: "selectionChanged" };
 

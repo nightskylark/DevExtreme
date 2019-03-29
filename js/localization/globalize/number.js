@@ -1,10 +1,10 @@
-require("./core");
+import "./core";
 
 import Globalize from "globalize";
 import numberLocalization from "../number";
 import errors from "../../core/errors";
 
-require("globalize/number");
+import "globalize/number";
 
 if(Globalize && Globalize.formatNumber) {
 

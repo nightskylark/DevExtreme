@@ -15,7 +15,7 @@ var nextDataKey = 1;
 var RE_STARTS_LAYERS = /^layers/;
 var RE_ENDS_DATA_SOURCE = /\.dataSource$/;
 
-require("./projection");
+import "./projection";
 
 function generateDataKey() {
     return "vectormap-data-" + nextDataKey++;

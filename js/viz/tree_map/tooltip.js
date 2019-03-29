@@ -3,7 +3,7 @@ var proto = baseModule.prototype;
 import helpersModule from "../core/helpers";
 var expand = helpersModule.expand;
 
-require("./api");
+import "./api";
 
 expand(proto, "_extendProxyType", function(proto) {
     var that = this;

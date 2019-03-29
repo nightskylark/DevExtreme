@@ -38,7 +38,7 @@ var SQUARE_OPEN_BRACKET_REGEXP = /\[/g;
 var SQUARE_CLOSE_BRACKET_REGEXP = /]/g;
 var ANY_REGEXP = /./g;
 
-require("../localization/currency");
+import "../localization/currency";
 
 var excelFormatConverter = module.exports = {
     _applyPrecision: function(format, precision) {

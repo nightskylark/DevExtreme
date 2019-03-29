@@ -1,10 +1,10 @@
-require("./core");
+import "./core";
 
 import Globalize from "globalize";
 import messageLocalization from "../message";
 import coreLocalization from "../core";
 
-require("globalize/message");
+import "globalize/message";
 
 if(Globalize && Globalize.formatMessage) {
 

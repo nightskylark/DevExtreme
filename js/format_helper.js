@@ -4,7 +4,7 @@ import numberLocalization from "./localization/number";
 import dateLocalization from "./localization/date";
 import dependencyInjector from "./core/utils/dependency_injector";
 
-require("./localization/currency");
+import "./localization/currency";
 
 module.exports = dependencyInjector({
     format: function(value, format) {

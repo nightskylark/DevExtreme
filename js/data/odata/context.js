@@ -11,7 +11,7 @@ import deferredUtils from "../../core/utils/deferred";
 var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
 
-require("./query_adapter");
+import "./query_adapter";
 
 /**
 * @name ODataContext

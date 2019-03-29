@@ -3,7 +3,7 @@ var proto = baseModule.prototype;
 import helpersModule from "../core/helpers";
 var _expand = helpersModule.expand;
 
-require("./api");
+import "./api";
 
 proto._eventsMap.onDrill = { name: "drill" };
 

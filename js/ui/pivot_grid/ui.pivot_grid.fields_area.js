@@ -9,7 +9,7 @@ import Popup from "../popup";
 import Button from "../button";
 var DIV = "<div>";
 
-require("./ui.pivot_grid.field_chooser_base");
+import "./ui.pivot_grid.field_chooser_base";
 
 var AREA_DRAG_CLASS = "dx-pivotgrid-drag-action";
 

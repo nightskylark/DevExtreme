@@ -1,8 +1,8 @@
-require("./core");
-require("./number");
+import "./core";
+import "./number";
 
-require("../currency");
-require("globalize/currency");
+import "../currency";
+import "globalize/currency";
 
 var enCurrencyUSD = {
     "main": {

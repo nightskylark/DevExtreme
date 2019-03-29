@@ -18,7 +18,7 @@ import BaseFieldChooser from "./ui.pivot_grid.field_chooser_base";
 var each = iteratorUtils.each;
 var DIV = "<div>";
 
-require("./data_source");
+import "./data_source";
 
 var FIELDCHOOSER_CLASS = "dx-pivotgridfieldchooser";
 var FIELDCHOOSER_CONTAINER_CLASS = "dx-pivotgridfieldchooser-container";

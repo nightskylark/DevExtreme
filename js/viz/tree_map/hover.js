@@ -10,8 +10,8 @@ var _parseScalar = utilsModule.parseScalar;
 var _buildRectAppearance = common.buildRectAppearance;
 var STATE_CODE = 1;
 
-require("./api");
-require("./states");
+import "./api";
+import "./states";
 
 proto._eventsMap.onHoverChanged = { name: "hoverChanged" };
 

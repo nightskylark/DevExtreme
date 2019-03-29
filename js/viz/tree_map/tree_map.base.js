@@ -20,11 +20,11 @@ var directions = {
 };
 
 // At least one algorithm is required.
-require("./tiling.squarified");
+import "./tiling.squarified";
 require("./tiling").setDefaultAlgorithm("squarified");
 
 // By design discrete colorizing is used by default.
-require("./colorizing.discrete");
+import "./colorizing.discrete";
 require("./colorizing").setDefaultColorizer("discrete");
 
 function pickPositiveInteger(val) {

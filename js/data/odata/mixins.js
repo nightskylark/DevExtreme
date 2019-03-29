@@ -2,7 +2,7 @@ import stringUtils from "../../core/utils/string";
 import iteratorUtils from "../../core/utils/iterator";
 import odataUtils from "./utils";
 
-require("./query_adapter");
+import "./query_adapter";
 
 var DEFAULT_PROTOCOL_VERSION = 2;
 

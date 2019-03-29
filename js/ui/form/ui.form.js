@@ -27,8 +27,8 @@ import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
 import themes from "../themes";
 
-require("../validation_summary");
-require("../validation_group");
+import "../validation_summary";
+import "../validation_group";
 
 var FORM_CLASS = "dx-form";
 var FIELD_ITEM_CLASS = "dx-field-item";

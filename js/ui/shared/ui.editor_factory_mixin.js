@@ -18,11 +18,11 @@ var normalizeDataSourceOptions = sourceModule.normalizeDataSourceOptions;
 import utilsModule from "../../events/utils";
 var normalizeKeyName = utilsModule.normalizeKeyName;
 
-require("../text_box");
-require("../number_box");
-require("../check_box");
-require("../select_box");
-require("../date_box");
+import "../text_box";
+import "../number_box";
+import "../check_box";
+import "../select_box";
+import "../date_box";
 
 var CHECKBOX_SIZE_CLASS = "checkbox-size";
 var CELL_FOCUS_DISABLED_CLASS = "dx-cell-focus-disabled";

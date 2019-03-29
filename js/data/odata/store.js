@@ -12,7 +12,7 @@ import deferredUtils from "../../core/utils/deferred";
 var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
 
-require("./query_adapter");
+import "./query_adapter";
 
 var ANONYMOUS_KEY_NAME = "5d46402c-7899-4ea9-bd81-8b73c47c7683";
 

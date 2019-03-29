@@ -1,21 +1,21 @@
 import dxTreeMap from "./tree_map.base";
 
-require("./tiling.squarified");
-require("./tiling.strip");
-require("./tiling.slice_and_dice");
-require("./tiling.rotated_slice_and_dice");
+import "./tiling.squarified";
+import "./tiling.strip";
+import "./tiling.slice_and_dice";
+import "./tiling.rotated_slice_and_dice";
 
-require("./colorizing.discrete");
-require("./colorizing.gradient");
-require("./colorizing.range");
+import "./colorizing.discrete";
+import "./colorizing.gradient";
+import "./colorizing.range";
 
-require("./api");
-require("./hover");
-require("./selection");
-require("./tooltip");
-require("./tracker");
-require("./drilldown");
-require("./plain_data_source");
+import "./api";
+import "./hover";
+import "./selection";
+import "./tooltip";
+import "./tracker";
+import "./drilldown";
+import "./plain_data_source";
 
 // PLUGINS_SECTION
 import { plugin as exportPlugin } from "../core/export";

@@ -1,1 +1,1 @@
-require("./modules/parts/widgets-mobile");
+import "./modules/parts/widgets-mobile";

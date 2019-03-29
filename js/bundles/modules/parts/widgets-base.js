@@ -1,6 +1,6 @@
 import DevExpress from "./core";
-require("./data");
-require("./file_providers");
+import "./data";
+import "./file_providers";
 
 /// BUNDLER_PARTS
 /* UI core (dx.module-core.js) */
@@ -73,7 +73,7 @@ ui.dxValidationGroup = require("../../../ui/validation_group");
 ui.dxValidator = require("../../../ui/validator");
 
 /* Widget parts */
-require("../../../ui/html_editor/converters/markdown");
+import "../../../ui/html_editor/converters/markdown";
 /// BUNDLER_PARTS_END
 
 // Dashboards

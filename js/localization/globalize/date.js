@@ -1,6 +1,6 @@
-require("./core");
-require("./number");
-require("globalize/date");
+import "./core";
+import "./number";
+import "globalize/date";
 
 var timeData = {
     "supplemental": {

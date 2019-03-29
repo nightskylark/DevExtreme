@@ -10,7 +10,7 @@ import inflectorUtils from "../core/utils/inflector";
 var humanize = inflectorUtils.humanize;
 import coreLocalization from "./core";
 
-require("./core");
+import "./core";
 
 var PARENT_LOCALE_SEPARATOR = "-";
 

@@ -30,11 +30,11 @@ import Validator from "../validator";
 import ResponsiveBox from "../responsive_box";
 import themes from "../themes";
 
-require("../text_box");
-require("../number_box");
-require("../check_box");
-require("../date_box");
-require("../button");
+import "../text_box";
+import "../number_box";
+import "../check_box";
+import "../date_box";
+import "../button";
 
 var FORM_EDITOR_BY_DEFAULT = "dxTextBox";
 var FIELD_ITEM_CLASS = "dx-field-item";

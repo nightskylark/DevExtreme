@@ -1,5 +1,5 @@
 import DevExpress from "./core";
-require("./data");
+import "./data";
 
 /// BUNDLER_PARTS
 /* Viz core (dx.module-viz-core.js) */

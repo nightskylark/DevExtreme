@@ -6,10 +6,10 @@ import clickEvent from "../../events/click";
 import typeUtils from "../../core/utils/type";
 import eventsEngine from "../../events/core/events_engine";
 
-require("./ui.scheduler.recurrence_editor");
-require("./timezones/ui.scheduler.timezone_editor");
-require("../text_area");
-require("../tag_box");
+import "./ui.scheduler.recurrence_editor";
+import "./timezones/ui.scheduler.timezone_editor";
+import "../text_area";
+import "../tag_box";
 
 var RECURRENCE_EDITOR_ITEM_CLASS = "dx-scheduler-recurrence-rule-item";
 

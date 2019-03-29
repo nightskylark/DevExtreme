@@ -16,18 +16,18 @@ var _extend = extend;
 var _each = each;
 
 // register themes
-require("./themes/generic.light");
-require("./themes/generic.dark");
-require("./themes/generic.contrast");
-require("./themes/generic.carmine");
-require("./themes/generic.darkmoon");
-require("./themes/generic.softblue");
-require("./themes/generic.darkviolet");
-require("./themes/generic.greenmist");
-require("./themes/material");
-require("./themes/ios");
-require("./themes/android");
-require("./themes/win");
+import "./themes/generic.light";
+import "./themes/generic.dark";
+import "./themes/generic.contrast";
+import "./themes/generic.carmine";
+import "./themes/generic.darkmoon";
+import "./themes/generic.softblue";
+import "./themes/generic.darkviolet";
+import "./themes/generic.greenmist";
+import "./themes/material";
+import "./themes/ios";
+import "./themes/android";
+import "./themes/win";
 
 function getThemePart(theme, path) {
     var _theme = theme;

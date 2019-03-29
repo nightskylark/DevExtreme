@@ -14,7 +14,7 @@ import defaultDateNames from "./default_date_names";
 import numberLocalization from "./number";
 import errors from "../core/errors";
 
-require("./core");
+import "./core";
 
 var FORMATS_TO_PATTERN_MAP = {
     "shortdate": "M/d/y",

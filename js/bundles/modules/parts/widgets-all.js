@@ -1,2 +1,2 @@
-require("./widgets-mobile");
-require("./widgets-web");
+import "./widgets-mobile";
+import "./widgets-web";

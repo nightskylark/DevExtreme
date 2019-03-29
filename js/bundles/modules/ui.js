@@ -1,6 +1,6 @@
 /* global DevExpress */
 
-require("./core");
+import "./core";
 
 module.exports = DevExpress.ui = {};
 

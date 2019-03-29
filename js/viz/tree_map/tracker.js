@@ -9,9 +9,9 @@ var _parseScalar = utilsModule.parseScalar;
 var DATA_KEY_BASE = "__treemap_data_";
 var dataKeyModifier = 0;
 
-require("./api");
-require("./hover");
-require("./tooltip");
+import "./api";
+import "./hover";
+import "./tooltip";
 
 proto._eventsMap.onClick = { name: "click" };
 

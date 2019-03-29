@@ -5,7 +5,7 @@ import { noop } from "../../core/utils/common";
 import { isDefined } from "../../core/utils/type";
 import { triggerResizeEvent } from "../../core/utils/dom";
 
-require("../drop_down_menu");
+import "../drop_down_menu";
 var HEADER_PANEL_CLASS = "header-panel";
 var TOOLBAR_BUTTON_CLASS = "toolbar-button";
 

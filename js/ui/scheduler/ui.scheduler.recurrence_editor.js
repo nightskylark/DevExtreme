@@ -1,4 +1,4 @@
-require("../switch");
+import "../switch";
 
 var $ = require("../../core/renderer");
 import Class from "../../core/class";

@@ -26,7 +26,7 @@ import Overlay from "./overlay";
 import EmptyTemplate from "./widget/empty_template";
 import sizeUtils from "../core/utils/size";
 
-require("./toolbar/ui.toolbar.base");
+import "./toolbar/ui.toolbar.base";
 
 var POPUP_CLASS = "dx-popup";
 var POPUP_WRAPPER_CLASS = "dx-popup-wrapper";
