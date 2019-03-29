@@ -41,7 +41,7 @@ import Resizable from "../resizable";
 import EmptyTemplate from "../widget/empty_template";
 import deferredUtils from "../../core/utils/deferred";
 var Deferred = deferredUtils.Deferred;
-import zIndexPool from "./z_index";
+import * as zIndexPool from "./z_index";
 import swatch from "../widget/swatch_container";
 var OVERLAY_CLASS = "dx-overlay";
 var OVERLAY_WRAPPER_CLASS = "dx-overlay-wrapper";
