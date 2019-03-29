@@ -1,6 +1,6 @@
 const { unique, getAddFunction } = require("../../core/utils");
-import isDefined from "../../../core/utils/type";
-import noop from "../../../core/utils/common";
+import { isDefined } from "../../../core/utils/type";
+import { noop } from "../../../core/utils/common";
 const DISCRETE = "discrete";
 
 function continuousRangeCalculator(range, minValue, maxValue) {
