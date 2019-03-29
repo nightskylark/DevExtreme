@@ -17,7 +17,7 @@ var MenuBase = require("../context_menu/ui.menu_base");
 var Overlay = require("../overlay");
 var Submenu = require("./ui.submenu");
 var Button = require("../button");
-var TreeView = require("../tree_view");
+import TreeView from "../tree_view";
 var DX_MENU_CLASS = "dx-menu";
 var DX_MENU_VERTICAL_CLASS = DX_MENU_CLASS + "-vertical";
 var DX_MENU_HORIZONTAL_CLASS = DX_MENU_CLASS + "-horizontal";

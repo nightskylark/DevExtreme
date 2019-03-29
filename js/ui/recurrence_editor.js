@@ -5,4 +5,5 @@
 * @module ui/recurrence_editor
 * @export default
 */
-export * from "./scheduler/ui.scheduler.recurrence_editor";
+import Module from "./scheduler/ui.scheduler.recurrence_editor";
+export default Module;

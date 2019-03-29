@@ -25,4 +25,4 @@ dxTreeMap.addPlugin(exportPlugin);
 dxTreeMap.addPlugin(titlePlugin);
 dxTreeMap.addPlugin(loadingIndicatorPlugin);
 
-module.exports = dxTreeMap;
+export default dxTreeMap;

@@ -4,4 +4,5 @@
 * @module ui/tree_view
 * @export default
 */
-export * from "./tree_view/ui.tree_view.search";
+import Module from "./tree_view/ui.tree_view.search";
+export default Module;

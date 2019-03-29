@@ -5,4 +5,5 @@
 * @module ui/text_box
 * @export default
 */
-export * from "./text_box/text_box";
+import Module from "./text_box/text_box";
+export default Module;

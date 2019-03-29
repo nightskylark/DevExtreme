@@ -5,4 +5,5 @@
 * @module ui/number_box
 * @export default
 */
-export * from "./number_box/number_box";
+import Module from "./number_box/number_box";
+export default Module;

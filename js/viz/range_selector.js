@@ -1,1 +1,2 @@
-export * from "./range_selector/range_selector";
+import Module from "./range_selector/range_selector";
+export default Module;

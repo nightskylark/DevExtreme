@@ -91,4 +91,4 @@ var TreeViewSearch = TreeViewBase.inherit(searchBoxMixin).inherit({
 
 registerComponent("dxTreeView", TreeViewSearch);
 
-module.exports = TreeViewSearch;
+export default TreeViewSearch;

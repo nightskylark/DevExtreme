@@ -5,4 +5,5 @@
 * @module ui/color_box
 * @export default
 */
-export * from "./color_box/color_box";
+import Module from "./color_box/color_box";
+export default Module;

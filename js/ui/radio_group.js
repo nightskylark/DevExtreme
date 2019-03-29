@@ -5,4 +5,5 @@
 * @module ui/radio_group
 * @export default
 */
-export * from "./radio_group/radio_group";
+import Module from "./radio_group/radio_group";
+export default Module;

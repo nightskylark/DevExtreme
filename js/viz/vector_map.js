@@ -1,1 +1,2 @@
-export * from "./vector_map/vector_map";
+import Module from "./vector_map/vector_map";
+export default Module;

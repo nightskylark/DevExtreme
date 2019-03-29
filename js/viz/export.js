@@ -1,1 +1,2 @@
-export * from "./core/export";
+import Module from "./core/export";
+export default Module;
