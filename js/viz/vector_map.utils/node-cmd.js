@@ -1,6 +1,6 @@
 /* eslint-disable no-console, no-undef*/
 
-import path from "path";
+var path = require("path");
 
 function normalizeJsName(value) {
     return value.trim().replace('-', '_').replace(' ', '_');
