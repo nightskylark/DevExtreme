@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Callbacks from "../../core/utils/callbacks";
 import translator from "../../animation/translator";
 import eventUtils from "../../events/utils";

@@ -1,5 +1,5 @@
 /* global Windows */
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 
 import domAdapter from "../core/dom_adapter";
 import windowUtils from "../core/utils/window";

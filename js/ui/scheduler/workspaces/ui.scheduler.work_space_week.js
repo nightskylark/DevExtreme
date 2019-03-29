@@ -1,4 +1,4 @@
-var $ = require("../../../core/renderer");
+import $ from "../../../core/renderer";
 import registerComponent from "../../../core/component_registrator";
 import dateUtils from "../../../core/utils/date";
 import dateLocalization from "../../../localization/date";

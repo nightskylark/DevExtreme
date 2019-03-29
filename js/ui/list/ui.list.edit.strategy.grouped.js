@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import typeUtils from "../../core/utils/type";
 var isNumeric = typeUtils.isNumeric;
 import iteratorUtils from "../../core/utils/iterator";

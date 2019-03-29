@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import AsyncTemplateMixin from "../shared/async_template_mixin";
 import eventsEngine from "../../events/core/events_engine";
 import Guid from "../../core/guid";

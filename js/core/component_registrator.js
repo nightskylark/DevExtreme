@@ -1,4 +1,4 @@
-var $ = require("./renderer");
+import $ from "./renderer";
 import callbacks from "./component_registrator_callbacks";
 import errors from "./errors";
 import publicComponentUtils from "./utils/public_component";

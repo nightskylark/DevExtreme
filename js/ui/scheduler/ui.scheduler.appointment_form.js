@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Form from "../form";
 import dateSerialization from "../../core/utils/date_serialization";
 import messageLocalization from "../../localization/message";

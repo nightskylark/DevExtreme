@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Guid from "../../core/guid";
 import registerComponent from "../../core/component_registrator";
 import commonUtils from "../../core/utils/common";

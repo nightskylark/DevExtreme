@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import typeUtils from "../../core/utils/type";
 import commonUtils from "../../core/utils/common";
 var noop = commonUtils.noop;

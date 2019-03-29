@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import domAdapter from "../../core/dom_adapter";
 
 var focusable = function(element, tabIndex) {

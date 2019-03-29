@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import CollectionWidgetItem from "../collection/item";
 
 var PANORAMA_ITEM_TITLE_CLASS = "dx-panorama-item-title";

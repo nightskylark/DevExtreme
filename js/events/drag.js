@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import dataUtils from "../core/element_data";
 import arrayUtils from "../core/utils/array";
 var wrapToArray = arrayUtils.wrapToArray;

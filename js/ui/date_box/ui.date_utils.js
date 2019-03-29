@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import dateSerialization from "../../core/utils/date_serialization";
 import typeUtils from "../../core/utils/type";
 var isDate = typeUtils.isDate;

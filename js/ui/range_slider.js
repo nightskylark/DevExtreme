@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import eventsEngine from "../events/core/events_engine";
 import Slider from "./slider";
 import SliderHandle from "./slider/ui.slider_handle";

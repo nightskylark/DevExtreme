@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Button from "../button";
 import registryModule from "./ui.list.edit.decorator_registry";
 var registerDecorator = registryModule.register;

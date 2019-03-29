@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import Action from "../core/action";
 import viewPortUtils from "../core/utils/view_port";
 import extendUtils from "../core/utils/extend";

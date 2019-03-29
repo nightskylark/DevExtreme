@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 var INKRIPPLE_CLASS = "dx-inkripple";
 var INKRIPPLE_WAVE_CLASS = "dx-inkripple-wave";
 var INKRIPPLE_SHOWING_CLASS = "dx-inkripple-showing";

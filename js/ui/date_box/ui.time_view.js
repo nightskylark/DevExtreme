@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Editor from "../editor/editor";
 import NumberBox from "../number_box";
 import SelectBox from "../select_box";

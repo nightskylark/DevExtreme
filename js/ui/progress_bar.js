@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import TrackBar from "./track_bar";
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;

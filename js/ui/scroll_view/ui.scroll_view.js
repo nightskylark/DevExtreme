@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import devices from "../../core/devices";
 import windowUtils from "../../core/utils/window";
 import messageLocalization from "../../localization/message";

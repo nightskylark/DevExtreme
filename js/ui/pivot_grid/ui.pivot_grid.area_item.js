@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Class from "../../core/class";
 import domUtils from "../../core/utils/dom";
 var getPublicElement = domUtils.getPublicElement;

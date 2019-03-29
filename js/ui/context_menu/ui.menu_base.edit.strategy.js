@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import iteratorUtils from "../../core/utils/iterator";
 var map = iteratorUtils.map;
 import PlainEditStrategy from "../collection/ui.collection_widget.edit.strategy.plain";

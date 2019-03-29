@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Editor from "../editor/editor";
 import DateViewRoller from "./ui.date_view_roller";
 import dateUtils from "../../core/utils/date";

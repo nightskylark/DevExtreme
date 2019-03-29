@@ -86,7 +86,7 @@
 */
 
 
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 
 import commonUtils from "../core/utils/common";
 import iteratorUtils from "../core/utils/iterator";

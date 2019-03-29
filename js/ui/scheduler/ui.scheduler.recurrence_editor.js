@@ -1,6 +1,6 @@
 import "../switch";
 
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Class from "../../core/class";
 import Guid from "../../core/guid";
 import registerComponent from "../../core/component_registrator";

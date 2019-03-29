@@ -1,4 +1,4 @@
-var $ = require("../renderer");
+import $ from "../renderer";
 import readyCallbacks from "./ready_callbacks";
 var ready = readyCallbacks.add;
 var changeCallback = require("./callbacks")();

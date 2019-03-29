@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import themes from "../themes";
 import commonUtils from "../../core/utils/common";
 import typeUtils from "../../core/utils/type";

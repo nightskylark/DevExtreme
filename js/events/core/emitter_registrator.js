@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import readyCallbacks from "../../core/utils/ready_callbacks";
 import domAdapter from "../../core/dom_adapter";
 import eventsEngine from "../../events/core/events_engine";

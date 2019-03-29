@@ -1,4 +1,4 @@
-var $ = require("../../../core/renderer");
+import $ from "../../../core/renderer";
 import Class from "../../../core/class";
 
 var DATE_TIME_SHADER_CLASS = "dx-scheduler-date-time-shader";

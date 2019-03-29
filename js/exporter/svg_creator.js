@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import ajax from "../core/utils/ajax";
 import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();

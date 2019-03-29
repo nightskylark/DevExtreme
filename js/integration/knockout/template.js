@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import domAdapter from "../../core/dom_adapter";
 import ko from "knockout";
 import typeUtils from "../../core/utils/type";

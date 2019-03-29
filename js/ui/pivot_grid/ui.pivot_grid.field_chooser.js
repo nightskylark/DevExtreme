@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import iconUtils from "../../core/utils/icon";
 import windowUtils from "../../core/utils/window";
 var hasWindow = windowUtils.hasWindow();

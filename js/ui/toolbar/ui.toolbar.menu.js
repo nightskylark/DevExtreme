@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import registerComponent from "../../core/component_registrator";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;

@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import dataUtils from "./utils";
 import arrayUtils from "./array_utils";
 import typeUtils from "../core/utils/type";

@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import caret from "./utils.caret";
 import domUtils from "../../core/utils/dom";
 import iteratorUtils from "../../core/utils/iterator";

@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import ko from "knockout";
 import Callbacks from "../../core/utils/callbacks";
 import errors from "../../core/errors";

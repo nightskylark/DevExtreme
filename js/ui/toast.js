@@ -1,7 +1,7 @@
 // TODOs
 // 1. animation
 
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 
 import windowUtils from "../core/utils/window";
 var window = windowUtils.getWindow();

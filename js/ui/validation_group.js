@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import registerComponent from "../core/component_registrator";
 import DOMComponent from "../core/dom_component";
 import ValidationSummary from "./validation_summary";

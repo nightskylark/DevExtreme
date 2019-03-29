@@ -1,4 +1,4 @@
-var $ = require("./renderer");
+import $ from "./renderer";
 import dataModule from "./element_data";
 var beforeCleanData = dataModule.beforeCleanData;
 import eventsEngine from "../events/core/events_engine";

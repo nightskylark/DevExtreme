@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import windowUtils from "./utils/window";
 var navigator = windowUtils.getNavigator();
 var window = windowUtils.getWindow();

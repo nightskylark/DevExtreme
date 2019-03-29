@@ -2,7 +2,7 @@ import domAdapter from "../../core/dom_adapter";
 import windowUtils from "../../core/utils/window";
 import inflector from "../../core/utils/inflector";
 var window = windowUtils.getWindow();
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import rendererModule from "./renderers/renderer";
 import typeUtils from "../../core/utils/type";
 import extendUtils from "../../core/utils/extend";

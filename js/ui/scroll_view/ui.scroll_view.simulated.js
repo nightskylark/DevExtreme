@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Callbacks from "../../core/utils/callbacks";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;

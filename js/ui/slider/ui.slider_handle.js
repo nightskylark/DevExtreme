@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import Widget from "../widget/ui.widget";
 import Tooltip from "../tooltip";
 import translator from "../../animation/translator";

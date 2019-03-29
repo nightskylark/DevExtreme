@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 
 var getImageSourceType = function(source) {
     if(!source || typeof source !== "string") {

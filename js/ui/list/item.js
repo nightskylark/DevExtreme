@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import CollectionWidgetItem from "../collection/item";
 var LIST_ITEM_BADGE_CONTAINER_CLASS = "dx-list-item-badge-container";
 var LIST_ITEM_BADGE_CLASS = "dx-list-item-badge";

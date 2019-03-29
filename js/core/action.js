@@ -1,4 +1,4 @@
-var $ = require("./renderer");
+import $ from "./renderer";
 import config from "./config";
 import windowUtils from "./utils/window";
 var window = windowUtils.getWindow();

@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import eventsEngine from "../../events/core/events_engine";
 import Guid from "../../core/guid";
 import FormItemsRunTimeInfo from "./ui.form.items_runtime_info";

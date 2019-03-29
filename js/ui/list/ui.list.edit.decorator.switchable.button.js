@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import fx from "../../animation/fx";
 import Button from "../button";
 import messageLocalization from "../../localization/message";

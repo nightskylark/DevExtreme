@@ -1,4 +1,4 @@
-var $ = require("../../../core/renderer");
+import $ from "../../../core/renderer";
 import Shader from "./ui.scheduler.current_time_shader";
 var DATE_TIME_SHADER_ALL_DAY_CLASS = "dx-scheduler-date-time-shader-all-day";
 var DATE_TIME_SHADER_TOP_CLASS = "dx-scheduler-date-time-shader-top";

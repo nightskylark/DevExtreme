@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import TemplateBase from "../../ui/widget/ui.template_base";
 import typeUtils from "../../core/utils/type";
 var isFunction = typeUtils.isFunction;

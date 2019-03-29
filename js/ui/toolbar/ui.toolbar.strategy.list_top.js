@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import ListStrategy from "./ui.toolbar.strategy.list_base";
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;

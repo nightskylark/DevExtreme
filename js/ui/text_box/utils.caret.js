@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import typeUtils from "../../core/utils/type";
 var isDefined = typeUtils.isDefined;
 import browser from "../../core/utils/browser";

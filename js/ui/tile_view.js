@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import devices from "../core/devices";
 import registerComponent from "../core/component_registrator";
 import inflector from "../core/utils/inflector";

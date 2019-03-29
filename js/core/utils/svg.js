@@ -1,7 +1,7 @@
 import domAdapter from "../../core/dom_adapter";
 import windowModule from "./window";
 var window = windowModule.getWindow();
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 
 function getMarkup(element, backgroundColor) {
     var temp = domAdapter.createElement('div');

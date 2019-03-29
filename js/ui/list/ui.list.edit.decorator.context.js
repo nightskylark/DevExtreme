@@ -1,4 +1,4 @@
-var $ = require("../../core/renderer");
+import $ from "../../core/renderer";
 import EditDecoratorMenuHelperMixin from "./ui.list.edit.decorator_menu_helper";
 import messageLocalization from "../../localization/message";
 import registryModule from "./ui.list.edit.decorator_registry";

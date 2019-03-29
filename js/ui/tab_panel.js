@@ -1,4 +1,4 @@
-var $ = require("../core/renderer");
+import $ from "../core/renderer";
 import support from "../core/utils/support";
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
