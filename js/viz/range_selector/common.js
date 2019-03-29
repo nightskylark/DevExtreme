@@ -1,5 +1,4 @@
-import formatterModule from "../axes/smart_formatter";
-var _format = formatterModule.smartFormatter;
+import { smartFormatter as _format } from "../axes/smart_formatter";
 import typeUtils from "../../core/utils/type";
 var isFunction = typeUtils.isFunction;
 var HEIGHT_COMPACT_MODE = 24;
