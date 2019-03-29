@@ -1,5 +1,6 @@
 import $ from "../../core/renderer";
-import caret from "./utils.caret";
+import caretModule from "./utils.caret";
+let caret = caretModule;
 import domUtils from "../../core/utils/dom";
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
