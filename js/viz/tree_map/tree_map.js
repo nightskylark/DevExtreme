@@ -1,4 +1,4 @@
-var dxTreeMap = module.exports = require("./tree_map.base");
+import dxTreeMap from "./tree_map.base";
 
 require("./tiling.squarified");
 require("./tiling.strip");
@@ -18,6 +18,11 @@ require("./drilldown");
 require("./plain_data_source");
 
 // PLUGINS_SECTION
-dxTreeMap.addPlugin(require("../core/export").plugin);
-dxTreeMap.addPlugin(require("../core/title").plugin);
-dxTreeMap.addPlugin(require("../core/loading_indicator").plugin);
+import { plugin as exportPlugin } from "../core/export";
+import { plugin as titlePlugin } from "../core/title";
+import { plugin as loadingIndicatorPlugin } from "../core/loading_indicator";
+dxTreeMap.addPlugin(exportPlugin);
+dxTreeMap.addPlugin(titlePlugin);
+dxTreeMap.addPlugin(loadingIndicatorPlugin);
+
+module.exports = dxTreeMap;

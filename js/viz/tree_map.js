@@ -1,1 +1,1 @@
-module.exports = require("./tree_map/tree_map");
+export * from "./tree_map/tree_map";
