@@ -1,5 +1,5 @@
 const $ = require("../../core/renderer");
-const viewPortUtils = require("../../core/utils/view_port");
+import viewPortUtils from "../../core/utils/view_port";
 
 const SWATCH_CONTAINER_CLASS_PREFIX = "dx-swatch-";
 

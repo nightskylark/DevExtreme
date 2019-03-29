@@ -1,7 +1,7 @@
-const domAdapter = require("../dom_adapter");
-const injector = require("./dependency_injector");
-const windowUtils = require("./window");
-const callOnce = require("./call_once");
+import domAdapter from "../dom_adapter";
+import injector from "./dependency_injector";
+import windowUtils from "./window";
+import callOnce from "./call_once";
 let callbacks = [];
 
 const isReady = () => {

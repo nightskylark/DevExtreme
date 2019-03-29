@@ -4,7 +4,7 @@ import errors from "../core/errors";
 
 const _floor = Math.floor;
 const _ceil = Math.ceil;
-const _Color = require("../color");
+import _Color from "../color";
 const _isArray = Array.isArray;
 
 import { isString } from "../core/utils/type";

@@ -1,5 +1,5 @@
 
-const ko = require("knockout");
+import ko from "knockout";
 
 const getClosestNodeWithContext = (node) => {
     var context = ko.contextFor(node);

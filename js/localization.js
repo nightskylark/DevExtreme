@@ -1,7 +1,7 @@
-let core = require("./localization/core");
-let message = require("./localization/message");
-let number = require("./localization/number");
-let date = require("./localization/date");
+import core from "./localization/core";
+import message from "./localization/message";
+import number from "./localization/number";
+import date from "./localization/date";
 import "./localization/currency";
 
 /**

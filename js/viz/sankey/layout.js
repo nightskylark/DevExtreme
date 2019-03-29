@@ -3,8 +3,8 @@ const _ALIGNMENT_CENTER = 'center';
 const _ALIGNMENT_BOTTOM = 'bottom';
 const _ALIGNMENT_DEFAULT = _ALIGNMENT_CENTER;
 
-const graphModule = require('./graph');
-const validatorModule = require('./data_validator');
+import graphModule from './graph';
+import validatorModule from './data_validator';
 
 let layout = {
     _weightPerPixel: null,
