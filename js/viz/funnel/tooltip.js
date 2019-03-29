@@ -1,4 +1,5 @@
 import commonUtils from "../../core/utils/common";
+import tooltip from "../core/tooltip";
 var noop = commonUtils.noop;
 
 function getCoords(figureCoords, renderer) {
@@ -60,7 +61,7 @@ exports.plugin = {
         }
     },
     customize: function(constructor) {
-        constructor.addPlugin(require("../core/tooltip").plugin);
+        constructor.addPlugin(tooltip.plugin);
     }
 };
 

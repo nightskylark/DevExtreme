@@ -1,6 +1,7 @@
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 import iteratorUtils from "../../core/utils/iterator";
+import { clone } from "../../core/utils/object";
 var each = iteratorUtils.each;
 var _extend = extend;
 var _each = each;
@@ -48,7 +49,7 @@ var Legend = function(parameters) {
     };
 };
 
-Legend.prototype = _extend(require("../../core/utils/object").clone(_BaseLegend.prototype), {
+Legend.prototype = _extend(clone(_BaseLegend.prototype), {
     constructor: Legend,
 
     dispose: function() {

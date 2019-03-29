@@ -1382,10 +1382,13 @@ var dxChart = AdvancedChart.inherit({
 
 dxChart.prototype._optionChangesMap["visualRange"] = "VISUAL_RANGE";
 
-dxChart.addPlugin(require("./chart_components/shutter_zoom"));
-dxChart.addPlugin(require("./chart_components/zoom_and_pan"));
-dxChart.addPlugin(require("./core/annotations").plugins.core);
-dxChart.addPlugin(require("./core/annotations").plugins.chart);
+import shutterZoom from "./chart_components/shutter_zoom";
+import zoomAndPan from "./chart_components/zoom_and_pan";
+import annotations from "./core/annotations";
+dxChart.addPlugin(shutterZoom);
+dxChart.addPlugin(zoomAndPan);
+dxChart.addPlugin(annotations.plugins.core);
+dxChart.addPlugin(annotations.plugins.chart);
 
 registerComponent("dxChart", dxChart);
 module.exports = dxChart;

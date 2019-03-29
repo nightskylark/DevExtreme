@@ -64,4 +64,6 @@ proto.hideTooltip = function() {
 };
 
 // PLUGINS_SECTION
-require("./tree_map.base").addPlugin(require("../core/tooltip").plugin);
+import treeMap from "./tree_map.base";
+import tooltip from "../core/tooltip";
+treeMap.addPlugin(tooltip.plugin);
