@@ -12,4 +12,5 @@
 * @module ui/data_grid
 * @export default
 */
-module.exports = require("./data_grid/ui.data_grid");
+import exportsModule from "./data_grid/ui.data_grid";
+module.exports = exportsModule;

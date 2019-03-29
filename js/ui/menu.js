@@ -4,4 +4,5 @@
 * @module ui/menu
 * @export default
 */
-module.exports = require("./menu/ui.menu");
+import exportsModule from "./menu/ui.menu";
+module.exports = exportsModule;

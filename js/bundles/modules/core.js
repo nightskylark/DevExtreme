@@ -10,23 +10,32 @@ if(DevExpress._DEVEXTREME_BUNDLE_INITIALIZED) {
 }
 DevExpress._DEVEXTREME_BUNDLE_INITIALIZED = true;
 
-DevExpress.clientExporter = require("../../exporter");
+import clientExporterModule from "../../exporter";
+DevExpress.clientExporter = clientExporterModule;
 
-DevExpress.VERSION = require("../../core/version");
+import VERSIONModule from "../../core/version";
+DevExpress.VERSION = VERSIONModule;
 
-DevExpress.Class = require("../../core/class");
-DevExpress.DOMComponent = require("../../core/dom_component");
+import ClassModule from "../../core/class";
+DevExpress.Class = ClassModule;
+import DOMComponentModule from "../../core/dom_component";
+DevExpress.DOMComponent = DOMComponentModule;
 ///#DEBUG
-DevExpress.Component = require("../../core/component");
+import ComponentModule from "../../core/component";
+DevExpress.Component = ComponentModule;
 ///#ENDDEBUG
-DevExpress.registerComponent = require("../../core/component_registrator");
-DevExpress.devices = require("../../core/devices");
+import registerComponentModule from "../../core/component_registrator";
+DevExpress.registerComponent = registerComponentModule;
+import devicesModule from "../../core/devices";
+DevExpress.devices = devicesModule;
 
-DevExpress.Color = require("../../color");
+import ColorModule from "../../color";
+DevExpress.Color = ColorModule;
 
 import animationFrame from "../../animation/frame";
 
-DevExpress.EventsMixin = require("../../core/events_mixin");
+import EventsMixinModule from "../../core/events_mixin";
+DevExpress.EventsMixin = EventsMixinModule;
 
 /**
  * @name utils
@@ -55,42 +64,63 @@ import { findBestMatches } from "../../core/utils/common";
 DevExpress.utils.findBestMatches = findBestMatches;
 import { create } from "../../core/utils/queue";
 DevExpress.createQueue = create;
-DevExpress.utils.dom = require("../../core/utils/dom");
-DevExpress.utils.common = require("../../core/utils/common");
-DevExpress.utils.date = require("../../core/utils/date");
-DevExpress.utils.browser = require("../../core/utils/browser");
-DevExpress.utils.inflector = require("../../core/utils/inflector");
-DevExpress.utils.iterator = require("../../core/utils/iterator");
-DevExpress.utils.readyCallbacks = require("../../core/utils/ready_callbacks");
-DevExpress.utils.resizeCallbacks = require("../../core/utils/resize_callbacks");
-DevExpress.utils.console = require("../../core/utils/console");
-DevExpress.utils.string = require("../../core/utils/string");
-DevExpress.utils.support = require("../../core/utils/support");
+import domModule from "../../core/utils/dom";
+DevExpress.utils.dom = domModule;
+import commonModule from "../../core/utils/common";
+DevExpress.utils.common = commonModule;
+import dateModule from "../../core/utils/date";
+DevExpress.utils.date = dateModule;
+import browserModule from "../../core/utils/browser";
+DevExpress.utils.browser = browserModule;
+import inflectorModule from "../../core/utils/inflector";
+DevExpress.utils.inflector = inflectorModule;
+import iteratorModule from "../../core/utils/iterator";
+DevExpress.utils.iterator = iteratorModule;
+import readyCallbacksModule from "../../core/utils/ready_callbacks";
+DevExpress.utils.readyCallbacks = readyCallbacksModule;
+import resizeCallbacksModule from "../../core/utils/resize_callbacks";
+DevExpress.utils.resizeCallbacks = resizeCallbacksModule;
+import consoleModule from "../../core/utils/console";
+DevExpress.utils.console = consoleModule;
+import stringModule from "../../core/utils/string";
+DevExpress.utils.string = stringModule;
+import supportModule from "../../core/utils/support";
+DevExpress.utils.support = supportModule;
 
-DevExpress.processHardwareBackButton = require("../../mobile/process_hardware_back_button");
+import processHardwareBackButtonModule from "../../mobile/process_hardware_back_button";
+DevExpress.processHardwareBackButton = processHardwareBackButtonModule;
 
 import { value } from "../../core/utils/view_port";
 DevExpress.viewPort = value;
 
-DevExpress.hideTopOverlay = require("../../mobile/hide_top_overlay");
+import hideTopOverlayModule from "../../mobile/hide_top_overlay";
+DevExpress.hideTopOverlay = hideTopOverlayModule;
 
-DevExpress.formatHelper = require("../../format_helper");
-DevExpress.config = require("../../core/config");
+import formatHelperModule from "../../format_helper";
+DevExpress.formatHelper = formatHelperModule;
+import configModule from "../../core/config";
+DevExpress.config = configModule;
 
 import { presets } from "../../animation/presets/presets";
 DevExpress.animationPresets = presets;
-DevExpress.fx = require("../../animation/fx");
+import fxModule from "../../animation/fx";
+DevExpress.fx = fxModule;
 import { TransitionExecutor } from "../../animation/transition_executor/transition_executor";
 DevExpress.TransitionExecutor = TransitionExecutor;
 import { PresetCollection } from "../../animation/presets/presets";
 DevExpress.AnimationPresetCollection = PresetCollection;
 
-DevExpress.events = require("../../events");
+import eventsModule from "../../events";
+DevExpress.events = eventsModule;
 
-DevExpress.events.click = require("../../events/click");
-DevExpress.events.utils = require("../../events/utils");
-DevExpress.events.GestureEmitter = require("../../events/gesture/emitter.gesture");
+import clickModule from "../../events/click";
+DevExpress.events.click = clickModule;
+import utilsModule from "../../events/utils";
+DevExpress.events.utils = utilsModule;
+import GestureEmitterModule from "../../events/gesture/emitter.gesture";
+DevExpress.events.GestureEmitter = GestureEmitterModule;
 
-DevExpress.localization = require("../../localization");
+import localizationModule from "../../localization";
+DevExpress.localization = localizationModule;
 
 module.exports = DevExpress;

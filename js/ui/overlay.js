@@ -5,4 +5,5 @@
 * @module ui/overlay
 * @hidden
 */
-module.exports = require("./overlay/ui.overlay");
+import exportsModule from "./overlay/ui.overlay";
+module.exports = exportsModule;

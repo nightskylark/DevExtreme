@@ -1,4 +1,5 @@
 import "./modules/parts/widgets-all";
 import "./modules/parts/viz";
 
-module.exports = require("./modules/core");
+import exportsModule from "./modules/core";
+module.exports = exportsModule;

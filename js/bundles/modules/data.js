@@ -22,27 +22,36 @@ Object.defineProperty(DevExpress.data, '_errorHandler', {
     }
 });
 
-DevExpress.data.DataSource = require("../../data/data_source");
-DevExpress.data.query = require("../../data/query");
-DevExpress.data.Store = require("../../data/abstract_store");
-DevExpress.data.ArrayStore = require("../../data/array_store");
-DevExpress.data.CustomStore = require("../../data/custom_store");
-DevExpress.data.LocalStore = require("../../data/local_store");
+import DataSourceModule from "../../data/data_source";
+DevExpress.data.DataSource = DataSourceModule;
+import queryModule from "../../data/query";
+DevExpress.data.query = queryModule;
+import StoreModule from "../../data/abstract_store";
+DevExpress.data.Store = StoreModule;
+import ArrayStoreModule from "../../data/array_store";
+DevExpress.data.ArrayStore = ArrayStoreModule;
+import CustomStoreModule from "../../data/custom_store";
+DevExpress.data.CustomStore = CustomStoreModule;
+import LocalStoreModule from "../../data/local_store";
+DevExpress.data.LocalStore = LocalStoreModule;
 import dataUtils from "../../data/utils";
 DevExpress.data.base64_encode = dataUtils.base64_encode;
 
-DevExpress.data.Guid = require("../../core/guid");
+import GuidModule from "../../core/guid";
+DevExpress.data.Guid = GuidModule;
 
 DevExpress.data.utils = {};
 import { compileGetter, compileSetter, toComparable } from "../../core/utils/data";
 DevExpress.data.utils.compileGetter = compileGetter;
 DevExpress.data.utils.compileSetter = compileSetter;
 
-DevExpress.EndpointSelector = require("../../data/endpoint_selector");
+import EndpointSelectorModule from "../../data/endpoint_selector";
+DevExpress.EndpointSelector = EndpointSelectorModule;
 
 import { queryImpl } from "../../data/query";
 DevExpress.data.queryImpl = queryImpl;
-DevExpress.data.queryAdapters = require("../../data/query_adapters");
+import queryAdaptersModule from "../../data/query_adapters";
+DevExpress.data.queryAdapters = queryAdaptersModule;
 
 DevExpress.data.utils.normalizeBinaryCriterion = dataUtils.normalizeBinaryCriterion;
 DevExpress.data.utils.normalizeSortingInfo = dataUtils.normalizeSortingInfo;

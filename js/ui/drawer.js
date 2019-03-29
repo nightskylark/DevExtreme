@@ -5,4 +5,5 @@
 * @module ui/drawer
 * @export default
 */
-module.exports = require("./drawer/ui.drawer");
+import exportsModule from "./drawer/ui.drawer";
+module.exports = exportsModule;

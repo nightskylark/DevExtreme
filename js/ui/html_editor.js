@@ -6,4 +6,5 @@
 * @module ui/html_editor
 * @export default
 */
-module.exports = require("./html_editor/ui.html_editor");
+import exportsModule from "./html_editor/ui.html_editor";
+module.exports = exportsModule;

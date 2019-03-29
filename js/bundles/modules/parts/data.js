@@ -5,7 +5,8 @@ import DevExpress from "./core";
 
 var data = DevExpress.data = require("../../../bundles/modules/data");
 
-data.odata = require("../../../bundles/modules/data.odata");
+import odataModule from "../../../bundles/modules/data.odata";
+data.odata = odataModule;
 /// BUNDLER_PARTS_END
 
 module.exports = data;

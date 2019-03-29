@@ -4,4 +4,5 @@
 * @module ui/scheduler
 * @export default
 */
-module.exports = require("./scheduler/ui.scheduler");
+import exportsModule from "./scheduler/ui.scheduler";
+module.exports = exportsModule;

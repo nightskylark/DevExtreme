@@ -24,41 +24,55 @@ viz.registerPalette = registerPalette;
 viz.refreshTheme = refreshTheme;
 
 /* Charts (dx.module-viz-charts.js) */
-viz.dxChart = require("../../../viz/chart");
-viz.dxPieChart = require("../../../viz/pie_chart");
-viz.dxPolarChart = require("../../../viz/polar_chart");
+import dxChartModule from "../../../viz/chart";
+viz.dxChart = dxChartModule;
+import dxPieChartModule from "../../../viz/pie_chart";
+viz.dxPieChart = dxPieChartModule;
+import dxPolarChartModule from "../../../viz/polar_chart";
+viz.dxPolarChart = dxPolarChartModule;
 
 /* Gauges (dx.module-viz-gauges.js) */
-viz.dxLinearGauge = require("../../../viz/linear_gauge");
-viz.dxCircularGauge = require("../../../viz/circular_gauge");
-viz.dxBarGauge = require("../../../viz/bar_gauge");
+import dxLinearGaugeModule from "../../../viz/linear_gauge";
+viz.dxLinearGauge = dxLinearGaugeModule;
+import dxCircularGaugeModule from "../../../viz/circular_gauge";
+viz.dxCircularGauge = dxCircularGaugeModule;
+import dxBarGaugeModule from "../../../viz/bar_gauge";
+viz.dxBarGauge = dxBarGaugeModule;
 
 /* Range selector (dx.module-viz-rangeselector.js) */
-viz.dxRangeSelector = require("../../../viz/range_selector");
+import dxRangeSelectorModule from "../../../viz/range_selector";
+viz.dxRangeSelector = dxRangeSelectorModule;
 
 /* Vector map (dx.module-viz-vectormap.js) */
-viz.dxVectorMap = require("../../../viz/vector_map");
+import dxVectorMapModule from "../../../viz/vector_map";
+viz.dxVectorMap = dxVectorMapModule;
 viz.map = {};
 viz.map.sources = {};
 import projectionModule from "../../../viz/vector_map/projection";
 viz.map.projection = projectionModule.projection;
 
 /* Sparklines (dx.module-viz-sparklines.js) */
-viz.dxSparkline = require("../../../viz/sparkline");
-viz.dxBullet = require("../../../viz/bullet");
+import dxSparklineModule from "../../../viz/sparkline";
+viz.dxSparkline = dxSparklineModule;
+import dxBulletModule from "../../../viz/bullet";
+viz.dxBullet = dxBulletModule;
 
 /* Treemap */
-viz.dxTreeMap = require("../../../viz/tree_map");
+import dxTreeMapModule from "../../../viz/tree_map";
+viz.dxTreeMap = dxTreeMapModule;
 
 /* Funnel */
-viz.dxFunnel = require("../../../viz/funnel");
+import dxFunnelModule from "../../../viz/funnel";
+viz.dxFunnel = dxFunnelModule;
 
 /* Sankey */
-viz.dxSankey = require("../../../viz/sankey");
+import dxSankeyModule from "../../../viz/sankey";
+viz.dxSankey = dxSankeyModule;
 
 /// BUNDLER_PARTS_END
 
-viz.BaseWidget = require("../../../viz/core/base_widget");
+import BaseWidgetModule from "../../../viz/core/base_widget";
+viz.BaseWidget = BaseWidgetModule;
 
 import { getTheme } from "../../../viz/themes";
 viz.getTheme = getTheme;

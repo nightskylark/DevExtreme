@@ -4,4 +4,5 @@
  * @module ui/form
  * @export default
  */
-module.exports = require("./form/ui.form");
+import exportsModule from "./form/ui.form";
+module.exports = exportsModule;

@@ -5,4 +5,5 @@
 * @module ui/scroll_view
 * @export default
 */
-module.exports = require("./scroll_view/ui.scroll_view");
+import exportsModule from "./scroll_view/ui.scroll_view";
+module.exports = exportsModule;

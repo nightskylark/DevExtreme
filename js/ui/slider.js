@@ -5,4 +5,5 @@
 * @module ui/slider
 * @export default
 */
-module.exports = require("./slider/ui.slider");
+import exportsModule from "./slider/ui.slider";
+module.exports = exportsModule;

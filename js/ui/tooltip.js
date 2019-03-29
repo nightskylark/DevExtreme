@@ -5,7 +5,8 @@
  * @module ui/tooltip
  * @export default
  */
-module.exports = require("./tooltip/tooltip");
+import exportsModule from "./tooltip/tooltip";
+module.exports = exportsModule;
 
 // NOTE: internal api: dashboards
 import { show, hide } from "./tooltip/ui.tooltip";

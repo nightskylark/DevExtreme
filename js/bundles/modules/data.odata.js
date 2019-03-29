@@ -2,8 +2,10 @@
 
 import "./data";
 
-DevExpress.data.ODataStore = require("../../data/odata/store");
-DevExpress.data.ODataContext = require("../../data/odata/context");
+import ODataStoreModule from "../../data/odata/store";
+DevExpress.data.ODataStore = ODataStoreModule;
+import ODataContextModule from "../../data/odata/context";
+DevExpress.data.ODataContext = ODataContextModule;
 
 DevExpress.data.utils = DevExpress.data.utils || {};
 DevExpress.data.utils.odata = {};

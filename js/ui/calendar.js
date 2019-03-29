@@ -5,4 +5,5 @@
 * @module ui/calendar
 * @export default
 */
-module.exports = require("./calendar/ui.calendar");
+import exportsModule from "./calendar/ui.calendar";
+module.exports = exportsModule;

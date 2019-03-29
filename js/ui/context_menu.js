@@ -4,4 +4,5 @@
 * @module ui/context_menu
 * @export default
 */
-module.exports = require("./context_menu/ui.context_menu");
+import exportsModule from "./context_menu/ui.context_menu";
+module.exports = exportsModule;

@@ -5,4 +5,5 @@
 * @module ui/date_box
 * @export default
 */
-module.exports = require("./date_box/ui.date_box");
+import exportsModule from "./date_box/ui.date_box";
+module.exports = exportsModule;
