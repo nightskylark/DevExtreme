@@ -1,97 +1,70 @@
-import DevExpress from "./core";
-import "./data";
+var DevExpress = require("./core");
+require("./data");
 
 /// BUNDLER_PARTS
 /* Viz core (dx.module-viz-core.js) */
 
 var viz = DevExpress.viz = require("../../../bundles/modules/viz");
-
-import vizThemesModule from "../../../viz/themes";
-import exportModule from "../../../viz/export";
-import paletteModule from "../../../viz/palette";
-const { currentTheme, registerTheme, refreshTheme } = vizThemesModule;
-const { exportFromMarkup, getMarkup, exportWidgets } = exportModule;
-const { currentPalette, getPalette, generateColors, registerPalette } = paletteModule;
-viz.currentTheme = currentTheme;
-viz.registerTheme = registerTheme;
-viz.exportFromMarkup = exportFromMarkup;
-viz.getMarkup = getMarkup;
-viz.exportWidgets = exportWidgets;
-viz.currentPalette = currentPalette;
-viz.getPalette = getPalette;
-viz.generateColors = generateColors;
-viz.registerPalette = registerPalette;
-viz.refreshTheme = refreshTheme;
+viz.currentTheme = require("../../../viz/themes").currentTheme;
+viz.registerTheme = require("../../../viz/themes").registerTheme;
+viz.exportFromMarkup = require("../../../viz/export").exportFromMarkup;
+viz.getMarkup = require("../../../viz/export").getMarkup;
+viz.exportWidgets = require("../../../viz/export").exportWidgets;
+viz.currentPalette = require("../../../viz/palette").currentPalette;
+viz.getPalette = require("../../../viz/palette").getPalette;
+viz.generateColors = require("../../../viz/palette").generateColors;
+viz.registerPalette = require("../../../viz/palette").registerPalette;
+viz.refreshTheme = require("../../../viz/themes").refreshTheme;
 
 /* Charts (dx.module-viz-charts.js) */
-import dxChartModule from "../../../viz/chart";
-viz.dxChart = dxChartModule;
-import dxPieChartModule from "../../../viz/pie_chart";
-viz.dxPieChart = dxPieChartModule;
-import dxPolarChartModule from "../../../viz/polar_chart";
-viz.dxPolarChart = dxPolarChartModule;
+viz.dxChart = require("../../../viz/chart");
+viz.dxPieChart = require("../../../viz/pie_chart");
+viz.dxPolarChart = require("../../../viz/polar_chart");
 
 /* Gauges (dx.module-viz-gauges.js) */
-import dxLinearGaugeModule from "../../../viz/linear_gauge";
-viz.dxLinearGauge = dxLinearGaugeModule;
-import dxCircularGaugeModule from "../../../viz/circular_gauge";
-viz.dxCircularGauge = dxCircularGaugeModule;
-import dxBarGaugeModule from "../../../viz/bar_gauge";
-viz.dxBarGauge = dxBarGaugeModule;
+viz.dxLinearGauge = require("../../../viz/linear_gauge");
+viz.dxCircularGauge = require("../../../viz/circular_gauge");
+viz.dxBarGauge = require("../../../viz/bar_gauge");
 
 /* Range selector (dx.module-viz-rangeselector.js) */
-import dxRangeSelectorModule from "../../../viz/range_selector";
-viz.dxRangeSelector = dxRangeSelectorModule;
+viz.dxRangeSelector = require("../../../viz/range_selector");
 
 /* Vector map (dx.module-viz-vectormap.js) */
-import dxVectorMapModule from "../../../viz/vector_map";
-viz.dxVectorMap = dxVectorMapModule;
+viz.dxVectorMap = require("../../../viz/vector_map");
 viz.map = {};
 viz.map.sources = {};
-import projectionModule from "../../../viz/vector_map/projection";
-viz.map.projection = projectionModule.projection;
+viz.map.projection = require("../../../viz/vector_map/projection").projection;
 
 /* Sparklines (dx.module-viz-sparklines.js) */
-import dxSparklineModule from "../../../viz/sparkline";
-viz.dxSparkline = dxSparklineModule;
-import dxBulletModule from "../../../viz/bullet";
-viz.dxBullet = dxBulletModule;
+viz.dxSparkline = require("../../../viz/sparkline");
+viz.dxBullet = require("../../../viz/bullet");
 
 /* Treemap */
-import dxTreeMapModule from "../../../viz/tree_map";
-viz.dxTreeMap = dxTreeMapModule;
+viz.dxTreeMap = require("../../../viz/tree_map");
 
 /* Funnel */
-import dxFunnelModule from "../../../viz/funnel";
-viz.dxFunnel = dxFunnelModule;
+viz.dxFunnel = require("../../../viz/funnel");
 
 /* Sankey */
-import dxSankeyModule from "../../../viz/sankey";
-viz.dxSankey = dxSankeyModule;
+viz.dxSankey = require("../../../viz/sankey");
 
 /// BUNDLER_PARTS_END
 
-import BaseWidgetModule from "../../../viz/core/base_widget";
-viz.BaseWidget = BaseWidgetModule;
+viz.BaseWidget = require("../../../viz/core/base_widget");
 
-import { getTheme } from "../../../viz/themes";
-viz.getTheme = getTheme;
+viz.getTheme = require("../../../viz/themes").getTheme;
 // Keep it for backward compatibility after renaming findTheme to getTheme
-viz.findTheme = getTheme;
+viz.findTheme = require("../../../viz/themes").getTheme;
 // We need to keep this method as we suggested it to users
-viz.refreshAll = refreshTheme;
+viz.refreshAll = require("../../../viz/themes").refreshTheme;
 
-import { refreshPaths } from "../../../viz/utils";
-viz.refreshPaths = refreshPaths;
+viz.refreshPaths = require("../../../viz/utils").refreshPaths;
 
 viz.gauges = { __internals: {} };
 
 viz._dashboard = {};
-import { Renderer } from "../../../viz/core/renderers/renderer";
-viz._dashboard.Renderer = Renderer;
-import { SvgElement } from "../../../viz/core/renderers/renderer";
-viz._dashboard.SvgElement = SvgElement;
-import { patchFontOptions } from "../../../viz/core/utils";
-viz._dashboard.patchFontOptions = patchFontOptions;
+viz._dashboard.Renderer = require("../../../viz/core/renderers/renderer").Renderer;
+viz._dashboard.SvgElement = require("../../../viz/core/renderers/renderer").SvgElement;
+viz._dashboard.patchFontOptions = require("../../../viz/core/utils").patchFontOptions;
 
 module.exports = viz;

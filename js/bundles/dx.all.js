@@ -1,5 +1,4 @@
-import "./modules/parts/widgets-all";
-import "./modules/parts/viz";
+require("./modules/parts/widgets-all");
+require("./modules/parts/viz");
 
-import exportsModule from "./modules/core";
-module.exports = exportsModule;
+module.exports = require("./modules/core");

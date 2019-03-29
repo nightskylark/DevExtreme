@@ -1,2 +1,2 @@
-import "./modules/parts/widgets-web";
-import "./modules/parts/viz";
+require("./modules/parts/widgets-web");
+require("./modules/parts/viz");

@@ -1,5 +1,5 @@
 /* global DevExpress */
 
-import "./core";
+require("./core");
 
 module.exports = DevExpress.viz = DevExpress.viz || {};

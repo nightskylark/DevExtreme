@@ -1,9 +1,8 @@
 /* global DevExpress */
 
-import "./core";
+require("./core");
 
 module.exports = DevExpress.ui = {};
 
 /* Visual Studio Designer Callback (Find better place) */
-import { renderedCallbacks } from "../../ui/widget/ui.template_base";
-DevExpress.ui.templateRendered = renderedCallbacks;
+DevExpress.ui.templateRendered = require("../../ui/widget/ui.template_base").renderedCallbacks;
