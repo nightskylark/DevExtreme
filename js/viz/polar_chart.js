@@ -4,7 +4,8 @@ var registerComponent = require("../core/component_registrator");
 import extendUtils from "../core/utils/extend";
 var extend = extendUtils.extend;
 var vizUtils = require("./core/utils");
-var AdvancedChart = require("./chart_components/advanced_chart").AdvancedChart;
+import chartModule from "./chart_components/advanced_chart";
+var AdvancedChart = chartModule.AdvancedChart;
 var DEFAULT_PANE_NAME = 'default';
 
 var dxPolarChart = AdvancedChart.inherit({

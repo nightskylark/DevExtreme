@@ -3,7 +3,8 @@ var objectUtils = require("../../core/utils/object");
 
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
-var scatterSeries = require("./scatter_series").chart;
+import seriesModule from "./scatter_series";
+var scatterSeries = seriesModule.chart;
 var lineSeries = require("./line_series");
 var chartLineSeries = lineSeries.chart.line;
 var polarLineSeries = lineSeries.polar.line;

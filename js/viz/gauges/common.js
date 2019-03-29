@@ -1,4 +1,5 @@
-var dxBaseGauge = require("./base_gauge").dxBaseGauge;
+import gaugeModule from "./base_gauge";
+var dxBaseGauge = gaugeModule.dxBaseGauge;
 var typeUtils = require("../../core/utils/type");
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
@@ -11,7 +12,7 @@ var axisModule = require("../axes/base_axis");
 import utilsModule from "../core/utils";
 var _map = utilsModule.map;
 var _normalizeEnum = utilsModule.normalizeEnum;
-var _compareArrays = require("./base_gauge").compareArrays;
+var _compareArrays = gaugeModule.compareArrays;
 var _isFinite = isFinite;
 var _Number = Number;
 var _min = Math.min;

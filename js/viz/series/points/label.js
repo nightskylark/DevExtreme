@@ -1,4 +1,5 @@
-var _format = require("../../../format_helper").format;
+import helperModule from "../../../format_helper";
+var _format = helperModule.format;
 var vizUtils = require("../../core/utils");
 import iteratorUtils from "../../../core/utils/iterator";
 var each = iteratorUtils.each;

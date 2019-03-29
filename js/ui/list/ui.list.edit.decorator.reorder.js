@@ -8,7 +8,8 @@ var dragEvents = require("../../events/drag");
 var mathUtils = require("../../core/utils/math");
 var Animator = require("../scroll_view/animator");
 var eventUtils = require("../../events/utils");
-var registerDecorator = require("./ui.list.edit.decorator_registry").register;
+import registryModule from "./ui.list.edit.decorator_registry";
+var registerDecorator = registryModule.register;
 var EditDecorator = require("./ui.list.edit.decorator");
 
 

@@ -10,7 +10,8 @@ var each = iteratorUtils.each;
 var vizUtils = require("../core/utils");
 var rangeModule = require("../translators/range");
 var dataValidatorModule = require("../components/data_validator");
-var ChartThemeManager = require("../components/chart_theme_manager").ThemeManager;
+import managerModule from "../components/chart_theme_manager";
+var ChartThemeManager = managerModule.ThemeManager;
 var SeriesDataSource;
 
 var createThemeManager = function(chartOptions) {

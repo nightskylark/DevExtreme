@@ -1,7 +1,8 @@
 import extendUtils from "../../core/utils/extend";
 var extend = extendUtils.extend;
 var _extend = extend;
-var BaseThemeManager = require("../core/base_theme_manager").BaseThemeManager;
+import managerModule from "../core/base_theme_manager";
+var BaseThemeManager = managerModule.BaseThemeManager;
 
 var ThemeManager = BaseThemeManager.inherit({
     ctor(options) {

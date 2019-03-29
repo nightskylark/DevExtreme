@@ -4,7 +4,8 @@ var numberFormatter = require("../localization/number");
 var dateLocalization = require("../localization/date");
 import dateFormatModule from "../localization/ldml/date.format";
 var getDateLDMLFormat = dateFormatModule.getFormat;
-var getLanguageID = require("../localization/language_codes").getLanguageId;
+import codesModule from "../localization/language_codes";
+var getLanguageID = codesModule.getLanguageId;
 
 var UNSUPPORTED_FORMAT_MAPPING = {
     quarter: "shortDate",

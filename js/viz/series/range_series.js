@@ -9,9 +9,12 @@ import utilsModule from "../core/utils";
 var _map = utilsModule.map;
 import commonUtils from "../../core/utils/common";
 var _noop = commonUtils.noop;
-var scatterSeries = require("./scatter_series").chart;
-var barSeries = require("./bar_series").chart.bar;
-var areaSeries = require("./area_series").chart.area;
+import seriesModule from "./scatter_series";
+var scatterSeries = seriesModule.chart;
+import barSeriesModule from "./bar_series";
+var barSeries = barSeriesModule.chart.bar;
+import areaSeriesModule from "./area_series";
+var areaSeries = areaSeriesModule.chart.area;
 
 exports.chart = {};
 

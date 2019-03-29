@@ -16,7 +16,8 @@ var pivotGridUtils = require("../ui.pivot_grid.utils");
 var deferredUtils = require("../../../core/utils/deferred");
 var when = deferredUtils.when;
 var Deferred = deferredUtils.Deferred;
-var getLanguageId = require("../../../localization/language_codes").getLanguageId;
+import codesModule from "../../../localization/language_codes";
+var getLanguageId = codesModule.getLanguageId;
 
 exports.XmlaStore = Class.inherit((function() {
     var discover = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body><Discover xmlns="urn:schemas-microsoft-com:xml-analysis"><RequestType>{2}</RequestType><Restrictions><RestrictionList><CATALOG_NAME>{0}</CATALOG_NAME><CUBE_NAME>{1}</CUBE_NAME></RestrictionList></Restrictions><Properties><PropertyList><Catalog>{0}</Catalog>{3}</PropertyList></Properties></Discover></Body></Envelope>';

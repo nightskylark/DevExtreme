@@ -221,7 +221,8 @@ var dxBaseGauge = BaseWidget.inherit({
 
 exports.dxBaseGauge = dxBaseGauge;
 
-var _format = require("../../format_helper").format;
+import helperModule from "../../format_helper";
+var _format = helperModule.format;
 
 //  TODO: find a better place for it
 var formatValue = function(value, options, extra) {

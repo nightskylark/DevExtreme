@@ -1,4 +1,5 @@
-var _format = require("../axes/smart_formatter").smartFormatter;
+import formatterModule from "../axes/smart_formatter";
+var _format = formatterModule.smartFormatter;
 import typeUtils from "../../core/utils/type";
 var isFunction = typeUtils.isFunction;
 var HEIGHT_COMPACT_MODE = 24;

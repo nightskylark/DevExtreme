@@ -1,4 +1,5 @@
-var fileSaver = require("./exporter/file_saver").fileSaver;
+import saverModule from "./exporter/file_saver";
+var fileSaver = saverModule.fileSaver;
 var excelCreator = require("./exporter/excel_creator");
 var imageCreator = require("./exporter/image_creator");
 var svgCreator = require("./exporter/svg_creator");

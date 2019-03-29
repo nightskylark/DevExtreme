@@ -1,7 +1,9 @@
 // there are stock, candlestick
-var scatterSeries = require("./scatter_series").chart;
+import scatterSeriesModule from "./scatter_series";
+var scatterSeries = scatterSeriesModule.chart;
 
-var barSeries = require("./bar_series").chart.bar;
+import barSeriesModule from "./bar_series";
+var barSeries = barSeriesModule.chart.bar;
 import extendUtils from "../../core/utils/extend";
 var _extend = extendUtils.extend;
 import typeUtils from "../../core/utils/type";

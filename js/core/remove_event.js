@@ -1,5 +1,6 @@
 var $ = require("./renderer");
-var beforeCleanData = require("./element_data").beforeCleanData;
+import dataModule from "./element_data";
+var beforeCleanData = dataModule.beforeCleanData;
 var eventsEngine = require("../events/core/events_engine");
 var registerEvent = require("../events/core/event_registrator");
 

@@ -1,7 +1,8 @@
 var ko = require("knockout");
 import versionUtils from "../../core/utils/version";
 var compareVersion = versionUtils.compare;
-var strategyChanging = require("../../core/element_data").strategyChanging;
+import dataModule from "../../core/element_data";
+var strategyChanging = dataModule.strategyChanging;
 
 var patchCleanData = function(jQuery) {
     var cleanKoData = function(element, andSelf) {

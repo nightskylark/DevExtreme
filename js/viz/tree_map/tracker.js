@@ -1,4 +1,5 @@
-var proto = require("./tree_map.base").prototype;
+import baseModule from "./tree_map.base";
+var proto = baseModule.prototype;
 import trackerModule from "../components/tracker";
 var Tracker = trackerModule.Tracker;
 import helpersModule from "../core/helpers";

@@ -6,11 +6,13 @@ import extendUtils from "../../core/utils/extend";
 var _extend = extendUtils.extend;
 import iteratorUtils from "../../core/utils/iterator";
 var each = iteratorUtils.each;
-var areaSeries = require("./area_series").chart;
+import areaSeriesModule from "./area_series";
+var areaSeries = areaSeriesModule.chart;
 var chartAreaSeries = areaSeries.area;
 var barSeries = require("./bar_series");
 var chartBarSeries = barSeries.chart.bar;
-var lineSeries = require("./line_series").chart;
+import lineSeriesModule from "./line_series";
+var lineSeries = lineSeriesModule.chart;
 var vizUtils = require("../core/utils");
 var objectUtils = require("../../core/utils/object");
 

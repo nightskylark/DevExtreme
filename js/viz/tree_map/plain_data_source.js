@@ -1,4 +1,5 @@
-var proto = require("./tree_map.base").prototype;
+import baseModule from "./tree_map.base";
+var proto = baseModule.prototype;
 
 proto._optionChangesMap.idField = proto._optionChangesMap.parentField = "NODES_CREATE";
 

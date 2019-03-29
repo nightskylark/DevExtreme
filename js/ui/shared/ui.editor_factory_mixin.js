@@ -13,7 +13,8 @@ var extend = extendUtils.extend;
 var devices = require("../../core/devices");
 import domUtils from "../../core/utils/dom";
 var getPublicElement = domUtils.getPublicElement;
-var normalizeDataSourceOptions = require("../../data/data_source/data_source").normalizeDataSourceOptions;
+import sourceModule from "../../data/data_source/data_source";
+var normalizeDataSourceOptions = sourceModule.normalizeDataSourceOptions;
 import utilsModule from "../../events/utils";
 var normalizeKeyName = utilsModule.normalizeKeyName;
 
