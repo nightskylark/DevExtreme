@@ -5,16 +5,19 @@ require("./data");
 /* Viz core (dx.module-viz-core.js) */
 
 var viz = DevExpress.viz = require("../../../bundles/modules/viz");
-viz.currentTheme = require("../../../viz/themes").currentTheme;
-viz.registerTheme = require("../../../viz/themes").registerTheme;
-viz.exportFromMarkup = require("../../../viz/export").exportFromMarkup;
-viz.getMarkup = require("../../../viz/export").getMarkup;
-viz.exportWidgets = require("../../../viz/export").exportWidgets;
-viz.currentPalette = require("../../../viz/palette").currentPalette;
-viz.getPalette = require("../../../viz/palette").getPalette;
-viz.generateColors = require("../../../viz/palette").generateColors;
-viz.registerPalette = require("../../../viz/palette").registerPalette;
-viz.refreshTheme = require("../../../viz/themes").refreshTheme;
+import { currentTheme, registerTheme, refreshTheme } from "../../../viz/themes";
+import { exportFromMarkup, getMarkup, exportWidgets } from "../../../viz/export";
+import { currentPalette, getPalette, generateColors, registerPalette } from "../../../viz/palette";
+viz.currentTheme = currentTheme;
+viz.registerTheme = registerTheme;
+viz.exportFromMarkup = exportFromMarkup;
+viz.getMarkup = getMarkup;
+viz.exportWidgets = exportWidgets;
+viz.currentPalette = currentPalette;
+viz.getPalette = getPalette;
+viz.generateColors = generateColors;
+viz.registerPalette = registerPalette;
+viz.refreshTheme = refreshTheme;
 
 /* Charts (dx.module-viz-charts.js) */
 viz.dxChart = require("../../../viz/chart");
@@ -33,7 +36,8 @@ viz.dxRangeSelector = require("../../../viz/range_selector");
 viz.dxVectorMap = require("../../../viz/vector_map");
 viz.map = {};
 viz.map.sources = {};
-viz.map.projection = require("../../../viz/vector_map/projection").projection;
+import { projection } from "../../../viz/vector_map/projection";
+viz.map.projection = projection;
 
 /* Sparklines (dx.module-viz-sparklines.js) */
 viz.dxSparkline = require("../../../viz/sparkline");
@@ -52,19 +56,24 @@ viz.dxSankey = require("../../../viz/sankey");
 
 viz.BaseWidget = require("../../../viz/core/base_widget");
 
-viz.getTheme = require("../../../viz/themes").getTheme;
+import { getTheme } from "../../../viz/themes";
+viz.getTheme = getTheme;
 // Keep it for backward compatibility after renaming findTheme to getTheme
-viz.findTheme = require("../../../viz/themes").getTheme;
+viz.findTheme = getTheme;
 // We need to keep this method as we suggested it to users
-viz.refreshAll = require("../../../viz/themes").refreshTheme;
+viz.refreshAll = refreshTheme;
 
-viz.refreshPaths = require("../../../viz/utils").refreshPaths;
+import { refreshPaths } from "../../../viz/utils";
+viz.refreshPaths = refreshPaths;
 
 viz.gauges = { __internals: {} };
 
 viz._dashboard = {};
-viz._dashboard.Renderer = require("../../../viz/core/renderers/renderer").Renderer;
-viz._dashboard.SvgElement = require("../../../viz/core/renderers/renderer").SvgElement;
-viz._dashboard.patchFontOptions = require("../../../viz/core/utils").patchFontOptions;
+import { Renderer } from "../../../viz/core/renderers/renderer";
+viz._dashboard.Renderer = Renderer;
+import { SvgElement } from "../../../viz/core/renderers/renderer";
+viz._dashboard.SvgElement = SvgElement;
+import { patchFontOptions } from "../../../viz/core/utils";
+viz._dashboard.patchFontOptions = patchFontOptions;
 
 module.exports = viz;

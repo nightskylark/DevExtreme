@@ -27,20 +27,21 @@ DevExpress.data.Store = require("../../data/abstract_store");
 DevExpress.data.ArrayStore = require("../../data/array_store");
 DevExpress.data.CustomStore = require("../../data/custom_store");
 DevExpress.data.LocalStore = require("../../data/local_store");
-DevExpress.data.base64_encode = require("../../data/utils").base64_encode;
+import dataUtils from "../../data/utils";
+DevExpress.data.base64_encode = dataUtils.base64_encode;
 
 DevExpress.data.Guid = require("../../core/guid");
 
 DevExpress.data.utils = {};
-DevExpress.data.utils.compileGetter = require("../../core/utils/data").compileGetter;
-DevExpress.data.utils.compileSetter = require("../../core/utils/data").compileSetter;
+import { compileGetter, compileSetter, toComparable } from "../../core/utils/data";
+DevExpress.data.utils.compileGetter = compileGetter;
+DevExpress.data.utils.compileSetter = compileSetter;
 
 DevExpress.EndpointSelector = require("../../data/endpoint_selector");
 
-DevExpress.data.queryImpl = require("../../data/query").queryImpl;
+import { queryImpl } from "../../data/query";
+DevExpress.data.queryImpl = queryImpl;
 DevExpress.data.queryAdapters = require("../../data/query_adapters");
-
-var dataUtils = require("../../data/utils");
 
 DevExpress.data.utils.normalizeBinaryCriterion = dataUtils.normalizeBinaryCriterion;
 DevExpress.data.utils.normalizeSortingInfo = dataUtils.normalizeSortingInfo;
@@ -51,9 +52,11 @@ DevExpress.data.utils.isDisjunctiveOperator = dataUtils.isDisjunctiveOperator;
 DevExpress.data.utils.isConjunctiveOperator = dataUtils.isConjunctiveOperator;
 DevExpress.data.utils.processRequestResultLock = dataUtils.processRequestResultLock;
 
-DevExpress.data.utils.toComparable = require("../../core/utils/data").toComparable;
+DevExpress.data.utils.toComparable = toComparable;
 
-DevExpress.data.utils.multiLevelGroup = require("../../data/store_helper").multiLevelGroup;
-DevExpress.data.utils.arrangeSortingInfo = require("../../data/store_helper").arrangeSortingInfo;
+import storeHelper from "../../data/store_helper";
+DevExpress.data.utils.multiLevelGroup = storeHelper.multiLevelGroup;
+DevExpress.data.utils.arrangeSortingInfo = storeHelper.arrangeSortingInfo;
 
-DevExpress.data.utils.normalizeDataSourceOptions = require("../../data/data_source/data_source").normalizeDataSourceOptions;
+import { normalizeDataSourceOptions } from "../../data/data_source/data_source";
+DevExpress.data.utils.normalizeDataSourceOptions = normalizeDataSourceOptions;
