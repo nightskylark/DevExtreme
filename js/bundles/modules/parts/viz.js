@@ -6,10 +6,10 @@ import "./data";
 
 var viz = DevExpress.viz = require("../../../bundles/modules/viz");
 
-import themesModule from "../../../viz/themes";
+import vizThemesModule from "../../../viz/themes";
 import exportModule from "../../../viz/export";
 import paletteModule from "../../../viz/palette";
-const { currentTheme, registerTheme, refreshTheme } = themesModule;
+const { currentTheme, registerTheme, refreshTheme } = vizThemesModule;
 const { exportFromMarkup, getMarkup, exportWidgets } = exportModule;
 const { currentPalette, getPalette, generateColors, registerPalette } = paletteModule;
 viz.currentTheme = currentTheme;
