@@ -7,7 +7,7 @@ const _ceil = Math.ceil;
 const _Color = require("../color");
 const _isArray = Array.isArray;
 
-const _isString = require("../core/utils/type").isString;
+import { isString } from "../core/utils/type";
 
 const HIGHLIGHTING_STEP = 50;
 const DEFAULT_PALETTE = "material";
@@ -141,7 +141,7 @@ export function getPalette(palette, parameters) {
     if(_isArray(palette)) {
         return palette.slice(0);
     } else {
-        if(_isString(palette)) {
+        if(isString(palette)) {
             result = palettes[normalizeEnum(palette)];
         }
         if(!result) {

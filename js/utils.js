@@ -1,3 +1,4 @@
+import { compileGetter, compileSetter } from "./core/utils/data";
 /**
 * @name Utils.compileGetter
 * @publicName compileGetter(expr)
@@ -7,7 +8,7 @@
 * @namespace DevExpress.data.utils
 * @export compileGetter
 */
-exports.compileGetter = require("./core/utils/data").compileGetter;
+exports.compileGetter = compileGetter;
 /**
 * @name Utils.compileSetter
 * @publicName compileSetter(expr)
@@ -17,4 +18,4 @@ exports.compileGetter = require("./core/utils/data").compileGetter;
 * @namespace DevExpress.data.utils
 * @export compileSetter
 */
-exports.compileSetter = require("./core/utils/data").compileSetter;
+exports.compileSetter = compileSetter;

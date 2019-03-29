@@ -8,5 +8,6 @@
 module.exports = require("./tooltip/tooltip");
 
 // NOTE: internal api: dashboards
-module.exports.show = require("./tooltip/ui.tooltip").show;
-module.exports.hide = require("./tooltip/ui.tooltip").hide;
+import { show, hide } from "./tooltip/ui.tooltip";
+module.exports.show = show;
+module.exports.hide = hide;

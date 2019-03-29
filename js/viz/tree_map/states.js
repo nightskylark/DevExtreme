@@ -15,7 +15,8 @@ handlers.calculateState = function(options) {
     return states;
 };
 
-handlers.calculateAdditionalStates = require("../../core/utils/common").noop;
+import { noop } from "../../core/utils/common";
+handlers.calculateAdditionalStates = noop;
 
 nodeProto.code = 0;
 

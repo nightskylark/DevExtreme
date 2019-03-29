@@ -1,6 +1,6 @@
 const { unique, getAddFunction } = require("../../core/utils");
-const _isDefined = require("../../../core/utils/type").isDefined;
-const noop = require("../../../core/utils/common").noop;
+import isDefined from "../../../core/utils/type";
+import noop from "../../../core/utils/common";
 const DISCRETE = "discrete";
 
 function continuousRangeCalculator(range, minValue, maxValue) {
@@ -52,7 +52,7 @@ function processCategories(range) {
 }
 
 function getValueForArgument(point, extraPoint, x) {
-    if(extraPoint && _isDefined(extraPoint.value)) {
+    if(extraPoint && isDefined(extraPoint.value)) {
         var y1 = point.value;
         var y2 = extraPoint.value;
         var x1 = point.argument;
@@ -106,7 +106,7 @@ function getViewportReducer(series) {
                 calculatePointBetweenPoints(rangeCalculator, range, point, points[index - 1], viewport.startValue);
             }
             rangeCalculator(range, point.getMinValue(), point.getMaxValue());
-        } else if(!viewport.categories && _isDefined(viewport.startValue) && argument > viewport.startValue) {
+        } else if(!viewport.categories && isDefined(viewport.startValue) && argument > viewport.startValue) {
             if(!range.startCalc) {
                 calculatePointBetweenPoints(rangeCalculator, range, point, points[index - 1], viewport.startValue);
             }
@@ -129,17 +129,17 @@ module.exports = {
                 return dictionary[argument.valueOf()];
             };
         }
-        if(!_isDefined(viewport.startValue) && !_isDefined(viewport.endValue)) {
+        if(!isDefined(viewport.startValue) && !isDefined(viewport.endValue)) {
             return function() {
                 return true;
             };
         }
-        if(!_isDefined(viewport.endValue)) {
+        if(!isDefined(viewport.endValue)) {
             return function(argument) {
                 return argument >= viewport.startValue;
             };
         }
-        if(!_isDefined(viewport.startValue)) {
+        if(!isDefined(viewport.startValue)) {
             return function(argument) {
                 return argument <= viewport.endValue;
             };
@@ -201,10 +201,10 @@ module.exports = {
                 range.arg = argumentRange;
             } else {
                 const viewport = series.getArgumentAxis().getViewport();
-                if(_isDefined(viewport.startValue) || _isDefined(viewport.length)) {
+                if(isDefined(viewport.startValue) || isDefined(viewport.length)) {
                     argumentCalculator(range.arg, argumentRange.min, argumentRange.min);
                 }
-                if(_isDefined(viewport.endValue) || _isDefined(viewport.length) && _isDefined(viewport.startValue)) {
+                if(isDefined(viewport.endValue) || isDefined(viewport.length) && isDefined(viewport.startValue)) {
                     argumentCalculator(range.arg, argumentRange.max, argumentRange.max);
                 }
             }

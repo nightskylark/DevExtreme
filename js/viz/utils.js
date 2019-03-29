@@ -1,1 +1,2 @@
-exports.refreshPaths = require("./core/renderers/renderer").refreshPaths;
+import { refreshPaths } from "./core/renderers/renderer";
+exports.refreshPaths = refreshPaths;

@@ -5,4 +5,5 @@
 * @module data/data_source
 * @export default
 */
-module.exports = require("./data_source/data_source").DataSource;
+import { DataSource } from "./data_source/data_source";
+module.exports = DataSource;
