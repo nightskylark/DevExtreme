@@ -612,4 +612,5 @@ require("../../core/component_registrator")("dxTreeMap", dxTreeMap);
 module.exports = dxTreeMap;
 
 // PLUGINS_SECTION
-dxTreeMap.addPlugin(require("../core/data_source").plugin);
+import dataSourceModule from "../core/data_source";
+dxTreeMap.addPlugin(dataSourceModule.plugin);

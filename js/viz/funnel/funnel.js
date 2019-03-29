@@ -288,4 +288,5 @@ require("../../core/component_registrator")("dxFunnel", dxFunnel);
 module.exports = dxFunnel;
 
 // PLUGINS_SECTION
-dxFunnel.addPlugin(require("../core/data_source").plugin);
+import dataSourceModule from "../core/data_source";
+dxFunnel.addPlugin(dataSourceModule.plugin);

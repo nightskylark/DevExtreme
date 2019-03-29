@@ -1430,11 +1430,16 @@ exports.overlapping = overlapping;
 exports.BaseChart = BaseChart;
 
 // PLUGINS_SECTION
-BaseChart.addPlugin(require("../core/export").plugin);
-BaseChart.addPlugin(require("../core/title").plugin);
-BaseChart.addPlugin(require("../core/tooltip").plugin);
-BaseChart.addPlugin(require("../core/loading_indicator").plugin);
-BaseChart.addPlugin(require("../core/data_source").plugin);
+import exportModule from "../core/export";
+BaseChart.addPlugin(exportModule.plugin);
+import titleModule from "../core/title";
+BaseChart.addPlugin(titleModule.plugin);
+import tooltipModule from "../core/tooltip";
+BaseChart.addPlugin(tooltipModule.plugin);
+import loadingIndicatorModule from "../core/loading_indicator";
+BaseChart.addPlugin(loadingIndicatorModule.plugin);
+import dataSourceModule from "../core/data_source";
+BaseChart.addPlugin(dataSourceModule.plugin);
 
 // These are charts specifics on using title - they cannot be omitted because of charts custom layout.
 var _change_TITLE = BaseChart.prototype._change_TITLE;

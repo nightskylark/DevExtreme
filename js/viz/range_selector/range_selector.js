@@ -1119,7 +1119,11 @@ registerComponent("dxRangeSelector", dxRangeSelector);
 module.exports = dxRangeSelector;
 
 // PLUGINS_SECTION
-dxRangeSelector.addPlugin(require("../core/export").plugin);
-dxRangeSelector.addPlugin(require("../core/title").plugin);
-dxRangeSelector.addPlugin(require("../core/loading_indicator").plugin);
-dxRangeSelector.addPlugin(require("../core/data_source").plugin);
+import exportModule from "../core/export";
+dxRangeSelector.addPlugin(exportModule.plugin);
+import titleModule from "../core/title";
+dxRangeSelector.addPlugin(titleModule.plugin);
+import loadingIndicatorModule from "../core/loading_indicator";
+dxRangeSelector.addPlugin(loadingIndicatorModule.plugin);
+import dataSourceModule from "../core/data_source";
+dxRangeSelector.addPlugin(dataSourceModule.plugin);

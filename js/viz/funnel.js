@@ -1,11 +1,18 @@
 var dxFunnel = require("./funnel/funnel");
 
-dxFunnel.addPlugin(require("./funnel/label").plugin);
-dxFunnel.addPlugin(require("./core/export").plugin);
-dxFunnel.addPlugin(require("./core/title").plugin);
-dxFunnel.addPlugin(require("./components/legend").plugin);
-dxFunnel.addPlugin(require("./funnel/tracker").plugin);
-dxFunnel.addPlugin(require("./funnel/tooltip").plugin);
-dxFunnel.addPlugin(require("./core/loading_indicator").plugin);
+import labelModule from "./funnel/label";
+dxFunnel.addPlugin(labelModule.plugin);
+import exportModule from "./core/export";
+dxFunnel.addPlugin(exportModule.plugin);
+import titleModule from "./core/title";
+dxFunnel.addPlugin(titleModule.plugin);
+import legendModule from "./components/legend";
+dxFunnel.addPlugin(legendModule.plugin);
+import trackerModule from "./funnel/tracker";
+dxFunnel.addPlugin(trackerModule.plugin);
+import tooltipModule from "./funnel/tooltip";
+dxFunnel.addPlugin(tooltipModule.plugin);
+import loadingIndicatorModule from "./core/loading_indicator";
+dxFunnel.addPlugin(loadingIndicatorModule.plugin);
 
 module.exports = dxFunnel;

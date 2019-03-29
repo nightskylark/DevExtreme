@@ -652,7 +652,8 @@ registerComponent("dxBarGauge", dxBarGauge);
 
 exports.dxBarGauge = dxBarGauge;
 
-dxBarGauge.addPlugin(require("../components/legend").plugin);
+import legendModule from "../components/legend";
+dxBarGauge.addPlugin(legendModule.plugin);
 
 ///#DEBUG
 var __BarWrapper = BarWrapper;

@@ -532,4 +532,5 @@ require("../../core/component_registrator")("dxSparkline", dxSparkline);
 
 module.exports = dxSparkline;
 // PLUGINS_SECTION
-dxSparkline.addPlugin(require("../core/data_source").plugin);
+import dataSourceModule from "../core/data_source";
+dxSparkline.addPlugin(dataSourceModule.plugin);

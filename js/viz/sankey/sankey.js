@@ -430,4 +430,5 @@ require("../../core/component_registrator")("dxSankey", dxSankey);
 module.exports = dxSankey;
 
 // PLUGINS_SECTION
-dxSankey.addPlugin(require("../core/data_source").plugin);
+import dataSourceModule from "../core/data_source";
+dxSankey.addPlugin(dataSourceModule.plugin);

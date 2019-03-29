@@ -188,4 +188,4 @@ TextBox.__internals = {
 ///#ENDDEBUG
 registerComponent("dxTextBox", TextBox);
 
-module.exports = TextBox;
+export default TextBox;

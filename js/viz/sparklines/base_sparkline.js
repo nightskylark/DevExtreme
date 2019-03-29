@@ -312,7 +312,8 @@ module.exports._DEBUG_reset = function() {
 ///#ENDDEBUG
 
 // PLUGINS_SECTION
-BaseSparkline.addPlugin(require("../core/tooltip").plugin);
+import tooltipModule from "../core/tooltip";
+BaseSparkline.addPlugin(tooltipModule.plugin);
 
 // These are sparklines specifics on using tooltip - they cannot be omitted because of tooltip laziness.
 var _initTooltip = BaseSparkline.prototype._initTooltip;

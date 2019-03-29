@@ -270,10 +270,14 @@ function compareArraysElements(array1, array2) {
 }
 
 // PLUGINS_SECTION
-dxBaseGauge.addPlugin(require("../core/export").plugin);
-dxBaseGauge.addPlugin(require("../core/title").plugin);
-dxBaseGauge.addPlugin(require("../core/tooltip").plugin);
-dxBaseGauge.addPlugin(require("../core/loading_indicator").plugin);
+import exportModule from "../core/export";
+dxBaseGauge.addPlugin(exportModule.plugin);
+import titleModule from "../core/title";
+dxBaseGauge.addPlugin(titleModule.plugin);
+import tooltipModule from "../core/tooltip";
+dxBaseGauge.addPlugin(tooltipModule.plugin);
+import loadingIndicatorModule from "../core/loading_indicator";
+dxBaseGauge.addPlugin(loadingIndicatorModule.plugin);
 
 // These are gauges specifics on using tooltip - they require refactoring.
 var _setTooltipOptions = dxBaseGauge.prototype._setTooltipOptions;

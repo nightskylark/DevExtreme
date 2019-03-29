@@ -21,7 +21,7 @@ var getDefaultAlignment = position.getDefaultAlignment;
 import DropDownButton from "./ui.drop_down_button";
 var messageLocalization = require("../../localization/message");
 var eventUtils = require("../../events/utils");
-var TextBox = require("../text_box");
+import TextBox from "../text_box";
 var clickEvent = require("../../events/click");
 var FunctionTemplate = require("../widget/function_template");
 var Popup = require("../popup");

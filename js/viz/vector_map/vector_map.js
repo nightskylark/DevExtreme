@@ -384,7 +384,11 @@ module.exports._TESTS_resetDataKey = function() {
 ///#ENDDEBUG
 
 // PLUGINS_SECTION
-dxVectorMap.addPlugin(require("../core/export").plugin);
-dxVectorMap.addPlugin(require("../core/title").plugin);
-dxVectorMap.addPlugin(require("../core/tooltip").plugin);
-dxVectorMap.addPlugin(require("../core/loading_indicator").plugin);
+import exportModule from "../core/export";
+dxVectorMap.addPlugin(exportModule.plugin);
+import titleModule from "../core/title";
+dxVectorMap.addPlugin(titleModule.plugin);
+import tooltipModule from "../core/tooltip";
+dxVectorMap.addPlugin(tooltipModule.plugin);
+import loadingIndicatorModule from "../core/loading_indicator";
+dxVectorMap.addPlugin(loadingIndicatorModule.plugin);
