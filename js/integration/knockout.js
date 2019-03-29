@@ -1,10 +1,10 @@
-var ko = require("knockout");
+import ko from "knockout";
+import errors from "../core/errors";
+import { compare } from "../core/utils/version";
 
 // Check availability in global environment
 if(ko) {
-    var errors = require("../core/errors");
-    var compareVersion = require("../core/utils/version").compare;
-    if(compareVersion(ko.version, [2, 3]) < 0) {
+    if(compare(ko.version, [2, 3]) < 0) {
         throw errors.Error("E0013");
     }
 

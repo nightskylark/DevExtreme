@@ -1,1 +1,2 @@
-module.exports = require("./xmla_store/xmla_store").XmlaStore;
+import { XmlaStore } from "./xmla_store/xmla_store";
+module.exports = XmlaStore;

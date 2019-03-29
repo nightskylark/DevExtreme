@@ -37,16 +37,24 @@ DevExpress.utils = {};
 DevExpress.utils.requestAnimationFrame = animationFrame.requestAnimationFrame;
 DevExpress.utils.cancelAnimationFrame = animationFrame.cancelAnimationFrame;
 
-DevExpress.utils.initMobileViewport = require("../../mobile/init_mobile_viewport/init_mobile_viewport").initMobileViewport;
+import { initMobileViewport } from "../../mobile/init_mobile_viewport/init_mobile_viewport";
+DevExpress.utils.initMobileViewport = initMobileViewport;
 
 // TODO: MODULARITY: Remove this
-DevExpress.utils.extendFromObject = require("../../core/utils/extend").extendFromObject;
-DevExpress.utils.createComponents = require("../../core/utils/dom").createComponents;
-DevExpress.utils.triggerShownEvent = require("../../core/utils/dom").triggerShownEvent;
-DevExpress.utils.triggerHidingEvent = require("../../core/utils/dom").triggerHidingEvent;
-DevExpress.utils.resetActiveElement = require("../../core/utils/dom").resetActiveElement;
-DevExpress.utils.findBestMatches = require("../../core/utils/common").findBestMatches;
-DevExpress.createQueue = require("../../core/utils/queue").create;
+import { extendFromObject } from "../../core/utils/extend";
+DevExpress.utils.extendFromObject = extendFromObject;
+import { createComponents } from "../../core/utils/dom";
+DevExpress.utils.createComponents = createComponents;
+import { triggerShownEvent } from "../../core/utils/dom";
+DevExpress.utils.triggerShownEvent = triggerShownEvent;
+import { triggerHidingEvent } from "../../core/utils/dom";
+DevExpress.utils.triggerHidingEvent = triggerHidingEvent;
+import { resetActiveElement } from "../../core/utils/dom";
+DevExpress.utils.resetActiveElement = resetActiveElement;
+import { findBestMatches } from "../../core/utils/common";
+DevExpress.utils.findBestMatches = findBestMatches;
+import { create } from "../../core/utils/queue";
+DevExpress.createQueue = create;
 DevExpress.utils.dom = require("../../core/utils/dom");
 DevExpress.utils.common = require("../../core/utils/common");
 DevExpress.utils.date = require("../../core/utils/date");
@@ -61,17 +69,21 @@ DevExpress.utils.support = require("../../core/utils/support");
 
 DevExpress.processHardwareBackButton = require("../../mobile/process_hardware_back_button");
 
-DevExpress.viewPort = require("../../core/utils/view_port").value;
+import { value } from "../../core/utils/view_port";
+DevExpress.viewPort = value;
 
 DevExpress.hideTopOverlay = require("../../mobile/hide_top_overlay");
 
 DevExpress.formatHelper = require("../../format_helper");
 DevExpress.config = require("../../core/config");
 
-DevExpress.animationPresets = require("../../animation/presets/presets").presets;
+import { presets } from "../../animation/presets/presets";
+DevExpress.animationPresets = presets;
 DevExpress.fx = require("../../animation/fx");
-DevExpress.TransitionExecutor = require("../../animation/transition_executor/transition_executor").TransitionExecutor;
-DevExpress.AnimationPresetCollection = require("../../animation/presets/presets").PresetCollection;
+import { TransitionExecutor } from "../../animation/transition_executor/transition_executor";
+DevExpress.TransitionExecutor = TransitionExecutor;
+import { PresetCollection } from "../../animation/presets/presets";
+DevExpress.AnimationPresetCollection = PresetCollection;
 
 DevExpress.events = require("../../events");
 
