@@ -133,6 +133,10 @@ var monthNameStrategies = {
 
 module.exports = {
     getMonthNames: function(format, type) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var intlFormats = {
             wide: "long",
             abbreviated: "short",
@@ -149,6 +153,10 @@ module.exports = {
     },
 
     getDayNames: function(format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var intlFormats = {
             wide: "long",
             abbreviated: "short",
@@ -168,6 +176,10 @@ module.exports = {
     },
 
     getPeriodNames: function() {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var hour12Formatter = getIntlFormatter({ hour: "numeric", hour12: true });
 
         return [ 1, 13 ].map(function(hours) {
@@ -185,6 +197,10 @@ module.exports = {
     },
 
     format: function(date, format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         if(!date) {
             return;
         }
@@ -212,6 +228,10 @@ module.exports = {
     },
 
     parse: function(dateString, format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var formatter;
         // TODO: Figure out what Intl tests will fall
 
@@ -278,6 +298,10 @@ module.exports = {
     },
 
     formatUsesMonthName: function(format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         if(typeof format === "object" && !(format.type || format.format)) {
             return format.month === "long";
         }
@@ -286,6 +310,10 @@ module.exports = {
     },
 
     formatUsesDayName: function(format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         if(typeof format === "object" && !(format.type || format.format)) {
             return format.weekday === "long";
         }
@@ -294,6 +322,10 @@ module.exports = {
     },
 
     getFormatParts: function(format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         if(typeof format === "string") {
             return this.callBase(format);
         }
@@ -325,6 +357,10 @@ module.exports = {
     },
 
     firstDayOfWeekIndex: function() {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var index = firstDayOfWeekData[locale()];
 
         return index === undefined ? 1 : index;

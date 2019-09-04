@@ -69,6 +69,10 @@ module.exports = {
         return config;
     },
     format: function(value, format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         if('number' !== typeof value) {
             return value;
         }
@@ -82,6 +86,10 @@ module.exports = {
         return this.callBase.apply(this, arguments);
     },
     parse: function(text, format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         if(compareVersions(dxVersion, '17.2.8') >= 0) {
             return this.callBase.apply(this, arguments);
         }
@@ -183,12 +191,20 @@ module.exports = {
         return result;
     },
     getCurrencySymbol: function(currency) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         let symbolInfo = this._getCurrencySymbolInfo(currency);
         return {
             "symbol": symbolInfo.symbol
         };
     },
     getOpenXmlCurrencyFormat: function(currency) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         // TODO: Talk to export-guys
         if(locale() === "en") {
             return this.callBase.apply(this, arguments);
