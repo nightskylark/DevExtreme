@@ -1,7 +1,6 @@
-var extend = require("../core/utils/extend").extend,
-    numberLocalization = require("./number");
+var extend = require("../core/utils/extend").extend;
 
-numberLocalization.inject({
+module.exports = {
     _formatNumberCore: function(value, format, formatConfig) {
         if(format === "currency") {
             formatConfig.precision = formatConfig.precision || 0;
@@ -22,4 +21,4 @@ numberLocalization.inject({
     getOpenXmlCurrencyFormat: function() {
         return "$#,##0{0}_);\\($#,##0{0}\\)";
     }
-});
+};

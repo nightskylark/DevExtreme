@@ -7,6 +7,8 @@ var dependencyInjector = require("../core/utils/dependency_injector"),
     config = require("../core/config"),
     errors = require("../core/errors"),
     toFixed = require("./utils").toFixed;
+var currencyLocalization = require('./currency');
+var intlNumberLocalization = require("./intl/number");
 
 var MAX_LARGE_NUMBER_POWER = 4,
     DECIMAL_BASE = 10;
@@ -336,5 +338,9 @@ var numberLocalization = dependencyInjector({
         return result;
     }
 });
+
+numberLocalization.inject(currencyLocalization);
+
+numberLocalization.inject(intlNumberLocalization);
 
 module.exports = numberLocalization;

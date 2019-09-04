@@ -9,6 +9,8 @@ var dependencyInjector = require("../core/utils/dependency_injector"),
     numberLocalization = require("./number"),
     errors = require("../core/errors");
 
+var intlDateLocalization = require("./intl/date");
+
 require("./core");
 
 var FORMATS_TO_PATTERN_MAP = {
@@ -182,5 +184,7 @@ var dateLocalization = dependencyInjector({
         return 0;
     }
 });
+
+dateLocalization.inject(intlDateLocalization);
 
 module.exports = dateLocalization;
