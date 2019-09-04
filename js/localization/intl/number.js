@@ -189,6 +189,7 @@ module.exports = {
         };
     },
     getOpenXmlCurrencyFormat: function(currency) {
+        // TODO: Talk to export-guys
         if(locale() === "en") {
             return this.callBase.apply(this, arguments);
         }
