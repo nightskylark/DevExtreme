@@ -20,8 +20,14 @@ var currencyOptionsCache = {},
         return (new window.Intl.NumberFormat(locale(), { style: 'currency', currency: currency }));
     };
 
+// TODO: Improve !window.Intl check
+
 module.exports = {
     _formatNumberCore: function(value, format, formatConfig) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         if(format === 'exponential') {
             return this.callBase.apply(this, arguments);
         }
@@ -29,6 +35,10 @@ module.exports = {
         return getFormatter(this._normalizeFormatConfig(format, formatConfig))(value);
     },
     _normalizeFormatConfig: function(format, formatConfig, value) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var config;
 
         if(format === 'decimal') {
@@ -36,7 +46,7 @@ module.exports = {
                 minimumIntegerDigits: formatConfig.precision || undefined,
                 useGrouping: false,
                 maximumFractionDigits: String(value).length,
-                round: 'none'// value < 0 ? 'ceil' : 'floor'
+                round: value < 0 ? 'ceil' : 'floor'
             };
         } else {
             config = this._getPrecisionConfig(formatConfig.precision);
@@ -52,6 +62,10 @@ module.exports = {
         return config;
     },
     _getPrecisionConfig: function(precision) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var config;
 
         if(precision === null) {
@@ -110,6 +124,10 @@ module.exports = {
         return parseFloat(text);
     },
     _normalizeNumber: function(text, format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var isExponentialRegexp = /^[-+]?[0-9]*.?[0-9]+([eE][-+]?[0-9]+)+$/,
             legitDecimalSeparator = '.';
 
@@ -127,13 +145,25 @@ module.exports = {
         return text.replace(cleanUpRegexp, '').replace(decimalSeparator, legitDecimalSeparator);
     },
     _getDecimalSeparator: function(format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         return getFormatter(format)(0.1)[1];
     },
     _getCurrencySymbolInfo: function(currency) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var formatter = getCurrencyFormatter(currency);
         return this._extractCurrencySymbolInfo(formatter.format(0));
     },
     _extractCurrencySymbolInfo: function(currencyValueString) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var match = detectCurrencySymbolRegex.exec(currencyValueString) || [],
             position = match[1] ? 'before' : 'after',
             symbol = match[1] || match[4] || '',
@@ -146,6 +176,10 @@ module.exports = {
         };
     },
     _getCurrencyOptions: function(currency) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var byCurrencyCache = currencyOptionsCache[locale()];
 
         if(!byCurrencyCache) {
@@ -169,9 +203,17 @@ module.exports = {
         return result;
     },
     _repeatCharacter: function(character, times) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         return Array(times + 1).join(character);
     },
     _createOpenXmlCurrencyFormat: function(options) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var result = this._repeatCharacter('0', options.minimumIntegerDigits);
 
         result += '{0}'; // precision is specified outside

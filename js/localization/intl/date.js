@@ -131,6 +131,8 @@ var monthNameStrategies = {
     }
 };
 
+// TODO: Improve !window.Intl check
+
 module.exports = {
     getMonthNames: function(format, type) {
         if(!window.Intl) {
@@ -245,6 +247,10 @@ module.exports = {
     },
 
     _parseDateBySimpleFormat: function(dateString, format) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         dateString = normalizeNumerals(dateString);
 
         var formatParts = this.getFormatParts(format);
@@ -273,6 +279,10 @@ module.exports = {
     },
 
     _generateDateArgs: function(formatParts, dateParts) {
+        if(!window.Intl) {
+            return this.callBase.apply(this, arguments);
+        }
+
         var currentDate = new Date();
         var dateArgs = {
             year: currentDate.getFullYear(),
