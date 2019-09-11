@@ -247,10 +247,6 @@ module.exports = {
             return this.callBase.apply(this, arguments);
         }
 
-        // TODO: Talk to export-guys
-        if(locale() === "en") {
-            return this.callBase.apply(this, arguments);
-        }
         var currencyValue = currency || dxConfig().defaultCurrency,
             options = this._getCurrencyOptions(currencyValue);
         return this._createOpenXmlCurrencyFormat(options);
