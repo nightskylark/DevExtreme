@@ -1,5 +1,6 @@
 var extend = require("../core/utils/extend").extend;
 
+// TODO: Avoid BC in modularity
 module.exports = {
     _formatNumberCore: function(value, format, formatConfig) {
         if(format === "currency") {

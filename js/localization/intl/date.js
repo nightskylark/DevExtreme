@@ -235,14 +235,13 @@ module.exports = {
         }
 
         var formatter;
-        // TODO: Figure out what Intl tests will fall
 
-        // if(format && !format.parser && typeof dateString === "string") {
-        //     dateString = normalizeMonth(dateString);
-        //     formatter = function(date) {
-        //         return normalizeMonth(this.format(date, format));
-        //     };
-        // }
+        if(format && !format.parser && typeof dateString === 'string') {
+            dateString = normalizeMonth(dateString);
+            formatter = (date) => {
+                return normalizeMonth(this.format(date, format));
+            };
+        }
         return this.callBase(dateString, formatter || format);
     },
 
