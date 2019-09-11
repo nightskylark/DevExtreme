@@ -8331,6 +8331,27 @@ QUnit.test("scrolling after ungrouping should works correctly with large amount 
     assert.ok($(dataGrid.element()).find(".dx-virtual-row").last().position().top >= dataGrid.getScrollable().scrollTop(), "second virtual row is not in viewport");
 });
 
+// T809900
+QUnit.testInActiveWindow("Focus should not return to cell from filter row after filtering", function(assert) {
+    var dataGrid = $("#dataGrid").dxDataGrid({
+        loadingTimeout: undefined,
+        filterRow: { visible: true },
+        dataSource: [{ field1: 1, field2: 2 }]
+    }).dxDataGrid("instance");
+
+    $(dataGrid.getCellElement(0, 0)).trigger("dxpointerup");
+
+    $(".dx-datagrid-filter-row .dx-texteditor-input")
+        .eq(0)
+        .focus()
+        .val(1)
+        .trigger("change");
+
+    this.clock.tick();
+
+    assert.ok($(".dx-datagrid-filter-row .dx-texteditor-input").is(":focus"), "filter row's cell is focused");
+});
+
 // T716207
 QUnit.test("Filtering should works correctly if groupPaging is enabled and group is expanded", function(assert) {
     // arrange
@@ -10637,6 +10658,48 @@ QUnit.test("Change editing.popup option should not reload data", function(assert
     // assert
     assert.equal(lookupLoadingSpy.callCount, 1, "lookup is loaded once");
     assert.equal(dataGrid.getController("editing")._editPopup.option("title"), "New title", "popup title is updated");
+});
+
+QUnit.testInActiveWindow("First cell of added row should be focused after adding row during editing another cell if onInitNewRow is async", function(assert) {
+    // arrange
+    var dataGrid = createDataGrid({
+            loadingTimeout: undefined,
+            dataSource: [{ room: 1 }, { room: 2 }, { room: 3 }],
+            editing: {
+                allowAdding: true,
+                allowUpdating: true,
+                mode: "batch"
+            },
+            onInitNewRow: function(e) {
+                e.promise = $.Deferred();
+                setTimeout(() => {
+                    e.data = { room: 4 };
+                    e.promise.resolve();
+                }, 500);
+            }
+        }),
+        $insertedCell,
+        $editedCell;
+
+    // act
+    dataGrid.addRow();
+    this.clock.tick(250);
+
+    dataGrid.editCell(2, 0);
+
+    $editedCell = $(dataGrid.getCellElement(2, 0));
+
+    // assert
+    assert.ok($editedCell.find(".dx-texteditor").length, "cell element has editor");
+
+    // act
+    this.clock.tick(300);
+
+    $insertedCell = $(dataGrid.getCellElement(0, 0));
+
+    // assert
+    assert.ok($insertedCell.hasClass("dx-editor-cell"), "inserted row's cell has editor");
+    assert.ok($insertedCell.hasClass("dx-focused"), "inserted row's cell is focused");
 });
 
 QUnit.module("API methods", baseModuleConfig);

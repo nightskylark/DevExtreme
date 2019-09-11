@@ -44,6 +44,7 @@ QUnit.testStart(() => {
             <div style="position: fixed; right: 0; bottom: 0; width: 500px; height: 500px;">\
                 <div id="selectBoxWithoutScroll"></div>\
             </div>\
+            <div id="test-container" style="overflow-hidden"></div>\
         </div>';
 
     $("#qunit-fixture").html(markup);
@@ -3301,7 +3302,6 @@ QUnit.module("Scrolling", {
 });
 
 QUnit.module("Async tests", {}, () => {
-
     QUnit.testInActiveWindow("Value should be reset after on selectedItem after focusout", (assert) => {
         const done = assert.async(),
             items = [1, 2],
@@ -3819,6 +3819,47 @@ QUnit.module("keyboard navigation", moduleSetup, () => {
         assert.ok($list.length, "list is rendered");
         assert.strictEqual(instance.option("value"), 4, "value is correct");
         assert.strictEqual($list.find(".dx-list-item").text(), "1234", "all previous list items are loaded");
+    });
+
+    [144, 145].forEach((testHeight) => {
+        QUnit.test(`downArrow should load next page if popup container has ${testHeight % 2 ? "odd" : "even"} height`, (assert) => {
+            this.clock.restore();
+            assert.expect(1);
+            const done = assert.async();
+            const testContainer = $("#test-container").height(testHeight);
+
+            const $element = $("#selectBox").dxSelectBox({
+                    dataSource: {
+                        store: [1, 2, 3, 4, 5, 6],
+                        paginate: true,
+                        pageSize: 4
+                    },
+                    value: null,
+                    focusStateEnabled: true,
+                    opened: false,
+                    deferRendering: true,
+                    dropDownOptions: {
+                        container: testContainer
+                    }
+                }),
+                $input = $element.find(toSelector(TEXTEDITOR_INPUT_CLASS)),
+                instance = $element.dxSelectBox("instance"),
+                $dropDownButton = $element.find(toSelector(DX_DROP_DOWN_BUTTON)),
+                keyboard = keyboardMock($input);
+
+            $dropDownButton.trigger("dxclick");
+            keyboard.press("down");
+            keyboard.press("down");
+            keyboard.press("down");
+            keyboard.press("down");
+
+            setTimeout(() => {
+                const $list = $(instance.content()).find(`.${LIST_CLASS}`);
+                assert.strictEqual($list.find(`.${LIST_ITEM_CLASS}`).text(), "123456", "all list items are loaded");
+                testContainer.height("auto");
+                done();
+            }, TIME_TO_WAIT);
+        });
     });
 
     QUnit.test("value should be correctly changed via arrow keys when grouped datasource is used", (assert) => {
@@ -4502,6 +4543,34 @@ QUnit.module("keyboard navigation 'TAB' button", moduleSetup, () => {
 });
 
 QUnit.module("acceptCustomValue mode", moduleSetup, () => {
+    QUnit.test("All items should be displayed when widget focused out before search completion", (assert) => {
+        const items = ["aaa", "bbb"];
+        const $selectBox = $("#selectBox").dxSelectBox({
+            searchEnabled: true,
+            acceptCustomValue: true,
+            dataSource: items,
+            opened: true,
+            searchTimeout: 500
+        });
+        const $input = $selectBox.find(`.${TEXTEDITOR_INPUT_CLASS}`);
+        const keyboard = keyboardMock($input);
+
+        $input.focus();
+
+        keyboard.press("down")
+            .press("enter")
+            .press("end")
+            .type("Xsdx");
+
+        $input.blur();
+        pointerMock($input).start().click();
+
+        this.clock.tick(500);
+
+        const $listItems = $(`.${POPUP_CONTENT_CLASS} .${LIST_ITEM_CLASS}`);
+        assert.equal($listItems.length, items.length, "all items are displayed");
+        assert.equal($listItems.text(), items.join(''), "items are displayed correctly");
+    });
 
     QUnit.test("input value can be edited when acceptCustomValue=true", (assert) => {
         const $selectBox = $("#selectBox").dxSelectBox({

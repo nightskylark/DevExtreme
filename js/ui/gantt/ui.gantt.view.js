@@ -8,6 +8,7 @@ export class GanttView extends Widget {
 
         this._onSelectionChanged = this._createActionByOption("onSelectionChanged");
         this._onScroll = this._createActionByOption("onScroll");
+        this._onDialogShowing = this._createActionByOption("onDialogShowing");
     }
     _initMarkup() {
         const { GanttView } = getGanttViewCore();
@@ -61,6 +62,10 @@ export class GanttView extends Widget {
 
     _optionChanged(args) {
         switch(args.name) {
+            case "width":
+                super._optionChanged(args);
+                this._ganttViewCore.setWidth(args.value);
+                break;
             case "tasks":
             case "dependencies":
             case "resources":
@@ -111,6 +116,13 @@ export class GanttView extends Widget {
     }
     onGanttScroll(scrollTop) {
         this._onScroll({ scrollTop: scrollTop });
+    }
+    showDialog(name, parameters, callback) {
+        this._onDialogShowing({
+            name: name,
+            parameters: parameters,
+            callback: callback
+        });
     }
     getModelChangesListener() {
         return null;
