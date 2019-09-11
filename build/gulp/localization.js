@@ -10,8 +10,9 @@ var context = require('./context.js');
 
 var Cldr = require('cldrjs');
 var locales = require('cldr-core/availableLocales.json').availableLocales.full;
+var weekData = require('cldr-core/supplemental/weekData.json');
+var likelySubtags = require('cldr-core/supplemental/likelySubtags.json');
 
-// TODO: refactor
 var firstDayOfWeekData = function() {
     var DAY_INDEXES = {
         "sun": 0,
@@ -26,11 +27,11 @@ var firstDayOfWeekData = function() {
 
     var result = {};
 
-    Cldr.load(require('cldr-core/supplemental/weekData.json'), require('cldr-core/supplemental/likelySubtags.json'));
+    Cldr.load(weekData, likelySubtags);
 
     locales.forEach(function(locale) {
-        var firstDay = new Cldr(locale).supplemental.weekData.firstDay(),
-            firstDayIndex = DAY_INDEXES[firstDay];
+        var firstDay = new Cldr(locale).supplemental.weekData.firstDay();
+        var firstDayIndex = DAY_INDEXES[firstDay];
 
         if(firstDayIndex !== DEFAULT_DAY_INDEX) {
             result[locale] = firstDayIndex;
@@ -89,19 +90,19 @@ gulp.task('localization-generated-sources', gulp.parallel([
     },
     {
         data: require('../../node_modules/cldr-core/supplemental/parentLocales.json').supplemental.parentLocales.parentLocale,
-        filename: 'parentLocales.js',
+        filename: 'parent_locales.js',
         destination: 'js/localization/cldr-data'
     },
     {
         data: firstDayOfWeekData(),
-        filename: 'first-day-of-week-data.js',
+        filename: 'first_day_of_week_data.js',
         destination: 'js/localization/cldr-data'
 
     }
 ].map((source) => {
     return function() {
         return gulp
-            .src('build/gulp/cldr-data-template.jst')
+            .src('build/gulp/generated_js.jst')
             .pipe(template({
                 json: serializeObject(source.data)
             }))

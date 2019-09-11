@@ -1,13 +1,13 @@
 var extend = require("../../core/utils/extend").extend;
 var locale = require("../core").locale;
-var firstDayOfWeekData = require("../cldr-data/first-day-of-week-data");
+var firstDayOfWeekData = require("../cldr-data/first_day_of_week_data");
 var window = require("../../core/utils/window").getWindow();
 
 var SYMBOLS_TO_REMOVE_REGEX = /[\u200E\u200F]/g;
 
 var getIntlFormatter = function(format) {
     return function(date) {
-        // Intl in some browsers formates dates with timezone offset which was at the moment for this date.
+        // NOTE: Intl in some browsers formates dates with timezone offset which was at the moment for this date.
         // But the method "new Date" creates date using current offset. So, we decided to format dates in the UTC timezone.
         if(!format.timeZoneName) {
             var utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()),
