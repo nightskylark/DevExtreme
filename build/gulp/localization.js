@@ -41,6 +41,17 @@ var firstDayOfWeekData = function() {
     return result;
 };
 
+var accountingFormats = function() {
+    var result = {};
+
+    locales.forEach(function(locale) {
+        var numbersData = require(path.join(`../../node_modules/cldr-numbers-full/main/${locale}/numbers.json`));
+        result[locale] = numbersData.main[locale].numbers['currencyFormats-numberSystem-latn'].accounting;
+    });
+
+    return result;
+};
+
 var RESULT_PATH = path.join(context.RESULT_JS_PATH, 'localization');
 var DICTIONARY_SOURCE_FOLDER = 'js/localization/messages';
 
@@ -96,6 +107,11 @@ gulp.task('localization-generated-sources', gulp.parallel([
     {
         data: firstDayOfWeekData(),
         filename: 'first_day_of_week_data.js',
+        destination: 'js/localization/cldr-data'
+    },
+    {
+        data: accountingFormats(),
+        filename: 'accounting_formats.js',
         destination: 'js/localization/cldr-data'
 
     }

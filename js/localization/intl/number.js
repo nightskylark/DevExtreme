@@ -1,12 +1,12 @@
-var extend = require('../../core/utils/extend').extend;
 var dxConfig = require('../../core/config');
 var locale = require('../core').locale;
 var dxVersion = require('../../core/version');
 var compareVersions = require('../../core/utils/version').compare;
 var window = require("../../core/utils/window").getWindow();
+var openXmlCurrencyFormat = require("../open_xml_currency_format");
+var accountingFormats = require("../cldr-data/accounting_formats");
 
-var currencyOptionsCache = {},
-    detectCurrencySymbolRegex = /([^\s0]+)?(\s*)0*[.,]*0*(\s*)([^\s0]+)?/,
+var detectCurrencySymbolRegex = /([^\s0]+)?(\s*)0*[.,]*0*(\s*)([^\s0]+)?/,
     formattersCache = {},
     getFormatter = function(format) {
         var key = locale() + '/' + JSON.stringify(format);
@@ -175,63 +175,7 @@ module.exports = {
             delimiter: delimiter
         };
     },
-    _getCurrencyOptions: function(currency) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
 
-        var byCurrencyCache = currencyOptionsCache[locale()];
-
-        if(!byCurrencyCache) {
-            byCurrencyCache = currencyOptionsCache[locale()] = {};
-        }
-
-        var result = byCurrencyCache[currency];
-
-        if(!result) {
-            var formatter = getCurrencyFormatter(currency),
-                options = formatter.resolvedOptions(),
-                symbolInfo = this._getCurrencySymbolInfo(currency);
-
-            result = byCurrencyCache[currency] = extend(options, {
-                currencySymbol: symbolInfo.symbol,
-                currencyPosition: symbolInfo.position,
-                currencyDelimiter: symbolInfo.delimiter
-            });
-        }
-
-        return result;
-    },
-    _repeatCharacter: function(character, times) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
-        return Array(times + 1).join(character);
-    },
-    _createOpenXmlCurrencyFormat: function(options) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
-        var result = this._repeatCharacter('0', options.minimumIntegerDigits);
-
-        result += '{0}'; // precision is specified outside
-
-        if(options.useGrouping) {
-            result = '#,' + this._repeatCharacter('#', 3 - options.minimumIntegerDigits) + result;
-        }
-
-        if(options.currencySymbol) {
-            if(options.currencyPosition === 'before') {
-                result = options.currencySymbol + options.currencyDelimiter + result;
-            } else {
-                result += options.currencyDelimiter + options.currencySymbol;
-            }
-        }
-
-        return result;
-    },
     getCurrencySymbol: function(currency) {
         if(!window.Intl) {
             return this.callBase.apply(this, arguments);
@@ -248,7 +192,8 @@ module.exports = {
         }
 
         var currencyValue = currency || dxConfig().defaultCurrency,
-            options = this._getCurrencyOptions(currencyValue);
-        return this._createOpenXmlCurrencyFormat(options);
+            currencySymbol = this._getCurrencySymbolInfo(currencyValue).symbol;
+
+        return openXmlCurrencyFormat(currencySymbol, accountingFormats[locale()]);
     }
 };

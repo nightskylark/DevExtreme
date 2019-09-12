@@ -243,14 +243,14 @@ QUnit.module("Intl localization", {
                 expectedResults = {
                     RUB: {
                         de: "#,##0{0} RUB",
-                        en: "RUB#,##0{0}",
-                        ja: "RUB#,##0{0}",
+                        en: "RUB#,##0{0}_);\\(RUB#,##0{0}\\)",
+                        ja: "RUB#,##0{0}_);\\(RUB#,##0{0}\\)",
                         ru: "#,##0{0} ₽"
                     },
                     USD: {
                         de: "#,##0{0} $",
-                        en: "$#,##0{0}",
-                        ja: "$#,##0{0}",
+                        en: "$#,##0{0}_);\\($#,##0{0}\\)",
+                        ja: "$#,##0{0}_);\\($#,##0{0}\\)",
                         ru: "#,##0{0} $"
                     }
                 };
@@ -266,7 +266,7 @@ QUnit.module("Intl localization", {
         });
 
         QUnit.test("getOpenXmlCurrencyFormat should return default format when currency is undefined", assert => {
-            assert.equal(numberLocalization.getOpenXmlCurrencyFormat(undefined), "$#,##0{0}");
+            assert.equal(numberLocalization.getOpenXmlCurrencyFormat(undefined), "$#,##0{0}_);\\($#,##0{0}\\)");
         });
 
         const getIntlDateFormatter = format => {
