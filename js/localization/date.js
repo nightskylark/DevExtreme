@@ -11,6 +11,8 @@ var dependencyInjector = require("../core/utils/dependency_injector"),
 
 var intlDateLocalization = require("./intl/date");
 
+var hasIntl = typeof Intl !== "undefined";
+
 require("./core");
 
 var FORMATS_TO_PATTERN_MAP = {
@@ -185,6 +187,8 @@ var dateLocalization = dependencyInjector({
     }
 });
 
-dateLocalization.inject(intlDateLocalization);
+if(hasIntl) {
+    dateLocalization.inject(intlDateLocalization);
+}
 
 module.exports = dateLocalization;

@@ -1,7 +1,7 @@
+/* globals Intl */
 var extend = require("../../core/utils/extend").extend;
 var locale = require("../core").locale;
 var firstDayOfWeekData = require("../cldr-data/first_day_of_week_data");
-var window = require("../../core/utils/window").getWindow();
 
 var SYMBOLS_TO_REMOVE_REGEX = /[\u200E\u200F]/g;
 
@@ -24,7 +24,7 @@ var formattersCache = {};
 var getFormatter = function(format) {
     var key = locale() + "/" + JSON.stringify(format);
     if(!formattersCache[key]) {
-        formattersCache[key] = (new window.Intl.DateTimeFormat(locale(), format)).format;
+        formattersCache[key] = (new Intl.DateTimeFormat(locale(), format)).format;
     }
 
     return formattersCache[key];
@@ -35,7 +35,7 @@ var formatDateTime = function(date, format) {
 };
 
 var formatNumber = function(number) {
-    return (new window.Intl.NumberFormat(locale())).format(number);
+    return (new Intl.NumberFormat(locale())).format(number);
 };
 
 var getAlternativeNumeralsMap = (function() {
@@ -97,7 +97,7 @@ var intlFormats = {
 
 Object.defineProperty(intlFormats, "shortdateshorttime", {
     get: function() {
-        var defaultOptions = window.Intl.DateTimeFormat(locale()).resolvedOptions();
+        var defaultOptions = Intl.DateTimeFormat(locale()).resolvedOptions();
 
         return { year: defaultOptions.year, month: defaultOptions.month, day: defaultOptions.day, hour: "numeric", minute: "numeric" };
     }
@@ -131,14 +131,8 @@ var monthNameStrategies = {
     }
 };
 
-// TODO: Improve !window.Intl check
-
 module.exports = {
     getMonthNames: function(format, type) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         var intlFormats = {
             wide: "long",
             abbreviated: "short",
@@ -155,10 +149,6 @@ module.exports = {
     },
 
     getDayNames: function(format) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         var intlFormats = {
             wide: "long",
             abbreviated: "short",
@@ -178,10 +168,6 @@ module.exports = {
     },
 
     getPeriodNames: function() {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         var hour12Formatter = getIntlFormatter({ hour: "numeric", hour12: true });
 
         return [ 1, 13 ].map(function(hours) {
@@ -199,10 +185,6 @@ module.exports = {
     },
 
     format: function(date, format) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         if(!date) {
             return;
         }
@@ -230,10 +212,6 @@ module.exports = {
     },
 
     parse: function(dateString, format) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         var formatter;
 
         if(format && !format.parser && typeof dateString === 'string') {
@@ -246,10 +224,6 @@ module.exports = {
     },
 
     _parseDateBySimpleFormat: function(dateString, format) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         dateString = normalizeNumerals(dateString);
 
         var formatParts = this.getFormatParts(format);
@@ -278,10 +252,6 @@ module.exports = {
     },
 
     _generateDateArgs: function(formatParts, dateParts) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         var currentDate = new Date();
         var dateArgs = {
             year: currentDate.getFullYear(),
@@ -307,10 +277,6 @@ module.exports = {
     },
 
     formatUsesMonthName: function(format) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         if(typeof format === "object" && !(format.type || format.format)) {
             return format.month === "long";
         }
@@ -319,10 +285,6 @@ module.exports = {
     },
 
     formatUsesDayName: function(format) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         if(typeof format === "object" && !(format.type || format.format)) {
             return format.weekday === "long";
         }
@@ -331,10 +293,6 @@ module.exports = {
     },
 
     getFormatParts: function(format) {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         if(typeof format === "string") {
             return this.callBase(format);
         }
@@ -366,10 +324,6 @@ module.exports = {
     },
 
     firstDayOfWeekIndex: function() {
-        if(!window.Intl) {
-            return this.callBase.apply(this, arguments);
-        }
-
         var index = firstDayOfWeekData[locale()];
 
         return index === undefined ? 1 : index;

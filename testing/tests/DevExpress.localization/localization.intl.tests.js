@@ -3,9 +3,6 @@ import dateLocalization from "localization/date";
 import numberLocalization from "localization/number";
 import { locale } from "localization/core";
 
-// NOTE: IntlPolyfill is used for more stable testing on all browsers
-import Intl from "intl";
-
 if(Intl.__disableRegExpRestore) {
     Intl.__disableRegExpRestore();
 }

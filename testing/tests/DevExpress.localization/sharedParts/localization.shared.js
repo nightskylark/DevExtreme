@@ -914,19 +914,14 @@ module.exports = function() {
             localization.parseNumber("01", { formatter: numberFormatter });
             localization.parseDate("01", dateFormatter);
             localization.parseDate("01", { formatter: dateFormatter });
-            // TODO: Test for base localization only (why it passed on Globalize?)
-            // localization.parseDate("01", { day: 'numeric' });
-            localization.parseNumber("01");
             localization.parseDate("01");
 
-            // assert.equal(warnLog.length, 5);
             assert.equal(warnLog.length, 4);
 
             assert.equal(warnLog[0].substr(warningIdPrefixLength, numberWarning.length), numberWarning);
             assert.equal(warnLog[1].substr(warningIdPrefixLength, numberWarning.length), numberWarning);
             assert.equal(warnLog[2].substr(warningIdPrefixLength, dateWarning.length), dateWarning);
             assert.equal(warnLog[3].substr(warningIdPrefixLength, dateWarning.length), dateWarning);
-            // assert.equal(warnLog[4].substr(warningIdPrefixLength, dateWarning.length), dateWarning);
         } finally {
             logger.warn = originalLoggerWarn;
         }

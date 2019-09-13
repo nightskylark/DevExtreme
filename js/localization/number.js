@@ -10,6 +10,7 @@ var dependencyInjector = require("../core/utils/dependency_injector"),
 var currencyLocalization = require('./currency');
 var intlNumberLocalization = require("./intl/number");
 
+var hasIntl = typeof Intl !== "undefined";
 var MAX_LARGE_NUMBER_POWER = 4,
     DECIMAL_BASE = 10;
 
@@ -341,6 +342,8 @@ var numberLocalization = dependencyInjector({
 
 numberLocalization.inject(currencyLocalization);
 
-numberLocalization.inject(intlNumberLocalization);
+if(hasIntl) {
+    numberLocalization.inject(intlNumberLocalization);
+}
 
 module.exports = numberLocalization;
