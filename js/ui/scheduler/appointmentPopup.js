@@ -8,6 +8,7 @@ import objectUtils from '../../core/utils/object';
 import { isDefined } from '../../core/utils/type';
 import windowUtils from '../../core/utils/window';
 import { triggerResizeEvent } from '../../events/visibility_change';
+import messageLocalization from '../../localization/message';
 import Popup from '../popup';
 import AppointmentForm from './ui.scheduler.appointment_form';
 
@@ -282,7 +283,7 @@ export default class AppointmentPopup {
         return [
             {
                 shortcut: 'done',
-                options: { text: 'Done' },
+                options: { text: messageLocalization.format('Done') },
                 location: TOOLBAR_ITEM_AFTER_LOCATION,
                 onClick: (e) => this._doneButtonClickHandler(e)
             },
