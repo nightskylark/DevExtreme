@@ -1019,7 +1019,7 @@ class SchedulerWorkSpace extends WidgetObserver {
     _headerScrollableConfig() {
         const config = {
             useKeyboard: false,
-            showScrollbar: false,
+            showScrollbar: 'never',
             direction: 'horizontal',
             useNative: false,
             updateManually: true,
@@ -1041,7 +1041,7 @@ class SchedulerWorkSpace extends WidgetObserver {
 
         this._sidebarScrollable = this._createComponent($timePanelScrollable, Scrollable, {
             useKeyboard: false,
-            showScrollbar: false,
+            showScrollbar: 'never',
             direction: 'vertical',
             useNative: false,
             updateManually: true,
@@ -2401,7 +2401,7 @@ class SchedulerWorkSpace extends WidgetObserver {
     }
 
     getScrollableContainer() {
-        return this._dateTableScrollable._container();
+        return $(this._dateTableScrollable.container());
     }
 
     getHeaderPanelHeight() {
@@ -3700,7 +3700,10 @@ const createDragBehaviorConfig = (
             getElementsFromPoint(newX, newY) :
             getElementsFromPoint(newX + appointmentWidth / 2, newY);
 
-        const droppableCell = elements.filter(el => el.className.indexOf(DATE_TABLE_CELL_CLASS) > -1 || el.className.indexOf(ALL_DAY_TABLE_CELL_CLASS) > -1)[0];
+        const droppableCell = elements.filter(el => {
+            const classList = el.classList;
+            return classList.contains(DATE_TABLE_CELL_CLASS) || classList.contains(ALL_DAY_TABLE_CELL_CLASS);
+        })[0];
 
         if(droppableCell) {
             const oldDroppableCell = getDroppableCell();

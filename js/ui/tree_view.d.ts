@@ -370,6 +370,13 @@ export interface dxTreeViewOptions extends HierarchicalCollectionWidgetOptions<d
      * @public
      */
     virtualModeEnabled?: boolean;
+    /**
+     * @docid
+     * @default true
+     * @default false [for](desktop except Mac)
+     * @public
+     */
+    useNativeScrolling?: boolean;
 }
 /**
  * @docid
@@ -586,8 +593,9 @@ export interface dxTreeViewItem extends CollectionWidgetItem {
     /**
      * @docid
      * @public
+     * @type Array<dxTreeViewItem>
      */
-    items?: Array<dxTreeViewItem>;
+    items?: Array<Item>;
     /**
      * @docid
      * @default undefined
