@@ -1,0 +1,19 @@
+{
+  "name": "tests-new",
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  },
+  "scripts": {
+    "test-new": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config=./jest.config.json"
+  },
+  "type": "module",
+  "jest": {
+    "testMatch": [
+        "<rootDir>/**/*.tests.js"
+    ],
+    "transform": {}
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "testMatch": [
+        "<rootDir>/**/*.tests.js"
+    ],
+    "transform": {}
+}
